@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Filter Internals Visual Guide</title>
+    <style>
+        /* ...existing code from homomorphic_encryption.html... */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #232526 0%, #414345 50%, #232526 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(67, 206, 162, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(24, 90, 157, 0.5)); }
+        }
+        .intro {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .section {
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        .section:nth-child(5) { animation-delay: 0.8s; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        h2 { font-size: 2em; margin-bottom: 20px; color: #43cea2; }
+        .visual-box {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .visual-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(67,206,162,0.3);
+            border-color: rgba(67,206,162,0.3);
+        }
+        .demo-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .step {
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .step::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(67,206,162,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100% { transform: scale(0.8); opacity: 0;}
+            50% { transform: scale(1.2); opacity: 1;}
+        }
+        .icon { font-size: 3em; margin-bottom: 15px; }
+        .arrow {
+            font-size: 2em;
+            color: #185a9d;
+            margin: 20px 0;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%,100% { transform: translateY(0);}
+            50% { transform: translateY(-10px);}
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(67,206,162,0.1) 0%, rgba(24,90,157,0.1) 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .highlight { color: #43cea2; font-weight: bold; }
+        .magic-box {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(24,90,157,0.2);
+            border-radius: 10px;
+            margin: 10px;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%,100% { box-shadow: 0 0 20px rgba(67,206,162,0.5);}
+            50% { box-shadow: 0 0 30px rgba(24,90,157,0.5);}
+        }
+        .interactive-demo { margin-top: 30px; }
+        .demo-input {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .demo-input input {
+            padding: 12px 20px;
+            border: 2px solid rgba(67,206,162,0.5);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 1.1em;
+            width: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .demo-input input:focus {
+            outline: none;
+            border-color: #43cea2;
+            box-shadow: 0 0 20px rgba(67,206,162,0.5);
+        }
+        .demo-button {
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .demo-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(24,90,157,0.5);
+        }
+        .result-display {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+        .bit-array {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .bit {
+            width: 28px;
+            height: 28px;
+            background: rgba(67,206,162,0.15);
+            border: 2px solid #43cea2;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #fff;
+            transition: background 0.3s;
+        }
+        .bit.set {
+            background: #43cea2;
+            color: #232526;
+            font-weight: bold;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .benefit-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px) rotateZ(2deg);
+            background: rgba(67,206,162,0.1);
+        }
+        .benefit-icon { font-size: 2.5em; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bloom Filter Internals</h1>
+        <p class="intro">A Bloom Filter is a <span class="magic-box">space-efficient</span> data structure for checking if something <em>might</em> be in a set! 🚦</p>
+        
+        <section class="section">
+            <div class="visual-box">
+                <h2>What is a Bloom Filter?</h2>
+                <p>
+                    Imagine a super-fast checklist that uses a bit array and multiple hash functions to tell you if an item is <span class="highlight">possibly present</span> or <span class="highlight">definitely absent</span>—all with minimal memory!
+                </p>
+                <div class="demo-container">
+                    <div class="step">
+                        <div class="icon">🗃️</div>
+                        <h3>Bit Array</h3>
+                        <p>A row of bits, all start at 0</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="step">
+                        <div class="icon">🔢</div>
+                        <h3>Hash Functions</h3>
+                        <p>Each item is hashed several ways</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="step">
+                        <div class="icon">🔦</div>
+                        <h3>Set Bits</h3>
+                        <p>Hashes set bits in the array</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="step">
+                        <div class="icon">❓</div>
+                        <h3>Query</h3>
+                        <p>Check bits to answer: "Is it in the set?"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="visual-box">
+                <h2>🎮 Interactive Demo</h2>
+                <p>Type a word to add it to the Bloom Filter and see how the bits change!</p>
+                <div class="interactive-demo">
+                    <div class="demo-input">
+                        <input type="text" id="bf-input" placeholder="Add item (e.g. apple)">
+                        <button class="demo-button" onclick="addToBloom()">Add</button>
+                        <input type="text" id="bf-query" placeholder="Query item">
+                        <button class="demo-button" onclick="queryBloom()">Query</button>
+                    </div>
+                    <div class="result-display" id="bf-result">
+                        Add or query an item to see the Bloom Filter in action!
+                    </div>
+                    <div class="bit-array" id="bf-bits"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="visual-box">
+                <h2>Real-World Example: Web Caching</h2>
+                <div class="example-box">
+                    <p><span class="highlight">Scenario:</span> A browser uses a Bloom Filter to quickly check if a URL is cached.</p>
+                    <div class="demo-container" style="margin-top: 20px;">
+                        <div class="step">
+                            <div class="icon">🌐</div>
+                            <h3>URL</h3>
+                            <p>www.example.com</p>
+                        </div>
+                        <div class="step">
+                            <div class="icon">🔢</div>
+                            <h3>Hash</h3>
+                            <p>Hashes: <span class="highlight">3, 7, 12</span></p>
+                        </div>
+                        <div class="step">
+                            <div class="icon">🗃️</div>
+                            <h3>Set Bits</h3>
+                            <p>Bits 3, 7, 12 set to 1</p>
+                        </div>
+                        <div class="step">
+                            <div class="icon">⚡</div>
+                            <h3>Fast Lookup</h3>
+                            <p>Check bits to see if URL <span class="highlight">might</span> be cached</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <div class="visual-box">
+                <h2>Key Benefits</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">⚡</div>
+                        <h3>Speed</h3>
+                        <p>Super-fast membership checks</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">💾</div>
+                        <h3>Space Efficiency</h3>
+                        <p>Uses much less memory than storing all items</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🚫</div>
+                        <h3>No False Negatives</h3>
+                        <p>If it says "not present", it's definitely not!</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🔄</div>
+                        <h3>Scalable</h3>
+                        <p>Works for huge sets and streams</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        // Simple Bloom Filter demo (not cryptographically strong)
+        const BIT_SIZE = 16;
+        let bits = Array(BIT_SIZE).fill(0);
+        let items = [];
+
+        function hash(str, seed) {
+            let h = seed;
+            for (let i = 0; i < str.length; i++) {
+                h = (h * 31 + str.charCodeAt(i)) % BIT_SIZE;
+            }
+            return h;
+        }
+
+        function updateBitsDisplay() {
+            const bfBits = document.getElementById('bf-bits');
+            bfBits.innerHTML = '';
+            for (let i = 0; i < BIT_SIZE; i++) {
+                const bitDiv = document.createElement('div');
+                bitDiv.className = 'bit' + (bits[i] ? ' set' : '');
+                bitDiv.textContent = bits[i];
+                bfBits.appendChild(bitDiv);
+            }
+        }
+
+        function addToBloom() {
+            const input = document.getElementById('bf-input').value.trim();
+            if (!input) return;
+            items.push(input);
+            // Use 3 hash functions with different seeds
+            [7, 13, 23].forEach(seed => {
+                const idx = hash(input, seed);
+                bits[idx] = 1;
+            });
+            updateBitsDisplay();
+            document.getElementById('bf-result').innerHTML = `
+                <div style="text-align:center;">
+                    <p><strong>Added:</strong> <span class="highlight">${input}</span></p>
+                    <p>Bits set: <span class="highlight">${[7,13,23].map(seed => hash(input,seed)).join(', ')}</span></p>
+                </div>
+            `;
+            document.getElementById('bf-input').value = '';
+        }
+
+        function queryBloom() {
+            const query = document.getElementById('bf-query').value.trim();
+            if (!query) return;
+            const indices = [7, 13, 23].map(seed => hash(query, seed));
+            const present = indices.every(idx => bits[idx]);
+            updateBitsDisplay();
+            document.getElementById('bf-result').innerHTML = `
+                <div style="text-align:center;">
+                    <p><strong>Query:</strong> <span class="highlight">${query}</span></p>
+                    <p>Bits checked: <span class="highlight">${indices.join(', ')}</span></p>
+                    <p>
+                        ${present
+                            ? `<span class="highlight">Possibly Present</span> (could be false positive)`
+                            : `<span style="color:#ff6f61;">Definitely Absent</span>`
+                        }
+                    </p>
+                </div>
+            `;
+            document.getElementById('bf-query').value = '';
+        }
+
+        updateBitsDisplay();
+
+        // Interactive hover effects
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            step.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
