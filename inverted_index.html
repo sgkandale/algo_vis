@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverted Index Visual Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #e74c3c, #f39c12, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+        }
+
+        .step-section {
+            margin: 40px 0;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #9b59b6, #e74c3c);
+        }
+
+        .step-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .step-number {
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .document {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .document:hover {
+            transform: translateY(-5px);
+        }
+
+        .doc-id {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #fdcb6e;
+        }
+
+        .doc-content {
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .processing-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .process-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+        }
+
+        .process-box.tokenize {
+            border-color: #e74c3c;
+            background: linear-gradient(135deg, #fff5f5, #ffe6e6);
+        }
+
+        .process-box.normalize {
+            border-color: #f39c12;
+            background: linear-gradient(135deg, #fffbf0, #fff3cd);
+        }
+
+        .process-box.index {
+            border-color: #27ae60;
+            background: linear-gradient(135deg, #f0fff4, #d4edda);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .tokens {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .token {
+            background: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .inverted-index {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 3px solid #e9ecef;
+        }
+
+        .index-entry {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .index-entry:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .term {
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 120px;
+            font-size: 1.1rem;
+        }
+
+        .postings-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .posting {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-demo {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .search-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #333;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .highlight {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .processing-flow {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Inverted Index in Search Engines</h1>
+        <p class="subtitle">How search engines quickly find relevant documents from billions of pages</p>
+
+        <!-- Step 1: Documents -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">1</div>
+                <span>Original Documents Collection</span>
+            </div>
+            <div class="documents-grid">
+                <div class="document">
+                    <div class="doc-id">Document 1</div>
+                    <div class="doc-content">The quick brown fox jumps over the lazy dog</div>
+                </div>
+                <div class="document">
+                    <div class="doc-id">Document 2</div>
+                    <div class="doc-content">A quick brown cat runs fast</div>
+                </div>
+                <div class="document">
+                    <div class="doc-id">Document 3</div>
+                    <div class="doc-content">The lazy cat sleeps all day long</div>
+                </div>
+                <div class="document">
+                    <div class="doc-id">Document 4</div>
+                    <div class="doc-content">Brown dogs and cats are cute pets</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Processing -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">2</div>
+                <span>Text Processing Pipeline</span>
+            </div>
+            <div class="processing-flow">
+                <div class="process-box tokenize">
+                    <h3>Tokenization</h3>
+                    <p>Split text into individual words</p>
+                    <div class="tokens">
+                        <span class="token">the</span>
+                        <span class="token">quick</span>
+                        <span class="token">brown</span>
+                        <span class="token">fox</span>
+                    </div>
+                </div>
+                <div class="arrow">→</div>
+                <div class="process-box normalize">
+                    <h3>Normalization</h3>
+                    <p>Convert to lowercase, remove punctuation, stem words</p>
+                    <div class="tokens">
+                        <span class="token">the</span>
+                        <span class="token">quick</span>
+                        <span class="token">brown</span>
+                        <span class="token">fox</span>
+                    </div>
+                </div>
+                <div class="arrow">→</div>
+                <div class="process-box index">
+                    <h3>Index Building</h3>
+                    <p>Create term → document mappings</p>
+                    <div class="tokens">
+                        <span class="token">quick: [1,2]</span>
+                        <span class="token">brown: [1,2,4]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Inverted Index -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">3</div>
+                <span>The Inverted Index Structure</span>
+            </div>
+            <p>Instead of "Document → Words", we create "Word → Documents" mapping:</p>
+            <div class="inverted-index">
+                <div class="index-entry">
+                    <div class="term">brown</div>
+                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
+                    <div class="postings-list">
+                        <div class="posting">Doc 1</div>
+                        <div class="posting">Doc 2</div>
+                        <div class="posting">Doc 4</div>
+                    </div>
+                </div>
+                <div class="index-entry">
+                    <div class="term">cat</div>
+                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
+                    <div class="postings-list">
+                        <div class="posting">Doc 2</div>
+                        <div class="posting">Doc 3</div>
+                        <div class="posting">Doc 4</div>
+                    </div>
+                </div>
+                <div class="index-entry">
+                    <div class="term">dog</div>
+                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
+                    <div class="postings-list">
+                        <div class="posting">Doc 1</div>
+                        <div class="posting">Doc 4</div>
+                    </div>
+                </div>
+                <div class="index-entry">
+                    <div class="term">fox</div>
+                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
+                    <div class="postings-list">
+                        <div class="posting">Doc 1</div>
+                    </div>
+                </div>
+                <div class="index-entry">
+                    <div class="term">lazy</div>
+                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
+                    <div class="postings-list">
+                        <div class="posting">Doc 1</div>
+                        <div class="posting">Doc 3</div>
+                    </div>
+                </div>
+                <div class="index-entry">
+                    <div class="term">quick</div>
+                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
+                    <div class="postings-list">
+                        <div class="posting">Doc 1</div>
+                        <div class="posting">Doc 2</div>
+                    </div>
+                </div>
+                <div class="index-entry">
+                    <div class="term">the</div>
+                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
+                    <div class="postings-list">
+                        <div class="posting">Doc 1</div>
+                        <div class="posting">Doc 3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Search Process -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">4</div>
+                <span>Search Query Processing</span>
+            </div>
+            <div class="search-demo">
+                <h3>Search Query: "brown cat"</h3>
+                <div class="search-box">
+                    Step 1: Look up "brown" → [Doc 1, Doc 2, Doc 4]<br>
+                    Step 2: Look up "cat" → [Doc 2, Doc 3, Doc 4]<br>
+                    Step 3: Find intersection → [Doc 2, Doc 4]
+                </div>
+                <h4>Search Results:</h4>
+                <div class="search-results">
+                    <div class="result-item">
+                        <strong>Document 2</strong><br>
+                        A quick <mark>brown</mark> <mark>cat</mark> runs fast
+                    </div>
+                    <div class="result-item">
+                        <strong>Document 4</strong><br>
+                        <mark>Brown</mark> dogs and <mark>cats</mark> are cute pets
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-world Enhancements -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">5</div>
+                <span>Real-World Enhancements</span>
+            </div>
+            <p>Modern search engines add sophisticated features to the basic inverted index:</p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h4>Term Frequency (TF)</h4>
+                    <p>How often a term appears in a document. More occurrences = higher relevance.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h4>Inverse Document Frequency (IDF)</h4>
+                    <p>Rare terms get higher weight. "The" is common, "quantum" is rare and more meaningful.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📍</div>
+                    <h4>Position Information</h4>
+                    <p>Store where terms appear for phrase queries like "New York" (must be adjacent).</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔗</div>
+                    <h4>PageRank Integration</h4>
+                    <p>Combine text relevance with link authority for better rankings.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="highlight">
+            <h3>🚀 Why Inverted Indexes are Lightning Fast</h3>
+            <p><strong>The Magic of Reverse Mapping:</strong> Instead of scanning every document for your search terms (which would take forever with billions of pages), the inverted index lets us instantly jump to the exact list of documents containing each term. It's like having a perfect table of contents for every word on the internet!</p>
+            
+            <p><strong>Boolean Operations:</strong> Complex queries become simple set operations:</p>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li><strong>"cat AND dog"</strong> → Intersection of two posting lists</li>
+                <li><strong>"cat OR dog"</strong> → Union of two posting lists</li>
+                <li><strong>"cat NOT dog"</strong> → Subtraction of posting lists</li>
+            </ul>
+
+            <p><strong>Scale:</strong> Google's index contains hundreds of billions of web pages, but thanks to inverted indexes, your search completes in milliseconds!</p>
+        </div>
+    </div>
+</body>
+</html>
