@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Filter Internal Working</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            color: #185a9d;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #43cea2, #185a9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+        }
+        .step-section {
+            margin: 40px 0;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 6px solid #43cea2;
+            position: relative;
+            overflow: hidden;
+        }
+        .step-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #43cea2, #185a9d);
+        }
+        .step-title {
+            font-size: 1.8rem;
+            color: #185a9d;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .step-number {
+            background: linear-gradient(45deg, #43cea2, #185a9d);
+            color: white;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.2rem;
+        }
+        .data-blocks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .data-block {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .data-block:hover { transform: translateY(-5px); }
+        .hash-process {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .hash-input {
+            background: #74b9ff;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+        }
+        .hash-function {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .arrow {
+            font-size: 1.8rem;
+            color: #43cea2;
+            font-weight: bold;
+        }
+        .bit-array {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .bit {
+            width: 32px; height: 32px;
+            background: rgba(67,206,162,0.15);
+            border: 2px solid #43cea2;
+            border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #333;
+            transition: background 0.3s;
+        }
+        .bit.set {
+            background: #43cea2;
+            color: #fff;
+            font-weight: bold;
+        }
+        .demo-input {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .demo-input input {
+            padding: 12px 20px;
+            border: 2px solid rgba(67,206,162,0.5);
+            background: rgba(255,255,255,0.1);
+            color: #333;
+            border-radius: 10px;
+            font-size: 1.1em;
+            width: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .demo-input input:focus {
+            outline: none;
+            border-color: #43cea2;
+            box-shadow: 0 0 20px rgba(67,206,162,0.5);
+        }
+        .demo-button {
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .demo-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(24,90,157,0.5);
+        }
+        .result-display {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(67,206,162,0.08);
+            border-radius: 15px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .benefit-card {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .benefit-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .highlight {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 2.2rem; }
+            .hash-process { flex-direction: column; }
+            .data-blocks { gap: 10px; }
+            .benefits-grid { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌸 Bloom Filter Internal Working</h1>
+        <p class="subtitle">A space-efficient probabilistic data structure for fast membership queries</p>
+
+        <!-- Step 1: Bit Array Setup -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">1</div>
+                <span>Initialize Bit Array</span>
+            </div>
+            <p>A Bloom Filter starts with a bit array of <strong>m</strong> bits, all set to 0:</p>
+            <div class="bit-array" id="bf-bits-static">
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+                <div class="bit">0</div>
+            </div>
+        </div>
+
+        <!-- Step 2: Adding Items -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">2</div>
+                <span>Adding Items with Hash Functions</span>
+            </div>
+            <p>To add an item, run it through <strong>k</strong> hash functions. Each hash sets a bit in the array:</p>
+            <div class="hash-process">
+                <div class="hash-input">"apple"</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Hash 1</div>
+                <div class="arrow">→</div>
+                <div class="bit set">1</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Hash 2</div>
+                <div class="arrow">→</div>
+                <div class="bit set">1</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Hash 3</div>
+                <div class="arrow">→</div>
+                <div class="bit set">1</div>
+            </div>
+            <p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
+                Multiple items may set overlapping bits. No item is ever stored directly!
+            </p>
+        </div>
+
+        <!-- Step 3: Querying Items -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">3</div>
+                <span>Querying for Membership</span>
+            </div>
+            <p>To check if an item is in the set, run it through the same hash functions and check the bits:</p>
+            <div class="hash-process">
+                <div class="hash-input">"apple"</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Hash 1</div>
+                <div class="arrow">→</div>
+                <div class="bit set">1</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Hash 2</div>
+                <div class="arrow">→</div>
+                <div class="bit set">1</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Hash 3</div>
+                <div class="arrow">→</div>
+                <div class="bit set">1</div>
+            </div>
+            <p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
+                If all bits are 1, the item <strong>might</strong> be present. If any bit is 0, it's <strong>definitely absent</strong>.
+            </p>
+        </div>
+
+        <!-- Step 4: Interactive Demo -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">4</div>
+                <span>🎮 Interactive Bloom Filter Demo</span>
+            </div>
+            <p>Type a word to add/query and watch the bits change:</p>
+            <div class="demo-input">
+                <input type="text" id="bf-input" placeholder="Add item (e.g. apple)">
+                <button class="demo-button" onclick="addToBloom()">Add</button>
+                <input type="text" id="bf-query" placeholder="Query item">
+                <button class="demo-button" onclick="queryBloom()">Query</button>
+            </div>
+            <div class="result-display" id="bf-result">
+                Add or query an item to see the Bloom Filter in action!
+            </div>
+            <div class="bit-array" id="bf-bits"></div>
+        </div>
+
+        <!-- Step 5: Real-World Example -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">5</div>
+                <span>Real-World Example: Web Caching</span>
+            </div>
+            <div class="data-blocks">
+                <div class="data-block">
+                    <div style="font-size: 1.1rem; margin-bottom: 8px;">URL</div>
+                    <div style="font-size: 0.9rem;">www.example.com</div>
+                </div>
+                <div class="data-block">
+                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Hash Functions</div>
+                    <div style="font-size: 0.9rem;">Hashes: 3, 7, 12</div>
+                </div>
+                <div class="data-block">
+                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Bit Array</div>
+                    <div style="font-size: 0.9rem;">Bits 3, 7, 12 set to 1</div>
+                </div>
+                <div class="data-block">
+                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Fast Lookup</div>
+                    <div style="font-size: 0.9rem;">Check bits to see if URL <span style="color:#43cea2;font-weight:bold;">might</span> be cached</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6: Key Benefits -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">6</div>
+                <span>Key Benefits & Properties</span>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">Speed</div>
+                    <div>Super-fast membership checks</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💾</div>
+                    <div class="benefit-title">Space Efficiency</div>
+                    <div>Uses much less memory than storing all items</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚫</div>
+                    <div class="benefit-title">No False Negatives</div>
+                    <div>If it says "not present", it's definitely not!</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <div class="benefit-title">Scalable</div>
+                    <div>Works for huge sets and streams</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 7: Bloom Filter Magic -->
+        <div class="highlight">
+            <h3>🎯 The Bloom Filter Magic</h3>
+            <p><strong>Probabilistic Membership:</strong> Bloom filters trade a tiny chance of false positives for massive space savings and speed. No false negatives!</p>
+            <p><strong>Hash Power:</strong> Multiple hash functions spread items across the bit array, minimizing collisions.</p>
+            <p><strong>Real-World Impact:</strong> Used in databases, web caches, networking, and more to quickly answer "Have I seen this before?"</p>
+            <p><strong>Scaling:</strong> Bloom filters can handle millions of items with just kilobytes of memory!</p>
+        </div>
+    </div>
+    <script>
+        // Simple Bloom Filter demo (not cryptographically strong)
+        const BIT_SIZE = 16;
+        let bits = Array(BIT_SIZE).fill(0);
+
+        function hash(str, seed) {
+            let h = seed;
+            for (let i = 0; i < str.length; i++) {
+                h = (h * 31 + str.charCodeAt(i)) % BIT_SIZE;
+            }
+            return h;
+        }
+
+        function updateBitsDisplay() {
+            const bfBits = document.getElementById('bf-bits');
+            bfBits.innerHTML = '';
+            for (let i = 0; i < BIT_SIZE; i++) {
+                const bitDiv = document.createElement('div');
+                bitDiv.className = 'bit' + (bits[i] ? ' set' : '');
+                bitDiv.textContent = bits[i];
+                bfBits.appendChild(bitDiv);
+            }
+        }
+
+        function addToBloom() {
+            const input = document.getElementById('bf-input').value.trim();
+            if (!input) return;
+            [7, 13, 23].forEach(seed => {
+                const idx = hash(input, seed);
+                bits[idx] = 1;
+            });
+            updateBitsDisplay();
+            document.getElementById('bf-result').innerHTML = `
+                <div style="text-align:center;">
+                    <p><strong>Added:</strong> <span style="color:#43cea2;font-weight:bold;">${input}</span></p>
+                    <p>Bits set: <span style="color:#185a9d;font-weight:bold;">${[7,13,23].map(seed => hash(input,seed)).join(', ')}</span></p>
+                </div>
+            `;
+            document.getElementById('bf-input').value = '';
+        }
+
+        function queryBloom() {
+            const query = document.getElementById('bf-query').value.trim();
+            if (!query) return;
+            const indices = [7, 13, 23].map(seed => hash(query, seed));
+            const present = indices.every(idx => bits[idx]);
+            updateBitsDisplay();
+            document.getElementById('bf-result').innerHTML = `
+                <div style="text-align:center;">
+                    <p><strong>Query:</strong> <span style="color:#43cea2;font-weight:bold;">${query}</span></p>
+                    <p>Bits checked: <span style="color:#185a9d;font-weight:bold;">${indices.join(', ')}</span></p>
+                    <p>
+                        ${present
+                            ? `<span style="color:#43cea2;font-weight:bold;">Possibly Present</span> (could be false positive)`
+                            : `<span style="color:#e17055;font-weight:bold;">Definitely Absent</span>`
+                        }
+                    </p>
+                </div>
+            `;
+            document.getElementById('bf-query').value = '';
+        }
+
+        updateBitsDisplay();
+    </script>
+</body>
+</html>
