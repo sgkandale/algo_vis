@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HyperLogLog Algorithm Visualization</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .intro {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        border-left: 5px solid #667eea;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn.danger {
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+      }
+
+      .btn.success {
+        background: linear-gradient(45deg, #00b894, #00cec9);
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .input-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-section h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1rem;
+        margin-bottom: 15px;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .hash-display {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: "Courier New", monospace;
+        margin: 10px 0;
+        word-break: break-all;
+      }
+
+      .buckets-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .buckets-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      .bucket {
+        background: #ecf0f1;
+        border: 2px solid #bdc3c7;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .bucket.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-color: #667eea;
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .bucket-header {
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+        opacity: 0.7;
+      }
+
+      .bucket.active .bucket-header {
+        opacity: 1;
+      }
+
+      .bucket-value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #e74c3c;
+      }
+
+      .bucket.active .bucket-value {
+        color: white;
+      }
+
+      .step-by-step {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .step {
+        background: #f8f9fa;
+        border-left: 4px solid #667eea;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 0 10px 10px 0;
+      }
+
+      .step.highlight {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        animation: pulse 1s ease;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .binary-display {
+        font-family: "Courier New", monospace;
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 5px 0;
+        word-spacing: 4px;
+      }
+
+      .highlight-bits {
+        background: #e74c3c;
+        color: white;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .explanation {
+        background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .explanation h4 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .formula {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: "Courier New", monospace;
+        text-align: center;
+        margin: 15px 0;
+        font-size: 1.1rem;
+      }
+
+      .leading-zeros {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+
+      .dataset-examples {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+        flex-wrap: wrap;
+      }
+
+      .dataset-btn {
+        background: #74b9ff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: transform 0.2s ease;
+      }
+
+      .dataset-btn:hover {
+        transform: translateY(-2px);
+        background: #0984e3;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+
+        .buckets-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📊 HyperLogLog Algorithm</h1>
+
+      <div class="intro">
+        <p>
+          <strong>HyperLogLog</strong> is a probabilistic algorithm that
+          estimates the number of unique elements in a dataset using minimal
+          memory. It can count billions of unique items using just kilobytes of
+          space with ~2% accuracy!
+        </p>
+      </div>
+
+      <div class="controls">
+        <button class="btn success" onclick="addElement()">
+          ➕ Add Element
+        </button>
+        <button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
+        <button class="btn danger" onclick="reset()">🔄 Reset</button>
+        <button class="btn" onclick="showExplanation()">📚 How It Works</button>
+      </div>
+
+      <div class="dataset-examples">
+        <button
+          class="dataset-btn"
+          onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])"
+        >
+          🍎 Fruits
+        </button>
+        <button
+          class="dataset-btn"
+          onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])"
+        >
+          👥 Users
+        </button>
+        <button
+          class="dataset-btn"
+          onclick="loadDataset(['192.168.1.1', '10.0.0.1', '172.16.0.1', '8.8.8.8'])"
+        >
+          🌐 IPs
+        </button>
+        <button class="dataset-btn" onclick="generateLargeDataset()">
+          📈 Large Dataset (1000 items)
+        </button>
+      </div>
+
+      <div class="main-content">
+        <div class="input-section">
+          <h3>🔤 Add New Element</h3>
+          <input
+            type="text"
+            id="elementInput"
+            placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)"
+            onkeypress="handleKeyPress(event)"
+          />
+
+          <div id="currentElement" style="display: none">
+            <h4>Current Element Processing:</h4>
+            <div class="hash-display" id="elementHash"></div>
+            <div class="binary-display" id="binaryHash"></div>
+          </div>
+        </div>
+
+        <div class="buckets-section">
+          <h3>🪣 HyperLogLog Buckets (b=4, m=16)</h3>
+          <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
+            Each bucket stores the maximum number of leading zeros seen
+          </p>
+          <div class="buckets-grid" id="bucketsGrid"></div>
+        </div>
+      </div>
+
+      <div class="step-by-step">
+        <h3>🔍 Step-by-Step Process</h3>
+        <div id="steps">
+          <div class="explanation">
+            <h4>How HyperLogLog Works:</h4>
+            <p>
+              <strong>1. Hash:</strong> Convert each element to a binary hash
+            </p>
+            <p>
+              <strong>2. Bucket:</strong> Use first b bits to determine which
+              bucket (0-15 for b=4)
+            </p>
+            <p>
+              <strong>3. Count Zeros:</strong> Count leading zeros in remaining
+              bits
+            </p>
+            <p>
+              <strong>4. Update:</strong> Keep maximum zero count per bucket
+            </p>
+            <p>
+              <strong>5. Estimate:</strong> Use harmonic mean to estimate
+              cardinality
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="actualCount">0</div>
+          <div class="stat-label">Actual Unique Count</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="estimatedCount">0</div>
+          <div class="stat-label">HLL Estimated Count</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="errorRate">0%</div>
+          <div class="stat-label">Error Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="memoryUsed">64</div>
+          <div class="stat-label">Bytes Used</div>
+        </div>
+      </div>
+
+      <div class="explanation">
+        <h4>🧮 Estimation Formula:</h4>
+        <div class="formula">
+          Cardinality ≈ α<sub>m</sub> × m² × (Σ 2<sup>-M[j]</sup>)<sup>-1</sup>
+        </div>
+        <p>
+          Where m=16 buckets, α<sub>16</sub>=0.673, and M[j] is the max leading
+          zeros in bucket j
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // HyperLogLog implementation
+      const b = 4; // bucket bits
+      const m = 16; // number of buckets (2^b)
+      const alpha = 0.673; // bias correction constant for m=16
+
+      let buckets = new Array(m).fill(0);
+      let uniqueElements = new Set();
+      let totalElements = 0;
+
+      // Simple hash function (for demonstration)
+      function simpleHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = (hash << 5) - hash + char;
+          hash = hash & hash; // Convert to 32-bit integer
+        }
+        return Math.abs(hash);
+      }
+
+      function toBinary(num, bits = 32) {
+        return num.toString(2).padStart(bits, "0");
+      }
+
+      function countLeadingZeros(binaryStr) {
+        let count = 0;
+        for (let i = 0; i < binaryStr.length; i++) {
+          if (binaryStr[i] === "0") {
+            count++;
+          } else {
+            break;
+          }
+        }
+        return count + 1; // +1 for the algorithm
+      }
+
+      function addElementToHLL(element) {
+        // Hash the element
+        const hash = simpleHash(element);
+        const binaryHash = toBinary(hash, 32);
+
+        // Get bucket index from first b bits
+        const bucketIndex = parseInt(binaryHash.substring(0, b), 2);
+
+        // Count leading zeros in remaining bits
+        const remainingBits = binaryHash.substring(b);
+        const leadingZeros = countLeadingZeros(remainingBits);
+
+        // Update bucket with maximum leading zeros seen
+        buckets[bucketIndex] = Math.max(buckets[bucketIndex], leadingZeros);
+
+        // For demonstration, show the process
+        showProcessing(element, hash, binaryHash, bucketIndex, leadingZeros);
+
+        // Update display
+        updateDisplay();
+      }
+
+      function showProcessing(
+        element,
+        hash,
+        binaryHash,
+        bucketIndex,
+        leadingZeros
+      ) {
+        const elementHashDiv = document.getElementById("elementHash");
+        const binaryHashDiv = document.getElementById("binaryHash");
+        const currentElementDiv = document.getElementById("currentElement");
+
+        elementHashDiv.innerHTML = `"${element}" → Hash: ${hash}`;
+
+        const bucketBits = binaryHash.substring(0, b);
+        const remainingBits = binaryHash.substring(b);
+
+        binaryHashDiv.innerHTML = `
+                <span class="highlight-bits">${bucketBits}</span>${remainingBits}
+                <br><small>Bucket: ${bucketIndex}, Leading zeros: ${leadingZeros}</small>
+            `;
+
+        currentElementDiv.style.display = "block";
+
+        // Highlight the active bucket
+        document.querySelectorAll(".bucket").forEach((bucket, index) => {
+          bucket.classList.remove("active");
+          if (index === bucketIndex) {
+            bucket.classList.add("active");
+            setTimeout(() => bucket.classList.remove("active"), 2000);
+          }
+        });
+
+        // Show step-by-step
+        showSteps(element, bucketIndex, leadingZeros);
+      }
+
+      function showSteps(element, bucketIndex, leadingZeros) {
+        const stepsDiv = document.getElementById("steps");
+        stepsDiv.innerHTML = `
+                <div class="step highlight">
+                    <strong>Step 1:</strong> Hash "${element}" → ${simpleHash(
+          element
+        )}
+                </div>
+                <div class="step highlight">
+                    <strong>Step 2:</strong> Bucket ${bucketIndex} (from first ${b} bits)
+                </div>
+                <div class="step highlight">
+                    <strong>Step 3:</strong> Found ${leadingZeros} leading zeros
+                </div>
+                <div class="step highlight">
+                    <strong>Step 4:</strong> Updated bucket ${bucketIndex}: max(${
+          buckets[bucketIndex] - leadingZeros
+        }, ${leadingZeros}) = ${buckets[bucketIndex]}
+                </div>
+            `;
+      }
+
+      function estimateCardinality() {
+        // HyperLogLog cardinality estimation
+        let harmonicMean = 0;
+        for (let i = 0; i < m; i++) {
+          harmonicMean += Math.pow(2, -buckets[i]);
+        }
+        harmonicMean = m / harmonicMean;
+
+        return Math.round(alpha * m * harmonicMean);
+      }
+
+      function updateDisplay() {
+        // Update buckets display
+        const bucketsGrid = document.getElementById("bucketsGrid");
+        bucketsGrid.innerHTML = "";
+
+        for (let i = 0; i < m; i++) {
+          const bucket = document.createElement("div");
+          bucket.className = "bucket";
+          bucket.innerHTML = `
+                    <div class="bucket-header">Bucket ${i}</div>
+                    <div class="bucket-value">${buckets[i]}</div>
+                `;
+          bucketsGrid.appendChild(bucket);
+        }
+
+        // Update statistics
+        const actualCount = uniqueElements.size;
+        const estimatedCount = estimateCardinality();
+        const errorRate =
+          actualCount > 0
+            ? Math.abs(
+                ((estimatedCount - actualCount) / actualCount) * 100
+              ).toFixed(1)
+            : 0;
+
+        document.getElementById("actualCount").textContent = actualCount;
+        document.getElementById("estimatedCount").textContent = estimatedCount;
+        document.getElementById("errorRate").textContent = errorRate + "%";
+      }
+
+      function addElement() {
+        const input = document.getElementById("elementInput");
+        const element = input.value.trim();
+
+        if (element) {
+          uniqueElements.add(element);
+          totalElements++;
+          addElementToHLL(element);
+          input.value = "";
+        }
+      }
+
+      function addRandomElement() {
+        const randomElements = [
+          "user" + Math.floor(Math.random() * 1000),
+          "item" + Math.floor(Math.random() * 1000),
+          "session" + Math.floor(Math.random() * 1000),
+          "page" + Math.floor(Math.random() * 100),
+          "product" + Math.floor(Math.random() * 500),
+        ];
+
+        const element =
+          randomElements[Math.floor(Math.random() * randomElements.length)];
+        uniqueElements.add(element);
+        totalElements++;
+        addElementToHLL(element);
+      }
+
+      function reset() {
+        buckets = new Array(m).fill(0);
+        uniqueElements.clear();
+        totalElements = 0;
+        document.getElementById("currentElement").style.display = "none";
+        document.getElementById("steps").innerHTML = `
+                <div class="explanation">
+                    <h4>How HyperLogLog Works:</h4>
+                    <p><strong>1. Hash:</strong> Convert each element to a binary hash</p>
+                    <p><strong>2. Bucket:</strong> Use first b bits to determine which bucket (0-15 for b=4)</p>
+                    <p><strong>3. Count Zeros:</strong> Count leading zeros in remaining bits</p>
+                    <p><strong>4. Update:</strong> Keep maximum zero count per bucket</p>
+                    <p><strong>5. Estimate:</strong> Use harmonic mean to estimate cardinality</p>
+                </div>
+            `;
+        updateDisplay();
+      }
+
+      function loadDataset(elements) {
+        reset();
+        elements.forEach((element, index) => {
+          setTimeout(() => {
+            uniqueElements.add(element);
+            totalElements++;
+            addElementToHLL(element);
+          }, index * 500);
+        });
+      }
+
+      function generateLargeDataset() {
+        reset();
+        const batchSize = 50;
+        let processed = 0;
+
+        const processBatch = () => {
+          for (let i = 0; i < batchSize && processed < 1000; i++) {
+            const element = "item" + Math.floor(Math.random() * 800); // Some duplicates
+            uniqueElements.add(element);
+            totalElements++;
+
+            // Add to HLL without showing detailed process for performance
+            const hash = simpleHash(element);
+            const binaryHash = toBinary(hash, 32);
+            const bucketIndex = parseInt(binaryHash.substring(0, b), 2);
+            const remainingBits = binaryHash.substring(b);
+            const leadingZeros = countLeadingZeros(remainingBits);
+            buckets[bucketIndex] = Math.max(buckets[bucketIndex], leadingZeros);
+
+            processed++;
+          }
+
+          updateDisplay();
+
+          if (processed < 1000) {
+            setTimeout(processBatch, 50);
+          }
+        };
+
+        processBatch();
+      }
+
+      function showExplanation() {
+        alert(`HyperLogLog Magic! 🎩✨
+
+Key Insights:
+• Uses hash distribution randomness
+• Leading zeros indicate rarity
+• More unique items → more leading zeros
+• Harmonic mean combines bucket estimates
+• ~2% error with just 64 bytes!
+
+Real-world uses:
+• Google Analytics unique visitors
+• Database query optimization
+• Network traffic analysis
+• Large-scale data processing`);
+      }
+
+      function handleKeyPress(event) {
+        if (event.key === "Enter") {
+          addElement();
+        }
+      }
+
+      // Initialize display
+      updateDisplay();
+
+      // Auto-focus input
+      document.getElementById("elementInput").focus();
+    </script>
+  </body>
+</html>
