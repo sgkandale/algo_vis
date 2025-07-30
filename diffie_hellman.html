@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diffie-Hellman Key Exchange</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .explanation {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        border-left: 5px solid #667eea;
+      }
+
+      .step-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .step {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        opacity: 0.3;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+      }
+
+      .step.active {
+        opacity: 1;
+        transform: translateY(0);
+        border: 2px solid #667eea;
+      }
+
+      .step-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 15px;
+      }
+
+      .step-number {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .step-title {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        font-weight: 600;
+      }
+
+      .parties-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+        position: relative;
+      }
+
+      .party {
+        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        border-radius: 20px;
+        padding: 20px;
+        min-width: 200px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .party:hover {
+        transform: translateY(-5px);
+      }
+
+      .party.alice {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+
+      .party.bob {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      }
+
+      .party-name {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .party-info {
+        font-size: 0.9rem;
+        color: #34495e;
+        line-height: 1.4;
+      }
+
+      .arrow {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #667eea;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: bold;
+        animation: pulse 2s infinite;
+        z-index: 10;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: translateX(-50%) scale(1);
+        }
+        50% {
+          transform: translateX(-50%) scale(1.05);
+        }
+      }
+
+      .public-info {
+        background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: center;
+        border: 3px dashed #e17055;
+      }
+
+      .public-info h3 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .math-display {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: "Courier New", monospace;
+        font-size: 1.1rem;
+        margin: 10px 0;
+        text-align: center;
+      }
+
+      .controls {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 0 10px;
+        transition: transform 0.2s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .shared-secret {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-top: 20px;
+        animation: celebrate 0.5s ease;
+      }
+
+      @keyframes celebrate {
+        0% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .warning {
+        background: #ff7675;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        text-align: center;
+      }
+
+      .success {
+        background: #00b894;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        text-align: center;
+      }
+
+      .analogy {
+        background: linear-gradient(135deg, #e17055 0%, #f39c12 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .analogy h4 {
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      @media (max-width: 768px) {
+        .parties-container {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .arrow {
+          position: static;
+          transform: none;
+          margin: 10px 0;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔐 Diffie-Hellman Key Exchange</h1>
+
+      <div class="explanation">
+        <p>
+          <strong>The Diffie-Hellman key exchange</strong> allows two parties to
+          establish a shared secret key over an insecure channel without ever
+          directly transmitting the key. It's like mixing paint colors - easy to
+          mix, hard to separate!
+        </p>
+      </div>
+
+      <div class="step-container">
+        <!-- Step 0: Setup -->
+        <div class="step active" data-step="0">
+          <div class="step-header">
+            <div class="step-number">0</div>
+            <div class="step-title">Public Parameters Setup</div>
+          </div>
+          <div class="public-info">
+            <h3>🌐 Publicly Known Values</h3>
+            <div class="math-display">
+              Prime (p) = <span id="prime">23</span><br />
+              Generator (g) = <span id="generator">5</span>
+            </div>
+            <p>These values are known to everyone, including eavesdroppers!</p>
+          </div>
+
+          <div class="analogy">
+            <h4>🎨 Paint Mixing Analogy</h4>
+            <p>
+              Think of <strong>g</strong> as a common base paint color that
+              everyone knows about. Alice and Bob will each add their secret
+              colors to this base.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 1: Private Keys -->
+        <div class="step" data-step="1">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <div class="step-title">Private Keys Generation</div>
+          </div>
+          <div class="parties-container">
+            <div class="party alice">
+              <div class="party-name">👩‍💻 Alice</div>
+              <div class="party-info">
+                <strong>Private key (a):</strong><br />
+                <span id="alice-private">6</span><br />
+                <small>🤫 Kept secret!</small>
+              </div>
+            </div>
+            <div class="party bob">
+              <div class="party-name">👨‍💻 Bob</div>
+              <div class="party-info">
+                <strong>Private key (b):</strong><br />
+                <span id="bob-private">15</span><br />
+                <small>🤫 Kept secret!</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="analogy">
+            <h4>🎨 Paint Mixing Analogy</h4>
+            <p>
+              Alice picks her secret color (red) and Bob picks his secret color
+              (blue). They keep these colors private!
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2: Public Keys -->
+        <div class="step" data-step="2">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <div class="step-title">Public Keys Calculation</div>
+          </div>
+          <div class="parties-container">
+            <div class="party alice">
+              <div class="party-name">👩‍💻 Alice</div>
+              <div class="party-info">
+                <strong>Public key (A):</strong><br />
+                <div class="math-display">
+                  g^a mod p = <span id="alice-public">8</span>
+                </div>
+                <small>📢 Sent to Bob</small>
+              </div>
+            </div>
+            <div class="arrow" id="exchange-arrow">🔄 Exchange Public Keys</div>
+            <div class="party bob">
+              <div class="party-name">👨‍💻 Bob</div>
+              <div class="party-info">
+                <strong>Public key (B):</strong><br />
+                <div class="math-display">
+                  g^b mod p = <span id="bob-public">19</span>
+                </div>
+                <small>📢 Sent to Alice</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="warning">
+            ⚠️ These public keys can be intercepted by anyone listening to the
+            communication!
+          </div>
+
+          <div class="analogy">
+            <h4>🎨 Paint Mixing Analogy</h4>
+            <p>
+              Alice mixes the base color with her secret red to create
+              "reddish-base" and sends it to Bob. Bob mixes base with his secret
+              blue to create "bluish-base" and sends it to Alice.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3: Shared Secret -->
+        <div class="step" data-step="3">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <div class="step-title">Shared Secret Calculation</div>
+          </div>
+          <div class="parties-container">
+            <div class="party alice">
+              <div class="party-name">👩‍💻 Alice</div>
+              <div class="party-info">
+                <strong>Alice computes:</strong><br />
+                <div class="math-display">
+                  B^a mod p = <span id="alice-shared">2</span>
+                </div>
+                <small>Using Bob's public key + her private key</small>
+              </div>
+            </div>
+            <div class="party bob">
+              <div class="party-name">👨‍💻 Bob</div>
+              <div class="party-info">
+                <strong>Bob computes:</strong><br />
+                <div class="math-display">
+                  A^b mod p = <span id="bob-shared">2</span>
+                </div>
+                <small>Using Alice's public key + his private key</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="shared-secret" id="final-secret" style="display: none">
+            🎉 Shared Secret Established: <span id="shared-value">2</span>
+            <br /><small>Both parties now have the same secret key!</small>
+          </div>
+
+          <div class="analogy">
+            <h4>🎨 Paint Mixing Analogy</h4>
+            <p>
+              Alice adds her secret red to Bob's "bluish-base" creating purple.
+              Bob adds his secret blue to Alice's "reddish-base" creating the
+              same purple! The final color (purple) is their shared secret.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4: Security -->
+        <div class="step" data-step="4">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <div class="step-title">Why Is This Secure?</div>
+          </div>
+
+          <div class="warning">
+            <h4>🕵️ What an eavesdropper knows:</h4>
+            <p>
+              • Public parameters: p = <span class="prime-val">23</span>, g =
+              <span class="gen-val">5</span>
+            </p>
+            <p>• Alice's public key: <span class="alice-pub-val">8</span></p>
+            <p>• Bob's public key: <span class="bob-pub-val">19</span></p>
+          </div>
+
+          <div class="success">
+            <h4>🔒 What an eavesdropper CANNOT easily find:</h4>
+            <p>• Alice's private key (a)</p>
+            <p>• Bob's private key (b)</p>
+            <p>• The shared secret</p>
+          </div>
+
+          <p style="margin-top: 20px; text-align: center; font-style: italic">
+            The security relies on the
+            <strong>discrete logarithm problem</strong> - it's computationally
+            difficult to find the private keys from the public information when
+            using large prime numbers.
+          </p>
+
+          <div class="analogy">
+            <h4>🎨 Paint Mixing Analogy</h4>
+            <p>
+              An eavesdropper can see the "reddish-base" and "bluish-base"
+              colors, but can't easily separate them back to the original base
+              color and secret colors. Mixing is easy, unmixing is hard!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" onclick="prevStep()" id="prevBtn">
+          ⬅️ Previous
+        </button>
+        <button class="btn" onclick="nextStep()" id="nextBtn">Next ➡️</button>
+        <button
+          class="btn"
+          onclick="generateNewKeys()"
+          style="background: linear-gradient(45deg, #e17055, #f39c12)"
+        >
+          🎲 New Random Keys
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let currentStep = 0;
+      const totalSteps = 5;
+
+      // Current values
+      let p = 23,
+        g = 5,
+        a = 6,
+        b = 15;
+      let A, B, sharedSecret;
+
+      function calculateKeys() {
+        // Calculate public keys
+        A = Math.pow(g, a) % p;
+        B = Math.pow(g, b) % p;
+
+        // Calculate shared secret
+        const aliceShared = Math.pow(B, a) % p;
+        const bobShared = Math.pow(A, b) % p;
+        sharedSecret = aliceShared; // Should equal bobShared
+
+        // Update display
+        updateDisplay();
+      }
+
+      function updateDisplay() {
+        document.getElementById("prime").textContent = p;
+        document.getElementById("generator").textContent = g;
+        document.getElementById("alice-private").textContent = a;
+        document.getElementById("bob-private").textContent = b;
+        document.getElementById("alice-public").textContent = A;
+        document.getElementById("bob-public").textContent = B;
+        document.getElementById("alice-shared").textContent = sharedSecret;
+        document.getElementById("bob-shared").textContent = sharedSecret;
+        document.getElementById("shared-value").textContent = sharedSecret;
+
+        // Update security step values
+        document
+          .querySelectorAll(".prime-val")
+          .forEach((el) => (el.textContent = p));
+        document
+          .querySelectorAll(".gen-val")
+          .forEach((el) => (el.textContent = g));
+        document
+          .querySelectorAll(".alice-pub-val")
+          .forEach((el) => (el.textContent = A));
+        document
+          .querySelectorAll(".bob-pub-val")
+          .forEach((el) => (el.textContent = B));
+      }
+
+      function showStep(step) {
+        // Hide all steps
+        document
+          .querySelectorAll(".step")
+          .forEach((s) => s.classList.remove("active"));
+
+        // Show current step
+        document.querySelector(`[data-step="${step}"]`).classList.add("active");
+
+        // Show shared secret in step 3
+        if (step === 3) {
+          setTimeout(() => {
+            document.getElementById("final-secret").style.display = "block";
+          }, 1000);
+        } else {
+          document.getElementById("final-secret").style.display = "none";
+        }
+
+        // Update button states
+        document.getElementById("prevBtn").disabled = step === 0;
+        document.getElementById("nextBtn").disabled = step === totalSteps - 1;
+      }
+
+      function nextStep() {
+        if (currentStep < totalSteps - 1) {
+          currentStep++;
+          showStep(currentStep);
+        }
+      }
+
+      function prevStep() {
+        if (currentStep > 0) {
+          currentStep--;
+          showStep(currentStep);
+        }
+      }
+
+      function generateNewKeys() {
+        // Generate new random values
+        const primes = [23, 29, 31, 37, 41, 43, 47];
+        p = primes[Math.floor(Math.random() * primes.length)];
+        g = Math.floor(Math.random() * (p - 2)) + 2;
+        a = Math.floor(Math.random() * (p - 2)) + 1;
+        b = Math.floor(Math.random() * (p - 2)) + 1;
+
+        calculateKeys();
+
+        // Add animation effect
+        document.querySelector(".container").style.transform = "scale(0.98)";
+        setTimeout(() => {
+          document.querySelector(".container").style.transform = "scale(1)";
+        }, 200);
+      }
+
+      // Initialize
+      calculateKeys();
+      showStep(0);
+
+      // Keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") {
+          e.preventDefault();
+          nextStep();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          prevStep();
+        } else if (e.key === "r" || e.key === "R") {
+          generateNewKeys();
+        }
+      });
+    </script>
+  </body>
+</html>
