@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Count-Min Sketch Visualization</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .intro {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        border-left: 5px solid #667eea;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn.danger {
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+      }
+
+      .btn.success {
+        background: linear-gradient(45deg, #00b894, #00cec9);
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .input-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-section h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 1rem;
+        margin-bottom: 15px;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .sketch-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .sketch-grid {
+        display: grid;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .hash-row {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        border-left: 5px solid #667eea;
+      }
+
+      .hash-row.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        animation: pulse 1s ease;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .hash-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+      }
+
+      .buckets {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 5px;
+        margin-top: 10px;
+      }
+
+      .bucket {
+        background: #ecf0f1;
+        border: 2px solid #bdc3c7;
+        border-radius: 8px;
+        padding: 8px 4px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .bucket.highlight {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        border-color: #e74c3c;
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+      }
+
+      .bucket-index {
+        font-size: 0.7rem;
+        color: #7f8c8d;
+        margin-bottom: 2px;
+      }
+
+      .bucket-value {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      .element-processing {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .hash-display {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 10px;
+        font-family: "Courier New", monospace;
+        margin: 10px 0;
+        word-break: break-all;
+      }
+
+      .hash-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 15px 0;
+      }
+
+      .hash-detail {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+      }
+
+      .hash-detail.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-left-color: white;
+      }
+
+      .frequency-tracker {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .frequency-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .frequency-item {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #00b894;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .frequency-item.queried {
+        background: linear-gradient(135deg, #00b894, #00cec9);
+        color: white;
+        border-left-color: white;
+        animation: highlight 1s ease;
+      }
+
+      @keyframes highlight {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .actual-count {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #00b894;
+      }
+
+      .estimated-count {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #e74c3c;
+      }
+
+      .query-section {
+        background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .query-result {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        font-family: "Courier New", monospace;
+        text-align: center;
+        font-size: 1.2rem;
+      }
+
+      .explanation {
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+      }
+
+      .explanation h4 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+      }
+
+      .dataset-examples {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+        flex-wrap: wrap;
+      }
+
+      .dataset-btn {
+        background: #74b9ff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: transform 0.2s ease;
+      }
+
+      .dataset-btn:hover {
+        transform: translateY(-2px);
+        background: #0984e3;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+
+      .error-analysis {
+        background: #e74c3c;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+        text-align: center;
+      }
+
+      .success-analysis {
+        background: #00b894;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+
+        .buckets {
+          grid-template-columns: repeat(5, 1fr);
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .hash-info {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>📊 Count-Min Sketch</h1>
+
+      <div class="intro">
+        <p>
+          <strong>Count-Min Sketch</strong> is a probabilistic data structure
+          that estimates the frequency of elements in a data stream. It uses
+          multiple hash functions and always overestimates (never
+          underestimates) the true count, making it perfect for finding heavy
+          hitters in massive datasets!
+        </p>
+      </div>
+
+      <div class="controls">
+        <button class="btn success" onclick="addElement()">
+          ➕ Add Element
+        </button>
+        <button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
+        <button class="btn" onclick="queryElement()">🔍 Query Frequency</button>
+        <button class="btn danger" onclick="reset()">🔄 Reset</button>
+      </div>
+
+      <div class="dataset-examples">
+        <button class="dataset-btn" onclick="loadWebTraffic()">
+          🌐 Web Traffic
+        </button>
+        <button class="dataset-btn" onclick="loadWordFreq()">
+          📝 Word Frequency
+        </button>
+        <button class="dataset-btn" onclick="loadUserActivity()">
+          👥 User Activity
+        </button>
+        <button class="dataset-btn" onclick="generateStream()">
+          📈 Data Stream (1000 items)
+        </button>
+      </div>
+
+      <div class="main-content">
+        <div class="input-section">
+          <h3>🔤 Add/Query Elements</h3>
+          <input
+            type="text"
+            id="elementInput"
+            placeholder="Enter element (e.g., page1, user123, word)"
+            onkeypress="handleKeyPress(event)"
+          />
+
+          <div class="query-section">
+            <h4>🔍 Query an Element</h4>
+            <input
+              type="text"
+              id="queryInput"
+              placeholder="Enter element to query frequency"
+              onkeypress="handleQueryKeyPress(event)"
+            />
+            <div
+              id="queryResult"
+              class="query-result"
+              style="display: none"
+            ></div>
+          </div>
+
+          <div id="currentProcessing" style="display: none">
+            <h4>Currently Processing:</h4>
+            <div class="hash-display" id="elementHash"></div>
+          </div>
+        </div>
+
+        <div class="sketch-section">
+          <h3>📊 Count-Min Sketch Matrix (4 × 10)</h3>
+          <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
+            4 hash functions × 10 buckets each = 40 total counters
+          </p>
+          <div class="sketch-grid" id="sketchGrid"></div>
+        </div>
+      </div>
+
+      <div class="element-processing">
+        <h3>🔍 Hash Function Processing</h3>
+        <div id="hashProcessing">
+          <div class="explanation">
+            <h4>How Count-Min Sketch Works:</h4>
+            <p>
+              <strong>1. Multiple Hash Functions:</strong> Use k independent
+              hash functions
+            </p>
+            <p>
+              <strong>2. Hash to Buckets:</strong> Each hash function maps
+              element to a bucket
+            </p>
+            <p>
+              <strong>3. Increment Counters:</strong> Add 1 to all k buckets for
+              the element
+            </p>
+            <p>
+              <strong>4. Query:</strong> Return minimum value across all k
+              buckets
+            </p>
+            <p>
+              <strong>5. Guarantee:</strong> Result ≥ true frequency (never
+              underestimates!)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="frequency-tracker">
+        <h3>📈 Element Frequencies</h3>
+        <div class="frequency-list" id="frequencyList"></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="totalElements">0</div>
+          <div class="stat-label">Total Elements Added</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="uniqueElements">0</div>
+          <div class="stat-label">Unique Elements</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="memoryUsed">160</div>
+          <div class="stat-label">Bytes Used (4×10×4)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="averageError">0%</div>
+          <div class="stat-label">Average Overestimation</div>
+        </div>
+      </div>
+
+      <div class="explanation">
+        <h4>🎯 Key Properties:</h4>
+        <p>
+          <strong>Never Underestimates:</strong> CM-Sketch always returns
+          frequency ≥ true count
+        </p>
+        <p>
+          <strong>Overestimation Bound:</strong> Error ≤ ε × N with probability
+          ≥ 1-δ
+        </p>
+        <p>
+          <strong>Space Efficient:</strong> Uses O(log(1/δ)/ε) space regardless
+          of stream size
+        </p>
+        <p>
+          <strong>Update Time:</strong> O(log(1/δ)) per element - very fast!
+        </p>
+      </div>
+
+      <div class="explanation">
+        <h4>🧮 Parameters in this demo:</h4>
+        <p><strong>Width (w):</strong> 10 buckets per row</p>
+        <p><strong>Depth (d):</strong> 4 hash functions (rows)</p>
+        <p><strong>Error Rate (ε):</strong> ~10% (2.718/w)</p>
+        <p><strong>Confidence (δ):</strong> ~98% (1-2^(-d))</p>
+      </div>
+    </div>
+
+    <script>
+      // Count-Min Sketch parameters
+      const width = 10; // number of buckets per hash function
+      const depth = 4; // number of hash functions
+
+      // Count-Min Sketch matrix
+      let sketch = Array(depth)
+        .fill()
+        .map(() => Array(width).fill(0));
+
+      // Actual frequency tracking (for comparison)
+      let actualFreq = new Map();
+      let totalElements = 0;
+      let lastQueriedElement = null;
+
+      // Simple hash functions (for demonstration)
+      function hashFunction(str, seed = 0) {
+        let hash = seed;
+        for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = (hash << 5) - hash + char + seed * 37;
+          hash = hash & hash; // Convert to 32-bit integer
+        }
+        return Math.abs(hash) % width;
+      }
+
+      function addElementToSketch(element) {
+        // Update actual frequency
+        actualFreq.set(element, (actualFreq.get(element) || 0) + 1);
+        totalElements++;
+
+        // Process element through all hash functions
+        const hashResults = [];
+
+        document.getElementById("currentProcessing").style.display = "block";
+        document.getElementById(
+          "elementHash"
+        ).textContent = `Processing: "${element}"`;
+
+        // Clear previous highlights
+        document
+          .querySelectorAll(".hash-row")
+          .forEach((row) => row.classList.remove("active"));
+        document
+          .querySelectorAll(".bucket")
+          .forEach((bucket) => bucket.classList.remove("highlight"));
+
+        // Process each hash function
+        for (let i = 0; i < depth; i++) {
+          const bucketIndex = hashFunction(element, i);
+          sketch[i][bucketIndex]++;
+          hashResults.push({
+            hashFunc: i,
+            bucket: bucketIndex,
+            newValue: sketch[i][bucketIndex],
+          });
+
+          // Highlight the row and bucket
+          setTimeout(() => {
+            const rows = document.querySelectorAll(".hash-row");
+            if (rows[i]) {
+              rows[i].classList.add("active");
+              setTimeout(() => rows[i].classList.remove("active"), 1500);
+            }
+
+            const buckets = rows[i]?.querySelectorAll(".bucket");
+            if (buckets && buckets[bucketIndex]) {
+              buckets[bucketIndex].classList.add("highlight");
+              setTimeout(
+                () => buckets[bucketIndex].classList.remove("highlight"),
+                2000
+              );
+            }
+          }, i * 300);
+        }
+
+        // Show hash processing details
+        showHashProcessing(element, hashResults);
+
+        // Update displays
+        setTimeout(() => {
+          updateSketchDisplay();
+          updateFrequencyDisplay();
+          updateStats();
+        }, 1500);
+      }
+
+      function showHashProcessing(element, hashResults) {
+        const processingDiv = document.getElementById("hashProcessing");
+
+        let html = `<h4>Processing "${element}":</h4>`;
+        hashResults.forEach((result, index) => {
+          html += `
+                    <div class="hash-detail ${index < 2 ? "active" : ""}">
+                        <strong>Hash Function ${
+                          result.hashFunc + 1
+                        }:</strong><br>
+                        Bucket ${result.bucket} → Count: ${result.newValue}
+                    </div>
+                `;
+        });
+
+        html += `
+                <div class="success-analysis">
+                    Updated ${hashResults.length} counters for "${element}"
+                </div>
+            `;
+
+        processingDiv.innerHTML = html;
+      }
+
+      function queryElementFreq(element) {
+        if (!element) return 0;
+
+        // Get minimum count across all hash functions
+        let minCount = Infinity;
+        const queryResults = [];
+
+        for (let i = 0; i < depth; i++) {
+          const bucketIndex = hashFunction(element, i);
+          const count = sketch[i][bucketIndex];
+          minCount = Math.min(minCount, count);
+          queryResults.push({
+            hashFunc: i,
+            bucket: bucketIndex,
+            count: count,
+          });
+        }
+
+        // Highlight queried buckets
+        highlightQueriedBuckets(queryResults);
+
+        // Show query result
+        const actualCount = actualFreq.get(element) || 0;
+        const estimatedCount = minCount === Infinity ? 0 : minCount;
+
+        const queryResultDiv = document.getElementById("queryResult");
+        queryResultDiv.style.display = "block";
+        queryResultDiv.innerHTML = `
+                "${element}": Estimated = ${estimatedCount}, Actual = ${actualCount}
+                <br><small>${
+                  estimatedCount >= actualCount
+                    ? "✅ Correct (no underestimation)"
+                    : "❌ Error (should not happen!)"
+                }</small>
+            `;
+
+        // Update frequency display to highlight queried element
+        lastQueriedElement = element;
+        updateFrequencyDisplay();
+
+        return estimatedCount;
+      }
+
+      function highlightQueriedBuckets(queryResults) {
+        // Clear previous highlights
+        document
+          .querySelectorAll(".bucket")
+          .forEach((bucket) => bucket.classList.remove("highlight"));
+
+        queryResults.forEach((result, index) => {
+          setTimeout(() => {
+            const rows = document.querySelectorAll(".hash-row");
+            const buckets = rows[result.hashFunc]?.querySelectorAll(".bucket");
+            if (buckets && buckets[result.bucket]) {
+              buckets[result.bucket].classList.add("highlight");
+              setTimeout(
+                () => buckets[result.bucket].classList.remove("highlight"),
+                3000
+              );
+            }
+          }, index * 200);
+        });
+      }
+
+      function updateSketchDisplay() {
+        const sketchGrid = document.getElementById("sketchGrid");
+        sketchGrid.innerHTML = "";
+
+        for (let i = 0; i < depth; i++) {
+          const row = document.createElement("div");
+          row.className = "hash-row";
+          row.innerHTML = `<div class="hash-label">Hash Function ${
+            i + 1
+          }</div>`;
+
+          const buckets = document.createElement("div");
+          buckets.className = "buckets";
+
+          for (let j = 0; j < width; j++) {
+            const bucket = document.createElement("div");
+            bucket.className = "bucket";
+            bucket.innerHTML = `
+                        <div class="bucket-index">${j}</div>
+                        <div class="bucket-value">${sketch[i][j]}</div>
+                    `;
+            buckets.appendChild(bucket);
+          }
+
+          row.appendChild(buckets);
+          sketchGrid.appendChild(row);
+        }
+      }
+
+      function updateFrequencyDisplay() {
+        const frequencyList = document.getElementById("frequencyList");
+        frequencyList.innerHTML = "";
+
+        // Sort by frequency (descending)
+        const sortedEntries = Array.from(actualFreq.entries())
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10); // Show top 10
+
+        sortedEntries.forEach(([element, actualCount]) => {
+          const estimatedCount = queryElementFreq(element);
+          const item = document.createElement("div");
+          item.className = `frequency-item ${
+            element === lastQueriedElement ? "queried" : ""
+          }`;
+
+          const overestimation =
+            estimatedCount > actualCount
+              ? `+${(
+                  ((estimatedCount - actualCount) / actualCount) *
+                  100
+                ).toFixed(1)}%`
+              : "0%";
+
+          item.innerHTML = `
+                    <div>
+                        <strong>${element}</strong><br>
+                        <small>Overestimation: ${overestimation}</small>
+                    </div>
+                    <div>
+                        <div class="actual-count">Actual: ${actualCount}</div>
+                        <div class="estimated-count">Est: ${estimatedCount}</div>
+                    </div>
+                `;
+          frequencyList.appendChild(item);
+        });
+      }
+
+      function updateStats() {
+        document.getElementById("totalElements").textContent = totalElements;
+        document.getElementById("uniqueElements").textContent = actualFreq.size;
+
+        let totalError = 0;
+        let count = 0;
+
+        for (const [element, actualCount] of actualFreq.entries()) {
+          const estimatedCount = queryElementFreq(element);
+          if (actualCount > 0) {
+            totalError += (estimatedCount - actualCount) / actualCount;
+            count++;
+          }
+        }
+
+        const averageError =
+          count > 0 ? ((totalError / count) * 100).toFixed(1) : 0;
+        document.getElementById("averageError").textContent =
+          averageError + "%";
+      }
+
+      function addElement() {
+        const input = document.getElementById("elementInput");
+        const element = input.value.trim();
+
+        if (element) {
+          addElementToSketch(element);
+          input.value = "";
+        }
+      }
+
+      function addRandomElement() {
+        const elements = [
+          "page1",
+          "page2",
+          "page3",
+          "user123",
+          "user456",
+          "item1",
+          "item2",
+        ];
+        const weights = [0.3, 0.2, 0.15, 0.1, 0.1, 0.1, 0.05]; // Some elements more frequent
+
+        let random = Math.random();
+        let element = elements[0];
+
+        for (let i = 0; i < weights.length; i++) {
+          if (random < weights[i]) {
+            element = elements[i];
+            break;
+          }
+          random -= weights[i];
+        }
+
+        addElementToSketch(element);
+      }
+
+      function queryElement() {
+        const input = document.getElementById("queryInput");
+        const element = input.value.trim();
+
+        if (element) {
+          queryElementFreq(element);
+          input.value = "";
+        }
+      }
+
+      function reset() {
+        sketch = Array(depth)
+          .fill()
+          .map(() => Array(width).fill(0));
+        actualFreq.clear();
+        totalElements = 0;
+        lastQueriedElement = null;
+
+        document.getElementById("currentProcessing").style.display = "none";
+        document.getElementById("queryResult").style.display = "none";
+        document.getElementById("hashProcessing").innerHTML = `
+                <div class="explanation">
+                    <h4>How Count-Min Sketch Works:</h4>
+                    <p><strong>1. Multiple Hash Functions:</strong> Use k independent hash functions</p>
+                    <p><strong>2. Hash to Buckets:</strong> Each hash function maps element to a bucket</p>
+                    <p><strong>3. Increment Counters:</strong> Add 1 to all k buckets for the element</p>
+                    <p><strong>4. Query:</strong> Return minimum value across all k buckets</p>
+                    <p><strong>5. Guarantee:</strong> Result ≥ true frequency (never underestimates!)</p>
+                </div>
+            `;
+
+        updateSketchDisplay();
+        updateFrequencyDisplay();
+        updateStats();
+      }
+
+      function loadWebTraffic() {
+        reset();
+        const pages = ["home", "about", "contact", "products", "blog"];
+        const requests = [];
+
+        // Generate realistic web traffic (some pages more popular)
+        for (let i = 0; i < 50; i++) {
+          if (Math.random() < 0.4) requests.push("home");
+          else if (Math.random() < 0.6) requests.push("products");
+          else requests.push(pages[Math.floor(Math.random() * pages.length)]);
+        }
+
+        requests.forEach((page, index) => {
+          setTimeout(() => addElementToSketch(page), index * 100);
+        });
+      }
+
+      function loadWordFreq() {
+        reset();
+        const text =
+          "the quick brown fox jumps over the lazy dog the fox is quick and the dog is lazy".split(
+            " "
+          );
+
+        text.forEach((word, index) => {
+          setTimeout(() => addElementToSketch(word), index * 200);
+        });
+      }
+
+      function loadUserActivity() {
+        reset();
+        const users = ["user1", "user2", "user3", "user4", "user5"];
+        const activities = [];
+
+        // Simulate user activity (some users more active)
+        for (let i = 0; i < 40; i++) {
+          if (Math.random() < 0.3) activities.push("user1"); // Very active user
+          else if (Math.random() < 0.5) activities.push("user2"); // Active user
+          else activities.push(users[Math.floor(Math.random() * users.length)]);
+        }
+
+        activities.forEach((user, index) => {
+          setTimeout(() => addElementToSketch(user), index * 150);
+        });
+      }
+
+      function generateStream() {
+        reset();
+        const elements = [
+          "item1",
+          "item2",
+          "item3",
+          "item4",
+          "item5",
+          "item6",
+          "item7",
+          "item8",
+        ];
+        const batchSize = 20;
+        let processed = 0;
+
+        const processBatch = () => {
+          for (let i = 0; i < batchSize && processed < 1000; i++) {
+            // Zipfian distribution - some elements much more frequent
+            let element;
+            const rand = Math.random();
+            if (rand < 0.4) element = "item1";
+            else if (rand < 0.6) element = "item2";
+            else if (rand < 0.75) element = "item3";
+            else
+              element = elements[Math.floor(Math.random() * elements.length)];
+
+            // Add without animation for performance
+            actualFreq.set(element, (actualFreq.get(element) || 0) + 1);
+            totalElements++;
+
+            for (let j = 0; j < depth; j++) {
+              const bucketIndex = hashFunction(element, j);
+              sketch[j][bucketIndex]++;
+            }
+
+            processed++;
+          }
+
+          updateSketchDisplay();
+          updateFrequencyDisplay();
+          updateStats();
+
+          if (processed < 1000) {
+            setTimeout(processBatch, 100);
+          }
+        };
+
+        processBatch();
+      }
+
+      function handleKeyPress(event) {
+        if (event.key === "Enter") {
+          addElement();
+        }
+      }
+
+      function handleQueryKeyPress(event) {
+        if (event.key === "Enter") {
+          queryElement();
+        }
+      }
+
+      // Initialize display
+      updateSketchDisplay();
+      updateFrequencyDisplay();
+      updateStats();
+
+      // Auto-focus input
+      document.getElementById("elementInput").focus();
+    </script>
+  </body>
+</html>
