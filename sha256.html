@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 Algorithm Deep Dive</title>
+    <style>
+        body {
+        font-family: "Segoe UI", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background: #f9fafb;
+        color: #333;
+      }
+      header {
+        background: #0d1117;
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+      main {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+      }
+      h2 {
+        color: #0a58ca;
+        margin-top: 2rem;
+      }
+      .illustration {
+        margin: 1rem 0;
+        border: 1px dashed #ccc;
+        padding: 1rem;
+        background: #ffffff;
+        border-radius: 6px;
+      }
+      .block {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin: 0.2rem;
+        background: #e7f1ff;
+        border: 1px solid #0a58ca;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+      .step-box {
+        margin: 1rem 0;
+        padding: 1rem;
+        background: #fef8e7;
+        border-left: 5px solid #f0ad4e;
+      }
+      code {
+        background: #eee;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+      }
+      footer {
+        text-align: center;
+        margin: 2rem;
+        font-size: 0.9rem;
+        color: #999;
+      }
+
+      /* Additional styles for the new layout */
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .subtitle {
+        font-size: 1.2rem;
+        color: #666;
+      }
+      .step-section {
+        margin: 2rem 0;
+      }
+      .step-title {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        color: #333;
+      }
+      .step-number {
+        background: #0a58ca;
+        color: white;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+      }
+      .data-blocks {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+      .data-block {
+        flex: 1;
+        margin: 0 0.5rem;
+        padding: 1rem;
+        background: #f1f8ff;
+        border: 1px solid #0a58ca;
+        border-radius: 4px;
+      }
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .benefit-card {
+        background: #e7f1ff;
+        border: 1px solid #0a58ca;
+        border-radius: 4px;
+        padding: 1rem;
+        text-align: center;
+      }
+      .benefit-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .hash-process {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: 'Courier New', monospace;
+        margin-top: 1rem;
+      }
+      .arrow {
+        font-size: 1.5rem;
+      }
+      .hash-input, .hash-output {
+        flex: 1;
+        padding: 1rem;
+        background: #f1f8ff;
+        border: 1px solid #0a58ca;
+        border-radius: 4px;
+        text-align: center;
+      }
+      .applications {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+      .application-card {
+        flex: 1 1 45%;
+        background: #e7f1ff;
+        border: 1px solid #0a58ca;
+        border-radius: 4px;
+        padding: 1rem;
+        margin: 0.5rem;
+        text-align: center;
+      }
+      .app-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+      .table-header {
+        background: #0a58ca;
+        color: white;
+        font-weight: bold;
+      }
+      .table-row {
+        background: #f9f9f9;
+        border-bottom: 1px solid #ddd;
+      }
+      .table-row:last-child {
+        border-bottom: none;
+      }
+      .highlight {
+        background: #fff3cd;
+        border-left: 5px solid #856404;
+        padding: 1rem;
+        margin: 2rem 0;
+      }
+      .highlight h3 {
+        margin-top: 0;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 SHA-256 Algorithm Deep Dive</h1>
+        <p class="subtitle">The cryptographic hash function powering blockchain, security, and data integrity</p>
+
+        <!-- What is SHA-256 -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">1</div>
+                <span>What is SHA-256?</span>
+            </div>
+            <p>
+                SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that takes any input and produces a fixed 256-bit (32-byte) output. It's designed to be fast, irreversible, and collision-resistant.
+            </p>
+            <div class="data-blocks">
+                <div class="data-block">
+                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Input</div>
+                    <div style="font-size: 0.9rem;">"hello world"</div>
+                </div>
+                <div class="data-block">
+                    <div style="font-size: 1.1rem; margin-bottom: 8px;">SHA-256 Output</div>
+                    <div style="font-size: 0.9rem; font-family: 'Courier New', monospace;">b94d27b9934d3e08a52e52d7da7dabfa...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step-by-step breakdown -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">2</div>
+                <span>How SHA-256 Works: Step-by-Step</span>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧩</div>
+                    <div class="benefit-title">1. Padding</div>
+                    <div>Input is padded to a multiple of 512 bits, ending with a '1' bit and the length of the original message.</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <div class="benefit-title">2. Parsing</div>
+                    <div>Padded message is split into 512-bit blocks for processing.</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <div class="benefit-title">3. Message Schedule</div>
+                    <div>Each block is expanded into 64 words using bitwise operations and mixing.</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚙️</div>
+                    <div class="benefit-title">4. Compression</div>
+                    <div>64 rounds of mixing with constants and logical functions update internal state.</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏁</div>
+                    <div class="benefit-title">5. Output</div>
+                    <div>Final 256-bit hash is produced after all blocks are processed.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualize transformation -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">3</div>
+                <span>Visualizing SHA-256 Transformation</span>
+            </div>
+            <div class="hash-process">
+                <div class="hash-input">Input<br>"hello world"</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Padding & Parsing</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Message Schedule</div>
+                <div class="arrow">→</div>
+                <div class="hash-function">Compression Rounds</div>
+                <div class="arrow">→</div>
+                <div class="hash-output">b94d27b9934d3e08a52e52d7da7dabfa...</div>
+            </div>
+            <p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
+                Even a tiny change in input (e.g., "hello world!") produces a completely different hash.
+            </p>
+        </div>
+
+        <!-- Properties -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">4</div>
+                <span>Key Properties of SHA-256</span>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔒</div>
+                    <div class="benefit-title">Collision Resistance</div>
+                    <div>No two different inputs should produce the same hash.</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <div class="benefit-title">Avalanche Effect</div>
+                    <div>Changing one bit in input changes ~50% of output bits.</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚫</div>
+                    <div class="benefit-title">Irreversibility</div>
+                    <div>Cannot reconstruct input from hash.</div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📏</div>
+                    <div class="benefit-title">Fixed Output Size</div>
+                    <div>Always 256 bits, regardless of input size.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">5</div>
+                <span>Real-World Applications</span>
+            </div>
+            <div class="applications">
+                <div class="application-card">
+                    <div class="app-icon">₿</div>
+                    <div class="app-title">Blockchain</div>
+                    <p>Used for block hashes, transaction IDs, and Merkle trees in Bitcoin and other cryptocurrencies.</p>
+                </div>
+                <div class="application-card">
+                    <div class="app-icon">🔑</div>
+                    <div class="app-title">Password Hashing</div>
+                    <p>Hashes passwords for secure storage (often with salt).</p>
+                </div>
+                <div class="application-card">
+                    <div class="app-icon">📦</div>
+                    <div class="app-title">File Integrity</div>
+                    <p>Verifies downloads and backups by comparing hash values.</p>
+                </div>
+                <div class="application-card">
+                    <div class="app-icon">🛡️</div>
+                    <div class="app-title">Digital Signatures</div>
+                    <p>Hashes data before signing for authentication and non-repudiation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="step-section">
+            <div class="step-title">
+                <div class="step-number">6</div>
+                <span>Hash Function Comparison</span>
+            </div>
+            <div class="comparison-table">
+                <div class="table-header">
+                    <div>Property</div>
+                    <div>SHA-1</div>
+                    <div>SHA-256</div>
+                </div>
+                <div class="table-row">
+                    <div><strong>Output Size</strong></div>
+                    <div>160 bits</div>
+                    <div>256 bits</div>
+                </div>
+                <div class="table-row">
+                    <div><strong>Security</strong></div>
+                    <div>Broken (collisions found)</div>
+                    <div>Secure (no practical collisions)</div>
+                </div>
+                <div class="table-row">
+                    <div><strong>Speed</strong></div>
+                    <div>Fast</div>
+                    <div>Moderate</div>
+                </div>
+                <div class="table-row">
+                    <div><strong>Usage</strong></div>
+                    <div>Legacy systems</div>
+                    <div>Modern security, blockchain</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Highlight: Avalanche Effect -->
+        <div class="highlight">
+            <h3>🌊 The Avalanche Effect</h3>
+            <p>
+                SHA-256 is designed so that even a single bit change in the input causes the output hash to change dramatically. This property is crucial for security and integrity.
+            </p>
+            <div class="data-blocks">
+                <div class="data-block">
+                    <div style="font-size: 1.1rem;">Input</div>
+                    <div style="font-size: 0.9rem;">"hello world"</div>
+                    <div style="margin-top: 10px; font-family: 'Courier New', monospace; font-size: 0.8rem;">b94d27b9934d3e08a52e52d7da7dabfa...</div>
+                </div>
+                <div class="data-block">
+                    <div style="font-size: 1.1rem;">Input</div>
+                    <div style="font-size: 0.9rem;">"hello worle"</div>
+                    <div style="margin-top: 10px; font-family: 'Courier New', monospace; font-size: 0.8rem;">ecb8a1b2c3d4e5f6g7h8i9j0k1l2m3n4...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
