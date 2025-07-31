@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LRU Page Replacement Algorithm Visualization</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        color: #ecf0f1;
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        padding: 30px 0;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 3.2rem;
+        margin-bottom: 15px;
+        background: linear-gradient(to right, #ff7e5f, #feb47b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .subtitle {
+        font-size: 1.3rem;
+        color: #bdc3c7;
+        max-width: 800px;
+        margin: 0 auto 25px;
+      }
+
+      .card {
+        background: rgba(25, 40, 65, 0.8);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .card-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: #ff7e5f;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .card-title i {
+        background: linear-gradient(45deg, #ff7e5f, #feb47b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+        align-items: center;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+        min-width: 200px;
+      }
+
+      label {
+        font-weight: 600;
+        color: #feb47b;
+      }
+
+      input,
+      select {
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 2px solid #3a506b;
+        background: rgba(30, 50, 80, 0.7);
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #ff7e5f;
+        box-shadow: 0 0 10px rgba(255, 126, 95, 0.5);
+      }
+
+      .btn {
+        background: linear-gradient(45deg, #ff7e5f, #feb47b);
+        color: white;
+        border: none;
+        padding: 14px 25px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      }
+
+      .btn:active {
+        transform: translateY(2px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid #ff7e5f;
+        color: #ff7e5f;
+      }
+
+      .btn-outline:hover {
+        background: rgba(255, 126, 95, 0.15);
+      }
+
+      .visualization-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin-top: 20px;
+      }
+
+      .frames-container {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+        margin: 20px 0;
+      }
+
+      .frame {
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border: 3px solid #3a506b;
+        background: rgba(40, 65, 100, 0.8);
+      }
+
+      .frame::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.15),
+          transparent
+        );
+      }
+
+      .frame-label {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        font-size: 0.9rem;
+        color: #feb47b;
+      }
+
+      .frame-content {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .frame-info {
+        position: absolute;
+        bottom: 8px;
+        font-size: 0.8rem;
+        color: #a0d2eb;
+      }
+
+      .reference-string {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 30px 0;
+      }
+
+      .ref-item {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        background: rgba(40, 65, 100, 0.8);
+        border: 2px solid #3a506b;
+        transition: all 0.3s ease;
+      }
+
+      .ref-item.active {
+        transform: scale(1.2);
+        background: linear-gradient(45deg, #ff7e5f, #feb47b);
+        box-shadow: 0 0 20px rgba(255, 126, 95, 0.7);
+        z-index: 10;
+      }
+
+      .ref-item.hit {
+        background: linear-gradient(45deg, #2ecc71, #27ae60);
+      }
+
+      .ref-item.fault {
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+      }
+
+      .stats-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin: 30px 0;
+      }
+
+      .stat-card {
+        background: rgba(40, 65, 100, 0.8);
+        border-radius: 12px;
+        padding: 20px;
+        min-width: 200px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #ff7e5f;
+      }
+
+      .stat-label {
+        font-size: 1.1rem;
+        color: #a0d2eb;
+      }
+
+      .history-container {
+        margin-top: 20px;
+      }
+
+      .history-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      .history-table th {
+        background: rgba(255, 126, 95, 0.3);
+        padding: 12px;
+        text-align: center;
+      }
+
+      .history-table td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #3a506b;
+      }
+
+      .history-table tr:nth-child(even) {
+        background: rgba(30, 50, 80, 0.5);
+      }
+
+      .explanation {
+        margin-top: 40px;
+      }
+
+      .explanation-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+      }
+
+      .explanation-card {
+        background: rgba(40, 65, 100, 0.6);
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .card-heading {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: #ff7e5f;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 30px 20px 20px;
+        color: #7f8c8d;
+        font-size: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 20px;
+      }
+
+      /* Animation classes */
+      .highlight {
+        animation: highlight 1.5s ease;
+      }
+
+      @keyframes highlight {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 126, 95, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 20px rgba(255, 126, 95, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 126, 95, 0);
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .replaced {
+        animation: replaced 0.5s ease;
+      }
+
+      @keyframes replaced {
+        0% {
+          background: #e74c3c;
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .subtitle {
+          font-size: 1.1rem;
+        }
+
+        .frame {
+          width: 100px;
+          height: 100px;
+        }
+
+        .ref-item {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>LRU Page Replacement Algorithm</h1>
+        <p class="subtitle">
+          Visualization of the Least Recently Used (LRU) page replacement
+          algorithm used in operating systems
+        </p>
+      </header>
+
+      <section class="card">
+        <h2 class="card-title">
+          <i class="fas fa-sliders-h"></i> Simulation Controls
+        </h2>
+        <div class="controls">
+          <div class="control-group">
+            <label for="referenceInput"
+              ><i class="fas fa-list-ol"></i> Reference String</label
+            >
+            <input
+              type="text"
+              id="referenceInput"
+              value="1,2,3,4,1,2,5,1,2,3,4,5"
+            />
+          </div>
+
+          <div class="control-group">
+            <label for="frameCount"
+              ><i class="fas fa-border-all"></i> Number of Frames</label
+            >
+            <select id="frameCount">
+              <option value="3" selected>3 Frames</option>
+              <option value="4">4 Frames</option>
+              <option value="5">5 Frames</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="speedControl"
+              ><i class="fas fa-tachometer-alt"></i> Animation Speed</label
+            >
+            <select id="speedControl">
+              <option value="1500">Slow</option>
+              <option value="1000" selected>Medium</option>
+              <option value="500">Fast</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <button class="btn" id="startBtn">
+              <i class="fas fa-play"></i> Start Simulation
+            </button>
+            <button class="btn btn-outline" id="resetBtn">
+              <i class="fas fa-undo"></i> Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="prevBtn">
+            <i class="fas fa-step-backward"></i> Previous
+          </button>
+          <button class="btn" id="nextBtn">
+            <i class="fas fa-step-forward"></i> Next
+          </button>
+          <button class="btn" id="autoBtn">
+            <i class="fas fa-sync-alt"></i> Auto Run
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title"><i class="fas fa-tv"></i> Visualization</h2>
+
+        <div class="visualization-container">
+          <h3><i class="fas fa-list"></i> Reference String</h3>
+          <div class="reference-string" id="refStringContainer">
+            <!-- Reference items will be generated here -->
+          </div>
+
+          <h3><i class="fas fa-memory"></i> Page Frames</h3>
+          <div class="frames-container" id="framesContainer">
+            <!-- Page frames will be generated here -->
+          </div>
+
+          <h3><i class="fas fa-chart-line"></i> Statistics</h3>
+          <div class="stats-container">
+            <div class="stat-card">
+              <div class="stat-label">Page Faults</div>
+              <div class="stat-value" id="faultCount">0</div>
+              <div>Misses when page not in memory</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Page Hits</div>
+              <div class="stat-value" id="hitCount">0</div>
+              <div>Successes when page found</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Fault Rate</div>
+              <div class="stat-value" id="faultRate">0%</div>
+              <div>Faults / Total References</div>
+            </div>
+          </div>
+
+          <div class="history-container">
+            <h3><i class="fas fa-history"></i> Replacement History</h3>
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>Page</th>
+                  <th>Status</th>
+                  <th>Frames</th>
+                  <th>Replaced</th>
+                  <th>Access Order</th>
+                </tr>
+              </thead>
+              <tbody id="historyBody">
+                <!-- History rows will be added here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="card explanation">
+        <h2 class="card-title">
+          <i class="fas fa-lightbulb"></i> How LRU Works
+        </h2>
+        <div class="explanation-content">
+          <div class="explanation-card">
+            <h3 class="card-heading"><i class="fas fa-1"></i> Concept</h3>
+            <p>
+              The Least Recently Used (LRU) page replacement algorithm replaces
+              the page that hasn't been used for the longest time.
+            </p>
+            <p>
+              It's based on the observation that pages which have been recently
+              used are likely to be used again soon.
+            </p>
+          </div>
+
+          <div class="explanation-card">
+            <h3 class="card-heading">
+              <i class="fas fa-2"></i> Implementation
+            </h3>
+            <p>LRU can be implemented using:</p>
+            <ul>
+              <li>A counter for each page (timestamp)</li>
+              <li>A stack of page numbers</li>
+              <li>Special hardware support</li>
+            </ul>
+            <p>When a page is accessed, it's moved to the top of the stack.</p>
+          </div>
+
+          <div class="explanation-card">
+            <h3 class="card-heading"><i class="fas fa-3"></i> Advantages</h3>
+            <ul>
+              <li>Better performance than FIFO in most cases</li>
+              <li>More efficient than random replacement</li>
+              <li>Low overhead when implemented in hardware</li>
+              <li>Widely used in caching systems</li>
+            </ul>
+          </div>
+
+          <div class="explanation-card">
+            <h3 class="card-heading"><i class="fas fa-4"></i> Disadvantages</h3>
+            <ul>
+              <li>Requires significant hardware support</li>
+              <li>Can be expensive to implement in software</li>
+              <li>Not optimal in all situations</li>
+              <li>Belady's Anomaly can still occur</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          LRU Page Replacement Algorithm Visualization | Created for Educational
+          Purposes
+        </p>
+        <p>
+          Note: This visualization demonstrates the algorithm behavior and does
+          not interact with actual system memory
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // DOM elements
+        const refInput = document.getElementById("referenceInput");
+        const frameCount = document.getElementById("frameCount");
+        const speedControl = document.getElementById("speedControl");
+        const startBtn = document.getElementById("startBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const autoBtn = document.getElementById("autoBtn");
+        const refStringContainer =
+          document.getElementById("refStringContainer");
+        const framesContainer = document.getElementById("framesContainer");
+        const faultCount = document.getElementById("faultCount");
+        const hitCount = document.getElementById("hitCount");
+        const faultRate = document.getElementById("faultRate");
+        const historyBody = document.getElementById("historyBody");
+
+        // Algorithm variables
+        let referenceString = [];
+        let frames = [];
+        let accessOrder = [];
+        let currentStep = 0;
+        let pageFaults = 0;
+        let pageHits = 0;
+        let history = [];
+        let animationInterval;
+
+        // Initialize visualization
+        function initializeVisualization() {
+          // Parse reference string
+          referenceString = refInput.value
+            .split(",")
+            .map((item) => item.trim());
+
+          // Clear previous state
+          frames = Array(parseInt(frameCount.value)).fill(null);
+          accessOrder = [];
+          currentStep = 0;
+          pageFaults = 0;
+          pageHits = 0;
+          history = [];
+
+          // Update UI
+          updateRefStringDisplay();
+          createFrames();
+          updateStats();
+          updateHistory();
+
+          // Highlight first reference
+          highlightCurrentStep();
+        }
+
+        // Create reference string display
+        function updateRefStringDisplay() {
+          refStringContainer.innerHTML = "";
+          referenceString.forEach((ref, index) => {
+            const refItem = document.createElement("div");
+            refItem.className = "ref-item";
+            refItem.textContent = ref;
+            refItem.dataset.index = index;
+            refStringContainer.appendChild(refItem);
+          });
+        }
+
+        // Create frame elements
+        function createFrames() {
+          framesContainer.innerHTML = "";
+          for (let i = 0; i < frames.length; i++) {
+            const frame = document.createElement("div");
+            frame.className = "frame";
+            frame.dataset.index = i;
+
+            const label = document.createElement("div");
+            label.className = "frame-label";
+            label.textContent = `Frame ${i + 1}`;
+
+            const content = document.createElement("div");
+            content.className = "frame-content";
+            content.textContent = frames[i] || "-";
+
+            const info = document.createElement("div");
+            info.className = "frame-info";
+            info.textContent = "Last Used: -";
+
+            frame.appendChild(label);
+            frame.appendChild(content);
+            frame.appendChild(info);
+            framesContainer.appendChild(frame);
+          }
+        }
+
+        // Update frame display
+        function updateFrames() {
+          const frameElements = framesContainer.querySelectorAll(".frame");
+          frameElements.forEach((frameEl, index) => {
+            const content = frameEl.querySelector(".frame-content");
+            const info = frameEl.querySelector(".frame-info");
+
+            content.textContent = frames[index] || "-";
+
+            // Find when this frame was last accessed
+            const lastUsedIndex = accessOrder.lastIndexOf(frames[index]);
+            if (lastUsedIndex !== -1 && frames[index] !== null) {
+              info.textContent = `Used at: ${lastUsedIndex + 1}`;
+            } else {
+              info.textContent = "Last Used: -";
+            }
+          });
+        }
+
+        // Update statistics
+        function updateStats() {
+          faultCount.textContent = pageFaults;
+          hitCount.textContent = pageHits;
+
+          const total = pageFaults + pageHits;
+          const rate = total > 0 ? Math.round((pageFaults / total) * 100) : 0;
+          faultRate.textContent = `${rate}%`;
+        }
+
+        // Update history table
+        function updateHistory() {
+          historyBody.innerHTML = "";
+          history.forEach((entry, index) => {
+            const row = document.createElement("tr");
+
+            const stepCell = document.createElement("td");
+            stepCell.textContent = index + 1;
+
+            const pageCell = document.createElement("td");
+            pageCell.textContent = entry.page;
+
+            const statusCell = document.createElement("td");
+            statusCell.textContent = entry.status;
+            statusCell.style.color =
+              entry.status === "Hit" ? "#2ecc71" : "#e74c3c";
+            statusCell.style.fontWeight = "bold";
+
+            const framesCell = document.createElement("td");
+            framesCell.textContent = entry.frames.join(", ") || "Empty";
+
+            const replacedCell = document.createElement("td");
+            replacedCell.textContent = entry.replaced || "-";
+
+            const accessCell = document.createElement("td");
+            accessCell.textContent = entry.accessOrder.join(" → ");
+
+            row.appendChild(stepCell);
+            row.appendChild(pageCell);
+            row.appendChild(statusCell);
+            row.appendChild(framesCell);
+            row.appendChild(replacedCell);
+            row.appendChild(accessCell);
+
+            historyBody.appendChild(row);
+          });
+        }
+
+        // Highlight current step in reference string
+        function highlightCurrentStep() {
+          const refItems = refStringContainer.querySelectorAll(".ref-item");
+          refItems.forEach((item, index) => {
+            item.classList.remove("active", "hit", "fault");
+
+            if (index === currentStep) {
+              item.classList.add("active");
+            }
+
+            // Add hit/fault class for previous steps
+            if (index < currentStep) {
+              const historyEntry = history[index];
+              if (historyEntry) {
+                item.classList.add(
+                  historyEntry.status === "Hit" ? "hit" : "fault"
+                );
+              }
+            }
+          });
+        }
+
+        // Process a step
+        function processStep() {
+          if (currentStep >= referenceString.length) return;
+
+          const page = referenceString[currentStep];
+          let status = "Hit";
+          let replacedPage = null;
+
+          // Check if page is already in a frame
+          const pageIndex = frames.indexOf(page);
+
+          if (pageIndex !== -1) {
+            // Page is already in memory (hit)
+            pageHits++;
+
+            // Update access order
+            const accessIndex = accessOrder.indexOf(page);
+            if (accessIndex !== -1) {
+              accessOrder.splice(accessIndex, 1);
+            }
+            accessOrder.push(page);
+          } else {
+            // Page fault
+            pageFaults++;
+            status = "Fault";
+
+            // Check for empty frame
+            const emptyIndex = frames.indexOf(null);
+
+            if (emptyIndex !== -1) {
+              // There's an empty frame
+              frames[emptyIndex] = page;
+              accessOrder.push(page);
+            } else {
+              // Find least recently used page
+              let lruPage = null;
+              let lruIndex = -1;
+
+              for (let i = 0; i < frames.length; i++) {
+                const framePage = frames[i];
+                if (!accessOrder.includes(framePage)) {
+                  // This should not happen, but just in case
+                  lruPage = framePage;
+                  lruIndex = i;
+                  break;
+                }
+
+                if (
+                  lruIndex === -1 ||
+                  accessOrder.indexOf(framePage) <
+                    accessOrder.indexOf(frames[lruIndex])
+                ) {
+                  lruPage = framePage;
+                  lruIndex = i;
+                }
+              }
+
+              // Replace the LRU page
+              replacedPage = frames[lruIndex];
+              frames[lruIndex] = page;
+
+              // Update access order
+              const accessIndex = accessOrder.indexOf(replacedPage);
+              if (accessIndex !== -1) {
+                accessOrder.splice(accessIndex, 1);
+              }
+              accessOrder.push(page);
+
+              // Animate the replaced frame
+              const frameToReplace = framesContainer.querySelector(
+                `.frame[data-index="${lruIndex}"]`
+              );
+              frameToReplace.classList.add("replaced");
+              setTimeout(() => {
+                frameToReplace.classList.remove("replaced");
+              }, 500);
+            }
+          }
+
+          // Add to history
+          history.push({
+            step: currentStep + 1,
+            page: page,
+            status: status,
+            frames: [...frames],
+            replaced: replacedPage,
+            accessOrder: [...accessOrder],
+          });
+
+          // Update UI
+          updateFrames();
+          updateStats();
+          updateHistory();
+          highlightCurrentStep();
+
+          currentStep++;
+        }
+
+        // Start simulation
+        function startSimulation() {
+          clearInterval(animationInterval);
+          const speed = parseInt(speedControl.value);
+
+          // Reset if we're at the end
+          if (currentStep >= referenceString.length) {
+            initializeVisualization();
+          }
+
+          animationInterval = setInterval(() => {
+            processStep();
+            if (currentStep >= referenceString.length) {
+              clearInterval(animationInterval);
+            }
+          }, speed);
+        }
+
+        // Initialize
+        initializeVisualization();
+
+        // Event listeners
+        startBtn.addEventListener("click", function () {
+          startSimulation();
+        });
+
+        resetBtn.addEventListener("click", function () {
+          clearInterval(animationInterval);
+          initializeVisualization();
+        });
+
+        prevBtn.addEventListener("click", function () {
+          clearInterval(animationInterval);
+          if (currentStep > 0) {
+            // Move back one step
+            currentStep--;
+            history.pop();
+
+            // Reset stats
+            pageFaults = history.filter(
+              (entry) => entry.status === "Fault"
+            ).length;
+            pageHits = history.filter((entry) => entry.status === "Hit").length;
+
+            if (history.length > 0) {
+              const lastEntry = history[history.length - 1];
+              frames = [...lastEntry.frames];
+              accessOrder = [...lastEntry.accessOrder];
+            } else {
+              frames = Array(parseInt(frameCount.value)).fill(null);
+              accessOrder = [];
+            }
+
+            // Update UI
+            updateFrames();
+            updateStats();
+            updateHistory();
+            highlightCurrentStep();
+          }
+        });
+
+        nextBtn.addEventListener("click", function () {
+          clearInterval(animationInterval);
+          if (currentStep < referenceString.length) {
+            processStep();
+          }
+        });
+
+        autoBtn.addEventListener("click", function () {
+          startSimulation();
+        });
+
+        frameCount.addEventListener("change", function () {
+          initializeVisualization();
+        });
+      });
+    </script>
+  </body>
+</html>
