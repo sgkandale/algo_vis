@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flajolet-Martin Algorithm Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .intro {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .algorithm-history {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .history-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .history-card.flajolet {
+            border-top: 5px solid #e74c3c;
+        }
+
+        .history-card.loglog {
+            border-top: 5px solid #f39c12;
+        }
+
+        .history-card.hyperloglog {
+            border-top: 5px solid #27ae60;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn.danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .btn.success {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .bitmap-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .bitmap-display {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .bit {
+            aspect-ratio: 1;
+            background: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .bit.set {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-color: #e74c3c;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .bit.highlight {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border-color: #f39c12;
+            animation: pulse 1s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1.1); }
+        }
+
+        .bit-label {
+            font-size: 0.7rem;
+            color: #7f8c8d;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        .processing-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .hash-display {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .binary-display {
+            font-family: 'Courier New', monospace;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            word-spacing: 2px;
+            line-height: 1.6;
+        }
+
+        .leading-zeros {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .first-one {
+            background: #f39c12;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .step-by-step {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .step.highlight {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            animation: highlight 1s ease;
+        }
+
+        @keyframes highlight {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .max-tracker {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .max-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .explanation {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .explanation h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .formula {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .dataset-examples {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .dataset-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .dataset-btn:hover {
+            transform: translateY(-2px);
+            background: #c0392b;
+        }
+
+        .elements-list {
+            background: #ecf0f1;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .element-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        .element-entry:last-child {
+            border-bottom: none;
+        }
+
+        .element-entry.recent {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 2px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .variance-warning {
+            background: #f39c12;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .improvement-note {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .bitmap-display {
+                grid-template-columns: repeat(8, 1fr);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .algorithm-history {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Flajolet-Martin Algorithm</h1>
+        
+        <div class="intro">
+            <p><strong>Flajolet-Martin (1985)</strong> was the groundbreaking algorithm that started the field of probabilistic cardinality estimation. It introduced the brilliant insight that the position of the first '1' bit in random hash values can estimate the number of distinct elements in a stream!</p>
+        </div>
+
+        <div class="algorithm-history">
+            <div class="history-card flajolet">
+                <h3>🔴 Flajolet-Martin (1985)</h3>
+                <p><strong>Innovation:</strong> First probabilistic cardinality estimator</p>
+                <p><strong>Method:</strong> Track max position of first '1' bit</p>
+                <p><strong>Space:</strong> O(log log n) bits</p>
+                <p><strong>Accuracy:</strong> High variance, needs averaging</p>
+            </div>
+            <div class="history-card loglog">
+                <h3>🟡 LogLog (2003)</h3>
+                <p><strong>Improvement:</strong> Use leading zeros instead</p>
+                <p><strong>Method:</strong> Multiple buckets + averaging</p>
+                <p><strong>Space:</strong> Better constants</p>
+                <p><strong>Accuracy:</strong> Reduced variance (~20% error)</p>
+            </div>
+            <div class="history-card hyperloglog">
+                <h3>🟢 HyperLogLog (2007)</h3>
+                <p><strong>Perfection:</strong> Harmonic mean</p>
+                <p><strong>Method:</strong> Advanced bias correction</p>
+                <p><strong>Space:</strong> Optimal constants</p>
+                <p><strong>Accuracy:</strong> ~2% error (industry standard)</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn success" onclick="addElement()">➕ Add Element</button>
+            <button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
+            <button class="btn danger" onclick="reset()">🔄 Reset</button>
+            <button class="btn" onclick="showEvolution()">📈 Algorithm Evolution</button>
+        </div>
+
+        <div class="dataset-examples">
+            <button class="dataset-btn" onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])">🍎 Fruits</button>
+            <button class="dataset-btn" onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])">👥 Users</button>
+            <button class="dataset-btn" onclick="loadDataset(['tcp:80', 'udp:53', 'tcp:443', 'tcp:22'])">🌐 Network Ports</button>
+            <button class="dataset-btn" onclick="generateLargeDataset()">📈 Large Dataset (500 items)</button>
+        </div>
+
+        <div class="max-tracker">
+            <h3>🎯 Maximum First-1 Position Found</h3>
+            <div class="max-value" id="maxPosition">0</div>
+            <p>The key value Flajolet-Martin uses for estimation!</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h3>🔤 Add New Element</h3>
+                <input type="text" id="elementInput" placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)" onkeypress="handleKeyPress(event)">
+                
+                <div id="currentElement" style="display: none;">
+                    <h4>Current Element Processing:</h4>
+                    <div class="hash-display" id="elementHash"></div>
+                    <div class="binary-display" id="binaryHash"></div>
+                </div>
+
+                <div class="elements-list">
+                    <h4>Elements Processed:</h4>
+                    <div id="elementsList"></div>
+                </div>
+            </div>
+
+            <div class="bitmap-section">
+                <h3>📊 Flajolet-Martin Bitmap</h3>
+                <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px;">
+                    Each bit represents if we've seen a first-1 at that position
+                </p>
+                <div class="bitmap-display" id="bitmapDisplay"></div>
+                <div style="display: grid; grid-template-columns: repeat(16, 1fr); gap: 5px; margin-top: 5px;">
+                    <div class="bit-label">0</div><div class="bit-label">1</div><div class="bit-label">2</div><div class="bit-label">3</div>
+                    <div class="bit-label">4</div><div class="bit-label">5</div><div class="bit-label">6</div><div class="bit-label">7</div>
+                    <div class="bit-label">8</div><div class="bit-label">9</div><div class="bit-label">10</div><div class="bit-label">11</div>
+                    <div class="bit-label">12</div><div class="bit-label">13</div><div class="bit-label">14</div><div class="bit-label">15</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="processing-section">
+            <h3>🔍 Step-by-Step Flajolet-Martin Process</h3>
+            <div id="steps">
+                <div class="explanation">
+                    <h4>How Flajolet-Martin Works:</h4>
+                    <p><strong>1. Hash:</strong> Convert each element to a binary hash</p>
+                    <p><strong>2. Find First-1:</strong> Find position of first '1' bit (rightmost)</p>
+                    <p><strong>3. Set Bitmap:</strong> Set bit at that position in our bitmap</p>
+                    <p><strong>4. Track Maximum:</strong> Keep track of highest position seen</p>
+                    <p><strong>5. Estimate:</strong> Cardinality ≈ 2^(R) where R is rightmost 0 in bitmap</p>
+                    <br>
+                    <p><em>Key insight: If we see first-1 at position k, we likely processed ~2^k unique elements!</em></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="actualCount">0</div>
+                <div class="stat-label">Actual Unique Count</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="estimatedCount">0</div>
+                <div class="stat-label">FM Estimated Count</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="errorRate">0%</div>
+                <div class="stat-label">Error Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="bitsUsed">16</div>
+                <div class="stat-label">Bits Used (Demo)</div>
+            </div>
+        </div>
+
+        <div class="variance-warning">
+            ⚠️ <strong>High Variance Issue:</strong> Flajolet-Martin has high variance! In practice, you'd use multiple independent hash functions and take the median of estimates to improve accuracy.
+        </div>
+
+        <div class="improvement-note">
+            ✅ <strong>Historical Impact:</strong> This algorithm revolutionized big data processing by showing that approximate counting with probabilistic methods could use logarithmic space instead of linear space!
+        </div>
+
+        <div class="explanation">
+            <h4>🧮 Flajolet-Martin Estimation:</h4>
+            <div class="formula">
+                Let R = position of rightmost 0 bit in bitmap
+                <br>Cardinality ≈ 2^R / φ
+                <br><small>where φ ≈ 0.77351 (bias correction factor)</small>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h4>🎯 Why This Works (Probabilistic Magic!):</h4>
+            <p><strong>Intuition:</strong> If you flip a fair coin and get heads k times before the first tails, you probably flipped about 2^k times total.</p>
+            <p><strong>Hash Analogy:</strong> Hash values are like coin flips. If the rightmost '1' bit is at position k, you likely hashed about 2^k distinct elements.</p>
+            <p><strong>Bitmap Role:</strong> Tracks all positions we've seen, giving us the "profile" of our distinct elements.</p>
+        </div>
+    </div>
+
+    <script>
+        // Flajolet-Martin implementation
+        const bitmapSize = 16; // Using 16 bits for demo (real implementation uses 32-64)
+        const phi = 0.77351; // Bias correction constant
+        
+        let bitmap = new Array(bitmapSize).fill(false);
+        let uniqueElements = new Set();
+        let processedElements = [];
+        let maxPositionSeen = 0;
+
+        // Simple hash function (for demonstration)
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return Math.abs(hash);
+        }
+
+        function toBinary(num, bits = bitmapSize) {
+            return num.toString(2).padStart(bits, '0');
+        }
+
+        function findFirstOnePosition(binaryStr) {
+            // Find position of first '1' bit from the right (0-indexed)
+            for (let i = binaryStr.length - 1; i >= 0; i--) {
+                if (binaryStr[i] === '1') {
+                    return binaryStr.length - 1 - i;
+                }
+            }
+            return binaryStr.length; // All zeros case
+        }
+
+        function findRightmostZero(bitmap) {
+            // Find the position of the rightmost 0 bit
+            for (let i = 0; i < bitmap.length; i++) {
+                if (!bitmap[i]) {
+                    return i;
+                }
+            }
+            return bitmap.length; // All bits are set
+        }
+
+        function addElementToFM(element) {
+            // Hash the element
+            const hash = simpleHash(element);
+            const binaryHash = toBinary(hash, bitmapSize);
+            
+            // Find position of first '1' bit from right
+            const firstOnePos = findFirstOnePosition(binaryHash);
+            
+            // Set the bit in our bitmap
+            if (firstOnePos < bitmapSize) {
+                bitmap[firstOnePos] = true;
+                maxPositionSeen = Math.max(maxPositionSeen, firstOnePos);
+            }
+            
+            // Track for comparison
+            uniqueElements.add(element);
+            processedElements.push({
+                element: element,
+                hash: hash,
+                firstOnePos: firstOnePos
+            });
+
+            // Show the process
+            showProcessing(element, hash, binaryHash, firstOnePos);
+            
+            // Update display
+            updateDisplay();
+        }
+
+        function showProcessing(element, hash, binaryHash, firstOnePos) {
+            const elementHashDiv = document.getElementById('elementHash');
+            const binaryHashDiv = document.getElementById('binaryHash');
+            const currentElementDiv = document.getElementById('currentElement');
+            
+            elementHashDiv.innerHTML = `"${element}" → Hash: ${hash}`;
+            
+            // Highlight the first '1' bit and leading zeros
+            let highlightedBinary = '';
+            let foundFirst = false;
+            
+            for (let i = 0; i < binaryHash.length; i++) {
+                const bitIndex = binaryHash.length - 1 - i;
+                if (!foundFirst && binaryHash[bitIndex] === '1') {
+                    highlightedBinary = `<span class="first-one">${binaryHash[bitIndex]}</span>` + highlightedBinary;
+                    foundFirst = true;
+                } else if (!foundFirst && binaryHash[bitIndex] === '0') {
+                    highlightedBinary = `<span class="leading-zeros">${binaryHash[bitIndex]}</span>` + highlightedBinary;
+                } else {
+                    highlightedBinary = binaryHash[bitIndex] + highlightedBinary;
+                }
+            }
+            
+            binaryHashDiv.innerHTML = `
+                ${highlightedBinary}
+                <br><small>First '1' at position: ${firstOnePos} (from right, 0-indexed)</small>
+            `;
+            
+            currentElementDiv.style.display = 'block';
+            
+            // Highlight the bitmap bit that gets set
+            highlightBitmapBit(firstOnePos);
+            
+            // Show step-by-step
+            showSteps(element, firstOnePos);
+        }
+
+        function highlightBitmapBit(position) {
+            const bits = document.querySelectorAll('.bit');
+            
+            // Clear previous highlights
+            bits.forEach(bit => bit.classList.remove('highlight'));
+            
+            if (position < bitmapSize && bits[position]) {
+                bits[position].classList.add('highlight');
+                setTimeout(() => {
+                    bits[position].classList.remove('highlight');
+                    updateBitmapDisplay(); // This will show the bit as permanently set
+                }, 1000);
+            }
+        }
+
+        function showSteps(element, firstOnePos) {
+            const stepsDiv = document.getElementById('steps');
+            const bitmapChanged = firstOnePos < bitmapSize && !bitmap[firstOnePos];
+            
+            stepsDiv.innerHTML = `
+                <div class="step highlight">
+                    <strong>Step 1:</strong> Hash "${element}" → ${simpleHash(element)}
+                </div>
+                <div class="step highlight">
+                    <strong>Step 2:</strong> Find first '1' bit at position ${firstOnePos}
+                </div>
+                <div class="step ${bitmapChanged ? 'highlight' : ''}">
+                    <strong>Step 3:</strong> Set bitmap[${firstOnePos}] = 1 ${bitmapChanged ? '(NEW!)' : '(already set)'}
+                </div>
+                <div class="step highlight">
+                    <strong>Step 4:</strong> Current estimate: ~${estimateFM()} unique elements
+                </div>
+            `;
+        }
+
+        function estimateFM() {
+            const rightmostZero = findRightmostZero(bitmap);
+            return Math.round(Math.pow(2, rightmostZero) / phi);
+        }
+
+        function updateBitmapDisplay() {
+            const bitmapDiv = document.getElementById('bitmapDisplay');
+            bitmapDiv.innerHTML = '';
+            
+            for (let i = 0; i < bitmapSize; i++) {
+                const bit = document.createElement('div');
+                bit.className = `bit ${bitmap[i] ? 'set' : ''}`;
+                bit.textContent = bitmap[i] ? '1' : '0';
+                bitmapDiv.appendChild(bit);
+            }
+        }
+
+        function updateElementsList() {
+            const elementsList = document.getElementById('elementsList');
+            const recentElements = processedElements.slice(-8).reverse();
+            
+            elementsList.innerHTML = recentElements.map((item, index) => `
+                <div class="element-entry ${index === 0 ? 'recent' : ''}">
+                    <span>${item.element}</span>
+                    <span>First-1 @ ${item.firstOnePos}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateDisplay() {
+            updateBitmapDisplay();
+            updateElementsList();
+            
+            // Update statistics
+            const actualCount = uniqueElements.size;
+            const estimatedCount = estimateFM();
+            const errorRate = actualCount > 0 ? Math.abs((estimatedCount - actualCount) / actualCount * 100).toFixed(1) : 0;
+            
+            document.getElementById('actualCount').textContent = actualCount;
+            document.getElementById('estimatedCount').textContent = estimatedCount;
+            document.getElementById('errorRate').textContent = errorRate + '%';
+            document.getElementById('maxPosition').textContent = maxPositionSeen;
+            
+            // Update rightmost zero position for estimation
+            document.getElementById('bitsUsed').textContent = findRightmostZero(bitmap);
+        }
+
+        function addElement() {
+            const input = document.getElementById('elementInput');
+            const element = input.value.trim();
+            
+            if (element) {
+                addElementToFM(element);
+                input.value = '';
+            }
+        }
+
+        function addRandomElement() {
+            const randomElements = [
+                'user' + Math.floor(Math.random() * 1000),
+                'item' + Math.floor(Math.random() * 1000),
+                'session' + Math.floor(Math.random() * 1000),
+                'page' + Math.floor(Math.random() * 100),
+                'product' + Math.floor(Math.random() * 500)
+            ];
+            
+            const element = randomElements[Math
