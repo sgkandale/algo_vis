@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SHA-512 Algorithm Visualizer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .input-section {
+        margin-bottom: 30px;
+      }
+
+      .input-group {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      button {
+        padding: 15px 30px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: transform 0.2s;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+      }
+
+      .step-container {
+        margin-bottom: 30px;
+      }
+
+      .step {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 5px solid #667eea;
+        transition: all 0.3s;
+      }
+
+      .step.active {
+        background: linear-gradient(135deg, #667eea20, #764ba220);
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .step-title {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .step-number {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      .binary-display {
+        font-family: "Courier New", monospace;
+        background: #2d3748;
+        color: #68d391;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .hash-values {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .hash-value {
+        background: linear-gradient(135deg, #4299e1, #3182ce);
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        word-break: break-all;
+      }
+
+      .hash-value.highlight {
+        animation: pulse 1s ease-in-out;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .compression-visual {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 5px;
+        margin: 15px 0;
+      }
+
+      .word-block {
+        background: #e2e8f0;
+        padding: 8px;
+        border-radius: 5px;
+        text-align: center;
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        transition: all 0.3s;
+      }
+
+      .word-block.active {
+        background: linear-gradient(45deg, #f093fb, #f5576c);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .final-hash {
+        background: linear-gradient(135deg, #2d3748, #4a5568);
+        color: #68d391;
+        padding: 20px;
+        border-radius: 15px;
+        font-family: "Courier New", monospace;
+        word-break: break-all;
+        text-align: center;
+        font-size: 16px;
+        letter-spacing: 1px;
+        margin-top: 20px;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 4px;
+        margin: 20px 0;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 4px;
+        transition: width 0.5s ease;
+        width: 0%;
+      }
+
+      .controls {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin: 20px 0;
+      }
+
+      .info-box {
+        background: linear-gradient(135deg, #e6fffa, #b2f5ea);
+        border: 1px solid #4fd1c7;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+      }
+
+      .algorithm-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .info-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #667eea;
+      }
+
+      .info-card h3 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .operation-visual {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 15px 0;
+        padding: 20px;
+        background: #f7fafc;
+        border-radius: 10px;
+      }
+
+      .operand {
+        background: #4299e1;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+      }
+
+      .operator {
+        font-size: 24px;
+        font-weight: bold;
+        color: #667eea;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔐 SHA-512 Algorithm Visualizer</h1>
+
+      <div class="algorithm-info">
+        <div class="info-card">
+          <h3>🎯 What is SHA-512?</h3>
+          <p>
+            SHA-512 is a cryptographic hash function that produces a 512-bit
+            (64-byte) hash value from any input data. It's part of the SHA-2
+            family and is widely used for data integrity verification.
+          </p>
+        </div>
+        <div class="info-card">
+          <h3>⚙️ Key Properties</h3>
+          <ul>
+            <li>Fixed 512-bit output</li>
+            <li>One-way function</li>
+            <li>Avalanche effect</li>
+            <li>Collision resistant</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3>🔧 Algorithm Steps</h3>
+          <ol>
+            <li>Message padding</li>
+            <li>Parse into 1024-bit blocks</li>
+            <li>Initialize hash values</li>
+            <li>Process each block</li>
+            <li>Produce final hash</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="input-section">
+        <div class="input-group">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Enter your message to hash..."
+            value="Hello World"
+          />
+          <button onclick="startVisualization()">🚀 Visualize SHA-512</button>
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+
+      <div class="controls">
+        <button onclick="pauseVisualization()">⏸️ Pause</button>
+        <button onclick="resumeVisualization()">▶️ Resume</button>
+        <button onclick="resetVisualization()">🔄 Reset</button>
+      </div>
+
+      <div class="step-container" id="stepContainer">
+        <!-- Steps will be dynamically generated -->
+      </div>
+
+      <div class="final-hash" id="finalHash" style="display: none">
+        <!-- Final hash will appear here -->
+      </div>
+    </div>
+
+    <script>
+      let currentStep = 0;
+      let isPaused = false;
+      let visualizationTimeout;
+      let message = "";
+      let steps = [];
+
+      // SHA-512 constants
+      const K = [
+        0x428a2f98d728ae22n,
+        0x7137449123ef65cdn,
+        0xb5c0fbcfec4d3b2fn,
+        0xe9b5dba58189dbbcn,
+        0x3956c25bf348b538n,
+        0x59f111f1b605d019n,
+        0x923f82a4af194f9bn,
+        0xab1c5ed5da6d8118n,
+        0xd807aa98a3030242n,
+        0x12835b0145706fben,
+        0x243185be4ee4b28cn,
+        0x550c7dc3d5ffb4e2n,
+        0x72be5d74f27b896fn,
+        0x80deb1fe3b1696b1n,
+        0x9bdc06a725c71235n,
+        0xc19bf174cf692694n,
+        0xe49b69c19ef14ad2n,
+        0xefbe4786384f25e3n,
+        0x0fc19dc68b8cd5b5n,
+        0x240ca1cc77ac9c65n,
+        0x2de92c6f592b0275n,
+        0x4a7484aa6ea6e483n,
+        0x5cb0a9dcbd41fbd4n,
+        0x76f988da831153b5n,
+        0x983e5152ee66dfabn,
+        0xa831c66d2db43210n,
+        0xb00327c898fb213fn,
+        0xbf597fc7beef0ee4n,
+        0xc6e00bf33da88fc2n,
+        0xd5a79147930aa725n,
+        0x06ca6351e003826fn,
+        0x142929670a0e6e70n,
+        0x27b70a8546d22ffcn,
+        0x2e1b21385c26c926n,
+        0x4d2c6dfc5ac42aedn,
+        0x53380d139d95b3dfn,
+        0x650a73548baf63den,
+        0x766a0abb3c77b2a8n,
+        0x81c2c92e47edaee6n,
+        0x92722c851482353bn,
+        0xa2bfe8a14cf10364n,
+        0xa81a664bbc423001n,
+        0xc24b8b70d0f89791n,
+        0xc76c51a30654be30n,
+        0xd192e819d6ef5218n,
+        0xd69906245565a910n,
+        0xf40e35855771202an,
+        0x106aa07032bbd1b8n,
+        0x19a4c116b8d2d0c8n,
+        0x1e376c085141ab53n,
+        0x2748774cdf8eeb99n,
+        0x34b0bcb5e19b48a8n,
+        0x391c0cb3c5c95a63n,
+        0x4ed8aa4ae3418acbn,
+        0x5b9cca4f7763e373n,
+        0x682e6ff3d6b2b8a3n,
+        0x748f82ee5defb2fcn,
+        0x78a5636f43172f60n,
+        0x84c87814a1f0ab72n,
+        0x8cc702081a6439ecn,
+        0x90befffa23631e28n,
+        0xa4506cebde82bde9n,
+        0xbef9a3f7b2c67915n,
+        0xc67178f2e372532bn,
+        0xca273eceea26619cn,
+        0xd186b8c721c0c207n,
+        0xeada7dd6cde0eb1en,
+        0xf57d4f7fee6ed178n,
+        0x06f067aa72176fban,
+        0x0a637dc5a2c898a6n,
+        0x113f9804bef90daen,
+        0x1b710b35131c471bn,
+        0x28db77f523047d84n,
+        0x32caab7b40c72493n,
+        0x3c9ebe0a15c9bebcn,
+        0x431d67c49c100d4cn,
+        0x4cc5d4becb3e42b6n,
+        0x597f299cfc657e2an,
+        0x5fcb6fab3ad6faecn,
+        0x6c44198c4a475817n,
+      ];
+
+      // Initial hash values
+      let H = [
+        0x6a09e667f3bcc908n,
+        0xbb67ae8584caa73bn,
+        0x3c6ef372fe94f82bn,
+        0xa54ff53a5f1d36f1n,
+        0x510e527fade682d1n,
+        0x9b05688c2b3e6c1fn,
+        0x1f83d9abfb41bd6bn,
+        0x5be0cd19137e2179n,
+      ];
+
+      function stringToBytes(str) {
+        const bytes = new Uint8Array(str.length);
+        for (let i = 0; i < str.length; i++) {
+          bytes[i] = str.charCodeAt(i);
+        }
+        return bytes;
+      }
+
+      function bytesToHex(bytes) {
+        return Array.from(bytes, (byte) =>
+          byte.toString(16).padStart(2, "0")
+        ).join("");
+      }
+
+      function padMessage(message) {
+        const msgBytes = stringToBytes(message);
+        const msgBitLength = msgBytes.length * 8;
+
+        // Calculate padding
+        const k = (896 - ((msgBitLength + 1) % 1024) + 1024) % 1024;
+        const paddingBytes = Math.floor((k + 1) / 8);
+        const totalLength = msgBytes.length + paddingBytes + 16;
+
+        const padded = new Uint8Array(totalLength);
+        padded.set(msgBytes);
+        padded[msgBytes.length] = 0x80; // Append '1' bit
+
+        // Append original length as 128-bit big-endian integer
+        const lengthView = new DataView(padded.buffer);
+        lengthView.setBigUint64(totalLength - 8, BigInt(msgBitLength), false);
+
+        return padded;
+      }
+
+      function createSteps(message) {
+        steps = [];
+        const paddedMessage = padMessage(message);
+
+        steps.push({
+          title: "Step 1: Input Message",
+          content: `Original message: "${message}"<br>Message length: ${
+            message.length
+          } characters (${message.length * 8} bits)`,
+          binary: message
+            .split("")
+            .map((c) => c.charCodeAt(0).toString(2).padStart(8, "0"))
+            .join(" "),
+        });
+
+        steps.push({
+          title: "Step 2: Message Padding",
+          content: `Padded message length: ${paddedMessage.length} bytes (${
+            paddedMessage.length * 8
+          } bits)<br>
+                         Padding ensures the message length ≡ 896 (mod 1024)`,
+          binary:
+            Array.from(
+              paddedMessage.slice(0, Math.min(64, paddedMessage.length)),
+              (byte) => byte.toString(2).padStart(8, "0")
+            ).join(" ") + (paddedMessage.length > 64 ? "..." : ""),
+        });
+
+        steps.push({
+          title: "Step 3: Initialize Hash Values",
+          content:
+            "SHA-512 uses eight 64-bit initial hash values (first 64 bits of fractional parts of square roots of first 8 primes)",
+          hashValues: [...H],
+        });
+
+        // Process each 1024-bit block
+        const numBlocks = paddedMessage.length / 128;
+        for (let blockIndex = 0; blockIndex < numBlocks; blockIndex++) {
+          steps.push({
+            title: `Step 4.${blockIndex + 1}: Process Block ${blockIndex + 1}`,
+            content: `Processing 1024-bit block ${
+              blockIndex + 1
+            } of ${numBlocks}`,
+            blockProcessing: true,
+            blockIndex: blockIndex,
+          });
+        }
+
+        steps.push({
+          title: "Step 5: Final Hash",
+          content:
+            "Concatenate all hash values to produce the final 512-bit hash",
+          finalHash: true,
+        });
+      }
+
+      function renderStep(stepIndex) {
+        const step = steps[stepIndex];
+        const stepContainer = document.getElementById("stepContainer");
+
+        let html = `<div class="step active">
+                <div class="step-title">
+                    <div class="step-number">${stepIndex + 1}</div>
+                    ${step.title}
+                </div>`;
+
+        if (step.content) {
+          html += `<div class="info-box">${step.content}</div>`;
+        }
+
+        if (step.binary) {
+          html += `<div class="binary-display">Binary: ${step.binary}</div>`;
+        }
+
+        if (step.hashValues) {
+          html += '<div class="hash-values">';
+          step.hashValues.forEach((val, i) => {
+            html += `<div class="hash-value">H${i}: ${val
+              .toString(16)
+              .padStart(16, "0")}</div>`;
+          });
+          html += "</div>";
+        }
+
+        if (step.blockProcessing) {
+          html += `<div class="operation-visual">
+                    <div class="operand">Block ${step.blockIndex + 1}</div>
+                    <div class="operator">→</div>
+                    <div class="operand">80 Rounds</div>
+                    <div class="operator">→</div>
+                    <div class="operand">Updated Hash</div>
+                </div>`;
+
+          // Show compression function visualization
+          html += '<div class="compression-visual">';
+          for (let i = 0; i < 8; i++) {
+            html += `<div class="word-block ${
+              i < 4 ? "active" : ""
+            }">H${i}</div>`;
+          }
+          html += "</div>";
+        }
+
+        if (step.finalHash) {
+          const finalHashValue = H.map((h) =>
+            h.toString(16).padStart(16, "0")
+          ).join("");
+          html += `<div class="final-hash">${finalHashValue}</div>`;
+        }
+
+        html += "</div>";
+        stepContainer.innerHTML = html;
+      }
+
+      function updateProgress() {
+        const progress = ((currentStep + 1) / steps.length) * 100;
+        document.getElementById("progressBar").style.width = `${progress}%`;
+      }
+
+      function nextStep() {
+        if (isPaused) return;
+
+        if (currentStep < steps.length) {
+          renderStep(currentStep);
+          updateProgress();
+          currentStep++;
+
+          if (currentStep < steps.length) {
+            visualizationTimeout = setTimeout(nextStep, 2000);
+          } else {
+            // Show final hash
+            showFinalHash();
+          }
+        }
+      }
+
+      function showFinalHash() {
+        const finalHashValue = H.map((h) =>
+          h.toString(16).padStart(16, "0")
+        ).join("");
+        const finalHashDiv = document.getElementById("finalHash");
+        finalHashDiv.innerHTML = `
+                <h3>🎉 Final SHA-512 Hash:</h3>
+                <div style="margin-top: 15px; font-size: 14px;">${finalHashValue}</div>
+                <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
+                    Length: 512 bits (64 bytes, 128 hex characters)
+                </div>
+            `;
+        finalHashDiv.style.display = "block";
+      }
+
+      function startVisualization() {
+        message =
+          document.getElementById("messageInput").value || "Hello World";
+
+        // Reset state
+        H = [
+          0x6a09e667f3bcc908n,
+          0xbb67ae8584caa73bn,
+          0x3c6ef372fe94f82bn,
+          0xa54ff53a5f1d36f1n,
+          0x510e527fade682d1n,
+          0x9b05688c2b3e6c1fn,
+          0x1f83d9abfb41bd6bn,
+          0x5be0cd19137e2179n,
+        ];
+
+        currentStep = 0;
+        isPaused = false;
+
+        document.getElementById("stepContainer").innerHTML = "";
+        document.getElementById("finalHash").style.display = "none";
+        document.getElementById("progressBar").style.width = "0%";
+
+        createSteps(message);
+        nextStep();
+      }
+
+      function pauseVisualization() {
+        isPaused = true;
+        if (visualizationTimeout) {
+          clearTimeout(visualizationTimeout);
+        }
+      }
+
+      function resumeVisualization() {
+        if (isPaused && currentStep < steps.length) {
+          isPaused = false;
+          nextStep();
+        }
+      }
+
+      function resetVisualization() {
+        isPaused = false;
+        currentStep = 0;
+        if (visualizationTimeout) {
+          clearTimeout(visualizationTimeout);
+        }
+        document.getElementById("stepContainer").innerHTML = "";
+        document.getElementById("finalHash").style.display = "none";
+        document.getElementById("progressBar").style.width = "0%";
+      }
+
+      // Initialize with default message
+      window.onload = function () {
+        startVisualization();
+      };
+    </script>
+  </body>
+</html>
