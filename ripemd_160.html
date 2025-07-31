@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RIPEMD-160 Algorithm Visualization</title>
+    <style>
+      :root {
+        --primary: #3498db;
+        --secondary: #2ecc71;
+        --accent: #e74c3c;
+        --dark: #2c3e50;
+        --light: #ecf0f1;
+        --register-a: #3498db;
+        --register-b: #2ecc71;
+        --register-c: #9b59b6;
+        --register-d: #e67e22;
+        --register-e: #e74c3c;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        color: var(--light);
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 10px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #bdc3c7;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .algorithm-overview {
+        background: rgba(44, 62, 80, 0.7);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .overview-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .overview-card {
+        background: rgba(52, 73, 94, 0.6);
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.3s ease;
+      }
+
+      .overview-card:hover {
+        transform: translateY(-5px);
+        background: rgba(52, 73, 94, 0.8);
+      }
+
+      .card-title {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--secondary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .visualization-area {
+        background: rgba(44, 62, 80, 0.7);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .vis-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+      }
+
+      .btn-outline:hover {
+        background: rgba(52, 152, 219, 0.1);
+      }
+
+      .visualization-container {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .block-diagram {
+        background: rgba(25, 42, 61, 0.7);
+        border-radius: 12px;
+        padding: 20px;
+        position: relative;
+      }
+
+      .diagram-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: var(--secondary);
+        font-size: 1.3rem;
+      }
+
+      .process-flow {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        position: relative;
+      }
+
+      .flow-item {
+        background: rgba(44, 62, 80, 0.9);
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        min-width: 150px;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .flow-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+      }
+
+      .flow-arrow {
+        position: absolute;
+        font-size: 2rem;
+        color: var(--secondary);
+        opacity: 0.7;
+      }
+
+      .registers {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .register {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .register::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+      }
+
+      .register-label {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+      }
+
+      .register-value {
+        font-size: 0.8rem;
+        font-family: "Courier New", monospace;
+        color: rgba(255, 255, 255, 0.9);
+        word-break: break-all;
+        text-align: center;
+        padding: 0 5px;
+      }
+
+      .register-a {
+        background: var(--register-a);
+      }
+      .register-b {
+        background: var(--register-b);
+      }
+      .register-c {
+        background: var(--register-c);
+      }
+      .register-d {
+        background: var(--register-d);
+      }
+      .register-e {
+        background: var(--register-e);
+      }
+
+      .function-vis {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .function-card {
+        background: rgba(25, 42, 61, 0.7);
+        border-radius: 12px;
+        padding: 20px;
+        width: 280px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .function-title {
+        text-align: center;
+        margin-bottom: 15px;
+        color: var(--secondary);
+      }
+
+      .function-desc {
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+      }
+
+      .function-formula {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        text-align: center;
+        margin: 15px 0;
+      }
+
+      .rounds-vis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .round-card {
+        background: rgba(25, 42, 61, 0.7);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .round-title {
+        text-align: center;
+        margin-bottom: 15px;
+        color: var(--secondary);
+      }
+
+      .step-list {
+        list-style: none;
+      }
+
+      .step-item {
+        padding: 8px 12px;
+        background: rgba(0, 0, 0, 0.2);
+        margin-bottom: 8px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .explanation {
+        background: rgba(44, 62, 80, 0.7);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .explanation-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .explanation-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+      }
+
+      .explanation-card {
+        background: rgba(52, 73, 94, 0.6);
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      .card-heading {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: var(--secondary);
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        color: #7f8c8d;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .process-flow {
+          flex-direction: column;
+        }
+
+        .flow-arrow {
+          transform: rotate(90deg);
+          position: relative;
+          margin: 10px 0;
+        }
+
+        h1 {
+          font-size: 2.2rem;
+        }
+      }
+
+      .active {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(46, 204, 113, 0.7);
+        z-index: 10;
+      }
+
+      .highlight {
+        animation: highlight 1.5s ease;
+      }
+
+      @keyframes highlight {
+        0% {
+          box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 15px rgba(46, 204, 113, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>RIPEMD-160 Algorithm</h1>
+        <p class="subtitle">
+          A visual and interactive explanation of the RIPEMD-160 cryptographic
+          hash function used in Bitcoin and other cryptocurrencies
+        </p>
+      </header>
+
+      <section class="algorithm-overview">
+        <h2 class="overview-title">Algorithm Overview</h2>
+        <div class="overview-grid">
+          <div class="overview-card">
+            <h3 class="card-title">What is RIPEMD-160?</h3>
+            <p>
+              RIPEMD-160 is a cryptographic hash function that produces a
+              160-bit (20-byte) hash value. It's an improved version of the
+              original RIPEMD algorithm, designed to be secure against collision
+              attacks.
+            </p>
+          </div>
+          <div class="overview-card">
+            <h3 class="card-title">Key Characteristics</h3>
+            <ul>
+              <li>Produces 160-bit hash values</li>
+              <li>Processes 512-bit message blocks</li>
+              <li>Uses two parallel computation lines</li>
+              <li>Applies 80 processing steps (5 rounds of 16 steps)</li>
+              <li>Employs Merkle-Damgård strengthening</li>
+            </ul>
+          </div>
+          <div class="overview-card">
+            <h3 class="card-title">Common Uses</h3>
+            <ul>
+              <li>Bitcoin addresses (combined with SHA-256)</li>
+              <li>File integrity verification</li>
+              <li>Digital signatures</li>
+              <li>Password hashing (with additional protection)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="visualization-area">
+        <h2 class="vis-title">Algorithm Visualization</h2>
+
+        <div class="controls">
+          <button class="btn" id="startBtn">Start Animation</button>
+          <button class="btn btn-outline" id="resetBtn">Reset</button>
+          <button class="btn" id="prevBtn">Previous Step</button>
+          <button class="btn" id="nextBtn">Next Step</button>
+        </div>
+
+        <div class="visualization-container">
+          <div class="block-diagram">
+            <h3 class="diagram-title">Message Processing</h3>
+            <div class="process-flow">
+              <div class="flow-item" id="inputBlock">
+                <div class="flow-icon">📝</div>
+                <div>Input Message</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-item" id="paddingBlock">
+                <div class="flow-icon">🧩</div>
+                <div>Padding</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-item" id="blocks">
+                <div class="flow-icon">🧱</div>
+                <div>512-bit Blocks</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-item" id="compression">
+                <div class="flow-icon">⚙️</div>
+                <div>Compression Function</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-item" id="output">
+                <div class="flow-icon">🔑</div>
+                <div>160-bit Hash</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block-diagram">
+            <h3 class="diagram-title">Register States</h3>
+            <div class="registers">
+              <div class="register register-a" id="regA">
+                <div class="register-label">A</div>
+                <div class="register-value" id="valA">0x67452301</div>
+              </div>
+              <div class="register register-b" id="regB">
+                <div class="register-label">B</div>
+                <div class="register-value" id="valB">0xEFCDAB89</div>
+              </div>
+              <div class="register register-c" id="regC">
+                <div class="register-label">C</div>
+                <div class="register-value" id="valC">0x98BADCFE</div>
+              </div>
+              <div class="register register-d" id="regD">
+                <div class="register-label">D</div>
+                <div class="register-value" id="valD">0x10325476</div>
+              </div>
+              <div class="register register-e" id="regE">
+                <div class="register-label">E</div>
+                <div class="register-value" id="valE">0xC3D2E1F0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="function-vis">
+            <div class="function-card">
+              <h3 class="function-title">Non-linear Functions</h3>
+              <p class="function-desc">
+                RIPEMD-160 uses different non-linear functions in each round to
+                provide cryptographic strength:
+              </p>
+              <div class="function-formula">Round 1: F(x,y,z) = x ⊕ y ⊕ z</div>
+              <div class="function-formula">
+                Round 2: G(x,y,z) = (x ∧ y) ∨ (¬x ∧ z)
+              </div>
+              <div class="function-formula">
+                Round 3: H(x,y,z) = (x ∨ ¬y) ⊕ z
+              </div>
+              <div class="function-formula">
+                Round 4: I(x,y,z) = (x ∧ z) ∨ (y ∧ ¬z)
+              </div>
+              <div class="function-formula">
+                Round 5: J(x,y,z) = x ⊕ (y ∨ ¬z)
+              </div>
+            </div>
+
+            <div class="function-card">
+              <h3 class="function-title">Processing Step</h3>
+              <p class="function-desc">
+                Each step in the RIPEMD-160 algorithm processes data using this
+                formula:
+              </p>
+              <div class="function-formula">
+                A = (A + f(B,C,D) + X[k] + K) &lt;&lt;&lt; s + E
+              </div>
+              <div class="function-formula">C = C &lt;&lt;&lt; 10</div>
+              <p class="function-desc">Then registers are rotated:</p>
+              <div class="function-formula">
+                (A, B, C, D, E) = (E, A, B, C, D)
+              </div>
+              <p class="function-desc">
+                Where:<br />
+                f = non-linear function<br />
+                X[k] = message word<br />
+                K = constant<br />
+                s = rotation amount
+              </p>
+            </div>
+          </div>
+
+          <div class="block-diagram">
+            <h3 class="diagram-title">Processing Rounds</h3>
+            <div class="rounds-vis">
+              <div class="round-card">
+                <h3 class="round-title">Left Line</h3>
+                <ul class="step-list">
+                  <li class="step-item">Round 1: Steps 0-15</li>
+                  <li class="step-item">Round 2: Steps 16-31</li>
+                  <li class="step-item">Round 3: Steps 32-47</li>
+                  <li class="step-item">Round 4: Steps 48-63</li>
+                  <li class="step-item">Round 5: Steps 64-79</li>
+                </ul>
+              </div>
+              <div class="round-card">
+                <h3 class="round-title">Right Line</h3>
+                <ul class="step-list">
+                  <li class="step-item">Round 1: Steps 0-15</li>
+                  <li class="step-item">Round 2: Steps 16-31</li>
+                  <li class="step-item">Round 3: Steps 32-47</li>
+                  <li class="step-item">Round 4: Steps 48-63</li>
+                  <li class="step-item">Round 5: Steps 64-79</li>
+                </ul>
+              </div>
+              <div class="round-card">
+                <h3 class="round-title">Final Combination</h3>
+                <ul class="step-list">
+                  <li class="step-item">h0 = h0 + A + A'</li>
+                  <li class="step-item">h1 = h1 + B + B'</li>
+                  <li class="step-item">h2 = h2 + C + C'</li>
+                  <li class="step-item">h3 = h3 + D + D'</li>
+                  <li class="step-item">h4 = h4 + E + E'</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="explanation">
+        <h2 class="explanation-title">How RIPEMD-160 Works</h2>
+        <div class="explanation-content">
+          <div class="explanation-card">
+            <h3 class="card-heading">1. Message Padding</h3>
+            <p>
+              The input message is padded to ensure its length is a multiple of
+              512 bits. Padding always occurs, even if the message is already
+              the correct length.
+            </p>
+            <p>Padding includes:</p>
+            <ul>
+              <li>A '1' bit appended to the message</li>
+              <li>
+                Enough '0' bits to make the message 64 bits short of a multiple
+                of 512
+              </li>
+              <li>A 64-bit representation of the original message length</li>
+            </ul>
+          </div>
+
+          <div class="explanation-card">
+            <h3 class="card-heading">2. Block Processing</h3>
+            <p>
+              The padded message is divided into 512-bit blocks. Each block is
+              processed through the compression function.
+            </p>
+            <p>For each block:</p>
+            <ul>
+              <li>Split into sixteen 32-bit words</li>
+              <li>
+                Initialize five 32-bit registers (A,B,C,D,E) with initial values
+              </li>
+              <li>Process through 80 steps (5 rounds of 16 steps)</li>
+              <li>Use two parallel computation lines (left and right)</li>
+            </ul>
+          </div>
+
+          <div class="explanation-card">
+            <h3 class="card-heading">3. Compression Function</h3>
+            <p>
+              The core of RIPEMD-160 is the compression function, which
+              processes each 512-bit block.
+            </p>
+            <p>Key features:</p>
+            <ul>
+              <li>Uses two parallel lines of computation</li>
+              <li>
+                Each line has 5 rounds with 16 steps each (80 steps total)
+              </li>
+              <li>Each step uses a different non-linear function</li>
+              <li>
+                Message words are processed in different orders in each line
+              </li>
+              <li>Includes rotations and modular additions</li>
+            </ul>
+          </div>
+
+          <div class="explanation-card">
+            <h3 class="card-heading">4. Final Hash Value</h3>
+            <p>
+              After processing all blocks, the final hash value is produced:
+            </p>
+            <ul>
+              <li>The outputs from both computation lines are combined</li>
+              <li>
+                Results are added to the initial register values (mod 2³²)
+              </li>
+              <li>The five 32-bit registers are concatenated</li>
+              <li>Final output is a 160-bit hash value</li>
+            </ul>
+            <p>Example RIPEMD-160 hash for "abc":</p>
+            <p><code>8eb208f7e05d987a9b044a8e98c6b087f15a0bfc</code></p>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          RIPEMD-160 Algorithm Visualization | Created for Educational Purposes
+        </p>
+        <p>
+          Note: This visualization demonstrates the algorithm structure and does
+          not perform actual hashing
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get DOM elements
+        const startBtn = document.getElementById("startBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        const inputBlock = document.getElementById("inputBlock");
+        const paddingBlock = document.getElementById("paddingBlock");
+        const blocks = document.getElementById("blocks");
+        const compression = document.getElementById("compression");
+        const output = document.getElementById("output");
+
+        const regA = document.getElementById("regA");
+        const regB = document.getElementById("regB");
+        const regC = document.getElementById("regC");
+        const regD = document.getElementById("regD");
+        const regE = document.getElementById("regE");
+
+        const valA = document.getElementById("valA");
+        const valB = document.getElementById("valB");
+        const valC = document.getElementById("valC");
+        const valD = document.getElementById("valD");
+        const valE = document.getElementById("valE");
+
+        // Initial register values
+        const initialValues = {
+          A: "0x67452301",
+          B: "0xEFCDAB89",
+          C: "0x98BADCFE",
+          D: "0x10325476",
+          E: "0xC3D2E1F0",
+        };
+
+        // Animation state
+        let currentStep = 0;
+        let animationInterval;
+
+        // Function to reset to initial state
+        function resetVisualization() {
+          currentStep = 0;
+          clearInterval(animationInterval);
+
+          // Reset blocks
+          [inputBlock, paddingBlock, blocks, compression, output].forEach(
+            (block) => {
+              block.classList.remove("active", "highlight", "pulse");
+            }
+          );
+
+          // Reset registers
+          [regA, regB, regC, regD, regE].forEach((reg) => {
+            reg.classList.remove("active", "highlight");
+          });
+
+          // Set initial values
+          valA.textContent = initialValues.A;
+          valB.textContent = initialValues.B;
+          valC.textContent = initialValues.C;
+          valD.textContent = initialValues.D;
+          valE.textContent = initialValues.E;
+
+          inputBlock.classList.add("pulse");
+        }
+
+        // Function to update visualization based on current step
+        function updateVisualization() {
+          // Reset all active states
+          [inputBlock, paddingBlock, blocks, compression, output].forEach(
+            (block) => {
+              block.classList.remove("active");
+            }
+          );
+
+          [regA, regB, regC, regD, regE].forEach((reg) => {
+            reg.classList.remove("active");
+          });
+
+          // Update based on current step
+          if (currentStep === 0) {
+            inputBlock.classList.add("active", "highlight");
+          } else if (currentStep === 1) {
+            paddingBlock.classList.add("active", "highlight");
+          } else if (currentStep === 2) {
+            blocks.classList.add("active", "highlight");
+          } else if (currentStep >= 3 && currentStep <= 6) {
+            compression.classList.add("active");
+
+            // Highlight registers based on processing step
+            if (currentStep === 3) {
+              regA.classList.add("active", "highlight");
+              valA.textContent =
+                "0x" +
+                Math.floor(Math.random() * 0xffffffff)
+                  .toString(16)
+                  .toUpperCase();
+            } else if (currentStep === 4) {
+              regB.classList.add("active", "highlight");
+              valB.textContent =
+                "0x" +
+                Math.floor(Math.random() * 0xffffffff)
+                  .toString(16)
+                  .toUpperCase();
+            } else if (currentStep === 5) {
+              regC.classList.add("active", "highlight");
+              valC.textContent =
+                "0x" +
+                Math.floor(Math.random() * 0xffffffff)
+                  .toString(16)
+                  .toUpperCase();
+            } else if (currentStep === 6) {
+              regD.classList.add("active", "highlight");
+              valD.textContent =
+                "0x" +
+                Math.floor(Math.random() * 0xffffffff)
+                  .toString(16)
+                  .toUpperCase();
+            }
+          } else if (currentStep === 7) {
+            output.classList.add("active", "highlight");
+          }
+        }
+
+        // Function to start animation
+        function startAnimation() {
+          clearInterval(animationInterval);
+          animationInterval = setInterval(() => {
+            currentStep = (currentStep + 1) % 8;
+            updateVisualization();
+          }, 1500);
+        }
+
+        // Event listeners
+        startBtn.addEventListener("click", startAnimation);
+
+        resetBtn.addEventListener("click", resetVisualization);
+
+        prevBtn.addEventListener("click", function () {
+          clearInterval(animationInterval);
+          currentStep = (currentStep - 1 + 8) % 8;
+          updateVisualization();
+        });
+
+        nextBtn.addEventListener("click", function () {
+          clearInterval(animationInterval);
+          currentStep = (currentStep + 1) % 8;
+          updateVisualization();
+        });
+
+        // Initialize visualization
+        resetVisualization();
+      });
+    </script>
+  </body>
+</html>
