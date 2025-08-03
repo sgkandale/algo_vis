@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bcrypt Algorithm | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        min-height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Bcrypt specific styles */
+      .input-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+        align-items: center;
+      }
+
+      .cost-display {
+        background: var(--accent);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        min-width: 100px;
+        text-align: center;
+      }
+
+      .step-container {
+        margin-bottom: 30px;
+      }
+
+      .step {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 5px solid var(--accent);
+        transition: all 0.3s;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .step.active {
+        background: rgba(99, 102, 241, 0.1);
+        transform: scale(1.02);
+        box-shadow: var(--shadow);
+      }
+
+      .step-title {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: var(--text);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .step-number {
+        background: var(--accent);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      .salt-display {
+        font-family: "Roboto Mono", monospace;
+        background: rgba(0, 0, 0, 0.5);
+        color: var(--success);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .blowfish-visual {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin: 15px 0;
+      }
+
+      .blowfish-component {
+        background: var(--accent);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .blowfish-component.active {
+        animation: pulse 1s ease-in-out;
+        background: var(--warning);
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+
+      .iteration-visual {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 8px;
+        margin: 15px 0;
+        padding: 20px;
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 10px;
+      }
+
+      .iteration-block {
+        background: rgba(148, 163, 184, 0.2);
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 11px;
+        transition: all 0.3s;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: var(--text);
+      }
+
+      .iteration-block.active {
+        background: var(--warning);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .iteration-block.completed {
+        background: var(--success);
+        color: white;
+      }
+
+      .final-hash {
+        background: rgba(0, 0, 0, 0.5);
+        color: var(--success);
+        padding: 20px;
+        border-radius: 15px;
+        font-family: "Roboto Mono", monospace;
+        word-break: break-all;
+        text-align: center;
+        font-size: 16px;
+        letter-spacing: 1px;
+        margin-top: 20px;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(148, 163, 184, 0.2);
+        border-radius: 4px;
+        margin: 20px 0;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-light));
+        border-radius: 4px;
+        transition: width 0.5s ease;
+        width: 0%;
+      }
+
+      .info-box {
+        background: rgba(99, 102, 241, 0.1);
+        border: 1px solid var(--accent);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        color: var(--text-secondary);
+      }
+
+      .cost-explanation {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .cost-item {
+        background: var(--accent);
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .bcrypt-format {
+        font-family: "Roboto Mono", monospace;
+        background: rgba(0, 0, 0, 0.5);
+        color: var(--success);
+        padding: 15px;
+        border-radius: 10px;
+        margin: 10px 0;
+        word-break: break-all;
+        line-height: 1.6;
+      }
+
+      .format-part {
+        display: inline-block;
+        margin: 2px;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+
+      .format-version { background: var(--danger); color: white; }
+      .format-cost { background: var(--warning); color: white; }
+      .format-salt { background: #48dbfb; color: white; }
+      .format-hash { background: #ff9ff3; color: white; }
+
+      .blowfish-detail {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 15px 0;
+      }
+
+      .blowfish-rounds {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 5px;
+        margin: 10px 0;
+      }
+
+      .round-indicator {
+        background: rgba(148, 163, 184, 0.2);
+        padding: 8px;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 10px;
+        transition: all 0.3s;
+        color: var(--text);
+      }
+
+      .round-indicator.active {
+        background: var(--accent);
+        color: white;
+      }
+
+      .security-highlight {
+        background: rgba(16, 185, 129, 0.1);
+        border: 2px solid var(--success);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        color: var(--success);
+      }
+
+      .timing-display {
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid var(--warning);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--warning);
+      }
+
+      /* Properties Grid */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Cryptographic Algorithms</a> >
+              <span>Bcrypt</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>🔐 Bcrypt Algorithm</h1>
+        <div class="category">
+          <i class="fas fa-shield-alt"></i> Password Hashing Algorithm
+        </div>
+        <div class="complexity-badge">Adaptive Cost: 2^n iterations</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Bcrypt is a password hashing function based on the Blowfish cipher.
+              It incorporates a salt and a cost parameter to defend against
+              rainbow table and brute-force attacks. The algorithm is designed
+              to be slow and computationally expensive, making it resistant to
+              brute-force attacks.
+            </p>
+            <p>
+              Bcrypt is widely used in modern applications for secure password
+              storage. Its adaptive nature allows the cost factor to be increased
+              as hardware becomes more powerful, ensuring long-term security.
+            </p>
+
+            <div class="security-highlight">
+              ✅ <strong>Security Best Practice:</strong> Bcrypt is designed
+              specifically for secure password hashing with adaptive cost, built-in
+              salt generation, and resistance to timing attacks.
+            </div>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-random"></i> Built-in Salt</h3>
+                <p>
+                  Automatically generates a unique salt for each password,
+                  preventing rainbow table attacks
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-cog"></i> Adaptive Cost</h3>
+                <p>
+                  Configurable work factor that can be increased as hardware
+                  becomes more powerful
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-clock"></i> Timing Resistant</h3>
+                <p>
+                  Designed to be slow and resistant to timing attacks and
+                  parallel processing
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-shield-alt"></i> Battle Tested</h3>
+                <p>
+                  Widely adopted and proven secure in production environments
+                  worldwide
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Bcrypt Visualization
+            </h2>
+            <p>
+              Enter a password and adjust the cost factor to see how Bcrypt
+              processes the input through each step of the algorithm. Higher
+              cost factors result in more secure but slower hashing.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-lock"></i> Bcrypt Hash Generator
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" onclick="pauseVisualization()">
+                    <i class="fas fa-pause"></i> Pause
+                  </button>
+                  <button class="console-btn secondary" onclick="resumeVisualization()">
+                    <i class="fas fa-play"></i> Resume
+                  </button>
+                  <button class="console-btn secondary" onclick="resetVisualization()">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="input-row">
+                  <input
+                    type="password"
+                    id="passwordInput"
+                    placeholder="Enter password to hash..."
+                    value="mypassword123"
+                  />
+                  <button class="console-btn" onclick="startVisualization()">
+                    🔒 Hash with Bcrypt
+                  </button>
+                </div>
+                <div class="input-row">
+                  <label style="color: var(--text);">Cost Factor:</label>
+                  <input
+                    type="range"
+                    id="costRange"
+                    min="4"
+                    max="12"
+                    value="10"
+                    onchange="updateCostDisplay()"
+                    style="width: 200px; margin: 0 15px;"
+                  />
+                  <div class="cost-display" id="costDisplay">10 (1024 rounds)</div>
+                </div>
+
+                <div class="progress-bar">
+                  <div class="progress-fill" id="progressBar"></div>
+                </div>
+
+                <div class="step-container" id="stepContainer">
+                  <!-- Steps will be dynamically generated -->
+                </div>
+
+                <div class="final-hash" id="finalHash" style="display: none">
+                  <!-- Final hash will appear here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Hashing</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Password</div>
+              </div>
+              <div class="property-card">
+                <h4>Salt</h4>
+                <div class="value">Built-in</div>
+              </div>
+              <div class="property-card">
+                <h4>Adaptive</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Min Cost</h4>
+                <div class="value">4</div>
+              </div>
+              <div class="property-card">
+                <h4>Max Cost</h4>
+                <div class="value">31</div>
+              </div>
+              <div class="property-card">
+                <h4>Output Size</h4>
+                <div class="value">60 chars</div>
+              </div>
+              <div class="property-card">
+                <h4>Based On</h4>
+                <div class="value">Blowfish</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Bcrypt is the gold standard for password hashing in modern
+              applications:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Web application user authentication
+              </li>
+              <li style="margin-bottom: 10px">
+                Database password storage
+              </li>
+              <li style="margin-bottom: 10px">
+                API authentication systems
+              </li>
+              <li style="margin-bottom: 10px">
+                Mobile application security
+              </li>
+              <li>Enterprise identity management</li>
+            </ul>
+          </div>
+
+          <!-- Cost Factor Guide -->
+          <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Cost Factor Guide</h2>
+            <p>
+              Choose the appropriate cost factor based on your security
+              requirements and performance constraints:
+            </p>
+            <div class="cost-explanation">
+              <div class="cost-item">Cost 4<br>16 rounds<br>~1ms</div>
+              <div class="cost-item">Cost 8<br>256 rounds<br>~16ms</div>
+              <div class="cost-item">Cost 10<br>1024 rounds<br>~65ms</div>
+              <div class="cost-item">Cost 12<br>4096 rounds<br>~260ms</div>
+            </div>
+            <p style="font-size: 14px; margin-top: 15px;">
+              <strong>Recommendation:</strong> Use cost 10-12 for most applications.
+              Increase as hardware improves.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2023 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      let currentStep = 0;
+      let isPaused = false;
+      let visualizationTimeout;
+      let password = "";
+      let cost = 10;
+      let steps = [];
+      let generatedSalt = "";
+      let startTime = 0;
+
+      // Simplified Bcrypt implementation for visualization
+      function generateSalt() {
+        const chars =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./";
+        let salt = "";
+        for (let i = 0; i < 22; i++) {
+          salt += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return salt;
+      }
+
+      function base64Encode(str) {
+        return btoa(str)
+          .replace(/\+/g, ".")
+          .replace(/\//g, "/")
+          .replace(/=/g, "");
+      }
+
+      // Simplified Bcrypt hash generation (for demonstration purposes)
+      function generateBcryptHash(password, salt, cost) {
+        // This is a simplified version for visualization
+        // Real bcrypt uses Blowfish cipher with key expansion
+        let hash = password + salt;
+
+        // Simulate multiple rounds
+        for (let i = 0; i < Math.pow(2, cost); i++) {
+          // Simplified hash mixing (not actual bcrypt algorithm)
+          hash = btoa(hash + i.toString()).slice(0, 31);
+        }
+
+        return hash;
+      }
+
+      function formatBcryptOutput(cost, salt, hash) {
+        const version = "2b";
+        const costStr = cost.toString().padStart(2, "0");
+        return `$${version}$${costStr}$${salt}${hash}`;
+      }
+
+      function updateCostDisplay() {
+        cost = parseInt(document.getElementById("costRange").value);
+        const rounds = Math.pow(2, cost);
+        document.getElementById(
+          "costDisplay"
+        ).textContent = `${cost} (${rounds.toLocaleString()} rounds)`;
+      }
+
+      function createSteps(password, cost) {
+        steps = [];
+        generatedSalt = generateSalt();
+
+        steps.push({
+          title: "Step 1: Input Analysis",
+          content: `Password: "${password}" (${password.length} characters)<br>
+                         Cost Factor: ${cost} (${Math.pow(
+            2,
+            cost
+          ).toLocaleString()} iterations)<br>
+                         Higher cost = more secure but slower computation`,
+          passwordAnalysis: true,
+        });
+
+        steps.push({
+          title: "Step 2: Salt Generation",
+          content: `Generate a random 128-bit (22-character) salt using secure random number generator.<br>
+                         Salt prevents rainbow table attacks and ensures unique hashes for identical passwords.`,
+          salt: generatedSalt,
+          saltGeneration: true,
+        });
+
+        steps.push({
+          title: "Step 3: Blowfish Initialization",
+          content: `Initialize Blowfish cipher state with:<br>
+                         • 18 P-array entries (subkeys)<br>
+                         • 4 S-boxes with 256 entries each<br>
+                         • Total: 4168 bytes of state`,
+          blowfishInit: true,
+        });
+
+        steps.push({
+          title: "Step 4: Key Expansion",
+          content: `Expand the key using EksBlowfish algorithm:<br>
+                         1. XOR password with P-array<br>
+                         2. Encrypt salt with current state<br>
+                         3. Update P-array and S-boxes with result`,
+          keyExpansion: true,
+        });
+
+        steps.push({
+          title: "Step 5: Iterative Encryption",
+          content: `Perform ${Math.pow(
+            2,
+            cost
+          ).toLocaleString()} rounds of expensive key setup:<br>
+                         Each round re-derives the key from password and salt<br>
+                         This adaptive work factor makes brute force attacks impractical`,
+          iterations: Math.pow(2, cost),
+          iterativeEncryption: true,
+        });
+
+        steps.push({
+          title: "Step 6: Final Encryption",
+          content: `Encrypt the magic string "OrpheanBeholderScryDoubt" 64 times<br>
+                         This produces the final 192-bit hash value`,
+          finalEncryption: true,
+        });
+
+        steps.push({
+          title: "Step 7: Format Output",
+          content: `Format the result as a standard bcrypt hash string:<br>
+                         $version$cost$salt+hash`,
+          formatOutput: true,
+          finalResult: true,
+        });
+      }
+
+      function renderStep(stepIndex) {
+        const step = steps[stepIndex];
+        const stepContainer = document.getElementById("stepContainer");
+
+        let html = `<div class="step active">
+                <div class="step-title">
+                    <div class="step-number">${stepIndex + 1}</div>
+                    ${step.title}
+                </div>`;
+
+        if (step.content) {
+          html += `<div class="info-box">${step.content}</div>`;
+        }
+
+        if (step.passwordAnalysis) {
+          html += `<div class="cost-explanation">
+                    <div class="cost-item">Cost 4<br>16 rounds<br>~1ms</div>
+                    <div class="cost-item">Cost 8<br>256 rounds<br>~16ms</div>
+                    <div class="cost-item">Cost 10<br>1024 rounds<br>~65ms</div>
+                    <div class="cost-item">Cost 12<br>4096 rounds<br>~260ms</div>
+                </div>`;
+        }
+
+        if (step.saltGeneration) {
+          html += `<div class="salt-display">
+                    Generated Salt: ${step.salt}
+                    <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
+                        • 128 bits of randomness<br>
+                        • Base64-encoded (modified)<br>
+                        • Unique for each hash
+                    </div>
+                </div>`;
+        }
+
+        if (step.blowfishInit) {
+          html += `<div class="blowfish-visual">
+                    <div class="blowfish-component active">
+                        <strong>P-Array</strong><br>
+                        18 × 32-bit<br>
+                        Subkeys
+                    </div>
+                    <div class="blowfish-component active">
+                        <strong>S-Box 1</strong><br>
+                        256 × 32-bit<br>
+                        Substitutions
+                    </div>
+                    <div class="blowfish-component active">
+                        <strong>S-Box 2</strong><br>
+                        256 × 32-bit<br>
+                        Substitutions
+                    </div>
+                    <div class="blowfish-component active">
+                        <strong>S-Box 3</strong><br>
+                        256 × 32-bit<br>
+                        Substitutions
+                    </div>
+                    <div class="blowfish-component active">
+                        <strong>S-Box 4</strong><br>
+                        256 × 32-bit<br>
+                        Substitutions
+                    </div>
+                </div>`;
+        }
+
+        if (step.keyExpansion) {
+          html += `<div class="blowfish-detail">
+                    <h4>EksBlowfish Key Expansion Process:</h4>
+                    <div class="blowfish-rounds">`;
+          for (let i = 0; i < 16; i++) {
+            html += `<div class="round-indicator ${
+              i < 8 ? "active" : ""
+            }">Round ${i + 1}</div>`;
+          }
+          html += `</div>
+                    <p>Each round modifies the cipher state based on password and salt</p>
+                </div>`;
+        }
+
+        if (step.iterativeEncryption) {
+          const numBlocks = Math.min(32, Math.ceil(step.iterations / 64));
+          html += `<div class="iteration-visual">`;
+          for (let i = 0; i < numBlocks; i++) {
+            const blockIterations = Math.min(64, step.iterations - i * 64);
+            const status = i < 8 ? "active" : i < 16 ? "completed" : "";
+            html += `<div class="iteration-block ${status}">
+                        <div>Block ${i + 1}</div>
+                        <div>${blockIterations} iter</div>
+                    </div>`;
+          }
+          if (step.iterations > 2048) {
+            html += `<div class="iteration-block">...</div>`;
+          }
+          html += "</div>";
+        }
+
+        if (step.formatOutput) {
+          const hash = generateBcryptHash(password, generatedSalt, cost);
+          const fullHash = formatBcryptOutput(cost, generatedSalt, hash);
+
+          html += `<div class="bcrypt-format">
+                    <span class="format-part format-version">$2b</span><span class="format-part format-cost">$${cost
+                      .toString()
+                      .padStart(
+                        2,
+                        "0"
+                      )}</span><span class="format-part format-salt">$${generatedSalt}</span><span class="format-part format-hash">${hash}</span>
+                </div>
+                <div style="margin-top: 15px;">
+                    <strong>Format Breakdown:</strong><br>
+                    <span class="format-part format-version" style="display: inline;">$2b</span> = Bcrypt version<br>
+                    <span class="format-part format-cost" style="display: inline;">$${cost
+                      .toString()
+                      .padStart(2, "0")}</span> = Cost factor<br>
+                    <span class="format-part format-salt" style="display: inline;">Salt</span> = 22-char salt<br>
+                    <span class="format-part format-hash" style="display: inline;">Hash</span> = 31-char hash
+                </div>`;
+        }
+
+        html += "</div>";
+        stepContainer.innerHTML = html;
+      }
+
+      function updateProgress() {
+        const progress = ((currentStep + 1) / steps.length) * 100;
+        document.getElementById("progressBar").style.width = `${progress}%`;
+      }
+
+      function nextStep() {
+        if (isPaused) return;
+
+        if (currentStep < steps.length) {
+          renderStep(currentStep);
+          updateProgress();
+          currentStep++;
+
+          if (currentStep < steps.length) {
+            // Longer delay for iterative encryption step
+            const delay = currentStep === 5 ? 3000 : 2000;
+            visualizationTimeout = setTimeout(nextStep, delay);
+          } else {
+            showFinalHash();
+          }
+        }
+      }
+
+      function showFinalHash() {
+        const endTime = Date.now();
+        const duration = endTime - startTime;
+
+        const hash = generateBcryptHash(password, generatedSalt, cost);
+        const fullHash = formatBcryptOutput(cost, generatedSalt, hash);
+
+        const finalHashDiv = document.getElementById("finalHash");
+        finalHashDiv.innerHTML = `
+                <h3>🎉 Bcrypt Hash Complete!</h3>
+                <div style="margin-top: 15px; font-size: 14px; word-break: break-all;">
+                    ${fullHash}
+                </div>
+                <div class="timing-display" style="margin-top: 15px;">
+                    ⏱️ Computation Time: ${duration}ms
+                </div>
+                <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
+                    Cost ${cost}: ${Math.pow(
+          2,
+          cost
+        ).toLocaleString()} iterations completed
+                </div>
+            `;
+        finalHashDiv.style.display = "block";
+      }
+
+      function startVisualization() {
+        password =
+          document.getElementById("passwordInput").value || "mypassword123";
+        cost = parseInt(document.getElementById("costRange").value);
+        startTime = Date.now();
+
+        currentStep = 0;
+        isPaused = false;
+
+        document.getElementById("stepContainer").innerHTML = "";
+        document.getElementById("finalHash").style.display = "none";
+        document.getElementById("progressBar").style.width = "0%";
+
+        createSteps(password, cost);
+        nextStep();
+      }
+
+      function pauseVisualization() {
+        isPaused = true;
+        if (visualizationTimeout) {
+          clearTimeout(visualizationTimeout);
+        }
+      }
+
+      function resumeVisualization() {
+        if (isPaused && currentStep < steps.length) {
+          isPaused = false;
+          nextStep();
+        }
+      }
+
+      function resetVisualization() {
+        isPaused = false;
+        currentStep = 0;
+        if (visualizationTimeout) {
+          clearTimeout(visualizationTimeout);
+        }
+        document.getElementById("stepContainer").innerHTML = "";
+        document.getElementById("finalHash").style.display = "none";
+        document.getElementById("progressBar").style.width = "0%";
+      }
+
+      // Initialize
+      window.onload = function () {
+        updateCostDisplay();
+        startVisualization();
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+- Flajolet-Martin Algorithm
+- Cuckoo Filter
+- XOR Filter
+- Ribbon Filter
+- Vacuum Filter
+- Quotient Filter
+- MinHash / Locality-Sensitive Hashing
+- T-Digest / Q-Digest
+- Trie Data Structure & Applications
+- Consistent Hashing
+- Skip List Structure
+- Red-Black Tree Operations
+- Quadtree & Octree Spatial Indexing
+- Suffix Array & Suffix Tree
+- Finite State Machine (FSM) Design
+- Page Replacement Algorithms (Optimal, Second-Chance)
+- Distributed Consensus (Raft, Paxos, Zab, 2PG, 3PC)
+- Garbage Collection Algorithms (Mark & Sweep, Generational, Stop-and-Copy, Mark-and-Compact, Reference Counting, Incremental/Concurrent)
+- Merkle Trees & Blockchain Data Structures
+- Cryptographic hash functions (SHA-224, SHA3-256, SHA3-512, SHAKE128, SHAKE256, BLAKE2, BLAKE3)
+- B+ Tree Indexing
+- CAP Theorem & Trade-offs
+- Vector Clocks & Event Ordering
+- Lock-Free & Wait-Free Data Structures
+    - Lock-Free Stack, Lock-Free Queue, Michael-Scott Queue, Lock-Free Linked List, Harris's Linked List, Lock-Free Hash Table, Wait-Free Queue, Wait-Free Snapshot Objects, Wait-Free Register/Atomic Variable
+- Conflict-Free Replicated Data Types (CRDTs)
+    - G-Counter , PN-Counter, LWW-Register, CRDT List
+- LSM Trees & Write-Optimized Storage
+- Erasure Coding & Data Recovery
+- Gossip Protocols
+    - Anti-Entropy, Rumor Mongering, Gossip-based Membership Protocols, Gossip-based Aggregation Protocols
+- Sharding & Partitioning Strategies
+- Event Sourcing & CQRS
+- Temporal Databases & Time-Series Indexing
+- Multi-Version Concurrency Control (MVCC)
+- Snapshot Isolation & Serializable Isolation
+- Write-Ahead Logging (WAL) & Recovery
+- Spanner & TrueTime API
+- Range Indexing Structures (Segment Tree, Interval Tree, Range Tree)
+- Data Sketches (KLL, DDSketch)
+- Federated Learning & Secure Aggregation
+- Homomorphic Hashing
+- Oblivious RAM (ORAM)
+- Secure Multi-Party Computation (SMPC)
+- Differential Privacy Algorithms
+- Zero-Knowledge Proofs (ZKP)
+- Verifiable Delay Functions (VDF)
+- Succinct Data Structures (Wavelet Tree, FM-Index)
+- Space-Efficient Graph Representations (Adjacency List, Compressed Sparse Row)
+- External Memory Algorithms & Data Structures
+- Oblivious Transfer Protocols
+- Secure Enclave Computing (SGX, SEV)
+- Trusted Execution Environments (TEE)
+- Garbled Circuits
+- Secure Function Evaluation (SFE)
+- Fully Homomorphic Encryption (FHE) Schemes
+- Post-Quantum Cryptography (Lattice-based, Code-based, Multivariate)
+- Secure Indexing & Searchable Encryption
+- Encrypted Database Systems
+- Key Exchange Algorithms
+    - RSA Key Exchange
+    - ElGamal Key Exchange
+    - Elliptic Curve Diffie-Hellman
+    - Ephemeral Diffie-Hellman
+    - Ephemeral Elliptic Curve Diffie-Hellman
+- Machine learning
+    - supervised learning
+        - Linear Regression
+        - Logistic Regression
+        - Decision Trees
+        - Random Forests
+        - Support Vector Machines
+        - k-Nearest Neighbors
+        - Naive Bayes
+        - Gradient Boosting Machines
+        - XGBoost
+        - AdaBoost
+    - Unsupervised Learning Algorithms
+        - K-Means Clustering
+        - Hierarchical Clustering
+        - DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+        - Principal Component Analysis
+        - t-SNE
+        - Autoencoders
+    - Reinforcement Learning Algorithms
+        - Q-Learning
+        - Deep Q-Networks
+        - Policy Gradient Methods
+        - Actor-Critic Methods
+    - Semi-Supervised and Self-Supervised Learning
+        - Label Propagation
+        - Self-Organizing Maps

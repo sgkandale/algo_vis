@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Algorithm Repository</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      :root {
+        --primary: #2c3e50;
+        --secondary: #3498db;
+        --accent: #e74c3c;
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+        --success: #2ecc71;
+        --warning: #f39c12;
+        --gray: #95a5a6;
+        --card-bg: #ffffff;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      body {
+        background-color: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 1.5rem 0;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo i {
+        font-size: 2.5rem;
+        color: var(--light);
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+
+      .logo span {
+        color: var(--accent);
+      }
+
+      .search-container {
+        flex: 0 1 500px;
+        position: relative;
+      }
+
+      .search-container input {
+        width: 100%;
+        padding: 12px 20px 12px 45px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+      }
+
+      .search-container input:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        background: white;
+      }
+
+      .search-container i {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: flex;
+        gap: 30px;
+        padding: 30px 0;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        flex: 0 0 250px;
+        background: var(--card-bg);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+        height: fit-content;
+        position: sticky;
+        top: 90px;
+      }
+
+      .sidebar h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--secondary);
+        color: var(--dark);
+      }
+
+      .category-list {
+        list-style: none;
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+
+      .category-list::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .category-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      .category-list::-webkit-scrollbar-thumb {
+        background: var(--secondary);
+        border-radius: 4px;
+      }
+
+      .category-item {
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .category-item:hover {
+        background: rgba(52, 152, 219, 0.1);
+      }
+
+      .category-item.active {
+        background: rgba(52, 152, 219, 0.2);
+        font-weight: 600;
+        color: var(--secondary);
+      }
+
+      .category-item i {
+        font-size: 1.1rem;
+        width: 25px;
+        text-align: center;
+      }
+
+      /* Algorithm Grid */
+      .algorithm-grid {
+        flex: 1;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--secondary);
+      }
+
+      .section-header h2 {
+        font-size: 1.6rem;
+        color: var(--dark);
+      }
+
+      .count-badge {
+        background: var(--secondary);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .algorithms-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
+
+      .algorithm-card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+        transition: all 0.3s ease;
+        border-left: 4px solid var(--secondary);
+      }
+
+      .algorithm-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .algorithm-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .algorithm-card h3 i {
+        color: var(--accent);
+      }
+
+      .algorithm-card p {
+        color: #555;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark);
+        color: white;
+        padding: 30px 0;
+        margin-top: 40px;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .footer-links a {
+        color: var(--light);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--secondary);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 992px) {
+        .main-content {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          position: static;
+          width: 100%;
+        }
+
+        .category-list {
+          max-height: 300px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .search-container {
+          width: 100%;
+        }
+
+        .algorithms-container {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+      }
+
+      @media (max-width: 576px) {
+        .algorithms-container {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 20px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-brain"></i>
+            <h1>Algo<span>Hub</span></h1>
+          </div>
+          <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search algorithms..."
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="main-content">
+        <!-- Sidebar with Categories -->
+        <aside class="sidebar">
+          <h2><i class="fas fa-folder"></i> Categories</h2>
+          <ul class="category-list" id="categoryList">
+            <!-- Categories will be populated by JavaScript -->
+          </ul>
+        </aside>
+
+        <!-- Algorithm Grid -->
+        <div class="algorithm-grid" id="algorithmGrid">
+          <!-- Content will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">AlgoHub</div>
+          <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Contribute</a>
+            <a href="#">Documentation</a>
+            <a href="#">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Sample data structure for algorithms
+      const algorithmData = {
+        "Sorting Algorithms": [
+          {
+            name: "Bubble Sort",
+            description:
+              "Repeatedly steps through the list, compares adjacent elements and swaps them if in wrong order.",
+            icon: "fas fa-sort-amount-down",
+          },
+          {
+            name: "Quick Sort",
+            description:
+              "Divide and conquer algorithm that partitions the array and recursively sorts the sub-arrays.",
+            icon: "fas fa-bolt",
+          },
+          {
+            name: "Merge Sort",
+            description:
+              "Divide and conquer algorithm that divides input array and merges sorted halves.",
+            icon: "fas fa-code-merge",
+          },
+          {
+            name: "Insertion Sort",
+            description:
+              "Builds the final sorted array one item at a time by comparisons.",
+            icon: "fas fa-arrow-right-to-bracket",
+          },
+        ],
+        "Search Algorithms": [
+          {
+            name: "Binary Search",
+            description:
+              "Efficient algorithm for finding an item from a sorted list of items.",
+            icon: "fas fa-divide",
+          },
+          {
+            name: "Linear Search",
+            description:
+              "Sequentially checks each element of the list until a match is found.",
+            icon: "fas fa-arrow-right",
+          },
+          {
+            name: "Depth-First Search",
+            description:
+              "Traverses graph data structures by exploring as far as possible along each branch.",
+            icon: "fas fa-down-long",
+          },
+          {
+            name: "Breadth-First Search",
+            description:
+              "Traverses graph data structures by exploring neighbor nodes first.",
+            icon: "fas fa-expand",
+          },
+        ],
+        "Graph Algorithms": [
+          {
+            name: "Dijkstra's Algorithm",
+            description:
+              "Finds the shortest paths between nodes in a graph with non-negative edge weights.",
+            icon: "fas fa-road",
+          },
+          {
+            name: "Kruskal's Algorithm",
+            description:
+              "Finds a minimum spanning tree for a connected weighted graph.",
+            icon: "fas fa-tree",
+          },
+          {
+            name: "Floyd-Warshall",
+            description:
+              "Finds shortest paths in a weighted graph with positive or negative edge weights.",
+            icon: "fas fa-route",
+          },
+          {
+            name: "Topological Sort",
+            description:
+              "Linear ordering of vertices such that for every directed edge uv, u comes before v.",
+            icon: "fas fa-sort-alpha-down",
+          },
+        ],
+        "Dynamic Programming": [
+          {
+            name: "Knapsack Problem",
+            description:
+              "Given items with weights and values, determine items to include for max value within weight limit.",
+            icon: "fas fa-briefcase",
+          },
+          {
+            name: "Fibonacci Sequence",
+            description:
+              "Each number is the sum of the two preceding ones, starting from 0 and 1.",
+            icon: "fas fa-infinity",
+          },
+          {
+            name: "Longest Common Subsequence",
+            description:
+              "Finds the longest subsequence present in two sequences in the same order.",
+            icon: "fas fa-align-left",
+          },
+          {
+            name: "Matrix Chain Multiplication",
+            description:
+              "Determines the optimal sequence for performing matrix multiplications.",
+            icon: "fas fa-table-cells",
+          },
+        ],
+        "Machine Learning": [
+          {
+            name: "K-Means Clustering",
+            description:
+              "Partitioning method that divides data into k clusters based on feature similarity.",
+            icon: "fas fa-object-group",
+          },
+          {
+            name: "K-Nearest Neighbors",
+            description:
+              "Instance-based learning where classification is based on majority vote of neighbors.",
+            icon: "fas fa-chart-network",
+          },
+          {
+            name: "Linear Regression",
+            description:
+              "Models relationship between dependent and independent variables using linear approach.",
+            icon: "fas fa-chart-line",
+          },
+          {
+            name: "Decision Trees",
+            description:
+              "Tree-like model of decisions used for classification and regression tasks.",
+            icon: "fas fa-diagram-project",
+          },
+        ],
+        Cryptography: [
+          {
+            name: "RSA Algorithm",
+            description:
+              "Public-key cryptosystem widely used for secure data transmission.",
+            icon: "fas fa-lock",
+          },
+          {
+            name: "AES Encryption",
+            description:
+              "Symmetric encryption algorithm widely used across the globe.",
+            icon: "fas fa-key",
+          },
+          {
+            name: "Diffie-Hellman",
+            description:
+              "Method of securely exchanging cryptographic keys over a public channel.",
+            icon: "fas fa-exchange",
+          },
+          {
+            name: "SHA-256",
+            description:
+              "Cryptographic hash function that produces a 256-bit hash value.",
+            icon: "fas fa-hashtag",
+          },
+        ],
+      };
+
+      // Function to render categories in sidebar
+      function renderCategories() {
+        const categoryList = document.getElementById("categoryList");
+        categoryList.innerHTML = "";
+
+        Object.keys(algorithmData).forEach((category, index) => {
+          const listItem = document.createElement("li");
+          listItem.className = "category-item" + (index === 0 ? " active" : "");
+          listItem.setAttribute("data-category", category);
+          listItem.innerHTML = `
+                    <i class="fas fa-folder"></i>
+                    ${category}
+                `;
+
+          listItem.addEventListener("click", () => {
+            // Remove active class from all items
+            document.querySelectorAll(".category-item").forEach((item) => {
+              item.classList.remove("active");
+            });
+            // Add active class to clicked item
+            listItem.classList.add("active");
+            // Render algorithms for selected category
+            renderAlgorithms(category);
+            // Scroll to the category section
+            document
+              .getElementById(category.replace(/\s+/g, "-"))
+              .scrollIntoView({
+                behavior: "smooth",
+              });
+          });
+
+          categoryList.appendChild(listItem);
+        });
+      }
+
+      // Function to render algorithms
+      function renderAlgorithms(selectedCategory) {
+        const algorithmGrid = document.getElementById("algorithmGrid");
+        algorithmGrid.innerHTML = "";
+
+        // Render all categories if none selected, or just the selected one
+        const categoriesToRender = selectedCategory
+          ? [selectedCategory]
+          : Object.keys(algorithmData);
+
+        categoriesToRender.forEach((category) => {
+          const section = document.createElement("div");
+          section.className = "algorithm-section";
+          section.id = category.replace(/\s+/g, "-");
+
+          section.innerHTML = `
+                    <div class="section-header">
+                        <h2>${category}</h2>
+                        <span class="count-badge">${
+                          algorithmData[category].length
+                        } algorithms</span>
+                    </div>
+                    <div class="algorithms-container" id="${category.replace(
+                      /\s+/g,
+                      "-"
+                    )}-container">
+                        ${algorithmData[category]
+                          .map(
+                            (algorithm) => `
+                            <div class="algorithm-card">
+                                <h3><i class="${algorithm.icon}"></i> ${algorithm.name}</h3>
+                                <p>${algorithm.description}</p>
+                            </div>
+                        `
+                          )
+                          .join("")}
+                    </div>
+                `;
+
+          algorithmGrid.appendChild(section);
+        });
+      }
+
+      // Search functionality
+      function setupSearch() {
+        const searchInput = document.getElementById("searchInput");
+
+        searchInput.addEventListener("input", (e) => {
+          const searchTerm = e.target.value.toLowerCase().trim();
+
+          if (!searchTerm) {
+            // If search is empty, show all algorithms
+            renderAlgorithms();
+            return;
+          }
+
+          // Filter algorithms based on search term
+          const filteredData = {};
+
+          Object.keys(algorithmData).forEach((category) => {
+            const filteredAlgorithms = algorithmData[category].filter(
+              (algorithm) => {
+                return (
+                  algorithm.name.toLowerCase().includes(searchTerm) ||
+                  algorithm.description.toLowerCase().includes(searchTerm)
+                );
+              }
+            );
+
+            if (filteredAlgorithms.length > 0) {
+              filteredData[category] = filteredAlgorithms;
+            }
+          });
+
+          // Render filtered results
+          const algorithmGrid = document.getElementById("algorithmGrid");
+          algorithmGrid.innerHTML = "";
+
+          if (Object.keys(filteredData).length === 0) {
+            algorithmGrid.innerHTML = `
+                        <div class="no-results">
+                            <h2>No algorithms found</h2>
+                            <p>Try a different search term</p>
+                        </div>
+                    `;
+            return;
+          }
+
+          Object.keys(filteredData).forEach((category) => {
+            const section = document.createElement("div");
+            section.className = "algorithm-section";
+            section.id = category.replace(/\s+/g, "-");
+
+            section.innerHTML = `
+                        <div class="section-header">
+                            <h2>${category}</h2>
+                            <span class="count-badge">${
+                              filteredData[category].length
+                            } results</span>
+                        </div>
+                        <div class="algorithms-container">
+                            ${filteredData[category]
+                              .map(
+                                (algorithm) => `
+                                <div class="algorithm-card">
+                                    <h3><i class="${algorithm.icon}"></i> ${algorithm.name}</h3>
+                                    <p>${algorithm.description}</p>
+                                </div>
+                            `
+                              )
+                              .join("")}
+                        </div>
+                    `;
+
+            algorithmGrid.appendChild(section);
+          });
+        });
+      }
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", () => {
+        renderCategories();
+        renderAlgorithms();
+        setupSearch();
+      });
+    </script>
+  </body>
+</html>
