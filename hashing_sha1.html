@@ -3,116 +3,364 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SHA-1 Algorithm Visualization</title>
+    <title>SHA-1 Algorithm | AlgoViz Hub</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       }
 
       body {
-        background: linear-gradient(135deg, #1a1a2e, #16213e);
-        color: #ecf0f1;
-        min-height: 100vh;
-        padding: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
         line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
       }
 
       .container {
         max-width: 1200px;
         margin: 0 auto;
+        padding: 0 20px;
       }
 
+      /* Header Styles */
       header {
-        text-align: center;
-        padding: 30px 0;
-        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
       }
 
-      h1 {
-        font-size: 3.2rem;
-        margin-bottom: 15px;
-        background: linear-gradient(to right, #4a9bff, #6a11cb);
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
         -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        -webkit-text-fill-color: transparent;
       }
 
-      .subtitle {
-        font-size: 1.3rem;
-        color: #bdc3c7;
-        max-width: 800px;
-        margin: 0 auto 25px;
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
       }
 
-      .card {
-        background: rgba(25, 40, 65, 0.8);
-        border-radius: 15px;
-        padding: 25px;
-        margin-bottom: 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
       }
 
-      .card-title {
-        font-size: 1.8rem;
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
         margin-bottom: 20px;
-        color: #4a9bff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
         display: flex;
         align-items: center;
         gap: 12px;
       }
 
-      .card-title i {
-        background: linear-gradient(45deg, #4a9bff, #6a11cb);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .overview-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        margin-top: 15px;
-      }
-
-      .overview-item {
-        background: rgba(35, 55, 85, 0.6);
-        border-radius: 12px;
-        padding: 20px;
-        transition: all 0.3s ease;
-      }
-
-      .overview-item:hover {
-        transform: translateY(-5px);
-        background: rgba(35, 55, 85, 0.8);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      }
-
-      .item-title {
-        font-size: 1.3rem;
-        margin-bottom: 12px;
-        color: #6a11cb;
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: center;
       }
 
-      .visualization-container {
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
         display: flex;
-        flex-direction: column;
-        gap: 30px;
+        align-items: center;
+        gap: 10px;
       }
 
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        min-height: 400px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* SHA-1 specific styles */
       .process-flow {
         display: flex;
         justify-content: center;
@@ -137,12 +385,12 @@
       .flow-item i {
         font-size: 2.5rem;
         margin-bottom: 10px;
-        color: #4a9bff;
+        color: var(--accent);
       }
 
       .flow-arrow {
         font-size: 2rem;
-        color: #6a11cb;
+        color: var(--accent-light);
         opacity: 0.8;
       }
 
@@ -191,70 +439,47 @@
 
       .register-value {
         font-size: 0.85rem;
-        font-family: "Courier New", monospace;
+        font-family: "Roboto Mono", monospace;
         color: rgba(255, 255, 255, 0.9);
         text-align: center;
         padding: 0 5px;
         word-break: break-all;
       }
 
-      .register-a {
-        background: linear-gradient(135deg, #4a9bff, #3a7bdf);
-      }
-      .register-b {
-        background: linear-gradient(135deg, #6a11cb, #5a01bb);
-      }
-      .register-c {
-        background: linear-gradient(135deg, #2575fc, #1555dc);
-      }
-      .register-d {
-        background: linear-gradient(135deg, #8e2de2, #7e1dd2);
-      }
-      .register-e {
-        background: linear-gradient(135deg, #00c6ff, #00a6e0);
-      }
+      .register-a { background: linear-gradient(135deg, #4a9bff, #3a7bdf); }
+      .register-b { background: linear-gradient(135deg, #6a11cb, #5a01bb); }
+      .register-c { background: linear-gradient(135deg, #2575fc, #1555dc); }
+      .register-d { background: linear-gradient(135deg, #8e2de2, #7e1dd2); }
+      .register-e { background: linear-gradient(135deg, #00c6ff, #00a6e0); }
 
-      .controls {
-        display: flex;
-        justify-content: center;
+      .function-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
-        margin: 25px 0;
-        flex-wrap: wrap;
+        margin-top: 20px;
       }
 
-      .btn {
-        background: linear-gradient(45deg, #6a11cb, #2575fc);
-        color: white;
-        border: none;
-        padding: 14px 30px;
-        border-radius: 50px;
-        cursor: pointer;
+      .function-card {
+        background: rgba(35, 55, 85, 0.7);
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      .function-title {
+        text-align: center;
+        margin-bottom: 15px;
+        color: var(--accent-light);
+      }
+
+      .function-formula {
+        background: rgba(0, 0, 0, 0.25);
+        padding: 12px;
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+        text-align: center;
+        margin: 15px 0;
         font-size: 1.1rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-      }
-
-      .btn:active {
-        transform: translateY(2px);
-      }
-
-      .btn-outline {
-        background: transparent;
-        border: 2px solid #6a11cb;
-        color: #6a11cb;
-      }
-
-      .btn-outline:hover {
-        background: rgba(106, 17, 203, 0.15);
+        color: var(--accent);
       }
 
       .rounds-container {
@@ -274,7 +499,7 @@
       .round-title {
         text-align: center;
         margin-bottom: 15px;
-        color: #00c6ff;
+        color: var(--accent-light);
         font-size: 1.4rem;
       }
 
@@ -299,64 +524,34 @@
         transform: translateX(5px);
       }
 
-      .explanation-content {
+      /* Properties Grid */
+      .properties-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 25px;
-      }
-
-      .explanation-card {
-        background: rgba(35, 55, 85, 0.6);
-        border-radius: 12px;
-        padding: 20px;
-      }
-
-      .card-heading {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-        color: #4a9bff;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      footer {
-        text-align: center;
-        padding: 30px 20px 20px;
-        color: #7f8c8d;
-        font-size: 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: 20px;
-      }
-
-      .function-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 20px;
         margin-top: 20px;
       }
 
-      .function-card {
-        background: rgba(35, 55, 85, 0.7);
-        border-radius: 12px;
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
         padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
       }
 
-      .function-title {
-        text-align: center;
-        margin-bottom: 15px;
-        color: #00c6ff;
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
       }
 
-      .function-formula {
-        background: rgba(0, 0, 0, 0.25);
-        padding: 12px;
-        border-radius: 8px;
-        font-family: "Courier New", monospace;
-        text-align: center;
-        margin: 15px 0;
-        font-size: 1.1rem;
-        color: #4a9bff;
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
       }
 
       /* Animation classes */
@@ -398,13 +593,53 @@
         }
       }
 
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Responsive Design */
       @media (max-width: 768px) {
-        h1 {
-          font-size: 2.5rem;
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
         }
 
-        .subtitle {
-          font-size: 1.1rem;
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
         }
 
         .process-flow {
@@ -425,155 +660,194 @@
   </head>
   <body>
     <div class="container">
+      <!-- Header -->
       <header>
-        <h1>SHA-1 Algorithm Visualization</h1>
-        <p class="subtitle">
-          An interactive explanation of the SHA-1 cryptographic hash function
-          with animated demonstrations
-        </p>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Cryptographic Algorithms</a> >
+              <span>SHA-1</span>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <section class="card">
-        <h2 class="card-title">
-          <i class="fas fa-info-circle"></i> Algorithm Overview
-        </h2>
-        <div class="overview-grid">
-          <div class="overview-item">
-            <h3 class="item-title">
-              <i class="fas fa-fingerprint"></i> What is SHA-1?
-            </h3>
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>SHA-1 Algorithm</h1>
+        <div class="category">
+          <i class="fas fa-fingerprint"></i> Hash Function (Deprecated)
+        </div>
+        <div class="complexity-badge">Output: 160 bits (40 hex chars)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
             <p>
               SHA-1 (Secure Hash Algorithm 1) is a cryptographic hash function
               that produces a 160-bit (20-byte) hash value. Designed by the NSA,
-              it was widely used for security applications.
+              it was widely used for security applications but is now considered
+              cryptographically broken.
             </p>
-          </div>
-          <div class="overview-item">
-            <h3 class="item-title">
-              <i class="fas fa-key"></i> Key Characteristics
-            </h3>
-            <ul>
-              <li>160-bit hash output</li>
-              <li>Processes 512-bit blocks</li>
-              <li>80 processing steps (4 rounds of 20 steps)</li>
-              <li>Based on Merkle-Damgård construction</li>
-              <li>No longer considered secure for cryptography</li>
-            </ul>
-          </div>
-          <div class="overview-item">
-            <h3 class="item-title">
-              <i class="fas fa-history"></i> Historical Use
-            </h3>
-            <ul>
-              <li>TLS/SSL security certificates</li>
-              <li>Digital signatures</li>
-              <li>Git version control (commit hashes)</li>
-              <li>File integrity verification</li>
-              <li>Checksum applications</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+            <p>
+              The algorithm processes input in 512-bit blocks through 80 rounds
+              of operations using four different logical functions, producing a
+              fixed-size output that was once considered secure for digital
+              signatures and certificates.
+            </p>
 
-      <section class="card">
-        <h2 class="card-title">
-          <i class="fas fa-play-circle"></i> Algorithm Visualization
-        </h2>
-
-        <div class="controls">
-          <button class="btn" id="startBtn">
-            <i class="fas fa-play"></i> Start Animation
-          </button>
-          <button class="btn btn-outline" id="resetBtn">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-          <button class="btn" id="prevBtn">
-            <i class="fas fa-step-backward"></i> Previous
-          </button>
-          <button class="btn" id="nextBtn">
-            <i class="fas fa-step-forward"></i> Next
-          </button>
-        </div>
-
-        <div class="visualization-container">
-          <div class="process-flow">
-            <div class="flow-item" id="inputBlock">
-              <i class="fas fa-keyboard"></i>
-              <div>Input Message</div>
-            </div>
-            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="flow-item" id="paddingBlock">
-              <i class="fas fa-expand-arrows-alt"></i>
-              <div>Padding</div>
-            </div>
-            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="flow-item" id="blocks">
-              <i class="fas fa-cubes"></i>
-              <div>512-bit Blocks</div>
-            </div>
-            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="flow-item" id="compression">
-              <i class="fas fa-cogs"></i>
-              <div>Compression</div>
-            </div>
-            <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="flow-item" id="output">
-              <i class="fas fa-hashtag"></i>
-              <div>160-bit Hash</div>
-            </div>
-          </div>
-
-          <div class="registers">
-            <div class="register register-a" id="regA">
-              <div class="register-label">A</div>
-              <div class="register-value" id="valA">0x67452301</div>
-            </div>
-            <div class="register register-b" id="regB">
-              <div class="register-label">B</div>
-              <div class="register-value" id="valB">0xEFCDAB89</div>
-            </div>
-            <div class="register register-c" id="regC">
-              <div class="register-label">C</div>
-              <div class="register-value" id="valC">0x98BADCFE</div>
-            </div>
-            <div class="register register-d" id="regD">
-              <div class="register-label">D</div>
-              <div class="register-value" id="valD">0x10325476</div>
-            </div>
-            <div class="register register-e" id="regE">
-              <div class="register-label">E</div>
-              <div class="register-value" id="valE">0xC3D2E1F0</div>
-            </div>
-          </div>
-
-          <div class="function-grid">
-            <div class="function-card">
-              <h3 class="function-title">Logical Functions</h3>
-              <div class="function-formula">Round 1: (B ∧ C) ∨ (¬B ∧ D)</div>
-              <div class="function-formula">Round 2: B ⊕ C ⊕ D</div>
-              <div class="function-formula">
-                Round 3: (B ∧ C) ∨ (B ∧ D) ∨ (C ∧ D)
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-fingerprint"></i> 160-bit Output</h3>
+                <p>
+                  Produces a fixed 160-bit hash value, longer than MD5 but
+                  shorter than modern alternatives like SHA-256
+                </p>
               </div>
-              <div class="function-formula">Round 4: B ⊕ C ⊕ D</div>
-            </div>
-
-            <div class="function-card">
-              <h3 class="function-title">Processing Step</h3>
-              <div class="function-formula">
-                TEMP = (A &lt;&lt;&lt; 5) + f(B,C,D) + E + K + W[i]
+              <div class="point-card">
+                <h3><i class="fas fa-history"></i> Historical Importance</h3>
+                <p>
+                  Widely used in TLS/SSL, Git version control, and digital
+                  signatures before vulnerabilities were discovered
+                </p>
               </div>
-              <div class="function-formula">E = D</div>
-              <div class="function-formula">D = C</div>
-              <div class="function-formula">C = B &lt;&lt;&lt; 30</div>
-              <div class="function-formula">B = A</div>
-              <div class="function-formula">A = TEMP</div>
+              <div class="point-card">
+                <h3><i class="fas fa-cogs"></i> 80 Rounds</h3>
+                <p>
+                  Uses 80 processing steps across 4 rounds with different
+                  logical functions and constants for each round
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> Security Status</h3>
+                <p>
+                  Collision attacks demonstrated in 2017, making it unsuitable
+                  for cryptographic security applications
+                </p>
+              </div>
             </div>
           </div>
 
-          <div>
-            <h3 class="card-title">
-              <i class="fas fa-sync-alt"></i> Processing Rounds
-            </h3>
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive SHA-1 Visualization
+            </h2>
+            <p>
+              Explore how SHA-1 processes input through its compression function.
+              Watch the algorithm pad the message, initialize registers, and
+              process data through 80 rounds of operations.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> SHA-1 Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn" id="startBtn">
+                    <i class="fas fa-play"></i> Start
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-undo"></i> Reset
+                  </button>
+                  <button class="console-btn" id="prevBtn">
+                    <i class="fas fa-step-backward"></i> Previous
+                  </button>
+                  <button class="console-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i> Next
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="process-flow">
+                  <div class="flow-item" id="inputBlock">
+                    <i class="fas fa-keyboard"></i>
+                    <div>Input Message</div>
+                  </div>
+                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                  <div class="flow-item" id="paddingBlock">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <div>Padding</div>
+                  </div>
+                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                  <div class="flow-item" id="blocks">
+                    <i class="fas fa-cubes"></i>
+                    <div>512-bit Blocks</div>
+                  </div>
+                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                  <div class="flow-item" id="compression">
+                    <i class="fas fa-cogs"></i>
+                    <div>Compression</div>
+                  </div>
+                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                  <div class="flow-item" id="output">
+                    <i class="fas fa-hashtag"></i>
+                    <div>160-bit Hash</div>
+                  </div>
+                </div>
+
+                <div class="registers">
+                  <div class="register register-a" id="regA">
+                    <div class="register-label">A</div>
+                    <div class="register-value" id="valA">0x67452301</div>
+                  </div>
+                  <div class="register register-b" id="regB">
+                    <div class="register-label">B</div>
+                    <div class="register-value" id="valB">0xEFCDAB89</div>
+                  </div>
+                  <div class="register register-c" id="regC">
+                    <div class="register-label">C</div>
+                    <div class="register-value" id="valC">0x98BADCFE</div>
+                  </div>
+                  <div class="register register-d" id="regD">
+                    <div class="register-label">D</div>
+                    <div class="register-value" id="valD">0x10325476</div>
+                  </div>
+                  <div class="register register-e" id="regE">
+                    <div class="register-label">E</div>
+                    <div class="register-value" id="valE">0xC3D2E1F0</div>
+                  </div>
+                </div>
+
+                <div class="function-grid">
+                  <div class="function-card">
+                    <h3 class="function-title">Logical Functions</h3>
+                    <div class="function-formula">Round 1: (B ∧ C) ∨ (¬B ∧ D)</div>
+                    <div class="function-formula">Round 2: B ⊕ C ⊕ D</div>
+                    <div class="function-formula">Round 3: (B ∧ C) ∨ (B ∧ D) ∨ (C ∧ D)</div>
+                    <div class="function-formula">Round 4: B ⊕ C ⊕ D</div>
+                  </div>
+
+                  <div class="function-card">
+                    <h3 class="function-title">Processing Step</h3>
+                    <div class="function-formula">TEMP = (A ≪ 5) + f(B,C,D) + E + K + W[i]</div>
+                    <div class="function-formula">E = D</div>
+                    <div class="function-formula">D = C</div>
+                    <div class="function-formula">C = B ≪ 30</div>
+                    <div class="function-formula">B = A</div>
+                    <div class="function-formula">A = TEMP</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Processing Rounds -->
+          <div class="section">
+            <h2><i class="fas fa-sync-alt"></i> Processing Rounds</h2>
             <div class="rounds-container">
               <div class="round-card">
                 <h3 class="round-title">Round 1 (0-19)</h3>
@@ -588,8 +862,7 @@
                     <i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
                   <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words:
-                    W[0]-W[19]
+                    <i class="fas fa-exchange-alt"></i> Message words: W[0]-W[19]
                   </li>
                 </ul>
               </div>
@@ -607,8 +880,7 @@
                     <i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
                   <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words:
-                    W[20]-W[39]
+                    <i class="fas fa-exchange-alt"></i> Message words: W[20]-W[39]
                   </li>
                 </ul>
               </div>
@@ -617,8 +889,7 @@
                 <h3 class="round-title">Round 3 (40-59)</h3>
                 <ul class="step-list">
                   <li class="step-item">
-                    <i class="fas fa-code"></i> Function: (B ∧ C) ∨ (B ∧ D) ∨ (C
-                    ∧ D)
+                    <i class="fas fa-code"></i> Function: (B ∧ C) ∨ (B ∧ D) ∨ (C ∧ D)
                   </li>
                   <li class="step-item">
                     <i class="fas fa-key"></i> Constant: 0x8F1BBCDC
@@ -627,8 +898,7 @@
                     <i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
                   <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words:
-                    W[40]-W[59]
+                    <i class="fas fa-exchange-alt"></i> Message words: W[40]-W[59]
                   </li>
                 </ul>
               </div>
@@ -646,148 +916,118 @@
                     <i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
                   <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words:
-                    W[60]-W[79]
+                    <i class="fas fa-exchange-alt"></i> Message words: W[60]-W[79]
                   </li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <section class="card">
-        <h2 class="card-title"><i class="fas fa-cogs"></i> How SHA-1 Works</h2>
-        <div class="explanation-content">
-          <div class="explanation-card">
-            <h3 class="card-heading">
-              <i class="fas fa-align-left"></i> 1. Message Padding
-            </h3>
-            <p>
-              The input message is padded to ensure its length is congruent to
-              448 modulo 512 bits. The padding includes:
-            </p>
-            <ul>
-              <li>A '1' bit appended to the message</li>
-              <li>Enough '0' bits to reach the desired length</li>
-              <li>A 64-bit representation of the original message length</li>
-            </ul>
-            <p>Example: "abc" becomes 61626380...00000018 (hex)</p>
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Hashing</div>
+              </div>
+              <div class="property-card">
+                <h4>Output Size</h4>
+                <div class="value">160 bits</div>
+              </div>
+              <div class="property-card">
+                <h4>Block Size</h4>
+                <div class="value">512 bits</div>
+              </div>
+              <div class="property-card">
+                <h4>Rounds</h4>
+                <div class="value">80</div>
+              </div>
+              <div class="property-card">
+                <h4>Functions</h4>
+                <div class="value">4</div>
+              </div>
+              <div class="property-card">
+                <h4>Security</h4>
+                <div class="value">Broken</div>
+              </div>
+              <div class="property-card">
+                <h4>Speed</h4>
+                <div class="value">Fast</div>
+              </div>
+              <div class="property-card">
+                <h4>Year</h4>
+                <div class="value">1995</div>
+              </div>
+            </div>
           </div>
 
-          <div class="explanation-card">
-            <h3 class="card-heading">
-              <i class="fas fa-th-large"></i> 2. Block Processing
-            </h3>
+          <!-- Historical Use -->
+          <div class="section">
+            <h2><i class="fas fa-history"></i> Historical Applications</h2>
             <p>
-              The padded message is divided into 512-bit blocks. Each block is
-              processed through the compression function:
+              SHA-1 was widely adopted before its vulnerabilities were discovered:
             </p>
-            <ul>
-              <li>Split into sixteen 32-bit words (W[0] to W[15])</li>
-              <li>
-                Extend to 80 words using: W[i] = (W[i-3] ⊕ W[i-8] ⊕ W[i-14] ⊕
-                W[i-16]) &lt;&lt;&lt; 1
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                TLS/SSL security certificates
               </li>
-              <li>Initialize five 32-bit registers (A,B,C,D,E)</li>
-              <li>Process through 80 steps (4 rounds of 20 steps)</li>
-            </ul>
-          </div>
-
-          <div class="explanation-card">
-            <h3 class="card-heading">
-              <i class="fas fa-project-diagram"></i> 3. Compression Function
-            </h3>
-            <p>
-              The core of SHA-1 is the compression function, which processes
-              each 512-bit block:
-            </p>
-            <ul>
-              <li>Uses four different logical functions (F1-F4)</li>
-              <li>Each round uses a specific function and constant</li>
-              <li>Applies 80 processing steps to update registers</li>
-              <li>Each step uses a different message word (W[i])</li>
-              <li>Includes left rotations and modular additions</li>
-            </ul>
-          </div>
-
-          <div class="explanation-card">
-            <h3 class="card-heading">
-              <i class="fas fa-lock"></i> 4. Final Hash Value
-            </h3>
-            <p>
-              After processing all blocks, the final hash value is produced:
-            </p>
-            <ul>
-              <li>
-                The results from all blocks are added to the initial values (mod
-                2³²)
+              <li style="margin-bottom: 10px">
+                Digital signatures and PKI
               </li>
-              <li>The five 32-bit registers are concatenated</li>
-              <li>Final output is a 160-bit (20-byte) hash value</li>
+              <li style="margin-bottom: 10px">
+                Git version control (commit hashes)
+              </li>
+              <li style="margin-bottom: 10px">
+                File integrity verification
+              </li>
+              <li>Legacy authentication systems</li>
             </ul>
-            <p>Example SHA-1 hash for "abc":</p>
-            <p><code>a9993e36 4706816a ba3e2571 7850c26c 9cd0d89d</code></p>
+          </div>
+
+          <!-- Security Status */
+          <div class="section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Security Status</h2>
+            <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); border-radius: 10px; padding: 15px; margin: 15px 0; color: var(--danger);">
+              <strong>⚠️ Deprecated:</strong> SHA-1 is no longer considered secure
+              against well-funded attackers.
+            </div>
+            <p>
+              <strong>Timeline of vulnerabilities:</strong>
+            </p>
+            <ul style="padding-left: 20px; margin: 15px 0; color: var(--text-secondary);">
+              <li style="margin-bottom: 8px">2005: Theoretical vulnerabilities found</li>
+              <li style="margin-bottom: 8px">2011: NIST deprecated SHA-1</li>
+              <li style="margin-bottom: 8px">2017: First practical collision attack</li>
+              <li>2020: Major browsers stopped accepting SHA-1 certificates</li>
+            </ul>
+            <p style="font-size: 14px; margin-top: 15px;">
+              <strong>Recommended Alternatives:</strong> SHA-256, SHA-3, BLAKE2
+            </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="card">
-        <h2 class="card-title">
-          <i class="fas fa-exclamation-triangle"></i> Security Status
-        </h2>
-        <div class="overview-grid">
-          <div class="overview-item">
-            <h3 class="item-title">
-              <i class="fas fa-shield-alt"></i> Vulnerabilities
-            </h3>
-            <p>
-              SHA-1 is no longer considered secure against well-funded
-              attackers:
-            </p>
-            <ul>
-              <li>Theoretical vulnerabilities since 2005</li>
-              <li>First practical collision attack in 2017</li>
-              <li>
-                Collision resistance broken (can create two different inputs
-                with same hash)
-              </li>
-              <li>Deprecated by NIST in 2011</li>
-            </ul>
-          </div>
-          <div class="overview-item">
-            <h3 class="item-title">
-              <i class="fas fa-sync-alt"></i> Modern Replacements
-            </h3>
-            <p>Current recommendations for cryptographic hashing:</p>
-            <ul>
-              <li>SHA-2 family (SHA-256, SHA-512)</li>
-              <li>SHA-3 (Keccak-based)</li>
-              <li>BLAKE2 and BLAKE3</li>
-              <li>For passwords: Argon2, bcrypt, scrypt</li>
-            </ul>
-          </div>
-          <div class="overview-item">
-            <h3 class="item-title">
-              <i class="fas fa-check-circle"></i> Current Uses
-            </h3>
-            <p>Where SHA-1 is still acceptable:</p>
-            <ul>
-              <li>Checksums for non-security purposes</li>
-              <li>Git version control (though migrating to SHA-256)</li>
-              <li>Internal integrity checks</li>
-              <li>Non-critical verification systems</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
+      <!-- Footer -->
       <footer>
-        <p>SHA-1 Algorithm Visualization | Created for Educational Purposes</p>
-        <p>
-          Note: This visualization demonstrates the algorithm structure and does
-          not perform actual hashing
-        </p>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2023 AlgoViz Hub. All rights reserved.</p>
       </footer>
     </div>
 

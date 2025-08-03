@@ -3,8 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SHA-512 Algorithm Visualizer</title>
+    <title>SHA-512 Algorithm | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -12,94 +38,374 @@
       }
 
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
         min-height: 100vh;
-        padding: 20px;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
       }
 
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 0 20px;
       }
 
-      h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 30px;
-        font-size: 2.5em;
-        background: linear-gradient(45deg, #667eea, #764ba2);
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
 
-      .input-section {
-        margin-bottom: 30px;
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
       }
 
-      .input-group {
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
         display: flex;
-        gap: 15px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
         margin-bottom: 20px;
       }
 
-      input[type="text"] {
-        flex: 1;
-        padding: 15px;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        font-size: 16px;
-        transition: border-color 0.3s;
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
       }
 
-      input[type="text"]:focus {
-        outline: none;
-        border-color: #667eea;
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
       }
 
-      button {
-        padding: 15px 30px;
-        background: linear-gradient(45deg, #667eea, #764ba2);
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
         color: white;
         border: none;
-        border-radius: 10px;
+        padding: 8px 15px;
+        border-radius: 5px;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        transition: transform 0.2s;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
       }
 
-      button:hover {
-        transform: translateY(-2px);
+      .console-btn:hover {
+        background: var(--accent-light);
       }
 
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        min-height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* SHA-512 specific styles */
       .step-container {
         margin-bottom: 30px;
       }
 
       .step {
-        background: #f8f9fa;
-        border-radius: 15px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
         padding: 20px;
         margin-bottom: 20px;
-        border-left: 5px solid #667eea;
+        border-left: 5px solid var(--accent);
         transition: all 0.3s;
+        border: 1px solid rgba(148, 163, 184, 0.1);
       }
 
       .step.active {
-        background: linear-gradient(135deg, #667eea20, #764ba220);
+        background: rgba(99, 102, 241, 0.1);
         transform: scale(1.02);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow);
       }
 
       .step-title {
         font-size: 1.4em;
         font-weight: bold;
-        color: #333;
+        color: var(--text);
         margin-bottom: 15px;
         display: flex;
         align-items: center;
@@ -107,7 +413,7 @@
       }
 
       .step-number {
-        background: linear-gradient(45deg, #667eea, #764ba2);
+        background: var(--accent);
         color: white;
         width: 30px;
         height: 30px;
@@ -119,9 +425,9 @@
       }
 
       .binary-display {
-        font-family: "Courier New", monospace;
-        background: #2d3748;
-        color: #68d391;
+        font-family: "Roboto Mono", monospace;
+        background: rgba(0, 0, 0, 0.5);
+        color: var(--success);
         padding: 15px;
         border-radius: 10px;
         margin: 10px 0;
@@ -138,12 +444,12 @@
       }
 
       .hash-value {
-        background: linear-gradient(135deg, #4299e1, #3182ce);
+        background: var(--accent);
         color: white;
         padding: 10px;
         border-radius: 8px;
         text-align: center;
-        font-family: "Courier New", monospace;
+        font-family: "Roboto Mono", monospace;
         font-size: 12px;
         word-break: break-all;
       }
@@ -153,13 +459,8 @@
       }
 
       @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.05);
-        }
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
       }
 
       .compression-visual {
@@ -170,27 +471,28 @@
       }
 
       .word-block {
-        background: #e2e8f0;
+        background: rgba(148, 163, 184, 0.2);
         padding: 8px;
         border-radius: 5px;
         text-align: center;
-        font-family: "Courier New", monospace;
+        font-family: "Roboto Mono", monospace;
         font-size: 11px;
         transition: all 0.3s;
+        color: var(--text);
       }
 
       .word-block.active {
-        background: linear-gradient(45deg, #f093fb, #f5576c);
+        background: var(--warning);
         color: white;
         transform: scale(1.1);
       }
 
       .final-hash {
-        background: linear-gradient(135deg, #2d3748, #4a5568);
-        color: #68d391;
+        background: rgba(0, 0, 0, 0.5);
+        color: var(--success);
         padding: 20px;
         border-radius: 15px;
-        font-family: "Courier New", monospace;
+        font-family: "Roboto Mono", monospace;
         word-break: break-all;
         text-align: center;
         font-size: 16px;
@@ -201,7 +503,7 @@
       .progress-bar {
         width: 100%;
         height: 8px;
-        background: #e2e8f0;
+        background: rgba(148, 163, 184, 0.2);
         border-radius: 4px;
         margin: 20px 0;
         overflow: hidden;
@@ -209,45 +511,19 @@
 
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #667eea, #764ba2);
+        background: linear-gradient(90deg, var(--accent), var(--accent-light));
         border-radius: 4px;
         transition: width 0.5s ease;
         width: 0%;
       }
 
-      .controls {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        margin: 20px 0;
-      }
-
       .info-box {
-        background: linear-gradient(135deg, #e6fffa, #b2f5ea);
-        border: 1px solid #4fd1c7;
+        background: rgba(99, 102, 241, 0.1);
+        border: 1px solid var(--accent);
         border-radius: 10px;
         padding: 15px;
         margin: 15px 0;
-      }
-
-      .algorithm-info {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin: 20px 0;
-      }
-
-      .info-card {
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        border-top: 4px solid #667eea;
-      }
-
-      .info-card h3 {
-        color: #333;
-        margin-bottom: 10px;
+        color: var(--text-secondary);
       }
 
       .operation-visual {
@@ -256,89 +532,384 @@
         justify-content: space-around;
         margin: 15px 0;
         padding: 20px;
-        background: #f7fafc;
+        background: rgba(15, 23, 42, 0.5);
         border-radius: 10px;
       }
 
       .operand {
-        background: #4299e1;
+        background: var(--accent);
         color: white;
         padding: 10px 15px;
         border-radius: 8px;
-        font-family: "Courier New", monospace;
+        font-family: "Roboto Mono", monospace;
         font-size: 14px;
       }
 
       .operator {
         font-size: 24px;
         font-weight: bold;
-        color: #667eea;
+        color: var(--accent);
+      }
+
+      /* Properties Grid */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>🔐 SHA-512 Algorithm Visualizer</h1>
-
-      <div class="algorithm-info">
-        <div class="info-card">
-          <h3>🎯 What is SHA-512?</h3>
-          <p>
-            SHA-512 is a cryptographic hash function that produces a 512-bit
-            (64-byte) hash value from any input data. It's part of the SHA-2
-            family and is widely used for data integrity verification.
-          </p>
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Cryptographic Algorithms</a> >
+              <span>SHA-512</span>
+            </div>
+          </div>
         </div>
-        <div class="info-card">
-          <h3>⚙️ Key Properties</h3>
-          <ul>
-            <li>Fixed 512-bit output</li>
-            <li>One-way function</li>
-            <li>Avalanche effect</li>
-            <li>Collision resistant</li>
-          </ul>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>🔐 SHA-512 Algorithm</h1>
+        <div class="category">
+          <i class="fas fa-shield-alt"></i> Cryptographic Hash Function
         </div>
-        <div class="info-card">
-          <h3>🔧 Algorithm Steps</h3>
-          <ol>
-            <li>Message padding</li>
-            <li>Parse into 1024-bit blocks</li>
-            <li>Initialize hash values</li>
-            <li>Process each block</li>
-            <li>Produce final hash</li>
-          </ol>
+        <div class="complexity-badge">Output: 512 bits (128 hex chars)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              SHA-512 is a cryptographic hash function that produces a 512-bit
+              (64-byte) hash value from any input data. It's part of the SHA-2
+              family and provides enhanced security through its larger output
+              size compared to SHA-256.
+            </p>
+            <p>
+              Designed for applications requiring maximum security, SHA-512
+              processes data in 1024-bit blocks through 80 rounds of operations,
+              making it suitable for high-security environments and long-term
+              data protection.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-expand-arrows-alt"></i> Large Output</h3>
+                <p>
+                  512-bit output provides enhanced security margin and collision
+                  resistance compared to smaller hash functions
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrow-right"></i> One-Way Function</h3>
+                <p>
+                  Computationally infeasible to reverse the hash and recover
+                  the original input data
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Avalanche Effect</h3>
+                <p>
+                  Small changes in input produce dramatically different outputs,
+                  ensuring high sensitivity to modifications
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-shield-alt"></i> Collision Resistant</h3>
+                <p>
+                  Extremely difficult to find two different inputs that produce
+                  the same hash output
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive SHA-512 Visualization
+            </h2>
+            <p>
+              Enter a message to see how SHA-512 processes the input through each
+              step of the algorithm. Watch the message padding, block processing,
+              and hash computation in action.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-cogs"></i> SHA-512 Hash Generator
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" onclick="pauseVisualization()">
+                    <i class="fas fa-pause"></i> Pause
+                  </button>
+                  <button class="console-btn secondary" onclick="resumeVisualization()">
+                    <i class="fas fa-play"></i> Resume
+                  </button>
+                  <button class="console-btn secondary" onclick="resetVisualization()">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="console-input">
+                  <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Enter your message to hash..."
+                    value="Hello World"
+                  />
+                  <button class="console-btn" onclick="startVisualization()">
+                    🚀 Visualize SHA-512
+                  </button>
+                </div>
+
+                <div class="progress-bar">
+                  <div class="progress-fill" id="progressBar"></div>
+                </div>
+
+                <div class="step-container" id="stepContainer">
+                  <!-- Steps will be dynamically generated -->
+                </div>
+
+                <div class="final-hash" id="finalHash" style="display: none">
+                  <!-- Final hash will appear here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Hashing</div>
+              </div>
+              <div class="property-card">
+                <h4>Output Size</h4>
+                <div class="value">512 bits</div>
+              </div>
+              <div class="property-card">
+                <h4>Block Size</h4>
+                <div class="value">1024 bits</div>
+              </div>
+              <div class="property-card">
+                <h4>Rounds</h4>
+                <div class="value">80</div>
+              </div>
+              <div class="property-card">
+                <h4>Word Size</h4>
+                <div class="value">64 bits</div>
+              </div>
+              <div class="property-card">
+                <h4>Security</h4>
+                <div class="value">High</div>
+              </div>
+              <div class="property-card">
+                <h4>Family</h4>
+                <div class="value">SHA-2</div>
+              </div>
+              <div class="property-card">
+                <h4>Year</h4>
+                <div class="value">2001</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              SHA-512 is used in high-security applications requiring strong
+              cryptographic guarantees:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                High-security digital signatures
+              </li>
+              <li style="margin-bottom: 10px">
+                Long-term data integrity verification
+              </li>
+              <li style="margin-bottom: 10px">
+                Cryptographic key derivation
+              </li>
+              <li style="margin-bottom: 10px">
+                Secure random number generation
+              </li>
+              <li>Government and military applications</li>
+            </ul>
+          </div>
+
+          <!-- Algorithm Steps */
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <div style="color: var(--text-secondary);">
+              <div style="margin-bottom: 15px; padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                <strong style="color: var(--accent-light);">1. Message Padding</strong><br>
+                Pad input to multiple of 1024 bits
+              </div>
+              <div style="margin-bottom: 15px; padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                <strong style="color: var(--accent-light);">2. Parse into Blocks</strong><br>
+                Split into 1024-bit chunks
+              </div>
+              <div style="margin-bottom: 15px; padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                <strong style="color: var(--accent-light);">3. Initialize Hash Values</strong><br>
+                Set eight 64-bit initial values
+              </div>
+              <div style="margin-bottom: 15px; padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                <strong style="color: var(--accent-light);">4. Process Each Block</strong><br>
+                80 rounds of compression function
+              </div>
+              <div style="padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                <strong style="color: var(--accent-light);">5. Produce Final Hash</strong><br>
+                Concatenate final 512-bit result
+              </div>
+            </div>
+          </div>
+
+          <!-- Security Comparison -->
+          <div class="section">
+            <h2><i class="fas fa-shield-alt"></i> Security Comparison</h2>
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); border-radius: 10px; padding: 15px; margin: 15px 0; color: var(--success);">
+              <strong>✅ Enhanced Security:</strong> SHA-512 provides superior
+              security compared to shorter hash functions.
+            </div>
+            <div style="color: var(--text-secondary); font-size: 14px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+                <div style="padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                  <strong style="color: var(--accent-light);">SHA-256</strong><br>
+                  256-bit output<br>
+                  2^128 security level
+                </div>
+                <div style="padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                  <strong style="color: var(--accent-light);">SHA-512</strong><br>
+                  512-bit output<br>
+                  2^256 security level
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 14px; margin-top: 15px;">
+              <strong>Recommended for:</strong> Applications requiring maximum
+              security and long-term protection.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div class="input-section">
-        <div class="input-group">
-          <input
-            type="text"
-            id="messageInput"
-            placeholder="Enter your message to hash..."
-            value="Hello World"
-          />
-          <button onclick="startVisualization()">🚀 Visualize SHA-512</button>
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
         </div>
-      </div>
-
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressBar"></div>
-      </div>
-
-      <div class="controls">
-        <button onclick="pauseVisualization()">⏸️ Pause</button>
-        <button onclick="resumeVisualization()">▶️ Resume</button>
-        <button onclick="resetVisualization()">🔄 Reset</button>
-      </div>
-
-      <div class="step-container" id="stepContainer">
-        <!-- Steps will be dynamically generated -->
-      </div>
-
-      <div class="final-hash" id="finalHash" style="display: none">
-        <!-- Final hash will appear here -->
-      </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2023 AlgoViz Hub. All rights reserved.</p>
+      </footer>
     </div>
 
     <script>
@@ -348,92 +919,8 @@
       let message = "";
       let steps = [];
 
-      // SHA-512 constants
-      const K = [
-        0x428a2f98d728ae22n,
-        0x7137449123ef65cdn,
-        0xb5c0fbcfec4d3b2fn,
-        0xe9b5dba58189dbbcn,
-        0x3956c25bf348b538n,
-        0x59f111f1b605d019n,
-        0x923f82a4af194f9bn,
-        0xab1c5ed5da6d8118n,
-        0xd807aa98a3030242n,
-        0x12835b0145706fben,
-        0x243185be4ee4b28cn,
-        0x550c7dc3d5ffb4e2n,
-        0x72be5d74f27b896fn,
-        0x80deb1fe3b1696b1n,
-        0x9bdc06a725c71235n,
-        0xc19bf174cf692694n,
-        0xe49b69c19ef14ad2n,
-        0xefbe4786384f25e3n,
-        0x0fc19dc68b8cd5b5n,
-        0x240ca1cc77ac9c65n,
-        0x2de92c6f592b0275n,
-        0x4a7484aa6ea6e483n,
-        0x5cb0a9dcbd41fbd4n,
-        0x76f988da831153b5n,
-        0x983e5152ee66dfabn,
-        0xa831c66d2db43210n,
-        0xb00327c898fb213fn,
-        0xbf597fc7beef0ee4n,
-        0xc6e00bf33da88fc2n,
-        0xd5a79147930aa725n,
-        0x06ca6351e003826fn,
-        0x142929670a0e6e70n,
-        0x27b70a8546d22ffcn,
-        0x2e1b21385c26c926n,
-        0x4d2c6dfc5ac42aedn,
-        0x53380d139d95b3dfn,
-        0x650a73548baf63den,
-        0x766a0abb3c77b2a8n,
-        0x81c2c92e47edaee6n,
-        0x92722c851482353bn,
-        0xa2bfe8a14cf10364n,
-        0xa81a664bbc423001n,
-        0xc24b8b70d0f89791n,
-        0xc76c51a30654be30n,
-        0xd192e819d6ef5218n,
-        0xd69906245565a910n,
-        0xf40e35855771202an,
-        0x106aa07032bbd1b8n,
-        0x19a4c116b8d2d0c8n,
-        0x1e376c085141ab53n,
-        0x2748774cdf8eeb99n,
-        0x34b0bcb5e19b48a8n,
-        0x391c0cb3c5c95a63n,
-        0x4ed8aa4ae3418acbn,
-        0x5b9cca4f7763e373n,
-        0x682e6ff3d6b2b8a3n,
-        0x748f82ee5defb2fcn,
-        0x78a5636f43172f60n,
-        0x84c87814a1f0ab72n,
-        0x8cc702081a6439ecn,
-        0x90befffa23631e28n,
-        0xa4506cebde82bde9n,
-        0xbef9a3f7b2c67915n,
-        0xc67178f2e372532bn,
-        0xca273eceea26619cn,
-        0xd186b8c721c0c207n,
-        0xeada7dd6cde0eb1en,
-        0xf57d4f7fee6ed178n,
-        0x06f067aa72176fban,
-        0x0a637dc5a2c898a6n,
-        0x113f9804bef90daen,
-        0x1b710b35131c471bn,
-        0x28db77f523047d84n,
-        0x32caab7b40c72493n,
-        0x3c9ebe0a15c9bebcn,
-        0x431d67c49c100d4cn,
-        0x4cc5d4becb3e42b6n,
-        0x597f299cfc657e2an,
-        0x5fcb6fab3ad6faecn,
-        0x6c44198c4a475817n,
-      ];
-
-      // Initial hash values
-      let H = [
+      // SHA-512 constants (simplified for demo)
+      const H = [
         0x6a09e667f3bcc908n,
         0xbb67ae8584caa73bn,
         0x3c6ef372fe94f82bn,
@@ -450,12 +937,6 @@
           bytes[i] = str.charCodeAt(i);
         }
         return bytes;
-      }
-
-      function bytesToHex(bytes) {
-        return Array.from(bytes, (byte) =>
-          byte.toString(16).padStart(2, "0")
-        ).join("");
       }
 
       function padMessage(message) {
@@ -608,7 +1089,6 @@
           if (currentStep < steps.length) {
             visualizationTimeout = setTimeout(nextStep, 2000);
           } else {
-            // Show final hash
             showFinalHash();
           }
         }
@@ -632,18 +1112,6 @@
       function startVisualization() {
         message =
           document.getElementById("messageInput").value || "Hello World";
-
-        // Reset state
-        H = [
-          0x6a09e667f3bcc908n,
-          0xbb67ae8584caa73bn,
-          0x3c6ef372fe94f82bn,
-          0xa54ff53a5f1d36f1n,
-          0x510e527fade682d1n,
-          0x9b05688c2b3e6c1fn,
-          0x1f83d9abfb41bd6bn,
-          0x5be0cd19137e2179n,
-        ];
 
         currentStep = 0;
         isPaused = false;
