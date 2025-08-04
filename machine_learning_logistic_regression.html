@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logistic Regression | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Logistic Regression Visualization */
+      .chart-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .equation-display {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(15, 23, 42, 0.8);
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid var(--accent);
+        color: var(--accent-light);
+      }
+
+      .cost-display {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(15, 23, 42, 0.8);
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid var(--warning);
+        color: var(--warning);
+      }
+
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .slider-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
+
+      .slider {
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        background: rgba(148, 163, 184, 0.2);
+        outline: none;
+        -webkit-appearance: none;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+      }
+
+      .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+      }
+
+      .data-point {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+      }
+
+      .sigmoid-container {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        width: 200px;
+        height: 100px;
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sigmoid-label {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        font-size: 12px;
+        color: var(--accent-light);
+      }
+
+      .probability-display {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: rgba(15, 23, 42, 0.8);
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid var(--success);
+        color: var(--success);
+      }
+
+      .class-0 {
+        background: var(--accent-light);
+      }
+
+      .class-1 {
+        background: var(--warning);
+      }
+
+      .decision-boundary {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          rgba(129, 140, 248, 0.1) 0%,
+          rgba(129, 140, 248, 0.1) 50%,
+          rgba(245, 158, 11, 0.1) 50%,
+          rgba(245, 158, 11, 0.1) 100%
+        );
+        pointer-events: none;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Machine Learning</a> >
+              <span>Logistic Regression</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Logistic Regression</h1>
+        <div class="category">
+          <i class="fas fa-project-diagram"></i> Classification Algorithm
+        </div>
+        <div class="complexity-badge">Type: Binary Classification</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Logistic Regression is a fundamental classification algorithm used
+              for predicting binary outcomes (0 or 1) based on input features.
+              Despite its name, it's a classification algorithm that models the
+              probability of a binary outcome using a logistic function.
+            </p>
+            <p>
+              The algorithm works by fitting a sigmoid curve to the data that
+              maps any real-valued number to a value between 0 and 1, which can
+              be interpreted as a probability. This probability is then
+              thresholded to make class predictions.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-bullseye"></i> Objective</h3>
+                <p>
+                  Model the probability of class membership using a logistic
+                  function
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sigma"></i> Sigmoid Function</h3>
+                <p>
+                  σ(z) = 1 / (1 + e⁻ᶻ) transforms linear output to probability
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-calculator"></i> Decision Boundary</h3>
+                <p>Defined by θ₀ + θ₁x₁ + θ₂x₂ = 0, separating classes</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-rocket"></i> Applications</h3>
+                <p>
+                  Medical diagnosis, spam detection, credit scoring, and more
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive visualization below to understand how logistic
+              regression works. Add data points for two classes, adjust the
+              decision boundary, and see how the model classifies new points
+              based on their position relative to the boundary.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-project-diagram"></i> Logistic Regression
+                  Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn" id="add-points-btn">
+                    <i class="fas fa-plus-circle"></i> Add Points
+                  </button>
+                  <button class="console-btn" id="train-btn">
+                    <i class="fas fa-bolt"></i> Train Model
+                  </button>
+                  <button class="console-btn secondary" id="reset-btn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="chart-container">
+                  <canvas id="regression-chart"></canvas>
+                  <div class="equation-display" id="equation-display">
+                    Decision Boundary: 0.00x₁ + 0.00x₂ + 0.00 = 0
+                  </div>
+                  <div class="cost-display" id="cost-display">Cost: 0.00</div>
+                  <div class="probability-display" id="probability-display">
+                    Probability: 0.50
+                  </div>
+                  <div class="decision-boundary" id="decision-boundary"></div>
+                  <div class="sigmoid-container">
+                    <canvas id="sigmoid-chart"></canvas>
+                    <div class="sigmoid-label">Sigmoid Function</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="slider-container">
+                <div class="slider-label">
+                  <span>Threshold:</span>
+                  <span id="threshold-value">0.50</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value="0.5"
+                  class="slider"
+                  id="threshold-slider"
+                />
+
+                <div class="slider-label">
+                  <span>Learning Rate:</span>
+                  <span id="learning-rate-value">0.10</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.01"
+                  max="0.5"
+                  step="0.01"
+                  value="0.1"
+                  class="slider"
+                  id="learning-rate-slider"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Logistic Regression involves the following steps to create a
+              classification model:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-database"></i> 1. Data Preparation</h3>
+                <p>
+                  Prepare labeled dataset with features and binary target
+                  variable
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sigma"></i> 2. Hypothesis Function</h3>
+                <p>Define h(x) = σ(θᵀx) where σ is the sigmoid function</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-calculator"></i> 3. Cost Function</h3>
+                <p>
+                  Define log loss: J(θ) = -1/m Σ [yⁱ log(h(xⁱ)) + (1-yⁱ)
+                  log(1-h(xⁱ))]
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrow-down"></i> 4. Optimization</h3>
+                <p>Minimize cost using gradient descent to find optimal θ</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-chart-line"></i> 5. Decision Boundary</h3>
+                <p>
+                  Set threshold (usually 0.5) to classify points based on
+                  probability
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-crystal-ball"></i> 6. Prediction</h3>
+                <p>
+                  Use trained model to predict class probabilities for new data
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Supervised</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Classification</div>
+              </div>
+              <div class="property-card">
+                <h4>Output</h4>
+                <div class="value">Probability</div>
+              </div>
+              <div class="property-card">
+                <h4>Interpretability</h4>
+                <div class="value">High</div>
+              </div>
+              <div class="property-card">
+                <h4>Regularization</h4>
+                <div class="value">L1/L2</div>
+              </div>
+              <div class="property-card">
+                <h4>Training Speed</h4>
+                <div class="value">Fast</div>
+              </div>
+              <div class="property-card">
+                <h4>Assumptions</h4>
+                <div class="value">Linearity</div>
+              </div>
+              <div class="property-card">
+                <h4>Extensions</h4>
+                <div class="value">Multinomial</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Logistic Regression is widely used across various domains for
+              classification tasks:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Healthcare: Disease diagnosis based on symptoms
+              </li>
+              <li style="margin-bottom: 10px">
+                Finance: Credit risk assessment and fraud detection
+              </li>
+              <li style="margin-bottom: 10px">
+                Marketing: Customer churn prediction
+              </li>
+              <li style="margin-bottom: 10px">
+                Natural Language Processing: Sentiment analysis
+              </li>
+              <li>Computer Vision: Image classification tasks</li>
+              <li style="margin-top: 10px">
+                Biometrics: Authentication systems
+              </li>
+            </ul>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code><span class="comment"># Sigmoid function</span>
+<span class="keyword">def</span> <span class="function">sigmoid</span>(z):
+    <span class="keyword">return</span> 1 / (1 + exp(-z))
+
+<span class="comment"># Logistic Regression with Gradient Descent</span>
+<span class="keyword">def</span> <span class="function">logistic_regression</span>(X, y, learning_rate, iterations):
+    m, n = X.shape
+    θ = zeros(n)  <span class="comment"># Initialize parameters</span>
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(iterations):
+        <span class="comment"># Compute hypothesis and error</span>
+        z = dot(X, θ)
+        h = sigmoid(z)
+        error = h - y
+        
+        <span class="comment"># Compute gradient</span>
+        gradient = dot(X.T, error) / m
+        
+        <span class="comment"># Update parameters</span>
+        θ = θ - learning_rate * gradient
+        
+        <span class="comment"># Compute cost</span>
+        cost = (-1/m) * sum(y * log(h) + (1-y) * log(1-h))
+    
+    <span class="keyword">return</span> θ
+
+<span class="comment"># Predict function</span>
+<span class="keyword">def</span> <span class="function">predict</span>(X, θ, threshold=0.5):
+    probabilities = sigmoid(dot(X, θ))
+    <span class="keyword">return</span> (probabilities >= threshold).astype(int)</code></pre>
+            </div>
+          </div>
+
+          <!-- Evaluation Metrics -->
+          <div class="section">
+            <h2><i class="fas fa-ruler"></i> Evaluation Metrics</h2>
+            <p>Key metrics for evaluating logistic regression models:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                <strong>Accuracy</strong>: Proportion of correct predictions
+              </li>
+              <li style="margin-bottom: 10px">
+                <strong>Precision</strong>: Proportion of true positives among
+                positive predictions
+              </li>
+              <li style="margin-bottom: 10px">
+                <strong>Recall</strong>: Proportion of positives correctly
+                identified
+              </li>
+              <li>
+                <strong>F1 Score</strong>: Harmonic mean of precision and recall
+              </li>
+              <li style="margin-top: 10px">
+                <strong>ROC-AUC</strong>: Area under the Receiver Operating
+                Characteristic curve
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2023 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize Charts
+        const ctx = document
+          .getElementById("regression-chart")
+          .getContext("2d");
+        const sigmoidCtx = document
+          .getElementById("sigmoid-chart")
+          .getContext("2d");
+        let regressionChart, sigmoidChart;
+
+        // Sample data
+        let dataPoints = [
+          { x: 1, y: 2, class: 0 },
+          { x: 2, y: 3, class: 0 },
+          { x: 3, y: 1.5, class: 0 },
+          { x: 4, y: 4, class: 0 },
+          { x: 1.5, y: 5, class: 0 },
+          { x: 7, y: 2, class: 1 },
+          { x: 8, y: 3, class: 1 },
+          { x: 9, y: 4, class: 1 },
+          { x: 7.5, y: 5, class: 1 },
+          { x: 8.5, y: 1, class: 1 },
+        ];
+
+        // Model parameters
+        let theta = [0, 0, 0]; // [intercept, x1, x2]
+        let learningRate = 0.1;
+        let threshold = 0.5;
+        let isTraining = false;
+
+        // Initialize charts
+        function initCharts() {
+          // Initialize main scatter plot
+          regressionChart = new Chart(ctx, {
+            type: "scatter",
+            data: {
+              datasets: [
+                {
+                  label: "Class 0",
+                  data: dataPoints.filter((p) => p.class === 0),
+                  backgroundColor: "rgba(129, 140, 248, 0.8)",
+                  borderColor: "rgba(99, 102, 241, 1)",
+                  borderWidth: 1,
+                  pointRadius: 6,
+                },
+                {
+                  label: "Class 1",
+                  data: dataPoints.filter((p) => p.class === 1),
+                  backgroundColor: "rgba(245, 158, 11, 0.8)",
+                  borderColor: "rgba(217, 119, 6, 1)",
+                  borderWidth: 1,
+                  pointRadius: 6,
+                },
+                {
+                  label: "Decision Boundary",
+                  data: [],
+                  type: "line",
+                  fill: false,
+                  borderColor: "rgba(16, 185, 129, 1)",
+                  borderWidth: 2,
+                  pointRadius: 0,
+                  showLine: true,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  type: "linear",
+                  position: "bottom",
+                  min: 0,
+                  max: 10,
+                  grid: {
+                    color: "rgba(148, 163, 184, 0.1)",
+                  },
+                  ticks: {
+                    color: "rgba(148, 163, 184, 0.8)",
+                  },
+                },
+                y: {
+                  min: 0,
+                  max: 6,
+                  grid: {
+                    color: "rgba(148, 163, 184, 0.1)",
+                  },
+                  ticks: {
+                    color: "rgba(148, 163, 184, 0.8)",
+                  },
+                },
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    color: "rgba(148, 163, 184, 0.8)",
+                  },
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      return `(${context.parsed.x.toFixed(
+                        2
+                      )}, ${context.parsed.y.toFixed(2)})`;
+                    },
+                  },
+                },
+              },
+            },
+          });
+
+          // Initialize sigmoid function plot
+          sigmoidChart = new Chart(sigmoidCtx, {
+            type: "line",
+            data: {
+              labels: Array.from({ length: 21 }, (_, i) => -5 + i * 0.5),
+              datasets: [
+                {
+                  label: "Sigmoid",
+                  data: [],
+                  fill: false,
+                  borderColor: "rgba(129, 140, 248, 1)",
+                  borderWidth: 2,
+                  pointRadius: 0,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  grid: {
+                    color: "rgba(148, 163, 184, 0.1)",
+                  },
+                  ticks: {
+                    color: "rgba(148, 163, 184, 0.8)",
+                  },
+                },
+                y: {
+                  min: 0,
+                  max: 1,
+                  grid: {
+                    color: "rgba(148, 163, 184, 0.1)",
+                  },
+                  ticks: {
+                    color: "rgba(148, 163, 184, 0.8)",
+                  },
+                },
+              },
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+            },
+          });
+
+          updateCharts();
+        }
+
+        // Update charts
+        function updateCharts() {
+          // Update sigmoid plot
+          const sigmoidData = sigmoidChart.data.labels.map(
+            (x) => 1 / (1 + Math.exp(-x))
+          );
+          sigmoidChart.data.datasets[0].data = sigmoidData;
+          sigmoidChart.update();
+
+          // Update decision boundary
+          updateDecisionBoundary();
+
+          // Update probability display
+          updateProbabilityDisplay();
+        }
+
+        // Update decision boundary
+        function updateDecisionBoundary() {
+          if (!regressionChart) return;
+
+          // For a 2D plot, the decision boundary is θ₀ + θ₁x + θ₂y = 0
+          // We can write it as y = (-θ₀ - θ₁x) / θ₂
+
+          let lineData = [];
+          if (theta[2] !== 0) {
+            for (let x = 0; x <= 10; x += 1) {
+              const y = (-theta[0] - theta[1] * x) / theta[2];
+              if (y >= 0 && y <= 6) {
+                lineData.push({ x, y });
+              }
+            }
+          }
+
+          // Update chart
+          regressionChart.data.datasets[2].data = lineData;
+          regressionChart.update();
+
+          // Update equation display
+          document.getElementById(
+            "equation-display"
+          ).textContent = `Decision Boundary: ${theta[1].toFixed(
+            2
+          )}x₁ + ${theta[2].toFixed(2)}x₂ + ${theta[0].toFixed(2)} = 0`;
+        }
+
+        // Update probability display
+        function updateProbabilityDisplay() {
+          // Calculate probability at the center of the plot
+          const x = 5;
+          const y = 3;
+          const z = theta[0] + theta[1] * x + theta[2] * y;
+          const probability = 1 / (1 + Math.exp(-z));
+
+          document.getElementById(
+            "probability-display"
+          ).textContent = `Probability at (5,3): ${probability.toFixed(2)}`;
+        }
+
+        // Sigmoid function
+        function sigmoid(z) {
+          return 1 / (1 + Math.exp(-z));
+        }
+
+        // Train logistic regression model
+        function trainModel() {
+          if (isTraining || dataPoints.length < 2) return;
+
+          isTraining = true;
+          document.getElementById("train-btn").textContent = "Training...";
+
+          // Perform a few iterations of gradient descent
+          const iterations = 10;
+          const m = dataPoints.length;
+
+          for (let iter = 0; iter < iterations; iter++) {
+            let cost = 0;
+            let grad0 = 0,
+              grad1 = 0,
+              grad2 = 0;
+
+            dataPoints.forEach((point) => {
+              const z = theta[0] + theta[1] * point.x + theta[2] * point.y;
+              const h = sigmoid(z);
+              const error = h - point.class;
+
+              grad0 += error;
+              grad1 += error * point.x;
+              grad2 += error * point.y;
+
+              // Update cost
+              cost +=
+                point.class * Math.log(h) + (1 - point.class) * Math.log(1 - h);
+            });
+
+            // Update gradients
+            theta[0] -= learningRate * (grad0 / m);
+            theta[1] -= learningRate * (grad1 / m);
+            theta[2] -= learningRate * (grad2 / m);
+
+            // Calculate final cost
+            cost = -cost / m;
+            document.getElementById(
+              "cost-display"
+            ).textContent = `Cost: ${cost.toFixed(4)}`;
+          }
+
+          updateCharts();
+          isTraining = false;
+          document.getElementById("train-btn").textContent = "Train Model";
+        }
+
+        // Add random data points
+        function addRandomPoints(count = 2) {
+          for (let i = 0; i < count; i++) {
+            const x = Math.random() * 8 + 1;
+            const y = Math.random() * 4 + 1;
+            const cls = Math.random() > 0.5 ? 1 : 0;
+            dataPoints.push({ x, y, class: cls });
+          }
+          updateDataPoints();
+        }
+
+        // Reset data points
+        function resetDataPoints() {
+          dataPoints = [];
+          theta = [0, 0, 0];
+          learningRate = 0.1;
+          threshold = 0.5;
+
+          document.getElementById("learning-rate-slider").value = learningRate;
+          document.getElementById("learning-rate-value").textContent =
+            learningRate.toFixed(2);
+          document.getElementById("threshold-slider").value = threshold;
+          document.getElementById("threshold-value").textContent =
+            threshold.toFixed(2);
+
+          updateDataPoints();
+          updateCharts();
+        }
+
+        // Update data points in chart
+        function updateDataPoints() {
+          if (!regressionChart) return;
+
+          regressionChart.data.datasets[0].data = dataPoints.filter(
+            (p) => p.class === 0
+          );
+          regressionChart.data.datasets[1].data = dataPoints.filter(
+            (p) => p.class === 1
+          );
+          regressionChart.update();
+          updateCharts();
+        }
+
+        // Event listeners
+        document
+          .getElementById("threshold-slider")
+          .addEventListener("input", function () {
+            threshold = parseFloat(this.value);
+            document.getElementById("threshold-value").textContent =
+              threshold.toFixed(2);
+            updateProbabilityDisplay();
+          });
+
+        document
+          .getElementById("learning-rate-slider")
+          .addEventListener("input", function () {
+            learningRate = parseFloat(this.value);
+            document.getElementById("learning-rate-value").textContent =
+              learningRate.toFixed(2);
+          });
+
+        document
+          .getElementById("add-points-btn")
+          .addEventListener("click", function () {
+            addRandomPoints(2);
+          });
+
+        document
+          .getElementById("train-btn")
+          .addEventListener("click", trainModel);
+
+        document
+          .getElementById("reset-btn")
+          .addEventListener("click", resetDataPoints);
+
+        // Add click event to chart for adding points
+        document
+          .getElementById("regression-chart")
+          .addEventListener("click", function (evt) {
+            if (isTraining) return;
+
+            const rect = this.getBoundingClientRect();
+            const x = ((evt.clientX - rect.left) / rect.width) * 10;
+            const y = 6 - ((evt.clientY - rect.top) / rect.height) * 6;
+
+            if (x >= 0 && x <= 10 && y >= 0 && y <= 6) {
+              // Toggle class on shift click
+              const cls = evt.shiftKey ? 1 : 0;
+              dataPoints.push({ x, y, class: cls });
+              updateDataPoints();
+            }
+          });
+
+        // Initialize
+        initCharts();
+      });
+    </script>
+  </body>
+</html>
