@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linear SVM | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 350px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* SVM Visualization Styles */
+      #svmCanvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      .slider-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+        color: var(--text-secondary);
+      }
+
+      .slider-container input {
+        flex: 1;
+      }
+
+      .svm-legend {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .legend-color {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+      }
+
+      .legend-class1 {
+        background-color: var(--accent-light);
+      }
+
+      .legend-class2 {
+        background-color: #f87171;
+      }
+
+      .legend-sv {
+        background-color: var(--warning);
+      }
+
+      .legend-boundary {
+        background-color: var(--success);
+        height: 2px;
+        width: 20px;
+        border-radius: 0;
+      }
+
+      .legend-margin {
+        background-color: var(--success);
+        height: 2px;
+        width: 20px;
+        border-radius: 0;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Machine Learning</a> >
+              <span>Linear SVM</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Linear Support Vector Machine</h1>
+        <div class="category">
+          <i class="fas fa-brain"></i> Classification Algorithm
+        </div>
+        <div class="complexity-badge">Training Complexity: O(n²) to O(n³)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Linear Support Vector Machines (SVM) are powerful supervised
+              learning algorithms for classification tasks. The core idea is to
+              find the optimal hyperplane that maximizes the margin between
+              different classes in the feature space. This hyperplane serves as
+              the decision boundary for classifying new data points.
+            </p>
+            <p>
+              SVMs are particularly effective in high-dimensional spaces and are
+              robust against overfitting. They work by transforming data points
+              into a higher dimension where a linear separation is possible,
+              using the kernel trick. For linearly separable data, the algorithm
+              finds the maximum-margin hyperplane.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Maximizes the margin between classes for better generalization
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  Effective in high-dimensional spaces and robust to overfitting
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Memory</h3>
+                <p>
+                  Uses only support vectors for prediction, making it memory
+                  efficient
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Converts classification problem into convex optimization</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Explore how Linear SVM creates decision boundaries. Add data
+              points by clicking on the canvas, adjust parameters, and see how
+              the SVM finds the optimal hyperplane that maximizes the margin
+              between classes.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Linear SVM Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn" id="clearBtn">
+                    <i class="fas fa-trash"></i> Clear
+                  </button>
+                  <button class="console-btn" id="trainBtn">
+                    <i class="fas fa-play"></i> Train
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <canvas id="svmCanvas"></canvas>
+              </div>
+
+              <div class="svm-legend">
+                <div class="legend-item">
+                  <div class="legend-color legend-class1"></div>
+                  <span>Class 1</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color legend-class2"></div>
+                  <span>Class 2</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color legend-sv"></div>
+                  <span>Support Vector</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color legend-boundary"></div>
+                  <span>Decision Boundary</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color legend-margin"></div>
+                  <span>Margin</span>
+                </div>
+              </div>
+
+              <div class="slider-container">
+                <label for="cParam">C (Regularization):</label>
+                <input
+                  type="range"
+                  id="cParam"
+                  min="0.1"
+                  max="10"
+                  step="0.1"
+                  value="1"
+                />
+                <span id="cValue">1.0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Linear SVM training involves the following key steps to find the
+              optimal hyperplane:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-vector-square"></i> 1. Problem Formulation
+                </h3>
+                <p>
+                  Define the optimization problem to find the hyperplane that
+                  maximizes the margin between classes. The margin is the
+                  distance between the hyperplane and the nearest data points
+                  (support vectors).
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-calculator"></i> 2. Quadratic Programming
+                </h3>
+                <p>
+                  Solve the constrained optimization problem using quadratic
+                  programming techniques. The solution involves finding Lagrange
+                  multipliers that maximize the margin while minimizing
+                  classification errors.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-dot-circle"></i> 3. Support Vectors
+                  Identification
+                </h3>
+                <p>
+                  Identify the support vectors - data points that lie closest to
+                  the decision boundary. These points define the margin and are
+                  critical for the classification function.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-ruler-combined"></i> 4. Hyperplane
+                  Construction
+                </h3>
+                <p>
+                  Construct the optimal hyperplane using the support vectors.
+                  The decision boundary is defined as w·x + b = 0, where w is
+                  the weight vector and b is the bias term.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-expand-arrows-alt"></i> 5. Margin Calculation
+                </h3>
+                <p>
+                  Calculate the margin as 2/||w||. Maximizing the margin is
+                  equivalent to minimizing ||w||, which is the core optimization
+                  objective of SVM.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Classification</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Supervised</div>
+              </div>
+              <div class="property-card">
+                <h4>Kernel</h4>
+                <div class="value">Linear</div>
+              </div>
+              <div class="property-card">
+                <h4>Margin Type</h4>
+                <div class="value">Hard/Soft</div>
+              </div>
+              <div class="property-card">
+                <h4>Training Time</h4>
+                <div class="value">O(n²) to O(n³)</div>
+              </div>
+              <div class="property-card">
+                <h4>Prediction Time</h4>
+                <div class="value">O(m)</div>
+              </div>
+              <div class="property-card">
+                <h4>Regularization</h4>
+                <div class="value">Parameter C</div>
+              </div>
+              <div class="property-card">
+                <h4>Robustness</h4>
+                <div class="value">High</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Linear SVM is widely used in various domains due to its
+              effectiveness and efficiency:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Text and hypertext categorization
+              </li>
+              <li style="margin-bottom: 10px">
+                Image classification and recognition
+              </li>
+              <li style="margin-bottom: 10px">
+                Handwritten character recognition
+              </li>
+              <li style="margin-bottom: 10px">
+                Biological sequence analysis (protein, DNA)
+              </li>
+              <li>Medical diagnosis and prognosis</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Initialize canvas and context
+      const canvas = document.getElementById("svmCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // Set canvas dimensions
+      function resizeCanvas() {
+        const container = canvas.parentElement;
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        draw();
+      }
+
+      // Initial resize
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      // Data points: {x, y, label, isSupportVector}
+      let dataPoints = [];
+      let isTraining = false;
+      let decisionBoundary = null;
+      let supportVectors = [];
+      let cParam = 1.0;
+
+      // Initialize with some sample data
+      function initializeSampleData() {
+        dataPoints = [];
+
+        // Add some sample points (linearly separable)
+        for (let i = 0; i < 20; i++) {
+          // Class 1 points (top-left)
+          let x1 = 50 + Math.random() * (canvas.width / 2 - 100);
+          let y1 = 50 + Math.random() * (canvas.height / 2 - 100);
+          dataPoints.push({ x: x1, y: y1, label: 1, isSupportVector: false });
+
+          // Class 2 points (bottom-right)
+          let x2 =
+            canvas.width / 2 + 50 + Math.random() * (canvas.width / 2 - 100);
+          let y2 =
+            canvas.height / 2 + 50 + Math.random() * (canvas.height / 2 - 100);
+          dataPoints.push({ x: x2, y: y2, label: -1, isSupportVector: false });
+        }
+      }
+
+      // Draw everything on canvas
+      function draw() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw background grid
+        drawGrid();
+
+        // Draw data points
+        dataPoints.forEach((point) => {
+          drawPoint(point);
+        });
+
+        // Draw decision boundary and margin if trained
+        if (decisionBoundary) {
+          drawDecisionBoundary();
+        }
+      }
+
+      // Draw grid background
+      function drawGrid() {
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.1)";
+        ctx.lineWidth = 1;
+
+        // Vertical lines
+        for (let x = 0; x <= canvas.width; x += 40) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+          ctx.stroke();
+        }
+
+        // Horizontal lines
+        for (let y = 0; y <= canvas.height; y += 40) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(canvas.width, y);
+          ctx.stroke();
+        }
+      }
+
+      // Draw a single data point
+      function drawPoint(point) {
+        // Draw point
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
+
+        // Set color based on class
+        if (point.label === 1) {
+          ctx.fillStyle = point.isSupportVector
+            ? "var(--warning)"
+            : "var(--accent-light)";
+        } else {
+          ctx.fillStyle = point.isSupportVector ? "var(--warning)" : "#f87171";
+        }
+
+        ctx.fill();
+
+        // Draw border for support vectors
+        if (point.isSupportVector) {
+          ctx.strokeStyle = "var(--warning)";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      }
+
+      // Draw decision boundary and margin
+      function drawDecisionBoundary() {
+        const { w0, w1, b } = decisionBoundary;
+
+        // Calculate margin
+        const margin = 1 / Math.sqrt(w0 * w0 + w1 * w1);
+
+        // Calculate line endpoints (y = (-w0/w1)x - b/w1)
+        const x1 = 0;
+        const y1 = -b / w1;
+        const x2 = canvas.width;
+        const y2 = (-w0 * x2 - b) / w1;
+
+        // Draw margin boundaries
+        ctx.strokeStyle = "var(--success)";
+        ctx.setLineDash([5, 3]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1 + margin * w1);
+        ctx.lineTo(x2, y2 + margin * w1);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1 - margin * w1);
+        ctx.lineTo(x2, y2 - margin * w1);
+        ctx.stroke();
+
+        // Draw decision boundary
+        ctx.setLineDash([]);
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+
+      // Train SVM (simplified visualization)
+      function trainSVM() {
+        isTraining = true;
+
+        // Reset support vectors
+        dataPoints.forEach((p) => (p.isSupportVector = false));
+        supportVectors = [];
+
+        // Find convex hull points (simplified approach for visualization)
+        // In a real SVM, this would be solved with quadratic programming
+        const class1 = dataPoints.filter((p) => p.label === 1);
+        const class2 = dataPoints.filter((p) => p.label === -1);
+
+        // Find closest points between classes
+        let minDistance = Infinity;
+        let closestPair = null;
+
+        for (const p1 of class1) {
+          for (const p2 of class2) {
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestPair = [p1, p2];
+            }
+          }
+        }
+
+        // Mark these as support vectors
+        if (closestPair) {
+          closestPair[0].isSupportVector = true;
+          closestPair[1].isSupportVector = true;
+          supportVectors = closestPair;
+
+          // Calculate decision boundary (perpendicular to line between support vectors)
+          const midX = (closestPair[0].x + closestPair[1].x) / 2;
+          const midY = (closestPair[0].y + closestPair[1].y) / 2;
+
+          // Direction vector between support vectors
+          const dx = closestPair[1].x - closestPair[0].x;
+          const dy = closestPair[1].y - closestPair[0].y;
+
+          // Normal vector (perpendicular to direction)
+          const w0 = -dy;
+          const w1 = dx;
+
+          // Calculate bias (b) so that w0*x + w1*y + b = 0 at midpoint
+          const b = -w0 * midX - w1 * midY;
+
+          decisionBoundary = { w0, w1, b };
+        }
+
+        draw();
+        isTraining = false;
+      }
+
+      // Handle canvas clicks to add points
+      canvas.addEventListener("click", (e) => {
+        if (isTraining) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Determine class based on click position (shift for class 2)
+        const label = e.shiftKey ? -1 : 1;
+
+        dataPoints.push({
+          x,
+          y,
+          label,
+          isSupportVector: false,
+        });
+
+        draw();
+      });
+
+      // Handle parameter changes
+      document.getElementById("cParam").addEventListener("input", (e) => {
+        cParam = parseFloat(e.target.value);
+        document.getElementById("cValue").textContent = cParam.toFixed(1);
+      });
+
+      // Button event listeners
+      document.getElementById("trainBtn").addEventListener("click", trainSVM);
+
+      document.getElementById("clearBtn").addEventListener("click", () => {
+        dataPoints = [];
+        decisionBoundary = null;
+        supportVectors = [];
+        draw();
+      });
+
+      // Initialize with sample data
+      initializeSampleData();
+      draw();
+    </script>
+  </body>
+</html>
