@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Algorithm Detail | AlgoViz Hub</title>
+    <title>ElGamal Key Exchange | AlgoViz Hub</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -363,10 +363,8 @@
       }
 
       .visualization-area::before {
-        content: "Algorithm Visualization";
+        content: "";
         position: absolute;
-        color: rgba(148, 163, 184, 0.5);
-        font-size: 20px;
       }
 
       .console-input {
@@ -546,6 +544,133 @@
       .number {
         color: #79c0ff;
       }
+
+      /* ElGamal Visualization Styles */
+      .elgamal-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+        position: relative;
+      }
+
+      .participant {
+        width: 45%;
+        height: 100%;
+        background: rgba(30, 41, 59, 0.7);
+        border-radius: 10px;
+        padding: 15px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .participant h4 {
+        color: var(--accent-light);
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      .key-container {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .key-label {
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .key-value {
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+        word-break: break-all;
+      }
+
+      .message-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        text-align: center;
+        padding: 10px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        z-index: 10;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .arrow {
+        position: absolute;
+        top: 50%;
+        height: 2px;
+        background: var(--accent-light);
+        z-index: 5;
+        opacity: 0;
+      }
+
+      .arrow::before,
+      .arrow::after {
+        content: "";
+        position: absolute;
+        right: -8px;
+        top: -4px;
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 8px solid var(--accent-light);
+      }
+
+      .step-indicator {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      .step-content {
+        display: none;
+      }
+
+      .step-content.active {
+        display: block;
+      }
+
+      .highlight {
+        background: rgba(99, 102, 241, 0.3);
+        border: 1px solid var(--accent);
+      }
+
+      .encrypted {
+        color: var(--warning);
+      }
+
+      .decrypted {
+        color: var(--success);
+      }
+
+      /* Calculation Steps */
+      .calculation-steps {
+        position: absolute;
+        bottom: 35px;
+        left: 0;
+        width: 100%;
+        padding: 0 15px;
+        font-size: 13px;
+        color: var(--text-secondary);
+        text-align: center;
+        font-family: "Roboto Mono", monospace;
+      }
     </style>
   </head>
   <body>
@@ -561,8 +686,8 @@
             <p>ALGORITHM VISUALIZATION REPOSITORY</p>
             <div class="breadcrumb">
               <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
-              <span>Merge Sort</span>
+              <a href="#">Cryptography Algorithms</a> >
+              <span>ElGamal Key Exchange</span>
             </div>
           </div>
         </div>
@@ -570,11 +695,11 @@
 
       <!-- Algorithm Header -->
       <div class="algorithm-header">
-        <h1>Merge Sort</h1>
+        <h1>ElGamal Key Exchange</h1>
         <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
+          <i class="fas fa-lock"></i> Public-Key Cryptography
         </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+        <div class="complexity-badge">Security: Discrete Logarithm Problem</div>
       </div>
 
       <!-- Main Content -->
@@ -585,47 +710,34 @@
           <div class="section">
             <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
             <p>
-              Merge Sort is an efficient, stable, comparison-based, divide and
-              conquer sorting algorithm. It works by recursively dividing the
-              unsorted list into n sublists until each sublist contains one
-              element (a list of one element is considered sorted), then
-              repeatedly merging sublists to produce new sorted sublists until
-              there is only one sublist remaining.
+              ElGamal encryption is a public-key cryptosystem based on the
+              discrete logarithm problem. It consists of three components: key
+              generation, encryption, and decryption. The system provides an
+              alternative to RSA and is widely used in cryptographic protocols.
             </p>
             <p>
-              Merge Sort is particularly useful when sorting large datasets and
-              is often used for external sorting. It's a classic example of a
-              divide and conquer algorithm and is widely used in practice due to
-              its efficiency and stability.
+              In key exchange scenarios, ElGamal allows two parties to establish
+              a shared secret over an insecure channel. The algorithm is
+              particularly valued for its security properties and its basis in
+              the difficulty of computing discrete logarithms in a finite field.
             </p>
 
             <div class="key-points">
               <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
-                  Stable sorting algorithm that preserves the order of equal
-                  elements
-                </p>
+                <h3><i class="fas fa-key"></i> Key Generation</h3>
+                <p>Select large prime, generator, and private/public keys</p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
-                  Consistent O(n log n) time complexity in all cases (best,
-                  average, worst)
-                </p>
+                <h3><i class="fas fa-lock"></i> Encryption</h3>
+                <p>Encrypt using public key and random ephemeral key</p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>
-                  Requires O(n) additional space for temporary arrays during
-                  merging
-                </p>
+                <h3><i class="fas fa-unlock"></i> Decryption</h3>
+                <p>Decrypt using private key and shared parameters</p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
-                  Divide and conquer technique with recursive implementation
-                </p>
+                <h3><i class="fas fa-shield-alt"></i> Security</h3>
+                <p>Based on difficulty of discrete logarithm problem</p>
               </div>
             </div>
           </div>
@@ -636,39 +748,85 @@
               <i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
             <p>
-              Use the interactive console below to visualize how Merge Sort
-              works. Enter a comma-separated list of numbers, adjust the speed,
-              and step through the algorithm to see each stage of the sorting
-              process.
+              Use the interactive console to visualize the ElGamal key exchange
+              process. Step through each stage to see how symmetric keys are
+              securely exchanged using public-key cryptography.
             </p>
 
             <div class="visualization-console">
               <div class="console-header">
                 <h3>
-                  <i class="fas fa-play-circle"></i> Merge Sort Visualization
+                  <i class="fas fa-exchange-alt"></i> ElGamal Key Exchange
+                  Visualization
                 </h3>
                 <div class="console-controls">
-                  <button class="console-btn secondary">
-                    <i class="fas fa-cog"></i> Settings
+                  <button class="console-btn secondary" id="prev-btn">
+                    <i class="fas fa-arrow-left"></i> Prev
                   </button>
-                  <button class="console-btn">
-                    <i class="fas fa-play"></i> Run
+                  <button class="console-btn" id="next-btn">
+                    Next <i class="fas fa-arrow-right"></i>
+                  </button>
+                  <button class="console-btn" id="reset-btn">
+                    <i class="fas fa-redo"></i> Reset
                   </button>
                 </div>
               </div>
 
               <div class="visualization-area">
-                <!-- Visualization will be rendered here -->
-              </div>
+                <div class="elgamal-container">
+                  <!-- Alice's Side -->
+                  <div class="participant" id="alice">
+                    <h4><i class="fas fa-user"></i> Alice</h4>
+                    <div class="key-container">
+                      <div class="key-label">Private Key (x)</div>
+                      <div class="key-value" id="alice-private">6</div>
+                    </div>
+                    <div class="key-container">
+                      <div class="key-label">Public Key (p, g, h)</div>
+                      <div class="key-value" id="alice-public">
+                        p: 23<br />g: 11<br />h: 9
+                      </div>
+                    </div>
+                    <div class="key-container" id="alice-secret">
+                      <div class="key-label">Shared Secret</div>
+                      <div class="key-value">-</div>
+                    </div>
+                  </div>
 
-              <div class="console-input">
-                <input
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                />
-                <button class="console-btn">
-                  <i class="fas fa-random"></i> Random
-                </button>
+                  <!-- Bob's Side -->
+                  <div class="participant" id="bob">
+                    <h4><i class="fas fa-user"></i> Bob</h4>
+                    <div class="key-container">
+                      <div class="key-label">Symmetric Key (K)</div>
+                      <div class="key-value" id="bob-secret">12</div>
+                    </div>
+                    <div class="key-container">
+                      <div class="key-label">Encrypted Pair (c1, c2)</div>
+                      <div class="key-value" id="bob-encrypted">-</div>
+                    </div>
+                    <div class="key-container" id="bob-shared">
+                      <div class="key-label">Ephemeral Key (y)</div>
+                      <div class="key-value">3</div>
+                    </div>
+                  </div>
+
+                  <!-- Messages -->
+                  <div class="message-container" id="msg-public-key">
+                    <i class="fas fa-key"></i> Public Key<br />(p, g, h)
+                  </div>
+
+                  <div class="message-container" id="msg-encrypted">
+                    <i class="fas fa-lock"></i> Encrypted Pair<br />(c1, c2)
+                  </div>
+
+                  <div class="arrow" id="arrow-1"></div>
+                  <div class="arrow" id="arrow-2"></div>
+
+                  <div class="step-indicator">
+                    Step: <span id="step-num">1</span>/6
+                  </div>
+                  <div class="calculation-steps" id="calc-steps"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -677,49 +835,56 @@
           <div class="section">
             <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
             <p>
-              RSA key exchange involves the following steps to securely share a
-              symmetric key:
+              ElGamal key exchange involves the following steps to securely
+              share a symmetric key:
             </p>
 
             <div class="key-points">
               <div class="point-card">
                 <h3><i class="fas fa-key"></i> 1. Key Generation</h3>
                 <p>
-                  Alice selects two large primes (p=61, q=53), computes modulus
-                  (n=p*q=3233), Euler's totient (φ=3120), chooses public
-                  exponent (e=17), and computes private exponent (d=2753).
+                  Alice selects a large prime (p=23), a generator (g=11), and a
+                  private key (x=6). She computes her public key h = g^x mod p =
+                  11^6 mod 23 = 9.
                 </p>
               </div>
               <div class="point-card">
                 <h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
                 <p>
-                  Alice shares her public key (e, n) with Bob. This key can be
-                  safely transmitted over insecure channels.
+                  Alice shares her public key (p, g, h) with Bob. This key can
+                  be safely transmitted over insecure channels.
                 </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-lock"></i> 3. Encrypt Symmetric Key</h3>
+                <h3><i class="fas fa-random"></i> 3. Generate Ephemeral Key</h3>
                 <p>
-                  Bob generates a symmetric key (K=123) and encrypts it using
-                  Alice's public key: C = K<sup>e</sup> mod n = 123<sup>17</sup>
-                  mod 3233 = 855.
+                  Bob generates a random ephemeral key (y=3) that will be used
+                  only for this key exchange session.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-lock"></i> 4. Encrypt Symmetric Key</h3>
+                <p>
+                  Bob encrypts the symmetric key (K=12) using Alice's public
+                  key: c1 = g^y mod p = 11^3 mod 23 = 20, s = h^y mod p = 9^3
+                  mod 23 = 16, c2 = K·s mod p = 12·16 mod 23 = 8.
                 </p>
               </div>
               <div class="point-card">
                 <h3>
-                  <i class="fas fa-paper-plane"></i> 4. Send Encrypted Key
+                  <i class="fas fa-paper-plane"></i> 5. Send Encrypted Pair
                 </h3>
                 <p>
-                  Bob sends the encrypted key (C=855) to Alice. Even if
-                  intercepted, this value cannot be decrypted without the
-                  private key.
+                  Bob sends the encrypted pair (c1, c2) = (20, 8) to Alice. This
+                  value cannot be decrypted without the private key.
                 </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> 5. Decrypt Key</h3>
+                <h3><i class="fas fa-unlock"></i> 6. Decrypt Key</h3>
                 <p>
-                  Alice decrypts the symmetric key using her private key: K =
-                  C<sup>d</sup> mod n = 855<sup>2753</sup> mod 3233 = 123.
+                  Alice decrypts the symmetric key using her private key: s =
+                  c1^x mod p = 20^6 mod 23 = 16, K = c2·s^{-1} mod p = 8·13 mod
+                  23 = 12.
                 </p>
               </div>
             </div>
@@ -729,95 +894,27 @@
           <div class="section">
             <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
             <div class="code-block">
-              <pre><code>function mergeSort(array)
-    if length(array) ≤ 1
-        return array
-    
-    mid = length(array) / 2
-    left = array[0..mid-1]
-    right = array[mid..end]
-    
-    left = mergeSort(left)
-    right = mergeSort(right)
-    
-    return merge(left, right)
+              <pre><code><span class="comment">// Key Generation</span>
+p = large_prime()
+g = generator_mod_p()
+x = random_int(1, p-2)  <span class="comment">// Private key</span>
+h = g^x mod p           <span class="comment">// Public key</span>
 
-function merge(left, right)
-    result = []
-    i = 0, j = 0
-    
-    while i < length(left) and j < length(right)
-        if left[i] ≤ right[j]
-            append left[i] to result
-            i = i + 1
-        else
-            append right[j] to result
-            j = j + 1
-    
-    append remaining elements of left to result
-    append remaining elements of right to result
-    
-    return result</code></pre>
-            </div>
-          </div>
+<span class="comment">// Public Key: (p, g, h)</span>
+<span class="comment">// Private Key: x</span>
 
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
-              Below is a Python implementation of the Merge Sort algorithm. The
-              algorithm consists of two main functions:
-              <code>merge_sort()</code> which handles the recursive division,
-              and <code>merge()</code> which combines two sorted halves into a
-              single sorted array.
-            </p>
+<span class="comment">// Encryption (by Bob)</span>
+y = random_int(1, p-2)  <span class="comment">// Ephemeral key</span>
+c1 = g^y mod p
+s = h^y mod p
+c2 = (K * s) mod p      <span class="comment">// K is symmetric key</span>
 
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
-                </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">merge_sort</span>(arr):
-    <span class="keyword">if</span> len(arr) <= 1:
-        <span class="keyword">return</span> arr
-        
-    <span class="comment"># Divide the array into two halves</span>
-    mid = len(arr) // 2
-    left_half = arr[:mid]
-    right_half = arr[mid:]
-    
-    <span class="comment"># Recursively sort each half</span>
-    left_half = merge_sort(left_half)
-    right_half = merge_sort(right_half)
-    
-    <span class="comment"># Merge the sorted halves</span>
-    <span class="keyword">return</span> merge(left_half, right_half)
+<span class="comment">// Send (c1, c2) to Alice</span>
 
-<span class="keyword">def</span> <span class="function">merge</span>(left, right):
-    merged = []
-    left_index = right_index = 0
-    
-    <span class="comment"># Traverse both lists and insert smaller value into result</span>
-    <span class="keyword">while</span> left_index < len(left) <span class="keyword">and</span> right_index < len(right):
-        <span class="keyword">if</span> left[left_index] < right[right_index]:
-            merged.append(left[left_index])
-            left_index += 1
-        <span class="keyword">else</span>:
-            merged.append(right[right_index])
-            right_index += 1
-    
-    <span class="comment"># Append remaining elements from either list</span>
-    merged.extend(left[left_index:])
-    merged.extend(right[right_index:])
-    
-    <span class="keyword">return</span> merged
-
-<span class="comment"># Example usage</span>
-arr = [38, 27, 43, 3, 9, 82, 10]
-sorted_arr = merge_sort(arr)
-print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
+<span class="comment">// Decryption (by Alice)</span>
+s = c1^x mod p
+s_inv = modular_inverse(s, p)
+K = (c2 * s_inv) mod p</code></pre>
             </div>
           </div>
         </div>
@@ -830,35 +927,35 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
             <div class="properties-grid">
               <div class="property-card">
                 <h4>Category</h4>
-                <div class="value">Sorting</div>
+                <div class="value">Cryptography</div>
               </div>
               <div class="property-card">
                 <h4>Type</h4>
-                <div class="value">Comparison</div>
+                <div class="value">Asymmetric</div>
               </div>
               <div class="property-card">
-                <h4>Stable</h4>
+                <h4>Key Exchange</h4>
                 <div class="value">Yes</div>
               </div>
               <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
+                <h4>Encryption</h4>
+                <div class="value">Yes</div>
               </div>
               <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
+                <h4>Digital Signatures</h4>
+                <div class="value">Yes</div>
               </div>
               <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
+                <h4>Security</h4>
+                <div class="value">Discrete Logarithm</div>
               </div>
               <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
+                <h4>Key Size</h4>
+                <div class="value">2048-4096 bits</div>
               </div>
               <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
+                <h4>Year</h4>
+                <div class="value">1985</div>
               </div>
             </div>
           </div>
@@ -867,8 +964,7 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
           <div class="section">
             <h2><i class="fas fa-lightbulb"></i> Applications</h2>
             <p>
-              Merge Sort is used in various scenarios where stable, efficient
-              sorting is required:
+              ElGamal is used in various security applications and protocols:
             </p>
             <ul
               style="
@@ -878,16 +974,14 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
               "
             >
               <li style="margin-bottom: 10px">
-                Sorting linked lists (efficient implementation)
+                Secure key exchange in cryptographic protocols
               </li>
               <li style="margin-bottom: 10px">
-                External sorting for large datasets
+                Digital signatures (DSA is based on ElGamal)
               </li>
-              <li style="margin-bottom: 10px">Inversion count problem</li>
-              <li style="margin-bottom: 10px">
-                Used as a building block in more complex algorithms
-              </li>
-              <li>Database systems for sorting large datasets</li>
+              <li style="margin-bottom: 10px">Encrypted messaging systems</li>
+              <li style="margin-bottom: 10px">Secure email communications</li>
+              <li>Anonymous communication protocols</li>
             </ul>
           </div>
         </div>
@@ -908,51 +1002,123 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
     </div>
 
     <script>
-      // Simple copy button functionality
-      document
-        .querySelector(".copy-btn")
-        .addEventListener("click", function () {
-          const code = document.querySelector(".code-block code").innerText;
-          navigator.clipboard.writeText(code);
+      document.addEventListener("DOMContentLoaded", function () {
+        // ElGamal Visualization State
+        let currentStep = 1;
+        const totalSteps = 6;
 
-          // Show feedback
-          const originalText = this.innerHTML;
-          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        // DOM Elements
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const stepNum = document.getElementById("step-num");
+        const aliceSecret = document.getElementById("alice-secret");
+        const bobEncrypted = document.getElementById("bob-encrypted");
+        const calcSteps = document.getElementById("calc-steps");
+        const msgPublicKey = document.getElementById("msg-public-key");
+        const msgEncrypted = document.getElementById("msg-encrypted");
+        const arrow1 = document.getElementById("arrow-1");
+        const arrow2 = document.getElementById("arrow-2");
 
-          setTimeout(() => {
-            this.innerHTML = originalText;
-          }, 2000);
-        });
+        // Initialize visualization
+        updateVisualization();
 
-      // Console buttons functionality
-      document.querySelectorAll(".console-btn").forEach((button) => {
-        button.addEventListener("click", function () {
-          if (this.textContent.includes("Run")) {
-            // Simulate visualization
-            const vizArea = document.querySelector(".visualization-area");
-            vizArea.innerHTML =
-              '<div style="text-align: center; color: var(--accent-light);">Visualization running...<br><div style="margin-top: 20px; font-size: 48px;"><i class="fas fa-spinner fa-spin"></i></div></div>';
-
-            // Change button to stop
-            this.innerHTML = '<i class="fas fa-stop"></i> Stop';
-            this.classList.add("secondary");
-
-            // After delay, show completed visualization
-            setTimeout(() => {
-              vizArea.innerHTML =
-                '<div style="text-align: center;"><div style="color: var(--success); font-size: 24px; margin-bottom: 20px;">Sorting Completed!</div><div>Sorted Array: [1, 2, 3, 4, 5, 6, 7, 8, 9]</div></div>';
-              this.innerHTML = '<i class="fas fa-redo"></i> Restart';
-              this.classList.remove("secondary");
-            }, 3000);
-          } else if (
-            this.textContent.includes("Restart") ||
-            this.textContent.includes("Stop")
-          ) {
-            // Reset visualization
-            document.querySelector(".visualization-area").innerHTML = "";
-            this.innerHTML = '<i class="fas fa-play"></i> Run';
+        // Event Listeners
+        prevBtn.addEventListener("click", function () {
+          if (currentStep > 1) {
+            currentStep--;
+            updateVisualization();
           }
         });
+
+        nextBtn.addEventListener("click", function () {
+          if (currentStep < totalSteps) {
+            currentStep++;
+            updateVisualization();
+          }
+        });
+
+        resetBtn.addEventListener("click", function () {
+          currentStep = 1;
+          updateVisualization();
+        });
+
+        // Update visualization based on current step
+        function updateVisualization() {
+          stepNum.textContent = currentStep;
+          calcSteps.innerHTML = "";
+
+          // Reset all highlights
+          document.querySelectorAll(".key-container").forEach((el) => {
+            el.classList.remove("highlight");
+            el.classList.remove("encrypted");
+            el.classList.remove("decrypted");
+          });
+
+          msgPublicKey.style.opacity = "0";
+          msgEncrypted.style.opacity = "0";
+          arrow1.style.opacity = "0";
+          arrow2.style.opacity = "0";
+
+          // Step-specific updates
+          switch (currentStep) {
+            case 1:
+              document
+                .querySelector("#alice-public")
+                .parentElement.classList.add("highlight");
+              calcSteps.innerHTML =
+                "Alice generates public key: h = g<sup>x</sup> mod p = 11<sup>6</sup> mod 23 = 9";
+              break;
+
+            case 2:
+              document
+                .querySelector("#alice-public")
+                .parentElement.classList.add("highlight");
+              msgPublicKey.style.opacity = "1";
+              arrow1.style.width = "40%";
+              arrow1.style.left = "45%";
+              arrow1.style.opacity = "1";
+              calcSteps.innerHTML =
+                "Alice shares public key (p=23, g=11, h=9) with Bob";
+              break;
+
+            case 3:
+              document
+                .querySelector("#bob-shared")
+                .parentElement.classList.add("highlight");
+              calcSteps.innerHTML =
+                "Bob generates ephemeral key y=3 for this session";
+              break;
+
+            case 4:
+              bobEncrypted.innerHTML = "c1: 20<br>c2: 8";
+              bobEncrypted.parentElement.classList.add("highlight");
+              bobEncrypted.classList.add("encrypted");
+              calcSteps.innerHTML =
+                "Bob computes: c1 = g<sup>y</sup> mod p = 11<sup>3</sup> mod 23 = 20<br>s = h<sup>y</sup> mod p = 9<sup>3</sup> mod 23 = 16<br>c2 = K·s mod p = 12·16 mod 23 = 8";
+              break;
+
+            case 5:
+              bobEncrypted.parentElement.classList.add("highlight");
+              msgEncrypted.style.opacity = "1";
+              arrow2.style.width = "40%";
+              arrow2.style.right = "45%";
+              arrow2.style.opacity = "1";
+              calcSteps.innerHTML =
+                "Bob sends encrypted pair (c1=20, c2=8) to Alice";
+              break;
+
+            case 6:
+              aliceSecret.querySelector(".key-value").innerHTML = "12";
+              aliceSecret.classList.add("highlight");
+              aliceSecret
+                .querySelector(".key-value")
+                .classList.add("decrypted");
+              calcSteps.innerHTML =
+                "Alice computes: s = c1<sup>x</sup> mod p = 20<sup>6</sup> mod 23 = 16<br>s<sup>-1</sup> mod p = 13<br>K = c2·s<sup>-1</sup> mod p = 8·13 mod 23 = 12";
+              break;
+          }
+        }
       });
     </script>
   </body>
