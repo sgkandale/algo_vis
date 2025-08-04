@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSA Key Exchange | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "";
+        position: absolute;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* RSA Visualization Styles */
+      .rsa-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+        position: relative;
+      }
+
+      .participant {
+        width: 45%;
+        height: 100%;
+        background: rgba(30, 41, 59, 0.7);
+        border-radius: 10px;
+        padding: 15px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .participant h4 {
+        color: var(--accent-light);
+        text-align: center;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      .key-container {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .key-label {
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .key-value {
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+        word-break: break-all;
+      }
+
+      .message-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        text-align: center;
+        padding: 10px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        z-index: 10;
+        opacity: 0;
+        transition: var(--transition);
+      }
+
+      .arrow {
+        position: absolute;
+        top: 50%;
+        height: 2px;
+        background: var(--accent-light);
+        z-index: 5;
+        opacity: 0;
+      }
+
+      .arrow::before,
+      .arrow::after {
+        content: "";
+        position: absolute;
+        right: -8px;
+        top: -4px;
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 8px solid var(--accent-light);
+      }
+
+      .step-indicator {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      .step-content {
+        display: none;
+      }
+
+      .step-content.active {
+        display: block;
+      }
+
+      .highlight {
+        background: rgba(99, 102, 241, 0.3);
+        border: 1px solid var(--accent);
+      }
+
+      .encrypted {
+        color: var(--warning);
+      }
+
+      .decrypted {
+        color: var(--success);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Cryptography Algorithms</a> >
+              <span>RSA Key Exchange</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>RSA Key Exchange</h1>
+        <div class="category">
+          <i class="fas fa-lock"></i> Public-Key Cryptography
+        </div>
+        <div class="complexity-badge">Security: 2048-bit</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              RSA (Rivest-Shamir-Adleman) is a public-key cryptosystem widely
+              used for secure data transmission. It uses asymmetric encryption
+              based on the practical difficulty of factoring large integers. The
+              RSA algorithm involves three main steps: key generation,
+              encryption, and decryption.
+            </p>
+            <p>
+              In key exchange scenarios, RSA allows two parties to securely
+              exchange symmetric keys over an insecure channel. One party
+              encrypts the symmetric key using the recipient's public key, and
+              only the recipient can decrypt it using their private key,
+              ensuring secure key exchange.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-key"></i> Key Generation</h3>
+                <p>Select two large primes, compute modulus and keys</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-lock"></i> Encryption</h3>
+                <p>Encrypt message using recipient's public key</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-unlock"></i> Decryption</h3>
+                <p>Decrypt ciphertext using private key</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-shield-alt"></i> Security</h3>
+                <p>Based on difficulty of factoring large numbers</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console to visualize the RSA key exchange
+              process. Step through each stage to see how symmetric keys are
+              securely exchanged using public-key cryptography.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-exchange-alt"></i> RSA Key Exchange
+                  Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="prev-btn">
+                    <i class="fas fa-arrow-left"></i> Prev
+                  </button>
+                  <button class="console-btn" id="next-btn">
+                    Next <i class="fas fa-arrow-right"></i>
+                  </button>
+                  <button class="console-btn" id="reset-btn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="rsa-container">
+                  <!-- Alice's Side -->
+                  <div class="participant" id="alice">
+                    <h4><i class="fas fa-user"></i> Alice</h4>
+                    <div class="key-container">
+                      <div class="key-label">Private Key (d, n)</div>
+                      <div class="key-value" id="alice-private">
+                        d: 2753<br />n: 3233
+                      </div>
+                    </div>
+                    <div class="key-container">
+                      <div class="key-label">Public Key (e, n)</div>
+                      <div class="key-value" id="alice-public">
+                        e: 17<br />n: 3233
+                      </div>
+                    </div>
+                    <div class="key-container" id="alice-secret">
+                      <div class="key-label">Symmetric Key</div>
+                      <div class="key-value">-</div>
+                    </div>
+                  </div>
+
+                  <!-- Bob's Side -->
+                  <div class="participant" id="bob">
+                    <h4><i class="fas fa-user"></i> Bob</h4>
+                    <div class="key-container">
+                      <div class="key-label">Symmetric Key</div>
+                      <div class="key-value" id="bob-secret">123</div>
+                    </div>
+                    <div class="key-container">
+                      <div class="key-label">Encrypted Key</div>
+                      <div class="key-value" id="bob-encrypted">-</div>
+                    </div>
+                  </div>
+
+                  <!-- Messages -->
+                  <div class="message-container" id="msg-public-key">
+                    <i class="fas fa-key"></i> Public Key<br />(e, n)
+                  </div>
+
+                  <div class="message-container" id="msg-encrypted">
+                    <i class="fas fa-lock"></i> Encrypted Key<br />C = 855
+                  </div>
+
+                  <div class="arrow" id="arrow-1"></div>
+                  <div class="arrow" id="arrow-2"></div>
+
+                  <div class="step-indicator">
+                    Step: <span id="step-num">1</span>/5
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              RSA key exchange involves the following steps to securely share a
+              symmetric key:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-key"></i> 1. Key Generation</h3>
+                <p>
+                  Alice selects two large primes (p=61, q=53), computes modulus
+                  (n=p*q=3233), Euler's totient (φ=3120), chooses public
+                  exponent (e=17), and computes private exponent (d=2753).
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
+                <p>
+                  Alice shares her public key (e, n) with Bob. This key can be
+                  safely transmitted over insecure channels.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-lock"></i> 3. Encrypt Symmetric Key</h3>
+                <p>
+                  Bob generates a symmetric key (K=123) and encrypts it using
+                  Alice's public key: C = K<sup>e</sup> mod n = 123<sup>17</sup>
+                  mod 3233 = 855.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-paper-plane"></i> 4. Send Encrypted Key
+                </h3>
+                <p>
+                  Bob sends the encrypted key (C=855) to Alice. Even if
+                  intercepted, this value cannot be decrypted without the
+                  private key.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-unlock"></i> 5. Decrypt Key</h3>
+                <p>
+                  Alice decrypts the symmetric key using her private key: K =
+                  C<sup>d</sup> mod n = 855<sup>2753</sup> mod 3233 = 123.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code><span class="comment">// Key Generation</span>
+p = large_prime()
+q = large_prime()
+n = p * q
+φ = (p-1) * (q-1)
+e = choose_public_exponent(φ)  <span class="comment">// Typically 65537</span>
+d = modular_inverse(e, φ)
+
+<span class="comment">// Public Key: (e, n)</span>
+<span class="comment">// Private Key: (d, n)</span>
+
+<span class="comment">// Encryption (by Bob)</span>
+symmetric_key = generate_key()
+ciphertext = pow(symmetric_key, e, n)
+
+<span class="comment">// Decryption (by Alice)</span>
+symmetric_key = pow(ciphertext, d, n)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Cryptography</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Asymmetric</div>
+              </div>
+              <div class="property-card">
+                <h4>Key Exchange</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Encryption</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Digital Signatures</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Security</h4>
+                <div class="value">Integer Factorization</div>
+              </div>
+              <div class="property-card">
+                <h4>Key Size</h4>
+                <div class="value">2048-4096 bits</div>
+              </div>
+              <div class="property-card">
+                <h4>Year</h4>
+                <div class="value">1977</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>RSA is used in various security applications and protocols:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Secure key exchange in SSL/TLS protocols
+              </li>
+              <li style="margin-bottom: 10px">Secure email (PGP, S/MIME)</li>
+              <li style="margin-bottom: 10px">
+                Digital signatures for document verification
+              </li>
+              <li style="margin-bottom: 10px">
+                Secure shell (SSH) authentication
+              </li>
+              <li>VPN and secure communication channels</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2023 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // RSA Visualization State
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        // DOM Elements
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const stepNum = document.getElementById("step-num");
+        const aliceSecret = document.getElementById("alice-secret");
+        const bobEncrypted = document.getElementById("bob-encrypted");
+        const bobSecret = document.getElementById("bob-secret");
+        const msgPublicKey = document.getElementById("msg-public-key");
+        const msgEncrypted = document.getElementById("msg-encrypted");
+        const arrow1 = document.getElementById("arrow-1");
+        const arrow2 = document.getElementById("arrow-2");
+
+        // Initialize visualization
+        updateVisualization();
+
+        // Event Listeners
+        prevBtn.addEventListener("click", function () {
+          if (currentStep > 1) {
+            currentStep--;
+            updateVisualization();
+          }
+        });
+
+        nextBtn.addEventListener("click", function () {
+          if (currentStep < totalSteps) {
+            currentStep++;
+            updateVisualization();
+          }
+        });
+
+        resetBtn.addEventListener("click", function () {
+          currentStep = 1;
+          updateVisualization();
+        });
+
+        // Update visualization based on current step
+        function updateVisualization() {
+          stepNum.textContent = currentStep;
+
+          // Reset all highlights
+          document.querySelectorAll(".key-container").forEach((el) => {
+            el.classList.remove("highlight");
+          });
+
+          msgPublicKey.style.opacity = "0";
+          msgEncrypted.style.opacity = "0";
+          arrow1.style.opacity = "0";
+          arrow2.style.opacity = "0";
+
+          // Step-specific updates
+          switch (currentStep) {
+            case 1:
+              document
+                .querySelector("#alice-public")
+                .parentElement.classList.add("highlight");
+              break;
+
+            case 2:
+              document
+                .querySelector("#alice-public")
+                .parentElement.classList.add("highlight");
+              msgPublicKey.style.opacity = "1";
+              arrow1.style.width = "40%";
+              arrow1.style.left = "45%";
+              arrow1.style.opacity = "1";
+              break;
+
+            case 3:
+              document
+                .querySelector("#bob-secret")
+                .parentElement.classList.add("highlight");
+              bobEncrypted.innerHTML = "C = 855";
+              bobEncrypted.parentElement.classList.add("highlight");
+              bobEncrypted.classList.add("encrypted");
+              break;
+
+            case 4:
+              bobEncrypted.parentElement.classList.add("highlight");
+              msgEncrypted.style.opacity = "1";
+              arrow2.style.width = "40%";
+              arrow2.style.right = "45%";
+              arrow2.style.opacity = "1";
+              break;
+
+            case 5:
+              aliceSecret.querySelector(".key-value").innerHTML = "123";
+              aliceSecret.classList.add("highlight");
+              aliceSecret
+                .querySelector(".key-value")
+                .classList.add("decrypted");
+              break;
+          }
+        }
+
+        // Simulate RSA calculations with small numbers
+        function simulateRSA() {
+          // Using small primes for demonstration
+          const p = 61;
+          const q = 53;
+          const n = p * q; // 3233
+          const phi = (p - 1) * (q - 1); // 3120
+          const e = 17; // public exponent
+          const d = 2753; // private exponent (since e*d mod phi = 1)
+
+          // Symmetric key to encrypt
+          const K = 123;
+
+          // Encryption: C = K^e mod n
+          const C = Math.pow(K, e) % n; // 855
+
+          // Decryption: K = C^d mod n
+          const decrypted = Math.pow(C, d) % n; // 123
+
+          return { p, q, n, phi, e, d, K, C, decrypted };
+        }
+      });
+    </script>
+  </body>
+</html>
