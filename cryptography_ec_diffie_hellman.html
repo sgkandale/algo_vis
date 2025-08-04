@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ElGamal Key Exchange | AlgoViz Hub</title>
+    <title>ECDH Key Exchange | AlgoViz Hub</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -545,8 +545,8 @@
         color: #79c0ff;
       }
 
-      /* ElGamal Visualization Styles */
-      .elgamal-container {
+      /* ECDH Visualization Styles */
+      .ecdh-container {
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -651,15 +651,59 @@
         border: 1px solid var(--accent);
       }
 
-      .encrypted {
-        color: var(--warning);
+      .curve-container {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        height: 120px;
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 8px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
-      .decrypted {
+      .curve-info {
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+        text-align: center;
+        color: var(--text-secondary);
+      }
+
+      .curve-point {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--warning);
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+
+      .curve-point-label {
+        position: absolute;
+        font-size: 10px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--text);
+        transform: translate(-50%, -20px);
+        white-space: nowrap;
+      }
+
+      .curve-line {
+        position: absolute;
+        height: 2px;
+        background: var(--accent-light);
+        transform-origin: 0 0;
+        z-index: 1;
+      }
+
+      .shared-secret {
         color: var(--success);
       }
 
-      /* Calculation Steps */
       .calculation-steps {
         position: absolute;
         bottom: 35px;
@@ -687,7 +731,7 @@
             <div class="breadcrumb">
               <a href="#"><i class="fas fa-home"></i> Home</a> >
               <a href="#">Cryptography Algorithms</a> >
-              <span>ElGamal Key Exchange</span>
+              <span>Elliptic Curve Diffie-Hellman</span>
             </div>
           </div>
         </div>
@@ -695,11 +739,13 @@
 
       <!-- Algorithm Header -->
       <div class="algorithm-header">
-        <h1>ElGamal Key Exchange</h1>
+        <h1>Elliptic Curve Diffie-Hellman</h1>
         <div class="category">
-          <i class="fas fa-lock"></i> Public-Key Cryptography
+          <i class="fas fa-lock"></i> Elliptic Curve Cryptography
         </div>
-        <div class="complexity-badge">Security: Discrete Logarithm Problem</div>
+        <div class="complexity-badge">
+          Security: Elliptic Curve Discrete Logarithm
+        </div>
       </div>
 
       <!-- Main Content -->
@@ -710,34 +756,44 @@
           <div class="section">
             <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
             <p>
-              ElGamal encryption is a public-key cryptosystem based on the
-              discrete logarithm problem. It consists of three components: key
-              generation, encryption, and decryption. The system provides an
-              alternative to RSA and is widely used in cryptographic protocols.
+              Elliptic Curve Diffie-Hellman (ECDH) is a key agreement protocol
+              that allows two parties to establish a shared secret over an
+              insecure channel. It's based on the algebraic structure of
+              elliptic curves over finite fields and provides the same security
+              as traditional Diffie-Hellman but with smaller key sizes.
             </p>
             <p>
-              In key exchange scenarios, ElGamal allows two parties to establish
-              a shared secret over an insecure channel. The algorithm is
-              particularly valued for its security properties and its basis in
-              the difficulty of computing discrete logarithms in a finite field.
+              ECDH is widely used in modern cryptographic protocols due to its
+              efficiency and strong security. It's particularly valuable in
+              resource-constrained environments like mobile devices and IoT
+              systems.
             </p>
 
             <div class="key-points">
               <div class="point-card">
                 <h3><i class="fas fa-key"></i> Key Generation</h3>
-                <p>Select large prime, generator, and private/public keys</p>
+                <p>
+                  Each party generates a private key and computes their public
+                  key by multiplying the base point
+                </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-lock"></i> Encryption</h3>
-                <p>Encrypt using public key and random ephemeral key</p>
+                <h3><i class="fas fa-exchange-alt"></i> Key Exchange</h3>
+                <p>Parties exchange public keys over an insecure channel</p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> Decryption</h3>
-                <p>Decrypt using private key and shared parameters</p>
+                <h3><i class="fas fa-shield-alt"></i> Shared Secret</h3>
+                <p>
+                  Each party computes the shared secret by combining their
+                  private key with the other party's public key
+                </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Security</h3>
-                <p>Based on difficulty of discrete logarithm problem</p>
+                <h3><i class="fas fa-bolt"></i> Efficiency</h3>
+                <p>
+                  Provides equivalent security to RSA with significantly smaller
+                  key sizes (256-bit ECC ≈ 3072-bit RSA)
+                </p>
               </div>
             </div>
           </div>
@@ -748,15 +804,16 @@
               <i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
             <p>
-              Use the interactive console to visualize the ElGamal key exchange
-              process. Step through each stage to see how symmetric keys are
-              securely exchanged using public-key cryptography.
+              Use the interactive console to visualize the Elliptic Curve
+              Diffie-Hellman key exchange process. Step through each stage to
+              see how two parties establish a shared secret using elliptic curve
+              cryptography.
             </p>
 
             <div class="visualization-console">
               <div class="console-header">
                 <h3>
-                  <i class="fas fa-exchange-alt"></i> ElGamal Key Exchange
+                  <i class="fas fa-exchange-alt"></i> ECDH Key Exchange
                   Visualization
                 </h3>
                 <div class="console-controls">
@@ -773,19 +830,25 @@
               </div>
 
               <div class="visualization-area">
-                <div class="elgamal-container">
+                <div class="ecdh-container">
+                  <!-- Curve Information -->
+                  <div class="curve-container">
+                    <div class="curve-info">
+                      <div>Elliptic Curve: y² = x³ + 2x + 2 mod 17</div>
+                      <div>Base Point G: (5,1)</div>
+                    </div>
+                  </div>
+
                   <!-- Alice's Side -->
                   <div class="participant" id="alice">
                     <h4><i class="fas fa-user"></i> Alice</h4>
                     <div class="key-container">
-                      <div class="key-label">Private Key (x)</div>
-                      <div class="key-value" id="alice-private">6</div>
+                      <div class="key-label">Private Key (a)</div>
+                      <div class="key-value" id="alice-private">3</div>
                     </div>
                     <div class="key-container">
-                      <div class="key-label">Public Key (p, g, h)</div>
-                      <div class="key-value" id="alice-public">
-                        p: 23<br />g: 11<br />h: 9
-                      </div>
+                      <div class="key-label">Public Key (a×G)</div>
+                      <div class="key-value" id="alice-public">(10,6)</div>
                     </div>
                     <div class="key-container" id="alice-secret">
                       <div class="key-label">Shared Secret</div>
@@ -797,35 +860,115 @@
                   <div class="participant" id="bob">
                     <h4><i class="fas fa-user"></i> Bob</h4>
                     <div class="key-container">
-                      <div class="key-label">Symmetric Key (K)</div>
-                      <div class="key-value" id="bob-secret">12</div>
+                      <div class="key-label">Private Key (b)</div>
+                      <div class="key-value" id="bob-private">4</div>
                     </div>
                     <div class="key-container">
-                      <div class="key-label">Encrypted Pair (c1, c2)</div>
-                      <div class="key-value" id="bob-encrypted">-</div>
+                      <div class="key-label">Public Key (b×G)</div>
+                      <div class="key-value" id="bob-public">(3,1)</div>
                     </div>
-                    <div class="key-container" id="bob-shared">
-                      <div class="key-label">Ephemeral Key (y)</div>
-                      <div class="key-value">3</div>
+                    <div class="key-container" id="bob-secret">
+                      <div class="key-label">Shared Secret</div>
+                      <div class="key-value">-</div>
                     </div>
                   </div>
 
                   <!-- Messages -->
-                  <div class="message-container" id="msg-public-key">
-                    <i class="fas fa-key"></i> Public Key<br />(p, g, h)
+                  <div class="message-container" id="msg-alice-key">
+                    <i class="fas fa-key"></i> Alice's Public Key<br />(10,6)
                   </div>
 
-                  <div class="message-container" id="msg-encrypted">
-                    <i class="fas fa-lock"></i> Encrypted Pair<br />(c1, c2)
+                  <div class="message-container" id="msg-bob-key">
+                    <i class="fas fa-key"></i> Bob's Public Key<br />(3,1)
                   </div>
 
-                  <div class="arrow" id="arrow-1"></div>
-                  <div class="arrow" id="arrow-2"></div>
+                  <div class="arrow" id="arrow-alice"></div>
+                  <div class="arrow" id="arrow-bob"></div>
 
                   <div class="step-indicator">
                     Step: <span id="step-num">1</span>/6
                   </div>
                   <div class="calculation-steps" id="calc-steps"></div>
+
+                  <!-- Curve Visualization -->
+                  <div
+                    class="curve-point"
+                    id="point-g"
+                    style="top: 80px; left: 120px"
+                  ></div>
+                  <div class="curve-point-label" style="top: 65px; left: 120px">
+                    G (5,1)
+                  </div>
+
+                  <div
+                    class="curve-point"
+                    id="point-alice"
+                    style="top: 120px; left: 180px; opacity: 0"
+                  ></div>
+                  <div
+                    class="curve-point-label"
+                    id="label-alice"
+                    style="top: 105px; left: 180px; opacity: 0"
+                  >
+                    a×G (10,6)
+                  </div>
+
+                  <div
+                    class="curve-point"
+                    id="point-bob"
+                    style="top: 140px; left: 90px; opacity: 0"
+                  ></div>
+                  <div
+                    class="curve-point-label"
+                    id="label-bob"
+                    style="top: 125px; left: 90px; opacity: 0"
+                  >
+                    b×G (3,1)
+                  </div>
+
+                  <div
+                    class="curve-point"
+                    id="point-secret"
+                    style="top: 180px; left: 140px; opacity: 0"
+                  ></div>
+                  <div
+                    class="curve-point-label"
+                    id="label-secret"
+                    style="top: 165px; left: 140px; opacity: 0"
+                  >
+                    Shared (9,16)
+                  </div>
+
+                  <div
+                    class="curve-line"
+                    id="line-alice"
+                    style="
+                      top: 80px;
+                      left: 120px;
+                      width: 0;
+                      transform: rotate(0deg);
+                    "
+                  ></div>
+                  <div
+                    class="curve-line"
+                    id="line-bob"
+                    style="
+                      top: 80px;
+                      left: 120px;
+                      width: 0;
+                      transform: rotate(0deg);
+                    "
+                  ></div>
+                  <div
+                    class="curve-line"
+                    id="line-secret"
+                    style="
+                      top: 120px;
+                      left: 180px;
+                      width: 0;
+                      transform: rotate(0deg);
+                    "
+                  ></div>
                 </div>
               </div>
             </div>
@@ -835,56 +978,53 @@
           <div class="section">
             <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
             <p>
-              ElGamal key exchange involves the following steps to securely
-              share a symmetric key:
+              ECDH key exchange involves the following steps to establish a
+              shared secret:
             </p>
 
             <div class="key-points">
               <div class="point-card">
-                <h3><i class="fas fa-key"></i> 1. Key Generation</h3>
+                <h3><i class="fas fa-sync-alt"></i> 1. Curve Selection</h3>
                 <p>
-                  Alice selects a large prime (p=23), a generator (g=11), and a
-                  private key (x=6). She computes her public key h = g^x mod p =
-                  11^6 mod 23 = 9.
+                  Both parties agree on an elliptic curve and a base point (G)
+                  on that curve. In this example: y² = x³ + 2x + 2 mod 17 with
+                  base point G=(5,1).
                 </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
+                <h3><i class="fas fa-key"></i> 2. Alice's Key Generation</h3>
                 <p>
-                  Alice shares her public key (p, g, h) with Bob. This key can
-                  be safely transmitted over insecure channels.
+                  Alice selects a private key (a=3) and computes her public key
+                  (a×G) = 3×(5,1) = (10,6).
                 </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-random"></i> 3. Generate Ephemeral Key</h3>
+                <h3><i class="fas fa-key"></i> 3. Bob's Key Generation</h3>
                 <p>
-                  Bob generates a random ephemeral key (y=3) that will be used
-                  only for this key exchange session.
+                  Bob selects a private key (b=4) and computes his public key
+                  (b×G) = 4×(5,1) = (3,1).
                 </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-lock"></i> 4. Encrypt Symmetric Key</h3>
+                <h3><i class="fas fa-exchange-alt"></i> 4. Key Exchange</h3>
                 <p>
-                  Bob encrypts the symmetric key (K=12) using Alice's public
-                  key: c1 = g^y mod p = 11^3 mod 23 = 20, s = h^y mod p = 9^3
-                  mod 23 = 16, c2 = K·s mod p = 12·16 mod 23 = 8.
+                  Alice and Bob exchange their public keys over an insecure
+                  channel. Alice sends (10,6) to Bob, Bob sends (3,1) to Alice.
                 </p>
               </div>
               <div class="point-card">
                 <h3>
-                  <i class="fas fa-paper-plane"></i> 5. Send Encrypted Pair
+                  <i class="fas fa-user-lock"></i> 5. Alice Computes Secret
                 </h3>
                 <p>
-                  Bob sends the encrypted pair (c1, c2) = (20, 8) to Alice. This
-                  value cannot be decrypted without the private key.
+                  Alice computes the shared secret: a×(b×G) = 3×(3,1) = (9,16).
                 </p>
               </div>
               <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> 6. Decrypt Key</h3>
+                <h3><i class="fas fa-user-lock"></i> 6. Bob Computes Secret</h3>
                 <p>
-                  Alice decrypts the symmetric key using her private key: s =
-                  c1^x mod p = 20^6 mod 23 = 16, K = c2·s^{-1} mod p = 8·13 mod
-                  23 = 12.
+                  Bob computes the shared secret: b×(a×G) = 4×(10,6) = (9,16).
+                  Both parties now have the same shared secret.
                 </p>
               </div>
             </div>
@@ -894,27 +1034,30 @@
           <div class="section">
             <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
             <div class="code-block">
-              <pre><code><span class="comment">// Key Generation</span>
-p = large_prime()
-g = generator_mod_p()
-x = random_int(1, p-2)  <span class="comment">// Private key</span>
-h = g^x mod p           <span class="comment">// Public key</span>
+              <pre><code><span class="comment">// Both parties agree on curve parameters</span>
+curve = EllipticCurve(a: 2, b: 2, p: 17)
+G = Point(5, 1)  <span class="comment">// Base point</span>
 
-<span class="comment">// Public Key: (p, g, h)</span>
-<span class="comment">// Private Key: x</span>
+<span class="comment">// Alice's key generation</span>
+a = random_int(1, curve.order - 1)  <span class="comment">// Private key</span>
+A = curve.scalar_multiply(a, G)     <span class="comment">// Public key</span>
 
-<span class="comment">// Encryption (by Bob)</span>
-y = random_int(1, p-2)  <span class="comment">// Ephemeral key</span>
-c1 = g^y mod p
-s = h^y mod p
-c2 = (K * s) mod p      <span class="comment">// K is symmetric key</span>
+<span class="comment">// Bob's key generation</span>
+b = random_int(1, curve.order - 1)  <span class="comment">// Private key</span>
+B = curve.scalar_multiply(b, G)     <span class="comment">// Public key</span>
 
-<span class="comment">// Send (c1, c2) to Alice</span>
+<span class="comment">// Exchange public keys</span>
+alice_receives(B)
+bob_receives(A)
 
-<span class="comment">// Decryption (by Alice)</span>
-s = c1^x mod p
-s_inv = modular_inverse(s, p)
-K = (c2 * s_inv) mod p</code></pre>
+<span class="comment">// Shared secret computation</span>
+<span class="comment">// Alice:</span>
+shared_secret_alice = curve.scalar_multiply(a, B)
+
+<span class="comment">// Bob:</span>
+shared_secret_bob = curve.scalar_multiply(b, A)
+
+<span class="comment">// Both secrets should be equal: (a×b)×G</span></code></pre>
             </div>
           </div>
         </div>
@@ -931,31 +1074,31 @@ K = (c2 * s_inv) mod p</code></pre>
               </div>
               <div class="property-card">
                 <h4>Type</h4>
-                <div class="value">Asymmetric</div>
+                <div class="value">Key Agreement</div>
               </div>
               <div class="property-card">
                 <h4>Key Exchange</h4>
                 <div class="value">Yes</div>
               </div>
               <div class="property-card">
-                <h4>Encryption</h4>
-                <div class="value">Yes</div>
+                <h4>Security Basis</h4>
+                <div class="value">ECDLP</div>
               </div>
               <div class="property-card">
-                <h4>Digital Signatures</h4>
+                <h4>Forward Secrecy</h4>
                 <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Security</h4>
-                <div class="value">Discrete Logarithm</div>
               </div>
               <div class="property-card">
                 <h4>Key Size</h4>
-                <div class="value">2048-4096 bits</div>
+                <div class="value">256-521 bits</div>
               </div>
               <div class="property-card">
-                <h4>Year</h4>
-                <div class="value">1985</div>
+                <h4>Efficiency</h4>
+                <div class="value">High</div>
+              </div>
+              <div class="property-card">
+                <h4>Standard</h4>
+                <div class="value">NIST, SECG</div>
               </div>
             </div>
           </div>
@@ -963,9 +1106,7 @@ K = (c2 * s_inv) mod p</code></pre>
           <!-- Applications Section -->
           <div class="section">
             <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
-              ElGamal is used in various security applications and protocols:
-            </p>
+            <p>ECDH is widely used in modern security protocols and systems:</p>
             <ul
               style="
                 padding-left: 20px;
@@ -974,14 +1115,21 @@ K = (c2 * s_inv) mod p</code></pre>
               "
             >
               <li style="margin-bottom: 10px">
-                Secure key exchange in cryptographic protocols
+                TLS/SSL for secure web browsing (ECDHE cipher suites)
               </li>
               <li style="margin-bottom: 10px">
-                Digital signatures (DSA is based on ElGamal)
+                Secure messaging apps (Signal, WhatsApp)
               </li>
-              <li style="margin-bottom: 10px">Encrypted messaging systems</li>
-              <li style="margin-bottom: 10px">Secure email communications</li>
-              <li>Anonymous communication protocols</li>
+              <li style="margin-bottom: 10px">
+                VPN protocols (WireGuard, IKEv2)
+              </li>
+              <li style="margin-bottom: 10px">
+                Blockchain and cryptocurrency security
+              </li>
+              <li>Secure shell (SSH) key exchange</li>
+              <li style="margin-top: 10px">
+                Mobile device security (iOS, Android)
+              </li>
             </ul>
           </div>
         </div>
@@ -1003,7 +1151,7 @@ K = (c2 * s_inv) mod p</code></pre>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // ElGamal Visualization State
+        // ECDH Visualization State
         let currentStep = 1;
         const totalSteps = 6;
 
@@ -1013,12 +1161,12 @@ K = (c2 * s_inv) mod p</code></pre>
         const resetBtn = document.getElementById("reset-btn");
         const stepNum = document.getElementById("step-num");
         const aliceSecret = document.getElementById("alice-secret");
-        const bobEncrypted = document.getElementById("bob-encrypted");
+        const bobSecret = document.getElementById("bob-secret");
         const calcSteps = document.getElementById("calc-steps");
-        const msgPublicKey = document.getElementById("msg-public-key");
-        const msgEncrypted = document.getElementById("msg-encrypted");
-        const arrow1 = document.getElementById("arrow-1");
-        const arrow2 = document.getElementById("arrow-2");
+        const msgAliceKey = document.getElementById("msg-alice-key");
+        const msgBobKey = document.getElementById("msg-bob-key");
+        const arrowAlice = document.getElementById("arrow-alice");
+        const arrowBob = document.getElementById("arrow-bob");
 
         // Initialize visualization
         updateVisualization();
@@ -1051,71 +1199,109 @@ K = (c2 * s_inv) mod p</code></pre>
           // Reset all highlights
           document.querySelectorAll(".key-container").forEach((el) => {
             el.classList.remove("highlight");
-            el.classList.remove("encrypted");
-            el.classList.remove("decrypted");
           });
 
-          msgPublicKey.style.opacity = "0";
-          msgEncrypted.style.opacity = "0";
-          arrow1.style.opacity = "0";
-          arrow2.style.opacity = "0";
+          // Reset all visual elements
+          msgAliceKey.style.opacity = "0";
+          msgBobKey.style.opacity = "0";
+          arrowAlice.style.opacity = "0";
+          arrowBob.style.opacity = "0";
+
+          document.querySelectorAll(".curve-point").forEach((el) => {
+            if (el.id !== "point-g") el.style.opacity = "0";
+          });
+
+          document.querySelectorAll(".curve-point-label").forEach((el) => {
+            if (el.id !== "label-g") el.style.opacity = "0";
+          });
+
+          document.querySelectorAll(".curve-line").forEach((el) => {
+            el.style.width = "0";
+          });
 
           // Step-specific updates
           switch (currentStep) {
             case 1:
-              document
-                .querySelector("#alice-public")
-                .parentElement.classList.add("highlight");
               calcSteps.innerHTML =
-                "Alice generates public key: h = g<sup>x</sup> mod p = 11<sup>6</sup> mod 23 = 9";
+                "Both parties agree on elliptic curve parameters and base point G";
+              document
+                .querySelector(".curve-container")
+                .classList.add("highlight");
               break;
 
             case 2:
               document
+                .querySelector("#alice-private")
+                .parentElement.classList.add("highlight");
+              document
                 .querySelector("#alice-public")
                 .parentElement.classList.add("highlight");
-              msgPublicKey.style.opacity = "1";
-              arrow1.style.width = "40%";
-              arrow1.style.left = "45%";
-              arrow1.style.opacity = "1";
+              document.getElementById("point-alice").style.opacity = "1";
+              document.getElementById("label-alice").style.opacity = "1";
+              document.getElementById("line-alice").style.width = "60px";
+              document.getElementById("line-alice").style.transform =
+                "rotate(30deg)";
               calcSteps.innerHTML =
-                "Alice shares public key (p=23, g=11, h=9) with Bob";
+                "Alice computes her public key: a×G = 3×(5,1) = (10,6)";
               break;
 
             case 3:
               document
-                .querySelector("#bob-shared")
+                .querySelector("#bob-private")
                 .parentElement.classList.add("highlight");
+              document
+                .querySelector("#bob-public")
+                .parentElement.classList.add("highlight");
+              document.getElementById("point-bob").style.opacity = "1";
+              document.getElementById("label-bob").style.opacity = "1";
+              document.getElementById("line-bob").style.width = "60px";
+              document.getElementById("line-bob").style.transform =
+                "rotate(-20deg)";
               calcSteps.innerHTML =
-                "Bob generates ephemeral key y=3 for this session";
+                "Bob computes his public key: b×G = 4×(5,1) = (3,1)";
               break;
 
             case 4:
-              bobEncrypted.innerHTML = "c1: 20<br>c2: 8";
-              bobEncrypted.parentElement.classList.add("highlight");
-              bobEncrypted.classList.add("encrypted");
-              calcSteps.innerHTML =
-                "Bob computes: c1 = g<sup>y</sup> mod p = 11<sup>3</sup> mod 23 = 20<br>s = h<sup>y</sup> mod p = 9<sup>3</sup> mod 23 = 16<br>c2 = K·s mod p = 12·16 mod 23 = 8";
+              document
+                .querySelector("#alice-public")
+                .parentElement.classList.add("highlight");
+              document
+                .querySelector("#bob-public")
+                .parentElement.classList.add("highlight");
+              msgAliceKey.style.opacity = "1";
+              msgBobKey.style.opacity = "1";
+              arrowAlice.style.width = "40%";
+              arrowAlice.style.left = "45%";
+              arrowAlice.style.opacity = "1";
+              arrowBob.style.width = "40%";
+              arrowBob.style.right = "45%";
+              arrowBob.style.opacity = "1";
+              calcSteps.innerHTML = "Alice and Bob exchange their public keys";
               break;
 
             case 5:
-              bobEncrypted.parentElement.classList.add("highlight");
-              msgEncrypted.style.opacity = "1";
-              arrow2.style.width = "40%";
-              arrow2.style.right = "45%";
-              arrow2.style.opacity = "1";
-              calcSteps.innerHTML =
-                "Bob sends encrypted pair (c1=20, c2=8) to Alice";
-              break;
-
-            case 6:
-              aliceSecret.querySelector(".key-value").innerHTML = "12";
+              aliceSecret.querySelector(".key-value").innerHTML = "(9,16)";
               aliceSecret.classList.add("highlight");
               aliceSecret
                 .querySelector(".key-value")
-                .classList.add("decrypted");
+                .classList.add("shared-secret");
+              document.getElementById("point-secret").style.opacity = "1";
+              document.getElementById("label-secret").style.opacity = "1";
+              document.getElementById("line-secret").style.width = "60px";
+              document.getElementById("line-secret").style.transform =
+                "rotate(-40deg)";
               calcSteps.innerHTML =
-                "Alice computes: s = c1<sup>x</sup> mod p = 20<sup>6</sup> mod 23 = 16<br>s<sup>-1</sup> mod p = 13<br>K = c2·s<sup>-1</sup> mod p = 8·13 mod 23 = 12";
+                "Alice computes shared secret: a×(b×G) = 3×(3,1) = (9,16)";
+              break;
+
+            case 6:
+              bobSecret.querySelector(".key-value").innerHTML = "(9,16)";
+              bobSecret.classList.add("highlight");
+              bobSecret
+                .querySelector(".key-value")
+                .classList.add("shared-secret");
+              calcSteps.innerHTML =
+                "Bob computes shared secret: b×(a×G) = 4×(10,6) = (9,16)";
               break;
           }
         }
