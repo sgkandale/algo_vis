@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Naive Bayes | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .console-input input,
+      .console-input select {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        min-width: 150px;
+      }
+
+      .console-input input:focus,
+      .console-input select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Naive Bayes Visualization */
+      #bayes-viz {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .probability-chart {
+        height: 200px;
+        margin-top: 20px;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 14px;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .data-table th {
+        background: rgba(30, 41, 59, 0.8);
+        color: var(--accent-light);
+        padding: 8px;
+        text-align: left;
+      }
+
+      .data-table td {
+        padding: 8px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .data-table tr:nth-child(even) {
+        background: rgba(15, 23, 42, 0.3);
+      }
+
+      .feature-controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+
+      .feature-control {
+        flex: 1;
+        min-width: 150px;
+      }
+
+      .feature-control label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      .result-display {
+        margin-top: 15px;
+        padding: 15px;
+        background: rgba(30, 41, 59, 0.8);
+        border-radius: 8px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .result-title {
+        color: var(--accent-light);
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .probability-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        border-bottom: 1px dashed rgba(148, 163, 184, 0.2);
+      }
+
+      .probability-label {
+        color: var(--text);
+      }
+
+      .probability-value {
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .prediction {
+        margin-top: 10px;
+        padding: 10px;
+        background: rgba(16, 185, 129, 0.2);
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        color: var(--success);
+      }
+
+      /* Step-by-step instructions */
+      .step-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .step {
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        background: rgba(15, 23, 42, 0.3);
+        border-radius: 8px;
+        align-items: flex-start;
+      }
+
+      .step-number {
+        background: var(--accent);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-weight: bold;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-content h4 {
+        margin-bottom: 8px;
+        color: var(--accent-light);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Machine Learning</a> >
+              <span>Naive Bayes</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Naive Bayes</h1>
+        <div class="category">
+          <i class="fas fa-brain"></i> Probabilistic Classification Algorithm
+        </div>
+        <div class="complexity-badge">
+          Training Time: O(n) | Prediction Time: O(1)
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Naive Bayes is a family of probabilistic classifiers based on
+              applying Bayes' theorem with strong independence assumptions
+              between features. It is called "naive" because it assumes that the
+              presence of a particular feature in a class is unrelated to the
+              presence of any other feature.
+            </p>
+            <p>
+              Despite its simplicity, Naive Bayes classifiers work remarkably
+              well in many real-world situations and are particularly suited for
+              high-dimensional datasets. They are efficient, require minimal
+              training data, and are often used for text classification, spam
+              filtering, and recommendation systems.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Applies Bayes' theorem with feature independence assumption
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  Extremely fast training and prediction times, even for large
+                  datasets
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>Stores only probability values, not the entire dataset</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>
+                  Calculates posterior probabilities based on prior and
+                  likelihood
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Explore how Naive Bayes calculates probabilities to classify new
+              instances. Use the controls to set feature values and see how the
+              algorithm computes probabilities for each class. The visualization
+              shows the training data, probability calculations, and final
+              prediction.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Naive Bayes Classifier
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn" id="random-btn">
+                    <i class="fas fa-random"></i> Random
+                  </button>
+                  <button class="console-btn" id="classify-btn">
+                    <i class="fas fa-calculator"></i> Classify
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="visualization-area">
+                <div id="bayes-viz">
+                  <div class="feature-controls">
+                    <div class="feature-control">
+                      <label for="outlook">Outlook</label>
+                      <select id="outlook">
+                        <option value="sunny">Sunny</option>
+                        <option value="overcast">Overcast</option>
+                        <option value="rainy">Rainy</option>
+                      </select>
+                    </div>
+                    <div class="feature-control">
+                      <label for="temperature">Temperature</label>
+                      <select id="temperature">
+                        <option value="hot">Hot</option>
+                        <option value="mild">Mild</option>
+                        <option value="cool">Cool</option>
+                      </select>
+                    </div>
+                    <div class="feature-control">
+                      <label for="humidity">Humidity</label>
+                      <select id="humidity">
+                        <option value="high">High</option>
+                        <option value="normal">Normal</option>
+                      </select>
+                    </div>
+                    <div class="feature-control">
+                      <label for="windy">Windy</label>
+                      <select id="windy">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="result-display">
+                    <div class="result-title">Probability Calculation:</div>
+                    <div id="probability-results">
+                      <!-- Results will be populated here -->
+                    </div>
+                    <div id="prediction-result" class="prediction">
+                      <!-- Prediction will be shown here -->
+                    </div>
+                  </div>
+
+                  <canvas
+                    id="probability-chart"
+                    class="probability-chart"
+                  ></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              The Naive Bayes classifier follows these steps for classification:
+            </p>
+
+            <div class="step-container">
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Calculate Prior Probabilities</h4>
+                  <p>
+                    Compute the probability of each class based on their
+                    frequency in the training data.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Calculate Likelihoods</h4>
+                  <p>
+                    For each feature and class, compute the conditional
+                    probability of the feature given the class.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Apply Bayes' Theorem</h4>
+                  <p>
+                    For a new instance, compute the posterior probability for
+                    each class using the formula: P(Class|Features) ∝ P(Class) ×
+                    Π P(Feature|Class)
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>Select the Most Probable Class</h4>
+                  <p>
+                    Choose the class with the highest posterior probability as
+                    the prediction.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code># Training Phase
+function train_naive_bayes(training_data):
+    class_counts = count frequency of each class
+    prior_probabilities = class_counts / total_samples
+    
+    for each feature:
+        for each class:
+            feature_counts = count frequency of feature values in class
+            likelihoods[feature][class] = (feature_counts + alpha) / (class_counts[class] + alpha * num_values)
+    
+    return prior_probabilities, likelihoods
+
+# Prediction Phase
+function predict(instance, prior_probabilities, likelihoods):
+    for each class:
+        posterior[class] = prior_probabilities[class]
+        for each feature in instance:
+            posterior[class] *= likelihoods[feature][class][instance[feature]]
+    
+    return class with maximum posterior probability</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the Naive Bayes classifier
+              using the classic "Play Tennis" dataset. The implementation
+              includes Laplace smoothing to handle unseen feature values.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict
+
+<span class="keyword">class</span> <span class="function">NaiveBayesClassifier</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, alpha=1.0):
+        <span class="keyword">self</span>.alpha = alpha  <span class="comment"># Laplace smoothing parameter</span>
+        <span class="keyword">self</span>.priors = {}
+        <span class="keyword">self</span>.likelihoods = defaultdict(<span class="keyword">lambda</span>: defaultdict(<span class="keyword">lambda</span>: defaultdict(<span class="keyword">float</span>)))
+        <span class="keyword">self</span>.classes = []
+        
+    <span class="keyword">def</span> <span class="function">fit</span>(<span class="keyword">self</span>, X, y):
+        <span class="comment"># Get unique classes and their counts</span>
+        <span class="keyword">self</span>.classes = np.unique(y)
+        class_counts = {cls: np.<span class="function">sum</span>(y == cls) <span class="keyword">for</span> cls <span class="keyword">in</span> <span class="keyword">self</span>.classes}
+        total = len(y)
+        
+        <span class="comment"># Calculate prior probabilities</span>
+        <span class="keyword">self</span>.priors = {cls: count / total <span class="keyword">for</span> cls, count <span class="keyword">in</span> class_counts.items()}
+        
+        <span class="comment"># Calculate likelihoods for each feature</span>
+        <span class="keyword">for</span> feature <span class="keyword">in</span> <span class="function">range</span>(X.shape[1]):
+            feature_values = np.unique(X[:, feature])
+            <span class="keyword">for</span> cls <span class="keyword">in</span> <span class="keyword">self</span>.classes:
+                class_mask = (y == cls)
+                class_samples = X[class_mask, feature]
+                <span class="keyword">for</span> value <span class="keyword">in</span> feature_values:
+                    count = np.<span class="function">sum</span>(class_samples == value)
+                    <span class="comment"># Apply Laplace smoothing</span>
+                    <span class="keyword">self</span>.likelihoods[feature][cls][value] = (count + <span class="keyword">self</span>.alpha) / (class_counts[cls] + <span class="keyword">self</span>.alpha * len(feature_values))
+        
+    <span class="keyword">def</span> <span class="function">predict</span>(<span class="keyword">self</span>, X):
+        predictions = []
+        <span class="keyword">for</span> instance <span class="keyword">in</span> X:
+            posteriors = {}
+            <span class="keyword">for</span> cls <span class="keyword">in</span> <span class="keyword">self</span>.classes:
+                posterior = <span class="keyword">self</span>.priors[cls]
+                <span class="keyword">for</span> feature, value <span class="keyword">in</span> <span class="function">enumerate</span>(instance):
+                    <span class="comment"># If feature value was not seen during training, use smoothing</span>
+                    likelihood = <span class="keyword">self</span>.likelihoods[feature][cls].get(value, <span class="keyword">self</span>.alpha / (<span class="function">sum</span>(<span class="function">len</span>(vals) <span class="keyword">for</span> vals <span class="keyword">in</span> <span class="keyword">self</span>.likelihoods[feature][cls].values()) + <span class="keyword">self</span>.alpha))
+                    posterior *= likelihood
+                posteriors[cls] = posterior
+            <span class="comment"># Select class with highest posterior probability</span>
+            predictions.append(<span class="function">max</span>(posteriors, key=posteriors.get))
+        <span class="keyword">return</span> np.array(predictions)
+
+<span class="comment"># Example dataset: Play Tennis</span>
+data = np.array([
+    [<span class="string">'sunny'</span>, <span class="string">'hot'</span>, <span class="string">'high'</span>, <span class="string">'false'</span>, <span class="string">'no'</span>],
+    [<span class="string">'sunny'</span>, <span class="string">'hot'</span>, <span class="string">'high'</span>, <span class="string">'true'</span>, <span class="string">'no'</span>],
+    [<span class="string">'overcast'</span>, <span class="string">'hot'</span>, <span class="string">'high'</span>, <span class="string">'false'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'rainy'</span>, <span class="string">'mild'</span>, <span class="string">'high'</span>, <span class="string">'false'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'rainy'</span>, <span class="string">'cool'</span>, <span class="string">'normal'</span>, <span class="string">'false'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'rainy'</span>, <span class="string">'cool'</span>, <span class="string">'normal'</span>, <span class="string">'true'</span>, <span class="string">'no'</span>],
+    [<span class="string">'overcast'</span>, <span class="string">'cool'</span>, <span class="string">'normal'</span>, <span class="string">'true'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'sunny'</span>, <span class="string">'mild'</span>, <span class="string">'high'</span>, <span class="string">'false'</span>, <span class="string">'no'</span>],
+    [<span class="string">'sunny'</span>, <span class="string">'cool'</span>, <span class="string">'normal'</span>, <span class="string">'false'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'rainy'</span>, <span class="string">'mild'</span>, <span class="string">'normal'</span>, <span class="string">'false'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'sunny'</span>, <span class="string">'mild'</span>, <span class="string">'normal'</span>, <span class="string">'true'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'overcast'</span>, <span class="string">'mild'</span>, <span class="string">'high'</span>, <span class="string">'true'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'overcast'</span>, <span class="string">'hot'</span>, <span class="string">'normal'</span>, <span class="string">'false'</span>, <span class="string">'yes'</span>],
+    [<span class="string">'rainy'</span>, <span class="string">'mild'</span>, <span class="string">'high'</span>, <span class="string">'true'</span>, <span class="string">'no'</span>]
+])
+
+<span class="comment"># Prepare data</span>
+X = data[:, :-1]  <span class="comment"># Features</span>
+y = data[:, -1]   <span class="comment"># Target (play tennis)</span>
+
+<span class="comment"># Create and train classifier</span>
+nb = NaiveBayesClassifier(alpha=1.0)
+nb.fit(X, y)
+
+<span class="comment"># Make a prediction</span>
+new_instance = [<span class="string">'sunny'</span>, <span class="string">'cool'</span>, <span class="string">'high'</span>, <span class="string">'true'</span>]
+prediction = nb.predict([new_instance])
+print(<span class="string">f"Prediction: {prediction[0]}"</span>)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Classification</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Probabilistic</div>
+              </div>
+              <div class="property-card">
+                <h4>Supervision</h4>
+                <div class="value">Supervised</div>
+              </div>
+              <div class="property-card">
+                <h4>Parametric</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Training Time</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Prediction Time</h4>
+                <div class="value">O(1)</div>
+              </div>
+              <div class="property-card">
+                <h4>Memory</h4>
+                <div class="value">O(c×f)</div>
+              </div>
+              <div class="property-card">
+                <h4>Key Assumption</h4>
+                <div class="value">Feature Independence</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Naive Bayes is widely used in various domains due to its
+              simplicity and efficiency:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Spam email detection and filtering
+              </li>
+              <li style="margin-bottom: 10px">
+                Text classification and sentiment analysis
+              </li>
+              <li style="margin-bottom: 10px">
+                Medical diagnosis and disease prediction
+              </li>
+              <li style="margin-bottom: 10px">Recommendation systems</li>
+              <li>Document categorization and news article classification</li>
+            </ul>
+          </div>
+
+          <!-- Advantages Section -->
+          <div class="section">
+            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Simple, fast, and efficient even with large datasets
+              </li>
+              <li style="margin-bottom: 10px">
+                Requires less training data than many other algorithms
+              </li>
+              <li style="margin-bottom: 10px">
+                Handles both continuous and discrete data
+              </li>
+              <li style="margin-bottom: 10px">
+                Highly scalable with number of predictors and data points
+              </li>
+              <li>Performs well in multi-class prediction problems</li>
+            </ul>
+          </div>
+
+          <!-- Limitations Section -->
+          <div class="section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Assumes features are independent (naive assumption)
+              </li>
+              <li style="margin-bottom: 10px">
+                Can be outperformed by more complex models with correlated
+                features
+              </li>
+              <li style="margin-bottom: 10px">
+                Zero-frequency problem (requires smoothing techniques)
+              </li>
+              <li style="margin-bottom: 10px">
+                Relies on prior probabilities which may be inaccurate
+              </li>
+              <li>Not ideal for regression tasks</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Naive Bayes Visualization
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sample dataset: Play Tennis
+        const dataset = [
+          {
+            outlook: "sunny",
+            temperature: "hot",
+            humidity: "high",
+            windy: "false",
+            play: "no",
+          },
+          {
+            outlook: "sunny",
+            temperature: "hot",
+            humidity: "high",
+            windy: "true",
+            play: "no",
+          },
+          {
+            outlook: "overcast",
+            temperature: "hot",
+            humidity: "high",
+            windy: "false",
+            play: "yes",
+          },
+          {
+            outlook: "rainy",
+            temperature: "mild",
+            humidity: "high",
+            windy: "false",
+            play: "yes",
+          },
+          {
+            outlook: "rainy",
+            temperature: "cool",
+            humidity: "normal",
+            windy: "false",
+            play: "yes",
+          },
+          {
+            outlook: "rainy",
+            temperature: "cool",
+            humidity: "normal",
+            windy: "true",
+            play: "no",
+          },
+          {
+            outlook: "overcast",
+            temperature: "cool",
+            humidity: "normal",
+            windy: "true",
+            play: "yes",
+          },
+          {
+            outlook: "sunny",
+            temperature: "mild",
+            humidity: "high",
+            windy: "false",
+            play: "no",
+          },
+          {
+            outlook: "sunny",
+            temperature: "cool",
+            humidity: "normal",
+            windy: "false",
+            play: "yes",
+          },
+          {
+            outlook: "rainy",
+            temperature: "mild",
+            humidity: "normal",
+            windy: "false",
+            play: "yes",
+          },
+          {
+            outlook: "sunny",
+            temperature: "mild",
+            humidity: "normal",
+            windy: "true",
+            play: "yes",
+          },
+          {
+            outlook: "overcast",
+            temperature: "mild",
+            humidity: "high",
+            windy: "true",
+            play: "yes",
+          },
+          {
+            outlook: "overcast",
+            temperature: "hot",
+            humidity: "normal",
+            windy: "false",
+            play: "yes",
+          },
+          {
+            outlook: "rainy",
+            temperature: "mild",
+            humidity: "high",
+            windy: "true",
+            play: "no",
+          },
+        ];
+
+        // DOM Elements
+        const classifyBtn = document.getElementById("classify-btn");
+        const randomBtn = document.getElementById("random-btn");
+        const probabilityResults = document.getElementById(
+          "probability-results"
+        );
+        const predictionResult = document.getElementById("prediction-result");
+        const outlookSelect = document.getElementById("outlook");
+        const temperatureSelect = document.getElementById("temperature");
+        const humiditySelect = document.getElementById("humidity");
+        const windySelect = document.getElementById("windy");
+        const copyBtn = document.querySelector(".copy-btn");
+
+        // Chart initialization
+        const ctx = document
+          .getElementById("probability-chart")
+          .getContext("2d");
+        let probabilityChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["No", "Yes"],
+            datasets: [
+              {
+                label: "Probability",
+                data: [0, 0],
+                backgroundColor: [
+                  "rgba(239, 68, 68, 0.7)",
+                  "rgba(16, 185, 129, 0.7)",
+                ],
+                borderColor: ["rgba(239, 68, 68, 1)", "rgba(16, 185, 129, 1)"],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 1,
+                title: {
+                  display: true,
+                  text: "Probability",
+                },
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: "Play Tennis",
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+              title: {
+                display: true,
+                text: "Class Probabilities",
+                color: "#94a3b8",
+                font: {
+                  size: 16,
+                },
+              },
+            },
+          },
+        });
+
+        // Train Naive Bayes model
+        function trainModel() {
+          // Calculate priors
+          const classCounts = { yes: 0, no: 0 };
+          dataset.forEach((row) => classCounts[row.play]++);
+          const total = dataset.length;
+          const priors = {
+            yes: classCounts.yes / total,
+            no: classCounts.no / total,
+          };
+
+          // Calculate likelihoods
+          const likelihoods = {};
+          const features = ["outlook", "temperature", "humidity", "windy"];
+
+          features.forEach((feature) => {
+            likelihoods[feature] = { yes: {}, no: {} };
+
+            // Get unique values for this feature
+            const values = [...new Set(dataset.map((row) => row[feature]))];
+
+            // Calculate likelihoods for each class
+            ["yes", "no"].forEach((cls) => {
+              const classRows = dataset.filter((row) => row.play === cls);
+              values.forEach((value) => {
+                const count = classRows.filter(
+                  (row) => row[feature] === value
+                ).length;
+                // Laplace smoothing (alpha=1)
+                likelihoods[feature][cls][value] =
+                  (count + 1) / (classRows.length + values.length);
+              });
+            });
+          });
+
+          return { priors, likelihoods };
+        }
+
+        // Classify function
+        function classify(instance) {
+          const model = trainModel();
+          const { priors, likelihoods } = model;
+
+          // Calculate posteriors
+          const posteriors = { yes: priors.yes, no: priors.no };
+
+          // Multiply by likelihoods
+          Object.keys(instance).forEach((feature) => {
+            const value = instance[feature];
+            ["yes", "no"].forEach((cls) => {
+              if (
+                likelihoods[feature] &&
+                likelihoods[feature][cls] &&
+                likelihoods[feature][cls][value]
+              ) {
+                posteriors[cls] *= likelihoods[feature][cls][value];
+              }
+            });
+          });
+
+          // Normalize probabilities (optional for comparison)
+          const total = posteriors.yes + posteriors.no;
+          if (total > 0) {
+            posteriors.yes /= total;
+            posteriors.no /= total;
+          }
+
+          return posteriors;
+        }
+
+        // Update visualization
+        function updateVisualization(instance, posteriors) {
+          // Update probability results
+          probabilityResults.innerHTML = `
+            <div class="probability-row">
+              <span class="probability-label">Prior Probability (No):</span>
+              <span class="probability-value">${(
+                (posteriors.no / posteriors.yes) *
+                100
+              ).toFixed(2)}%</span>
+            </div>
+            <div class="probability-row">
+              <span class="probability-label">Prior Probability (Yes):</span>
+              <span class="probability-value">${(
+                (posteriors.yes / (posteriors.yes + posteriors.no)) *
+                100
+              ).toFixed(2)}%</span>
+            </div>
+            <div class="probability-row">
+              <span class="probability-label">Posterior Probability (No):</span>
+              <span class="probability-value">${(posteriors.no * 100).toFixed(
+                2
+              )}%</span>
+            </div>
+            <div class="probability-row">
+              <span class="probability-label">Posterior Probability (Yes):</span>
+              <span class="probability-value">${(posteriors.yes * 100).toFixed(
+                2
+              )}%</span>
+            </div>
+          `;
+
+          // Update prediction
+          const prediction = posteriors.yes > posteriors.no ? "Yes" : "No";
+          const confidence = Math.max(posteriors.yes, posteriors.no) * 100;
+          predictionResult.innerHTML = `Prediction: <span style="font-size: 1.2em;">${prediction}</span> (${confidence.toFixed(
+            1
+          )}% confidence)`;
+
+          // Update chart
+          probabilityChart.data.datasets[0].data = [
+            posteriors.no,
+            posteriors.yes,
+          ];
+          probabilityChart.update();
+        }
+
+        // Classify button event
+        classifyBtn.addEventListener("click", function () {
+          const instance = {
+            outlook: outlookSelect.value,
+            temperature: temperatureSelect.value,
+            humidity: humiditySelect.value,
+            windy: windySelect.value,
+          };
+
+          const posteriors = classify(instance);
+          updateVisualization(instance, posteriors);
+        });
+
+        // Random button event
+        randomBtn.addEventListener("click", function () {
+          const randomIndex = Math.floor(Math.random() * dataset.length);
+          const randomInstance = dataset[randomIndex];
+
+          outlookSelect.value = randomInstance.outlook;
+          temperatureSelect.value = randomInstance.temperature;
+          humiditySelect.value = randomInstance.humidity;
+          windySelect.value = randomInstance.windy;
+
+          const posteriors = classify(randomInstance);
+          updateVisualization(randomInstance, posteriors);
+        });
+
+        // Copy button functionality
+        copyBtn.addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+
+        // Initial classification
+        classifyBtn.click();
+      });
+    </script>
+  </body>
+</html>
