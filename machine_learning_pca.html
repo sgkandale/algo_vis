@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Principal Component Analysis | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 500px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .plot-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .console-input input,
+      .console-input select {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        min-width: 150px;
+      }
+
+      .console-input input:focus,
+      .console-input select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* PCA Visualization */
+      .pca-controls {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .pca-slider {
+        flex: 1;
+      }
+
+      .pca-label {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+      }
+
+      .pca-value {
+        font-family: "Roboto Mono", monospace;
+        color: var(--accent-light);
+        text-align: center;
+        margin-top: 5px;
+      }
+
+      .variance-info {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 15px;
+        padding: 10px;
+        background: rgba(30, 41, 59, 0.8);
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .variance-item {
+        text-align: center;
+      }
+
+      .variance-label {
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .variance-value {
+        color: var(--accent-light);
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      /* Step-by-step instructions */
+      .step-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .step {
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        background: rgba(15, 23, 42, 0.3);
+        border-radius: 8px;
+        align-items: flex-start;
+      }
+
+      .step-number {
+        background: var(--accent);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-weight: bold;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-content h4 {
+        margin-bottom: 8px;
+        color: var(--accent-light);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Dimensionality Reduction</a> >
+              <span>Principal Component Analysis</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Principal Component Analysis</h1>
+        <div class="category">
+          <i class="fas fa-chart-line"></i> Dimensionality Reduction Technique
+        </div>
+        <div class="complexity-badge">Time Complexity: O(p³ + n×p²)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Principal Component Analysis (PCA) is a statistical technique for
+              dimensionality reduction that transforms a set of possibly
+              correlated variables into a set of linearly uncorrelated variables
+              called principal components. The first principal component
+              accounts for the largest possible variance in the data, with each
+              succeeding component accounting for the highest remaining variance
+              under the constraint of orthogonality to the preceding components.
+            </p>
+            <p>
+              PCA is widely used for data compression, feature extraction, and
+              visualization of high-dimensional data. It helps to reduce the
+              dimensionality of data while preserving as much variance as
+              possible.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Transforms correlated variables into orthogonal principal
+                  components
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>Efficient for dimensionality reduction on large datasets</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>Requires O(p²) space for covariance matrix</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Eigenvalue decomposition of the covariance matrix</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Explore how PCA transforms data and reduces dimensionality. Adjust
+              the correlation parameter to see how it affects the principal
+              components. The visualization shows the original data, principal
+              components, and the projection of data onto the first principal
+              component.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3><i class="fas fa-play-circle"></i> PCA Transformation</h3>
+                <div class="console-controls">
+                  <button class="console-btn" id="reset-btn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                  <button class="console-btn" id="run-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div id="pca-plot" class="plot-container"></div>
+              </div>
+
+              <div class="console-input">
+                <div class="pca-controls">
+                  <div class="pca-slider">
+                    <div class="pca-label">Data Correlation</div>
+                    <input
+                      type="range"
+                      id="correlation"
+                      min="-90"
+                      max="90"
+                      value="70"
+                    />
+                    <div class="pca-value">
+                      Correlation: <span id="correlation-value">0.7</span>
+                    </div>
+                  </div>
+                  <div class="pca-slider">
+                    <div class="pca-label">Number of Points</div>
+                    <input
+                      type="range"
+                      id="point-count"
+                      min="50"
+                      max="200"
+                      value="100"
+                    />
+                    <div class="pca-value">
+                      Points: <span id="point-count-value">100</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="variance-info">
+                <div class="variance-item">
+                  <div class="variance-label">PC1 Variance</div>
+                  <div class="variance-value" id="pc1-variance">85.3%</div>
+                </div>
+                <div class="variance-item">
+                  <div class="variance-label">PC2 Variance</div>
+                  <div class="variance-value" id="pc2-variance">14.7%</div>
+                </div>
+                <div class="variance-item">
+                  <div class="variance-label">Total Variance</div>
+                  <div class="variance-value" id="total-variance">100%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>PCA transforms data through a series of mathematical steps:</p>
+
+            <div class="step-container">
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Standardize the Data</h4>
+                  <p>
+                    Center the data by subtracting the mean of each feature, and
+                    scale to unit variance.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Compute Covariance Matrix</h4>
+                  <p>
+                    Calculate the covariance matrix of the standardized data to
+                    understand feature relationships.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Eigenvalue Decomposition</h4>
+                  <p>
+                    Compute the eigenvalues and eigenvectors of the covariance
+                    matrix.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>Sort Eigenvectors</h4>
+                  <p>
+                    Sort eigenvectors by their eigenvalues in descending order
+                    to prioritize principal components.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                  <h4>Project Data</h4>
+                  <p>
+                    Transform the original data using the selected eigenvectors
+                    to get the principal components.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function PCA(data, n_components):
+    # Step 1: Standardize the data
+    standardized = (data - mean(data)) / standard_deviation(data)
+    
+    # Step 2: Compute covariance matrix
+    covariance = cov(standardized)
+    
+    # Step 3: Eigenvalue decomposition
+    eigenvalues, eigenvectors = eig(covariance)
+    
+    # Step 4: Sort eigenvectors by eigenvalues (descending)
+    sorted_indices = argsort(eigenvalues)[::-1]
+    eigenvalues = eigenvalues[sorted_indices]
+    eigenvectors = eigenvectors[:, sorted_indices]
+    
+    # Step 5: Select top n_components eigenvectors
+    principal_components = eigenvectors[:, :n_components]
+    
+    # Transform data
+    transformed_data = dot(standardized, principal_components)
+    
+    return transformed_data, eigenvalues, eigenvectors</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of PCA using NumPy. The
+              implementation follows the standard PCA steps of standardization,
+              covariance matrix calculation, eigenvalue decomposition, and data
+              transformation.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="keyword">class</span> <span class="function">PCA</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, n_components=2):
+        <span class="keyword">self</span>.n_components = n_components
+        <span class="keyword">self</span>.components = None
+        <span class="keyword">self</span>.mean = None
+        <span class="keyword">self</span>.explained_variance = None
+        
+    <span class="keyword">def</span> <span class="function">fit</span>(<span class="keyword">self</span>, X):
+        <span class="comment"># Step 1: Standardize the data (center and scale)</span>
+        <span class="keyword">self</span>.mean = np.mean(X, axis=0)
+        X_centered = X - <span class="keyword">self</span>.mean
+        
+        <span class="comment"># Step 2: Compute covariance matrix</span>
+        cov_matrix = np.cov(X_centered, rowvar=<span class="keyword">False</span>)
+        
+        <span class="comment"># Step 3: Eigenvalue decomposition</span>
+        eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
+        
+        <span class="comment"># Step 4: Sort eigenvectors by eigenvalues (descending)</span>
+        sorted_indices = np.argsort(eigenvalues)[::-1]
+        eigenvalues = eigenvalues[sorted_indices]
+        eigenvectors = eigenvectors[:, sorted_indices]
+        
+        <span class="comment"># Step 5: Store the top components</span>
+        <span class="keyword">self</span>.components = eigenvectors[:, :<span class="keyword">self</span>.n_components]
+        <span class="keyword">self</span>.explained_variance = eigenvalues[:<span class="keyword">self</span>.n_components]
+        <span class="keyword">self</span>.explained_variance_ratio = eigenvalues / np.sum(eigenvalues)
+        
+        <span class="keyword">return</span> <span class="keyword">self</span>
+    
+    <span class="keyword">def</span> <span class="function">transform</span>(<span class="keyword">self</span>, X):
+        X_centered = X - <span class="keyword">self</span>.mean
+        <span class="keyword">return</span> np.dot(X_centered, <span class="keyword">self</span>.components)
+    
+    <span class="keyword">def</span> <span class="function">fit_transform</span>(<span class="keyword">self</span>, X):
+        <span class="keyword">self</span>.fit(X)
+        <span class="keyword">return</span> <span class="keyword">self</span>.transform(X)
+
+<span class="comment"># Example usage</span>
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_blobs
+
+<span class="comment"># Generate sample data</span>
+X, y = make_blobs(n_samples=100, n_features=2, centers=1, random_state=42)
+X = np.dot(X, np.random.RandomState(42).randn(2, 2))  <span class="comment"># Add correlation</span>
+
+<span class="comment"># Apply PCA</span>
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+<span class="comment"># Print explained variance</span>
+print(<span class="string">"Explained variance ratio:"</span>, pca.explained_variance_ratio)
+
+<span class="comment"># Plot results</span>
+plt.figure(figsize=(10, 5))
+plt.subplot(121)
+plt.scatter(X[:, 0], X[:, 1])
+plt.title(<span class="string">"Original Data"</span>)
+plt.subplot(122)
+plt.scatter(X_pca[:, 0], X_pca[:, 1])
+plt.title(<span class="string">"PCA-transformed Data"</span>)
+plt.tight_layout()
+plt.show()</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Dimensionality Reduction</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Linear Transformation</div>
+              </div>
+              <div class="property-card">
+                <h4>Supervision</h4>
+                <div class="value">Unsupervised</div>
+              </div>
+              <div class="property-card">
+                <h4>Parametric</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Training Time</h4>
+                <div class="value">O(p³)</div>
+              </div>
+              <div class="property-card">
+                <h4>Transform Time</h4>
+                <div class="value">O(n×p×k)</div>
+              </div>
+              <div class="property-card">
+                <h4>Memory</h4>
+                <div class="value">O(p²)</div>
+              </div>
+              <div class="property-card">
+                <h4>Output</h4>
+                <div class="value">Orthogonal Components</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>PCA is widely used in various domains for data analysis:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Data compression and storage optimization
+              </li>
+              <li style="margin-bottom: 10px">
+                Feature extraction for machine learning
+              </li>
+              <li style="margin-bottom: 10px">
+                Visualization of high-dimensional data
+              </li>
+              <li style="margin-bottom: 10px">
+                Noise reduction in signal processing
+              </li>
+              <li>Genomics and bioinformatics data analysis</li>
+            </ul>
+          </div>
+
+          <!-- Advantages Section -->
+          <div class="section">
+            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Reduces dimensionality while preserving variance
+              </li>
+              <li style="margin-bottom: 10px">Removes correlated features</li>
+              <li style="margin-bottom: 10px">
+                Improves algorithm performance and efficiency
+              </li>
+              <li style="margin-bottom: 10px">
+                Helps visualize high-dimensional data
+              </li>
+              <li>Provides interpretable components</li>
+            </ul>
+          </div>
+
+          <!-- Limitations Section -->
+          <div class="section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">Sensitive to feature scaling</li>
+              <li style="margin-bottom: 10px">
+                Assumes linear relationships between variables
+              </li>
+              <li style="margin-bottom: 10px">
+                Principal components can be difficult to interpret
+              </li>
+              <li style="margin-bottom: 10px">
+                May discard important variance in the data
+              </li>
+              <li>Computationally expensive for high-dimensional data</li>
+            </ul>
+          </div>
+
+          <!-- Variance Explanation -->
+          <div class="section">
+            <h2><i class="fas fa-percentage"></i> Explained Variance</h2>
+            <p>
+              The explained variance ratio indicates how much information
+              (variance) each principal component contributes:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                <b>PC1:</b> The first principal component captures the most
+                variance
+              </li>
+              <li style="margin-bottom: 10px">
+                <b>PC2:</b> The second principal component captures the next
+                most variance
+              </li>
+              <li>
+                <b>Cumulative Variance:</b> Sum of explained variances from all
+                components
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // PCA Visualization
+      document.addEventListener("DOMContentLoaded", function () {
+        // DOM Elements
+        const plotContainer = document.getElementById("pca-plot");
+        const runBtn = document.getElementById("run-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const correlationInput = document.getElementById("correlation");
+        const correlationValue = document.getElementById("correlation-value");
+        const pointCountInput = document.getElementById("point-count");
+        const pointCountValue = document.getElementById("point-count-value");
+        const pc1Variance = document.getElementById("pc1-variance");
+        const pc2Variance = document.getElementById("pc2-variance");
+        const totalVariance = document.getElementById("total-variance");
+        const copyBtn = document.querySelector(".copy-btn");
+
+        // Initialize plot
+        let plot = null;
+
+        // Update parameter displays
+        correlationInput.addEventListener("input", function () {
+          const value = parseInt(this.value) / 100;
+          correlationValue.textContent = value.toFixed(2);
+        });
+
+        pointCountInput.addEventListener("input", function () {
+          pointCountValue.textContent = this.value;
+        });
+
+        // Generate correlated data
+        function generateCorrelatedData(correlation, n_points) {
+          const mean = [0, 0];
+          const cov = [
+            [1, correlation],
+            [correlation, 1],
+          ];
+
+          const data = [];
+          for (let i = 0; i < n_points; i++) {
+            const x = jStat.normal.sample(mean[0], Math.sqrt(cov[0][0]));
+            const y = jStat.normal.sample(
+              mean[1] + correlation * x,
+              Math.sqrt(1 - correlation ** 2)
+            );
+            data.push([x, y]);
+          }
+
+          return data;
+        }
+
+        // Perform PCA
+        function performPCA(data) {
+          // Center the data
+          const mean = [0, 0];
+          data.forEach((point) => {
+            mean[0] += point[0];
+            mean[1] += point[1];
+          });
+          mean[0] /= data.length;
+          mean[1] /= data.length;
+
+          const centeredData = data.map((point) => [
+            point[0] - mean[0],
+            point[1] - mean[1],
+          ]);
+
+          // Compute covariance matrix
+          const cov = [
+            [0, 0],
+            [0, 0],
+          ];
+
+          centeredData.forEach((point) => {
+            cov[0][0] += point[0] * point[0];
+            cov[0][1] += point[0] * point[1];
+            cov[1][0] += point[1] * point[0];
+            cov[1][1] += point[1] * point[1];
+          });
+
+          cov[0][0] /= centeredData.length - 1;
+          cov[0][1] /= centeredData.length - 1;
+          cov[1][0] /= centeredData.length - 1;
+          cov[1][1] /= centeredData.length - 1;
+
+          // Eigenvalue decomposition
+          const a = cov[0][0],
+            b = cov[0][1],
+            c = cov[1][0],
+            d = cov[1][1];
+          const trace = a + d;
+          const det = a * d - b * c;
+          const discriminant = Math.sqrt(trace * trace - 4 * det);
+
+          const eigenvalues = [
+            (trace + discriminant) / 2,
+            (trace - discriminant) / 2,
+          ];
+
+          // Sort eigenvalues in descending order
+          if (eigenvalues[0] < eigenvalues[1]) {
+            [eigenvalues[0], eigenvalues[1]] = [eigenvalues[1], eigenvalues[0]];
+          }
+
+          // Compute eigenvectors
+          const eigenvectors = [];
+          if (b !== 0) {
+            eigenvectors[0] = [eigenvalues[0] - d, c];
+            eigenvectors[1] = [eigenvalues[1] - d, c];
+          } else if (a >= d) {
+            eigenvectors[0] = [1, 0];
+            eigenvectors[1] = [0, 1];
+          } else {
+            eigenvectors[0] = [0, 1];
+            eigenvectors[1] = [1, 0];
+          }
+
+          // Normalize eigenvectors
+          const norm0 = Math.sqrt(
+            eigenvectors[0][0] ** 2 + eigenvectors[0][1] ** 2
+          );
+          eigenvectors[0][0] /= norm0;
+          eigenvectors[0][1] /= norm0;
+
+          const norm1 = Math.sqrt(
+            eigenvectors[1][0] ** 2 + eigenvectors[1][1] ** 2
+          );
+          eigenvectors[1][0] /= norm1;
+          eigenvectors[1][1] /= norm1;
+
+          // Scale eigenvectors by eigenvalues
+          const scaledEigenvectors = [
+            [
+              eigenvectors[0][0] * Math.sqrt(eigenvalues[0]),
+              eigenvectors[0][1] * Math.sqrt(eigenvalues[0]),
+            ],
+            [
+              eigenvectors[1][0] * Math.sqrt(eigenvalues[1]),
+              eigenvectors[1][1] * Math.sqrt(eigenvalues[1]),
+            ],
+          ];
+
+          // Project data onto principal components
+          const transformedData = centeredData.map((point) => [
+            point[0] * eigenvectors[0][0] + point[1] * eigenvectors[0][1],
+            point[0] * eigenvectors[1][0] + point[1] * eigenvectors[1][1],
+          ]);
+
+          // Calculate explained variance
+          const totalVariance = eigenvalues[0] + eigenvalues[1];
+          const explainedVariance = [
+            eigenvalues[0] / totalVariance,
+            eigenvalues[1] / totalVariance,
+          ];
+
+          return {
+            originalData: data,
+            centeredData: centeredData,
+            eigenvectors: scaledEigenvectors,
+            transformedData: transformedData,
+            explainedVariance: explainedVariance,
+          };
+        }
+
+        // Create visualization
+        function createVisualization() {
+          const correlation = parseFloat(correlationInput.value) / 100;
+          const pointCount = parseInt(pointCountInput.value);
+
+          // Generate data
+          const data = generateCorrelatedData(correlation, pointCount);
+
+          // Perform PCA
+          const pcaResult = performPCA(data);
+
+          // Update variance display
+          const pc1Var = (pcaResult.explainedVariance[0] * 100).toFixed(1);
+          const pc2Var = (pcaResult.explainedVariance[1] * 100).toFixed(1);
+          pc1Variance.textContent = `${pc1Var}%`;
+          pc2Variance.textContent = `${pc2Var}%`;
+          totalVariance.textContent = "100%";
+
+          // Prepare plot data
+          const originalTrace = {
+            x: data.map((p) => p[0]),
+            y: data.map((p) => p[1]),
+            mode: "markers",
+            name: "Original Data",
+            marker: {
+              color: "#818cf8",
+              size: 8,
+              opacity: 0.7,
+            },
+            type: "scatter",
+          };
+
+          // Principal component vectors
+          const pc1Vector = {
+            x: [0, pcaResult.eigenvectors[0][0]],
+            y: [0, pcaResult.eigenvectors[0][1]],
+            mode: "lines",
+            name: "PC1",
+            line: {
+              color: "#10b981",
+              width: 4,
+            },
+            type: "scatter",
+          };
+
+          const pc2Vector = {
+            x: [0, pcaResult.eigenvectors[1][0]],
+            y: [0, pcaResult.eigenvectors[1][1]],
+            mode: "lines",
+            name: "PC2",
+            line: {
+              color: "#ef4444",
+              width: 4,
+            },
+            type: "scatter",
+          };
+
+          // Projected data
+          const projectedTrace = {
+            x: pcaResult.transformedData.map((p) => p[0]),
+            y: pcaResult.transformedData.map((p) => p[1]),
+            mode: "markers",
+            name: "PCA Projection",
+            marker: {
+              color: "#f59e0b",
+              size: 8,
+              opacity: 0.7,
+            },
+            type: "scatter",
+          };
+
+          // Create lines from original to projected points
+          const projectionLines = [];
+          for (let i = 0; i < data.length; i++) {
+            projectionLines.push({
+              x: [data[i][0], pcaResult.transformedData[i][0]],
+              y: [data[i][1], pcaResult.transformedData[i][1]],
+              mode: "lines",
+              line: {
+                color: "rgba(200, 200, 200, 0.3)",
+                width: 1,
+              },
+              showlegend: false,
+              type: "scatter",
+            });
+          }
+
+          // Layout configuration
+          const layout = {
+            title: "Principal Component Analysis",
+            xaxis: { title: "Feature 1", range: [-5, 5] },
+            yaxis: { title: "Feature 2", range: [-5, 5] },
+            grid: { rows: 1, columns: 1 },
+            showlegend: true,
+            legend: {
+              x: 0.02,
+              y: 1.1,
+              orientation: "h",
+            },
+            margin: { t: 50, b: 50, l: 50, r: 50 },
+            plot_bgcolor: "rgba(0, 0, 0, 0.1)",
+            paper_bgcolor: "rgba(0, 0, 0, 0)",
+            font: {
+              color: "#e2e8f0",
+            },
+            shapes: [
+              // Draw PC1 vector
+              {
+                type: "line",
+                x0: 0,
+                y0: 0,
+                x1: pcaResult.eigenvectors[0][0],
+                y1: pcaResult.eigenvectors[0][1],
+                line: {
+                  color: "#10b981",
+                  width: 3,
+                },
+              },
+              // Draw PC2 vector
+              {
+                type: "line",
+                x0: 0,
+                y0: 0,
+                x1: pcaResult.eigenvectors[1][0],
+                y1: pcaResult.eigenvectors[1][1],
+                line: {
+                  color: "#ef4444",
+                  width: 3,
+                },
+              },
+            ],
+          };
+
+          // Combine all traces
+          const allData = [
+            originalTrace,
+            pc1Vector,
+            pc2Vector,
+            ...projectionLines,
+            projectedTrace,
+          ];
+
+          // Create or update plot
+          if (plot) {
+            Plotly.react("pca-plot", allData, layout);
+          } else {
+            plot = Plotly.newPlot("pca-plot", allData, layout);
+          }
+        }
+
+        // Event listeners
+        runBtn.addEventListener("click", function () {
+          createVisualization();
+        });
+
+        resetBtn.addEventListener("click", function () {
+          correlationInput.value = 70;
+          correlationValue.textContent = "0.7";
+          pointCountInput.value = 100;
+          pointCountValue.textContent = "100";
+          createVisualization();
+        });
+
+        correlationInput.addEventListener("input", function () {
+          const value = parseInt(this.value) / 100;
+          correlationValue.textContent = value.toFixed(2);
+          createVisualization();
+        });
+
+        pointCountInput.addEventListener("input", function () {
+          pointCountValue.textContent = this.value;
+          createVisualization();
+        });
+
+        // Copy button functionality
+        copyBtn.addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+
+        // Load jStat for normal distribution sampling
+        const script = document.createElement("script");
+        script.src =
+          "https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.5/jstat.min.js";
+        script.onload = function () {
+          // Initialize visualization
+          createVisualization();
+        };
+        document.head.appendChild(script);
+      });
+    </script>
+  </body>
+</html>
