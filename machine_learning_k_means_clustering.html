@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K-Means Clustering | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 400px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .console-input input,
+      .console-input select {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        min-width: 150px;
+      }
+
+      .console-input input:focus,
+      .console-input select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* K-Means Visualization */
+      #kmeans-viz {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .data-point {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.5s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .centroid {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        border: 3px solid white;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        z-index: 10;
+      }
+
+      .centroid::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: currentColor;
+        z-index: -1;
+      }
+
+      .centroid-label {
+        color: white;
+        font-size: 12px;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+      }
+
+      .cluster-line {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.3);
+        transform-origin: 0 0;
+        z-index: 5;
+      }
+
+      .iteration-info {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(30, 41, 59, 0.8);
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--accent-light);
+        z-index: 20;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .cluster-info {
+        position: absolute;
+        top: 50px;
+        left: 10px;
+        background: rgba(30, 41, 59, 0.8);
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--text);
+        z-index: 20;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        max-width: 200px;
+      }
+
+      .cluster-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 5px 0;
+      }
+
+      .cluster-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .cluster-stats {
+        font-size: 12px;
+      }
+
+      .k-slider {
+        width: 100%;
+        margin-top: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        padding: 5px;
+      }
+
+      .k-value {
+        text-align: center;
+        font-family: "Roboto Mono", monospace;
+        color: var(--accent-light);
+        margin-top: 5px;
+      }
+
+      /* Step-by-step instructions */
+      .step-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .step {
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        background: rgba(15, 23, 42, 0.3);
+        border-radius: 8px;
+        align-items: flex-start;
+      }
+
+      .step-number {
+        background: var(--accent);
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-weight: bold;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-content h4 {
+        margin-bottom: 8px;
+        color: var(--accent-light);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Unsupervised Learning</a> >
+              <span>K-Means Clustering</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>K-Means Clustering</h1>
+        <div class="category">
+          <i class="fas fa-object-group"></i> Unsupervised Learning Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n × k × i × d)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              K-Means Clustering is an unsupervised machine learning algorithm
+              that partitions n observations into k clusters. Each observation
+              belongs to the cluster with the nearest mean, serving as a
+              prototype of the cluster. The algorithm iteratively refines
+              cluster assignments by minimizing within-cluster variance.
+            </p>
+            <p>
+              K-Means is widely used for data segmentation, customer profiling,
+              image compression, and anomaly detection. It works best when
+              clusters are spherical and roughly equal in size, making it a
+              popular choice for exploratory data analysis.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Partitions data into k distinct clusters based on feature
+                  similarity
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  Efficient for large datasets with linear time complexity in
+                  practice
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>
+                  Requires O(n × d) space for data and O(k × d) for centroids
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Iterative refinement of cluster centroids and assignments</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Explore how K-Means groups data points into clusters. Adjust the
+              number of clusters (k), step through the algorithm iterations, and
+              observe how centroids move and cluster assignments change. Click
+              "Generate Data" to create new datasets or "Reset" to start over.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3><i class="fas fa-play-circle"></i> K-Means Clustering</h3>
+                <div class="console-controls">
+                  <button class="console-btn" id="reset-btn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                  <button class="console-btn" id="step-btn">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button class="console-btn" id="run-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="visualization-area">
+                <div id="kmeans-viz"></div>
+              </div>
+
+              <div class="console-input">
+                <div class="k-slider">
+                  <label for="k-value">Number of Clusters (k):</label>
+                  <input type="range" id="k-value" min="2" max="8" value="3" />
+                  <div class="k-value">k = <span id="k-display">3</span></div>
+                </div>
+                <button class="console-btn" id="generate-btn">
+                  <i class="fas fa-random"></i> Generate Data
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              The K-Means algorithm follows these iterative steps to form
+              clusters:
+            </p>
+
+            <div class="step-container">
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Initialize Centroids</h4>
+                  <p>
+                    Randomly select k data points as initial cluster centroids.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Assign Points to Clusters</h4>
+                  <p>
+                    For each data point, calculate distance to all centroids and
+                    assign to the nearest centroid's cluster.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Update Centroids</h4>
+                  <p>
+                    Recalculate centroids as the mean of all points assigned to
+                    each cluster.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h4>Check for Convergence</h4>
+                  <p>
+                    Repeat steps 2-3 until centroids stabilize (no changes) or
+                    maximum iterations reached.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function kmeans(data, k, max_iterations):
+    # Step 1: Initialize centroids randomly
+    centroids = randomly select k points from data
+    
+    for iteration in range(max_iterations):
+        # Step 2: Assign each point to the nearest centroid
+        clusters = [[] for _ in range(k)]
+        for point in data:
+            distances = [distance(point, centroid) for centroid in centroids]
+            cluster_index = argmin(distances)
+            clusters[cluster_index].append(point)
+        
+        # Step 3: Update centroids
+        new_centroids = []
+        for cluster in clusters:
+            if cluster is not empty:
+                new_centroid = mean(cluster)
+                new_centroids.append(new_centroid)
+            else:
+                new_centroids.append(random_point())
+        
+        # Check for convergence
+        if centroids == new_centroids:
+            break
+        else:
+            centroids = new_centroids
+    
+    return clusters, centroids</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the K-Means clustering
+              algorithm. The implementation includes Euclidean distance
+              calculation, centroid initialization, and iterative refinement of
+              cluster assignments.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_blobs
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="keyword">class</span> <span class="function">KMeans</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, n_clusters=3, max_iter=100):
+        <span class="keyword">self</span>.n_clusters = n_clusters
+        <span class="keyword">self</span>.max_iter = max_iter
+        <span class="keyword">self</span>.centroids = None
+        <span class="keyword">self</span>.labels = None
+        
+    <span class="keyword">def</span> <span class="function">fit</span>(<span class="keyword">self</span>, X):
+        <span class="comment"># Step 1: Initialize centroids randomly</span>
+        n_samples, n_features = X.shape
+        random_indices = np.random.choice(n_samples, <span class="keyword">self</span>.n_clusters, replace=<span class="keyword">False</span>)
+        <span class="keyword">self</span>.centroids = X[random_indices]
+        
+        <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="function">range</span>(<span class="keyword">self</span>.max_iter):
+            <span class="comment"># Step 2: Assign points to nearest centroid</span>
+            distances = np.zeros((n_samples, <span class="keyword">self</span>.n_clusters))
+            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="keyword">self</span>.n_clusters):
+                distances[:, i] = np.linalg.norm(X - <span class="keyword">self</span>.centroids[i], axis=1)
+            <span class="keyword">self</span>.labels = np.argmin(distances, axis=1)
+            
+            <span class="comment"># Step 3: Update centroids</span>
+            new_centroids = np.zeros((<span class="keyword">self</span>.n_clusters, n_features))
+            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="keyword">self</span>.n_clusters):
+                cluster_points = X[<span class="keyword">self</span>.labels == i]
+                <span class="keyword">if</span> len(cluster_points) > 0:
+                    new_centroids[i] = np.mean(cluster_points, axis=0)
+                <span class="keyword">else</span>:
+                    new_centroids[i] = X[np.random.randint(n_samples)]
+            
+            <span class="comment"># Check for convergence</span>
+            <span class="keyword">if</span> np.allclose(<span class="keyword">self</span>.centroids, new_centroids):
+                <span class="keyword">break</span>
+                
+            <span class="keyword">self</span>.centroids = new_centroids
+            
+        <span class="keyword">return</span> <span class="keyword">self</span>
+    
+    <span class="keyword">def</span> <span class="function">predict</span>(<span class="keyword">self</span>, X):
+        distances = np.zeros((X.shape[0], <span class="keyword">self</span>.n_clusters))
+        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="keyword">self</span>.n_clusters):
+            distances[:, i] = np.linalg.norm(X - <span class="keyword">self</span>.centroids[i], axis=1)
+        <span class="keyword">return</span> np.argmin(distances, axis=1)
+
+<span class="comment"># Example usage</span>
+<span class="comment"># Generate sample data</span>
+X, y = make_blobs(n_samples=300, centers=3, n_features=2, random_state=42)
+
+<span class="comment"># Create and fit K-Means model</span>
+kmeans = KMeans(n_clusters=3)
+kmeans.fit(X)
+labels = kmeans.labels
+centroids = kmeans.centroids
+
+<span class="comment"># Visualize results</span>
+plt.figure(figsize=(10, 6))
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', alpha=0.7)
+plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='X', s=200)
+plt.title(<span class="string">"K-Means Clustering Results"</span>)
+plt.show()</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Clustering</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Partitioning</div>
+              </div>
+              <div class="property-card">
+                <h4>Supervision</h4>
+                <div class="value">Unsupervised</div>
+              </div>
+              <div class="property-card">
+                <h4>Parametric</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Training Time</h4>
+                <div class="value">O(n × k × i)</div>
+              </div>
+              <div class="property-card">
+                <h4>Prediction Time</h4>
+                <div class="value">O(k × d)</div>
+              </div>
+              <div class="property-card">
+                <h4>Memory</h4>
+                <div class="value">O(n × d)</div>
+              </div>
+              <div class="property-card">
+                <h4>Hyperparameter</h4>
+                <div class="value">k</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              K-Means is widely used in various domains for data segmentation:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Customer segmentation for marketing
+              </li>
+              <li style="margin-bottom: 10px">
+                Image compression and color quantization
+              </li>
+              <li style="margin-bottom: 10px">
+                Document clustering and topic modeling
+              </li>
+              <li style="margin-bottom: 10px">
+                Anomaly detection in network security
+              </li>
+              <li>Genomic data analysis in bioinformatics</li>
+            </ul>
+          </div>
+
+          <!-- Advantages Section -->
+          <div class="section">
+            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Simple to understand and implement
+              </li>
+              <li style="margin-bottom: 10px">
+                Efficient and scalable for large datasets
+              </li>
+              <li style="margin-bottom: 10px">
+                Adapts easily to new data points
+              </li>
+              <li style="margin-bottom: 10px">
+                Guaranteed convergence to a local optimum
+              </li>
+              <li>Works well with spherical cluster shapes</li>
+            </ul>
+          </div>
+
+          <!-- Limitations Section -->
+          <div class="section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Requires specifying k in advance
+              </li>
+              <li style="margin-bottom: 10px">
+                Sensitive to initial centroid positions
+              </li>
+              <li style="margin-bottom: 10px">
+                Struggles with non-spherical clusters
+              </li>
+              <li style="margin-bottom: 10px">
+                Not robust to outliers and noisy data
+              </li>
+              <li>Assumes clusters of similar size and density</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // K-Means Visualization
+      document.addEventListener("DOMContentLoaded", function () {
+        // DOM Elements
+        const vizContainer = document.getElementById("kmeans-viz");
+        const kValueInput = document.getElementById("k-value");
+        const kDisplay = document.getElementById("k-display");
+        const runBtn = document.getElementById("run-btn");
+        const stepBtn = document.getElementById("step-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const generateBtn = document.getElementById("generate-btn");
+        const copyBtn = document.querySelector(".copy-btn");
+
+        // Visualization state
+        let dataPoints = [];
+        let centroids = [];
+        let clusters = [];
+        let iteration = 0;
+        let animationId = null;
+        const colors = [
+          "#818cf8",
+          "#10b981",
+          "#f59e0b",
+          "#ef4444",
+          "#a78bfa",
+          "#60a5fa",
+          "#34d399",
+          "#fbbf24",
+        ];
+        const width = vizContainer.clientWidth;
+        const height = vizContainer.clientHeight;
+
+        // Update k-value display
+        kValueInput.addEventListener("input", function () {
+          kDisplay.textContent = this.value;
+        });
+
+        // Generate random data points
+        function generateData() {
+          // Clear previous data
+          dataPoints = [];
+          vizContainer.innerHTML = "";
+
+          // Create cluster origins
+          const clusterOrigins = [];
+          const k = parseInt(kValueInput.value);
+
+          for (let i = 0; i < k; i++) {
+            clusterOrigins.push({
+              x: Math.random() * (width - 100) + 50,
+              y: Math.random() * (height - 100) + 50,
+            });
+          }
+
+          // Generate points around cluster origins
+          for (let i = 0; i < 100; i++) {
+            const clusterIndex = Math.floor(Math.random() * k);
+            const origin = clusterOrigins[clusterIndex];
+
+            // Create point with some random spread
+            const point = {
+              x: origin.x + (Math.random() - 0.5) * 150,
+              y: origin.y + (Math.random() - 0.5) * 150,
+              cluster: clusterIndex,
+            };
+
+            dataPoints.push(point);
+          }
+
+          // Initialize centroids randomly
+          initializeCentroids();
+
+          // Reset iteration counter
+          iteration = 0;
+          updateIterationInfo();
+        }
+
+        // Initialize centroids
+        function initializeCentroids() {
+          centroids = [];
+          const k = parseInt(kValueInput.value);
+
+          // Select k random data points as initial centroids
+          const indices = [];
+          while (indices.length < k) {
+            const index = Math.floor(Math.random() * dataPoints.length);
+            if (!indices.includes(index)) {
+              indices.push(index);
+            }
+          }
+
+          for (let i = 0; i < k; i++) {
+            centroids.push({
+              x: dataPoints[indices[i]].x,
+              y: dataPoints[indices[i]].y,
+              cluster: i,
+            });
+          }
+
+          // Render visualization
+          renderVisualization();
+        }
+
+        // Assign points to clusters
+        function assignClusters() {
+          clusters = Array(centroids.length)
+            .fill()
+            .map(() => []);
+
+          dataPoints.forEach((point) => {
+            // Calculate distances to all centroids
+            let minDist = Infinity;
+            let clusterIndex = -1;
+
+            for (let i = 0; i < centroids.length; i++) {
+              const dx = point.x - centroids[i].x;
+              const dy = point.y - centroids[i].y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              if (dist < minDist) {
+                minDist = dist;
+                clusterIndex = i;
+              }
+            }
+
+            // Assign point to nearest centroid
+            point.cluster = clusterIndex;
+            clusters[clusterIndex].push(point);
+          });
+        }
+
+        // Update centroids position
+        function updateCentroids() {
+          let centroidsMoved = false;
+
+          for (let i = 0; i < centroids.length; i++) {
+            if (clusters[i].length === 0) continue;
+
+            // Calculate new centroid position as mean of cluster points
+            const sumX = clusters[i].reduce((sum, p) => sum + p.x, 0);
+            const sumY = clusters[i].reduce((sum, p) => sum + p.y, 0);
+            const newX = sumX / clusters[i].length;
+            const newY = sumY / clusters[i].length;
+
+            // Check if centroid moved
+            const dx = centroids[i].x - newX;
+            const dy = centroids[i].y - newY;
+            const distMoved = Math.sqrt(dx * dx + dy * dy);
+
+            if (distMoved > 1) {
+              centroids[i].x = newX;
+              centroids[i].y = newY;
+              centroidsMoved = true;
+            }
+          }
+
+          return centroidsMoved;
+        }
+
+        // Render visualization
+        function renderVisualization() {
+          vizContainer.innerHTML = "";
+
+          // Create iteration info
+          const iterationInfo = document.createElement("div");
+          iterationInfo.className = "iteration-info";
+          iterationInfo.textContent = `Iteration: ${iteration}`;
+          vizContainer.appendChild(iterationInfo);
+
+          // Create cluster info
+          const clusterInfo = document.createElement("div");
+          clusterInfo.className = "cluster-info";
+          clusterInfo.innerHTML = "<div>Clusters:</div>";
+          vizContainer.appendChild(clusterInfo);
+
+          // Render data points
+          dataPoints.forEach((point) => {
+            const pointEl = document.createElement("div");
+            pointEl.className = "data-point";
+            pointEl.style.left = `${point.x}px`;
+            pointEl.style.top = `${point.y}px`;
+            pointEl.style.backgroundColor =
+              colors[point.cluster % colors.length];
+            vizContainer.appendChild(pointEl);
+          });
+
+          // Render centroids
+          centroids.forEach((centroid, i) => {
+            const centroidEl = document.createElement("div");
+            centroidEl.className = "centroid";
+            centroidEl.style.left = `${centroid.x}px`;
+            centroidEl.style.top = `${centroid.y}px`;
+            centroidEl.style.color = colors[i % colors.length];
+            centroidEl.innerHTML = `<div class="centroid-label">${i + 1}</div>`;
+            vizContainer.appendChild(centroidEl);
+
+            // Add to cluster info
+            const clusterRow = document.createElement("div");
+            clusterRow.className = "cluster-row";
+            clusterRow.innerHTML = `
+              <div class="cluster-color" style="background:${
+                colors[i] % colors.length
+              }"></div>
+              <div class="cluster-stats">Cluster ${i + 1}: ${
+              clusters[i] ? clusters[i].length : 0
+            } points</div>
+            `;
+            clusterInfo.appendChild(clusterRow);
+          });
+        }
+
+        // Update iteration info
+        function updateIterationInfo() {
+          const iterationInfo = vizContainer.querySelector(".iteration-info");
+          if (iterationInfo) {
+            iterationInfo.textContent = `Iteration: ${iteration}`;
+          }
+        }
+
+        // Perform one iteration of the algorithm
+        function performIteration() {
+          iteration++;
+          assignClusters();
+          const centroidsMoved = updateCentroids();
+          renderVisualization();
+
+          return centroidsMoved;
+        }
+
+        // Run animation
+        function runAnimation() {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+          }
+
+          function animate() {
+            const centroidsMoved = performIteration();
+
+            if (centroidsMoved && iteration < 20) {
+              animationId = requestAnimationFrame(animate);
+            } else {
+              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+              animationId = null;
+            }
+          }
+
+          runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+          animationId = requestAnimationFrame(animate);
+        }
+
+        // Event listeners
+        runBtn.addEventListener("click", function () {
+          if (this.textContent.includes("Run")) {
+            runAnimation();
+          } else {
+            if (animationId) {
+              cancelAnimationFrame(animationId);
+              animationId = null;
+            }
+            this.innerHTML = '<i class="fas fa-play"></i> Run';
+          }
+        });
+
+        stepBtn.addEventListener("click", function () {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          }
+          performIteration();
+        });
+
+        resetBtn.addEventListener("click", function () {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          initializeCentroids();
+          iteration = 0;
+          updateIterationInfo();
+          renderVisualization();
+        });
+
+        generateBtn.addEventListener("click", function () {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          generateData();
+        });
+
+        kValueInput.addEventListener("change", function () {
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          generateData();
+        });
+
+        // Copy button functionality
+        copyBtn.addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+
+        // Initialize visualization
+        generateData();
+      });
+    </script>
+  </body>
+</html>
