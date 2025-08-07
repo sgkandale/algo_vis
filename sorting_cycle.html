@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cycle Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Cycle Sort Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Cycle Sort Visualization Styles */
+      .array-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+        gap: 8px;
+      }
+
+      .array-element {
+        width: 40px;
+        background: var(--accent);
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .element-value {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .element-index {
+        position: absolute;
+        bottom: -25px;
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+
+      .cycle-start {
+        box-shadow: 0 0 0 3px var(--success);
+      }
+
+      .current-cycle {
+        box-shadow: 0 0 0 3px var(--warning);
+      }
+
+      .sorted {
+        background: var(--success);
+      }
+
+      .minimized {
+        transform: scale(0.9);
+        opacity: 0.7;
+      }
+
+      .stats-bar {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        display: flex;
+        gap: 15px;
+      }
+
+      .stats-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        justify-content: center;
+      }
+
+      .speed-control {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Cycle Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Cycle Sort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n²)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Cycle Sort is an in-place, unstable, comparison sorting algorithm
+              that minimizes the number of writes to memory. It is optimal for
+              situations where memory writes are expensive, such as with flash
+              memory. The algorithm works by dividing the array into cycles
+              where each element is placed in its correct position by rotating
+              the cycle.
+            </p>
+            <p>
+              Unlike many sorting algorithms, Cycle Sort does not compare
+              elements to sort them. Instead, it calculates the position of each
+              element in the sorted array and rotates the elements until each
+              element is in its correct position. This makes it particularly
+              efficient in terms of the number of writes to memory.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Minimizes the number of memory writes (optimal for flash
+                  memory)
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>O(n²) time complexity in all cases (best, average, worst)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>Constant O(1) space complexity (in-place sorting)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>
+                  Cycle detection and rotation to place elements in correct
+                  positions
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive visualization to see how Cycle Sort works.
+              Enter numbers to sort, adjust the speed, and step through the
+              algorithm to see each stage of the sorting process. The
+              visualization shows how elements are moved to their correct
+              positions through cycles.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Cycle Sort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn" id="reset-btn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                  <button class="console-btn" id="run-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="viz-area">
+                <!-- Visualization will be rendered here -->
+                <div class="array-container" id="array-container"></div>
+                <div class="stats-bar" id="stats-bar">
+                  <div class="stats-item">
+                    <i
+                      class="fas fa-sync-alt"
+                      style="color: var(--accent-light)"
+                    ></i>
+                    <span>Cycles: <span id="cycle-count">0</span></span>
+                  </div>
+                  <div class="stats-item">
+                    <i
+                      class="fas fa-exchange-alt"
+                      style="color: var(--success)"
+                    ></i>
+                    <span>Writes: <span id="write-count">0</span></span>
+                  </div>
+                  <div class="stats-item">
+                    <i class="fas fa-check" style="color: var(--warning)"></i>
+                    <span>Sorted: <span id="sorted-count">0</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="array-input"
+                  value="7, 2, 9, 5, 1, 4, 8, 3, 6"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                />
+                <button class="console-btn" id="random-btn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+
+              <div class="controls">
+                <div class="speed-control">
+                  <i
+                    class="fas fa-tachometer-alt"
+                    style="color: var(--accent-light)"
+                  ></i>
+                  <input
+                    type="range"
+                    id="speed-slider"
+                    min="1"
+                    max="10"
+                    value="5"
+                  />
+                  <span id="speed-value">Medium</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Cycle Sort works by dividing the array into cycles and rotating
+              elements until each is in its correct position:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-play"></i> 1. Initialize Cycle</h3>
+                <p>
+                  Start with the first element as the start of a cycle. This
+                  element will be placed in its correct position.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-calculator"></i> 2. Find Position</h3>
+                <p>
+                  Count the number of elements smaller than the current element
+                  to determine its correct position in the sorted array.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-exchange-alt"></i> 3. Place Element</h3>
+                <p>
+                  Swap the current element with the element at its calculated
+                  position. The element that was displaced becomes the new
+                  current element.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-redo"></i> 4. Rotate Cycle</h3>
+                <p>
+                  Continue rotating the cycle until the starting element of the
+                  cycle is placed in its correct position.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrow-right"></i> 5. Next Cycle</h3>
+                <p>
+                  Move to the next unsorted element and repeat the process until
+                  the entire array is sorted.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function cycleSort(arr)
+    n = length(arr)
+    writes = 0
+    
+    for cycleStart from 0 to n-2
+        item = arr[cycleStart]
+        pos = cycleStart
+        
+        // Find position where we put the element
+        for i from cycleStart+1 to n-1
+            if arr[i] < item
+                pos += 1
+        
+        // If the element is already in position, skip
+        if pos == cycleStart
+            continue
+            
+        // Skip duplicates
+        while item == arr[pos]
+            pos += 1
+            
+        // Put the item to its correct position
+        swap arr[pos] and item
+        writes += 1
+        
+        // Rotate the rest of the cycle
+        while pos != cycleStart
+            pos = cycleStart
+            
+            // Find position for current element
+            for i from cycleStart+1 to n-1
+                if arr[i] < item
+                    pos += 1
+                    
+            // Skip duplicates
+            while item == arr[pos]
+                pos += 1
+                
+            // Place the element and update
+            swap arr[pos] and item
+            writes += 1
+    
+    return writes</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the Cycle Sort algorithm. The
+              algorithm minimizes the number of writes to memory by rotating
+              elements to their correct positions in cycles.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">def</span> <span class="function">cycle_sort</span>(arr):
+    <span class="comment"># Count the number of memory writes</span>
+    writes = 0
+    n = len(arr)
+    
+    <span class="comment"># Loop through the array to find cycles</span>
+    <span class="keyword">for</span> cycle_start <span class="keyword">in</span> range(0, n - 1):
+        item = arr[cycle_start]
+        
+        <span class="comment"># Find where to put the item</span>
+        pos = cycle_start
+        <span class="keyword">for</span> i <span class="keyword">in</span> range(cycle_start + 1, n):
+            <span class="keyword">if</span> arr[i] < item:
+                pos += 1
+                
+        <span class="comment"># If the item is already there, skip</span>
+        <span class="keyword">if</span> pos == cycle_start:
+            continue
+            
+        <span class="comment"># Skip duplicate elements</span>
+        <span class="keyword">while</span> item == arr[pos]:
+            pos += 1
+            
+        <span class="comment"># Place the item in its correct position</span>
+        arr[pos], item = item, arr[pos]
+        writes += 1
+        
+        <span class="comment"># Rotate the rest of the cycle</span>
+        <span class="keyword">while</span> pos != cycle_start:
+            pos = cycle_start
+            
+            <span class="comment"># Find position for current element</span>
+            <span class="keyword">for</span> i <span class="keyword">in</span> range(cycle_start + 1, n):
+                <span class="keyword">if</span> arr[i] < item:
+                    pos += 1
+                    
+            <span class="comment"># Skip duplicates</span>
+            <span class="keyword">while</span> item == arr[pos]:
+                pos += 1
+                
+            <span class="comment"># Place the element and update</span>
+            arr[pos], item = item, arr[pos]
+            writes += 1
+            
+    <span class="keyword">return</span> writes
+
+<span class="comment"># Example usage</span>
+arr = [3, 1, 5, 4, 2, 7, 6]
+writes = cycle_sort(arr)
+print(<span class="string">"Sorted array:"</span>, arr)
+print(<span class="string">"Number of writes:"</span>, writes)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Comparison</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n²)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n²)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n²)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(1)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Cycle Sort is particularly useful in specific scenarios where
+              memory writes are expensive:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Sorting in memory-constrained environments
+              </li>
+              <li style="margin-bottom: 10px">
+                Flash memory and EEPROM systems where write operations are
+                costly
+              </li>
+              <li style="margin-bottom: 10px">
+                Systems where minimizing memory writes is critical
+              </li>
+              <li style="margin-bottom: 10px">
+                Educational purposes to demonstrate cycle-based sorting
+              </li>
+              <li>Embedded systems with limited write endurance</li>
+            </ul>
+          </div>
+
+          <!-- Advantages/Disadvantages Section -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-balance-scale"></i> Advantages & Disadvantages
+            </h2>
+            <div style="margin-top: 20px">
+              <h3 style="color: var(--success); margin-bottom: 10px">
+                <i class="fas fa-check-circle"></i> Advantages
+              </h3>
+              <ul
+                style="
+                  padding-left: 20px;
+                  margin-bottom: 20px;
+                  color: var(--text-secondary);
+                "
+              >
+                <li style="margin-bottom: 8px">
+                  Minimal number of memory writes
+                </li>
+                <li style="margin-bottom: 8px">
+                  In-place sorting with O(1) space complexity
+                </li>
+                <li style="margin-bottom: 8px">
+                  Ideal for memory with limited write cycles
+                </li>
+                <li>
+                  More efficient than other O(n²) algorithms for write-sensitive
+                  applications
+                </li>
+              </ul>
+
+              <h3 style="color: var(--danger); margin-bottom: 10px">
+                <i class="fas fa-exclamation-circle"></i> Disadvantages
+              </h3>
+              <ul style="padding-left: 20px; color: var(--text-secondary)">
+                <li style="margin-bottom: 8px">
+                  O(n²) time complexity makes it inefficient for large datasets
+                </li>
+                <li style="margin-bottom: 8px">
+                  Not a stable sorting algorithm
+                </li>
+                <li style="margin-bottom: 8px">
+                  Performance degrades with larger datasets
+                </li>
+                <li>More complex to implement than basic sorting algorithms</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // DOM elements
+      const runBtn = document.getElementById("run-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const randomBtn = document.getElementById("random-btn");
+      const arrayInput = document.getElementById("array-input");
+      const arrayContainer = document.getElementById("array-container");
+      const vizArea = document.getElementById("viz-area");
+      const speedSlider = document.getElementById("speed-slider");
+      const speedValue = document.getElementById("speed-value");
+      const cycleCount = document.getElementById("cycle-count");
+      const writeCount = document.getElementById("write-count");
+      const sortedCount = document.getElementById("sorted-count");
+      const copyBtn = document.querySelector(".copy-btn");
+
+      // Algorithm state
+      let arr = [];
+      let originalArr = [];
+      let animationQueue = [];
+      let isRunning = false;
+      let speed = 500;
+      let currentCycle = 0;
+      let writes = 0;
+      let sortedElements = 0;
+
+      // Initialize visualization
+      function initVisualization() {
+        const input = arrayInput.value.trim();
+        arr = input
+          ? input.split(",").map((num) => parseInt(num.trim()))
+          : [7, 2, 9, 5, 1, 4, 8, 3, 6];
+        originalArr = [...arr];
+
+        // Clear previous visualization
+        arrayContainer.innerHTML = "";
+        animationQueue = [];
+        currentCycle = 0;
+        writes = 0;
+        sortedElements = 0;
+
+        updateStats();
+
+        // Create array elements
+        arr.forEach((value, index) => {
+          const element = document.createElement("div");
+          element.className = "array-element";
+          element.style.height = `${value * 25}px`;
+          element.innerHTML = `
+            <div class="element-value">${value}</div>
+            <div class="element-index">${index}</div>
+          `;
+          element.dataset.index = index;
+          element.dataset.value = value;
+          arrayContainer.appendChild(element);
+        });
+      }
+
+      // Update statistics display
+      function updateStats() {
+        cycleCount.textContent = currentCycle;
+        writeCount.textContent = writes;
+        sortedCount.textContent = sortedElements;
+      }
+
+      // Highlight an element
+      function highlightElement(index, className) {
+        const elements = document.querySelectorAll(".array-element");
+        if (index >= 0 && index < elements.length) {
+          elements[index].classList.add(className);
+        }
+      }
+
+      // Remove highlight from element
+      function unhighlightElement(index, className) {
+        const elements = document.querySelectorAll(".array-element");
+        if (index >= 0 && index < elements.length) {
+          elements[index].classList.remove(className);
+        }
+      }
+
+      // Swap elements visually and in array
+      function swapElements(index1, index2) {
+        // Swap in array
+        [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
+        writes++;
+
+        // Swap in visualization
+        const elements = document.querySelectorAll(".array-element");
+        const temp = elements[index1].style.height;
+        elements[index1].style.height = elements[index2].style.height;
+        elements[index2].style.height = temp;
+
+        // Swap values
+        const tempValue =
+          elements[index1].querySelector(".element-value").textContent;
+        elements[index1].querySelector(".element-value").textContent =
+          elements[index2].querySelector(".element-value").textContent;
+        elements[index2].querySelector(".element-value").textContent =
+          tempValue;
+      }
+
+      // Mark element as sorted
+      function markSorted(index) {
+        const elements = document.querySelectorAll(".array-element");
+        if (index >= 0 && index < elements.length) {
+          elements[index].classList.add("sorted");
+          sortedElements++;
+          updateStats();
+        }
+      }
+
+      // Cycle Sort algorithm with visualization steps
+      function cycleSortWithVisualization() {
+        animationQueue = [];
+        const n = arr.length;
+        let writes = 0;
+
+        for (let cycleStart = 0; cycleStart < n - 1; cycleStart++) {
+          animationQueue.push(() => {
+            highlightElement(cycleStart, "cycle-start");
+            currentCycle++;
+            updateStats();
+          });
+
+          let item = arr[cycleStart];
+          let pos = cycleStart;
+
+          // Find position for item
+          for (let i = cycleStart + 1; i < n; i++) {
+            animationQueue.push(() => highlightElement(i, "minimized"));
+            animationQueue.push(() => unhighlightElement(i, "minimized"));
+
+            if (arr[i] < item) {
+              pos++;
+            }
+          }
+
+          // If item is already in position, skip
+          if (pos === cycleStart) {
+            animationQueue.push(() => markSorted(cycleStart));
+            animationQueue.push(() =>
+              unhighlightElement(cycleStart, "cycle-start")
+            );
+            continue;
+          }
+
+          // Skip duplicates
+          while (item === arr[pos]) {
+            pos++;
+          }
+
+          // Swap item to its correct position
+          animationQueue.push(() => {
+            highlightElement(pos, "current-cycle");
+          });
+
+          animationQueue.push(() => {
+            swapElements(cycleStart, pos);
+            item = arr[pos];
+            updateStats();
+          });
+
+          // Rotate the rest of the cycle
+          while (pos !== cycleStart) {
+            pos = cycleStart;
+
+            // Find position for current item
+            for (let i = cycleStart + 1; i < n; i++) {
+              animationQueue.push(() => highlightElement(i, "minimized"));
+              animationQueue.push(() => unhighlightElement(i, "minimized"));
+
+              if (arr[i] < item) {
+                pos++;
+              }
+            }
+
+            // Skip duplicates
+            while (item === arr[pos]) {
+              pos++;
+            }
+
+            // Swap item to its correct position
+            animationQueue.push(() => highlightElement(pos, "current-cycle"));
+
+            animationQueue.push(() => {
+              swapElements(cycleStart, pos);
+              item = arr[pos];
+              updateStats();
+            });
+          }
+
+          animationQueue.push(() => {
+            unhighlightElement(cycleStart, "cycle-start");
+            unhighlightElement(pos, "current-cycle");
+            markSorted(cycleStart);
+          });
+        }
+
+        // Mark last element as sorted
+        animationQueue.push(() => markSorted(n - 1));
+      }
+
+      // Run animation queue
+      async function runAnimation() {
+        isRunning = true;
+        runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+
+        for (const step of animationQueue) {
+          if (!isRunning) break;
+          step();
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+
+        isRunning = false;
+        runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+      }
+
+      // Event Listeners
+      runBtn.addEventListener("click", () => {
+        if (isRunning) {
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        } else {
+          if (animationQueue.length === 0) {
+            cycleSortWithVisualization();
+          }
+          runAnimation();
+        }
+      });
+
+      resetBtn.addEventListener("click", () => {
+        isRunning = false;
+        arr = [...originalArr];
+        initVisualization();
+        runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+      });
+
+      randomBtn.addEventListener("click", () => {
+        // Generate random array
+        const randomArray = [];
+        const length = Math.floor(Math.random() * 6) + 5; // 5-10 elements
+        for (let i = 0; i < length; i++) {
+          randomArray.push(Math.floor(Math.random() * 9) + 1); // 1-9
+        }
+        arrayInput.value = randomArray.join(", ");
+        resetBtn.click();
+      });
+
+      speedSlider.addEventListener("input", () => {
+        const speeds = {
+          1: { value: "Very Slow", delay: 1500 },
+          2: { value: "Slow", delay: 1000 },
+          3: { value: "Medium Slow", delay: 700 },
+          4: { value: "Medium", delay: 500 },
+          5: { value: "Medium", delay: 500 },
+          6: { value: "Medium Fast", delay: 300 },
+          7: { value: "Fast", delay: 200 },
+          8: { value: "Faster", delay: 100 },
+          9: { value: "Very Fast", delay: 50 },
+          10: { value: "Lightning", delay: 20 },
+        };
+
+        const speedSetting = speeds[speedSlider.value];
+        speedValue.textContent = speedSetting.value;
+        speed = speedSetting.delay;
+      });
+
+      copyBtn.addEventListener("click", function () {
+        const code = document.querySelector(".code-block code").innerText;
+        navigator.clipboard.writeText(code);
+
+        // Show feedback
+        const originalText = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+        setTimeout(() => {
+          this.innerHTML = originalText;
+        }, 2000);
+      });
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        initVisualization();
+        speedSlider.dispatchEvent(new Event("input"));
+      });
+    </script>
+  </body>
+</html>
