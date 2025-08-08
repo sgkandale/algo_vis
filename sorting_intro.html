@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IntroSort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Visualization Elements */
+      .array-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 100%;
+        width: 100%;
+        gap: 4px;
+        padding: 20px;
+      }
+
+      .array-element {
+        background: var(--accent);
+        min-width: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 6px 6px 0 0;
+        transition: all 0.3s ease;
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .array-element.active {
+        background: var(--success);
+        box-shadow: 0 0 15px var(--success);
+      }
+
+      .array-element.pivot {
+        background: var(--warning);
+        box-shadow: 0 0 15px var(--warning);
+      }
+
+      .array-element.comparing {
+        background: var(--danger);
+        box-shadow: 0 0 15px var(--danger);
+      }
+
+      .array-element.sorted {
+        background: var(--success);
+      }
+
+      .array-element.heap-node {
+        background: #8b5cf6;
+      }
+
+      .array-value {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: white;
+      }
+
+      .array-index {
+        position: absolute;
+        bottom: -25px;
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .visualization-info {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .algorithm-state {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .state-quicksort {
+        color: #ef4444;
+      }
+
+      .state-heapsort {
+        color: #8b5cf6;
+      }
+
+      .state-insertion {
+        color: #10b981;
+      }
+
+      .progress-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        background: var(--success);
+        transition: width 0.3s ease;
+      }
+
+      .code-highlight {
+        background: rgba(129, 140, 248, 0.3);
+        border: 1px solid var(--accent-light);
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>IntroSort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>IntroSort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              IntroSort (Introspective Sort) is a hybrid sorting algorithm that
+              combines the best features of Quicksort, Heapsort, and Insertion
+              Sort. It begins with Quicksort and switches to Heapsort when the
+              recursion depth exceeds a level based on the number of elements.
+              For small subarrays, it switches to Insertion Sort for better
+              performance.
+            </p>
+            <p>
+              Developed by David Musser in 1997, IntroSort provides both fast
+              average performance of Quicksort and optimal worst-case
+              performance of O(n log n). It's widely used in standard libraries
+              like the C++ Standard Template Library (STL).
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>Hybrid approach with optimal worst-case performance</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>O(n log n) worst-case, O(n) best-case (nearly sorted)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(log n) for recursion stack (in-place)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Quicksort + Heapsort + Insertion Sort hybrid</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how IntroSort
+              works. The visualization shows:
+            </p>
+            <ul
+              style="
+                color: var(--text-secondary);
+                margin: 15px 0;
+                padding-left: 20px;
+              "
+            >
+              <li>Quicksort partitions (pivot in yellow)</li>
+              <li>Heapsort operations (heap nodes in purple)</li>
+              <li>Insertion sort passes (active elements in green)</li>
+            </ul>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> IntroSort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="stepBtn">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button class="console-btn" id="runBtn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="vizArea">
+                <!-- Visualization will be rendered here -->
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="arrayInput"
+                  value="8, 3, 2, 7, 4, 9, 1, 6, 5"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                />
+                <button class="console-btn" id="randomBtn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>IntroSort intelligently combines three sorting algorithms:</p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> 1. Quicksort Phase</h3>
+                <p>
+                  Starts with Quicksort using median-of-three pivot selection
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-exchange-alt"></i> 2. Recursion Limit</h3>
+                <p>Switches to Heapsort if recursion depth exceeds 2*log(n)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-layer-group"></i> 3. Heapsort Phase</h3>
+                <p>
+                  Uses Heapsort when worst-case Quicksort behavior is detected
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrows-alt-h"></i> 4. Insertion Sort</h3>
+                <p>
+                  Switches to Insertion Sort for small subarrays (≤ 16 elements)
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>procedure introsort(array, depthLimit)
+    n = length(array)
+    
+    if n <= 16:
+        insertionSort(array)
+    else if depthLimit == 0:
+        heapsort(array)
+    else:
+        pivot = medianOfThree(array)
+        partitionIndex = partition(array, pivot)
+        
+        introsort(array[0:partitionIndex], depthLimit - 1)
+        introsort(array[partitionIndex+1:n], depthLimit - 1)
+
+procedure sort(array)
+    depthLimit = 2 * floor(log2(length(array)))
+    introsort(array, depthLimit)</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the IntroSort algorithm. The
+              implementation includes all three phases: Quicksort, Heapsort, and
+              Insertion Sort.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> math
+
+<span class="keyword">def</span> <span class="function">insertion_sort</span>(arr, start=0, end=None):
+    <span class="keyword">if</span> end <span class="keyword">is</span> None:
+        end = len(arr) - 1
+        
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(start + 1, end + 1):
+        key = arr[i]
+        j = i - 1
+        <span class="keyword">while</span> j >= start <span class="keyword">and</span> arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+<span class="keyword">def</span> <span class="function">heapify</span>(arr, n, i):
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+    
+    <span class="keyword">if</span> left < n <span class="keyword">and</span> arr[left] > arr[largest]:
+        largest = left
+        
+    <span class="keyword">if</span> right < n <span class="keyword">and</span> arr[right] > arr[largest]:
+        largest = right
+        
+    <span class="keyword">if</span> largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+<span class="keyword">def</span> <span class="function">heapsort</span>(arr, start=0, end=None):
+    <span class="keyword">if</span> end <span class="keyword">is</span> None:
+        end = len(arr) - 1
+        
+    n = end - start + 1
+    
+    <span class="comment"># Build max heap</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(start + n // 2 - 1, start - 1, -1):
+        heapify(arr, n, i)
+    
+    <span class="comment"># Extract elements from heap</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(end, start, -1):
+        arr[start], arr[i] = arr[i], arr[start]
+        heapify(arr, i - start, start)
+
+<span class="keyword">def</span> <span class="function">partition</span>(arr, low, high):
+    <span class="comment"># Median-of-three pivot selection</span>
+    mid = (low + high) // 2
+    <span class="keyword">if</span> arr[mid] < arr[low]:
+        arr[low], arr[mid] = arr[mid], arr[low]
+    <span class="keyword">if</span> arr[high] < arr[low]:
+        arr[low], arr[high] = arr[high], arr[low]
+    <span class="keyword">if</span> arr[mid] < arr[high]:
+        arr[mid], arr[high] = arr[high], arr[mid]
+        
+    pivot = arr[high]
+    i = low - 1
+    
+    <span class="keyword">for</span> j <span class="keyword">in</span> range(low, high):
+        <span class="keyword">if</span> arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+            
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    <span class="keyword">return</span> i + 1
+
+<span class="keyword">def</span> <span class="function">introsort</span>(arr, start=0, end=None, depth_limit=None):
+    <span class="keyword">if</span> end <span class="keyword">is</span> None:
+        end = len(arr) - 1
+    <span class="keyword">if</span> depth_limit <span class="keyword">is</span> None:
+        depth_limit = 2 * math.floor(math.log2(end - start + 1))
+        
+    size = end - start + 1
+    
+    <span class="keyword">if</span> size <= 16:
+        insertion_sort(arr, start, end)
+        <span class="keyword">return</span>
+        
+    <span class="keyword">if</span> depth_limit == 0:
+        heapsort(arr, start, end)
+        <span class="keyword">return</span>
+        
+    pivot_index = partition(arr, start, end)
+    introsort(arr, start, pivot_index - 1, depth_limit - 1)
+    introsort(arr, pivot_index + 1, end, depth_limit - 1)
+
+<span class="keyword">def</span> <span class="function">intro_sort</span>(arr):
+    introsort(arr)
+    <span class="keyword">return</span> arr
+
+<span class="comment"># Example usage</span>
+arr = [<span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>]
+sorted_arr = intro_sort(arr)
+print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Hybrid</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(log n)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              IntroSort is widely used in production systems due to its
+              efficiency and reliability:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                C++ Standard Template Library (STL) sort() function
+              </li>
+              <li style="margin-bottom: 10px">
+                Java's Arrays.sort() for primitive types
+              </li>
+              <li style="margin-bottom: 10px">
+                Python's sorted() and list.sort() functions
+              </li>
+              <li style="margin-bottom: 10px">
+                Database management systems for sorting operations
+              </li>
+              <li>High-performance computing applications</li>
+            </ul>
+          </div>
+
+          <!-- Complexity Analysis -->
+          <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+            <p>
+              IntroSort has a worst-case time complexity of O(n log n), which is
+              optimal for comparison-based sorting. This is achieved by
+              switching to Heapsort when Quicksort's recursion depth becomes too
+              deep.
+            </p>
+            <p>
+              The average-case performance is O(n log n), similar to Quicksort.
+              For small arrays (≤16 elements), it uses Insertion Sort which has
+              O(n²) complexity but is faster for small n due to low constant
+              factors.
+            </p>
+          </div>
+
+          <!-- Advantages -->
+          <div class="section">
+            <h2><i class="fas fa-star"></i> Advantages</h2>
+            <p>
+              <strong>Optimal worst-case performance:</strong> Guarantees O(n
+              log n) time complexity in all cases.
+            </p>
+            <p>
+              <strong>Efficient for large datasets:</strong> Combines
+              Quicksort's speed with Heapsort's reliability.
+            </p>
+            <p>
+              <strong>Adaptive:</strong> Uses Insertion Sort for small subarrays
+              where it's most efficient.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // IntroSort Visualization Logic
+      let array = [8, 3, 2, 7, 4, 9, 1, 6, 5];
+      let originalArray = [...array];
+      let currentState = "quicksort";
+      let currentStep = 0;
+      let depthLimit = 0;
+      let maxDepth = 0;
+      let stack = [];
+      let low = 0;
+      let high = array.length - 1;
+      let pivotIndex = -1;
+      let comparing = false;
+      let heapifying = false;
+      let insertionSorting = false;
+      let sorted = false;
+      let interval = null;
+      let speed = 800;
+
+      // DOM elements
+      const vizArea = document.getElementById("vizArea");
+      const arrayInput = document.getElementById("arrayInput");
+      const randomBtn = document.getElementById("randomBtn");
+      const runBtn = document.getElementById("runBtn");
+      const stepBtn = document.getElementById("stepBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      // Initialize visualization
+      renderArray();
+
+      // Event Listeners
+      randomBtn.addEventListener("click", generateRandomArray);
+      runBtn.addEventListener("click", toggleRun);
+      stepBtn.addEventListener("click", stepAlgorithm);
+      resetBtn.addEventListener("click", resetAlgorithm);
+      arrayInput.addEventListener("change", updateArrayFromInput);
+
+      // Generate a random array
+      function generateRandomArray() {
+        const size = Math.floor(Math.random() * 8) + 8; // 8-15 elements
+        array = [];
+        for (let i = 0; i < size; i++) {
+          array.push(Math.floor(Math.random() * 20) + 1);
+        }
+        originalArray = [...array];
+        arrayInput.value = array.join(", ");
+        resetAlgorithm();
+      }
+
+      // Update array from input
+      function updateArrayFromInput() {
+        const input = arrayInput.value;
+        const newArray = input
+          .split(",")
+          .map((num) => parseInt(num.trim()))
+          .filter((num) => !isNaN(num));
+
+        if (newArray.length > 1) {
+          array = newArray;
+          originalArray = [...array];
+          resetAlgorithm();
+        } else {
+          alert("Please enter at least 2 valid numbers");
+          arrayInput.value = array.join(", ");
+        }
+      }
+
+      // Reset the algorithm
+      function resetAlgorithm() {
+        clearInterval(interval);
+        array = [...originalArray];
+        currentState = "quicksort";
+        currentStep = 0;
+        depthLimit = 0;
+        stack = [];
+        low = 0;
+        high = array.length - 1;
+        pivotIndex = -1;
+        comparing = false;
+        heapifying = false;
+        insertionSorting = false;
+        sorted = false;
+        runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        renderArray();
+      }
+
+      // Toggle run/pause
+      function toggleRun() {
+        if (sorted) {
+          resetAlgorithm();
+          return;
+        }
+
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        } else {
+          interval = setInterval(stepAlgorithm, speed);
+          runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        }
+      }
+
+      // Perform one step of the algorithm
+      function stepAlgorithm() {
+        if (sorted) return;
+
+        currentStep++;
+
+        // State machine for IntroSort
+        switch (currentState) {
+          case "quicksort":
+            stepQuicksort();
+            break;
+          case "heapsort":
+            stepHeapsort();
+            break;
+          case "insertionsort":
+            stepInsertionSort();
+            break;
+        }
+
+        renderArray();
+      }
+
+      function stepQuicksort() {
+        if (high - low <= 16) {
+          // Switch to insertion sort for small subarrays
+          currentState = "insertionsort";
+          insertionSorting = true;
+          return;
+        }
+
+        if (depthLimit <= 0) {
+          // Switch to heapsort if recursion depth is too deep
+          currentState = "heapsort";
+          heapifying = true;
+          maxDepth = Math.floor(Math.log2(array.length)) * 2;
+          return;
+        }
+
+        if (pivotIndex === -1) {
+          // Select pivot using median-of-three
+          const mid = Math.floor((low + high) / 2);
+
+          // Median of three selection
+          if (array[low] > array[mid]) {
+            [array[low], array[mid]] = [array[mid], array[low]];
+          }
+          if (array[low] > array[high]) {
+            [array[low], array[high]] = [array[high], array[low]];
+          }
+          if (array[mid] > array[high]) {
+            [array[mid], array[high]] = [array[high], array[mid]];
+          }
+
+          // Place pivot at high position
+          [array[mid], array[high]] = [array[high], array[mid]];
+          pivotIndex = high;
+          return;
+        }
+
+        // Partitioning step
+        if (!comparing) {
+          comparing = true;
+          return;
+        }
+
+        // Simulate partitioning (simplified for visualization)
+        const pivotValue = array[pivotIndex];
+        let i = low - 1;
+
+        for (let j = low; j < high; j++) {
+          if (array[j] <= pivotValue) {
+            i++;
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+        }
+
+        [array[i + 1], array[high]] = [array[high], array[i + 1]];
+        pivotIndex = i + 1;
+
+        // Push subarrays to stack
+        stack.push({ low: pivotIndex + 1, high: high, depth: depthLimit - 1 });
+        stack.push({ low: low, high: pivotIndex - 1, depth: depthLimit - 1 });
+
+        // Pop next subarray from stack
+        if (stack.length > 0) {
+          const next = stack.pop();
+          low = next.low;
+          high = next.high;
+          depthLimit = next.depth;
+        } else {
+          // Sorting completed
+          sorted = true;
+          runBtn.innerHTML = '<i class="fas fa-redo"></i> Restart';
+        }
+
+        pivotIndex = -1;
+        comparing = false;
+      }
+
+      function stepHeapsort() {
+        // Simplified heapsort visualization
+        if (heapifying) {
+          heapifying = false;
+          return;
+        }
+
+        // Simulate extracting max element
+        if (high > low) {
+          [array[low], array[high]] = [array[high], array[low]];
+          high--;
+          heapifying = true;
+        } else {
+          // Heapsort completed
+          sorted = true;
+          runBtn.innerHTML = '<i class="fas fa-redo"></i> Restart';
+        }
+      }
+
+      function stepInsertionSort() {
+        // Simplified insertion sort visualization
+        if (currentStep % 2 === 0) {
+          // Simulate insertion sort pass
+          for (let i = low + 1; i <= high; i++) {
+            let key = array[i];
+            let j = i - 1;
+            while (j >= low && array[j] > key) {
+              array[j + 1] = array[j];
+              j--;
+            }
+            array[j + 1] = key;
+          }
+        }
+
+        // Pop next subarray from stack
+        if (stack.length > 0) {
+          const next = stack.pop();
+          low = next.low;
+          high = next.high;
+          depthLimit = next.depth;
+          currentState = "quicksort";
+          pivotIndex = -1;
+        } else {
+          // Sorting completed
+          sorted = true;
+          runBtn.innerHTML = '<i class="fas fa-redo"></i> Restart';
+        }
+      }
+
+      // Render the array visualization
+      function renderArray() {
+        const maxValue = Math.max(...array, 10);
+        const containerHeight = 260;
+
+        let stateInfo = "";
+        let stateClass = "";
+
+        switch (currentState) {
+          case "quicksort":
+            stateInfo = "Quicksort Phase";
+            stateClass = "state-quicksort";
+            break;
+          case "heapsort":
+            stateInfo = "Heapsort Phase";
+            stateClass = "state-heapsort";
+            break;
+          case "insertionsort":
+            stateInfo = "Insertion Sort Phase";
+            stateClass = "state-insertion";
+            break;
+        }
+
+        let html = `
+        <div class="visualization-info">
+          Step: ${currentStep} | ${stateInfo} | Depth: ${depthLimit}
+        </div>
+        <div class="algorithm-state ${stateClass}">
+          ${stateInfo}
+        </div>
+        <div class="progress-bar" style="width: ${
+          (currentStep % 30) * 3.33
+        }%"></div>
+        <div class="array-container">
+      `;
+
+        for (let i = 0; i < array.length; i++) {
+          const height = (array[i] / maxValue) * 180;
+          let classes = "array-element";
+
+          if (i === pivotIndex) {
+            classes += " pivot";
+          }
+
+          if (currentState === "quicksort" && (i === low || i === high)) {
+            classes += " comparing";
+          }
+
+          if (currentState === "heapsort" && i <= high) {
+            classes += " heap-node";
+          }
+
+          if (i < low || i > high) {
+            classes += " sorted";
+          }
+
+          html += `
+          <div class="${classes}" style="height: ${height}px">
+            <div class="array-value">${array[i]}</div>
+            <div class="array-index">${i}</div>
+          </div>
+        `;
+        }
+
+        html += `</div>`;
+
+        if (sorted) {
+          html += `
+          <div style="position: absolute; top: 50%; left: 0; right: 0; text-align: center; 
+                      font-size: 24px; color: var(--success); transform: translateY(-50%);
+                      background: rgba(0,0,0,0.7); padding: 20px;">
+            <i class="fas fa-check-circle"></i> Sorting Completed!<br>
+            <div style="font-size: 18px; margin-top: 10px;">Total Steps: ${currentStep}</div>
+          </div>
+        `;
+        }
+
+        vizArea.innerHTML = html;
+      }
+
+      // Simple copy button functionality
+      document
+        .querySelector(".copy-btn")
+        .addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          // Show feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+    </script>
+  </body>
+</html>
