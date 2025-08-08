@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patience Sorting | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Patience Sorting Visualization Styles */
+      .visualization-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        padding: 10px;
+      }
+
+      .piles-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        height: 60%;
+        margin-bottom: 20px;
+      }
+
+      .pile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 80px;
+        padding: 10px;
+        background: rgba(30, 41, 59, 0.5);
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        position: relative;
+      }
+
+      .pile-label {
+        position: absolute;
+        top: -25px;
+        background: var(--secondary);
+        padding: 2px 10px;
+        border-radius: 10px;
+        font-size: 14px;
+        color: var(--accent-light);
+      }
+
+      .card {
+        width: 60px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        border-radius: 6px;
+        margin: 3px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .current-card {
+        box-shadow: 0 0 15px var(--warning);
+        transform: scale(1.1);
+        z-index: 10;
+      }
+
+      .sorted-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40%;
+        padding: 10px;
+        background: rgba(30, 41, 59, 0.5);
+        border-radius: 8px;
+        border: 1px solid var(--success);
+      }
+
+      .sorted-item {
+        width: 50px;
+        height: 35px;
+        background: var(--success);
+        border-radius: 6px;
+        margin: 0 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        color: white;
+      }
+
+      .status-bar {
+        margin-top: 15px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--accent-light);
+        text-align: center;
+        min-height: 40px;
+        padding: 10px;
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Patience Sorting</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Patience Sorting</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Patience Sorting is a sorting algorithm inspired by the card game
+              Patience (Solitaire). It works by dealing elements into piles and
+              then repeatedly selecting the smallest visible element to build
+              the sorted array. The algorithm has two phases: pile formation and
+              pile merging.
+            </p>
+            <p>
+              This algorithm is particularly interesting because it can
+              efficiently compute the length of the longest increasing
+              subsequence (LIS). It has a worst-case time complexity of O(n log
+              n) and is efficient for partially ordered data.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-cards"></i> Key Feature</h3>
+                <p>Based on the card game Patience (Solitaire)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  O(n log n) worst-case, efficient for partially sorted data
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(n) - requires space for piles and pointers</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Applications</h3>
+                <p>Longest Increasing Subsequence (LIS) calculation</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Patience
+              Sorting works. Enter comma-separated numbers and step through the
+              algorithm to see how elements are distributed into piles and then
+              merged into a sorted list.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Patience Sorting
+                  Visualization
+                </h3>
+                <div class="console-controls">
+                  <button id="step-btn" class="console-btn secondary">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button id="run-btn" class="console-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button id="reset-btn" class="console-btn secondary">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div
+                  class="visualization-container"
+                  id="visualization-container"
+                >
+                  <div class="piles-container" id="piles-container">
+                    <!-- Piles will be generated here -->
+                  </div>
+                  <div class="sorted-list" id="sorted-list">
+                    <span>Sorted List: </span>
+                    <!-- Sorted items will appear here -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  id="array-input"
+                  type="text"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
+                />
+                <button id="random-btn" class="console-btn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+
+              <div id="status" class="status-bar">
+                Enter numbers and click Run or Step
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>Patience Sorting processes the array in two distinct phases:</p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-layer-group"></i> 1. Pile Formation</h3>
+                <p>
+                  Traverse the array and place each element on the leftmost pile
+                  whose top card is greater than or equal to the current element
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-plus-circle"></i> 2. New Piles</h3>
+                <p>
+                  If no suitable pile is found, create a new pile to the right
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-eye"></i> 3. Track Top Cards</h3>
+                <p>
+                  Maintain a list of the top card of each pile for efficient
+                  access
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sort-amount-down"></i> 4. Merge Phase</h3>
+                <p>
+                  Repeatedly select the smallest visible top card and move it to
+                  the sorted array
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-redo"></i> 5. Repeat</h3>
+                <p>
+                  Continue until all piles are empty and all elements are sorted
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function patienceSort(arr):
+    piles = []
+    tops = []
+    
+    // Phase 1: Form piles
+    for each element in arr:
+        // Find leftmost pile where top >= element
+        pileIndex = binarySearch(tops, element)
+        
+        if pileIndex < 0:
+            pileIndex = -(pileIndex + 1)  // Convert to insertion point
+        
+        if pileIndex == len(piles):
+            // Create new pile
+            newPile = [element]
+            piles.append(newPile)
+            tops.append(element)
+        else:
+            // Add to existing pile
+            piles[pileIndex].append(element)
+            tops[pileIndex] = element
+    
+    // Phase 2: Merge piles
+    sortedArr = []
+    while piles not empty:
+        // Find pile with smallest top element
+        minIndex = 0
+        for i from 1 to len(tops)-1:
+            if tops[i] < tops[minIndex]:
+                minIndex = i
+        
+        // Remove top element from pile
+        minElement = tops[minIndex]
+        sortedArr.append(minElement)
+        piles[minIndex].pop()
+        
+        if piles[minIndex] is empty:
+            // Remove empty pile
+            piles.remove(minIndex)
+            tops.remove(minIndex)
+        else:
+            // Update top for this pile
+            tops[minIndex] = last element of piles[minIndex]
+    
+    return sortedArr</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of Patience Sorting. The
+              algorithm uses binary search to efficiently find the correct pile
+              for each element:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> bisect
+
+<span class="keyword">def</span> <span class="function">patience_sort</span>(arr):
+    <span class="comment"># Phase 1: Create piles</span>
+    piles = []
+    tops = []
+    
+    <span class="keyword">for</span> x <span class="keyword">in</span> arr:
+        <span class="comment"># Find the leftmost pile where top >= x</span>
+        idx = bisect.bisect_left(tops, x)
+        
+        <span class="keyword">if</span> idx == len(piles):
+            <span class="comment"># Create a new pile</span>
+            piles.append([x])
+            tops.append(x)
+        <span class="keyword">else</span>:
+            <span class="comment"># Add to existing pile</span>
+            piles[idx].append(x)
+            tops[idx] = x
+    
+    <span class="comment"># Phase 2: Merge piles</span>
+    sorted_arr = []
+    <span class="keyword">while</span> piles:
+        <span class="comment"># Find pile with smallest top element</span>
+        min_idx = 0
+        <span class="keyword">for</span> i <span class="keyword">in</span> range(1, len(tops)):
+            <span class="keyword">if</span> tops[i] < tops[min_idx]:
+                min_idx = i
+        
+        <span class="comment"># Remove smallest element</span>
+        min_val = tops[min_idx]
+        sorted_arr.append(min_val)
+        piles[min_idx].pop()
+        
+        <span class="keyword">if</span> <span class="keyword">not</span> piles[min_idx]:
+            <span class="comment"># Remove empty pile</span>
+            piles.pop(min_idx)
+            tops.pop(min_idx)
+        <span class="keyword">else</span>:
+            <span class="comment"># Update top for this pile</span>
+            tops[min_idx] = piles[min_idx][-1]
+    
+    <span class="keyword">return</span> sorted_arr
+
+<span class="comment"># Example usage</span>
+arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
+sorted_arr = patience_sort(arr.copy())
+print(<span class="string">"Original array:"</span>, arr)
+print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Comparison</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Adaptive</h4>
+                <div class="value">Yes</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>Patience Sorting is particularly useful in these scenarios:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Calculating the longest increasing subsequence (LIS)
+              </li>
+              <li style="margin-bottom: 10px">
+                Sorting partially ordered data
+              </li>
+              <li style="margin-bottom: 10px">
+                Educational demonstrations of sorting algorithms
+              </li>
+              <li style="margin-bottom: 10px">
+                Card game simulations and analysis
+              </li>
+              <li>Algorithm competitions and puzzles</li>
+            </ul>
+          </div>
+
+          <!-- Longest Increasing Subsequence Section -->
+          <div class="section">
+            <h2><i class="fas fa-chart-line"></i> LIS Calculation</h2>
+            <p>
+              An important application of Patience Sorting is calculating the
+              length of the Longest Increasing Subsequence (LIS) in O(n log n)
+              time:
+            </p>
+            <div class="code-block" style="margin-top: 15px">
+              <pre><code><span class="keyword">def</span> <span class="function">longest_increasing_subsequence</span>(arr):
+    piles = []
+    tops = []
+    
+    <span class="keyword">for</span> x <span class="keyword">in</span> arr:
+        idx = bisect.bisect_left(tops, x)
+        <span class="keyword">if</span> idx == len(piles):
+            piles.append([x])
+            tops.append(x)
+        <span class="keyword">else</span>:
+            piles[idx].append(x)
+            tops[idx] = x
+    
+    <span class="comment"># The number of piles = length of LIS</span>
+    <span class="keyword">return</span> len(piles)
+
+<span class="comment"># Example</span>
+arr = [3, 1, 4, 1, 5, 9, 2, 6, 5]
+lis_length = longest_increasing_subsequence(arr)
+print(<span class="string">"Length of LIS:"</span>, lis_length)  <span class="comment"># Output: 4</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Patience Sorting Visualization
+      let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
+      let piles = [];
+      let tops = [];
+      let sortedArray = [];
+      let currentIndex = 0;
+      let phase = "forming";
+      let isRunning = false;
+      let interval;
+      let currentElement = 0;
+
+      // DOM elements
+      const pilesContainer = document.getElementById("piles-container");
+      const sortedList = document.getElementById("sorted-list");
+      const arrayInput = document.getElementById("array-input");
+      const runBtn = document.getElementById("run-btn");
+      const stepBtn = document.getElementById("step-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const randomBtn = document.getElementById("random-btn");
+      const status = document.getElementById("status");
+
+      // Initialize visualization
+      function initVisualization() {
+        array = arrayInput.value
+          .split(",")
+          .map(Number)
+          .filter((n) => !isNaN(n));
+        if (array.length === 0) {
+          array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
+          arrayInput.value = array.join(", ");
+        }
+
+        piles = [];
+        tops = [];
+        sortedArray = [];
+        currentIndex = 0;
+        phase = "forming";
+        currentElement = 0;
+
+        renderVisualization();
+        updateStatus("Ready. Click Step or Run to start sorting.");
+      }
+
+      // Render visualization
+      function renderVisualization() {
+        // Clear containers
+        pilesContainer.innerHTML = "";
+        sortedList.innerHTML = "Sorted List: ";
+
+        // Render piles
+        piles.forEach((pile, index) => {
+          const pileElement = document.createElement("div");
+          pileElement.className = "pile";
+
+          const pileLabel = document.createElement("div");
+          pileLabel.className = "pile-label";
+          pileLabel.textContent = `Pile ${index + 1}`;
+          pileElement.appendChild(pileLabel);
+
+          pile.forEach((value, cardIndex) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            if (
+              phase === "forming" &&
+              cardIndex === pile.length - 1 &&
+              currentIndex > 0 &&
+              value === currentElement
+            ) {
+              card.classList.add("current-card");
+            }
+            card.textContent = value;
+            pileElement.appendChild(card);
+          });
+
+          pilesContainer.appendChild(pileElement);
+        });
+
+        // Render sorted array
+        sortedArray.forEach((value) => {
+          const item = document.createElement("div");
+          item.className = "sorted-item";
+          item.textContent = value;
+          sortedList.appendChild(item);
+        });
+      }
+
+      // Update status message
+      function updateStatus(message) {
+        status.textContent = message;
+      }
+
+      // Perform one step of Patience Sorting
+      function stepPatienceSort() {
+        if (phase === "forming" && currentIndex < array.length) {
+          currentElement = array[currentIndex];
+          updateStatus(
+            `Forming piles: Processing element ${currentElement} at position ${currentIndex}`
+          );
+
+          // Find leftmost pile where top >= currentElement
+          let pileIndex = -1;
+          for (let i = 0; i < tops.length; i++) {
+            if (tops[i] >= currentElement) {
+              pileIndex = i;
+              break;
+            }
+          }
+
+          if (pileIndex === -1) {
+            // Create new pile
+            piles.push([currentElement]);
+            tops.push(currentElement);
+            updateStatus(
+              `Created new pile ${piles.length} with element ${currentElement}`
+            );
+          } else {
+            // Add to existing pile
+            piles[pileIndex].push(currentElement);
+            tops[pileIndex] = currentElement;
+            updateStatus(
+              `Added element ${currentElement} to pile ${pileIndex + 1}`
+            );
+          }
+
+          currentIndex++;
+
+          if (currentIndex === array.length) {
+            updateStatus("Pile formation complete. Starting merge phase.");
+          }
+        } else if (phase === "forming" && currentIndex >= array.length) {
+          phase = "merging";
+          updateStatus("Merge phase: Finding smallest top element");
+        } else if (phase === "merging" && piles.length > 0) {
+          // Find pile with smallest top element
+          let minIndex = 0;
+          for (let i = 1; i < tops.length; i++) {
+            if (tops[i] < tops[minIndex]) {
+              minIndex = i;
+            }
+          }
+
+          const minElement = tops[minIndex];
+          updateStatus(
+            `Removing smallest element ${minElement} from pile ${minIndex + 1}`
+          );
+
+          // Remove element from pile
+          piles[minIndex].pop();
+          sortedArray.push(minElement);
+
+          if (piles[minIndex].length === 0) {
+            // Remove empty pile
+            piles.splice(minIndex, 1);
+            tops.splice(minIndex, 1);
+            updateStatus(`Pile ${minIndex + 1} is now empty and removed`);
+          } else {
+            // Update top for this pile
+            tops[minIndex] = piles[minIndex][piles[minIndex].length - 1];
+          }
+        } else {
+          updateStatus(
+            `Sorting completed! Total piles used: ${
+              array.length - sortedArray.length
+            }`
+          );
+          return false;
+        }
+
+        renderVisualization();
+        return true;
+      }
+
+      // Event Listeners
+      runBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          updateStatus("Paused. Click Run to continue.");
+        } else {
+          isRunning = true;
+          runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+
+          interval = setInterval(() => {
+            if (!stepPatienceSort()) {
+              clearInterval(interval);
+              isRunning = false;
+              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            }
+          }, 1500);
+        }
+      });
+
+      stepBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        stepPatienceSort();
+      });
+
+      resetBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        initVisualization();
+      });
+
+      randomBtn.addEventListener("click", function () {
+        const length = Math.floor(Math.random() * 8) + 6; // 6-13 elements
+        array = [];
+        for (let i = 0; i < length; i++) {
+          array.push(Math.floor(Math.random() * 20) + 1);
+        }
+        arrayInput.value = array.join(", ");
+        initVisualization();
+      });
+
+      arrayInput.addEventListener("change", initVisualization);
+
+      // Initialize
+      initVisualization();
+    </script>
+  </body>
+</html>
