@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smoothsort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Smoothsort Visualization Styles */
+      .array-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .array-element {
+        margin: 0 4px;
+        width: 40px;
+        background: var(--accent);
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .element-value {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 16px;
+        color: white;
+        padding: 10px 0;
+      }
+
+      .element-index {
+        background: rgba(15, 23, 42, 0.7);
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .current {
+        box-shadow: 0 0 15px var(--accent-light);
+        transform: scale(1.1);
+        z-index: 10;
+      }
+
+      .heap-root {
+        background: var(--warning);
+      }
+
+      .heap-child {
+        background: var(--success);
+      }
+
+      .sorted {
+        background: var(--success);
+        opacity: 0.8;
+      }
+
+      .min-writes {
+        color: var(--success);
+        font-weight: bold;
+      }
+
+      .heap-info {
+        position: absolute;
+        top: -25px;
+        font-size: 12px;
+        background: rgba(30, 41, 59, 0.8);
+        padding: 2px 8px;
+        border-radius: 10px;
+        color: var(--accent-light);
+        white-space: nowrap;
+      }
+
+      .tree-connector {
+        position: absolute;
+        background: var(--accent-light);
+        height: 2px;
+        z-index: -1;
+      }
+
+      .status-bar {
+        margin-top: 15px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--accent-light);
+        text-align: center;
+        min-height: 40px;
+        padding: 10px;
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Smoothsort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Smoothsort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Smoothsort is an adaptive variant of heapsort developed by Edsger
+              Dijkstra. It has a time complexity of O(n log n) in the worst
+              case, and O(n) in the best case (when the input is already
+              sorted). It is an in-place, unstable sorting algorithm that uses a
+              Leonardo heap - a heap-like data structure composed of Leonardo
+              trees.
+            </p>
+            <p>
+              The algorithm is particularly efficient for partially sorted data
+              and minimizes the number of comparisons and swaps. Its adaptive
+              nature makes it suitable for scenarios where data is already
+              partially ordered.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>Adaptive algorithm with O(n) best-case performance</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  O(n log n) worst-case, O(n) best-case (when input is sorted)
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(1) additional space - in-place sorting algorithm</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Leonardo heap construction and deconstruction</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Smoothsort
+              works. Enter comma-separated numbers and step through the
+              algorithm to see how the Leonardo heap is built and deconstructed.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Smoothsort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button id="step-btn" class="console-btn secondary">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button id="run-btn" class="console-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button id="reset-btn" class="console-btn secondary">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="array-container" id="array-container">
+                  <!-- Array elements will be generated here -->
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  id="array-input"
+                  type="text"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                  value="3, 1, 5, 4, 2, 9, 7, 8, 6"
+                />
+                <button id="random-btn" class="console-btn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+
+              <div id="status" class="status-bar">
+                Enter numbers and click Run or Step
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>Smoothsort processes the array using Leonardo heaps:</p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-tree"></i> 1. Leonardo Heaps</h3>
+                <p>
+                  The algorithm uses Leonardo numbers (L(n) = L(n-1) + L(n-2) +
+                  1) to form a heap structure
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-layer-group"></i> 2. Heap Construction</h3>
+                <p>
+                  Build the heap by adding elements while maintaining heap
+                  properties
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-sort-amount-down"></i> 3. Heap Ordering
+                </h3>
+                <p>
+                  Ensure each Leonardo tree satisfies the heap property (parent
+                  > children)
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-cogs"></i> 4. Heap Balancing</h3>
+                <p>
+                  Maintain the heap by balancing tree sizes according to
+                  Leonardo numbers
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-trash"></i> 5. Heap Deconstruction</h3>
+                <p>
+                  Remove the root (largest element) and place it in sorted
+                  position
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function smoothSort(arr):
+    n = length(arr)
+    p = n - 1  // Last element index
+    q = p
+    r = 0
+    
+    // Precompute Leonardo numbers
+    leo = generateLeonardoNumbers(n)
+    
+    // Build the heap
+    for i from 0 to n-1:
+        if p % 2 == 1:
+            p = (p - 1) / 2
+            q = q - leo[p]
+        else:
+            p = p + 1
+            q = leo[p] - 1
+            r = q
+        
+        // Restore heap property
+        siftDown(arr, r, p)
+    
+    // Deconstruct the heap
+    for i from n-1 down to 1:
+        // Swap root with last element
+        swap(arr[0], arr[i])
+        
+        // Reduce heap size
+        p = p - 1
+        if p < 0:
+            q = q - 1
+            p = indexOf(q)
+        
+        // Restore heap property
+        siftDown(arr, 0, p)
+
+function siftDown(arr, root, treeSize):
+    current = root
+    while treeSize > 1:
+        left = current - (treeSize - leo[treeSize-2])
+        right = current - 1
+        
+        if arr[current] >= arr[left] and arr[current] >= arr[right]:
+            break
+        
+        if arr[left] > arr[right]:
+            swap(arr[current], arr[left])
+            current = left
+            treeSize = treeSize - 1
+        else:
+            swap(arr[current], arr[right])
+            current = right
+            treeSize = treeSize - 2</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of Smoothsort. The algorithm uses
+              Leonardo numbers to form heap structures and efficiently sorts
+              data:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">def</span> <span class="function">leonardo_numbers</span>(n):
+    <span class="comment"># Generate Leonardo numbers up to n</span>
+    a, b = 1, 1
+    numbers = []
+    <span class="keyword">while</span> a < n:
+        numbers.append(a)
+        a, b = b, a + b + 1
+    <span class="keyword">return</span> numbers
+
+<span class="keyword">def</span> <span class="function">smooth_sort</span>(arr):
+    n = len(arr)
+    <span class="keyword">if</span> n <= 1:
+        <span class="keyword">return</span> arr
+        
+    leo = leonardo_numbers(n)
+    
+    <span class="comment"># Build the heap</span>
+    heap = []
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):
+        <span class="keyword">if</span> len(heap) >= 2 <span class="keyword">and</span> heap[-2] == heap[-1] + 1:
+            heap.pop()
+            heap[-1] += 1
+        <span class="keyword">else</span>:
+            <span class="keyword">if</span> len(heap) >= 1 <span class="keyword">and</span> heap[-1] == 1:
+                heap.append(0)
+            <span class="keyword">else</span>:
+                heap.append(1)
+        
+        <span class="comment"># Restore heap property</span>
+        sift_down(arr, i, heap, leo)
+    
+    <span class="comment"># Deconstruct the heap</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(n-1, 0, -1):
+        <span class="keyword">if</span> heap[-1] < 2:
+            heap.pop()
+        <span class="keyword">else</span>:
+            k = heap.pop()
+            left, right = get_child_trees(i, k, leo)
+            heap.append(right)
+            sift_down(arr, left, heap, leo)
+            heap.append(left)
+            sift_down(arr, i, heap, leo)
+    
+    <span class="keyword">return</span> arr
+
+<span class="keyword">def</span> <span class="function">sift_down</span>(arr, root, heap, leo):
+    k = heap[-1]
+    <span class="keyword">if</span> k < 2:
+        <span class="keyword">return</span>
+    
+    r = root
+    <span class="keyword">while</span> k >= 2:
+        right = r - 1
+        left = r - 1 - leo[k-2]
+        
+        <span class="keyword">if</span> arr[r] >= arr[left] <span class="keyword">and</span> arr[r] >= arr[right]:
+            <span class="keyword">break</span>
+            
+        <span class="keyword">if</span> arr[left] > arr[right]:
+            arr[r], arr[left] = arr[left], arr[r]
+            r = left
+            k = k - 1
+        <span class="keyword">else</span>:
+            arr[r], arr[right] = arr[right], arr[r]
+            r = right
+            k = k - 2
+
+<span class="comment"># Example usage</span>
+arr = [3, 1, 5, 4, 2, 9, 7, 8, 6]
+sorted_arr = smooth_sort(arr.copy())
+print(<span class="string">"Original array:"</span>, arr)
+print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Comparison</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(1)</div>
+              </div>
+              <div class="property-card">
+                <h4>Adaptive</h4>
+                <div class="value">Yes</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>Smoothsort is particularly useful in specialized scenarios:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Systems requiring adaptive sorting algorithms
+              </li>
+              <li style="margin-bottom: 10px">
+                Real-time systems with partially sorted inputs
+              </li>
+              <li style="margin-bottom: 10px">
+                Memory-constrained environments (in-place sorting)
+              </li>
+              <li style="margin-bottom: 10px">
+                Applications where data is frequently nearly sorted
+              </li>
+              <li>Educational demonstrations of adaptive heapsort</li>
+            </ul>
+          </div>
+
+          <!-- Leonardo Numbers Section -->
+          <div class="section">
+            <h2><i class="fas fa-calculator"></i> Leonardo Numbers</h2>
+            <p>
+              Leonardo numbers (similar to Fibonacci numbers) are used to
+              determine heap sizes:
+            </p>
+            <div style="margin: 15px 0; color: var(--text-secondary)">
+              <p>L(0) = 1, L(1) = 1</p>
+              <p>L(n) = L(n-1) + L(n-2) + 1 for n > 1</p>
+            </div>
+            <div
+              style="
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: 8px;
+                padding: 15px;
+              "
+            >
+              <h4
+                style="
+                  color: var(--accent-light);
+                  text-align: center;
+                  margin-bottom: 10px;
+                "
+              >
+                First 10 Leonardo Numbers
+              </h4>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(5, 1fr);
+                  gap: 10px;
+                  text-align: center;
+                "
+              >
+                <div>1</div>
+                <div>1</div>
+                <div>3</div>
+                <div>5</div>
+                <div>9</div>
+                <div>15</div>
+                <div>25</div>
+                <div>41</div>
+                <div>67</div>
+                <div>109</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Smoothsort Visualization
+      let array = [3, 1, 5, 4, 2, 9, 7, 8, 6];
+      let heap = [];
+      let leoNums = [1, 1, 3, 5, 9, 15, 25, 41, 67, 109];
+      let stepIndex = 0;
+      let phase = "building";
+      let isRunning = false;
+      let interval;
+      let swaps = 0;
+      let comparisons = 0;
+      let currentRoot = 0;
+      let currentTreeSize = 0;
+
+      // DOM elements
+      const arrayContainer = document.getElementById("array-container");
+      const arrayInput = document.getElementById("array-input");
+      const runBtn = document.getElementById("run-btn");
+      const stepBtn = document.getElementById("step-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const randomBtn = document.getElementById("random-btn");
+      const status = document.getElementById("status");
+
+      // Initialize visualization
+      function initVisualization() {
+        array = arrayInput.value
+          .split(",")
+          .map(Number)
+          .filter((n) => !isNaN(n));
+        if (array.length === 0) {
+          array = [3, 1, 5, 4, 2, 9, 7, 8, 6];
+          arrayInput.value = array.join(", ");
+        }
+
+        heap = [];
+        stepIndex = 0;
+        phase = "building";
+        swaps = 0;
+        comparisons = 0;
+        currentRoot = 0;
+        currentTreeSize = 0;
+
+        renderArray();
+        updateStatus("Ready. Click Step or Run to start sorting.");
+      }
+
+      // Render array visualization
+      function renderArray() {
+        arrayContainer.innerHTML = "";
+
+        array.forEach((value, index) => {
+          const element = document.createElement("div");
+          element.className = "array-element";
+          element.style.height = `${value * 25 + 40}px`;
+          element.dataset.index = index;
+
+          // Highlight current elements
+          if (phase === "building" && index === stepIndex) {
+            element.classList.add("current");
+          } else if (phase === "sifting" && index === currentRoot) {
+            element.classList.add("heap-root");
+          }
+
+          element.innerHTML = `
+            <div class="element-value">${value}</div>
+            <div class="element-index">${index}</div>
+          `;
+
+          arrayContainer.appendChild(element);
+        });
+      }
+
+      // Update status message
+      function updateStatus(message) {
+        status.textContent = message;
+      }
+
+      // Perform one step of Smoothsort
+      function stepSmoothSort() {
+        if (stepIndex >= array.length && phase === "building") {
+          phase = "deconstructing";
+          stepIndex = array.length - 1;
+          updateStatus(
+            "Heap construction complete. Starting deconstruction phase."
+          );
+          return true;
+        }
+
+        if (phase === "building") {
+          // Build heap phase
+          if (
+            heap.length >= 2 &&
+            heap[heap.length - 2] === heap[heap.length - 1] + 1
+          ) {
+            heap.pop();
+            heap[heap.length - 1]++;
+          } else {
+            if (heap.length >= 1 && heap[heap.length - 1] === 1) {
+              heap.push(0);
+            } else {
+              heap.push(1);
+            }
+          }
+
+          // Simulate sift down
+          currentRoot = stepIndex;
+          currentTreeSize = heap[heap.length - 1];
+          updateStatus(
+            `Building heap: Added element at index ${stepIndex}. Tree size: ${currentTreeSize}.`
+          );
+
+          stepIndex++;
+        } else if (phase === "deconstructing") {
+          // Deconstruct heap phase
+          if (stepIndex <= 0) {
+            updateStatus("Sorting completed! Total swaps: " + swaps);
+            return false;
+          }
+
+          // Swap root with last element
+          [array[0], array[stepIndex]] = [array[stepIndex], array[0]];
+          swaps++;
+          updateStatus(
+            `Deconstructing heap: Moved root (${array[stepIndex]}) to sorted position ${stepIndex}.`
+          );
+
+          if (heap[heap.length - 1] < 2) {
+            heap.pop();
+          } else {
+            let k = heap.pop();
+            heap.push(k - 2);
+            heap.push(k - 1);
+
+            // Simulate sift down
+            currentRoot = 0;
+            currentTreeSize = heap[heap.length - 1];
+          }
+
+          stepIndex--;
+        }
+
+        renderArray();
+        return true;
+      }
+
+      // Event Listeners
+      runBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          updateStatus("Paused. Click Run to continue.");
+        } else {
+          isRunning = true;
+          runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+
+          interval = setInterval(() => {
+            if (!stepSmoothSort()) {
+              clearInterval(interval);
+              isRunning = false;
+              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            }
+          }, 1500);
+        }
+      });
+
+      stepBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        stepSmoothSort();
+      });
+
+      resetBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        initVisualization();
+      });
+
+      randomBtn.addEventListener("click", function () {
+        const length = Math.floor(Math.random() * 8) + 6; // 6-13 elements
+        array = [];
+        for (let i = 0; i < length; i++) {
+          array.push(Math.floor(Math.random() * 20) + 1);
+        }
+        arrayInput.value = array.join(", ");
+        initVisualization();
+      });
+
+      arrayInput.addEventListener("change", initVisualization);
+
+      // Initialize
+      initVisualization();
+    </script>
+  </body>
+</html>
