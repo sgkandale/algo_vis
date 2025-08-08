@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tournament Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Tournament Visualization */
+      .tournament-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        position: relative;
+      }
+
+      .tournament-level {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 15px 0;
+      }
+
+      .tournament-node {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent);
+        color: white;
+        font-weight: bold;
+        margin: 0 15px;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+      }
+
+      .tournament-winner {
+        background: var(--success);
+        box-shadow: 0 0 15px var(--success);
+      }
+
+      .tournament-active {
+        background: var(--warning);
+        box-shadow: 0 0 15px var(--warning);
+      }
+
+      .tournament-leaf {
+        background: var(--accent-light);
+      }
+
+      .tournament-line {
+        position: absolute;
+        height: 30px;
+        width: 2px;
+        background: var(--accent-light);
+        z-index: 1;
+      }
+
+      .tournament-output {
+        display: flex;
+        margin-top: 20px;
+        gap: 10px;
+      }
+
+      .output-item {
+        width: 35px;
+        height: 35px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(16, 185, 129, 0.3);
+        color: var(--success);
+        font-weight: bold;
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .visualization-info {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .progress-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        background: var(--success);
+        transition: width 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Tournament Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Tournament Sort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Selection-Based Sorting
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Tournament Sort (also known as Tree Selection Sort) is a sorting
+              algorithm that works by creating a tournament (a binary tree)
+              where each leaf is an element. The tournament is played by
+              comparing elements in pairs, with the winner (larger or smaller)
+              advancing to the next round until a single winner is determined.
+              This winner is then moved to the sorted list, and the process is
+              repeated with the remaining elements.
+            </p>
+            <p>
+              This algorithm is particularly useful for sorting elements when
+              you need to find the largest (or smallest) elements in sequence.
+              It's efficient and has a consistent time complexity, making it
+              suitable for various applications.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Uses a tournament tree structure to find the maximum element
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  O(n log n) time complexity in all cases (best, average, worst)
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>Requires O(n) additional space for the tournament tree</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Tree-based selection with repeated tournament comparisons</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Tournament Sort
+              works. The visualization shows the tournament tree being built,
+              the winner being selected, and the sorted output being constructed
+              step by step.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Tournament Sort
+                  Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="stepBtn">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button class="console-btn" id="runBtn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="vizArea">
+                <!-- Visualization will be rendered here -->
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="arrayInput"
+                  value="8, 3, 2, 7, 4, 9, 1, 6, 5"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                />
+                <button class="console-btn" id="randomBtn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Tournament Sort processes the array by building a tournament tree
+              and repeatedly selecting winners:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-tree"></i> 1. Build Tournament Tree</h3>
+                <p>
+                  Create a binary tree with array elements as leaves. Compare
+                  pairs to determine winners at each level
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-trophy"></i> 2. Select Winner</h3>
+                <p>
+                  The root of the tree is the maximum element. Move this winner
+                  to the sorted output array
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-redo"></i> 3. Rebuild Tree</h3>
+                <p>
+                  Replace the winner's position with a placeholder and replay
+                  the tournament from that position
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-repeat"></i> 4. Repeat Process</h3>
+                <p>
+                  Continue selecting winners and rebuilding the tree until all
+                  elements are sorted
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function tournamentSort(arr)
+    n = length(arr)
+    // Create a tournament tree with size = 2 * nextPowerOfTwo(n) - 1
+    tree = new Array(2 * nextPowerOfTwo(n) - 1)
+    fillTreeWithNegativeInfinity(tree)
+    
+    // Copy array elements to leaves of the tree
+    for i = 0 to n-1
+        tree[tree.length - n + i] = arr[i]
+    
+    // Build initial tournament tree
+    for i = tree.length - 1 downto 0 step 2
+        parent = (i - 1) / 2
+        tree[parent] = max(tree[i], tree[i-1])
+    
+    sorted = []
+    for i = 0 to n-1
+        // Winner is at root
+        winner = tree[0]
+        append winner to sorted
+        
+        // Find the leaf index that has the winner
+        index = 0
+        while index < tree.length/2
+            left = 2*index + 1
+            right = left + 1
+            if tree[left] == winner
+                index = left
+            else
+                index = right
+        
+        // Replace winner with -∞ and replay tournament
+        tree[index] = -∞
+        while index > 0
+            parent = (index - 1) / 2
+            sibling = index % 2 == 0 ? index - 1 : index + 1
+            tree[parent] = max(tree[index], tree[sibling])
+            index = parent
+    
+    return sorted</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the Tournament Sort algorithm.
+              The algorithm builds a tournament tree, repeatedly selects the
+              winner, and rebuilds the tree with the remaining elements.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> math
+
+<span class="keyword">def</span> <span class="function">tournament_sort</span>(arr):
+    n = len(arr)
+    <span class="keyword">if</span> n == 0:
+        <span class="keyword">return</span> arr
+        
+    <span class="comment"># Calculate tree size (next power of two)</span>
+    tree_size = 1
+    <span class="keyword">while</span> tree_size < n:
+        tree_size *= 2
+    tree_size = 2 * tree_size - 1
+    
+    <span class="comment"># Create tournament tree</span>
+    tree = [float(<span class="string">'-inf'</span>)] * tree_size
+    
+    <span class="comment"># Copy elements to leaves</span>
+    start_index = tree_size // 2
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):
+        tree[start_index + i] = arr[i]
+    
+    <span class="comment"># Build initial tournament tree</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(start_index - 1, -1, -1):
+        left = 2 * i + 1
+        right = 2 * i + 2
+        tree[i] = max(tree[left], tree[right])
+    
+    sorted_arr = []
+    <span class="keyword">for</span> _ <span class="keyword">in</span> range(n):
+        winner = tree[0]
+        sorted_arr.append(winner)
+        
+        <span class="comment"># Find the leaf index that has the winner</span>
+        index = 0
+        <span class="keyword">while</span> index < start_index:
+            left = 2 * index + 1
+            right = left + 1
+            <span class="keyword">if</span> tree[left] == winner:
+                index = left
+            <span class="keyword">else</span>:
+                index = right
+                
+        <span class="comment"># Replace winner with -infinity and replay tournament</span>
+        tree[index] = float(<span class="string">'-inf'</span>)
+        <span class="keyword">while</span> index > 0:
+            parent = (index - 1) // 2
+            left = 2 * parent + 1
+            right = left + 1
+            tree[parent] = max(tree[left], tree[right])
+            index = parent
+    
+    <span class="keyword">return</span> sorted_arr
+
+<span class="comment"># Example usage</span>
+arr = [<span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>]
+sorted_arr = tournament_sort(arr)
+print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Selection</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(n)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Tournament Sort is useful in scenarios where you need to find the
+              largest elements in sequence:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Finding top-k elements in a dataset
+              </li>
+              <li style="margin-bottom: 10px">
+                External sorting for large datasets
+              </li>
+              <li style="margin-bottom: 10px">
+                Priority queue implementations
+              </li>
+              <li style="margin-bottom: 10px">
+                Sports tournament scheduling algorithms
+              </li>
+              <li>Leaderboard ranking systems</li>
+            </ul>
+          </div>
+
+          <!-- Advantages -->
+          <div class="section">
+            <h2><i class="fas fa-star"></i> Advantages</h2>
+            <p>
+              <strong>Consistent Performance:</strong> Guarantees O(n log n)
+              time complexity in all cases.
+            </p>
+            <p>
+              <strong>Parallelizable:</strong> The tournament structure allows
+              for parallel comparisons.
+            </p>
+            <p>
+              <strong>Intuitive Concept:</strong> The tournament metaphor makes
+              the algorithm easy to understand.
+            </p>
+          </div>
+
+          <!-- Complexity Analysis -->
+          <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+            <p>
+              Tournament Sort has a time complexity of O(n log n) for all cases
+              (best, average, worst). This is because building the initial
+              tournament tree takes O(n) time, and each of the n winners
+              requires O(log n) time to find and replace.
+            </p>
+            <p>
+              The space complexity is O(n) due to the tournament tree structure.
+              This makes it less memory-efficient than in-place algorithms but
+              still practical for many applications.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Tournament Sort Visualization Logic
+      let array = [8, 3, 2, 7, 4, 9, 1, 6, 5];
+      let originalArray = [...array];
+      let tree = [];
+      let treeSize = 0;
+      let startIndex = 0;
+      let sortedArray = [];
+      let currentStep = 0;
+      let currentState = "initial";
+      let currentWinnerIndex = -1;
+      let sorted = false;
+      let interval = null;
+      let speed = 1500;
+
+      // DOM elements
+      const vizArea = document.getElementById("vizArea");
+      const arrayInput = document.getElementById("arrayInput");
+      const randomBtn = document.getElementById("randomBtn");
+      const runBtn = document.getElementById("runBtn");
+      const stepBtn = document.getElementById("stepBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      // Initialize visualization
+      initializeTournament();
+
+      // Event Listeners
+      randomBtn.addEventListener("click", generateRandomArray);
+      runBtn.addEventListener("click", toggleRun);
+      stepBtn.addEventListener("click", stepAlgorithm);
+      resetBtn.addEventListener("click", resetAlgorithm);
+      arrayInput.addEventListener("change", updateArrayFromInput);
+
+      // Generate a random array
+      function generateRandomArray() {
+        const size = Math.floor(Math.random() * 6) + 6; // 6-11 elements
+        array = [];
+        for (let i = 0; i < size; i++) {
+          array.push(Math.floor(Math.random() * 20) + 1);
+        }
+        originalArray = [...array];
+        arrayInput.value = array.join(", ");
+        resetAlgorithm();
+      }
+
+      // Update array from input
+      function updateArrayFromInput() {
+        const input = arrayInput.value;
+        const newArray = input
+          .split(",")
+          .map((num) => parseInt(num.trim()))
+          .filter((num) => !isNaN(num));
+
+        if (newArray.length > 1) {
+          array = newArray;
+          originalArray = [...array];
+          resetAlgorithm();
+        } else {
+          alert("Please enter at least 2 valid numbers");
+          arrayInput.value = array.join(", ");
+        }
+      }
+
+      // Initialize tournament tree
+      function initializeTournament() {
+        const n = array.length;
+
+        // Calculate tree size (next power of two)
+        treeSize = 1;
+        while (treeSize < n) {
+          treeSize *= 2;
+        }
+        treeSize = 2 * treeSize - 1;
+        startIndex = Math.floor(treeSize / 2);
+
+        // Create tournament tree
+        tree = Array(treeSize).fill(-Infinity);
+
+        // Copy elements to leaves
+        for (let i = 0; i < n; i++) {
+          tree[startIndex + i] = array[i];
+        }
+
+        // Build initial tournament tree
+        for (let i = startIndex - 1; i >= 0; i--) {
+          const left = 2 * i + 1;
+          const right = 2 * i + 2;
+          tree[i] = Math.max(tree[left], tree[right]);
+        }
+
+        sortedArray = [];
+        currentStep = 0;
+        currentState = "initial";
+        sorted = false;
+      }
+
+      // Reset the algorithm
+      function resetAlgorithm() {
+        clearInterval(interval);
+        array = [...originalArray];
+        initializeTournament();
+        runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        renderTournament();
+      }
+
+      // Toggle run/pause
+      function toggleRun() {
+        if (sorted) {
+          resetAlgorithm();
+          return;
+        }
+
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        } else {
+          interval = setInterval(stepAlgorithm, speed);
+          runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        }
+      }
+
+      // Perform one step of the algorithm
+      function stepAlgorithm() {
+        if (sorted) return;
+
+        currentStep++;
+
+        if (currentState === "initial") {
+          // Initial tree built, start extraction
+          currentState = "extract";
+          renderTournament();
+          return;
+        }
+
+        if (currentState === "extract") {
+          // Extract the winner
+          const winner = tree[0];
+          sortedArray.push(winner);
+
+          // Find the leaf index that has the winner
+          let index = 0;
+          while (index < startIndex) {
+            const left = 2 * index + 1;
+            const right = 2 * index + 2;
+            if (tree[left] === winner) {
+              index = left;
+            } else {
+              index = right;
+            }
+          }
+          currentWinnerIndex = index;
+          currentState = "replace";
+          renderTournament();
+          return;
+        }
+
+        if (currentState === "replace") {
+          // Replace the winner with -Infinity
+          tree[currentWinnerIndex] = -Infinity;
+          currentState = "replay";
+          renderTournament();
+          return;
+        }
+
+        if (currentState === "replay") {
+          // Replay the tournament from the replaced leaf
+          let index = currentWinnerIndex;
+          while (index > 0) {
+            const parent = Math.floor((index - 1) / 2);
+            const left = 2 * parent + 1;
+            const right = 2 * parent + 2;
+            tree[parent] = Math.max(tree[left], tree[right]);
+            index = parent;
+          }
+
+          // Check if sorting is complete
+          if (sortedArray.length === array.length) {
+            sorted = true;
+            clearInterval(interval);
+            runBtn.innerHTML = '<i class="fas fa-redo"></i> Restart';
+          } else {
+            currentState = "extract";
+          }
+          renderTournament();
+        }
+      }
+
+      // Render the tournament visualization
+      function renderTournament() {
+        const n = array.length;
+        const levels = Math.floor(Math.log2(treeSize + 1));
+        let html = `
+        <div class="tournament-container">
+          <div class="visualization-info">
+            Step: ${currentStep} | ${getStateDescription(currentState)}
+          </div>
+          <div class="progress-bar" style="width: ${
+            (sortedArray.length / array.length) * 100
+          }%"></div>
+      `;
+
+        // Render the tournament tree
+        for (let level = 0; level < levels; level++) {
+          const start = Math.pow(2, level) - 1;
+          const end = Math.pow(2, level + 1) - 1;
+          const nodesInLevel = end - start;
+
+          html += `<div class="tournament-level">`;
+
+          for (let i = start; i < end; i++) {
+            if (i >= tree.length) break;
+
+            let nodeClass = "tournament-node";
+            if (i === 0 && currentState === "extract") {
+              nodeClass += " tournament-winner";
+            } else if (i === currentWinnerIndex && currentState === "replace") {
+              nodeClass += " tournament-active";
+            } else if (i >= startIndex) {
+              nodeClass += " tournament-leaf";
+            }
+
+            const value = tree[i] === -Infinity ? "-∞" : tree[i];
+            html += `<div class="${nodeClass}">${value}</div>`;
+          }
+
+          html += `</div>`;
+        }
+
+        // Render the sorted output
+        html += `<div class="tournament-output">`;
+        html += `<div style="color: var(--text-secondary); margin-right: 10px;">Sorted:</div>`;
+        for (let i = 0; i < sortedArray.length; i++) {
+          html += `<div class="output-item">${sortedArray[i]}</div>`;
+        }
+        html += `</div>`;
+
+        if (sorted) {
+          html += `
+          <div style="position: absolute; top: 50%; left: 0; right: 0; text-align: center; 
+                      font-size: 24px; color: var(--success); transform: translateY(-50%);
+                      background: rgba(0,0,0,0.7); padding: 20px;">
+            <i class="fas fa-check-circle"></i> Sorting Completed!
+          </div>
+        `;
+        }
+
+        html += `</div>`;
+        vizArea.innerHTML = html;
+      }
+
+      // Get description for current state
+      function getStateDescription(state) {
+        switch (state) {
+          case "initial":
+            return "Initial tournament tree built";
+          case "extract":
+            return "Extracting winner from tournament";
+          case "replace":
+            return "Replacing winner with -∞";
+          case "replay":
+            return "Replaying tournament to find next winner";
+          default:
+            return "";
+        }
+      }
+
+      // Simple copy button functionality
+      document
+        .querySelector(".copy-btn")
+        .addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          // Show feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+    </script>
+  </body>
+</html>
