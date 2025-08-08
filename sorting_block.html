@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Block Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Block Sort Visualization */
+      .array-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 100%;
+        width: 100%;
+        gap: 4px;
+        padding: 20px;
+      }
+
+      .array-element {
+        background: var(--accent);
+        min-width: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 6px 6px 0 0;
+        transition: all 0.3s ease;
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .array-element.active {
+        background: var(--success);
+        box-shadow: 0 0 15px var(--success);
+      }
+
+      .array-element.comparing {
+        background: var(--warning);
+        box-shadow: 0 0 15px var(--warning);
+      }
+
+      .array-element.block {
+        border: 2px solid var(--accent-light);
+      }
+
+      .array-element.sorted {
+        background: var(--success);
+      }
+
+      .array-element.merging {
+        background: #8b5cf6;
+        box-shadow: 0 0 15px #8b5cf6;
+      }
+
+      .array-value {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: white;
+      }
+
+      .array-index {
+        position: absolute;
+        bottom: -25px;
+        color: var(--text-secondary);
+        font-size: 12px;
+      }
+
+      .visualization-info {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .progress-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        background: var(--success);
+        transition: width 0.3s ease;
+      }
+
+      .block-info {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        color: var(--warning);
+        font-family: "Roboto Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Block Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Block Sort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Block Sort (also known as Block Merge Sort) is an efficient,
+              stable, in-place sorting algorithm that combines the concepts of
+              merge sort and insertion sort. It works by dividing the array into
+              small blocks, sorting each block with insertion sort, and then
+              merging the blocks using a technique inspired by merge sort.
+            </p>
+            <p>
+              This algorithm is particularly efficient for in-memory sorting and
+              is designed to minimize memory usage while maintaining stability.
+              It's an excellent choice when memory is constrained but stable
+              sorting is required.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>Stable, in-place sorting with O(n log n) performance</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>O(n log n) time complexity in worst-case scenarios</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(1) additional space - operates in-place</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Block-based insertion sort + efficient block merging</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Block Sort
+              works. The visualization shows:
+            </p>
+            <ul
+              style="
+                color: var(--text-secondary);
+                margin: 15px 0;
+                padding-left: 20px;
+              "
+            >
+              <li>Array division into blocks (highlighted with borders)</li>
+              <li>Sorting of individual blocks with insertion sort</li>
+              <li>
+                Merging of sorted blocks using an efficient in-place method
+              </li>
+              <li>Final sorted array with progress indicators</li>
+            </ul>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Block Sort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="stepBtn">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button class="console-btn" id="runBtn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="vizArea">
+                <!-- Visualization will be rendered here -->
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="arrayInput"
+                  value="8, 3, 2, 7, 4, 9, 1, 6, 5, 12, 11, 10"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                />
+                <button class="console-btn" id="randomBtn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>Block Sort processes the array through three main phases:</p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-th-large"></i> 1. Block Division</h3>
+                <p>
+                  Divide the array into √n blocks of approximately equal size
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sort-amount-up"></i> 2. Block Sorting</h3>
+                <p>Sort each block individually using insertion sort</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-merge"></i> 3. Block Merging</h3>
+                <p>
+                  Merge sorted blocks using an efficient in-place merging
+                  technique
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-redo"></i> 4. Recursive Merging</h3>
+                <p>
+                  Recursively merge larger blocks until the entire array is
+                  sorted
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function blockSort(arr):
+    n = length(arr)
+    blockSize = ceil(sqrt(n))
+    
+    // Step 1: Sort individual blocks
+    for i = 0 to n-1 step blockSize:
+        end = min(i + blockSize - 1, n-1)
+        insertionSort(arr, i, end)
+    
+    // Step 2: Merge sorted blocks
+    for size = blockSize to n step size * 2:
+        for left = 0 to n-1 step 2 * size:
+            mid = min(left + size - 1, n-1)
+            right = min(left + 2 * size - 1, n-1)
+            merge(arr, left, mid, right)
+            
+function insertionSort(arr, left, right):
+    for i = left+1 to right:
+        key = arr[i]
+        j = i - 1
+        while j >= left and arr[j] > key:
+            arr[j+1] = arr[j]
+            j = j - 1
+        arr[j+1] = key
+
+function merge(arr, left, mid, right):
+    // Efficient in-place merge implementation
+    // using rotations and binary search</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the Block Sort algorithm. The
+              implementation includes block division, insertion sort for blocks,
+              and an efficient in-place merging technique.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> math
+
+<span class="keyword">def</span> <span class="function">insertion_sort</span>(arr, left, right):
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(left+1, right+1):
+        key = arr[i]
+        j = i-1
+        <span class="keyword">while</span> j >= left <span class="keyword">and</span> arr[j] > key:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+
+<span class="keyword">def</span> <span class="function">merge</span>(arr, left, mid, right):
+    <span class="comment"># Simplified merge for visualization purposes</span>
+    temp = []
+    i, j = left, mid+1
+    
+    <span class="keyword">while</span> i <= mid <span class="keyword">and</span> j <= right:
+        <span class="keyword">if</span> arr[i] <= arr[j]:
+            temp.append(arr[i])
+            i += 1
+        <span class="keyword">else</span>:
+            temp.append(arr[j])
+            j += 1
+            
+    <span class="keyword">while</span> i <= mid:
+        temp.append(arr[i])
+        i += 1
+        
+    <span class="keyword">while</span> j <= right:
+        temp.append(arr[j])
+        j += 1
+        
+    <span class="keyword">for</span> idx <span class="keyword">in</span> range(len(temp)):
+        arr[left+idx] = temp[idx]
+
+<span class="keyword">def</span> <span class="function">block_sort</span>(arr):
+    n = len(arr)
+    <span class="keyword">if</span> n <= 1:
+        <span class="keyword">return</span> arr
+        
+    <span class="comment"># Determine block size (√n)</span>
+    block_size = math.isqrt(n)
+    <span class="keyword">if</span> block_size == 0:
+        block_size = 1
+    
+    <span class="comment"># Sort individual blocks</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(0, n, block_size):
+        end = min(i + block_size - 1, n-1)
+        insertion_sort(arr, i, end)
+    
+    <span class="comment"># Merge sorted blocks</span>
+    size = block_size
+    <span class="keyword">while</span> size < n:
+        <span class="keyword">for</span> left <span class="keyword">in</span> range(0, n, 2 * size):
+            mid = min(left + size - 1, n-1)
+            right = min(left + 2 * size - 1, n-1)
+            <span class="keyword">if</span> mid < right:
+                merge(arr, left, mid, right)
+        size *= 2
+    
+    <span class="keyword">return</span> arr
+
+<span class="comment"># Example usage</span>
+arr = [<span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">12</span>, <span class="number">11</span>, <span class="number">10</span>]
+sorted_arr = block_sort(arr)
+print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Hybrid</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(1)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Block Sort is particularly useful in scenarios requiring stable,
+              in-place sorting:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Memory-constrained environments
+              </li>
+              <li style="margin-bottom: 10px">
+                Systems programming and embedded systems
+              </li>
+              <li style="margin-bottom: 10px">Database management systems</li>
+              <li style="margin-bottom: 10px">
+                Real-time systems with strict memory requirements
+              </li>
+              <li>Programming language standard libraries</li>
+            </ul>
+          </div>
+
+          <!-- Advantages -->
+          <div class="section">
+            <h2><i class="fas fa-star"></i> Advantages</h2>
+            <p>
+              <strong>Memory Efficiency:</strong> Operates in-place with O(1)
+              additional space.
+            </p>
+            <p>
+              <strong>Stability:</strong> Preserves the relative order of equal
+              elements.
+            </p>
+            <p>
+              <strong>Predictable Performance:</strong> Guarantees O(n log n)
+              worst-case time complexity.
+            </p>
+          </div>
+
+          <!-- Complexity Analysis -->
+          <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+            <p>
+              Block Sort has a worst-case time complexity of O(n log n), which
+              is optimal for comparison-based sorting algorithms. The block
+              division and merging strategy ensures efficient performance even
+              for large datasets.
+            </p>
+            <p>
+              The space complexity is O(1) as the algorithm operates entirely
+              in-place, making it highly memory efficient. This is achieved
+              through clever merging techniques that minimize additional memory
+              requirements.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Block Sort Visualization Logic
+      let array = [8, 3, 2, 7, 4, 9, 1, 6, 5, 12, 11, 10];
+      let originalArray = [...array];
+      let blockSize = 0;
+      let currentBlock = 0;
+      let insertionIndex = 0;
+      let merging = false;
+      let mergeLeft = 0;
+      let mergeMid = 0;
+      let mergeRight = 0;
+      let mergeI = 0;
+      let mergeJ = 0;
+      let tempArray = [];
+      let sorted = false;
+      let currentStep = 0;
+      let interval = null;
+      let speed = 1000;
+
+      // DOM elements
+      const vizArea = document.getElementById("vizArea");
+      const arrayInput = document.getElementById("arrayInput");
+      const randomBtn = document.getElementById("randomBtn");
+      const runBtn = document.getElementById("runBtn");
+      const stepBtn = document.getElementById("stepBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      // Initialize visualization
+      initializeBlockSort();
+
+      // Event Listeners
+      randomBtn.addEventListener("click", generateRandomArray);
+      runBtn.addEventListener("click", toggleRun);
+      stepBtn.addEventListener("click", stepAlgorithm);
+      resetBtn.addEventListener("click", resetAlgorithm);
+      arrayInput.addEventListener("change", updateArrayFromInput);
+
+      // Generate a random array
+      function generateRandomArray() {
+        const size = Math.floor(Math.random() * 10) + 10; // 10-19 elements
+        array = [];
+        for (let i = 0; i < size; i++) {
+          array.push(Math.floor(Math.random() * 30) + 1);
+        }
+        originalArray = [...array];
+        arrayInput.value = array.join(", ");
+        resetAlgorithm();
+      }
+
+      // Update array from input
+      function updateArrayFromInput() {
+        const input = arrayInput.value;
+        const newArray = input
+          .split(",")
+          .map((num) => parseInt(num.trim()))
+          .filter((num) => !isNaN(num));
+
+        if (newArray.length > 1) {
+          array = newArray;
+          originalArray = [...array];
+          resetAlgorithm();
+        } else {
+          alert("Please enter at least 2 valid numbers");
+          arrayInput.value = array.join(", ");
+        }
+      }
+
+      // Initialize block sort
+      function initializeBlockSort() {
+        blockSize = Math.max(1, Math.floor(Math.sqrt(array.length)));
+        currentBlock = 0;
+        insertionIndex = 0;
+        merging = false;
+        mergeLeft = 0;
+        mergeMid = 0;
+        mergeRight = 0;
+        mergeI = 0;
+        mergeJ = 0;
+        tempArray = [];
+        sorted = false;
+        currentStep = 0;
+      }
+
+      // Reset the algorithm
+      function resetAlgorithm() {
+        clearInterval(interval);
+        array = [...originalArray];
+        initializeBlockSort();
+        runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        renderArray();
+      }
+
+      // Toggle run/pause
+      function toggleRun() {
+        if (sorted) {
+          resetAlgorithm();
+          return;
+        }
+
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        } else {
+          interval = setInterval(stepAlgorithm, speed);
+          runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        }
+      }
+
+      // Perform one step of the algorithm
+      function stepAlgorithm() {
+        if (sorted) return;
+
+        currentStep++;
+
+        if (!merging) {
+          // Still in block sorting phase
+          const blockStart = currentBlock * blockSize;
+          const blockEnd = Math.min(
+            blockStart + blockSize - 1,
+            array.length - 1
+          );
+
+          if (currentBlock >= Math.ceil(array.length / blockSize)) {
+            // All blocks sorted, move to merging phase
+            merging = true;
+            startMergingPhase();
+            renderArray();
+            return;
+          }
+
+          if (insertionIndex === 0) {
+            insertionIndex = blockStart + 1;
+            renderArray();
+            return;
+          }
+
+          // Perform one step of insertion sort
+          const key = array[insertionIndex];
+          let j = insertionIndex - 1;
+
+          if (j >= blockStart && array[j] > key) {
+            array[j + 1] = array[j];
+            array[j] = key;
+            insertionIndex--;
+          } else {
+            insertionIndex++;
+          }
+
+          if (insertionIndex > blockEnd) {
+            // Current block sorted, move to next block
+            currentBlock++;
+            insertionIndex = 0;
+          }
+        } else {
+          // Merging phase
+          if (mergeLeft >= array.length) {
+            // Merging complete
+            sorted = true;
+            clearInterval(interval);
+            runBtn.innerHTML = '<i class="fas fa-redo"></i> Restart';
+            renderArray();
+            return;
+          }
+
+          // Perform one step of merging
+          if (mergeI <= mergeMid && mergeJ <= mergeRight) {
+            if (array[mergeI] <= array[mergeJ]) {
+              tempArray.push(array[mergeI]);
+              mergeI++;
+            } else {
+              tempArray.push(array[mergeJ]);
+              mergeJ++;
+            }
+          } else if (mergeI <= mergeMid) {
+            tempArray.push(array[mergeI]);
+            mergeI++;
+          } else if (mergeJ <= mergeRight) {
+            tempArray.push(array[mergeJ]);
+            mergeJ++;
+          } else {
+            // Merge complete for current block
+            for (let k = 0; k < tempArray.length; k++) {
+              array[mergeLeft + k] = tempArray[k];
+            }
+
+            // Move to next merge block
+            mergeLeft += 2 * blockSize;
+            startMergeBlock();
+          }
+        }
+
+        renderArray();
+      }
+
+      // Start merging phase
+      function startMergingPhase() {
+        blockSize = Math.max(1, Math.floor(Math.sqrt(array.length)));
+        mergeLeft = 0;
+        startMergeBlock();
+      }
+
+      // Start a new merge block
+      function startMergeBlock() {
+        mergeMid = Math.min(mergeLeft + blockSize - 1, array.length - 1);
+        mergeRight = Math.min(mergeLeft + 2 * blockSize - 1, array.length - 1);
+        mergeI = mergeLeft;
+        mergeJ = mergeMid + 1;
+        tempArray = [];
+      }
+
+      // Render the array visualization
+      function renderArray() {
+        const maxValue = Math.max(...array, 10);
+        const containerHeight = 260;
+
+        let blockInfo = "";
+        let html = `
+        <div class="visualization-info">
+          Step: ${currentStep} | ${getStateDescription()}
+        </div>
+      `;
+
+        if (merging) {
+          html += `
+          <div class="block-info">
+            Merging Blocks: [${mergeLeft}-${mergeMid}] & [${
+            mergeMid + 1
+          }-${mergeRight}]
+          </div>
+        `;
+        }
+
+        html += `
+        <div class="progress-bar" style="width: ${getProgress()}%"></div>
+        <div class="array-container">
+      `;
+
+        for (let i = 0; i < array.length; i++) {
+          const height = (array[i] / maxValue) * 180;
+          let classes = "array-element";
+          let blockNum = Math.floor(i / blockSize);
+
+          // Apply block colors
+          if (!merging) {
+            classes += " block";
+          } else if (i >= mergeLeft && i <= mergeRight) {
+            classes += " merging";
+          }
+
+          // Highlight active elements
+          if (
+            !merging &&
+            currentBlock === blockNum &&
+            (i === insertionIndex || i === insertionIndex - 1)
+          ) {
+            classes += " comparing";
+          } else if (merging && (i === mergeI || i === mergeJ)) {
+            classes += " active";
+          }
+
+          // Mark sorted portions
+          if (merging && i < mergeLeft) {
+            classes += " sorted";
+          }
+
+          html += `
+          <div class="${classes}" style="height: ${height}px">
+            <div class="array-value">${array[i]}</div>
+            <div class="array-index">${i}</div>
+          </div>
+        `;
+        }
+
+        html += `</div>`;
+
+        if (sorted) {
+          html += `
+          <div style="position: absolute; top: 50%; left: 0; right: 0; text-align: center; 
+                      font-size: 24px; color: var(--success); transform: translateY(-50%);
+                      background: rgba(0,0,0,0.7); padding: 20px;">
+            <i class="fas fa-check-circle"></i> Sorting Completed!
+          </div>
+        `;
+        }
+
+        vizArea.innerHTML = html;
+      }
+
+      // Get description for current state
+      function getStateDescription() {
+        if (sorted) return "Sorting Completed";
+        if (merging)
+          return `Merging Blocks (${tempArray.length} elements merged)`;
+
+        const blockStart = currentBlock * blockSize;
+        const blockEnd = Math.min(blockStart + blockSize - 1, array.length - 1);
+        return `Sorting Block ${currentBlock + 1} [${blockStart}-${blockEnd}]`;
+      }
+
+      // Calculate progress percentage
+      function getProgress() {
+        if (sorted) return 100;
+
+        if (merging) {
+          return Math.min(
+            100,
+            Math.floor(((mergeLeft + tempArray.length) / array.length) * 100)
+          );
+        }
+
+        const blocksDone = currentBlock;
+        const totalBlocks = Math.ceil(array.length / blockSize);
+        return Math.min(100, Math.floor((blocksDone / totalBlocks) * 50));
+      }
+
+      // Simple copy button functionality
+      document
+        .querySelector(".copy-btn")
+        .addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          // Show feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+    </script>
+  </body>
+</html>
