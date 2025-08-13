@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cocktail Shaker Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Visualization Styles */
+      #cocktail-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        padding: 20px;
+        gap: 4px;
+      }
+
+      .array-bar {
+        width: 30px;
+        background: var(--accent);
+        border-radius: 4px 4px 0 0;
+        transition: all 0.3s ease;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      .array-bar.active {
+        background: var(--warning);
+      }
+
+      .array-bar.compared {
+        background: var(--danger);
+      }
+
+      .array-bar.sorted {
+        background: var(--success);
+      }
+
+      .direction-indicator {
+        position: absolute;
+        top: -25px;
+        font-size: 14px;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .stats-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 10px;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+      }
+
+      .stat-item {
+        background: rgba(99, 102, 241, 0.1);
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Cocktail Shaker Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Cocktail Shaker Sort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Cocktail Shaker Sort, also known as bidirectional bubble sort,
+              cocktail sort, shaker sort, ripple sort, or shuttle sort, is a
+              variation of the bubble sort algorithm. It differs by sorting in
+              both directions on each pass through the list.
+            </p>
+            <p>
+              The algorithm gets its name from the way it moves elements -
+              similar to the motion of a cocktail shaker. It addresses the issue
+              of bubble sort's "turtle" problem, where small elements at the end
+              of the list take many passes to move to the beginning.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>Sorts in both directions, improving on bubble sort</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  O(n) in best case (already sorted), O(n²) average and worst
+                  case
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(1) additional space (in-place algorithm)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Bidirectional bubbling of elements</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Visualize Cocktail Shaker Sort in action. Enter a comma-separated
+              list of numbers, adjust the speed, and step through the algorithm
+              to see each stage of the sorting process.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Cocktail Shaker
+                  Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="step-btn">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button class="console-btn" id="run-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="reset-btn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="visualization-area">
+                <div id="cocktail-container"></div>
+                <div class="stats-container">
+                  <div class="stat-item">
+                    Comparisons: <span id="comparison-count">0</span>
+                  </div>
+                  <div class="stat-item">
+                    Swaps: <span id="swap-count">0</span>
+                  </div>
+                  <div class="stat-item">
+                    Passes: <span id="pass-count">0</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="array-input"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                  value="38, 27, 43, 3, 9, 82, 10, 15, 22"
+                />
+                <button class="console-btn" id="random-btn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Cocktail Shaker Sort alternates between two directions on each
+              pass:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-arrow-right"></i> 1. Forward Pass</h3>
+                <p>
+                  Traverse from left to right, comparing adjacent elements and
+                  swapping if they are in the wrong order
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrow-left"></i> 2. Backward Pass</h3>
+                <p>
+                  Traverse from right to left, comparing adjacent elements and
+                  swapping if they are in the wrong order
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-compress-alt"></i> 3. Adjust Boundaries
+                </h3>
+                <p>
+                  After each pass, adjust the boundaries since the
+                  largest/smallest element has bubbled to the end
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sync-alt"></i> 4. Repeat</h3>
+                <p>
+                  Continue alternating directions until no swaps occur in a full
+                  pass
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
+                <p>
+                  When a complete pass with no swaps occurs, the list is sorted
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>procedure cocktailShakerSort(A: list of sortable items)
+    n = length(A)
+    swapped = true
+    start = 0
+    end = n - 1
+    
+    while swapped is true
+        // Reset the swapped flag
+        swapped = false
+        
+        // Forward pass (left to right)
+        for i = start to end - 1
+            if A[i] > A[i + 1] then
+                swap(A[i], A[i + 1])
+                swapped = true
+        
+        // If nothing moved, array is sorted
+        if not swapped then break
+        
+        // Otherwise, reset the swapped flag
+        swapped = false
+        
+        // Move the end point back by one
+        end = end - 1
+        
+        // Backward pass (right to left)
+        for i = end - 1 downto start
+            if A[i] > A[i + 1] then
+                swap(A[i], A[i + 1])
+                swapped = true
+        
+        // Move the start point forward by one
+        start = start + 1</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of Cocktail Shaker Sort. The
+              algorithm alternates between forward and backward passes until the
+              list is sorted.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">def</span> <span class="function">cocktail_shaker_sort</span>(arr):
+    <span class="keyword">if</span> len(arr) <= 1:
+        <span class="keyword">return</span> arr
+        
+    swapped = True
+    start = 0
+    end = len(arr) - 1
+    
+    <span class="keyword">while</span> swapped:
+        <span class="comment"># Reset swapped flag at start of each pass</span>
+        swapped = False
+        
+        <span class="comment"># Forward pass (left to right)</span>
+        <span class="keyword">for</span> i <span class="keyword">in</span> range(start, end):
+            <span class="keyword">if</span> arr[i] > arr[i + 1]:
+                <span class="comment"># Swap elements</span>
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swapped = True
+        
+        <span class="comment"># If no swaps, array is sorted</span>
+        <span class="keyword">if</span> <span class="keyword">not</span> swapped:
+            <span class="keyword">break</span>
+        
+        <span class="comment"># Otherwise, reset swapped flag</span>
+        swapped = False
+        
+        <span class="comment"># Move end point backward</span>
+        end -= 1
+        
+        <span class="comment"># Backward pass (right to left)</span>
+        <span class="keyword">for</span> i <span class="keyword">in</span> range(end - 1, start - 1, -1):
+            <span class="keyword">if</span> arr[i] > arr[i + 1]:
+                <span class="comment"># Swap elements</span>
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swapped = True
+        
+        <span class="comment"># Move start point forward</span>
+        start += 1
+    
+    <span class="keyword">return</span> arr
+
+<span class="comment"># Example usage</span>
+arr = [38, 27, 43, 3, 9, 82, 10, 15, 22]
+sorted_arr = cocktail_shaker_sort(arr)
+print(<span class="string">"Sorted array:"</span>, sorted_arr)
+<span class="comment"># Output: Sorted array: [3, 9, 10, 15, 22, 27, 38, 43, 82]</span></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Comparison</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n²)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n²)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(1)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>Cocktail Shaker Sort is useful in specific scenarios:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Educational purposes to demonstrate bidirectional sorting
+              </li>
+              <li style="margin-bottom: 10px">
+                Situations where data is nearly sorted
+              </li>
+              <li style="margin-bottom: 10px">Small datasets</li>
+              <li style="margin-bottom: 10px">
+                When a stable sort is required
+              </li>
+              <li>As an improvement to bubble sort</li>
+            </ul>
+          </div>
+
+          <!-- Advantages Section -->
+          <div class="section">
+            <h2><i class="fas fa-star"></i> Advantages</h2>
+            <p>Compared to regular bubble sort:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                More efficient for certain data distributions
+              </li>
+              <li style="margin-bottom: 10px">
+                Solves the "turtle problem" of bubble sort
+              </li>
+              <li style="margin-bottom: 10px">
+                Better performance on nearly sorted lists
+              </li>
+              <li style="margin-bottom: 10px">
+                Maintains bubble sort's simplicity
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
+            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+          >
+          <a href="mailto:me@sgkandale.com"
+            ><i class="fa-solid fa-at"></i> E-Mail</a
+          >
+          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+          >
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Cocktail Shaker Sort Visualization
+      class CocktailShakerVisualizer {
+        constructor(container, stats) {
+          this.container = container;
+          this.stats = stats;
+          this.array = [];
+          this.swapped = true;
+          this.start = 0;
+          this.end = 0;
+          this.current = 0;
+          this.direction = 1; // 1 for forward, -1 for backward
+          this.passes = 0;
+          this.comparisons = 0;
+          this.swaps = 0;
+          this.isRunning = false;
+          this.speed = 500;
+          this.stepTimeout = null;
+          this.directionIndicator = null;
+        }
+
+        init(array) {
+          this.array = [...array];
+          this.swapped = true;
+          this.start = 0;
+          this.end = this.array.length - 1;
+          this.current = 0;
+          this.direction = 1;
+          this.passes = 0;
+          this.comparisons = 0;
+          this.swaps = 0;
+          this.updateStats();
+          this.render();
+        }
+
+        updateStats() {
+          this.stats.comparisonCount.textContent = this.comparisons;
+          this.stats.swapCount.textContent = this.swaps;
+          this.stats.passCount.textContent = this.passes;
+        }
+
+        render() {
+          this.container.innerHTML = "";
+
+          for (let idx = 0; idx < this.array.length; idx++) {
+            const bar = document.createElement("div");
+            bar.className = "array-bar";
+            bar.style.height = `${
+              (this.array[idx] / Math.max(...this.array)) * 80 + 20
+            }%`;
+            bar.textContent = this.array[idx];
+
+            // Highlight active element
+            if (idx === this.current) {
+              bar.classList.add("active");
+            }
+
+            // Highlight compared element
+            if (this.direction === 1 && idx === this.current + 1) {
+              bar.classList.add("compared");
+            }
+            if (this.direction === -1 && idx === this.current - 1) {
+              bar.classList.add("compared");
+            }
+
+            // Highlight sorted elements
+            if (idx < this.start || idx > this.end) {
+              bar.classList.add("sorted");
+            }
+
+            this.container.appendChild(bar);
+          }
+
+          // Create direction indicator
+          if (!this.directionIndicator) {
+            this.directionIndicator = document.createElement("div");
+            this.directionIndicator.className = "direction-indicator";
+            this.container.appendChild(this.directionIndicator);
+          }
+
+          if (this.direction === 1) {
+            this.directionIndicator.textContent = "→ Forward Pass";
+            this.directionIndicator.style.left = `${this.current * 34}px`;
+          } else {
+            this.directionIndicator.textContent = "← Backward Pass";
+            this.directionIndicator.style.left = `${this.current * 34}px`;
+          }
+        }
+
+        step() {
+          if (!this.swapped && this.passes > 0) return false;
+
+          if (this.direction === 1) {
+            return this.forwardStep();
+          } else {
+            return this.backwardStep();
+          }
+        }
+
+        forwardStep() {
+          if (this.current >= this.end) {
+            // End of forward pass
+            if (!this.swapped) {
+              return false; // Sorting complete
+            }
+
+            this.direction = -1;
+            this.current = this.end - 1;
+            this.swapped = false;
+            this.passes++;
+            return true;
+          }
+
+          // Compare adjacent elements
+          this.comparisons++;
+          if (this.array[this.current] > this.array[this.current + 1]) {
+            // Swap elements
+            [this.array[this.current], this.array[this.current + 1]] = [
+              this.array[this.current + 1],
+              this.array[this.current],
+            ];
+            this.swapped = true;
+            this.swaps++;
+          }
+
+          this.current++;
+          return true;
+        }
+
+        backwardStep() {
+          if (this.current < this.start) {
+            // End of backward pass
+            if (!this.swapped) {
+              return false; // Sorting complete
+            }
+
+            this.direction = 1;
+            this.start++;
+            this.current = this.start;
+            this.swapped = false;
+            this.passes++;
+            return true;
+          }
+
+          // Compare adjacent elements
+          this.comparisons++;
+          if (this.array[this.current] > this.array[this.current + 1]) {
+            // Swap elements
+            [this.array[this.current], this.array[this.current + 1]] = [
+              this.array[this.current + 1],
+              this.array[this.current],
+            ];
+            this.swapped = true;
+            this.swaps++;
+          }
+
+          this.current--;
+          return true;
+        }
+
+        startVisualization() {
+          if (this.isRunning) return;
+          this.isRunning = true;
+
+          const runStep = () => {
+            const hasMore = this.step();
+            this.updateStats();
+            this.render();
+
+            if (hasMore) {
+              this.stepTimeout = setTimeout(runStep, this.speed);
+            } else {
+              this.isRunning = false;
+            }
+          };
+
+          runStep();
+        }
+
+        stopVisualization() {
+          if (this.stepTimeout) {
+            clearTimeout(this.stepTimeout);
+          }
+          this.isRunning = false;
+        }
+
+        reset(array) {
+          this.stopVisualization();
+          this.init(array);
+        }
+      }
+
+      // Initialize when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const visualizationArea = document.getElementById("cocktail-container");
+        const arrayInput = document.getElementById("array-input");
+        const randomBtn = document.getElementById("random-btn");
+        const stepBtn = document.getElementById("step-btn");
+        const runBtn = document.getElementById("run-btn");
+        const resetBtn = document.getElementById("reset-btn");
+
+        // Stats elements
+        const stats = {
+          comparisonCount: document.getElementById("comparison-count"),
+          swapCount: document.getElementById("swap-count"),
+          passCount: document.getElementById("pass-count"),
+        };
+
+        // Initialize visualizer
+        const visualizer = new CocktailShakerVisualizer(
+          visualizationArea,
+          stats
+        );
+
+        // Parse input array
+        function parseInput() {
+          const input = arrayInput.value;
+          const numbers = input
+            .split(",")
+            .map((num) => parseInt(num.trim()))
+            .filter((num) => !isNaN(num));
+          return numbers.length > 0
+            ? numbers
+            : [38, 27, 43, 3, 9, 82, 10, 15, 22];
+        }
+
+        // Initialize with default array
+        visualizer.init(parseInput());
+
+        // Event listeners
+        randomBtn.addEventListener("click", () => {
+          const randomArray = Array.from(
+            { length: 10 },
+            () => Math.floor(Math.random() * 90) + 10
+          );
+          arrayInput.value = randomArray.join(", ");
+          visualizer.reset(randomArray);
+        });
+
+        stepBtn.addEventListener("click", () => {
+          visualizer.stopVisualization();
+          visualizer.step();
+          visualizer.updateStats();
+          visualizer.render();
+        });
+
+        runBtn.addEventListener("click", () => {
+          if (visualizer.isRunning) {
+            visualizer.stopVisualization();
+            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          } else {
+            visualizer.startVisualization();
+            runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+          }
+        });
+
+        resetBtn.addEventListener("click", () => {
+          visualizer.stopVisualization();
+          visualizer.reset(parseInput());
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        });
+
+        arrayInput.addEventListener("change", () => {
+          visualizer.reset(parseInput());
+        });
+
+        // Copy button functionality
+        document
+          .querySelector(".copy-btn")
+          .addEventListener("click", function () {
+            const code = document.querySelector(".code-block code").innerText;
+            navigator.clipboard.writeText(code);
+
+            // Show feedback
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 2000);
+          });
+      });
+    </script>
+  </body>
+</html>
