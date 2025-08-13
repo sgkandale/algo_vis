@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Library Sort Visualization Styles */
+      .array-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+        gap: 5px;
+      }
+
+      .array-element {
+        width: 40px;
+        background: var(--accent);
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .gap {
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .gap::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 4px;
+        height: 4px;
+        background: var(--text-secondary);
+        border-radius: 50%;
+      }
+
+      .element-value {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 16px;
+        color: white;
+        padding: 10px 0;
+      }
+
+      .element-index {
+        background: rgba(15, 23, 42, 0.7);
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .current {
+        box-shadow: 0 0 15px var(--accent-light);
+        transform: scale(1.1);
+        z-index: 10;
+      }
+
+      .compared {
+        background: var(--warning);
+      }
+
+      .swapped {
+        background: var(--danger);
+      }
+
+      .sorted {
+        background: var(--success);
+      }
+
+      .insertion-path {
+        position: absolute;
+        height: 3px;
+        background: var(--accent-light);
+        z-index: 5;
+        bottom: -20px;
+      }
+
+      .status-bar {
+        margin-top: 15px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--accent-light);
+        text-align: center;
+        min-height: 40px;
+        padding: 10px;
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 5px;
+      }
+
+      .gap-factor {
+        color: var(--warning);
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Library Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Library Sort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Gapped Insertion Sort
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Library Sort (also known as Gapped Insertion Sort) is a variation
+              of insertion sort that improves performance by leaving gaps
+              between elements. These gaps allow for faster insertion of new
+              elements without the need to shift all subsequent elements.
+            </p>
+            <p>
+              The algorithm works by creating an array with gaps (typically with
+              a size factor of 2), then inserting elements using binary search
+              to find the appropriate position. When gaps become too small, the
+              array is rebalanced by redistributing elements with new gaps.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+                <p>O(n log n) worst-case, improves on insertion sort's O(n²)</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-grip-lines"></i> Gap Strategy</h3>
+                <p>Uses gaps to reduce element shifting during insertion</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-search"></i> Binary Search</h3>
+                <p>Finds insertion position efficiently with binary search</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sync-alt"></i> Rebalancing</h3>
+                <p>Periodically rebalances gaps to maintain efficiency</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Library Sort
+              works. Enter comma-separated numbers and step through the
+              algorithm to see how elements are inserted into gaps and how
+              rebalancing occurs.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Library Sort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button id="step-btn" class="console-btn secondary">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button id="run-btn" class="console-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button id="reset-btn" class="console-btn secondary">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                  <button id="speed-btn" class="console-btn secondary">
+                    <i class="fas fa-running"></i> Speed: Medium
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="array-container" id="array-container">
+                  <!-- Array elements will be generated here -->
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  id="array-input"
+                  type="text"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
+                />
+                <button id="random-btn" class="console-btn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+
+              <div id="status" class="status-bar">
+                Enter numbers and click Run or Step
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>Library Sort processes the array through these key steps:</p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-expand-arrows-alt"></i> 1. Array Expansion
+                </h3>
+                <p>
+                  Create an expanded array with gaps (size = n * gap_factor)
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-search"></i> 2. Binary Search</h3>
+                <p>
+                  For each element, find insertion position using binary search
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrow-right"></i> 3. Insert with Gap</h3>
+                <p>Insert element into the nearest available gap</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-balance-scale"></i> 4. Gap Rebalancing</h3>
+                <p>When gaps become too small, rebalance the entire array</p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-compress-arrows-alt"></i> 5. Final Compaction
+                </h3>
+                <p>After all insertions, compact the array by removing gaps</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function library_sort(arr):
+    n = length(arr)
+    gap_factor = 2  // Typically between 1.5 and 2
+    expanded_size = ceil(n * gap_factor)
+    
+    // Create expanded array with gaps
+    expanded = array of size expanded_size filled with null
+    
+    // Insert first element in the middle
+    mid = expanded_size // 2
+    expanded[mid] = arr[0]
+    
+    for i from 1 to n-1:
+        // Find insertion position using binary search
+        pos = binary_search(expanded, arr[i])
+        
+        // Find nearest gap to insert
+        insert_index = find_nearest_gap(expanded, pos)
+        
+        // If no gap found, rebalance the array
+        if insert_index == -1:
+            rebalance(expanded, gap_factor)
+            insert_index = find_nearest_gap(expanded, pos)
+        
+        // Insert element into gap
+        expanded[insert_index] = arr[i]
+    
+    // Compact the array by removing gaps
+    result = compact(expanded)
+    return result
+
+function binary_search(arr, value):
+    low = 0
+    high = length(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] is null:
+            // Find nearest non-null element
+            left = mid - 1
+            right = mid + 1
+            while left >= 0 or right < length(arr):
+                if left >= 0 and arr[left] != null:
+                    mid = left
+                    break
+                if right < length(arr) and arr[right] != null:
+                    mid = right
+                    break
+                left--
+                right++
+        if arr[mid] == value:
+            return mid
+        else if arr[mid] < value:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return low
+
+function find_nearest_gap(arr, pos):
+    // Search left then right for nearest gap
+    left = pos - 1
+    right = pos + 1
+    while left >= 0 or right < length(arr):
+        if left >= 0 and arr[left] == null:
+            return left
+        if right < length(arr) and arr[right] == null:
+            return right
+        left--
+        right++
+    return -1  // No gap found, need rebalancing
+
+function rebalance(arr, gap_factor):
+    // Collect non-null elements
+    elements = [x for x in arr if x != null]
+    n = length(elements)
+    expanded_size = ceil(n * gap_factor)
+    
+    // Create new expanded array
+    new_arr = array of size expanded_size filled with null
+    
+    // Redistribute elements with gaps
+    step = expanded_size / (n + 1)
+    for i from 0 to n-1:
+        index = floor((i + 1) * step)
+        new_arr[index] = elements[i]
+    
+    return new_arr
+
+function compact(arr):
+    return [x for x in arr if x != null]</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of Library Sort. The algorithm
+              uses gap-based insertion and periodic rebalancing:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">import</span> math
+
+<span class="keyword">def</span> <span class="function">library_sort</span>(arr):
+    <span class="keyword">if</span> <span class="keyword">not</span> arr:
+        <span class="keyword">return</span> []
+    
+    n = len(arr)
+    gap_factor = 2
+    expanded_size = math.ceil(n * gap_factor)
+    
+    <span class="comment"># Create expanded array with gaps</span>
+    expanded = [<span class="keyword">None</span>] * expanded_size
+    
+    <span class="comment"># Insert first element</span>
+    mid = expanded_size // 2
+    expanded[mid] = arr[0]
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(1, n):
+        <span class="comment"># Find position using binary search</span>
+        pos = binary_search(expanded, arr[i])
+        
+        <span class="comment"># Find nearest gap</span>
+        insert_index = find_nearest_gap(expanded, pos)
+        
+        <span class="comment"># If no gap found, rebalance</span>
+        <span class="keyword">if</span> insert_index == -1:
+            expanded = rebalance(expanded, gap_factor)
+            pos = binary_search(expanded, arr[i])
+            insert_index = find_nearest_gap(expanded, pos)
+        
+        <span class="comment"># Insert element</span>
+        expanded[insert_index] = arr[i]
+    
+    <span class="comment"># Compact the final array</span>
+    <span class="keyword">return</span> [x <span class="keyword">for</span> x <span class="keyword">in</span> expanded <span class="keyword">if</span> x <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>]
+
+<span class="keyword">def</span> <span class="function">binary_search</span>(arr, value):
+    low = 0
+    high = len(arr) - 1
+    
+    <span class="keyword">while</span> low <= high:
+        mid = (low + high) // 2
+        
+        <span class="comment"># Skip gaps</span>
+        <span class="keyword">if</span> arr[mid] <span class="keyword">is</span> <span class="keyword">None</span>:
+            left = mid - 1
+            right = mid + 1
+            <span class="keyword">while</span> left >= 0 <span class="keyword">or</span> right < len(arr):
+                <span class="keyword">if</span> left >= 0 <span class="keyword">and</span> arr[left] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+                    mid = left
+                    <span class="keyword">break</span>
+                <span class="keyword">if</span> right < len(arr) <span class="keyword">and</span> arr[right] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+                    mid = right
+                    <span class="keyword">break</span>
+                left -= 1
+                right += 1
+        
+        <span class="keyword">if</span> arr[mid] == value:
+            <span class="keyword">return</span> mid
+        <span class="keyword">elif</span> arr[mid] < value:
+            low = mid + 1
+        <span class="keyword">else</span>:
+            high = mid - 1
+    
+    <span class="keyword">return</span> low
+
+<span class="keyword">def</span> <span class="function">find_nearest_gap</span>(arr, pos):
+    left = pos - 1
+    right = pos + 1
+    
+    <span class="keyword">while</span> left >= 0 <span class="keyword">or</span> right < len(arr):
+        <span class="keyword">if</span> left >= 0 <span class="keyword">and</span> arr[left] <span class="keyword">is</span> <span class="keyword">None</span>:
+            <span class="keyword">return</span> left
+        <span class="keyword">if</span> right < len(arr) <span class="keyword">and</span> arr[right] <span class="keyword">is</span> <span class="keyword">None</span>:
+            <span class="keyword">return</span> right
+        left -= 1
+        right += 1
+    
+    <span class="keyword">return</span> -1  <span class="comment"># No gap found</span>
+
+<span class="keyword">def</span> <span class="function">rebalance</span>(arr, gap_factor):
+    <span class="comment"># Collect non-null elements</span>
+    elements = [x <span class="keyword">for</span> x <span class="keyword">in</span> arr <span class="keyword">if</span> x <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>]
+    n = len(elements)
+    expanded_size = math.ceil(n * gap_factor)
+    new_arr = [<span class="keyword">None</span>] * expanded_size
+    
+    <span class="comment"># Redistribute elements with gaps</span>
+    step = expanded_size / (n + 1)
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):
+        index = math.floor((i + 1) * step)
+        new_arr[index] = elements[i]
+    
+    <span class="keyword">return</span> new_arr
+
+<span class="comment"># Example usage</span>
+arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
+sorted_arr = library_sort(arr)
+print(<span class="string">"Original array:"</span>, arr)
+print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Comparison</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Gap Factor</h4>
+                <div class="value">1.5-2.0</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>Library Sort is particularly useful in these scenarios:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Online algorithms where elements arrive one by one
+              </li>
+              <li style="margin-bottom: 10px">
+                Systems with frequent insertions into sorted lists
+              </li>
+              <li style="margin-bottom: 10px">
+                Database indexing for efficient insertions
+              </li>
+              <li style="margin-bottom: 10px">
+                Maintaining sorted data structures with dynamic inputs
+              </li>
+              <li>Educational examples of improved insertion sort</li>
+            </ul>
+          </div>
+
+          <!-- Gap Factor Section -->
+          <div class="section">
+            <h2><i class="fas fa-ruler-combined"></i> Gap Factor</h2>
+            <p>The gap factor determines the size of the expanded array:</p>
+            <div style="margin: 15px 0; color: var(--text-secondary)">
+              <p>• Expanded Size = n × gap_factor</p>
+              <p>• Gap Factor typically between 1.5 and 2.0</p>
+              <p>• Higher values reduce rebalancing but use more memory</p>
+            </div>
+            <div
+              style="
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: 8px;
+                padding: 15px;
+              "
+            >
+              <h4
+                style="
+                  color: var(--accent-light);
+                  text-align: center;
+                  margin-bottom: 10px;
+                "
+              >
+                Rebalancing Frequency
+              </h4>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-around;
+                  margin-top: 10px;
+                "
+              >
+                <div style="text-align: center">
+                  <div style="font-size: 24px; color: var(--accent)">1.5×</div>
+                  <div>More Rebalancing</div>
+                </div>
+                <div style="text-align: center">
+                  <div style="font-size: 24px; color: var(--accent-light)">
+                    1.75×
+                  </div>
+                  <div>Balanced</div>
+                </div>
+                <div style="text-align: center">
+                  <div style="font-size: 24px; color: var(--success)">2.0×</div>
+                  <div>Less Rebalancing</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Library Sort Visualization
+      let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
+      let expanded = [];
+      let gapFactor = 2;
+      let currentIndex = 1;
+      let isRunning = false;
+      let interval;
+      let speed = 1000;
+      let insertionPos = 0;
+      let gapSearchDirection = "left";
+      let rebalancing = false;
+      let compacting = false;
+      let sortedArray = [];
+
+      // DOM elements
+      const arrayContainer = document.getElementById("array-container");
+      const arrayInput = document.getElementById("array-input");
+      const runBtn = document.getElementById("run-btn");
+      const stepBtn = document.getElementById("step-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const randomBtn = document.getElementById("random-btn");
+      const speedBtn = document.getElementById("speed-btn");
+      const status = document.getElementById("status");
+
+      // Initialize visualization
+      function initVisualization() {
+        array = arrayInput.value
+          .split(",")
+          .map(Number)
+          .filter((n) => !isNaN(n));
+        if (array.length === 0) {
+          array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
+          arrayInput.value = array.join(", ");
+        }
+
+        const expandedSize = Math.ceil(array.length * gapFactor);
+        expanded = new Array(expandedSize).fill(null);
+
+        // Insert first element in the middle
+        const mid = Math.floor(expandedSize / 2);
+        expanded[mid] = array[0];
+
+        currentIndex = 1;
+        insertionPos = 0;
+        gapSearchDirection = "left";
+        rebalancing = false;
+        compacting = false;
+        sortedArray = [];
+
+        renderArray();
+        updateStatus("Ready. Click Step or Run to start sorting.");
+      }
+
+      // Render array visualization
+      function renderArray() {
+        arrayContainer.innerHTML = "";
+
+        expanded.forEach((value, index) => {
+          const element = document.createElement("div");
+          element.className = "array-element";
+          element.style.height =
+            value !== null ? `${value * 25 + 50}px` : "30px";
+
+          if (value === null) {
+            element.classList.add("gap");
+          } else {
+            element.innerHTML = `
+                        <div class="element-value">${value}</div>
+                        <div class="element-index">${index}</div>
+                    `;
+          }
+
+          // Highlight current element being inserted
+          if (currentIndex < array.length && array[currentIndex] === value) {
+            element.classList.add("current");
+          }
+
+          // Highlight insertion position during search
+          if (index === insertionPos) {
+            element.classList.add("compared");
+          }
+
+          arrayContainer.appendChild(element);
+        });
+      }
+
+      // Update status message
+      function updateStatus(message) {
+        status.textContent = message;
+      }
+
+      // Binary search in expanded array (simplified for visualization)
+      function findInsertionPos(value) {
+        let low = 0;
+        let high = expanded.length - 1;
+
+        while (low <= high) {
+          const mid = Math.floor((low + high) / 2);
+
+          // Skip gaps
+          if (expanded[mid] === null) {
+            let left = mid - 1;
+            let right = mid + 1;
+
+            while (left >= 0 || right < expanded.length) {
+              if (left >= 0 && expanded[left] !== null) {
+                if (expanded[left] === value) return left;
+                if (expanded[left] > value) high = left - 1;
+                else low = left + 1;
+                break;
+              }
+              if (right < expanded.length && expanded[right] !== null) {
+                if (expanded[right] === value) return right;
+                if (expanded[right] > value) high = right - 1;
+                else low = right + 1;
+                break;
+              }
+              left--;
+              right++;
+            }
+            continue;
+          }
+
+          if (expanded[mid] === value) {
+            return mid;
+          } else if (expanded[mid] < value) {
+            low = mid + 1;
+          } else {
+            high = mid - 1;
+          }
+        }
+
+        return low;
+      }
+
+      // Find nearest gap to insertion position
+      function findNearestGap(pos) {
+        let left = pos;
+        let right = pos;
+
+        while (left >= 0 || right < expanded.length) {
+          if (left >= 0 && expanded[left] === null) {
+            return left;
+          }
+          if (right < expanded.length && expanded[right] === null) {
+            return right;
+          }
+          left--;
+          right++;
+        }
+
+        return -1;
+      }
+
+      // Rebalance the expanded array
+      function rebalanceArray() {
+        // Collect non-null elements
+        const elements = expanded.filter((val) => val !== null);
+        const newSize = Math.ceil(elements.length * gapFactor);
+        const newArray = new Array(newSize).fill(null);
+
+        // Redistribute elements with gaps
+        const step = newSize / (elements.length + 1);
+        for (let i = 0; i < elements.length; i++) {
+          const index = Math.floor((i + 1) * step);
+          newArray[index] = elements[i];
+        }
+
+        return newArray;
+      }
+
+      // Perform one step of Library Sort
+      function stepLibrarySort() {
+        if (currentIndex >= array.length && !compacting) {
+          compacting = true;
+          updateStatus("All elements inserted. Compacting final array...");
+          return true;
+        }
+
+        if (compacting) {
+          // Compact the array
+          sortedArray = expanded.filter((val) => val !== null);
+          updateStatus(
+            `Sorting completed! Final sorted array: [${sortedArray.join(", ")}]`
+          );
+          return false;
+        }
+
+        if (rebalancing) {
+          expanded = rebalanceArray();
+          rebalancing = false;
+          updateStatus("Array rebalanced with new gaps");
+          return true;
+        }
+
+        const value = array[currentIndex];
+
+        // Find insertion position
+        insertionPos = findInsertionPos(value);
+        updateStatus(
+          `Processing element ${value}: Found insertion position at index ${insertionPos}`
+        );
+
+        // Find nearest gap
+        const gapIndex = findNearestGap(insertionPos);
+
+        if (gapIndex === -1) {
+          // Need to rebalance
+          rebalancing = true;
+          updateStatus(
+            `No gap found for element ${value}. Rebalancing array...`
+          );
+          return true;
+        }
+
+        // Insert element into gap
+        expanded[gapIndex] = value;
+        currentIndex++;
+        updateStatus(`Inserted element ${value} into gap at index ${gapIndex}`);
+
+        return true;
+      }
+
+      // Event Listeners
+      runBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          updateStatus("Paused. Click Run to continue.");
+        } else {
+          isRunning = true;
+          runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+
+          interval = setInterval(() => {
+            if (!stepLibrarySort()) {
+              clearInterval(interval);
+              isRunning = false;
+              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            }
+            renderArray();
+          }, speed);
+        }
+      });
+
+      stepBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        stepLibrarySort();
+        renderArray();
+      });
+
+      resetBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        initVisualization();
+      });
+
+      randomBtn.addEventListener("click", function () {
+        const length = Math.floor(Math.random() * 10) + 6; // 6-15 elements
+        array = [];
+        for (let i = 0; i < length; i++) {
+          array.push(Math.floor(Math.random() * 30) + 1);
+        }
+        arrayInput.value = array.join(", ");
+        initVisualization();
+      });
+
+      speedBtn.addEventListener("click", function () {
+        if (speed === 2000) {
+          speed = 1000;
+          speedBtn.innerHTML = '<i class="fas fa-running"></i> Speed: Medium';
+        } else if (speed === 1000) {
+          speed = 500;
+          speedBtn.innerHTML =
+            '<i class="fas fa-tachometer-alt"></i> Speed: Fast';
+        } else {
+          speed = 2000;
+          speedBtn.innerHTML = '<i class="fas fa-walking"></i> Speed: Slow';
+        }
+
+        if (isRunning) {
+          clearInterval(interval);
+          interval = setInterval(() => {
+            if (!stepLibrarySort()) {
+              clearInterval(interval);
+              isRunning = false;
+              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            }
+            renderArray();
+          }, speed);
+        }
+      });
+
+      arrayInput.addEventListener("change", initVisualization);
+
+      // Initialize
+      initVisualization();
+    </script>
+  </body>
+</html>
