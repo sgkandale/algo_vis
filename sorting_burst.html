@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Burst Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Burst Sort Visualization Styles */
+      .trie-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+        overflow: auto;
+      }
+
+      .trie-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+        position: relative;
+      }
+
+      .node-content {
+        background: rgba(99, 102, 241, 0.2);
+        border: 2px solid var(--accent);
+        border-radius: 8px;
+        padding: 10px;
+        min-width: 60px;
+        text-align: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .node-character {
+        font-weight: bold;
+        color: var(--accent-light);
+      }
+
+      .node-bucket {
+        margin-top: 5px;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .children-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+        padding: 10px;
+        border-top: 1px dashed rgba(148, 163, 184, 0.3);
+      }
+
+      .burst-indicator {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: var(--warning);
+        color: var(--primary);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .action-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(15, 23, 42, 0.9);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid var(--accent);
+        z-index: 10;
+      }
+
+      .step-info {
+        margin-top: 10px;
+        text-align: center;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Burst Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Burst Sort</h1>
+        <div class="category">
+          <i class="fas fa-font"></i> String Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n) to O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Burst Sort is an efficient string sorting algorithm that combines
+              the advantages of trie data structures and traditional sorting
+              methods. It works by distributing strings into buckets based on
+              their prefixes, then recursively "bursting" these buckets into
+              smaller sub-buckets when they exceed a certain threshold.
+            </p>
+            <p>
+              This approach is particularly effective for sorting large
+              collections of strings, as it exploits common prefixes to minimize
+              comparisons. Burst Sort adapts to the distribution of the input
+              data, making it faster than comparison-based sorts for many
+              real-world string datasets.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Uses a trie structure to distribute strings by their prefixes
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  Highly efficient for large string datasets with common
+                  prefixes
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(n) space complexity with efficient memory management</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Adaptive trie-based distribution with bucket bursting</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Burst Sort
+              works. Enter comma-separated strings, adjust the simulation speed,
+              and step through the algorithm to see the trie construction and
+              bursting process.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Burst Sort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="settingsBtn">
+                    <i class="fas fa-cog"></i> Settings
+                  </button>
+                  <button class="console-btn" id="runBtn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="stepBtn">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="burstViz">
+                <div class="trie-container" id="trieContainer">
+                  <div class="action-label" id="actionLabel">
+                    Initializing...
+                  </div>
+                  <div class="trie-node">
+                    <div class="node-content">
+                      <div class="node-character">Root</div>
+                      <div class="node-bucket">0 strings</div>
+                    </div>
+                    <div class="children-container" id="childrenRoot"></div>
+                  </div>
+                </div>
+                <div class="step-info" id="stepInfo">Step 0: Initial state</div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="inputStrings"
+                  placeholder="Enter strings (e.g., apple, banana, cherry, date, fig)"
+                  value="algorithm, burst, sort, trie, node, bucket, string, prefix, character, leaf"
+                />
+                <button class="console-btn" id="randomBtn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Burst Sort processes strings using a trie structure with adaptive
+              bucket bursting:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-layer-group"></i> 1. Trie Initialization
+                </h3>
+                <p>
+                  Start with an empty trie structure. The root node represents
+                  the starting point for all strings.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sign-in-alt"></i> 2. String Insertion</h3>
+                <p>
+                  Insert strings into the trie character by character. Each node
+                  represents a character in the prefix.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-box-open"></i> 3. Bucket Management</h3>
+                <p>
+                  When a node's bucket exceeds the burst threshold (e.g., 5
+                  strings), it bursts into child nodes for the next character
+                  position.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-sort-alpha-down"></i> 4. Sorting & Collection
+                </h3>
+                <p>
+                  Once all strings are inserted, traverse the trie in order to
+                  collect sorted strings. Small buckets are sorted using an
+                  auxiliary algorithm.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function burstSort(strings, threshold)
+    root = new TrieNode()
+    
+    for each string in strings:
+        insertIntoTrie(root, string)
+    
+    sortedList = []
+    traverseTrie(root, sortedList, threshold)
+    return sortedList
+
+function insertIntoTrie(node, string)
+    if string is empty:
+        add to current node's bucket
+        return
+    
+    firstChar = string[0]
+    if node.children[firstChar] doesn't exist:
+        create new child node for firstChar
+    
+    insertIntoTrie(node.children[firstChar], string[1:])
+
+function traverseTrie(node, sortedList, threshold)
+    if node.bucket.size > threshold:
+        burstNode(node, threshold)
+    
+    for each child in node.children (in order):
+        traverseTrie(child, sortedList, threshold)
+    
+    sort(node.bucket)
+    append node.bucket to sortedList
+
+function burstNode(node, threshold)
+    for each string in node.bucket:
+        if string is not empty:
+            firstChar = string[0]
+            if node.children[firstChar] doesn't exist:
+                create new child node for firstChar
+            insertIntoTrie(node.children[firstChar], string[1:])
+        else:
+            keep in current node's bucket
+    node.bucket = remaining strings</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the Burst Sort algorithm. The
+              algorithm uses a trie structure where each node contains a bucket
+              of strings and child nodes. When a bucket exceeds the burst
+              threshold, it distributes its strings to child nodes based on
+              their next character.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">class</span> <span class="function">TrieNode</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.bucket = []
+        <span class="keyword">self</span>.children = {}
+
+<span class="keyword">def</span> <span class="function">burst_sort</span>(strings, threshold=5):
+    <span class="comment"># Create root node</span>
+    root = TrieNode()
+    
+    <span class="comment"># Insert all strings into the trie</span>
+    <span class="keyword">for</span> s <span class="keyword">in</span> strings:
+        insert_string(root, s)
+    
+    <span class="comment"># Collect sorted strings</span>
+    sorted_strings = []
+    traverse_trie(root, sorted_strings, threshold)
+    <span class="keyword">return</span> sorted_strings
+
+<span class="keyword">def</span> <span class="function">insert_string</span>(node, s):
+    <span class="comment"># If we've processed all characters, add to bucket</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> s:
+        node.bucket.append(s)
+        <span class="keyword">return</span>
+    
+    <span class="comment"># Get first character</span>
+    char = s[0]
+    <span class="keyword">if</span> char <span class="keyword">not</span> <span class="keyword">in</span> node.children:
+        node.children[char] = TrieNode()
+    
+    <span class="comment"># Insert remaining string into child node</span>
+    insert_string(node.children[char], s[1:])
+
+<span class="keyword">def</span> <span class="function">traverse_trie</span>(node, result, threshold):
+    <span class="comment"># Burst the node if bucket exceeds threshold</span>
+    <span class="keyword">if</span> len(node.bucket) > threshold:
+        burst_node(node, threshold)
+    
+    <span class="comment"># Recursively traverse children in sorted order</span>
+    <span class="keyword">for</span> char <span class="keyword">in</span> sorted(node.children.keys()):
+        traverse_trie(node.children[char], result, threshold)
+    
+    <span class="comment"># Add bucket contents to result</span>
+    result.extend(sorted(node.bucket))
+
+<span class="keyword">def</span> <span class="function">burst_node</span>(node, threshold):
+    <span class="comment"># Temporary list for remaining strings</span>
+    remaining = []
+    
+    <span class="comment"># Process all strings in the bucket</span>
+    <span class="keyword">for</span> s <span class="keyword">in</span> node.bucket:
+        <span class="keyword">if</span> s:  <span class="comment"># If string has characters left</span>
+            char = s[0]
+            <span class="keyword">if</span> char <span class="keyword">not</span> <span class="keyword">in</span> node.children:
+                node.children[char] = TrieNode()
+            insert_string(node.children[char], s[1:])
+        <span class="keyword">else</span>:
+            remaining.append(s)
+    
+    <span class="comment"># Update bucket with remaining strings</span>
+    node.bucket = remaining
+
+<span class="comment"># Example usage</span>
+strings = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>, <span class="string">"date"</span>, <span class="string">"fig"</span>]
+sorted_strings = burst_sort(strings)
+print(<span class="string">"Sorted strings:"</span>, sorted_strings)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">String Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Distribution</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(n)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Burst Sort is particularly effective in scenarios involving large
+              collections of strings:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Sorting large dictionaries and lexicons
+              </li>
+              <li style="margin-bottom: 10px">
+                Database indexing for text columns
+              </li>
+              <li style="margin-bottom: 10px">
+                Bioinformatics for DNA sequence sorting
+              </li>
+              <li style="margin-bottom: 10px">
+                Autocomplete systems and search engines
+              </li>
+              <li>Natural language processing pipelines</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
+            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+          >
+          <a href="mailto:me@sgkandale.com"
+            ><i class="fa-solid fa-at"></i> E-Mail</a
+          >
+          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+          >
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Burst Sort Visualization Logic
+      class TrieNode {
+        constructor(char = "") {
+          this.char = char;
+          this.bucket = [];
+          this.children = {};
+          this.bursting = false;
+        }
+      }
+
+      class BurstSortVisualizer {
+        constructor(container) {
+          this.container = container;
+          this.root = new TrieNode("Root");
+          this.stepCounter = 0;
+          this.actionLabel = document.getElementById("actionLabel");
+          this.stepInfo = document.getElementById("stepInfo");
+          this.strings = [];
+          this.threshold = 4;
+          this.currentIndex = 0;
+          this.animationSpeed = 1500;
+          this.intervalId = null;
+        }
+
+        reset() {
+          this.root = new TrieNode("Root");
+          this.stepCounter = 0;
+          this.currentIndex = 0;
+          this.updateActionLabel("Reset visualization");
+          this.updateStepInfo("Step 0: Initial state");
+          this.render();
+        }
+
+        setStrings(strings) {
+          this.strings = strings.map((s) => s.trim()).filter((s) => s);
+          this.reset();
+        }
+
+        updateActionLabel(text) {
+          this.actionLabel.textContent = text;
+        }
+
+        updateStepInfo(text) {
+          this.stepInfo.textContent = text;
+        }
+
+        insertString(node, str, depth = 0) {
+          if (depth >= str.length) {
+            node.bucket.push(str);
+            return;
+          }
+
+          const char = str[depth];
+          if (!node.children[char]) {
+            node.children[char] = new TrieNode(char);
+          }
+
+          this.insertString(node.children[char], str, depth + 1);
+        }
+
+        burstNode(node) {
+          node.bursting = true;
+
+          const newChildren = {};
+          const remainingBucket = [];
+
+          for (const str of node.bucket) {
+            if (str.length > node.char.length) {
+              const nextChar = str[node.char.length];
+              if (!newChildren[nextChar]) {
+                newChildren[nextChar] = new TrieNode(node.char + nextChar);
+              }
+              newChildren[nextChar].bucket.push(str);
+            } else {
+              remainingBucket.push(str);
+            }
+          }
+
+          // Merge new children with existing children
+          for (const [char, child] of Object.entries(newChildren)) {
+            if (node.children[char]) {
+              // Merge buckets if child already exists
+              node.children[char].bucket = [
+                ...node.children[char].bucket,
+                ...child.bucket,
+              ];
+            } else {
+              node.children[char] = child;
+            }
+          }
+
+          node.bucket = remainingBucket;
+
+          setTimeout(() => {
+            node.bursting = false;
+            this.render();
+          }, this.animationSpeed);
+        }
+
+        step() {
+          if (this.currentIndex >= this.strings.length) {
+            this.updateActionLabel("All strings processed. Sorting completed!");
+            this.updateStepInfo(`Step ${++this.stepCounter}: Final state`);
+            this.render();
+            return false;
+          }
+
+          const str = this.strings[this.currentIndex];
+          this.updateActionLabel(`Inserting: "${str}"`);
+          this.updateStepInfo(`Step ${++this.stepCounter}: Inserting "${str}"`);
+
+          this.insertString(this.root, str);
+          this.render();
+
+          // Check for bursting after insertion
+          this.checkBursting(this.root);
+
+          this.currentIndex++;
+          return true;
+        }
+
+        checkBursting(node) {
+          // Check if node needs bursting
+          if (
+            node.bucket.length > this.threshold &&
+            Object.keys(node.children).length === 0
+          ) {
+            this.updateActionLabel(
+              `Bursting node: "${node.char}" (${node.bucket.length} > ${this.threshold})`
+            );
+            this.updateStepInfo(
+              `Step ${++this.stepCounter}: Bursting "${node.char}" node`
+            );
+            this.burstNode(node);
+            return true;
+          }
+
+          // Check children
+          for (const child of Object.values(node.children)) {
+            if (this.checkBursting(child)) {
+              return true;
+            }
+          }
+
+          return false;
+        }
+
+        renderNode(node) {
+          const nodeEl = document.createElement("div");
+          nodeEl.className = "trie-node";
+
+          const contentEl = document.createElement("div");
+          contentEl.className = "node-content";
+          if (node.bursting) {
+            contentEl.style.borderColor = "var(--warning)";
+            contentEl.style.boxShadow = "0 0 10px var(--warning)";
+
+            const burstIndicator = document.createElement("div");
+            burstIndicator.className = "burst-indicator";
+            burstIndicator.textContent = "!";
+            contentEl.appendChild(burstIndicator);
+          }
+
+          const charEl = document.createElement("div");
+          charEl.className = "node-character";
+          charEl.textContent = node.char || "Root";
+          contentEl.appendChild(charEl);
+
+          const bucketEl = document.createElement("div");
+          bucketEl.className = "node-bucket";
+          bucketEl.textContent = `${node.bucket.length} string${
+            node.bucket.length !== 1 ? "s" : ""
+          }`;
+          contentEl.appendChild(bucketEl);
+
+          nodeEl.appendChild(contentEl);
+
+          const childrenContainer = document.createElement("div");
+          childrenContainer.className = "children-container";
+
+          // Sort children by character for consistent display
+          const sortedChildren = Object.entries(node.children)
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .map(([_, child]) => child);
+
+          for (const child of sortedChildren) {
+            childrenContainer.appendChild(this.renderNode(child));
+          }
+
+          nodeEl.appendChild(childrenContainer);
+          return nodeEl;
+        }
+
+        render() {
+          this.container.innerHTML = "";
+          this.container.appendChild(this.actionLabel);
+          this.container.appendChild(this.renderNode(this.root));
+          this.container.appendChild(this.stepInfo);
+        }
+      }
+
+      // DOM Content Loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const vizArea = document.getElementById("burstViz");
+        const trieContainer = document.getElementById("trieContainer");
+        const inputStrings = document.getElementById("inputStrings");
+        const runBtn = document.getElementById("runBtn");
+        const stepBtn = document.getElementById("stepBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const randomBtn = document.getElementById("randomBtn");
+
+        // Initialize visualizer
+        const burstViz = new BurstSortVisualizer(trieContainer);
+
+        // Set initial strings
+        const initialStrings = inputStrings.value
+          .split(",")
+          .map((s) => s.trim());
+        burstViz.setStrings(initialStrings);
+
+        // Run button
+        runBtn.addEventListener("click", () => {
+          if (runBtn.innerHTML.includes("Run")) {
+            runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+            burstViz.reset();
+
+            const strings = inputStrings.value.split(",").map((s) => s.trim());
+            burstViz.setStrings(strings);
+
+            burstViz.intervalId = setInterval(() => {
+              if (!burstViz.step()) {
+                clearInterval(burstViz.intervalId);
+                runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+              }
+            }, burstViz.animationSpeed);
+          } else {
+            clearInterval(burstViz.intervalId);
+            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          }
+        });
+
+        // Step button
+        stepBtn.addEventListener("click", () => {
+          const strings = inputStrings.value.split(",").map((s) => s.trim());
+          if (burstViz.strings.length === 0) {
+            burstViz.setStrings(strings);
+          }
+          burstViz.step();
+        });
+
+        // Reset button
+        resetBtn.addEventListener("click", () => {
+          const strings = inputStrings.value.split(",").map((s) => s.trim());
+          burstViz.setStrings(strings);
+        });
+
+        // Random button
+        randomBtn.addEventListener("click", () => {
+          const sampleSets = [
+            ["apple", "banana", "cherry", "date", "fig", "grape", "kiwi"],
+            ["algorithm", "burst", "sort", "trie", "node", "bucket", "string"],
+            ["cat", "car", "card", "cart", "carpet", "dog", "dot", "do"],
+            ["London", "Paris", "Berlin", "Madrid", "Rome", "Lisbon", "Dublin"],
+            ["red", "green", "blue", "yellow", "purple", "orange", "pink"],
+          ];
+
+          const randomSet =
+            sampleSets[Math.floor(Math.random() * sampleSets.length)];
+          inputStrings.value = randomSet.join(", ");
+          burstViz.setStrings(randomSet);
+        });
+
+        // Input change
+        inputStrings.addEventListener("change", () => {
+          const strings = inputStrings.value.split(",").map((s) => s.trim());
+          burstViz.setStrings(strings);
+        });
+
+        // Copy button functionality
+        document
+          .querySelector(".copy-btn")
+          .addEventListener("click", function () {
+            const code = document.querySelector(".code-block code").innerText;
+            navigator.clipboard.writeText(code);
+
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 2000);
+          });
+      });
+    </script>
+  </body>
+</html>
