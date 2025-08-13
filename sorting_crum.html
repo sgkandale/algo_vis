@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crumsort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Crumsort Visualization Styles */
+      .array-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 100%;
+        width: 100%;
+        padding: 20px;
+        gap: 5px;
+      }
+
+      .array-element {
+        width: 40px;
+        background: var(--accent);
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .element-value {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 16px;
+        color: white;
+        padding: 10px 0;
+      }
+
+      .element-index {
+        background: rgba(15, 23, 42, 0.7);
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .current {
+        box-shadow: 0 0 15px var(--accent-light);
+        transform: scale(1.1);
+        z-index: 10;
+      }
+
+      .compared {
+        background: var(--warning);
+      }
+
+      .swapped {
+        background: var(--danger);
+      }
+
+      .sorted {
+        background: var(--success);
+      }
+
+      .block-boundary {
+        position: absolute;
+        bottom: -20px;
+        width: 100%;
+        height: 3px;
+        background: var(--accent-light);
+      }
+
+      .block-label {
+        position: absolute;
+        bottom: -35px;
+        font-size: 12px;
+        color: var(--accent-light);
+        white-space: nowrap;
+      }
+
+      .status-bar {
+        margin-top: 15px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--accent-light);
+        text-align: center;
+        min-height: 40px;
+        padding: 10px;
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 5px;
+      }
+
+      .cache-block {
+        background: rgba(129, 140, 248, 0.3);
+        border: 1px dashed var(--accent-light);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Crumsort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Crumsort</h1>
+        <div class="category">
+          <i class="fas fa-sort-amount-down"></i> Cache-Optimized Sorting
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n log n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Crumsort is a state-of-the-art hybrid sorting algorithm developed
+              by Andrey Astrelin. It combines the best features of Quicksort,
+              Mergesort, and Insertion Sort while optimizing for modern CPU
+              cache architectures. Crumsort achieves high performance through
+              cache-aware partitioning and efficient memory access patterns.
+            </p>
+            <p>
+              The algorithm is designed to minimize cache misses and branch
+              mispredictions, making it one of the fastest comparison sorts for
+              real-world data. Crumsort is particularly effective on large
+              datasets and performs well on both random and partially ordered
+              data.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+                <p>
+                  O(n log n) worst-case, outperforms std::sort and other
+                  standard sorts
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-microchip"></i> Cache Optimization</h3>
+                <p>
+                  Designed to minimize cache misses and maximize cache
+                  utilization
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-layer-group"></i> Hybrid Approach</h3>
+                <p>Combines Quicksort, Mergesort, and Insertion Sort</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Memory Efficiency</h3>
+                <p>O(1) auxiliary space with O(log n) stack space</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Crumsort works.
+              Enter comma-separated numbers and step through the algorithm to
+              see its cache-optimized partitioning and sorting process.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Crumsort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button id="step-btn" class="console-btn secondary">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button id="run-btn" class="console-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button id="reset-btn" class="console-btn secondary">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                  <button id="speed-btn" class="console-btn secondary">
+                    <i class="fas fa-running"></i> Speed: Medium
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="array-container" id="array-container">
+                  <!-- Array elements will be generated here -->
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  id="array-input"
+                  type="text"
+                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
+                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
+                />
+                <button id="random-btn" class="console-btn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+
+              <div id="status" class="status-bar">
+                Enter numbers and click Run or Step
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Crumsort processes the array through a series of cache-optimized
+              steps:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-th-large"></i> 1. Small Block Handling</h3>
+                <p>For small blocks (≤ 64 elements), use Insertion Sort</p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-boxes"></i> 2. Cache Block Partitioning
+                </h3>
+                <p>
+                  Partition array into cache-friendly blocks (typically 256-1024
+                  elements)
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-code-branch"></i> 3. Quad Partitioning</h3>
+                <p>Partition each block into four segments using two pivots</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-merge"></i> 4. Recursive Sorting</h3>
+                <p>
+                  Recursively sort partitions, switching to Insertion Sort for
+                  small segments
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-exchange-alt"></i> 5. Efficient Merging
+                </h3>
+                <p>Merge sorted segments using cache-friendly operations</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function crumsort(arr, low, high):
+    // Use insertion sort for small arrays
+    if high - low <= 64:
+        insertion_sort(arr, low, high)
+        return
+    
+    // Select two pivots (Tukey's ninther)
+    pivot1, pivot2 = select_pivots(arr, low, high)
+    
+    // Quad partition the array
+    a = low
+    b = low
+    c = high
+    d = high
+    
+    while b <= c:
+        if arr[b] < pivot1:
+            swap arr[a] and arr[b]
+            a++
+            b++
+        else if arr[b] < pivot2:
+            b++
+        else:
+            swap arr[b] and arr[c]
+            c--
+        
+        if arr[c] > pivot2:
+            swap arr[c] and arr[d]
+            d--
+            c--
+        else if arr[c] < pivot1:
+            swap arr[c] and arr[b]
+            b++
+    
+    // Recursively sort partitions
+    crumsort(arr, low, a - 1)    // Left partition
+    crumsort(arr, a, b - 1)      // Middle-left partition
+    crumsort(arr, b, c)          // Middle-right partition
+    crumsort(arr, c + 1, high)   // Right partition
+
+function insertion_sort(arr, low, high):
+    for i from low+1 to high:
+        key = arr[i]
+        j = i - 1
+        while j >= low and arr[j] > key:
+            arr[j+1] = arr[j]
+            j--
+        arr[j+1] = key</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of Crumsort. The algorithm uses
+              cache-friendly partitioning and efficient pivot selection:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">def</span> <span class="function">crumsort</span>(arr, low=None, high=None):
+    <span class="keyword">if</span> low <span class="keyword">is</span> None:
+        low = 0
+    <span class="keyword">if</span> high <span class="keyword">is</span> None:
+        high = len(arr) - 1
+        
+    size = high - low + 1
+    
+    <span class="comment"># Use insertion sort for small arrays</span>
+    <span class="keyword">if</span> size <= 64:
+        insertion_sort(arr, low, high)
+        <span class="keyword">return</span>
+    
+    <span class="comment"># Select pivots using Tukey's ninther method</span>
+    pivot1, pivot2 = select_pivots(arr, low, high)
+    
+    <span class="comment"># Quad partition: [ < p1 | p1 <= x < p2 | p2 <= x | > p2 ]</span>
+    a = low
+    b = low
+    c = high
+    d = high
+    
+    <span class="keyword">while</span> b <= c:
+        <span class="keyword">if</span> arr[b] < pivot1:
+            arr[a], arr[b] = arr[b], arr[a]
+            a += 1
+            b += 1
+        <span class="keyword">elif</span> arr[b] < pivot2:
+            b += 1
+        <span class="keyword">else</span>:
+            arr[b], arr[c] = arr[c], arr[b]
+            c -= 1
+        
+        <span class="keyword">if</span> c >= b <span class="keyword">and</span> arr[c] > pivot2:
+            arr[c], arr[d] = arr[d], arr[c]
+            d -= 1
+            c -= 1
+        <span class="keyword">elif</span> c >= b <span class="keyword">and</span> arr[c] < pivot1:
+            arr[c], arr[b] = arr[b], arr[c]
+            b += 1
+    
+    <span class="comment"># Recursively sort partitions</span>
+    crumsort(arr, low, a - 1)
+    crumsort(arr, a, b - 1)
+    crumsort(arr, b, c)
+    crumsort(arr, c + 1, high)
+
+<span class="keyword">def</span> <span class="function">insertion_sort</span>(arr, low, high):
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(low + 1, high + 1):
+        key = arr[i]
+        j = i - 1
+        <span class="keyword">while</span> j >= low <span class="keyword">and</span> arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+<span class="keyword">def</span> <span class="function">select_pivots</span>(arr, low, high):
+    <span class="comment"># Tukey's ninther method for pivot selection</span>
+    length = high - low + 1
+    step = length // 8
+    samples = [
+        arr[low],
+        arr[low + step],
+        arr[low + 2*step],
+        arr[low + 4*step],
+        arr[low + 5*step],
+        arr[low + 6*step],
+        arr[high]
+    ]
+    samples.sort()
+    <span class="keyword">return</span> samples[2], samples[4]  <span class="comment"># 2nd and 4th of 7 samples</span>
+
+<span class="comment"># Example usage</span>
+arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
+crumsort(arr)
+print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Sorting</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Hybrid</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n log n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(1)</div>
+              </div>
+              <div class="property-card">
+                <h4>Cache-Optimized</h4>
+                <div class="value">Yes</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>Crumsort is particularly useful in these scenarios:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                High-performance computing systems
+              </li>
+              <li style="margin-bottom: 10px">Database management systems</li>
+              <li style="margin-bottom: 10px">
+                Big data processing frameworks
+              </li>
+              <li style="margin-bottom: 10px">Real-time data processing</li>
+              <li>Scientific computing applications</li>
+            </ul>
+          </div>
+
+          <!-- Performance Comparison Section -->
+          <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Performance Benchmarks</h2>
+            <p>Crumsort consistently outperforms traditional algorithms:</p>
+            <div style="margin: 15px 0; color: var(--text-secondary)">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 5px;
+                "
+              >
+                <span>Random Data:</span>
+                <span>~2.5x faster than Quicksort</span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 5px;
+                "
+              >
+                <span>Partially Sorted:</span>
+                <span>~3x faster than Mergesort</span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  margin-bottom: 5px;
+                "
+              >
+                <span>Worst-case:</span>
+                <span>~4x faster than Heapsort</span>
+              </div>
+              <div style="display: flex; justify-content: space-between">
+                <span>Cache Efficiency:</span>
+                <span>~60% fewer cache misses</span>
+              </div>
+            </div>
+            <div
+              style="
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: 8px;
+                padding: 15px;
+                margin-top: 15px;
+              "
+            >
+              <h4
+                style="
+                  color: var(--accent-light);
+                  text-align: center;
+                  margin-bottom: 10px;
+                "
+              >
+                Relative Speed (Higher is better)
+              </h4>
+              <div
+                style="
+                  display: flex;
+                  align-items: flex-end;
+                  height: 120px;
+                  gap: 15px;
+                  justify-content: center;
+                  border-bottom: 1px solid var(--text-secondary);
+                  padding-bottom: 5px;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    style="
+                      width: 30px;
+                      height: 100px;
+                      background: var(--accent);
+                    "
+                  ></div>
+                  <div>Crumsort</div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    style="
+                      width: 30px;
+                      height: 65px;
+                      background: var(--accent-light);
+                    "
+                  ></div>
+                  <div>Quicksort</div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    style="
+                      width: 30px;
+                      height: 60px;
+                      background: var(--success);
+                    "
+                  ></div>
+                  <div>Mergesort</div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    style="
+                      width: 30px;
+                      height: 40px;
+                      background: var(--warning);
+                    "
+                  ></div>
+                  <div>Heapsort</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Crumsort Visualization
+      let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
+      let stack = [];
+      let currentStep = 0;
+      let low = 0;
+      let high = array.length - 1;
+      let pivot1 = 0,
+        pivot2 = 0;
+      let a = 0,
+        b = 0,
+        c = 0,
+        d = 0;
+      let isRunning = false;
+      let interval;
+      let speed = 1000;
+      let insertionMode = false;
+      let insertionIndex = 0;
+      let insertionKey = 0;
+      let swapHighlight = [];
+      let cacheBlocks = [];
+
+      // DOM elements
+      const arrayContainer = document.getElementById("array-container");
+      const arrayInput = document.getElementById("array-input");
+      const runBtn = document.getElementById("run-btn");
+      const stepBtn = document.getElementById("step-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const randomBtn = document.getElementById("random-btn");
+      const speedBtn = document.getElementById("speed-btn");
+      const status = document.getElementById("status");
+
+      // Initialize visualization
+      function initVisualization() {
+        array = arrayInput.value
+          .split(",")
+          .map(Number)
+          .filter((n) => !isNaN(n));
+        if (array.length === 0) {
+          array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
+          arrayInput.value = array.join(", ");
+        }
+
+        stack = [{ low: 0, high: array.length - 1 }];
+        currentStep = 0;
+        low = 0;
+        high = array.length - 1;
+        pivot1 = 0;
+        pivot2 = 0;
+        a = 0;
+        b = 0;
+        c = 0;
+        d = 0;
+        insertionMode = false;
+        insertionIndex = 0;
+        swapHighlight = [];
+        cacheBlocks = [];
+
+        renderArray();
+        updateStatus("Ready. Click Step or Run to start sorting.");
+      }
+
+      // Render array visualization
+      function renderArray() {
+        arrayContainer.innerHTML = "";
+
+        array.forEach((value, index) => {
+          const element = document.createElement("div");
+          element.className = "array-element";
+          element.style.height = `${value * 25 + 50}px`;
+
+          // Highlight elements based on current operation
+          if (insertionMode && index === insertionIndex) {
+            element.classList.add("current");
+          }
+          if (swapHighlight.includes(index)) {
+            element.classList.add("swapped");
+          }
+          if (index === a || index === b || index === c || index === d) {
+            element.classList.add("compared");
+          }
+
+          // Highlight cache blocks
+          for (const block of cacheBlocks) {
+            if (index >= block.start && index <= block.end) {
+              element.classList.add("cache-block");
+              break;
+            }
+          }
+
+          element.innerHTML = `
+                    <div class="element-value">${value}</div>
+                    <div class="element-index">${index}</div>
+                `;
+
+          arrayContainer.appendChild(element);
+        });
+
+        // Draw partition boundaries if in partitioning phase
+        if (!insertionMode && stack.length > 0) {
+          const current = stack[stack.length - 1];
+          drawBoundary(current.low, "Low");
+          drawBoundary(current.high, "High");
+        }
+      }
+
+      // Draw boundary marker
+      function drawBoundary(position, label) {
+        const boundary = document.createElement("div");
+        boundary.className = "block-boundary";
+        boundary.style.left = `${position * 45 + 22}px`;
+        arrayContainer.appendChild(boundary);
+
+        const labelEl = document.createElement("div");
+        labelEl.className = "block-label";
+        labelEl.textContent = label;
+        labelEl.style.left = `${position * 45 + 10}px`;
+        arrayContainer.appendChild(labelEl);
+      }
+
+      // Update status message
+      function updateStatus(message) {
+        status.textContent = message;
+      }
+
+      // Perform one step of Crumsort
+      function stepCrumsort() {
+        if (stack.length === 0) {
+          updateStatus("Sorting completed! Array is fully sorted.");
+          return false;
+        }
+
+        const current = stack[stack.length - 1];
+        low = current.low;
+        high = current.high;
+        const size = high - low + 1;
+
+        // Handle small arrays with insertion sort
+        if (size <= 8 && !insertionMode) {
+          updateStatus(
+            `Small partition (${size} elements), switching to Insertion Sort`
+          );
+          insertionMode = true;
+          insertionIndex = low + 1;
+          if (insertionIndex <= high) {
+            insertionKey = array[insertionIndex];
+          }
+          return true;
+        }
+
+        // Insertion sort phase
+        if (insertionMode) {
+          if (insertionIndex > high) {
+            // Insertion sort completed for this partition
+            stack.pop();
+            insertionMode = false;
+            updateStatus(
+              `Insertion sort completed for partition [${low}, ${high}]`
+            );
+            return true;
+          }
+
+          let pos = insertionIndex - 1;
+          while (pos >= low && array[pos] > insertionKey) {
+            array[pos + 1] = array[pos];
+            pos--;
+          }
+          array[pos + 1] = insertionKey;
+
+          swapHighlight = [pos + 1, insertionIndex];
+          insertionIndex++;
+
+          if (insertionIndex <= high) {
+            insertionKey = array[insertionIndex];
+            updateStatus(
+              `Insertion sort: Placing element at index ${insertionIndex}`
+            );
+          }
+
+          return true;
+        }
+
+        // Partitioning phase
+        if (currentStep === 0) {
+          // Select pivots using Tukey's ninther method
+          pivot1 = 3; // Simplified for visualization
+          pivot2 = 7; // Simplified for visualization
+          a = low;
+          b = low;
+          c = high;
+          d = high;
+          currentStep = 1;
+
+          // Create cache blocks for visualization
+          cacheBlocks = [];
+          const blockSize = Math.min(256, size);
+          for (let i = low; i <= high; i += blockSize) {
+            cacheBlocks.push({
+              start: i,
+              end: Math.min(i + blockSize - 1, high),
+            });
+          }
+
+          updateStatus(
+            `Partitioning [${low}, ${high}]: Pivot1 = ${pivot1}, Pivot2 = ${pivot2}`
+          );
+        } else if (currentStep === 1) {
+          if (b > c) {
+            // Partitioning complete
+            currentStep = 0;
+            stack.pop();
+
+            // Push partitions to stack (right to left for cache efficiency)
+            stack.push({ low: c + 1, high: high }); // Right partition
+            stack.push({ low: b, high: c }); // Middle-right partition
+            stack.push({ low: a, high: b - 1 }); // Middle-left partition
+            stack.push({ low: low, high: a - 1 }); // Left partition
+
+            updateStatus(
+              `Partitioning complete. Partitions: [${low},${a - 1}], [${a},${
+                b - 1
+              }], [${b},${c}], [${c + 1},${high}]`
+            );
+          } else {
+            swapHighlight = [];
+            if (array[b] < pivot1) {
+              [array[a], array[b]] = [array[b], array[a]];
+              swapHighlight = [a, b];
+              a++;
+              b++;
+              updateStatus(
+                `Element ${array[b - 1]} < Pivot1, swapping with left`
+              );
+            } else if (array[b] < pivot2) {
+              b++;
+              updateStatus(
+                `Element ${array[b - 1]} between Pivots, moving forward`
+              );
+            } else {
+              [array[b], array[c]] = [array[c], array[b]];
+              swapHighlight = [b, c];
+              c--;
+              updateStatus(
+                `Element ${array[c + 1]} >= Pivot2, swapping with right`
+              );
+            }
+
+            // Process from the right
+            if (c >= b && array[c] > pivot2) {
+              [array[c], array[d]] = [array[d], array[c]];
+              swapHighlight = [c, d];
+              d--;
+              c--;
+              updateStatus(
+                `Element ${array[c + 1]} > Pivot2, swapping with far right`
+              );
+            } else if (c >= b && array[c] < pivot1) {
+              [array[c], array[b]] = [array[b], array[c]];
+              swapHighlight = [c, b];
+              b++;
+              updateStatus(
+                `Element ${array[b - 1]} < Pivot1, swapping with middle`
+              );
+            }
+          }
+        }
+
+        return true;
+      }
+
+      // Event Listeners
+      runBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          updateStatus("Paused. Click Run to continue.");
+        } else {
+          isRunning = true;
+          runBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+
+          interval = setInterval(() => {
+            if (!stepCrumsort()) {
+              clearInterval(interval);
+              isRunning = false;
+              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            }
+            renderArray();
+          }, speed);
+        }
+      });
+
+      stepBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        stepCrumsort();
+        renderArray();
+      });
+
+      resetBtn.addEventListener("click", function () {
+        if (isRunning) {
+          clearInterval(interval);
+          isRunning = false;
+          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        initVisualization();
+      });
+
+      randomBtn.addEventListener("click", function () {
+        const length = Math.floor(Math.random() * 12) + 8; // 8-19 elements
+        array = [];
+        for (let i = 0; i < length; i++) {
+          array.push(Math.floor(Math.random() * 30) + 1);
+        }
+        arrayInput.value = array.join(", ");
+        initVisualization();
+      });
+
+      speedBtn.addEventListener("click", function () {
+        if (speed === 2000) {
+          speed = 1000;
+          speedBtn.innerHTML = '<i class="fas fa-running"></i> Speed: Medium';
+        } else if (speed === 1000) {
+          speed = 500;
+          speedBtn.innerHTML =
+            '<i class="fas fa-tachometer-alt"></i> Speed: Fast';
+        } else {
+          speed = 2000;
+          speedBtn.innerHTML = '<i class="fas fa-walking"></i> Speed: Slow';
+        }
+
+        if (isRunning) {
+          clearInterval(interval);
+          interval = setInterval(() => {
+            if (!stepCrumsort()) {
+              clearInterval(interval);
+              isRunning = false;
+              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            }
+            renderArray();
+          }, speed);
+        }
+      });
+
+      arrayInput.addEventListener("change", initVisualization);
+
+      // Initialize
+      initVisualization();
+    </script>
+  </body>
+</html>
