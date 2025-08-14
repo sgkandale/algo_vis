@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bead Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 400px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Bead Sort Visualization Styles */
+      .bead-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        overflow: auto;
+      }
+
+      .frame {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 85%;
+        gap: 30px;
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      .rod {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        height: 100%;
+      }
+
+      .rod-line {
+        width: 4px;
+        height: 100%;
+        background: var(--accent);
+        border-radius: 2px;
+        position: relative;
+      }
+
+      .bead {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--warning);
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        position: absolute;
+        left: -13px;
+        transition: all 0.7s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        z-index: 2;
+      }
+
+      .bead-value {
+        color: var(--primary);
+        font-size: 12px;
+      }
+
+      .rod-label {
+        margin-top: 10px;
+        color: var(--text-secondary);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .action-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(15, 23, 42, 0.9);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid var(--accent);
+        z-index: 10;
+      }
+
+      .step-info {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+      }
+
+      .sorted-array {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+        padding: 10px;
+        background: rgba(99, 102, 241, 0.1);
+        border-radius: 8px;
+      }
+
+      .sorted-item {
+        background: var(--success);
+        color: var(--primary);
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-family: "Roboto Mono", monospace;
+        font-weight: bold;
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(100%);
+        }
+      }
+
+      .falling {
+        animation: fall 1s ease-in-out forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Bead Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Bead Sort</h1>
+        <div class="category">
+          <i class="fas fa-grip-lines-vertical"></i> Gravity Sorting Algorithm
+        </div>
+        <div class="complexity-badge">
+          Time Complexity: O(S) where S is sum of input
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Bead Sort (also known as Gravity Sort) is a natural sorting
+              algorithm that mimics beads falling under gravity. It works by
+              representing positive integers as beads on vertical rods. When the
+              beads are allowed to fall, they arrange themselves in sorted order
+              due to gravity.
+            </p>
+            <p>
+              This algorithm is unique because it doesn't compare elements.
+              Instead, it leverages the physical properties of gravity to sort
+              numbers. Bead sort is efficient for sorting lists of positive
+              integers, especially when the integers are small, but becomes
+              impractical for large numbers.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>Non-comparison based algorithm that uses gravity</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>O(S) where S is the sum of the input integers</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(n * max) where n is count, max is largest number</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Physical simulation of beads falling on vertical rods</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Bead Sort
+              works. Enter comma-separated positive integers, then run the
+              simulation to see beads fall under gravity and arrange into sorted
+              order.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Bead Sort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="settingsBtn">
+                    <i class="fas fa-cog"></i> Settings
+                  </button>
+                  <button class="console-btn" id="runBtn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="beadViz">
+                <div class="bead-container">
+                  <div class="action-label" id="actionLabel">
+                    Initializing beads...
+                  </div>
+                  <div class="frame" id="frame"></div>
+                  <div class="step-info" id="stepInfo">
+                    Step 0: Initial setup
+                  </div>
+                  <div class="sorted-array" id="sortedArray"></div>
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="inputArray"
+                  placeholder="Enter positive integers (e.g., 3, 1, 4, 2)"
+                  value="3, 1, 4, 2"
+                />
+                <button class="console-btn" id="randomBtn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              Bead Sort processes data through these physical simulation steps:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-columns"></i> 1. Setup Rods</h3>
+                <p>
+                  Create vertical rods representing each number in the array.
+                  Place beads on each rod according to the number value.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrows-alt-v"></i> 2. Release Beads</h3>
+                <p>
+                  Release the beads and let them fall under gravity. Beads fall
+                  to the lowest available position on their rod.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-sort-amount-down"></i> 3. Collect Results
+                </h3>
+                <p>
+                  After all beads settle, count the beads on each rod from
+                  bottom to top to get the sorted array.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function beadSort(arr):
+    n = length(arr)
+    if n <= 1: return arr
+    
+    max_val = max(arr)
+    
+    # Create bead matrix
+    beads = matrix of zeros with dimensions [max_val, n]
+    
+    # Place beads
+    for i from 0 to n-1:
+        for j from 0 to arr[i]-1:
+            beads[j][i] = 1
+    
+    # Let beads fall
+    for col from 0 to n-1:
+        beads_in_col = 0
+        # Count beads in column
+        for row from 0 to max_val-1:
+            if beads[row][col] == 1:
+                beads_in_col += 1
+        # Drop beads to bottom
+        for row from max_val-1 downto 0:
+            if beads_in_col > 0:
+                beads[row][col] = 1
+                beads_in_col -= 1
+            else:
+                beads[row][col] = 0
+    
+    # Convert beads back to numbers
+    sorted_arr = []
+    for row from 0 to max_val-1:
+        count = 0
+        for col from 0 to n-1:
+            if beads[row][col] == 1:
+                count += 1
+        sorted_arr.append(count)
+    
+    return sorted_arr</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the Bead Sort algorithm. The
+              algorithm creates a matrix representation of beads, then simulates
+              the falling process before converting the settled beads back into
+              sorted numbers.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">def</span> <span class="function">bead_sort</span>(arr):
+    <span class="keyword">if</span> <span class="keyword">not</span> arr:
+        <span class="keyword">return</span> []
+    
+    <span class="comment"># Find maximum value to determine matrix height</span>
+    max_val = max(arr)
+    
+    <span class="comment"># Create bead matrix (2D list)</span>
+    beads = [[0] * len(arr) <span class="keyword">for</span> _ <span class="keyword">in</span> range(max_val)]
+    
+    <span class="comment"># Place beads</span>
+    <span class="keyword">for</span> i, num <span class="keyword">in</span> enumerate(arr):
+        <span class="keyword">for</span> j <span class="keyword">in</span> range(num):
+            beads[j][i] = 1
+            
+    <span class="comment"># Let beads fall</span>
+    <span class="keyword">for</span> col <span class="keyword">in</span> range(len(arr)):
+        beads_in_col = 0
+        <span class="comment"># Count beads in current column</span>
+        <span class="keyword">for</span> row <span class="keyword">in</span> range(max_val):
+            beads_in_col += beads[row][col]
+        
+        <span class="comment"># Reset column and drop beads to bottom</span>
+        <span class="keyword">for</span> row <span class="keyword">in</span> range(max_val):
+            <span class="keyword">if</span> max_val - row <= beads_in_col:
+                beads[row][col] = 1
+            <span class="keyword">else</span>:
+                beads[row][col] = 0
+    
+    <span class="comment"># Convert fallen beads back to numbers</span>
+    sorted_arr = []
+    <span class="keyword">for</span> row <span class="keyword">in</span> range(max_val):
+        count = sum(beads[row])
+        <span class="keyword">if</span> count == 0:
+            <span class="keyword">break</span>
+        sorted_arr.append(count)
+    
+    <span class="comment"># Return in ascending order</span>
+    <span class="keyword">return</span> sorted_arr
+
+<span class="comment"># Example usage</span>
+arr = [3, 1, 4, 2]
+sorted_arr = bead_sort(arr)
+print(<span class="string">"Original:"</span>, arr)
+print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Non-comparison</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Gravity-based</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(S)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(S)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(n * max)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Bead Sort has niche applications where its unique properties are
+              advantageous:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Educational demonstrations of non-comparison sorting
+              </li>
+              <li style="margin-bottom: 10px">
+                Sorting positive integers in hardware implementations
+              </li>
+              <li style="margin-bottom: 10px">
+                Physical computing and mechanical sorting devices
+              </li>
+              <li style="margin-bottom: 10px">
+                Situations with small integers and parallel processing
+              </li>
+              <li>Visual sorting demonstrations and algorithm education</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
+            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+          >
+          <a href="mailto:me@sgkandale.com"
+            ><i class="fa-solid fa-at"></i> E-Mail</a
+          >
+          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+          >
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Bead Sort Visualization Logic
+      class BeadSortVisualizer {
+        constructor(container) {
+          this.container = container;
+          this.array = [];
+          this.rods = [];
+          this.sortedArray = [];
+          this.actionLabel = document.getElementById("actionLabel");
+          this.stepInfo = document.getElementById("stepInfo");
+          this.frame = document.getElementById("frame");
+          this.sortedArrayContainer = document.getElementById("sortedArray");
+          this.animationSpeed = 1000;
+          this.intervalId = null;
+        }
+
+        reset() {
+          this.rods = [];
+          this.sortedArray = [];
+          this.frame.innerHTML = "";
+          this.sortedArrayContainer.innerHTML = "";
+          this.updateActionLabel("Reset visualization");
+          this.updateStepInfo("Step 0: Initial setup");
+        }
+
+        setArray(arr) {
+          this.array = arr.filter((num) => num > 0);
+          this.reset();
+          this.renderInitialState();
+        }
+
+        renderInitialState() {
+          this.frame.innerHTML = "";
+          this.sortedArrayContainer.innerHTML = "";
+
+          // Create rods with beads in initial positions
+          const maxVal = Math.max(...this.array, 1);
+          const containerHeight = this.frame.offsetHeight;
+
+          this.array.forEach((num, i) => {
+            const rod = document.createElement("div");
+            rod.className = "rod";
+
+            const rodLine = document.createElement("div");
+            rodLine.className = "rod-line";
+            rodLine.style.height = `${containerHeight}px`;
+            rodLine.id = `rod-${i}`;
+
+            const rodLabel = document.createElement("div");
+            rodLabel.className = "rod-label";
+            rodLabel.textContent = num;
+
+            rod.appendChild(rodLine);
+            rod.appendChild(rodLabel);
+            this.frame.appendChild(rod);
+
+            // Create beads at the top of the rod
+            for (let j = 0; j < num; j++) {
+              const bead = document.createElement("div");
+              bead.className = "bead";
+              bead.innerHTML = `<div class="bead-value">${num}</div>`;
+              bead.style.bottom = `${(maxVal - j - 1) * 40}px`;
+              rodLine.appendChild(bead);
+            }
+          });
+
+          this.updateActionLabel(`Initial setup: ${this.array.join(", ")}`);
+        }
+
+        async runSort() {
+          const maxVal = Math.max(...this.array);
+          const rodCount = this.array.length;
+
+          // Create bead matrix representation
+          const beads = Array.from({ length: maxVal }, () =>
+            Array(rodCount).fill(0)
+          );
+
+          // Place beads in matrix
+          this.array.forEach((num, col) => {
+            for (let row = 0; row < num; row++) {
+              beads[row][col] = 1;
+            }
+          });
+
+          // Let beads fall
+          for (let col = 0; col < rodCount; col++) {
+            let beadCount = 0;
+
+            // Count beads in current column
+            for (let row = 0; row < maxVal; row++) {
+              if (beads[row][col] === 1) {
+                beadCount++;
+              }
+            }
+
+            // Update UI: show beads falling
+            this.updateActionLabel(`Beads falling in column ${col + 1}`);
+            this.updateStepInfo(
+              `Step ${col + 1}: Processing column ${col + 1}`
+            );
+
+            // Remove all beads from this rod
+            const rod = document.getElementById(`rod-${col}`);
+            rod.innerHTML = "";
+            rod.appendChild(document.createElement("div")).className =
+              "rod-line";
+
+            // Add beads at the bottom
+            for (let row = 0; row < beadCount; row++) {
+              const bead = document.createElement("div");
+              bead.className = "bead falling";
+              bead.innerHTML = `<div class="bead-value">${this.array[col]}</div>`;
+              bead.style.bottom = `${row * 40}px`;
+              rod.firstChild.appendChild(bead);
+            }
+
+            // Add rod label
+            const rodLabel = document.createElement("div");
+            rodLabel.className = "rod-label";
+            rodLabel.textContent = this.array[col];
+            rod.appendChild(rodLabel);
+
+            // Add delay for animation
+            await new Promise((resolve) =>
+              setTimeout(resolve, this.animationSpeed)
+            );
+          }
+
+          // Count beads per row to get sorted array
+          this.sortedArray = [];
+          for (let row = 0; row < maxVal; row++) {
+            let count = 0;
+            for (let col = 0; col < rodCount; col++) {
+              if (beads[row][col] === 1) {
+                count++;
+              }
+            }
+            if (count > 0) {
+              this.sortedArray.push(count);
+            }
+          }
+
+          // Display sorted array
+          this.sortedArrayContainer.innerHTML = "Sorted Array: ";
+          this.sortedArray.forEach((num) => {
+            const item = document.createElement("span");
+            item.className = "sorted-item";
+            item.textContent = num;
+            this.sortedArrayContainer.appendChild(item);
+          });
+
+          this.updateActionLabel("Sorting completed!");
+          this.updateStepInfo(`Final: ${this.sortedArray.join(", ")}`);
+        }
+
+        updateActionLabel(text) {
+          this.actionLabel.textContent = text;
+        }
+
+        updateStepInfo(text) {
+          this.stepInfo.textContent = text;
+        }
+      }
+
+      // DOM Content Loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const vizArea = document.getElementById("beadViz");
+        const inputArray = document.getElementById("inputArray");
+        const runBtn = document.getElementById("runBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const randomBtn = document.getElementById("randomBtn");
+
+        // Initialize visualizer
+        const beadViz = new BeadSortVisualizer(vizArea);
+
+        // Set initial array
+        const initialArray = inputArray.value.split(",").map(Number);
+        beadViz.setArray(initialArray);
+
+        // Run button
+        runBtn.addEventListener("click", async () => {
+          if (runBtn.innerHTML.includes("Run")) {
+            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running';
+            runBtn.disabled = true;
+            resetBtn.disabled = true;
+
+            const arr = inputArray.value.split(",").map(Number);
+            beadViz.setArray(arr);
+            await beadViz.runSort();
+
+            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            runBtn.disabled = false;
+            resetBtn.disabled = false;
+          }
+        });
+
+        // Reset button
+        resetBtn.addEventListener("click", () => {
+          const arr = inputArray.value.split(",").map(Number);
+          beadViz.setArray(arr);
+        });
+
+        // Random button
+        randomBtn.addEventListener("click", () => {
+          const randomArray = [];
+          const size = 4 + Math.floor(Math.random() * 3);
+          for (let i = 0; i < size; i++) {
+            randomArray.push(Math.floor(Math.random() * 5) + 1);
+          }
+          inputArray.value = randomArray.join(", ");
+          beadViz.setArray(randomArray);
+        });
+
+        // Input change
+        inputArray.addEventListener("change", () => {
+          const arr = inputArray.value.split(",").map(Number);
+          beadViz.setArray(arr);
+        });
+
+        // Copy button functionality
+        document
+          .querySelector(".copy-btn")
+          .addEventListener("click", function () {
+            const code = document.querySelector(".code-block code").innerText;
+            navigator.clipboard.writeText(code);
+
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 2000);
+          });
+      });
+    </script>
+  </body>
+</html>
