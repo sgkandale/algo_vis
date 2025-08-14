@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spaghetti Sort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 400px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Spaghetti Sort Visualization Styles */
+      .spaghetti-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .table-surface {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 20px;
+        background: #8b4513;
+        border-top: 2px solid #5d2906;
+        z-index: 2;
+      }
+
+      .hand {
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 60px;
+        background: #f5deb3;
+        border-radius: 50% 50% 0 0;
+        display: flex;
+        justify-content: center;
+        z-index: 10;
+        transition: all 1s ease;
+      }
+
+      .hand::after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        width: 80px;
+        height: 60px;
+        background: #f5deb3;
+        border-radius: 50%;
+        z-index: -1;
+      }
+
+      .strand-container {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        bottom: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        padding: 0 20px;
+        z-index: 1;
+      }
+
+      .strand {
+        position: relative;
+        width: 12px;
+        background: #ffd700;
+        border-radius: 6px;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        transform-origin: bottom;
+        transition: all 1s ease;
+      }
+
+      .strand-value {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(30, 41, 59, 0.8);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-family: "Roboto Mono", monospace;
+        font-weight: bold;
+        border: 1px solid var(--accent);
+      }
+
+      .sorted-area {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: rgba(15, 23, 42, 0.7);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--accent);
+        z-index: 5;
+      }
+
+      .sorted-title {
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .sorted-strand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 10px;
+        background: rgba(30, 41, 59, 0.5);
+        border-radius: 5px;
+      }
+
+      .sorted-value {
+        font-family: "Roboto Mono", monospace;
+        font-weight: bold;
+        min-width: 30px;
+      }
+
+      .mini-strand {
+        width: 8px;
+        background: #ffd700;
+        border-radius: 4px;
+      }
+
+      .action-label {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: rgba(15, 23, 42, 0.9);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid var(--accent);
+        z-index: 10;
+      }
+
+      .step-info {
+        position: absolute;
+        bottom: 40px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+      }
+
+      .highlight {
+        box-shadow: 0 0 15px var(--success);
+        z-index: 3;
+      }
+
+      @keyframes wiggle {
+        0%,
+        100% {
+          transform: rotate(-2deg);
+        }
+        50% {
+          transform: rotate(2deg);
+        }
+      }
+
+      .wiggling {
+        animation: wiggle 0.5s infinite;
+      }
+
+      @keyframes pull-up {
+        0% {
+          transform: scaleY(1);
+        }
+        100% {
+          transform: scaleY(0);
+        }
+      }
+
+      .pulling {
+        animation: pull-up 1s forwards;
+        transform-origin: bottom;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Spaghetti Sort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Spaghetti Sort</h1>
+        <div class="category">
+          <i class="fas fa-utensils"></i> Physical Sorting Algorithm
+        </div>
+        <div class="complexity-badge">
+          Time Complexity: O(n) with physical constraints
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Spaghetti Sort is a unique linear-time sorting algorithm for
+              positive integers that uses physical properties of spaghetti
+              strands. Each number is represented by a strand of spaghetti cut
+              to a proportional length. The strands are held vertically and
+              allowed to rest on a table - the longest strands will stand the
+              tallest and can be easily identified.
+            </p>
+            <p>
+              This algorithm demonstrates how physical processes can solve
+              computational problems. While not practical for digital
+              implementation, it provides an interesting perspective on sorting.
+              The name comes from the physical medium used - spaghetti noodles -
+              which are ideal for their straight, rigid properties when dry.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>Uses physical properties of spaghetti to sort numbers</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>O(n) complexity in physical implementation</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-ruler"></i> Process</h3>
+                <p>
+                  Measure numbers as strand lengths, then select the tallest
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Use Case</h3>
+                <p>Theoretical and educational demonstration</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Watch the Spaghetti Sort algorithm in action! Enter positive
+              integers to represent spaghetti lengths. The simulation will show
+              how holding spaghetti strands vertically allows us to easily
+              identify and select the longest strands first.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Spaghetti Sort
+                  Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="settingsBtn">
+                    <i class="fas fa-cog"></i> Settings
+                  </button>
+                  <button class="console-btn" id="runBtn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div class="spaghetti-container">
+                  <div class="action-label" id="actionLabel">
+                    Preparing spaghetti strands...
+                  </div>
+                  <div class="table-surface"></div>
+                  <div class="hand" id="hand">
+                    <div class="hand-grab"></div>
+                  </div>
+                  <div class="strand-container" id="strandContainer"></div>
+                  <div class="sorted-area" id="sortedArea">
+                    <div class="sorted-title">Sorted Strands</div>
+                  </div>
+                  <div class="step-info" id="stepInfo">
+                    Step 0: Initial setup
+                  </div>
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="inputArray"
+                  placeholder="Enter positive integers (e.g., 3, 5, 2, 4, 1)"
+                  value="3, 5, 2, 4, 1"
+                />
+                <button class="console-btn" id="randomBtn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>Spaghetti Sort processes data through these physical steps:</p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-ruler"></i> 1. Cut Strands</h3>
+                <p>
+                  For each number, cut a spaghetti strand to a length
+                  proportional to the number
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-hand-holding"></i> 2. Hold Vertically</h3>
+                <p>
+                  Hold all spaghetti strands in your hand, vertically aligned at
+                  the bottom
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-arrow-down"></i> 3. Lower to Surface</h3>
+                <p>
+                  Lower your hand to a flat surface, allowing strands to rest
+                  vertically
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-sort-amount-down"></i> 4. Remove Longest
+                </h3>
+                <p>
+                  Identify and remove the longest strand (tallest standing
+                  spaghetti)
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-redo"></i> 5. Repeat</h3>
+                <p>
+                  Repeat the process until all strands are removed in descending
+                  order
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>procedure spaghettiSort(arr):
+    // Step 1: Prepare spaghetti strands
+    strands = []
+    for each num in arr:
+        strand = createSpaghettiStrand(length=num)
+        strands.append(strand)
+    
+    // Step 2: Hold strands vertically in hand
+    holdVertically(strands)
+    
+    // Step 3: Lower hand to surface
+    lowerToSurface(strands)
+    
+    // Step 4: Remove longest strands
+    sorted = []
+    while strands not empty:
+        longest = findLongestStrand(strands)  // Visually tallest
+        remove(strands, longest)
+        sorted.append(longest)
+    
+    return sorted</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Physical Implementation</h2>
+            <p>
+              While Spaghetti Sort can't be implemented in traditional
+              programming languages, here's how you would perform it physically:
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Physical Implementation Steps</span>
+              </div>
+              <pre><code>1. Preparation:
+   - For each number in your list, cut a dry spaghetti strand to a length proportional to the number
+   - Use a consistent scale (e.g., 1cm per unit)
+
+2. Sorting Process:
+   a. Hold all spaghetti strands in one hand, aligned at the bottom
+   b. Lower your hand to a flat surface until all strands are resting vertically
+   c. Visually identify the longest strand (tallest one)
+   d. Remove this longest strand and set it aside as the first in your sorted list
+   e. Repeat steps b-d until all strands have been removed
+
+3. Final Result:
+   - The strands are now sorted in descending order (longest to shortest)
+   - For ascending order, simply reverse the order of removal</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Physical</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Non-comparison</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Practical Use</h4>
+                <div class="value">Theoretical</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Why It's Interesting</h2>
+            <p>
+              Spaghetti Sort provides valuable insights despite its
+              impracticality:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Demonstrates how physical processes can solve computational
+                problems
+              </li>
+              <li style="margin-bottom: 10px">
+                Achieves O(n) time complexity in physical implementation
+              </li>
+              <li style="margin-bottom: 10px">
+                Highlights differences between computational and physical models
+              </li>
+              <li style="margin-bottom: 10px">
+                Excellent educational tool for understanding non-digital
+                algorithms
+              </li>
+              <li>
+                Inspires creative thinking about problem-solving approaches
+              </li>
+            </ul>
+          </div>
+
+          <!-- Complexity Section -->
+          <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+            <p>Spaghetti Sort has unique complexity characteristics:</p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                <strong>Time Complexity:</strong> O(n) - The process of lowering
+                the hand and identifying the tallest strand is constant time per
+                strand
+              </li>
+              <li style="margin-bottom: 10px">
+                <strong>Space Complexity:</strong> O(n) - Requires physical
+                space proportional to the largest number
+              </li>
+              <li style="margin-bottom: 10px">
+                <strong>Practical Limitations:</strong> Physical constraints
+                limit the size of sortable numbers
+              </li>
+              <li style="margin-bottom: 10px">
+                <strong>Real-world Factors:</strong> Strand fragility,
+                measurement precision, and human error affect practical
+                implementation
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
+            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+          >
+          <a href="mailto:me@sgkandale.com"
+            ><i class="fa-solid fa-at"></i> E-Mail</a
+          >
+          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+          >
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Spaghetti Sort Visualization Logic
+      class SpaghettiSortVisualizer {
+        constructor() {
+          this.strands = [];
+          this.sorted = [];
+          this.handPosition = 30;
+          this.actionLabel = document.getElementById("actionLabel");
+          this.stepInfo = document.getElementById("stepInfo");
+          this.strandContainer = document.getElementById("strandContainer");
+          this.sortedArea = document.getElementById("sortedArea");
+          this.hand = document.getElementById("hand");
+          this.animationSpeed = 1500;
+          this.intervalId = null;
+        }
+
+        reset() {
+          this.strands = [];
+          this.sorted = [];
+          this.handPosition = 30;
+          this.strandContainer.innerHTML = "";
+          this.sortedArea.innerHTML =
+            '<div class="sorted-title">Sorted Strands</div>';
+          this.hand.style.top = "30px";
+          this.updateActionLabel("Reset visualization");
+          this.updateStepInfo("Step 0: Initial setup");
+        }
+
+        setArray(arr) {
+          const validNumbers = arr.filter((num) => num > 0);
+          this.reset();
+
+          // Create strands
+          this.strands = validNumbers.map((num) => {
+            return {
+              value: num,
+              element: null,
+              removed: false,
+            };
+          });
+
+          this.renderStrands();
+          this.updateActionLabel(
+            `Prepared ${this.strands.length} spaghetti strands`
+          );
+        }
+
+        renderStrands() {
+          this.strandContainer.innerHTML = "";
+          const maxVal = Math.max(...this.strands.map((s) => s.value), 1);
+          const containerHeight = this.strandContainer.offsetHeight;
+
+          // Calculate positions
+          const gap = Math.min(25, 300 / this.strands.length);
+          const startX =
+            (this.strandContainer.offsetWidth - this.strands.length * gap) / 2;
+
+          this.strands.forEach((strand, i) => {
+            const height = (strand.value / maxVal) * (containerHeight * 0.8);
+
+            const strandEl = document.createElement("div");
+            strandEl.className = "strand";
+            strandEl.style.height = `${height}px`;
+            strandEl.style.left = `${startX + i * gap}px`;
+            strandEl.innerHTML = `<div class="strand-value">${strand.value}</div>`;
+
+            strand.element = strandEl;
+            this.strandContainer.appendChild(strandEl);
+          });
+        }
+
+        async runSort() {
+          // Step 1: Lower hand to table
+          this.updateActionLabel("Lowering spaghetti strands to the table...");
+          this.updateStepInfo("Step 1: Lowering strands to surface");
+
+          // Animate hand lowering
+          this.hand.style.top = "250px";
+          await this.delay(this.animationSpeed);
+
+          // Step 2: Find and remove longest strands
+          while (this.strands.length > 0) {
+            // Find longest strand (not removed)
+            const longest = this.findLongestStrand();
+            if (!longest) break;
+
+            // Highlight the longest strand
+            this.updateActionLabel(`Found longest strand: ${longest.value}`);
+            this.updateStepInfo(
+              `Step ${this.sorted.length + 2}: Selecting strand ${
+                longest.value
+              }`
+            );
+            longest.element.classList.add("highlight");
+            await this.delay(this.animationSpeed / 2);
+
+            // "Remove" the strand
+            this.updateActionLabel(
+              `Removing strand ${longest.value} and adding to sorted list`
+            );
+            longest.element.classList.add("pulling");
+            await this.delay(this.animationSpeed);
+
+            // Add to sorted area
+            this.sorted.push(longest.value);
+            this.addToSortedArea(longest.value);
+
+            // Remove from strands array
+            const index = this.strands.findIndex((s) => s === longest);
+            if (index !== -1) {
+              this.strands.splice(index, 1);
+            }
+
+            await this.delay(this.animationSpeed / 2);
+          }
+
+          this.updateActionLabel("Sorting completed!");
+          this.updateStepInfo(`Final: ${this.sorted.join(", ")}`);
+        }
+
+        findLongestStrand() {
+          let longest = null;
+          for (const strand of this.strands) {
+            if (!strand.removed && (!longest || strand.value > longest.value)) {
+              longest = strand;
+            }
+          }
+          return longest;
+        }
+
+        addToSortedArea(value) {
+          const sortedStrand = document.createElement("div");
+          sortedStrand.className = "sorted-strand";
+          sortedStrand.innerHTML = `
+                    <div class="sorted-value">${value}</div>
+                    <div class="mini-strand" style="height:${
+                      20 + value * 8
+                    }px"></div>
+                `;
+          this.sortedArea.appendChild(sortedStrand);
+        }
+
+        updateActionLabel(text) {
+          this.actionLabel.textContent = text;
+        }
+
+        updateStepInfo(text) {
+          this.stepInfo.textContent = text;
+        }
+
+        delay(ms) {
+          return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+      }
+
+      // DOM Content Loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const visualizer = new SpaghettiSortVisualizer();
+        const inputArray = document.getElementById("inputArray");
+        const runBtn = document.getElementById("runBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const randomBtn = document.getElementById("randomBtn");
+
+        // Set initial array
+        const initialArray = inputArray.value.split(",").map(Number);
+        visualizer.setArray(initialArray);
+
+        // Run button
+        runBtn.addEventListener("click", async () => {
+          if (runBtn.innerHTML.includes("Run")) {
+            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running';
+            runBtn.disabled = true;
+            resetBtn.disabled = true;
+
+            const arr = inputArray.value.split(",").map(Number);
+            visualizer.setArray(arr);
+            await visualizer.runSort();
+
+            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            runBtn.disabled = false;
+            resetBtn.disabled = false;
+          }
+        });
+
+        // Reset button
+        resetBtn.addEventListener("click", () => {
+          const arr = inputArray.value.split(",").map(Number);
+          visualizer.setArray(arr);
+        });
+
+        // Random button
+        randomBtn.addEventListener("click", () => {
+          const randomArray = Array.from(
+            { length: 5 },
+            () => Math.floor(Math.random() * 8) + 1
+          );
+          inputArray.value = randomArray.join(", ");
+          visualizer.setArray(randomArray);
+        });
+
+        // Input change
+        inputArray.addEventListener("change", () => {
+          const arr = inputArray.value.split(",").map(Number);
+          visualizer.setArray(arr);
+        });
+      });
+    </script>
+  </body>
+</html>
