@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flashsort | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area::before {
+        content: "Algorithm Visualization";
+        position: absolute;
+        color: rgba(148, 163, 184, 0.5);
+        font-size: 20px;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* Flashsort Visualization Styles */
+      .flash-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+        overflow: auto;
+      }
+
+      .array-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 70%;
+        gap: 2px;
+        margin-bottom: 15px;
+      }
+
+      .array-bar {
+        width: 30px;
+        background: var(--accent);
+        border-radius: 4px 4px 0 0;
+        transition: all 0.3s ease;
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
+
+      .bar-value {
+        position: absolute;
+        top: -25px;
+        font-size: 12px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--text);
+      }
+
+      .bar-label {
+        position: absolute;
+        bottom: -25px;
+        font-size: 12px;
+        font-family: "Roboto Mono", monospace;
+        color: var(--text-secondary);
+      }
+
+      .histogram-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 30%;
+        gap: 2px;
+      }
+
+      .histogram-bar {
+        width: 30px;
+        background: var(--warning);
+        border-radius: 4px 4px 0 0;
+      }
+
+      .action-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(15, 23, 42, 0.9);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        font-family: "Roboto Mono", monospace;
+        border: 1px solid var(--accent);
+        z-index: 10;
+      }
+
+      .step-info {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        font-size: 14px;
+      }
+
+      .class-indicator {
+        position: absolute;
+        top: -20px;
+        font-size: 12px;
+        color: var(--warning);
+        font-weight: bold;
+      }
+
+      .minmax-indicator {
+        position: absolute;
+        top: -20px;
+        font-size: 12px;
+        color: var(--success);
+        font-weight: bold;
+      }
+
+      .highlight {
+        box-shadow: 0 0 10px var(--success);
+        border: 2px solid var(--success);
+      }
+
+      .flash-class {
+        background: var(--accent-light);
+      }
+
+      .flash-class-0 {
+        background: #6366f1;
+      }
+      .flash-class-1 {
+        background: #818cf8;
+      }
+      .flash-class-2 {
+        background: #a5b4fc;
+      }
+      .flash-class-3 {
+        background: #c7d2fe;
+      }
+      .flash-class-4 {
+        background: #e0e7ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Sorting Algorithms</a> >
+              <span>Flashsort</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Flashsort</h1>
+        <div class="category">
+          <i class="fas fa-bolt"></i> Distribution Sorting Algorithm
+        </div>
+        <div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              Flashsort is an efficient distribution sorting algorithm that
+              works well for datasets with a known distribution. It uses a
+              linear-time histogram approach to distribute elements into
+              classes, then permutes elements into their correct positions.
+              Flashsort is particularly effective for data that is uniformly
+              distributed.
+            </p>
+            <p>
+              The algorithm works by first determining the minimum and maximum
+              values in the array. It then divides the range into classes and
+              counts how many elements fall into each class. Using these counts,
+              it computes the starting index for each class and permutes the
+              elements into their correct positions.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>Linear time complexity for uniformly distributed data</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  O(n) for uniform distributions, O(n log n) for normal
+                  distributions
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Space</h3>
+                <p>O(m) additional space where m is the number of classes</p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>Histogram-based distribution and permutation</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Use the interactive console below to visualize how Flashsort
+              works. Enter comma-separated numbers, adjust the simulation speed,
+              and step through the algorithm to see each stage of the sorting
+              process.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> Flashsort Visualization
+                </h3>
+                <div class="console-controls">
+                  <button class="console-btn secondary" id="settingsBtn">
+                    <i class="fas fa-cog"></i> Settings
+                  </button>
+                  <button class="console-btn" id="runBtn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button class="console-btn secondary" id="stepBtn">
+                    <i class="fas fa-step-forward"></i> Step
+                  </button>
+                  <button class="console-btn secondary" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area" id="flashViz">
+                <div class="flash-container" id="flashContainer">
+                  <div class="action-label" id="actionLabel">
+                    Initializing...
+                  </div>
+                  <div class="array-container" id="arrayContainer"></div>
+                  <div
+                    class="histogram-container"
+                    id="histogramContainer"
+                  ></div>
+                  <div class="step-info" id="stepInfo">
+                    Step 0: Initial state
+                  </div>
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="inputArray"
+                  placeholder="Enter numbers (e.g., 38, 27, 43, 3, 9, 82, 10)"
+                  value="38, 27, 43, 3, 9, 82, 10"
+                />
+                <button class="console-btn" id="randomBtn">
+                  <i class="fas fa-random"></i> Random
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>Flashsort processes data through these distinct phases:</p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-search"></i> 1. Find Min & Max</h3>
+                <p>
+                  Scan the array to find the minimum and maximum values. These
+                  define the range of the data.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-chart-bar"></i> 2. Classify Elements</h3>
+                <p>
+                  Divide the range into m classes. Each element is assigned to a
+                  class based on its value.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-calculator"></i> 3. Build Histogram</h3>
+                <p>
+                  Count the number of elements in each class and compute prefix
+                  sums to determine starting indices.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-exchange-alt"></i> 4. Permute Elements</h3>
+                <p>
+                  Move elements to their correct positions based on class
+                  assignments, swapping elements as needed.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-sort-amount-down"></i> 5. Sort Classes</h3>
+                <p>
+                  Apply insertion sort to each class to finalize the sorted
+                  order.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>function flashSort(arr):
+    n = length(arr)
+    if n <= 1: return arr
+    
+    // Step 1: Find min and max
+    minVal = min(arr)
+    maxVal = max(arr)
+    
+    // Step 2: Create classes
+    m = 0.1 * n  // number of classes
+    classes = array of size m, initialized to 0
+    
+    // Step 3: Classify elements
+    c = (m - 1) / (maxVal - minVal)
+    for i from 0 to n-1:
+        classIdx = floor(c * (arr[i] - minVal))
+        classes[classIdx] += 1
+    
+    // Step 4: Compute prefix sums
+    prefix[0] = 0
+    for i from 1 to m-1:
+        prefix[i] = prefix[i-1] + classes[i-1]
+    
+    // Step 5: Permute elements
+    moves = 0
+    j = 0
+    k = m-1
+    while moves < n:
+        while j >= prefix[k]:
+            j += 1
+            k = floor(c * (arr[j] - minVal))
+        
+        flash = arr[j]
+        while true:
+            k = floor(c * (flash - minVal))
+            pos = prefix[k]
+            swap flash with arr[pos]
+            prefix[k] += 1
+            moves += 1
+            
+            if pos == j: break
+    
+    // Step 6: Sort each class
+    for i from 1 to m-1:
+        start = prefix[i-1]
+        end = prefix[i] - 1
+        insertionSort(arr, start, end)
+    
+    return arr</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a Python implementation of the Flashsort algorithm. The
+              algorithm efficiently sorts data by distributing elements into
+              classes and then permuting them into approximately correct
+              positions before applying insertion sort within each class.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">def</span> <span class="function">flash_sort</span>(arr):
+    n = len(arr)
+    <span class="keyword">if</span> n <= 1:
+        <span class="keyword">return</span> arr
+    
+    <span class="comment"># Step 1: Find min and max</span>
+    min_val = min(arr)
+    max_val = max(arr)
+    
+    <span class="comment"># Step 2: Create classes</span>
+    m = int(n * 0.1)  <span class="comment"># number of classes</span>
+    <span class="keyword">if</span> m < 1: m = 1
+    classes = [0] * m
+    
+    <span class="comment"># Step 3: Classify elements</span>
+    c = (m - 1) / (max_val - min_val) <span class="keyword">if</span> max_val != min_val <span class="keyword">else</span> 1
+    <span class="keyword">for</span> num <span class="keyword">in</span> arr:
+        k = int(c * (num - min_val))
+        <span class="keyword">if</span> k >= m: k = m - 1
+        classes[k] += 1
+    
+    <span class="comment"># Step 4: Compute prefix sums</span>
+    prefix = [0] * m
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(1, m):
+        prefix[i] = prefix[i-1] + classes[i-1]
+    
+    <span class="comment"># Step 5: Permute elements</span>
+    moves = 0
+    j = 0
+    k = m - 1
+    <span class="keyword">while</span> moves < n:
+        <span class="keyword">while</span> j >= prefix[k] <span class="keyword">and</span> j < n:
+            j += 1
+            <span class="keyword">if</span> j < n:
+                k = int(c * (arr[j] - min_val))
+                <span class="keyword">if</span> k >= m: k = m - 1
+        
+        <span class="keyword">if</span> j >= n: <span class="keyword">break</span>
+        
+        flash = arr[j]
+        <span class="keyword">while</span> <span class="keyword">True</span>:
+            k = int(c * (flash - min_val))
+            <span class="keyword">if</span> k >= m: k = m - 1
+            pos = prefix[k]
+            
+            arr[j], arr[pos] = arr[pos], flash
+            flash = arr[j]
+            prefix[k] += 1
+            moves += 1
+            
+            <span class="keyword">if</span> pos == j:
+                <span class="keyword">break</span>
+            <span class="keyword">if</span> moves >= n:
+                <span class="keyword">break</span>
+    
+    <span class="comment"># Step 6: Sort each class with insertion sort</span>
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(1, m):
+        start = prefix[i-1]
+        end = prefix[i] - 1
+        <span class="keyword">if</span> end - start > 0:
+            insertion_sort(arr, start, end)
+    
+    <span class="comment"># Sort the last class</span>
+    insertion_sort(arr, prefix[m-1], n-1)
+    
+    <span class="keyword">return</span> arr
+
+<span class="keyword">def</span> <span class="function">insertion_sort</span>(arr, start, end):
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(start+1, end+1):
+        key = arr[i]
+        j = i - 1
+        <span class="keyword">while</span> j >= start <span class="keyword">and</span> arr[j] > key:
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+
+<span class="comment"># Example usage</span>
+arr = [38, 27, 43, 3, 9, 82, 10]
+sorted_arr = flash_sort(arr.copy())
+print(<span class="string">"Original:"</span>, arr)
+print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Distribution</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Non-comparative</div>
+              </div>
+              <div class="property-card">
+                <h4>Stable</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>In-place</h4>
+                <div class="value">No</div>
+              </div>
+              <div class="property-card">
+                <h4>Best Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Worst Case</h4>
+                <div class="value">O(n²)</div>
+              </div>
+              <div class="property-card">
+                <h4>Average Case</h4>
+                <div class="value">O(n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Space</h4>
+                <div class="value">O(m)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              Flashsort is particularly effective in scenarios involving
+              uniformly distributed data:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Sorting large datasets with known distribution
+              </li>
+              <li style="margin-bottom: 10px">
+                Scientific computing with uniform data distributions
+              </li>
+              <li style="margin-bottom: 10px">
+                Sorting sensor data from physical measurements
+              </li>
+              <li style="margin-bottom: 10px">
+                Sorting timestamps and other uniformly distributed values
+              </li>
+              <li>Preprocessing step in data analysis pipelines</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
+            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+          >
+          <a href="mailto:me@sgkandale.com"
+            ><i class="fa-solid fa-at"></i> E-Mail</a
+          >
+          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+          >
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Flashsort Visualization Logic
+      class FlashSortVisualizer {
+        constructor(container) {
+          this.container = container;
+          this.array = [];
+          this.minVal = 0;
+          this.maxVal = 0;
+          this.classes = [];
+          this.prefix = [];
+          this.m = 0;
+          this.c = 0;
+          this.stepCounter = 0;
+          this.step = 0;
+          this.j = 0;
+          this.k = 0;
+          this.moves = 0;
+          this.flash = null;
+          this.pos = null;
+          this.actionLabel = document.getElementById("actionLabel");
+          this.stepInfo = document.getElementById("stepInfo");
+          this.arrayContainer = document.getElementById("arrayContainer");
+          this.histogramContainer =
+            document.getElementById("histogramContainer");
+          this.animationSpeed = 1000;
+          this.intervalId = null;
+          this.sortingClasses = false;
+          this.currentClass = 0;
+        }
+
+        reset() {
+          this.array = [];
+          this.minVal = 0;
+          this.maxVal = 0;
+          this.classes = [];
+          this.prefix = [];
+          this.m = 0;
+          this.c = 0;
+          this.stepCounter = 0;
+          this.step = 0;
+          this.j = 0;
+          this.k = 0;
+          this.moves = 0;
+          this.flash = null;
+          this.pos = null;
+          this.sortingClasses = false;
+          this.currentClass = 0;
+          this.updateActionLabel("Reset visualization");
+          this.updateStepInfo("Step 0: Initial state");
+          this.render();
+        }
+
+        setArray(arr) {
+          this.array = [...arr];
+          this.reset();
+        }
+
+        initialize() {
+          // Step 1: Find min and max
+          this.minVal = Math.min(...this.array);
+          this.maxVal = Math.max(...this.array);
+
+          // Step 2: Create classes
+          this.m = Math.max(1, Math.floor(this.array.length * 0.1));
+          this.classes = new Array(this.m).fill(0);
+
+          // Step 3: Classify elements
+          this.c = (this.m - 1) / (this.maxVal - this.minVal);
+          if (!isFinite(this.c)) this.c = 1;
+
+          for (let i = 0; i < this.array.length; i++) {
+            let k = Math.floor(this.c * (this.array[i] - this.minVal));
+            if (k >= this.m) k = this.m - 1;
+            this.classes[k]++;
+          }
+
+          // Step 4: Compute prefix sums
+          this.prefix = [0];
+          for (let i = 1; i < this.m; i++) {
+            this.prefix[i] = this.prefix[i - 1] + this.classes[i - 1];
+          }
+
+          // Initialize state for permutation
+          this.step = 1;
+          this.j = 0;
+          this.k = this.m - 1;
+          this.moves = 0;
+          this.flash = null;
+          this.pos = null;
+          this.sortingClasses = false;
+          this.currentClass = 0;
+        }
+
+        nextStep() {
+          if (this.step === 0) {
+            this.initialize();
+            this.updateActionLabel("Initialized: Found min and max values");
+            this.updateStepInfo(
+              `Step ${++this.stepCounter}: Found min=${this.minVal}, max=${
+                this.maxVal
+              }`
+            );
+            this.step = 1;
+            return true;
+          }
+
+          if (this.step === 1) {
+            // Permutation step
+            if (this.moves >= this.array.length) {
+              this.step = 2; // Move to class sorting
+              this.updateActionLabel(
+                "Permutation completed. Sorting classes..."
+              );
+              this.updateStepInfo(
+                `Step ${++this.stepCounter}: Starting class sorting`
+              );
+              return true;
+            }
+
+            if (this.flash === null) {
+              while (
+                this.j >= this.prefix[this.k] &&
+                this.j < this.array.length
+              ) {
+                this.j++;
+                if (this.j < this.array.length) {
+                  this.k = Math.floor(
+                    this.c * (this.array[this.j] - this.minVal)
+                  );
+                  if (this.k >= this.m) this.k = this.m - 1;
+                }
+              }
+
+              if (this.j >= this.array.length) {
+                this.step = 2;
+                return true;
+              }
+
+              this.flash = this.array[this.j];
+              this.updateActionLabel(
+                `Permuting: Selected element at index ${this.j} (${this.flash})`
+              );
+              this.updateStepInfo(
+                `Step ${++this.stepCounter}: Selected element ${this.flash}`
+              );
+              return true;
+            }
+
+            // Process flash element
+            this.k = Math.floor(this.c * (this.flash - this.minVal));
+            if (this.k >= this.m) this.k = this.m - 1;
+            this.pos = this.prefix[this.k];
+
+            // Swap
+            this.array[this.j] = this.array[this.pos];
+            this.array[this.pos] = this.flash;
+            this.flash = this.array[this.j];
+            this.prefix[this.k]++;
+            this.moves++;
+
+            this.updateActionLabel(
+              `Permuting: Moved ${this.array[this.pos]} to position ${this.pos}`
+            );
+            this.updateStepInfo(
+              `Step ${++this.stepCounter}: Moved element to class ${this.k}`
+            );
+
+            if (this.pos === this.j || this.moves >= this.array.length) {
+              this.flash = null;
+              this.j++;
+            }
+
+            return true;
+          }
+
+          if (this.step === 2) {
+            // Sorting classes
+            if (this.currentClass >= this.m) {
+              this.updateActionLabel("Sorting completed!");
+              this.updateStepInfo(
+                `Step ${++this.stepCounter}: Final sorted array`
+              );
+              return false;
+            }
+
+            const start =
+              this.currentClass === 0 ? 0 : this.prefix[this.currentClass - 1];
+            const end =
+              this.currentClass < this.m - 1
+                ? this.prefix[this.currentClass] - 1
+                : this.array.length - 1;
+
+            if (end - start > 0) {
+              this.updateActionLabel(
+                `Sorting class ${this.currentClass} (${start}-${end})`
+              );
+              this.updateStepInfo(
+                `Step ${++this.stepCounter}: Sorting class ${this.currentClass}`
+              );
+
+              // Simulate insertion sort for visualization
+              if (this.currentClass > 0) {
+                const classArr = this.array.slice(start, end + 1);
+                classArr.sort((a, b) => a - b);
+                for (let i = start; i <= end; i++) {
+                  this.array[i] = classArr[i - start];
+                }
+              }
+            }
+
+            this.currentClass++;
+            return true;
+          }
+
+          return false;
+        }
+
+        updateActionLabel(text) {
+          this.actionLabel.textContent = text;
+        }
+
+        updateStepInfo(text) {
+          this.stepInfo.textContent = text;
+        }
+
+        render() {
+          this.arrayContainer.innerHTML = "";
+          this.histogramContainer.innerHTML = "";
+
+          // Render array
+          const maxVal = Math.max(...this.array, 10);
+          for (let i = 0; i < this.array.length; i++) {
+            const value = this.array[i];
+            const height = (value / maxVal) * 100 + 10;
+
+            const bar = document.createElement("div");
+            bar.className = "array-bar";
+            bar.style.height = `${height}px`;
+
+            const barValue = document.createElement("div");
+            barValue.className = "bar-value";
+            barValue.textContent = value;
+            bar.appendChild(barValue);
+
+            const barLabel = document.createElement("div");
+            barLabel.className = "bar-label";
+            barLabel.textContent = i;
+            bar.appendChild(barLabel);
+
+            // Highlight current elements
+            if (i === this.j) {
+              bar.classList.add("highlight");
+              bar.style.border = "2px solid var(--success)";
+            }
+            if (i === this.pos) {
+              bar.style.border = "2px solid var(--warning)";
+              bar.style.boxShadow = "0 0 10px var(--warning)";
+            }
+
+            // Color by class if classes are defined
+            if (this.c && this.step >= 1) {
+              const k = Math.floor(this.c * (value - this.minVal));
+              bar.classList.add(`flash-class-${k % 5}`);
+            }
+
+            this.arrayContainer.appendChild(bar);
+          }
+
+          // Render histogram if classes exist
+          if (this.classes.length > 0) {
+            const maxCount = Math.max(...this.classes, 1);
+            for (let i = 0; i < this.m; i++) {
+              const count = this.classes[i];
+              const height = (count / maxCount) * 80 + 10;
+
+              const bar = document.createElement("div");
+              bar.className = "histogram-bar";
+              bar.style.height = `${height}px`;
+
+              const classLabel = document.createElement("div");
+              classLabel.className = "class-indicator";
+              classLabel.textContent = `C${i}`;
+              classLabel.style.left = `${i * 32}px`;
+              bar.appendChild(classLabel);
+
+              if (i === this.k) {
+                bar.style.boxShadow = "0 0 10px var(--warning)";
+              }
+
+              const countLabel = document.createElement("div");
+              countLabel.style.position = "absolute";
+              countLabel.style.top = "-20px";
+              countLabel.style.width = "100%";
+              countLabel.style.textAlign = "center";
+              countLabel.style.color = "var(--text)";
+              countLabel.style.fontSize = "10px";
+              countLabel.textContent = count;
+              bar.appendChild(countLabel);
+
+              this.histogramContainer.appendChild(bar);
+            }
+          }
+        }
+      }
+
+      // DOM Content Loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const vizArea = document.getElementById("flashViz");
+        const inputArray = document.getElementById("inputArray");
+        const runBtn = document.getElementById("runBtn");
+        const stepBtn = document.getElementById("stepBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const randomBtn = document.getElementById("randomBtn");
+
+        // Initialize visualizer
+        const flashViz = new FlashSortVisualizer(vizArea);
+
+        // Set initial array
+        const initialArray = inputArray.value.split(",").map(Number);
+        flashViz.setArray(initialArray);
+        flashViz.render();
+
+        // Run button
+        runBtn.addEventListener("click", () => {
+          if (runBtn.innerHTML.includes("Run")) {
+            runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+            flashViz.initialize();
+
+            flashViz.intervalId = setInterval(() => {
+              if (!flashViz.nextStep()) {
+                clearInterval(flashViz.intervalId);
+                runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+              }
+              flashViz.render();
+            }, flashViz.animationSpeed);
+          } else {
+            clearInterval(flashViz.intervalId);
+            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+          }
+        });
+
+        // Step button
+        stepBtn.addEventListener("click", () => {
+          const arr = inputArray.value.split(",").map(Number);
+          if (flashViz.array.length === 0) {
+            flashViz.setArray(arr);
+          }
+          flashViz.nextStep();
+          flashViz.render();
+        });
+
+        // Reset button
+        resetBtn.addEventListener("click", () => {
+          const arr = inputArray.value.split(",").map(Number);
+          flashViz.setArray(arr);
+          flashViz.render();
+        });
+
+        // Random button
+        randomBtn.addEventListener("click", () => {
+          const randomArray = [];
+          const size = 7 + Math.floor(Math.random() * 5);
+          for (let i = 0; i < size; i++) {
+            randomArray.push(Math.floor(Math.random() * 90) + 10);
+          }
+          inputArray.value = randomArray.join(", ");
+          flashViz.setArray(randomArray);
+          flashViz.render();
+        });
+
+        // Input change
+        inputArray.addEventListener("change", () => {
+          const arr = inputArray.value.split(",").map(Number);
+          flashViz.setArray(arr);
+          flashViz.render();
+        });
+
+        // Copy button functionality
+        document
+          .querySelector(".copy-btn")
+          .addEventListener("click", function () {
+            const code = document.querySelector(".code-block code").innerText;
+            navigator.clipboard.writeText(code);
+
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+            setTimeout(() => {
+              this.innerHTML = originalText;
+            }, 2000);
+          });
+      });
+    </script>
+  </body>
+</html>
