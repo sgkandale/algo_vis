@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZAB Protocol | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      :root {
+        --primary-dark: #0f172a;
+        --secondary-dark: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --text-light: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --transition: all 0.3s ease;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--secondary-dark)
+        );
+        color: var(--text-light);
+        min-height: 100vh;
+        padding: 20px;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 30px;
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .logo-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 20px rgba(129, 140, 248, 0.5);
+      }
+
+      .logo-icon i {
+        font-size: 28px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-size: 36px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 5px;
+      }
+
+      .logo-text p {
+        color: var(--text-secondary);
+        font-size: 18px;
+      }
+
+      .algorithm-header {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 25px;
+        margin: 25px 0;
+        text-align: center;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .algorithm-header .description {
+        font-size: 18px;
+        color: var(--text-secondary);
+        max-width: 800px;
+        margin: 0 auto 20px;
+        line-height: 1.6;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 15px;
+      }
+
+      .main-content {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          flex-direction: column;
+        }
+      }
+
+      .visualization-section {
+        flex: 1;
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      .info-section {
+        width: 350px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 25px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      @media (max-width: 900px) {
+        .info-section {
+          width: 100%;
+        }
+      }
+
+      .section-title {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .section-title i {
+        color: var(--accent);
+        width: 40px;
+        height: 40px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .visualization-area {
+        height: 500px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .cluster-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        position: relative;
+      }
+
+      .node {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        font-weight: bold;
+        border: 3px solid var(--accent-light);
+        background: rgba(30, 41, 59, 0.7);
+        box-shadow: 0 0 15px rgba(129, 140, 248, 0.3);
+        transition: var(--transition);
+        z-index: 2;
+      }
+
+      .node.leader {
+        border-color: var(--success);
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        transform: scale(1.1);
+      }
+
+      .node.follower {
+        border-color: var(--accent-light);
+      }
+
+      .node.offline {
+        opacity: 0.3;
+        filter: grayscale(1);
+      }
+
+      .node.electing {
+        border-color: var(--warning);
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        animation: pulse 1.5s infinite;
+      }
+
+      .message {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--accent-light);
+        border-radius: 20px;
+        padding: 8px 15px;
+        font-size: 14px;
+        font-family: "Courier New", monospace;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .message.show {
+        opacity: 1;
+      }
+
+      .message.proposal {
+        border-color: var(--success);
+        background: rgba(16, 185, 129, 0.1);
+      }
+
+      .message.commit {
+        border-color: var(--warning);
+        background: rgba(245, 158, 11, 0.1);
+      }
+
+      .message.ack {
+        border-color: var(--accent-light);
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      .log-container {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        height: 180px;
+        margin-top: 20px;
+        font-family: "Courier New", monospace;
+        overflow: auto;
+        font-size: 14px;
+      }
+
+      .log-entry {
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .control-btn {
+        flex: 1;
+        min-width: 120px;
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .control-btn:hover {
+        background: var(--accent-light);
+        transform: translateY(-2px);
+      }
+
+      .control-btn.secondary {
+        background: rgba(148, 163, 184, 0.3);
+      }
+
+      .key-points {
+        display: grid;
+        gap: 15px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        color: var(--text-secondary);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 10px;
+        padding: 15px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--accent-light);
+      }
+
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 16px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .zab-sequence {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        font-family: "Courier New", monospace;
+      }
+
+      .zab-sequence div {
+        margin: 10px 0;
+        padding: 10px;
+        border-left: 3px solid var(--accent);
+        background: rgba(15, 23, 42, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-network-wired"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ZAB Protocol (ZooKeeper Atomic Broadcast)</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="algorithm-header">
+        <h1>ZAB Protocol</h1>
+        <p class="description">
+          ZAB (ZooKeeper Atomic Broadcast) is the core protocol behind Apache
+          ZooKeeper. It guarantees total order delivery of messages and provides
+          crash-recovery consistency.
+        </p>
+        <div class="complexity-badge">
+          Leader-Based • Atomic Broadcast • Crash Recovery
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="visualization-section">
+          <h2 class="section-title">
+            <i class="fas fa-project-diagram"></i> Interactive Visualization
+          </h2>
+
+          <div class="visualization-area">
+            <div class="cluster-container" id="cluster-container">
+              <!-- Nodes will be dynamically added here -->
+            </div>
+          </div>
+
+          <div class="log-container" id="log-container">
+            <div class="log-entry">
+              System: Initializing ZAB cluster with 5 nodes
+            </div>
+            <div class="log-entry">System: Electing node 3 as leader</div>
+            <div class="log-entry">
+              System: Leader 3 established. Ready for broadcast.
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="control-btn" id="broadcast-btn">
+              <i class="fas fa-bullhorn"></i> Broadcast Message
+            </button>
+            <button class="control-btn secondary" id="crash-leader-btn">
+              <i class="fas fa-skull"></i> Crash Leader
+            </button>
+            <button class="control-btn secondary" id="recover-btn">
+              <i class="fas fa-heartbeat"></i> Recover Node
+            </button>
+            <button class="control-btn secondary" id="reset-btn">
+              <i class="fas fa-redo"></i> Reset Simulation
+            </button>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h2 class="section-title">
+            <i class="fas fa-info-circle"></i> Protocol Details
+          </h2>
+
+          <div class="key-points">
+            <div class="point-card">
+              <h3><i class="fas fa-crown"></i> Leader-Based</h3>
+              <p>
+                ZAB uses a leader to sequence all transactions. Followers only
+                accept proposals from the current leader.
+              </p>
+            </div>
+
+            <div class="point-card">
+              <h3><i class="fas fa-exchange-alt"></i> Two-Phase Protocol</h3>
+              <p>
+                All transactions go through a proposal phase followed by a
+                commit phase to ensure atomic broadcast.
+              </p>
+            </div>
+
+            <div class="point-card">
+              <h3><i class="fas fa-sync-alt"></i> Crash Recovery</h3>
+              <p>
+                ZAB provides a fast leader election algorithm and state
+                synchronization for crash recovery.
+              </p>
+            </div>
+          </div>
+
+          <h3 class="section-title">
+            <i class="fas fa-list-ol"></i> Protocol Phases
+          </h3>
+          <div class="zab-sequence">
+            <div>
+              <strong>1. Discovery:</strong> Followers connect to leader, sync
+              last transaction
+            </div>
+            <div>
+              <strong>2. Synchronization:</strong> Leader brings followers
+              up-to-date
+            </div>
+            <div>
+              <strong>3. Broadcast:</strong> Leader proposes transactions →
+              followers ack → leader commits
+            </div>
+          </div>
+
+          <h3 class="section-title"><i class="fas fa-cogs"></i> Properties</h3>
+          <div class="properties-grid">
+            <div class="property-card">
+              <h4>Leader Required</h4>
+              <div class="value">Yes</div>
+            </div>
+            <div class="property-card">
+              <h4>Fault Tolerance</h4>
+              <div class="value">F < N/2</div>
+            </div>
+            <div class="property-card">
+              <h4>Message Order</h4>
+              <div class="value">Total</div>
+            </div>
+            <div class="property-card">
+              <h4>Recovery</h4>
+              <div class="value">Crash-Recovery</div>
+            </div>
+            <div class="property-card">
+              <h4>Consistency</h4>
+              <div class="value">Linearizable</div>
+            </div>
+            <div class="property-card">
+              <h4>Latency</h4>
+              <div class="value">2 RTT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="footer-links">
+          <a href="#"><i class="fab fa-github"></i> GitHub</a>
+          <a href="#"><i class="fas fa-book"></i> Documentation</a>
+          <a href="#"><i class="fas fa-file-alt"></i> Research Paper</a>
+          <a href="#"><i class="fas fa-question-circle"></i> About ZAB</a>
+        </div>
+        <p>ZAB Protocol Visualization | Understanding ZooKeeper's Core</p>
+        <p>
+          &copy; 2023 Algorithm Visualization Hub | Educational Purpose Only
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // ZAB Protocol simulation
+      const clusterContainer = document.getElementById("cluster-container");
+      const logContainer = document.getElementById("log-container");
+      const broadcastBtn = document.getElementById("broadcast-btn");
+      const crashLeaderBtn = document.getElementById("crash-leader-btn");
+      const recoverBtn = document.getElementById("recover-btn");
+      const resetBtn = document.getElementById("reset-btn");
+
+      const nodes = [];
+      let leaderId = 3;
+      let messageCounter = 1;
+      let transactionCounter = 1;
+      let currentZxid = 1;
+
+      // Initialize the cluster
+      function initCluster() {
+        clusterContainer.innerHTML = "";
+        logContainer.innerHTML =
+          '<div class="log-entry">System: Initializing ZAB cluster with 5 nodes</div>';
+        nodes.length = 0;
+        messageCounter = 1;
+        transactionCounter = 1;
+        currentZxid = 1;
+        leaderId = 3;
+
+        // Create 5 nodes in a circle
+        const centerX = clusterContainer.offsetWidth / 2;
+        const centerY = clusterContainer.offsetHeight / 2;
+        const radius = Math.min(centerX, centerY) * 0.7;
+
+        for (let i = 1; i <= 5; i++) {
+          const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+          const x = centerX + radius * Math.cos(angle);
+          const y = centerY + radius * Math.sin(angle);
+
+          const node = document.createElement("div");
+          node.className = i === leaderId ? "node leader" : "node follower";
+          node.id = `node-${i}`;
+          node.textContent = i === leaderId ? `Leader ${i}` : `Follower ${i}`;
+          node.style.left = `${x}px`;
+          node.style.top = `${y}px`;
+          clusterContainer.appendChild(node);
+
+          nodes.push({
+            id: i,
+            element: node,
+            state: "ready",
+            online: true,
+            lastZxid: 0,
+          });
+        }
+
+        addLogEntry(`System: Electing node ${leaderId} as leader`);
+        setTimeout(() => {
+          addLogEntry(
+            `System: Leader ${leaderId} established. Ready for broadcast.`
+          );
+        }, 1000);
+      }
+
+      // Add log entry
+      function addLogEntry(message) {
+        const entry = document.createElement("div");
+        entry.className = "log-entry";
+        entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+        logContainer.appendChild(entry);
+        logContainer.scrollTop = logContainer.scrollHeight;
+      }
+
+      // Broadcast a message
+      function broadcastMessage() {
+        const leader = nodes.find((n) => n.id === leaderId);
+
+        if (!leader || !leader.online) {
+          addLogEntry("System: Leader is offline. Cannot broadcast message.");
+          return;
+        }
+
+        const messageId = messageCounter++;
+        const zxid = currentZxid++;
+
+        addLogEntry(
+          `Leader ${leaderId}: Broadcasting message M${messageId} (zxid:${zxid})`
+        );
+
+        // Highlight leader
+        leader.element.classList.add("leader", "active");
+
+        // Phase 1: Proposal
+        setTimeout(() => {
+          addLogEntry(
+            `Leader ${leaderId}: Sending PROPOSAL for M${messageId} to all followers`
+          );
+
+          // Simulate sending proposals to followers
+          nodes
+            .filter((n) => n.id !== leaderId)
+            .forEach((follower) => {
+              if (follower.online) {
+                addLogEntry(
+                  `Follower ${follower.id}: Received PROPOSAL for M${messageId}`
+                );
+                follower.element.classList.add("active");
+              }
+            });
+
+          // Phase 2: Commit after receiving ACKs
+          setTimeout(() => {
+            const onlineFollowers = nodes.filter(
+              (n) => n.id !== leaderId && n.online
+            ).length;
+
+            if (onlineFollowers >= 2) {
+              // Quorum reached
+              addLogEntry(
+                `Leader ${leaderId}: Received ACKs from quorum. Sending COMMIT for M${messageId}`
+              );
+
+              // Send commit to all nodes
+              nodes.forEach((node) => {
+                if (node.online) {
+                  node.lastZxid = zxid;
+                  if (node.id !== leaderId) {
+                    addLogEntry(
+                      `Follower ${node.id}: Received COMMIT for M${messageId}`
+                    );
+                  }
+                }
+              });
+
+              // Reset node states
+              setTimeout(() => {
+                nodes.forEach((node) => {
+                  node.element.classList.remove("active");
+                });
+                addLogEntry(
+                  `System: Transaction T${transactionCounter++} committed successfully`
+                );
+              }, 1000);
+            } else {
+              addLogEntry(
+                `Leader ${leaderId}: Not enough ACKs received. Message not committed.`
+              );
+              nodes.forEach((node) => {
+                node.element.classList.remove("active");
+              });
+            }
+          }, 1500);
+        }, 1000);
+      }
+
+      // Crash the current leader
+      function crashLeader() {
+        const leader = nodes.find((n) => n.id === leaderId);
+
+        if (!leader || !leader.online) {
+          addLogEntry("System: Leader is already offline.");
+          return;
+        }
+
+        leader.online = false;
+        leader.element.classList.remove("leader", "active");
+        leader.element.classList.add("offline");
+        leader.element.textContent = `Offline ${leader.id}`;
+
+        addLogEntry(`CRITICAL: Leader ${leaderId} crashed!`);
+        addLogEntry("System: Starting leader election...");
+
+        // Start leader election
+        setTimeout(startLeaderElection, 1500);
+      }
+
+      // Start leader election
+      function startLeaderElection() {
+        addLogEntry("System: Entering leader election phase");
+
+        // Mark all online nodes as electing
+        nodes
+          .filter((n) => n.online)
+          .forEach((node) => {
+            node.element.classList.add("electing");
+          });
+
+        // Simple leader election: highest node ID wins
+        setTimeout(() => {
+          const onlineNodes = nodes.filter((n) => n.online);
+          if (onlineNodes.length === 0) {
+            addLogEntry("System: No online nodes available for election");
+            return;
+          }
+
+          // Find node with highest ID
+          const newLeader = onlineNodes.reduce((prev, current) =>
+            prev.id > current.id ? prev : current
+          );
+
+          leaderId = newLeader.id;
+          newLeader.element.classList.remove("follower", "electing");
+          newLeader.element.classList.add("leader");
+          newLeader.element.textContent = `Leader ${leaderId}`;
+
+          addLogEntry(`System: Node ${leaderId} elected as new leader`);
+
+          // Synchronize state
+          addLogEntry(`Leader ${leaderId}: Starting state synchronization`);
+          setTimeout(() => {
+            addLogEntry(`System: Synchronization complete. New leader ready.`);
+            nodes
+              .filter((n) => n.online && n.id !== leaderId)
+              .forEach((node) => {
+                node.element.classList.remove("electing");
+                node.element.textContent = `Follower ${node.id}`;
+              });
+          }, 2000);
+        }, 2000);
+      }
+
+      // Recover a random offline node
+      function recoverNode() {
+        const offlineNodes = nodes.filter((n) => !n.online);
+        if (offlineNodes.length === 0) {
+          addLogEntry("System: All nodes are already online");
+          return;
+        }
+
+        const node =
+          offlineNodes[Math.floor(Math.random() * offlineNodes.length)];
+        node.online = true;
+        node.element.classList.remove("offline");
+        node.element.textContent =
+          node.id === leaderId ? `Leader ${node.id}` : `Follower ${node.id}`;
+
+        if (node.id === leaderId) {
+          node.element.classList.add("leader");
+          addLogEntry(`System: Leader ${leaderId} recovered!`);
+        } else {
+          node.element.classList.add("follower");
+          addLogEntry(
+            `System: Follower ${node.id} recovered. Synchronizing state...`
+          );
+
+          // Simulate state synchronization
+          setTimeout(() => {
+            addLogEntry(
+              `Follower ${node.id}: State synchronized (zxid:${
+                currentZxid - 1
+              })`
+            );
+          }, 1500);
+        }
+      }
+
+      // Event listeners
+      broadcastBtn.addEventListener("click", broadcastMessage);
+      crashLeaderBtn.addEventListener("click", crashLeader);
+      recoverBtn.addEventListener("click", recoverNode);
+      resetBtn.addEventListener("click", initCluster);
+
+      // Initialize simulation
+      window.addEventListener("load", initCluster);
+    </script>
+  </body>
+</html>
