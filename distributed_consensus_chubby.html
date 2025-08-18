@@ -1,0 +1,1619 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chubby Consensus | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 300px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .visualization-area::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 0;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .console-input input {
+                flex: 1;
+                padding: 12px 15px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 5px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .console-input input:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* Chubby Visualization Styles */
+            .cluster {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                position: relative;
+            }
+
+            .node {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                background: var(--secondary);
+                border: 2px solid var(--accent);
+                box-shadow: var(--glow);
+                color: white;
+                font-weight: bold;
+                font-family: "Roboto Mono", monospace;
+                z-index: 2;
+                transition: all 0.5s ease;
+            }
+
+            .node.leader {
+                background: var(--accent);
+                border-color: var(--accent-light);
+                box-shadow: 0 0 15px rgba(129, 140, 248, 0.5);
+                transform: scale(1.1);
+            }
+
+            .node.client {
+                background: var(--success);
+                border-color: #34d399;
+            }
+
+            .message {
+                position: absolute;
+                background: rgba(129, 140, 248, 0.8);
+                color: white;
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+                z-index: 1;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .message.visible {
+                opacity: 1;
+            }
+
+            .status-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 14px;
+                font-family: "Roboto Mono", monospace;
+                text-align: center;
+                color: var(--accent-light);
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .phase-indicator {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .phase {
+                padding: 5px 10px;
+                border-radius: 5px;
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--text-secondary);
+            }
+
+            .phase.active {
+                background: var(--accent);
+                color: white;
+            }
+
+            .log-entry {
+                margin: 5px 0;
+                padding: 5px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .log-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 200px;
+                max-height: 120px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Distributed Algorithms</a> >
+                            <span>Chubby Consensus</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Chubby Consensus Algorithm</h1>
+                <div class="category">
+                    <i class="fas fa-server"></i> Distributed Consensus Protocol
+                </div>
+                <div class="complexity-badge">
+                    Fault Tolerance: f failures with 2f+1 nodes
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            The Chubby Consensus Algorithm is a fault-tolerant
+                            distributed system protocol based on the Paxos
+                            algorithm. It enables a cluster of machines to
+                            maintain consistent state and agree on values
+                            despite potential node failures.
+                        </p>
+                        <p>
+                            Chubby provides a lock service for loosely-coupled
+                            distributed systems, ensuring that only one client
+                            can hold a lock at a time. It's designed to handle
+                            network partitions and node failures while
+                            maintaining consistency and availability.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Provides a highly available, reliable lock
+                                    service for distributed systems
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Optimized for read-heavy workloads with
+                                    master leases and caching
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Fault
+                                    Tolerance
+                                </h3>
+                                <p>
+                                    Tolerates f failures with 2f+1 replicas
+                                    using consensus protocol
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Architecture
+                                </h3>
+                                <p>
+                                    Master-based system with replicas, using
+                                    leases for efficiency
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            The visualization below demonstrates the Chubby
+                            consensus algorithm in action. You can see the
+                            master election process, client interactions, and
+                            how the system maintains consistency during
+                            failures. Use the controls to simulate different
+                            scenarios.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-network-wired"></i> Chubby
+                                    Cluster Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        class="console-btn secondary"
+                                        id="step-btn"
+                                    >
+                                        <i class="fas fa-step-forward"></i> Step
+                                    </button>
+                                    <button class="console-btn" id="run-btn">
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="reset-btn"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="visualization-area"
+                                id="chubby-visualization"
+                            >
+                                <!-- Visualization will be rendered here by JavaScript -->
+                                <div
+                                    class="cluster"
+                                    id="cluster-container"
+                                ></div>
+                            </div>
+
+                            <div class="console-input">
+                                <button class="console-btn" id="fail-node-btn">
+                                    <i class="fas fa-skull"></i> Fail Random
+                                    Node
+                                </button>
+                                <button class="console-btn" id="add-client-btn">
+                                    <i class="fas fa-user-plus"></i> Add Client
+                                    Request
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="partition-btn"
+                                >
+                                    <i class="fas fa-plug"></i> Simulate
+                                    Partition
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            The Chubby consensus algorithm operates through
+                            these key phases:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-crown"></i> 1. Master
+                                    Election
+                                </h3>
+                                <p>
+                                    Nodes participate in a leader election using
+                                    a Paxos-based protocol. The node with the
+                                    highest proposal number becomes the master.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-file-contract"></i> 2.
+                                    Master Lease
+                                </h3>
+                                <p>
+                                    The master obtains a lease for a limited
+                                    time period. During this lease, it can serve
+                                    client requests without consulting replicas.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-lock"></i> 3. Lock
+                                    Acquisition
+                                </h3>
+                                <p>
+                                    Clients request locks from the master. The
+                                    master grants locks sequentially and
+                                    maintains lock state in its local database.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-sync-alt"></i> 4.
+                                    Replication
+                                </h3>
+                                <p>
+                                    The master periodically replicates its state
+                                    to other nodes. If the master fails, a new
+                                    master is elected and reconstructs state
+                                    from replicas.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-heartbeat"></i> 5. Failure
+                                    Detection
+                                </h3>
+                                <p>
+                                    Nodes use keep-alive messages to detect
+                                    failures. If the master fails to renew its
+                                    lease, a new election begins.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>// Master Election (Paxos-based)
+function electMaster(nodes):
+  while no majority:
+    proposer = selectProposer()
+    prepare = proposer.prepare(proposalNumber)
+
+    if majority promise to not accept lower numbers:
+      accept = proposer.propose(value, proposalNumber)
+
+      if majority accept:
+        master = proposer
+        master.leaseStart = now()
+        break
+
+// Client Request Handling
+function handleClientRequest(request):
+  if not master:
+    return error
+
+  if request requires consensus:
+    result = performPaxos(request)
+    return result
+  else:
+    return master.handleLocally(request)
+
+// Lease Renewal
+function renewLease():
+  while master:
+    wait(leaseDuration / 2)
+    if majority nodes respond to keep-alive:
+      leaseRenewed = true
+    else:
+      stepDownAsMaster()
+
+// Failure Recovery
+function onMasterFailure():
+  newMaster = electMaster(nodes)
+  newMaster.recoverStateFromReplicas()
+  newMaster.rebuildLockDatabase()</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of the
+                            Chubby consensus algorithm. This example
+                            demonstrates the core master election and lease
+                            renewal mechanisms.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">import</span> threading
+<span class="keyword">import</span> time
+<span class="keyword">import</span> random
+
+<span class="keyword">class</span> <span class="function">ChubbyNode</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, node_id, nodes):
+        <span class="keyword">self</span>.node_id = node_id
+        <span class="keyword">self</span>.nodes = nodes
+        <span class="keyword">self</span>.is_master = <span class="keyword">False</span>
+        <span class="keyword">self</span>.lease_end = 0
+        <span class="keyword">self</span>.proposal_number = 0
+        <span class="keyword">self</span>.lock_table = {}
+        <span class="keyword">self</span>.election_thread = threading.Thread(target=<span class="keyword">self</span>.run_election)
+        <span class="keyword">self</span>.election_thread.daemon = <span class="keyword">True</span>
+        <span class="keyword">self</span>.election_thread.start()
+
+    <span class="keyword">def</span> <span class="function">run_election</span>(<span class="keyword">self</span>):
+        <span class="keyword">while</span> <span class="keyword">True</span>:
+            <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">self</span>.is_master:
+                <span class="comment"># Attempt to become master</span>
+                <span class="keyword">self</span>.proposal_number += 1
+                promises = 0
+
+                <span class="comment"># Phase 1: Prepare/Promise</span>
+                <span class="keyword">for</span> node <span class="keyword">in</span> <span class="keyword">self</span>.nodes:
+                    <span class="keyword">if</span> node != <span class="keyword">self</span>:
+                        <span class="keyword">if</span> node.promise_request(<span class="keyword">self</span>.proposal_number):
+                            promises += 1
+
+                <span class="comment"># Phase 2: Propose/Accept</span>
+                <span class="keyword">if</span> promises >= len(<span class="keyword">self</span>.nodes) // 2:
+                    accepts = 0
+                    <span class="keyword">for</span> node <span class="keyword">in</span> <span class="keyword">self</span>.nodes:
+                        <span class="keyword">if</span> node != <span class="keyword">self</span>:
+                            <span class="keyword">if</span> node.accept_request(<span class="keyword">self</span>.proposal_number, <span class="keyword">self</span>.node_id):
+                                accepts += 1
+
+                    <span class="keyword">if</span> accepts >= len(<span class="keyword">self</span>.nodes) // 2:
+                        <span class="keyword">self</span>.become_master()
+
+            <span class="comment"># Check lease if master</span>
+            <span class="keyword">if</span> <span class="keyword">self</span>.is_master <span class="keyword">and</span> time.time() > <span class="keyword">self</span>.lease_end:
+                <span class="keyword">self</span>.step_down()
+
+            time.sleep(random.uniform(1, 3))
+
+    <span class="keyword">def</span> <span class="function">become_master</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.is_master = <span class="keyword">True</span>
+        <span class="keyword">self</span>.lease_end = time.time() + 10  <span class="comment"># 10-second lease</span>
+        print(f<span class="string">"Node {self.node_id} is now master"</span>)
+        <span class="comment"># Recover state from replicas</span>
+        <span class="keyword">self</span>.recover_state()
+
+    <span class="keyword">def</span> <span class="function">step_down</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.is_master = <span class="keyword">False</span>
+        print(f<span class="string">"Node {self.node_id} stepped down as master"</span>)
+
+    <span class="keyword">def</span> <span class="function">recover_state</span>(<span class="keyword">self</span>):
+        <span class="comment"># Query replicas for latest state</span>
+        <span class="keyword">pass</span>
+
+    <span class="keyword">def</span> <span class="function">promise_request</span>(<span class="keyword">self</span>, proposal_number):
+        <span class="comment"># Simplified promise logic</span>
+        <span class="keyword">return</span> random.random() > 0.3  <span class="comment"># 70% success rate</span>
+
+    <span class="keyword">def</span> <span class="function">accept_request</span>(<span class="keyword">self</span>, proposal_number, master_id):
+        <span class="comment"># Simplified accept logic</span>
+        <span class="keyword">return</span> random.random() > 0.3  <span class="comment"># 70% success rate</span>
+
+<span class="comment"># Create a cluster of 5 nodes</span>
+nodes = [ChubbyNode(i, []) <span class="keyword">for</span> i <span class="keyword">in</span> range(5)]
+<span class="keyword">for</span> node <span class="keyword">in</span> nodes:
+    node.nodes = nodes  <span class="comment"># Set reference to all nodes</span>
+
+<span class="comment"># Keep the program running</span>
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    time.sleep(1)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Consensus</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">Leader-Based</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Fault Tolerance</h4>
+                                <div class="value">f failures</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Consistency</h4>
+                                <div class="value">Linearizable</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Message Complexity</h4>
+                                <div class="value">O(n²) election</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Latency</h4>
+                                <div class="value">2 RTTs</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Throughput</h4>
+                                <div class="value">Master-bound</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Deployment</h4>
+                                <div class="value">Google Systems</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Chubby consensus is used in various distributed
+                            systems scenarios:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Distributed locking for coordination
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Leader election in distributed systems
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Configuration management
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Name service in large-scale systems
+                            </li>
+                            <li>Distributed synchronization</li>
+                            <li>Google's internal infrastructure</li>
+                        </ul>
+                    </div>
+
+                    <!-- Characteristics Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-star"></i> Key Characteristics</h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>Leases:</strong> Masters use
+                                time-limited leases
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Caching:</strong> Clients cache data to
+                                reduce master load
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Event Notifications:</strong> Clients
+                                subscribe to changes
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Coarse-Grained Locks:</strong> Optimized
+                                for infrequent changes
+                            </li>
+                            <li>
+                                <strong>Session-Based:</strong> Clients maintain
+                                sessions with master
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a href="#"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+                    <a href="#"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization for Chubby Consensus Algorithm
+            document.addEventListener("DOMContentLoaded", function () {
+                const visualization = document.getElementById(
+                    "chubby-visualization",
+                );
+                const clusterContainer =
+                    document.getElementById("cluster-container");
+                const runBtn = document.getElementById("run-btn");
+                const stepBtn = document.getElementById("step-btn");
+                const resetBtn = document.getElementById("reset-btn");
+                const failNodeBtn = document.getElementById("fail-node-btn");
+                const addClientBtn = document.getElementById("add-client-btn");
+                const partitionBtn = document.getElementById("partition-btn");
+
+                // State variables
+                let simulationRunning = false;
+                let simulationInterval;
+                let step = 0;
+                let nodes = [];
+                let clients = [];
+                let messages = [];
+                let masterNode = null;
+                let failedNodes = [];
+                let isPartitioned = false;
+
+                // Initialize visualization
+                function initVisualization() {
+                    clusterContainer.innerHTML = "";
+                    nodes = [];
+                    clients = [];
+                    messages = [];
+                    failedNodes = [];
+                    masterNode = null;
+                    isPartitioned = false;
+                    step = 0;
+
+                    // Create nodes
+                    const positions = [
+                        { x: 50, y: 50 },
+                        { x: 150, y: 150 },
+                        { x: 250, y: 50 },
+                        { x: 150, y: 250 },
+                        { x: 350, y: 150 },
+                    ];
+
+                    for (let i = 0; i < 5; i++) {
+                        const node = document.createElement("div");
+                        node.className = "node";
+                        node.id = `node-${i}`;
+                        node.textContent = `N${i}`;
+                        node.style.left = `${positions[i].x}px`;
+                        node.style.top = `${positions[i].y}px`;
+                        clusterContainer.appendChild(node);
+                        nodes.push({
+                            id: i,
+                            element: node,
+                            isMaster: false,
+                            isFailed: false,
+                        });
+                    }
+
+                    // Create log container
+                    const logContainer = document.createElement("div");
+                    logContainer.className = "log-container";
+                    logContainer.id = "log-container";
+                    clusterContainer.appendChild(logContainer);
+
+                    // Create status panel
+                    const statusPanel = document.createElement("div");
+                    statusPanel.className = "status-panel";
+                    statusPanel.id = "status-panel";
+                    statusPanel.innerHTML = "System Status: Initializing";
+
+                    const phaseIndicator = document.createElement("div");
+                    phaseIndicator.className = "phase-indicator";
+                    phaseIndicator.innerHTML = `
+            <div class="phase">Election</div>
+            <div class="phase">Lease</div>
+            <div class="phase">Request</div>
+            <div class="phase">Replication</div>
+          `;
+                    statusPanel.appendChild(phaseIndicator);
+                    clusterContainer.appendChild(statusPanel);
+
+                    // Start simulation
+                    setTimeout(electMaster, 1000);
+                }
+
+                // Elect a master node
+                function electMaster() {
+                    logEvent("Starting master election...");
+                    updateStatus("Electing master");
+                    highlightPhase(0);
+
+                    // Reset current master
+                    if (masterNode) {
+                        masterNode.element.classList.remove("leader");
+                        masterNode.isMaster = false;
+                    }
+
+                    // Find a candidate that hasn't failed
+                    const candidates = nodes.filter(
+                        (node) =>
+                            !node.isFailed && !failedNodes.includes(node.id),
+                    );
+                    if (candidates.length === 0) {
+                        logEvent("No available nodes for election");
+                        updateStatus("Election failed - no nodes available");
+                        return;
+                    }
+
+                    // Randomly select a master
+                    const newMaster =
+                        candidates[
+                            Math.floor(Math.random() * candidates.length)
+                        ];
+                    newMaster.isMaster = true;
+                    newMaster.element.classList.add("leader");
+                    masterNode = newMaster;
+
+                    logEvent(`Node ${newMaster.id} elected as master`);
+                    updateStatus(`Master elected: Node ${newMaster.id}`);
+
+                    // Show lease acquisition
+                    setTimeout(() => {
+                        highlightPhase(1);
+                        logEvent(`Master node ${newMaster.id} acquired lease`);
+                        updateStatus(
+                            `Master ${newMaster.id} active with lease`,
+                        );
+
+                        // Simulate client requests
+                        setTimeout(() => {
+                            if (simulationRunning) {
+                                simulateClientRequest();
+                            }
+                        }, 2000);
+                    }, 1500);
+                }
+
+                // Simulate a client request
+                function simulateClientRequest() {
+                    highlightPhase(2);
+                    logEvent("New client request received");
+                    updateStatus(`Master ${masterNode.id} processing request`);
+
+                    // Create a client
+                    if (clients.length < 3) {
+                        const client = document.createElement("div");
+                        client.className = "node client";
+                        client.textContent = `C${clients.length}`;
+                        client.style.left = "450px";
+                        client.style.top = `${100 + clients.length * 80}px`;
+                        clusterContainer.appendChild(client);
+                        clients.push(client);
+                    }
+
+                    // Create request message
+                    const message = document.createElement("div");
+                    message.className = "message";
+                    message.textContent = "LOCK_REQ";
+                    message.style.left = "400px";
+                    message.style.top = "150px";
+                    clusterContainer.appendChild(message);
+                    messages.push(message);
+
+                    setTimeout(() => {
+                        message.classList.add("visible");
+                        message.style.left = `${masterNode.element.offsetLeft - 50}px`;
+                        message.style.top = `${masterNode.element.offsetTop + 20}px`;
+
+                        setTimeout(() => {
+                            // Process request
+                            logEvent("Request processed by master");
+
+                            // Create response
+                            const response = document.createElement("div");
+                            response.className = "message";
+                            response.textContent = "LOCK_ACK";
+                            response.style.left = `${masterNode.element.offsetLeft - 50}px`;
+                            response.style.top = `${masterNode.element.offsetTop + 20}px`;
+                            response.style.backgroundColor = "var(--success)";
+                            clusterContainer.appendChild(response);
+                            messages.push(response);
+
+                            setTimeout(() => {
+                                response.classList.add("visible");
+                                response.style.left = "400px";
+                                response.style.top = "150px";
+
+                                setTimeout(() => {
+                                    // Replicate to other nodes
+                                    replicateState();
+                                }, 1000);
+                            }, 500);
+                        }, 1000);
+                    }, 500);
+                }
+
+                // Replicate state to other nodes
+                function replicateState() {
+                    highlightPhase(3);
+                    logEvent("Replicating state to other nodes");
+                    updateStatus(`Master ${masterNode.id} replicating state`);
+
+                    nodes
+                        .filter(
+                            (node) =>
+                                node.id !== masterNode.id && !node.isFailed,
+                        )
+                        .forEach((node) => {
+                            const message = document.createElement("div");
+                            message.className = "message";
+                            message.textContent = "REPLICATE";
+                            message.style.left = `${masterNode.element.offsetLeft}px`;
+                            message.style.top = `${masterNode.element.offsetTop}px`;
+                            message.style.backgroundColor = "var(--warning)";
+                            clusterContainer.appendChild(message);
+                            messages.push(message);
+
+                            setTimeout(() => {
+                                message.classList.add("visible");
+                                message.style.left = `${node.element.offsetLeft}px`;
+                                message.style.top = `${node.element.offsetTop}px`;
+
+                                setTimeout(() => {
+                                    logEvent(
+                                        `Node ${node.id} acknowledged replication`,
+                                    );
+                                }, 500);
+                            }, 300 * node.id);
+                        });
+
+                    setTimeout(() => {
+                        logEvent("State replication completed");
+                        updateStatus(
+                            `Master ${masterNode.id} active with lease`,
+                        );
+
+                        if (simulationRunning) {
+                            setTimeout(simulateClientRequest, 2000);
+                        }
+                    }, 2000);
+                }
+
+                // Fail a random node
+                function failRandomNode() {
+                    const candidates = nodes.filter(
+                        (node) => !node.isFailed && node !== masterNode,
+                    );
+                    if (candidates.length === 0) return;
+
+                    const nodeToFail =
+                        candidates[
+                            Math.floor(Math.random() * candidates.length)
+                        ];
+                    nodeToFail.isFailed = true;
+                    nodeToFail.element.style.backgroundColor = "var(--danger)";
+                    nodeToFail.element.style.borderColor = "var(--danger)";
+                    failedNodes.push(nodeToFail.id);
+
+                    logEvent(`Node ${nodeToFail.id} failed!`);
+                    updateStatus(
+                        `Node ${nodeToFail.id} failed - ${failedNodes.length} nodes down`,
+                    );
+
+                    // If master failed, start election
+                    if (nodeToFail === masterNode) {
+                        logEvent("MASTER FAILED! Starting new election...");
+                        updateStatus("Master failed - electing new master");
+                        setTimeout(electMaster, 1000);
+                    }
+                }
+
+                // Add client request
+                function addClientRequest() {
+                    if (!simulationRunning) {
+                        simulateClientRequest();
+                    }
+                }
+
+                // Simulate network partition
+                function simulatePartition() {
+                    isPartitioned = !isPartitioned;
+
+                    if (isPartitioned) {
+                        logEvent("NETWORK PARTITION DETECTED!");
+                        updateStatus("Network partitioned - system degraded");
+
+                        // Randomly partition some nodes
+                        const partitionCount =
+                            Math.floor(Math.random() * 2) + 1;
+                        for (let i = 0; i < partitionCount; i++) {
+                            const node =
+                                nodes[Math.floor(Math.random() * nodes.length)];
+                            node.element.style.opacity = "0.5";
+                            node.element.style.filter = "grayscale(100%)";
+                        }
+
+                        partitionBtn.innerHTML =
+                            '<i class="fas fa-plug"></i> Heal Partition';
+                    } else {
+                        logEvent("Network partition healed");
+                        updateStatus("Network normal");
+
+                        // Restore all nodes
+                        nodes.forEach((node) => {
+                            node.element.style.opacity = "1";
+                            node.element.style.filter = "none";
+                        });
+
+                        partitionBtn.innerHTML =
+                            '<i class="fas fa-plug"></i> Simulate Partition';
+                    }
+                }
+
+                // Log event to log container
+                function logEvent(message) {
+                    const logContainer =
+                        document.getElementById("log-container");
+                    const logEntry = document.createElement("div");
+                    logEntry.className = "log-entry";
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                    logContainer.appendChild(logEntry);
+
+                    // Auto-scroll
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+
+                // Update status panel
+                function updateStatus(status) {
+                    const statusPanel = document.getElementById("status-panel");
+                    statusPanel.innerHTML = `System Status: ${status}`;
+
+                    const phaseIndicator = document.createElement("div");
+                    phaseIndicator.className = "phase-indicator";
+                    phaseIndicator.innerHTML = `
+            <div class="phase">Election</div>
+            <div class="phase">Lease</div>
+            <div class="phase">Request</div>
+            <div class="phase">Replication</div>
+          `;
+                    statusPanel.appendChild(phaseIndicator);
+                }
+
+                // Highlight current phase
+                function highlightPhase(index) {
+                    const phases = document.querySelectorAll(".phase");
+                    phases.forEach((phase, i) => {
+                        if (i === index) {
+                            phase.classList.add("active");
+                        } else {
+                            phase.classList.remove("active");
+                        }
+                    });
+                }
+
+                // Start simulation
+                function startSimulation() {
+                    if (simulationRunning) return;
+
+                    simulationRunning = true;
+                    runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+                    runBtn.classList.add("secondary");
+
+                    // Start periodic client requests
+                    simulationInterval = setInterval(() => {
+                        if (!masterNode || masterNode.isFailed) {
+                            electMaster();
+                        } else {
+                            simulateClientRequest();
+                        }
+                    }, 5000);
+                }
+
+                // Stop simulation
+                function stopSimulation() {
+                    simulationRunning = false;
+                    clearInterval(simulationInterval);
+                    runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+                    runBtn.classList.remove("secondary");
+                }
+
+                // Reset simulation
+                function resetSimulation() {
+                    stopSimulation();
+                    initVisualization();
+                }
+
+                // Step through simulation
+                function stepSimulation() {
+                    if (!simulationRunning) {
+                        if (!masterNode || masterNode.isFailed) {
+                            electMaster();
+                        } else {
+                            simulateClientRequest();
+                        }
+                    }
+                }
+
+                // Event listeners
+                runBtn.addEventListener("click", () => {
+                    if (simulationRunning) {
+                        stopSimulation();
+                    } else {
+                        startSimulation();
+                    }
+                });
+
+                stepBtn.addEventListener("click", stepSimulation);
+                resetBtn.addEventListener("click", resetSimulation);
+                failNodeBtn.addEventListener("click", failRandomNode);
+                addClientBtn.addEventListener("click", addClientRequest);
+                partitionBtn.addEventListener("click", simulatePartition);
+
+                // Initialize the visualization
+                initVisualization();
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
