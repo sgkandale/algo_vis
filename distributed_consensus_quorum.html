@@ -1,0 +1,1743 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quorum Consensus | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 400px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .console-input input {
+                flex: 1;
+                padding: 12px 15px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 5px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .console-input input:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* Quorum Visualization Styles */
+            #quorum-container {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .client {
+                width: 70px;
+                height: 70px;
+                border-radius: 12px;
+                background: var(--accent-light);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                position: absolute;
+                top: 20px;
+                z-index: 3;
+                box-shadow: var(--glow);
+            }
+
+            .replicas {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 30px;
+                flex-wrap: wrap;
+            }
+
+            .replica {
+                width: 80px;
+                height: 120px;
+                background: var(--card-bg);
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                position: relative;
+                overflow: hidden;
+                box-shadow: var(--shadow);
+            }
+
+            .replica-header {
+                width: 100%;
+                background: rgba(99, 102, 241, 0.3);
+                text-align: center;
+                padding: 5px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .replica-data {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                font-family: "Roboto Mono", monospace;
+                font-size: 14px;
+                width: 100%;
+            }
+
+            .replica.selected {
+                border: 2px solid var(--success);
+                box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            }
+
+            .replica.faulty {
+                border: 2px solid var(--danger);
+                box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+            }
+
+            .replica .version {
+                color: var(--warning);
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .replica .value {
+                font-size: 18px;
+                color: var(--success);
+                font-weight: bold;
+            }
+
+            .message {
+                position: absolute;
+                height: 2px;
+                background: var(--accent-light);
+                z-index: 1;
+                transform-origin: left center;
+                display: flex;
+                align-items: center;
+            }
+
+            .message::after {
+                content: "";
+                width: 10px;
+                height: 10px;
+                border-top: 2px solid var(--accent-light);
+                border-right: 2px solid var(--accent-light);
+                position: absolute;
+                right: -5px;
+                transform: rotate(45deg);
+            }
+
+            .message-label {
+                position: absolute;
+                background: rgba(30, 41, 59, 0.9);
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                color: var(--accent-light);
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                white-space: nowrap;
+            }
+
+            .phase-indicator {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: rgba(30, 41, 59, 0.8);
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 14px;
+                color: var(--accent-light);
+                border: 1px solid var(--accent);
+            }
+
+            .state-info {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 16px;
+                color: var(--accent-light);
+            }
+
+            .status-panel {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                position: absolute;
+                bottom: 10px;
+                width: 100%;
+            }
+
+            .status-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .status-label {
+                font-size: 12px;
+                color: var(--text-secondary);
+                margin-bottom: 5px;
+            }
+
+            .status-value {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .quorum-info {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(30, 41, 59, 0.8);
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 14px;
+                color: var(--accent-light);
+                border: 1px solid var(--accent);
+            }
+
+            .quorum-rules {
+                position: absolute;
+                top: 50px;
+                right: 10px;
+                background: rgba(30, 41, 59, 0.8);
+                padding: 10px;
+                border-radius: 8px;
+                font-size: 14px;
+                color: var(--accent-light);
+                border: 1px solid var(--accent);
+                width: 220px;
+            }
+
+            .quorum-rules h4 {
+                text-align: center;
+                margin-bottom: 5px;
+                color: var(--warning);
+            }
+
+            .quorum-rule {
+                font-size: 12px;
+                margin-bottom: 5px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .quorum-rule i {
+                color: var(--success);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Consensus Algorithms</a> >
+                            <span>Quorum Consensus</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Quorum Consensus</h1>
+                <div class="category">
+                    <i class="fas fa-database"></i> Distributed Consistency
+                    Protocol
+                </div>
+                <div class="complexity-badge">
+                    Min Nodes: N, Read Quorum: R, Write Quorum: W (R + W > N)
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            Quorum Consensus is a distributed protocol that
+                            ensures consistency across multiple replicas by
+                            requiring that read and write operations are
+                            performed on overlapping sets of nodes. The protocol
+                            uses quorum intersection to guarantee that any read
+                            operation retrieves the most recent written value.
+                        </p>
+                        <p>
+                            The system requires that for any read operation, a
+                            client must contact a read quorum (R) of nodes, and
+                            for any write operation, it must contact a write
+                            quorum (W) of nodes. The key constraint is that R +
+                            W > N (where N is the total number of replicas),
+                            ensuring that read and write quorums always overlap.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Ensures strong consistency through quorum
+                                    intersection
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Configurable R and W values allow
+                                    performance tuning
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Fault
+                                    Tolerance
+                                </h3>
+                                <p>
+                                    Tolerates up to N - W write failures and N -
+                                    R read failures
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Approach
+                                </h3>
+                                <p>
+                                    Uses version numbers to determine latest
+                                    value
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            Visualize how Quorum Consensus works with
+                            configurable parameters. Adjust the number of
+                            replicas (N), read quorum (R), and write quorum (W)
+                            to see how operations are performed. Simulate read
+                            and write operations to understand how consistency
+                            is maintained.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-play-circle"></i> Quorum
+                                    Consensus Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        id="reset-btn"
+                                        class="console-btn secondary"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                    <button id="read-btn" class="console-btn">
+                                        <i class="fas fa-book-open"></i> Read
+                                    </button>
+                                    <button id="write-btn" class="console-btn">
+                                        <i class="fas fa-pen"></i> Write
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="visualization-area">
+                                <div id="quorum-container">
+                                    <div class="phase-indicator">
+                                        Operation:
+                                        <span id="op-type">None</span>
+                                    </div>
+                                    <div class="quorum-info">
+                                        N: <span id="n-value">5</span>, R:
+                                        <span id="r-value">3</span>, W:
+                                        <span id="w-value">3</span>
+                                    </div>
+                                    <div class="quorum-rules">
+                                        <h4>Quorum Rules</h4>
+                                        <div class="quorum-rule">
+                                            <i class="fas fa-check-circle"></i>
+                                            R + W > N
+                                        </div>
+                                        <div class="quorum-rule">
+                                            <i class="fas fa-check-circle"></i>
+                                            W > N/2
+                                        </div>
+                                        <div class="quorum-rule">
+                                            <i class="fas fa-check-circle"></i>
+                                            Read quorum: R nodes
+                                        </div>
+                                        <div class="quorum-rule">
+                                            <i class="fas fa-check-circle"></i>
+                                            Write quorum: W nodes
+                                        </div>
+                                    </div>
+                                    <div class="client">Client</div>
+                                    <div class="replicas">
+                                        <div class="replica" id="rep1">
+                                            <div class="replica-header">
+                                                Replica 1
+                                            </div>
+                                            <div class="replica-data">
+                                                <div class="version">v1</div>
+                                                <div class="value">100</div>
+                                            </div>
+                                        </div>
+                                        <div class="replica" id="rep2">
+                                            <div class="replica-header">
+                                                Replica 2
+                                            </div>
+                                            <div class="replica-data">
+                                                <div class="version">v1</div>
+                                                <div class="value">100</div>
+                                            </div>
+                                        </div>
+                                        <div class="replica" id="rep3">
+                                            <div class="replica-header">
+                                                Replica 3
+                                            </div>
+                                            <div class="replica-data">
+                                                <div class="version">v1</div>
+                                                <div class="value">100</div>
+                                            </div>
+                                        </div>
+                                        <div class="replica" id="rep4">
+                                            <div class="replica-header">
+                                                Replica 4
+                                            </div>
+                                            <div class="replica-data">
+                                                <div class="version">v1</div>
+                                                <div class="value">100</div>
+                                            </div>
+                                        </div>
+                                        <div class="replica" id="rep5">
+                                            <div class="replica-header">
+                                                Replica 5
+                                            </div>
+                                            <div class="replica-data">
+                                                <div class="version">v1</div>
+                                                <div class="value">100</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="state-info" id="state-info">
+                                        Select an operation to begin
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="console-input">
+                                <input
+                                    type="text"
+                                    id="value-input"
+                                    placeholder="Enter new value (e.g. 150)"
+                                    value="150"
+                                />
+                                <div class="controls">
+                                    <button
+                                        id="inc-r-btn"
+                                        class="console-btn secondary"
+                                    >
+                                        <i class="fas fa-plus"></i> R
+                                    </button>
+                                    <button
+                                        id="dec-r-btn"
+                                        class="console-btn secondary"
+                                    >
+                                        <i class="fas fa-minus"></i> R
+                                    </button>
+                                    <button
+                                        id="inc-w-btn"
+                                        class="console-btn secondary"
+                                    >
+                                        <i class="fas fa-plus"></i> W
+                                    </button>
+                                    <button
+                                        id="dec-w-btn"
+                                        class="console-btn secondary"
+                                    >
+                                        <i class="fas fa-minus"></i> W
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            Quorum Consensus operates through specific steps for
+                            read and write operations:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-book-reader"></i> Read
+                                    Operation
+                                </h3>
+                                <p>
+                                    Client contacts R replicas and requests the
+                                    value and version number. The client selects
+                                    the value with the highest version number
+                                    and returns it.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-pen-fancy"></i> Write
+                                    Operation
+                                </h3>
+                                <p>
+                                    Client contacts W replicas and sends the new
+                                    value along with a version number (previous
+                                    highest version + 1). Replicas update their
+                                    value if the new version is higher.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-sync-alt"></i> Consistency
+                                    Guarantee
+                                </h3>
+                                <p>
+                                    Since R + W > N, any read quorum must
+                                    overlap with the last write quorum, ensuring
+                                    the read gets the latest value.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Fault Handling
+                                </h3>
+                                <p>
+                                    The system can tolerate N - W failed writes
+                                    and N - R failed reads while still
+                                    functioning correctly.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>// Read operation
+function read():
+    responses = []
+    // Contact R replicas
+    for i = 1 to R:
+        replica = select_random_replica()
+        response = replica.get_value()
+        responses.append(response)
+
+    // Find value with highest version
+    latest = responses[0]
+    for response in responses:
+        if response.version > latest.version:
+            latest = response
+
+    return latest.value
+
+// Write operation
+function write(new_value):
+    // First perform a read to get latest version
+    latest = read()
+    new_version = latest.version + 1
+
+    successes = 0
+    // Contact W replicas
+    for i = 1 to W:
+        replica = select_random_replica()
+        if replica.set_value(new_value, new_version):
+            successes++
+
+    return successes >= W  // Return true if write succeeded
+
+// Replica handling
+replica:
+    value = initial_value
+    version = 1
+
+    function get_value():
+        return (value, version)
+
+    function set_value(new_value, new_version):
+        if new_version > version:
+            value = new_value
+            version = new_version
+            return true
+        return false</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a Python implementation of the Quorum
+                            Consensus protocol, including read and write
+                            operations with version tracking.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">import</span> random
+
+<span class="keyword">class</span> <span class="function">Replica</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, replica_id):
+        self.id = replica_id
+        self.version = 1
+        self.value = 100  <span class="comment"># Initial value</span>
+        self.is_faulty = <span class="keyword">False</span>
+
+    <span class="keyword">def</span> <span class="function">get_value</span>(self):
+        <span class="keyword">if</span> self.is_faulty:
+            <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># Simulate failure</span>
+        <span class="keyword">return</span> (self.value, self.version)
+
+    <span class="keyword">def</span> <span class="function">set_value</span>(self, new_value, new_version):
+        <span class="keyword">if</span> self.is_faulty:
+            <span class="keyword">return</span> <span class="keyword">False</span>  <span class="comment"># Simulate failure</span>
+
+        <span class="keyword">if</span> new_version > self.version:
+            self.value = new_value
+            self.version = new_version
+            <span class="keyword">return</span> <span class="keyword">True</span>
+        <span class="keyword">return</span> <span class="keyword">False</span>
+
+<span class="keyword">class</span> <span class="function">QuorumSystem</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, n, r, w):
+        self.n = n
+        self.r = r
+        self.w = w
+        self.replicas = [Replica(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]
+        <span class="comment"># Randomly make one replica faulty</span>
+        self.replicas[random.randint(0, n-1)].is_faulty = <span class="keyword">True</span>
+
+    <span class="keyword">def</span> <span class="function">read</span>(self):
+        responses = []
+        contacted = set()
+
+        <span class="comment"># Contact R replicas</span>
+        <span class="keyword">while</span> len(contacted) < self.r:
+            replica = random.choice(self.replicas)
+            <span class="keyword">if</span> replica <span class="keyword">in</span> contacted:
+                <span class="keyword">continue</span>
+            contacted.add(replica)
+            response = replica.get_value()
+            <span class="keyword">if</span> response <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+                responses.append(response)
+
+        <span class="keyword">if</span> <span class="keyword">not</span> responses:
+            <span class="keyword">return</span> <span class="keyword">None</span>
+
+        <span class="comment"># Find the response with the highest version</span>
+        latest_value, latest_version = responses[0]
+        <span class="keyword">for</span> value, version <span class="keyword">in</span> responses:
+            <span class="keyword">if</span> version > latest_version:
+                latest_value, latest_version = value, version
+
+        <span class="keyword">return</span> latest_value
+
+    <span class="keyword">def</span> <span class="function">write</span>(self, new_value):
+        <span class="comment"># First get the latest version</span>
+        latest_version = 0
+        <span class="keyword">for</span> replica <span class="keyword">in</span> self.replicas:
+            value, version = replica.get_value() <span class="keyword">or</span> (0, 0)
+            <span class="keyword">if</span> version > latest_version:
+                latest_version = version
+
+        new_version = latest_version + 1
+        successes = 0
+        contacted = set()
+
+        <span class="comment"># Contact W replicas</span>
+        <span class="keyword">while</span> len(contacted) < self.w:
+            replica = random.choice(self.replicas)
+            <span class="keyword">if</span> replica <span class="keyword">in</span> contacted:
+                <span class="keyword">continue</span>
+            contacted.add(replica)
+            <span class="keyword">if</span> replica.set_value(new_value, new_version):
+                successes += 1
+
+        <span class="keyword">return</span> successes >= self.w
+
+<span class="comment"># Example usage</span>
+quorum = QuorumSystem(n=5, r=3, w=3)
+print(<span class="string">"Read value:"</span>, quorum.read())
+success = quorum.write(150)
+print(<span class="string">"Write successful:"</span>, success)
+print(<span class="string">"Read after write:"</span>, quorum.read())</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Consistency</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">Quorum System</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Fault Tolerance</h4>
+                                <div class="value">Configurable</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Consistency</h4>
+                                <div class="value">Strong</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Min Nodes</h4>
+                                <div class="value">3</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Read Quorum</h4>
+                                <div class="value">R</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Write Quorum</h4>
+                                <div class="value">W</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Constraint</h4>
+                                <div class="value">R+W>N</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Quorum Consensus is widely used in distributed
+                            systems requiring consistency:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Distributed databases (e.g., Apache Cassandra,
+                                DynamoDB)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Distributed file systems (e.g., Google File
+                                System)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Blockchain consensus mechanisms
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Replicated state machines
+                            </li>
+                            <li>Distributed locking services</li>
+                        </ul>
+                    </div>
+
+                    <!-- Configuration Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-sliders-h"></i> Configuration
+                            Tradeoffs
+                        </h2>
+                        <p>
+                            Different quorum configurations offer various
+                            tradeoffs:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>R=1, W=N:</strong> Fast reads, slow
+                                writes
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>R=N, W=1:</strong> Slow reads, fast
+                                writes
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>R=W=(N+1)/2:</strong> Balanced
+                                read/write performance
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>R=W=ceil(N/2)+1:</strong> Tolerates
+                                failures while maintaining consistency
+                            </li>
+                            <li>
+                                <strong>R=3, W=3, N=5:</strong> Common balanced
+                                configuration
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a
+                        href="https://www.linkedin.com/in/sgkandale/"
+                        target="_blank"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="mailto:me@sgkandale.com"
+                        ><i class="fa-solid fa-at"></i> E-Mail</a
+                    >
+                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization state
+            let quorumState = {
+                operation: "none",
+                replicas: [
+                    { id: 1, version: 1, value: 100, faulty: false },
+                    { id: 2, version: 1, value: 100, faulty: false },
+                    { id: 3, version: 1, value: 100, faulty: false },
+                    { id: 4, version: 1, value: 100, faulty: false },
+                    { id: 5, version: 1, value: 100, faulty: false },
+                ],
+                n: 5,
+                r: 3,
+                w: 3,
+                selectedReplicas: [],
+                newValue: 150,
+            };
+
+            // DOM Elements
+            const readBtn = document.getElementById("read-btn");
+            const writeBtn = document.getElementById("write-btn");
+            const resetBtn = document.getElementById("reset-btn");
+            const incRBtn = document.getElementById("inc-r-btn");
+            const decRBtn = document.getElementById("dec-r-btn");
+            const incWBtn = document.getElementById("inc-w-btn");
+            const decWBtn = document.getElementById("dec-w-btn");
+            const valueInput = document.getElementById("value-input");
+            const opType = document.getElementById("op-type");
+            const stateInfo = document.getElementById("state-info");
+            const nValue = document.getElementById("n-value");
+            const rValue = document.getElementById("r-value");
+            const wValue = document.getElementById("w-value");
+
+            // Initialize visualization
+            function initViz() {
+                quorumState = {
+                    operation: "none",
+                    replicas: [
+                        { id: 1, version: 1, value: 100, faulty: false },
+                        { id: 2, version: 1, value: 100, faulty: false },
+                        { id: 3, version: 1, value: 100, faulty: false },
+                        { id: 4, version: 1, value: 100, faulty: false },
+                        { id: 5, version: 1, value: 100, faulty: false },
+                    ],
+                    n: 5,
+                    r: 3,
+                    w: 3,
+                    selectedReplicas: [],
+                    newValue: 150,
+                };
+
+                // Reset UI
+                opType.textContent = "None";
+                stateInfo.textContent = "Select an operation to begin";
+                nValue.textContent = "5";
+                rValue.textContent = "3";
+                wValue.textContent = "3";
+                valueInput.value = "150";
+
+                // Reset replica states
+                document.querySelectorAll(".replica").forEach((replica) => {
+                    replica.classList.remove("selected", "faulty");
+                    const dataDiv = replica.querySelector(".replica-data");
+                    dataDiv.innerHTML =
+                        '<div class="version">v1</div><div class="value">100</div>';
+                });
+
+                // Randomly make one replica faulty
+                const randomIndex = Math.floor(Math.random() * quorumState.n);
+                quorumState.replicas[randomIndex].faulty = true;
+                document
+                    .getElementById(`rep${randomIndex + 1}`)
+                    .classList.add("faulty");
+
+                // Clear messages
+                document
+                    .querySelectorAll(".message")
+                    .forEach((m) => m.remove());
+            }
+
+            // Update replica display
+            function updateReplicaDisplay() {
+                quorumState.replicas.forEach((replica, index) => {
+                    const replicaElem = document.getElementById(
+                        `rep${index + 1}`,
+                    );
+                    const dataDiv = replicaElem.querySelector(".replica-data");
+                    dataDiv.innerHTML = `
+                    <div class="version">v${replica.version}</div>
+                    <div class="value">${replica.value}</div>
+                `;
+
+                    if (replica.faulty) {
+                        replicaElem.classList.add("faulty");
+                    } else {
+                        replicaElem.classList.remove("faulty");
+                    }
+                });
+            }
+
+            // Create message between client and replica
+            function createMessage(replicaId, type, value) {
+                const clientElem = document.querySelector(".client");
+                const replicaElem = document.getElementById(`rep${replicaId}`);
+
+                if (!clientElem || !replicaElem) return;
+
+                const clientRect = clientElem.getBoundingClientRect();
+                const replicaRect = replicaElem.getBoundingClientRect();
+                const containerRect = document
+                    .getElementById("quorum-container")
+                    .getBoundingClientRect();
+
+                const offsetX = containerRect.left;
+                const offsetY = containerRect.top;
+
+                const x1 = clientRect.left + clientRect.width / 2 - offsetX;
+                const y1 = clientRect.top + clientRect.height / 2 - offsetY;
+                const x2 = replicaRect.left + replicaRect.width / 2 - offsetX;
+                const y2 = replicaRect.top + replicaRect.height / 2 - offsetY;
+
+                const length = Math.sqrt(
+                    Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2),
+                );
+                const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+
+                const message = document.createElement("div");
+                message.className = "message";
+                message.style.width = `${length}px`;
+                message.style.transform = `rotate(${angle}deg)`;
+                message.style.left = `${x1}px`;
+                message.style.top = `${y1}px`;
+
+                const label = document.createElement("div");
+                label.className = "message-label";
+                label.textContent =
+                    type === "read" ? "READ" : `WRITE: ${value}`;
+                message.appendChild(label);
+
+                document
+                    .getElementById("quorum-container")
+                    .appendChild(message);
+
+                return message;
+            }
+
+            // Perform read operation
+            async function performRead() {
+                if (quorumState.operation !== "none") return;
+
+                quorumState.operation = "read";
+                opType.textContent = "Read";
+                stateInfo.textContent = "Selecting read quorum...";
+                quorumState.selectedReplicas = [];
+
+                // Select R distinct replicas
+                while (quorumState.selectedReplicas.length < quorumState.r) {
+                    const replicaId =
+                        Math.floor(Math.random() * quorumState.n) + 1;
+                    if (!quorumState.selectedReplicas.includes(replicaId)) {
+                        quorumState.selectedReplicas.push(replicaId);
+
+                        const replicaElem = document.getElementById(
+                            `rep${replicaId}`,
+                        );
+                        replicaElem.classList.add("selected");
+
+                        createMessage(replicaId, "read");
+                        await delay(700);
+                    }
+                }
+
+                stateInfo.textContent = "Reading from replicas...";
+                await delay(1000);
+
+                // Find the latest version
+                let latestValue = 100;
+                let latestVersion = 1;
+                let faultyCount = 0;
+
+                for (const replicaId of quorumState.selectedReplicas) {
+                    const replica = quorumState.replicas[replicaId - 1];
+
+                    if (replica.faulty) {
+                        faultyCount++;
+                        continue;
+                    }
+
+                    if (replica.version > latestVersion) {
+                        latestVersion = replica.version;
+                        latestValue = replica.value;
+                    }
+                }
+
+                stateInfo.textContent = `Read value: ${latestValue} (v${latestVersion})`;
+                await delay(1500);
+
+                // Reset selection
+                quorumState.selectedReplicas.forEach((replicaId) => {
+                    document
+                        .getElementById(`rep${replicaId}`)
+                        .classList.remove("selected");
+                });
+
+                quorumState.operation = "none";
+                opType.textContent = "None";
+                stateInfo.textContent = "Select an operation to begin";
+            }
+
+            // Perform write operation
+            async function performWrite() {
+                if (quorumState.operation !== "none") return;
+
+                quorumState.newValue = parseInt(valueInput.value) || 150;
+                quorumState.operation = "write";
+                opType.textContent = "Write";
+                stateInfo.textContent = "Determining next version...";
+
+                // First find the latest version (like a read)
+                let latestVersion = 1;
+                for (const replica of quorumState.replicas) {
+                    if (!replica.faulty && replica.version > latestVersion) {
+                        latestVersion = replica.version;
+                    }
+                }
+
+                const newVersion = latestVersion + 1;
+                stateInfo.textContent = `Writing value: ${quorumState.newValue} (v${newVersion})`;
+                await delay(1000);
+
+                quorumState.selectedReplicas = [];
+
+                // Select W distinct replicas
+                while (quorumState.selectedReplicas.length < quorumState.w) {
+                    const replicaId =
+                        Math.floor(Math.random() * quorumState.n) + 1;
+                    if (!quorumState.selectedReplicas.includes(replicaId)) {
+                        quorumState.selectedReplicas.push(replicaId);
+
+                        const replicaElem = document.getElementById(
+                            `rep${replicaId}`,
+                        );
+                        replicaElem.classList.add("selected");
+
+                        createMessage(replicaId, "write", quorumState.newValue);
+                        await delay(700);
+                    }
+                }
+
+                stateInfo.textContent = "Writing to replicas...";
+                await delay(1000);
+
+                // Update replicas
+                let successes = 0;
+                let failures = 0;
+
+                for (const replicaId of quorumState.selectedReplicas) {
+                    const replica = quorumState.replicas[replicaId - 1];
+
+                    if (replica.faulty) {
+                        failures++;
+                        continue;
+                    }
+
+                    if (newVersion > replica.version) {
+                        replica.version = newVersion;
+                        replica.value = quorumState.newValue;
+                        successes++;
+                    }
+                }
+
+                updateReplicaDisplay();
+
+                if (successes >= quorumState.w) {
+                    stateInfo.textContent = `Write successful! Updated ${successes} replicas`;
+                } else {
+                    stateInfo.textContent = `Write failed! Only ${successes}/${quorumState.w} succeeded`;
+                }
+
+                await delay(1500);
+
+                // Reset selection
+                quorumState.selectedReplicas.forEach((replicaId) => {
+                    document
+                        .getElementById(`rep${replicaId}`)
+                        .classList.remove("selected");
+                });
+
+                quorumState.operation = "none";
+                opType.textContent = "None";
+                stateInfo.textContent = "Select an operation to begin";
+            }
+
+            // Adjust quorum values
+            function adjustR(increment) {
+                if (increment) {
+                    if (quorumState.r < quorumState.n) quorumState.r++;
+                } else {
+                    if (quorumState.r > 1) quorumState.r--;
+                }
+                rValue.textContent = quorumState.r;
+                validateQuorum();
+            }
+
+            function adjustW(increment) {
+                if (increment) {
+                    if (quorumState.w < quorumState.n) quorumState.w++;
+                } else {
+                    if (quorumState.w > 1) quorumState.w--;
+                }
+                wValue.textContent = quorumState.w;
+                validateQuorum();
+            }
+
+            // Validate quorum constraints
+            function validateQuorum() {
+                const quorumRules = document.querySelector(".quorum-rules");
+                const rules = quorumRules.querySelectorAll(".quorum-rule");
+
+                // Reset all rules
+                rules.forEach((rule) => {
+                    rule.innerHTML = rule.innerHTML
+                        .replace("✅", "")
+                        .replace("❌", "");
+                });
+
+                // Check R + W > N
+                if (quorumState.r + quorumState.w > quorumState.n) {
+                    rules[0].innerHTML += " ✅";
+                } else {
+                    rules[0].innerHTML += " ❌";
+                }
+
+                // Check W > N/2
+                if (quorumState.w > quorumState.n / 2) {
+                    rules[1].innerHTML += " ✅";
+                } else {
+                    rules[1].innerHTML += " ❌";
+                }
+            }
+
+            // Helper function for delays
+            function delay(ms) {
+                return new Promise((resolve) => setTimeout(resolve, ms));
+            }
+
+            // Event Listeners
+            readBtn.addEventListener("click", performRead);
+            writeBtn.addEventListener("click", performWrite);
+            resetBtn.addEventListener("click", initViz);
+            incRBtn.addEventListener("click", () => adjustR(true));
+            decRBtn.addEventListener("click", () => adjustR(false));
+            incWBtn.addEventListener("click", () => adjustW(true));
+            decWBtn.addEventListener("click", () => adjustW(false));
+
+            // Initialize
+            document.addEventListener("DOMContentLoaded", () => {
+                initViz();
+                validateQuorum();
+            });
+        </script>
+    </body>
+</html>
