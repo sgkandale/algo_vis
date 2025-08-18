@@ -1,0 +1,1722 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Viewstamped Replication | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 400px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .console-input input {
+                flex: 1;
+                padding: 12px 15px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 5px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .console-input input:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* VR Visualization Styles */
+            #vr-container {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .client {
+                width: 60px;
+                height: 60px;
+                border-radius: 12px;
+                background: var(--accent-light);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                position: absolute;
+                top: 20px;
+                z-index: 3;
+            }
+
+            .primary-node {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: var(--warning);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                position: relative;
+                z-index: 2;
+                box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+                margin-top: 60px;
+            }
+
+            .backup-nodes {
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+                position: relative;
+                z-index: 2;
+                margin-top: 30px;
+            }
+
+            .backup-node {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: var(--accent);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                position: relative;
+                transition: all 0.5s ease;
+            }
+
+            .backup-node.active {
+                background: var(--success);
+                box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+            }
+
+            .backup-node.faulty {
+                background: var(--danger);
+                box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+            }
+
+            .message {
+                position: absolute;
+                height: 2px;
+                background: var(--accent-light);
+                z-index: 1;
+                transform-origin: left center;
+                display: flex;
+                align-items: center;
+            }
+
+            .message::after {
+                content: "";
+                width: 10px;
+                height: 10px;
+                border-top: 2px solid var(--accent-light);
+                border-right: 2px solid var(--accent-light);
+                position: absolute;
+                right: -5px;
+                transform: rotate(45deg);
+            }
+
+            .message-label {
+                position: absolute;
+                background: rgba(30, 41, 59, 0.9);
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                color: var(--accent-light);
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                white-space: nowrap;
+            }
+
+            .phase-indicator {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: rgba(30, 41, 59, 0.8);
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 14px;
+                color: var(--accent-light);
+                border: 1px solid var(--accent);
+            }
+
+            .state-info {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                right: 0;
+                text-align: center;
+                font-size: 16px;
+                color: var(--accent-light);
+            }
+
+            .status-panel {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                position: absolute;
+                bottom: 10px;
+                width: 100%;
+            }
+
+            .status-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .status-label {
+                font-size: 12px;
+                color: var(--text-secondary);
+                margin-bottom: 5px;
+            }
+
+            .status-value {
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            .log-container {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: 8px;
+                padding: 10px;
+                width: 200px;
+                max-height: 150px;
+                overflow-y: auto;
+                border: 1px solid var(--accent);
+            }
+
+            .log-entry {
+                font-size: 12px;
+                color: var(--accent-light);
+                margin-bottom: 5px;
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .log-title {
+                text-align: center;
+                margin-bottom: 5px;
+                color: var(--warning);
+                font-weight: bold;
+            }
+
+            .view-indicator {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: rgba(30, 41, 59, 0.8);
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 14px;
+                color: var(--accent-light);
+                border: 1px solid var(--accent);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Consensus Algorithms</a> >
+                            <span>Viewstamped Replication</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Viewstamped Replication</h1>
+                <div class="category">
+                    <i class="fas fa-server"></i> Primary-Backup Consensus
+                    Protocol
+                </div>
+                <div class="complexity-badge">
+                    Fault Tolerance: f failures with 2f+1 nodes
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            Viewstamped Replication (VR) is a primary-backup
+                            consensus protocol that enables distributed systems
+                            to maintain consistent state across multiple
+                            replicas. It uses a view-based approach where each
+                            view has a designated primary node that coordinates
+                            operations, and backup nodes that replicate the
+                            state.
+                        </p>
+                        <p>
+                            VR operates through a series of views, each with a
+                            unique view number. The protocol handles client
+                            requests, view changes when the primary fails, and
+                            recovery of failed nodes. It ensures linearizability
+                            and fault tolerance in asynchronous networks,
+                            requiring 2f+1 nodes to tolerate f failures.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Uses view numbers to manage primary
+                                    leadership
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Optimistic path requires 2 round trips for
+                                    client requests
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Fault
+                                    Tolerance
+                                </h3>
+                                <p>
+                                    Tolerates up to f failures with 2f+1 nodes
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Approach
+                                </h3>
+                                <p>
+                                    Primary coordinates ordering of operations
+                                    across backups
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            Visualize how Viewstamped Replication works in a
+                            distributed system. The client sends requests to the
+                            primary (yellow), which coordinates with backup
+                            nodes (blue). Simulate successful operations,
+                            primary failures, and view changes to understand the
+                            protocol's fault tolerance mechanisms.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-play-circle"></i> VR
+                                    Protocol Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        id="reset-btn"
+                                        class="console-btn secondary"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                    <button id="run-btn" class="console-btn">
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                    <button
+                                        id="failure-btn"
+                                        class="console-btn secondary"
+                                    >
+                                        <i
+                                            class="fas fa-exclamation-triangle"
+                                        ></i>
+                                        Fail Primary
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="visualization-area">
+                                <div id="vr-container">
+                                    <div class="phase-indicator">
+                                        Phase:
+                                        <span id="phase-text">Not Started</span>
+                                    </div>
+                                    <div class="view-indicator">
+                                        View: <span id="view-number">1</span>
+                                    </div>
+                                    <div class="client">Client</div>
+                                    <div class="primary-node">Primary</div>
+                                    <div class="backup-nodes">
+                                        <div class="backup-node" id="b1">
+                                            B1
+                                        </div>
+                                        <div class="backup-node" id="b2">
+                                            B2
+                                        </div>
+                                        <div class="backup-node" id="b3">
+                                            B3
+                                        </div>
+                                    </div>
+                                    <div class="state-info" id="state-info">
+                                        Replication State: Not Started
+                                    </div>
+
+                                    <div class="log-container">
+                                        <div class="log-title">Primary Log</div>
+                                        <div id="log-entries"></div>
+                                    </div>
+
+                                    <div class="status-panel">
+                                        <div class="status-item">
+                                            <div class="status-label">View</div>
+                                            <div
+                                                class="status-value"
+                                                id="view-value"
+                                            >
+                                                1
+                                            </div>
+                                        </div>
+                                        <div class="status-item">
+                                            <div class="status-label">
+                                                Commit #
+                                            </div>
+                                            <div
+                                                class="status-value"
+                                                id="commit-num"
+                                            >
+                                                0
+                                            </div>
+                                        </div>
+                                        <div class="status-item">
+                                            <div class="status-label">Op #</div>
+                                            <div
+                                                class="status-value"
+                                                id="op-num"
+                                            >
+                                                0
+                                            </div>
+                                        </div>
+                                        <div class="status-item">
+                                            <div class="status-label">
+                                                Status
+                                            </div>
+                                            <div
+                                                class="status-value"
+                                                id="status-value"
+                                            >
+                                                Stable
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="console-input">
+                                <input
+                                    type="text"
+                                    id="request-input"
+                                    placeholder="Enter request (e.g. SET X=5)"
+                                    value="SET BALANCE=100"
+                                />
+                                <button id="random-btn" class="console-btn">
+                                    <i class="fas fa-random"></i> Random Request
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            Viewstamped Replication operates through several key
+                            mechanisms:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-paper-plane"></i> 1. Client
+                                    Request
+                                </h3>
+                                <p>
+                                    Client sends request to primary. Primary
+                                    assigns op-number, adds to log, and sends
+                                    PREPARE to backups with view#, op#, and
+                                    request.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> 2.
+                                    Prepare Phase
+                                </h3>
+                                <p>
+                                    Backups receive PREPARE, log request if
+                                    valid, and reply with PREPAREOK to primary.
+                                    Primary waits for f PREPAREOK messages.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-double"></i> 3.
+                                    Commit & Execute
+                                </h3>
+                                <p>
+                                    Primary executes operation, updates state,
+                                    and sends reply to client. Primary then
+                                    sends COMMIT to backups, which execute the
+                                    operation.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-sync-alt"></i> 4. View
+                                    Change
+                                </h3>
+                                <p>
+                                    If primary fails, backups initiate view
+                                    change. New primary collects log info,
+                                    updates view, and resumes operations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>// Primary Node
+on receive(request) from client:
+    if status != NORMAL: forward to primary
+    op-number++
+    log[op-number] = (request, view-number, op-number)
+    send PREPARE(view, op-number, request) to all backups
+
+on receive(PREPAREOK) from backup:
+    if prepared_ok_count >= f:
+        execute(request)
+        send REPLY to client
+        send COMMIT(view, op-number) to backups
+
+// Backup Node
+on receive(PREPARE) from primary:
+    if valid(view, op-number):
+        log[op-number] = (request, view, op-number)
+        send PREPAREOK(view, op-number) to primary
+
+on receive(COMMIT) from primary:
+    execute(log[op-number].request)
+    commit_number = op-number
+
+// View Change Protocol
+on suspect primary failure:
+    view_number++
+    send STARTVIEWCHANGE(view) to all
+    on receive STARTVIEWCHANGE(view) from f+1 nodes:
+        send DOVIEWCHANGE(view, log) to new primary
+    new primary collects logs from f+1 nodes, updates state
+    send STARTVIEW(view, log, op-number) to backups</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of the
+                            Viewstamped Replication protocol, including core
+                            operations and view change handling.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">class</span> <span class="function">VRNode</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, node_id, is_primary=False):
+        self.node_id = node_id
+        self.is_primary = is_primary
+        self.view_number = 0
+        self.op_number = 0
+        self.commit_number = 0
+        self.status = <span class="string">"NORMAL"</span>  <span class="comment"># NORMAL, VIEW_CHANGE, RECOVERING</span>
+        self.log = []
+        self.state = {}
+
+    <span class="keyword">def</span> <span class="function">handle_request</span>(self, request):
+        <span class="keyword">if</span> <span class="keyword">not</span> self.is_primary <span class="keyword">or</span> self.status != <span class="string">"NORMAL"</span>:
+            <span class="keyword">return</span> <span class="keyword">None</span>
+
+        self.op_number += 1
+        self.log.append({
+            <span class="string">'view'</span>: self.view_number,
+            <span class="string">'op_number'</span>: self.op_number,
+            <span class="string">'request'</span>: request,
+            <span class="string">'status'</span>: <span class="string">"PREPARED"</span>
+        })
+        <span class="keyword">return</span> {
+            <span class="string">'type'</span>: <span class="string">'PREPARE'</span>,
+            <span class="string">'view'</span>: self.view_number,
+            <span class="string">'op_number'</span>: self.op_number,
+            <span class="string">'request'</span>: request
+        }
+
+    <span class="keyword">def</span> <span class="function">handle_prepare</span>(self, message):
+        <span class="keyword">if</span> message[<span class="string">'view'</span>] != self.view_number:
+            <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># Stale view</span>
+
+        <span class="keyword">if</span> message[<span class="string">'op_number'</span>] <= self.op_number:
+            <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># Already processed</span>
+
+        self.op_number = message[<span class="string">'op_number'</span>]
+        self.log.append({
+            <span class="string">'view'</span>: message[<span class="string">'view'</span>],
+            <span class="string">'op_number'</span>: message[<span class="string">'op_number'</span>],
+            <span class="string">'request'</span>: message[<span class="string">'request'</span>],
+            <span class="string">'status'</span>: <span class="string">"PREPARED"</span>
+        })
+        <span class="keyword">return</span> {
+            <span class="string">'type'</span>: <span class="string">'PREPAREOK'</span>,
+            <span class="string">'view'</span>: self.view_number,
+            <span class="string">'op_number'</span>: self.op_number
+        }
+
+    <span class="keyword">def</span> <span class="function">handle_prepare_ok</span>(self, message):
+        <span class="keyword">if</span> self.status != <span class="string">"NORMAL"</span> <span class="keyword">or</span> message[<span class="string">'view'</span>] != self.view_number:
+            <span class="keyword">return</span> <span class="keyword">None</span>
+
+        <span class="comment"># Find log entry</span>
+        log_entry = next((item <span class="keyword">for</span> item <span class="keyword">in</span> self.log <span class="keyword">if</span> item[<span class="string">'op_number'</span>] == message[<span class="string">'op_number'</span>]), <span class="keyword">None</span>)
+        <span class="keyword">if</span> <span class="keyword">not</span> log_entry <span class="keyword">or</span> log_entry[<span class="string">'status'</span>] == <span class="string">"COMMITTED"</span>:
+            <span class="keyword">return</span> <span class="keyword">None</span>
+
+        log_entry[<span class="string">'prepare_oks'</span>] = log_entry.get(<span class="string">'prepare_oks'</span>, <span class="number">0</span>) + 1
+
+        <span class="comment"># If enough PREPAREOK messages, commit the operation</span>
+        <span class="keyword">if</span> log_entry[<span class="string">'prepare_oks'</span>] >= <span class="number">2</span>:  <span class="comment"># f=2 for 5 nodes</span>
+            self.execute_operation(log_entry[<span class="string">'request'</span>])
+            log_entry[<span class="string">'status'</span>] = <span class="string">"COMMITTED"</span>
+            self.commit_number = log_entry[<span class="string">'op_number'</span>]
+            <span class="keyword">return</span> {
+                <span class="string">'type'</span>: <span class="string">'COMMIT'</span>,
+                <span class="string">'view'</span>: self.view_number,
+                <span class="string">'op_number'</span>: self.op_number
+            }
+        <span class="keyword">return</span> <span class="keyword">None</span>
+
+    <span class="keyword">def</span> <span class="function">execute_operation</span>(self, request):
+        <span class="comment"># Simplified operation execution</span>
+        <span class="keyword">if</span> request.startswith(<span class="string">"SET"</span>):
+            key, value = request.split()[<span class="number">1</span>].split(<span class="string">'='</span>)
+            self.state[key] = int(value)
+        <span class="keyword">return</span> self.state
+
+<span class="comment"># Example usage</span>
+primary = VRNode(<span class="number">0</span>, is_primary=<span class="keyword">True</span>)
+backups = [VRNode(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">4</span>)]
+
+<span class="comment"># Client sends request to primary</span>
+request = <span class="string">"SET balance=100"</span>
+prepare_msg = primary.handle_request(request)
+
+<span class="comment"># Backups handle PREPARE message</span>
+<span class="keyword">for</span> backup <span class="keyword">in</span> backups:
+    prepare_ok = backup.handle_prepare(prepare_msg)
+    <span class="comment"># Send PREPAREOK back to primary</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Consensus</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">State Machine</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Fault Tolerance</h4>
+                                <div class="value">Crash Fault</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Min Nodes</h4>
+                                <div class="value">2f+1</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Message Complexity</h4>
+                                <div class="value">O(n)</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Leader</h4>
+                                <div class="value">Primary</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Recovery</h4>
+                                <div class="value">View Change</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Consistency</h4>
+                                <div class="value">Linearizable</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Viewstamped Replication is used in systems requiring
+                            strong consistency and fault tolerance:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Distributed databases (e.g., IBM's Swift, CORFU)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Replicated state machines
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Distributed file systems
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Financial transaction processing systems
+                            </li>
+                            <li>Cloud storage systems</li>
+                        </ul>
+                    </div>
+
+                    <!-- Comparison Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-balance-scale"></i> VR vs Raft</h2>
+                        <p>
+                            Key differences between Viewstamped Replication and
+                            Raft:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>Terminology:</strong> VR uses "views",
+                                Raft uses "terms"
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Leader Election:</strong> VR has
+                                separate view change protocol, Raft combines
+                                election and log replication
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Log Management:</strong> VR has more
+                                complex log recovery during view changes
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Approach:</strong> VR was designed
+                                earlier and influenced Raft's development
+                            </li>
+                            <li>
+                                <strong>Complexity:</strong> Raft was designed
+                                to be more understandable than VR
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a
+                        href="https://www.linkedin.com/in/sgkandale/"
+                        target="_blank"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="mailto:me@sgkandale.com"
+                        ><i class="fa-solid fa-at"></i> E-Mail</a
+                    >
+                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization state
+            let vrState = {
+                phase: "not-started",
+                view: 1,
+                opNumber: 0,
+                commitNumber: 0,
+                request: "SET BALANCE=100",
+                primaryActive: true,
+                logEntries: [],
+            };
+
+            // DOM Elements
+            const runBtn = document.getElementById("run-btn");
+            const resetBtn = document.getElementById("reset-btn");
+            const failureBtn = document.getElementById("failure-btn");
+            const randomBtn = document.getElementById("random-btn");
+            const requestInput = document.getElementById("request-input");
+            const phaseText = document.getElementById("phase-text");
+            const viewNumber = document.getElementById("view-number");
+            const stateInfo = document.getElementById("state-info");
+            const viewValue = document.getElementById("view-value");
+            const commitNum = document.getElementById("commit-num");
+            const opNum = document.getElementById("op-num");
+            const statusValue = document.getElementById("status-value");
+            const logEntries = document.getElementById("log-entries");
+
+            // Initialize visualization
+            function initViz() {
+                vrState = {
+                    phase: "not-started",
+                    view: 1,
+                    opNumber: 0,
+                    commitNumber: 0,
+                    request: requestInput.value || "SET BALANCE=100",
+                    primaryActive: true,
+                    logEntries: [],
+                };
+
+                // Reset UI
+                phaseText.textContent = "Not Started";
+                stateInfo.textContent = "Replication State: Not Started";
+                viewNumber.textContent = "1";
+                viewValue.textContent = "1";
+                commitNum.textContent = "0";
+                opNum.textContent = "0";
+                statusValue.textContent = "Stable";
+                logEntries.innerHTML = "";
+
+                // Reset node states
+                document
+                    .querySelector(".primary-node")
+                    .classList.remove("faulty");
+                document.querySelectorAll(".backup-node").forEach((node) => {
+                    node.classList.remove("active", "faulty");
+                });
+
+                // Clear messages
+                document
+                    .querySelectorAll(".message")
+                    .forEach((m) => m.remove());
+            }
+
+            // Add log entry
+            function addLogEntry(message) {
+                const entry = document.createElement("div");
+                entry.className = "log-entry";
+                entry.textContent = message;
+                logEntries.appendChild(entry);
+                logEntries.scrollTop = logEntries.scrollHeight;
+                vrState.logEntries.push(message);
+            }
+
+            // Create message between nodes
+            function createMessage(from, to, type, value) {
+                const fromSelector =
+                    from === "client"
+                        ? ".client"
+                        : from === "primary"
+                          ? ".primary-node"
+                          : `#${to}`;
+                const toSelector =
+                    to === "primary" ? ".primary-node" : `#${to}`;
+
+                const fromElem = document.querySelector(fromSelector);
+                const toElem = document.querySelector(toSelector);
+
+                if (!fromElem || !toElem) return;
+
+                const fromRect = fromElem.getBoundingClientRect();
+                const toRect = toElem.getBoundingClientRect();
+                const containerRect = document
+                    .getElementById("vr-container")
+                    .getBoundingClientRect();
+
+                const offsetX = containerRect.left;
+                const offsetY = containerRect.top;
+
+                const x1 = fromRect.left + fromRect.width / 2 - offsetX;
+                const y1 = fromRect.top + fromRect.height / 2 - offsetY;
+                const x2 = toRect.left + toRect.width / 2 - offsetX;
+                const y2 = toRect.top + toRect.height / 2 - offsetY;
+
+                const length = Math.sqrt(
+                    Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2),
+                );
+                const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+
+                const message = document.createElement("div");
+                message.className = "message";
+                message.style.width = `${length}px`;
+                message.style.transform = `rotate(${angle}deg)`;
+                message.style.left = `${x1}px`;
+                message.style.top = `${y1}px`;
+
+                const label = document.createElement("div");
+                label.className = "message-label";
+                label.textContent = `${type}: ${value}`;
+                message.appendChild(label);
+
+                document.getElementById("vr-container").appendChild(message);
+
+                return message;
+            }
+
+            // Run the VR protocol
+            async function runProtocol() {
+                if (vrState.phase !== "not-started") return;
+
+                // Reset state
+                initViz();
+                await delay(500);
+
+                // Set phase to Request
+                vrState.phase = "request";
+                phaseText.textContent = "Request";
+                stateInfo.textContent = "Client sending request to primary";
+
+                // Client sends request to primary
+                createMessage("client", "primary", "REQUEST", vrState.request);
+                addLogEntry(`CLIENT → PRIMARY: ${vrState.request}`);
+                await delay(1000);
+
+                // Primary prepares the request
+                vrState.phase = "prepare";
+                phaseText.textContent = "Prepare";
+                stateInfo.textContent =
+                    "Primary preparing request and sending to backups";
+                vrState.opNumber++;
+                opNum.textContent = vrState.opNumber;
+
+                addLogEntry(`PRIMARY: Assigned op#${vrState.opNumber}`);
+                addLogEntry(
+                    `PRIMARY → BACKUPS: PREPARE(v${vrState.view}, op#${vrState.opNumber})`,
+                );
+
+                // Primary sends PREPARE to backups
+                for (let i = 1; i <= 3; i++) {
+                    createMessage(
+                        "primary",
+                        `b${i}`,
+                        "PREPARE",
+                        `v${vrState.view}, op#${vrState.opNumber}`,
+                    );
+                    await delay(600);
+                }
+
+                await delay(1000);
+
+                // Backups respond with PREPAREOK
+                vrState.phase = "prepare-ok";
+                phaseText.textContent = "Prepare OK";
+                stateInfo.textContent = "Backups preparing and acknowledging";
+
+                for (let i = 1; i <= 3; i++) {
+                    document.getElementById(`b${i}`).classList.add("active");
+                    createMessage(
+                        `b${i}`,
+                        "primary",
+                        "PREPAREOK",
+                        `v${vrState.view}, op#${vrState.opNumber}`,
+                    );
+                    addLogEntry(`BACKUP${i} → PRIMARY: PREPAREOK`);
+                    await delay(800);
+                }
+
+                await delay(1000);
+
+                // Primary commits and executes
+                vrState.phase = "commit";
+                phaseText.textContent = "Commit";
+                stateInfo.textContent =
+                    "Primary executing and committing operation";
+                vrState.commitNumber = vrState.opNumber;
+                commitNum.textContent = vrState.commitNumber;
+
+                addLogEntry(`PRIMARY: Executed op#${vrState.opNumber}`);
+                addLogEntry(`PRIMARY → CLIENT: REPLY (SUCCESS)`);
+
+                // Primary sends reply to client
+                createMessage("primary", "client", "REPLY", "SUCCESS");
+                await delay(1000);
+
+                // Primary sends COMMIT to backups
+                vrState.phase = "commit-broadcast";
+                phaseText.textContent = "Commit Broadcast";
+                stateInfo.textContent =
+                    "Primary broadcasting commit to backups";
+
+                for (let i = 1; i <= 3; i++) {
+                    createMessage(
+                        "primary",
+                        `b${i}`,
+                        "COMMIT",
+                        `v${vrState.view}, op#${vrState.opNumber}`,
+                    );
+                    await delay(600);
+                }
+
+                addLogEntry(
+                    `PRIMARY → BACKUPS: COMMIT(v${vrState.view}, op#${vrState.opNumber})`,
+                );
+                await delay(1000);
+
+                // Backups commit
+                vrState.phase = "commit-apply";
+                phaseText.textContent = "Commit Apply";
+                stateInfo.textContent =
+                    "Backups applying commit to their state";
+
+                for (let i = 1; i <= 3; i++) {
+                    addLogEntry(`BACKUP${i}: Committed op#${vrState.opNumber}`);
+                    await delay(500);
+                }
+
+                await delay(500);
+
+                // Completion
+                vrState.phase = "complete";
+                phaseText.textContent = "Complete";
+                stateInfo.textContent =
+                    "Operation completed successfully across all nodes";
+                addLogEntry("SYSTEM: Operation completed successfully");
+            }
+
+            // Simulate primary failure
+            async function simulateFailure() {
+                if (vrState.phase !== "not-started") return;
+
+                // First run a successful operation
+                await runProtocol();
+                await delay(1000);
+
+                // Fail the primary
+                vrState.primaryActive = false;
+                document.querySelector(".primary-node").classList.add("faulty");
+                stateInfo.textContent =
+                    "Primary failed! Initiating view change...";
+                addLogEntry("!!! PRIMARY FAILURE DETECTED !!!");
+                await delay(1500);
+
+                // Start view change
+                vrState.phase = "view-change";
+                phaseText.textContent = "View Change";
+                vrState.view++;
+                viewNumber.textContent = vrState.view;
+                viewValue.textContent = vrState.view;
+                statusValue.textContent = "View Change";
+
+                addLogEntry(
+                    `BACKUP1: Starting view change to v${vrState.view}`,
+                );
+
+                // Backup nodes initiate view change
+                for (let i = 1; i <= 3; i++) {
+                    createMessage(
+                        `b${i}`,
+                        "b1",
+                        "STARTVIEWCHANGE",
+                        `v${vrState.view}`,
+                    );
+                    await delay(800);
+                }
+
+                addLogEntry(
+                    `BACKUPS: Coordinating view change to v${vrState.view}`,
+                );
+                await delay(1500);
+
+                // New primary elected (B1)
+                document.getElementById("b1").classList.remove("active");
+                document.getElementById("b1").textContent = "NEW PRIMARY";
+                stateInfo.textContent = `View ${vrState.view} established with new primary`;
+                addLogEntry(
+                    `SYSTEM: New primary elected (Backup1) for v${vrState.view}`,
+                );
+
+                await delay(1000);
+
+                // New primary takes over
+                vrState.phase = "new-primary";
+                phaseText.textContent = "New Primary";
+                stateInfo.textContent = "New primary ready to process requests";
+                statusValue.textContent = "Normal";
+
+                // Simulate client request to new primary
+                vrState.request = "SET BALANCE=150";
+                requestInput.value = vrState.request;
+
+                await delay(1000);
+
+                // Run new operation with new primary
+                vrState.phase = "request";
+                phaseText.textContent = "Request";
+                stateInfo.textContent = "Client sending request to new primary";
+
+                createMessage("client", "b1", "REQUEST", vrState.request);
+                addLogEntry(`CLIENT → NEW PRIMARY: ${vrState.request}`);
+                await delay(1000);
+
+                // Continue with the protocol...
+                vrState.opNumber++;
+                opNum.textContent = vrState.opNumber;
+
+                addLogEntry(`NEW PRIMARY: Assigned op#${vrState.opNumber}`);
+                addLogEntry(
+                    `NEW PRIMARY → BACKUPS: PREPARE(v${vrState.view}, op#${vrState.opNumber})`,
+                );
+
+                // New primary sends PREPARE to other backups
+                for (let i = 2; i <= 3; i++) {
+                    createMessage(
+                        "b1",
+                        `b${i}`,
+                        "PREPARE",
+                        `v${vrState.view}, op#${vrState.opNumber}`,
+                    );
+                    await delay(600);
+                }
+
+                await delay(1000);
+
+                // Backups respond
+                for (let i = 2; i <= 3; i++) {
+                    createMessage(
+                        `b${i}`,
+                        "b1",
+                        "PREPAREOK",
+                        `v${vrState.view}, op#${vrState.opNumber}`,
+                    );
+                    addLogEntry(`BACKUP${i} → PRIMARY: PREPAREOK`);
+                    await delay(800);
+                }
+
+                await delay(1000);
+
+                // New primary commits
+                vrState.commitNumber = vrState.opNumber;
+                commitNum.textContent = vrState.commitNumber;
+                addLogEntry(`NEW PRIMARY: Executed op#${vrState.opNumber}`);
+                addLogEntry(`NEW PRIMARY → CLIENT: REPLY (SUCCESS)`);
+
+                createMessage("b1", "client", "REPLY", "SUCCESS");
+                await delay(1000);
+
+                // Completion
+                vrState.phase = "complete";
+                phaseText.textContent = "Complete";
+                stateInfo.textContent =
+                    "System recovered successfully with new primary";
+                addLogEntry("SYSTEM: Operation completed with new primary");
+            }
+
+            // Generate random request
+            function randomRequest() {
+                const actions = ["SET", "UPDATE", "INCREMENT", "DECREMENT"];
+                const variables = ["BALANCE", "COUNT", "SCORE", "QUANTITY"];
+                const values = Math.floor(Math.random() * 1000);
+
+                const action =
+                    actions[Math.floor(Math.random() * actions.length)];
+                const variable =
+                    variables[Math.floor(Math.random() * variables.length)];
+
+                vrState.request = `${action} ${variable}=${values}`;
+                requestInput.value = vrState.request;
+            }
+
+            // Helper function for delays
+            function delay(ms) {
+                return new Promise((resolve) => setTimeout(resolve, ms));
+            }
+
+            // Event Listeners
+            runBtn.addEventListener("click", runProtocol);
+            resetBtn.addEventListener("click", initViz);
+            failureBtn.addEventListener("click", simulateFailure);
+            randomBtn.addEventListener("click", randomRequest);
+
+            // Initialize
+            document.addEventListener("DOMContentLoaded", initViz);
+        </script>
+    </body>
+</html>
