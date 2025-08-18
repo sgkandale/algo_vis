@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2PC Consensus | AlgoViz Hub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        height: 300px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .console-input input {
+        flex: 1;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      .console-input input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+
+      /* 2PC Visualization Styles */
+      #viz-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .coordinator {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        position: relative;
+        z-index: 2;
+        box-shadow: var(--glow);
+        margin-bottom: 30px;
+      }
+
+      .participants {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .participant {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #4b5563;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        position: relative;
+        transition: all 0.5s ease;
+      }
+
+      .participant.active {
+        background: var(--success);
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+      }
+
+      .participant.abort {
+        background: var(--danger);
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+      }
+
+      .message {
+        position: absolute;
+        height: 2px;
+        background: var(--accent-light);
+        z-index: 1;
+        transform-origin: left center;
+        display: flex;
+        align-items: center;
+      }
+
+      .message::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-top: 2px solid var(--accent-light);
+        border-right: 2px solid var(--accent-light);
+        position: absolute;
+        right: -5px;
+        transform: rotate(45deg);
+      }
+
+      .message-label {
+        position: absolute;
+        background: rgba(30, 41, 59, 0.9);
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: var(--accent-light);
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+      }
+
+      .phase-indicator {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(30, 41, 59, 0.8);
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        color: var(--accent-light);
+        border: 1px solid var(--accent);
+      }
+
+      .state-info {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 16px;
+        color: var(--accent-light);
+      }
+
+      .status-panel {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+      }
+
+      .status-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .status-label {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+      }
+
+      .status-value {
+        font-size: 14px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <div class="logo-icon floating">
+            <i class="fas fa-network-wired"></i>
+          </div>
+          <div class="logo-text">
+            <h1>AlgoViz Hub</h1>
+            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+            <div class="breadcrumb">
+              <a href="#"><i class="fas fa-home"></i> Home</a> >
+              <a href="#">Consensus Algorithms</a> >
+              <span>Two-Phase Commit (2PC)</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithm Header -->
+      <div class="algorithm-header">
+        <h1>Two-Phase Commit (2PC)</h1>
+        <div class="category">
+          <i class="fas fa-server"></i> Distributed Consensus Algorithm
+        </div>
+        <div class="complexity-badge">Message Complexity: O(2n)</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Left Column: Algorithm Details -->
+        <div class="left-column">
+          <!-- Description Section -->
+          <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+            <p>
+              The Two-Phase Commit (2PC) protocol is a distributed algorithm
+              that ensures all nodes in a distributed system either commit or
+              abort a transaction consistently. It achieves atomicity across
+              distributed systems through a coordinator that manages the
+              commit/abort decision process.
+            </p>
+            <p>
+              The protocol operates in two phases:
+              <strong>Prepare Phase</strong> where the coordinator asks
+              participants to prepare for commit, and
+              <strong>Commit Phase</strong> where the coordinator instructs
+              participants to either commit or abort based on their responses.
+              This protocol guarantees that all nodes reach the same decision
+              even in the presence of failures.
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+                <p>
+                  Ensures atomicity in distributed transactions - all nodes
+                  commit or all abort
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                <p>
+                  Requires 2 round trips between coordinator and participants to
+                  complete a transaction
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-memory"></i> Fault Tolerance</h3>
+                <p>
+                  Handles node failures but vulnerable to coordinator failures
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
+                <p>
+                  Coordinator-driven consensus with blocking during failures
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visualization Console -->
+          <div class="section">
+            <h2>
+              <i class="fas fa-laptop-code"></i> Interactive Visualization
+            </h2>
+            <p>
+              Visualize the Two-Phase Commit protocol in action. The coordinator
+              (top) interacts with participants (bottom) through the two phases.
+              Simulate successful commits, aborts, and node failures to
+              understand how the protocol handles different scenarios.
+            </p>
+
+            <div class="visualization-console">
+              <div class="console-header">
+                <h3>
+                  <i class="fas fa-play-circle"></i> 2PC Protocol Visualization
+                </h3>
+                <div class="console-controls">
+                  <button id="reset-btn" class="console-btn secondary">
+                    <i class="fas fa-redo"></i> Reset
+                  </button>
+                  <button id="run-btn" class="console-btn">
+                    <i class="fas fa-play"></i> Run
+                  </button>
+                  <button id="failure-btn" class="console-btn secondary">
+                    <i class="fas fa-exclamation-triangle"></i> Simulate Failure
+                  </button>
+                </div>
+              </div>
+
+              <div class="visualization-area">
+                <div id="viz-container">
+                  <div class="phase-indicator">
+                    Phase: <span id="phase-text">Not Started</span>
+                  </div>
+                  <div class="coordinator">Coordinator</div>
+                  <div class="participants">
+                    <div class="participant" id="p1">P1</div>
+                    <div class="participant" id="p2">P2</div>
+                    <div class="participant" id="p3">P3</div>
+                    <div class="participant" id="p4">P4</div>
+                  </div>
+                  <div class="state-info" id="state-info">
+                    Transaction State: Not Started
+                  </div>
+                  <div class="status-panel">
+                    <div class="status-item">
+                      <div class="status-label">Participants</div>
+                      <div class="status-value">4</div>
+                    </div>
+                    <div class="status-item">
+                      <div class="status-label">Ready</div>
+                      <div class="status-value" id="ready-count">0</div>
+                    </div>
+                    <div class="status-item">
+                      <div class="status-label">Committed</div>
+                      <div class="status-value" id="commit-count">0</div>
+                    </div>
+                    <div class="status-item">
+                      <div class="status-label">Aborted</div>
+                      <div class="status-value" id="abort-count">0</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="console-input">
+                <input
+                  type="text"
+                  id="nodes-input"
+                  placeholder="Number of participants (default: 4)"
+                />
+                <button id="random-btn" class="console-btn">
+                  <i class="fas fa-random"></i> Randomize
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Algorithm Steps -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+            <p>
+              The Two-Phase Commit protocol operates in two distinct phases:
+            </p>
+
+            <div class="key-points">
+              <div class="point-card">
+                <h3><i class="fas fa-comments"></i> Phase 1: Prepare</h3>
+                <p>
+                  The coordinator sends a PREPARE message to all participants.
+                  Each participant votes YES if it can commit, or NO if it
+                  cannot. Participants lock resources during this phase.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-check-circle"></i> Phase 2: Commit/Abort
+                </h3>
+                <p>
+                  If all participants vote YES, the coordinator sends COMMIT
+                  messages. If any vote NO, it sends ABORT messages.
+                  Participants commit or abort based on the coordinator's
+                  decision.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3><i class="fas fa-check-double"></i> Completion</h3>
+                <p>
+                  Participants acknowledge the commit/abort decision. Once all
+                  acknowledgments are received, the coordinator completes the
+                  transaction.
+                </p>
+              </div>
+              <div class="point-card">
+                <h3>
+                  <i class="fas fa-exclamation-triangle"></i> Failure Handling
+                </h3>
+                <p>
+                  If a participant crashes after voting YES, it must wait for
+                  the coordinator's decision upon recovery. If the coordinator
+                  crashes, participants may block indefinitely.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pseudocode Section -->
+          <div class="section">
+            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+            <div class="code-block">
+              <pre><code>// Coordinator Logic
+function coordinator():
+  send PREPARE to all participants
+  wait for VOTE messages
+  if all votes == YES:
+    send COMMIT to all
+  else:
+    send ABORT to all
+  wait for ACK messages
+  complete transaction
+
+// Participant Logic
+function participant():
+  while true:
+    if received PREPARE:
+        if canCommit():
+            lockResources()
+            send YES to coordinator
+        else:
+            send NO to coordinator
+    
+    if received COMMIT:
+        commitTransaction()
+        releaseLocks()
+        send ACK to coordinator
+    
+    if received ABORT:
+        abortTransaction()
+        releaseLocks()
+        send ACK to coordinator</code></pre>
+            </div>
+          </div>
+
+          <!-- Implementation Section -->
+          <div class="section">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <p>
+              Below is a simplified Python implementation of the Two-Phase
+              Commit protocol. The implementation includes coordinator and
+              participant logic with basic failure handling.
+            </p>
+
+            <div class="code-block">
+              <div class="code-header">
+                <span>Python Implementation</span>
+                <button class="copy-btn">
+                  <i class="fas fa-copy"></i> Copy Code
+                </button>
+              </div>
+              <pre><code><span class="keyword">class</span> <span class="function">Coordinator</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, participants):
+        self.participants = participants
+        self.state = <span class="string">"INIT"</span>
+    
+    <span class="keyword">def</span> <span class="function">start_transaction</span>(self):
+        <span class="comment"># Phase 1: Prepare</span>
+        self.state = <span class="string">"PREPARE"</span>
+        votes = []
+        <span class="keyword">for</span> p <span class="keyword">in</span> self.participants:
+            vote = p.prepare()
+            votes.append(vote)
+        
+        <span class="comment"># Phase 2: Commit or Abort</span>
+        <span class="keyword">if</span> all(vote == <span class="string">"YES"</span> <span class="keyword">for</span> vote <span class="keyword">in</span> votes):
+            self.state = <span class="string">"COMMIT"</span>
+            <span class="keyword">for</span> p <span class="keyword">in</span> self.participants:
+                p.commit()
+        <span class="keyword">else</span>:
+            self.state = <span class="string">"ABORT"</span>
+            <span class="keyword">for</span> p <span class="keyword">in</span> self.participants:
+                p.abort()
+        
+        <span class="comment"># Wait for acknowledgments</span>
+        acks = []
+        <span class="keyword">for</span> p <span class="keyword">in</span> self.participants:
+            acks.append(p.ack())
+        
+        <span class="keyword">if</span> all(ack == <span class="string">"ACK"</span> <span class="keyword">for</span> ack <span class="keyword">in</span> acks):
+            self.state = <span class="string">"COMPLETE"</span>
+        <span class="keyword">return</span> self.state
+
+<span class="keyword">class</span> <span class="function">Participant</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, id):
+        self.id = id
+        self.state = <span class="string">"READY"</span>
+        self.vote = <span class="keyword">None</span>
+    
+    <span class="keyword">def</span> <span class="function">prepare</span>(self):
+        <span class="comment"># Randomly decide if participant can commit (90% success rate)</span>
+        <span class="keyword">if</span> random.random() > 0.1:
+            self.state = <span class="string">"PREPARED"</span>
+            self.vote = <span class="string">"YES"</span>
+        <span class="keyword">else</span>:
+            self.state = <span class="string">"ABORTED"</span>
+            self.vote = <span class="string">"NO"</span>
+        <span class="keyword">return</span> self.vote
+    
+    <span class="keyword">def</span> <span class="function">commit</span>(self):
+        <span class="keyword">if</span> self.state == <span class="string">"PREPARED"</span>:
+            self.state = <span class="string">"COMMITTED"</span>
+        <span class="keyword">return</span> <span class="string">"ACK"</span>
+    
+    <span class="keyword">def</span> <span class="function">abort</span>(self):
+        self.state = <span class="string">"ABORTED"</span>
+        <span class="keyword">return</span> <span class="string">"ACK"</span>
+    
+    <span class="keyword">def</span> <span class="function">ack</span>(self):
+        <span class="keyword">return</span> <span class="string">"ACK"</span>
+
+<span class="comment"># Example usage</span>
+participants = [Participant(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(4)]
+coordinator = Coordinator(participants)
+result = coordinator.start_transaction()
+print(<span class="string">"Transaction result:"</span>, result)</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Additional Info -->
+        <div class="right-column">
+          <!-- Properties Section -->
+          <div class="section">
+            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+            <div class="properties-grid">
+              <div class="property-card">
+                <h4>Category</h4>
+                <div class="value">Consensus</div>
+              </div>
+              <div class="property-card">
+                <h4>Type</h4>
+                <div class="value">Atomic Commit</div>
+              </div>
+              <div class="property-card">
+                <h4>Fault Tolerance</h4>
+                <div class="value">Partial</div>
+              </div>
+              <div class="property-card">
+                <h4>Blocking</h4>
+                <div class="value">Yes</div>
+              </div>
+              <div class="property-card">
+                <h4>Message Complexity</h4>
+                <div class="value">O(2n)</div>
+              </div>
+              <div class="property-card">
+                <h4>Round Trips</h4>
+                <div class="value">2</div>
+              </div>
+              <div class="property-card">
+                <h4>Recovery</h4>
+                <div class="value">Log-based</div>
+              </div>
+              <div class="property-card">
+                <h4>Consistency</h4>
+                <div class="value">Strong</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Applications Section -->
+          <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+            <p>
+              The Two-Phase Commit protocol is widely used in distributed
+              systems where atomic transactions are essential:
+            </p>
+            <ul
+              style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              "
+            >
+              <li style="margin-bottom: 10px">
+                Distributed database systems (e.g., MySQL Cluster, PostgreSQL)
+              </li>
+              <li style="margin-bottom: 10px">
+                Microservices architectures requiring distributed transactions
+              </li>
+              <li style="margin-bottom: 10px">
+                Blockchain transaction validation
+              </li>
+              <li style="margin-bottom: 10px">
+                Distributed file systems (e.g., Google Spanner)
+              </li>
+              <li>Enterprise message queuing systems</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
+            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+          >
+          <a href="mailto:me@sgkandale.com"
+            ><i class="fa-solid fa-at"></i> E-Mail</a
+          >
+          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+          >
+        </div>
+        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      // Visualization state
+      let vizState = {
+        phase: "not-started",
+        participants: 4,
+        readyCount: 0,
+        commitCount: 0,
+        abortCount: 0,
+      };
+
+      // DOM Elements
+      const runBtn = document.getElementById("run-btn");
+      const resetBtn = document.getElementById("reset-btn");
+      const failureBtn = document.getElementById("failure-btn");
+      const randomBtn = document.getElementById("random-btn");
+      const nodesInput = document.getElementById("nodes-input");
+      const phaseText = document.getElementById("phase-text");
+      const stateInfo = document.getElementById("state-info");
+      const readyCount = document.getElementById("ready-count");
+      const commitCount = document.getElementById("commit-count");
+      const abortCount = document.getElementById("abort-count");
+
+      // Initialize visualization
+      function initViz() {
+        vizState = {
+          phase: "not-started",
+          participants: 4,
+          readyCount: 0,
+          commitCount: 0,
+          abortCount: 0,
+        };
+
+        // Reset UI
+        phaseText.textContent = "Not Started";
+        stateInfo.textContent = "Transaction State: Not Started";
+        readyCount.textContent = "0";
+        commitCount.textContent = "0";
+        abortCount.textContent = "0";
+
+        // Reset participants
+        const participants = document.querySelectorAll(".participant");
+        participants.forEach((p) => {
+          p.className = "participant";
+        });
+
+        // Clear messages
+        document.querySelectorAll(".message").forEach((m) => m.remove());
+      }
+
+      // Create message between coordinator and participant
+      function createMessage(from, to, label) {
+        const vizContainer = document.getElementById("viz-container");
+        const fromElem = document.querySelector(from);
+        const toElem = document.querySelector(to);
+
+        if (!fromElem || !toElem) return;
+
+        const fromRect = fromElem.getBoundingClientRect();
+        const toRect = toElem.getBoundingClientRect();
+        const containerRect = vizContainer.getBoundingClientRect();
+
+        const offsetX = containerRect.left;
+        const offsetY = containerRect.top;
+
+        const x1 = fromRect.left + fromRect.width / 2 - offsetX;
+        const y1 = fromRect.top + fromRect.height - offsetY;
+        const x2 = toRect.left + toRect.width / 2 - offsetX;
+        const y2 = toRect.top - offsetY;
+
+        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+
+        const message = document.createElement("div");
+        message.className = "message";
+        message.style.width = `${length}px`;
+        message.style.transform = `rotate(${angle}deg)`;
+        message.style.left = `${x1}px`;
+        message.style.top = `${y1}px`;
+
+        const labelElem = document.createElement("div");
+        labelElem.className = "message-label";
+        labelElem.textContent = label;
+        message.appendChild(labelElem);
+
+        vizContainer.appendChild(message);
+
+        return message;
+      }
+
+      // Run the 2PC protocol
+      async function runProtocol() {
+        if (vizState.phase !== "not-started") return;
+
+        // Reset state
+        initViz();
+
+        // Set phase to Prepare
+        vizState.phase = "prepare";
+        phaseText.textContent = "Prepare";
+        stateInfo.textContent = "Transaction State: Preparing";
+
+        // Create PREPARE messages
+        const messages = [];
+        for (let i = 1; i <= vizState.participants; i++) {
+          const message = createMessage(".coordinator", `#p${i}`, "PREPARE");
+          if (message) messages.push(message);
+          await delay(500);
+        }
+
+        // Simulate participants preparing
+        await delay(1000);
+        for (let i = 1; i <= vizState.participants; i++) {
+          document.getElementById(`p${i}`).classList.add("active");
+          vizState.readyCount++;
+          readyCount.textContent = vizState.readyCount;
+
+          // Create VOTE messages
+          createMessage(`#p${i}`, ".coordinator", "VOTE");
+          await delay(500);
+        }
+
+        // All participants ready - move to commit phase
+        vizState.phase = "commit";
+        phaseText.textContent = "Commit";
+        stateInfo.textContent = "Transaction State: Committing";
+        await delay(1000);
+
+        // Create COMMIT messages
+        for (let i = 1; i <= vizState.participants; i++) {
+          createMessage(".coordinator", `#p${i}`, "COMMIT");
+          await delay(500);
+        }
+
+        // Participants commit
+        await delay(1000);
+        for (let i = 1; i <= vizState.participants; i++) {
+          vizState.commitCount++;
+          commitCount.textContent = vizState.commitCount;
+          await delay(300);
+        }
+
+        stateInfo.textContent = "Transaction State: Committed Successfully";
+      }
+
+      // Simulate failure scenario
+      async function simulateFailure() {
+        if (vizState.phase !== "not-started") return;
+
+        // Reset state
+        initViz();
+
+        // Set phase to Prepare
+        vizState.phase = "prepare";
+        phaseText.textContent = "Prepare";
+        stateInfo.textContent = "Transaction State: Preparing";
+
+        // Create PREPARE messages
+        const messages = [];
+        for (let i = 1; i <= vizState.participants; i++) {
+          const message = createMessage(".coordinator", `#p${i}`, "PREPARE");
+          if (message) messages.push(message);
+          await delay(500);
+        }
+
+        // Simulate participants preparing (one fails)
+        await delay(1000);
+        let failed = false;
+        for (let i = 1; i <= vizState.participants; i++) {
+          // One participant fails randomly
+          if (!failed && i === Math.floor(vizState.participants / 2)) {
+            document.getElementById(`p${i}`).classList.add("abort");
+            createMessage(`#p${i}`, ".coordinator", "VOTE (NO)");
+            failed = true;
+            vizState.abortCount++;
+            abortCount.textContent = vizState.abortCount;
+          } else {
+            document.getElementById(`p${i}`).classList.add("active");
+            vizState.readyCount++;
+            readyCount.textContent = vizState.readyCount;
+            createMessage(`#p${i}`, ".coordinator", "VOTE (YES)");
+          }
+          await delay(500);
+        }
+
+        // Move to abort phase
+        vizState.phase = "abort";
+        phaseText.textContent = "Abort";
+        stateInfo.textContent = "Transaction State: Aborting";
+        await delay(1000);
+
+        // Create ABORT messages
+        for (let i = 1; i <= vizState.participants; i++) {
+          createMessage(".coordinator", `#p${i}`, "ABORT");
+          await delay(500);
+        }
+
+        // Participants abort
+        await delay(1000);
+        for (let i = 1; i <= vizState.participants; i++) {
+          if (!document.getElementById(`p${i}`).classList.contains("abort")) {
+            document.getElementById(`p${i}`).classList.remove("active");
+            document.getElementById(`p${i}`).classList.add("abort");
+          }
+          vizState.abortCount++;
+          abortCount.textContent = vizState.abortCount;
+          await delay(300);
+        }
+
+        stateInfo.textContent = "Transaction State: Aborted";
+      }
+
+      // Helper function for delays
+      function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      // Event Listeners
+      runBtn.addEventListener("click", runProtocol);
+      resetBtn.addEventListener("click", initViz);
+      failureBtn.addEventListener("click", simulateFailure);
+      randomBtn.addEventListener("click", () => {
+        const count = Math.floor(Math.random() * 4) + 3; // 3-6 participants
+        nodesInput.value = count;
+        vizState.participants = count;
+        initViz();
+      });
+
+      nodesInput.addEventListener("change", (e) => {
+        const count = parseInt(e.target.value) || 4;
+        if (count < 2) count = 2;
+        if (count > 6) count = 6;
+        vizState.participants = count;
+        initViz();
+      });
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", initViz);
+    </script>
+  </body>
+</html>
