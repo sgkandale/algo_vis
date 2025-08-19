@@ -1,0 +1,1463 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Copying Garbage Collector | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 300px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .console-input input {
+                flex: 1;
+                padding: 12px 15px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 5px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .console-input input:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* Garbage Collector Visualization Styles */
+            .memory-container {
+                display: flex;
+                height: 100%;
+                padding: 15px;
+            }
+
+            .semispace {
+                flex: 1;
+                border: 2px solid var(--accent);
+                border-radius: 8px;
+                margin: 0 10px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .semispace-title {
+                text-align: center;
+                margin-bottom: 10px;
+                font-weight: bold;
+                color: var(--accent-light);
+            }
+
+            .memory-blocks {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                gap: 5px;
+            }
+
+            .memory-block {
+                padding: 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+                transition: all 0.5s ease;
+            }
+
+            .from-space .memory-block {
+                background-color: rgba(239, 68, 68, 0.3);
+                border: 1px solid #ef4444;
+            }
+
+            .to-space .memory-block {
+                background-color: rgba(16, 185, 129, 0.3);
+                border: 1px solid #10b981;
+            }
+
+            .memory-block.live {
+                background-color: rgba(99, 102, 241, 0.4) !important;
+                border: 1px solid var(--accent) !important;
+            }
+
+            .memory-block.copied {
+                animation: pulse 1s;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .roots-panel {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 15px;
+                gap: 10px;
+            }
+
+            .root-item {
+                padding: 5px 10px;
+                background-color: rgba(99, 102, 241, 0.3);
+                border-radius: 4px;
+                border: 1px solid var(--accent);
+                font-size: 12px;
+            }
+
+            .info-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(0, 0, 0, 0.5);
+                padding: 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Memory Management</a> >
+                            <span>Copying Garbage Collector</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Copying Garbage Collector</h1>
+                <div class="category">
+                    <i class="fas fa-memory"></i> Memory Management Algorithm
+                </div>
+                <div class="complexity-badge">
+                    Time Complexity: O(Live Data)
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            The Copying Garbage Collector is a memory management
+                            algorithm that divides the heap into two equal-sized
+                            semispaces: FromSpace and ToSpace. During program
+                            execution, memory is allocated in FromSpace until it
+                            becomes full. When a garbage collection is
+                            triggered, the collector copies all live objects
+                            from FromSpace to ToSpace, compacting them in the
+                            process. After the collection, the roles of the
+                            semispaces are swapped.
+                        </p>
+                        <p>
+                            This algorithm is efficient because it only
+                            processes live objects and avoids fragmentation by
+                            compacting objects during the copying process.
+                            However, it requires twice the memory of the actual
+                            data size and needs to pause program execution
+                            during the collection process.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Uses two semispaces and only processes live
+                                    objects during collection
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Time proportional to the amount of live data
+                                    (O(L))
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-memory"></i> Space</h3>
+                                <p>
+                                    Requires twice the maximum live data size (2
+                                    × M where M is max live data)
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Approach
+                                </h3>
+                                <p>
+                                    Stop-the-world collection with copying and
+                                    compaction
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            Use the interactive console below to visualize how
+                            the Copying Garbage Collector works. The
+                            visualization shows two semispaces (FromSpace and
+                            ToSpace) and demonstrates how live objects are
+                            identified and copied during garbage collection.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-play-circle"></i> Copying
+                                    GC Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button class="console-btn" id="step-btn">
+                                        <i class="fas fa-step-forward"></i> Step
+                                    </button>
+                                    <button class="console-btn" id="run-btn">
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="reset-btn"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="visualization-area"
+                                id="gc-visualization"
+                            >
+                                <!-- GC Visualization will be rendered here -->
+                                <div
+                                    class="roots-panel"
+                                    id="roots-container"
+                                ></div>
+                                <div class="memory-container">
+                                    <div class="semispace from-space">
+                                        <div class="semispace-title">
+                                            FromSpace
+                                        </div>
+                                        <div
+                                            class="memory-blocks"
+                                            id="from-space"
+                                        ></div>
+                                    </div>
+                                    <div class="semispace to-space">
+                                        <div class="semispace-title">
+                                            ToSpace
+                                        </div>
+                                        <div
+                                            class="memory-blocks"
+                                            id="to-space"
+                                        ></div>
+                                    </div>
+                                </div>
+                                <div class="info-panel" id="info-panel">
+                                    Ready to start garbage collection
+                                </div>
+                            </div>
+
+                            <div class="console-input">
+                                <input
+                                    type="text"
+                                    id="object-input"
+                                    placeholder="Enter object structure (e.g., A->B, B->C, C->A)"
+                                    value="A->B, B->C, C->A, D->E, E->D, F"
+                                />
+                                <button class="console-btn" id="random-btn">
+                                    <i class="fas fa-random"></i> Random
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            The Copying Garbage Collector operates in the
+                            following steps:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-exchange-alt"></i> 1.
+                                    Semispace Setup
+                                </h3>
+                                <p>
+                                    The heap is divided into two equal-sized
+                                    semispaces: FromSpace and ToSpace. All
+                                    allocations initially happen in FromSpace.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-search"></i> 2. Root
+                                    Identification
+                                </h3>
+                                <p>
+                                    When FromSpace becomes full, the collector
+                                    identifies all root references (global
+                                    variables, stack variables, registers) that
+                                    point to objects in FromSpace.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-copy"></i> 3. Object
+                                    Copying
+                                </h3>
+                                <p>
+                                    The collector starts from the roots and
+                                    copies all reachable objects from FromSpace
+                                    to ToSpace, updating references to point to
+                                    the new locations.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-sync-alt"></i> 4. Role
+                                    Swapping
+                                </h3>
+                                <p>
+                                    After all live objects are copied, the roles
+                                    of the semispaces are swapped. ToSpace
+                                    becomes the new FromSpace for future
+                                    allocations.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-trash-alt"></i> 5. Memory
+                                    Reclamation
+                                </h3>
+                                <p>
+                                    The entire original FromSpace (now
+                                    containing only garbage) is reclaimed in one
+                                    operation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>function collectGarbage():
+    swap(FromSpace, ToSpace)  // Swap the roles of semispaces
+    free = 0  // Next free location in ToSpace
+    scan = 0  // Next object to scan in ToSpace
+
+    // Process roots - copy referenced objects to ToSpace
+    for each root in roots:
+        if root != null and root is in FromSpace:
+            root = copyObject(root, FromSpace, ToSpace)
+
+    // Process copied objects - update their references
+    while scan < free:
+        currentObject = ToSpace[scan]
+        for each reference in currentObject:
+            if reference != null and reference is in FromSpace:
+                reference = copyObject(reference, FromSpace, ToSpace)
+        scan += sizeOf(currentObject)
+
+    // Allocate new objects in the now-empty FromSpace
+
+function copyObject(obj, FromSpace, ToSpace):
+    if obj has not been copied:
+        newLocation = free  // Next available space in ToSpace
+        copy obj from FromSpace to ToSpace[newLocation]
+        free += sizeOf(obj)
+        // Leave a forwarding pointer in FromSpace
+        set forwarding pointer in FromSpace version of obj to newLocation
+        return newLocation
+    else:
+        return forwarding pointer from FromSpace version of obj</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of the
+                            Copying Garbage Collector algorithm. This
+                            implementation demonstrates the core concepts of the
+                            algorithm including object copying and reference
+                            updating.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">class</span> <span class="function">CopyingGC</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, heap_size):
+        self.heap_size = heap_size
+        self.from_space = [None] * (heap_size // 2)
+        self.to_space = [None] * (heap_size // 2)
+        self.alloc_ptr = 0  <span class="comment"># Allocation pointer in from_space</span>
+        self.roots = []  <span class="comment"># Root references</span>
+
+    <span class="keyword">def</span> <span class="function">allocate</span>(self, obj):
+        <span class="comment"># Check if there's enough space in from_space</span>
+        <span class="keyword">if</span> self.alloc_ptr + len(obj) > len(self.from_space):
+            self.collect()  <span class="comment"># Trigger garbage collection</span>
+            <span class="comment"># If still not enough space after collection, raise error</span>
+            <span class="keyword">if</span> self.alloc_ptr + len(obj) > len(self.from_space):
+                <span class="keyword">raise</span> MemoryError(<span class="string">"Out of memory"</span>)
+
+        <span class="comment"># Allocate the object</span>
+        start = self.alloc_ptr
+        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(obj)):
+            self.from_space[self.alloc_ptr] = obj[i]
+            self.alloc_ptr += 1
+
+        <span class="keyword">return</span> start  <span class="comment"># Return the starting index of the object</span>
+
+    <span class="keyword">def</span> <span class="function">collect</span>(self):
+        <span class="comment"># Swap the semispaces</span>
+        self.from_space, self.to_space = self.to_space, self.from_space
+        free = 0  <span class="comment"># Next free location in to_space</span>
+        scan = 0  <span class="comment"># Next object to scan in to_space</span>
+
+        <span class="comment"># Forwarding pointers dictionary (original index -> new index)</span>
+        forwarded = {}
+
+        <span class="comment"># Process roots - copy referenced objects to to_space</span>
+        <span class="keyword">for</span> i, root <span class="keyword">in</span> enumerate(self.roots):
+            <span class="keyword">if</span> root <span class="keyword">is not</span> None <span class="keyword">and</span> root <span class="keyword">not</span> <span class="keyword">in</span> forwarded:
+                free = self.copy_object(root, free, forwarded)
+                self.roots[i] = forwarded[root]  <span class="comment"># Update root reference</span>
+
+        <span class="comment"># Process copied objects - update their references</span>
+        <span class="keyword">while</span> scan < free:
+            obj_start = scan
+            <span class="comment"># Process each reference in the current object</span>
+            <span class="keyword">for</span> i <span class="keyword">in</span> range(obj_start, free):
+                <span class="keyword">if</span> isinstance(self.to_space[i], int):  <span class="comment"># If it's a reference</span>
+                    ref = self.to_space[i]
+                    <span class="keyword">if</span> ref <span class="keyword">in</span> forwarded:
+                        self.to_space[i] = forwarded[ref]  <span class="comment"># Update reference</span>
+            scan = free  <span class="comment"># Move to next object (simplified)</span>
+
+        <span class="comment"># Reset allocation pointer</span>
+        self.alloc_ptr = free
+
+    <span class="keyword">def</span> <span class="function">copy_object</span>(self, obj_index, free, forwarded):
+        <span class="comment"># If already copied, return the new location</span>
+        <span class="keyword">if</span> obj_index <span class="keyword">in</span> forwarded:
+            <span class="keyword">return</span> free
+
+        <span class="comment"># Copy the object to to_space</span>
+        new_index = free
+        forwarded[obj_index] = new_index
+
+        <span class="comment"># Copy each field (simplified - assuming object size is 2)</span>
+        self.to_space[free] = self.from_space[obj_index]
+        self.to_space[free + 1] = self.from_space[obj_index + 1]
+
+        <span class="keyword">return</span> free + 2  <span class="comment"># Return new free pointer</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Tracing</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">Copying</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Stop-the-world</h4>
+                                <div class="value">Yes</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Compacting</h4>
+                                <div class="value">Yes</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Fragmentation</h4>
+                                <div class="value">None</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Time Complexity</h4>
+                                <div class="value">O(L)</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Space Overhead</h4>
+                                <div class="value">2 × M</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Throughput</h4>
+                                <div class="value">Medium</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Copying Garbage Collection is used in various
+                            scenarios where memory management is critical:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Functional programming languages (Lisp, ML,
+                                Haskell)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Modern JavaScript engines (V8, SpiderMonkey)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Java Virtual Machine (JVM)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Real-time systems with predictable pause times
+                            </li>
+                            <li>Embedded systems with limited memory</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages & Disadvantages -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-balance-scale"></i> Pros & Cons
+                        </h2>
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-plus-circle"></i>
+                                    Advantages
+                                </h3>
+                                <p>
+                                    Eliminates fragmentation, fast allocation
+                                    (pointer bumping), only processes live
+                                    objects, predictable performance
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-minus-circle"></i>
+                                    Disadvantages
+                                </h3>
+                                <p>
+                                    Requires twice the memory, needs to pause
+                                    program execution, not efficient for large
+                                    heaps with low garbage rates
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a
+                        href="https://www.linkedin.com/in/sgkandale/"
+                        target="_blank"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="mailto:me@sgkandale.com"
+                        ><i class="fa-solid fa-at"></i> E-Mail</a
+                    >
+                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Copying Garbage Collector Visualization
+            class GCVisualization {
+                constructor() {
+                    this.fromSpace = document.getElementById("from-space");
+                    this.toSpace = document.getElementById("to-space");
+                    this.rootsContainer =
+                        document.getElementById("roots-container");
+                    this.infoPanel = document.getElementById("info-panel");
+                    this.stepBtn = document.getElementById("step-btn");
+                    this.runBtn = document.getElementById("run-btn");
+                    this.resetBtn = document.getElementById("reset-btn");
+                    this.objectInput = document.getElementById("object-input");
+                    this.randomBtn = document.getElementById("random-btn");
+
+                    this.objects = [];
+                    this.roots = [];
+                    this.forwardingPointers = new Map();
+                    this.freePtr = 0;
+                    this.scanPtr = 0;
+                    this.step = 0;
+                    this.intervalId = null;
+
+                    this.init();
+                    this.setupEventListeners();
+                }
+
+                init() {
+                    this.parseObjectInput();
+                    this.render();
+                }
+
+                parseObjectInput() {
+                    const input = this.objectInput.value;
+                    this.objects = [];
+                    this.roots = [];
+                    this.forwardingPointers.clear();
+                    this.freePtr = 0;
+                    this.scanPtr = 0;
+                    this.step = 0;
+
+                    // Parse object relationships (simplified)
+                    const relationships = input.split(",").map((r) => r.trim());
+
+                    // Create objects based on relationships
+                    const objectMap = new Map();
+
+                    relationships.forEach((rel) => {
+                        if (rel.includes("->")) {
+                            const [from, to] = rel
+                                .split("->")
+                                .map((s) => s.trim());
+
+                            if (!objectMap.has(from)) {
+                                objectMap.set(from, { id: from, refs: [] });
+                            }
+                            if (!objectMap.has(to)) {
+                                objectMap.set(to, { id: to, refs: [] });
+                            }
+
+                            objectMap.get(from).refs.push(to);
+                        } else {
+                            // This is a root object
+                            if (!objectMap.has(rel)) {
+                                objectMap.set(rel, { id: rel, refs: [] });
+                            }
+                            this.roots.push(rel);
+                        }
+                    });
+
+                    // Convert to array and assign positions
+                    let index = 0;
+                    for (const [id, obj] of objectMap) {
+                        this.objects.push({
+                            id: id,
+                            refs: obj.refs,
+                            position: index,
+                            live: false,
+                            copied: false,
+                        });
+                        index += 2; // Each object takes 2 memory units (simplified)
+                    }
+                }
+
+                render() {
+                    // Clear previous visualization
+                    this.fromSpace.innerHTML = "";
+                    this.toSpace.innerHTML = "";
+                    this.rootsContainer.innerHTML = "";
+
+                    // Render roots
+                    this.roots.forEach((rootId) => {
+                        const rootEl = document.createElement("div");
+                        rootEl.className = "root-item";
+                        rootEl.textContent = `Root→${rootId}`;
+                        rootEl.dataset.ref = rootId;
+                        this.rootsContainer.appendChild(rootEl);
+                    });
+
+                    // Render FromSpace
+                    this.objects.forEach((obj) => {
+                        const blockEl = document.createElement("div");
+                        blockEl.className = "memory-block";
+                        if (obj.live) blockEl.classList.add("live");
+                        if (obj.copied) blockEl.classList.add("copied");
+
+                        blockEl.textContent = `${obj.id}${obj.refs.length > 0 ? `→[${obj.refs.join(",")}]` : ""}`;
+                        blockEl.dataset.id = obj.id;
+                        this.fromSpace.appendChild(blockEl);
+                    });
+
+                    // Render ToSpace (initially empty)
+                    for (let i = 0; i < this.objects.length * 2; i++) {
+                        const blockEl = document.createElement("div");
+                        blockEl.className = "memory-block";
+                        blockEl.textContent = "Free";
+                        this.toSpace.appendChild(blockEl);
+                    }
+
+                    // Update info panel
+                    this.updateInfoPanel();
+                }
+
+                updateInfoPanel() {
+                    const steps = [
+                        "Ready to start garbage collection",
+                        "Swapped FromSpace and ToSpace",
+                        "Processing root references",
+                        "Copying objects referenced by roots",
+                        "Updating references in copied objects",
+                        "Garbage collection completed",
+                    ];
+
+                    this.infoPanel.textContent = steps[this.step];
+                }
+
+                nextStep() {
+                    if (this.step >= 5) {
+                        this.stopAutoRun();
+                        return;
+                    }
+
+                    this.step++;
+
+                    switch (this.step) {
+                        case 1:
+                            // Swap semispaces (visual effect only)
+                            break;
+                        case 2:
+                            // Mark root objects as live
+                            this.markRoots();
+                            break;
+                        case 3:
+                            // Copy root objects to ToSpace
+                            this.copyRootObjects();
+                            break;
+                        case 4:
+                            // Process objects in ToSpace and update references
+                            this.processCopiedObjects();
+                            break;
+                        case 5:
+                            // Complete - mark all non-copied objects as garbage
+                            this.finalize();
+                            break;
+                    }
+
+                    this.render();
+                }
+
+                markRoots() {
+                    this.roots.forEach((rootId) => {
+                        const obj = this.objects.find((o) => o.id === rootId);
+                        if (obj) obj.live = true;
+                    });
+                }
+
+                copyRootObjects() {
+                    this.roots.forEach((rootId) => {
+                        const obj = this.objects.find((o) => o.id === rootId);
+                        if (obj && !obj.copied) {
+                            this.copyObject(obj);
+                        }
+                    });
+                }
+
+                copyObject(obj) {
+                    obj.copied = true;
+                    this.forwardingPointers.set(obj.id, this.freePtr);
+                    this.freePtr += 2; // Each object takes 2 memory units
+                }
+
+                processCopiedObjects() {
+                    // For simplicity, we'll just mark all referenced objects as live and copy them
+                    this.objects.forEach((obj) => {
+                        if (obj.live && !obj.copied) {
+                            this.copyObject(obj);
+                        }
+                    });
+                }
+
+                finalize() {
+                    // Mark all non-copied objects as garbage (not live)
+                    this.objects.forEach((obj) => {
+                        if (!obj.copied) {
+                            obj.live = false;
+                        }
+                    });
+                }
+
+                reset() {
+                    this.stopAutoRun();
+                    this.parseObjectInput();
+                    this.render();
+                }
+
+                startAutoRun() {
+                    this.stopAutoRun();
+                    this.intervalId = setInterval(() => {
+                        this.nextStep();
+                        if (this.step >= 5) {
+                            this.stopAutoRun();
+                        }
+                    }, 1500);
+                }
+
+                stopAutoRun() {
+                    if (this.intervalId) {
+                        clearInterval(this.intervalId);
+                        this.intervalId = null;
+                    }
+                }
+
+                generateRandomObjects() {
+                    const objects = ["A", "B", "C", "D", "E", "F", "G", "H"];
+                    const numRoots = Math.floor(Math.random() * 2) + 1;
+                    const numObjects = Math.floor(Math.random() * 4) + 3;
+
+                    let relationships = [];
+
+                    // Create some root objects
+                    const roots = objects.slice(0, numRoots);
+                    roots.forEach((root) => {
+                        relationships.push(root);
+                    });
+
+                    // Create relationships between objects
+                    for (let i = 0; i < numObjects; i++) {
+                        const from =
+                            objects[Math.floor(Math.random() * objects.length)];
+                        const to =
+                            objects[Math.floor(Math.random() * objects.length)];
+
+                        if (from !== to) {
+                            relationships.push(`${from}->${to}`);
+                        }
+                    }
+
+                    this.objectInput.value = relationships.join(", ");
+                    this.reset();
+                }
+
+                setupEventListeners() {
+                    this.stepBtn.addEventListener("click", () => {
+                        this.nextStep();
+                    });
+
+                    this.runBtn.addEventListener("click", () => {
+                        if (this.step >= 5) {
+                            this.reset();
+                        }
+                        this.startAutoRun();
+                    });
+
+                    this.resetBtn.addEventListener("click", () => {
+                        this.reset();
+                    });
+
+                    this.randomBtn.addEventListener("click", () => {
+                        this.generateRandomObjects();
+                    });
+
+                    this.objectInput.addEventListener("change", () => {
+                        this.reset();
+                    });
+                }
+            }
+
+            // Initialize the visualization when the page loads
+            document.addEventListener("DOMContentLoaded", () => {
+                const gcViz = new GCVisualization();
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        // Show feedback
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
