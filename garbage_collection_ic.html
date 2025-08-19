@@ -1,0 +1,2084 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Incremental/Concurrent GC | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 400px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .visualization-area::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 0;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+
+            .console-input button {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+
+                .console-input button {
+                    min-width: 100px;
+                    font-size: 12px;
+                    padding: 8px 10px;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* Incremental/Concurrent GC Visualization Styles */
+            .heap-container {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .heap-memory {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 15px;
+                background: rgba(30, 41, 59, 0.5);
+                border-radius: 8px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                min-height: 250px;
+                align-content: flex-start;
+                position: relative;
+            }
+
+            .memory-block {
+                width: 70px;
+                height: 80px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: "Roboto Mono", monospace;
+                font-size: 14px;
+                text-align: center;
+                transition: all 0.5s ease;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+            }
+
+            .block-free {
+                background: rgba(148, 163, 184, 0.2);
+                border: 1px dashed var(--text-secondary);
+            }
+
+            .block-allocated {
+                background: var(--accent);
+                border: 1px solid var(--accent-light);
+                box-shadow: var(--glow);
+            }
+
+            .block-marked {
+                background: var(--success);
+                border: 1px solid #34d399;
+            }
+
+            .block-grey {
+                background: var(--warning);
+                border: 1px solid #fbbf24;
+                animation: pulse 1.5s infinite;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(0.95);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .block-black {
+                background: #4b5563;
+                border: 1px solid #6b7280;
+            }
+
+            .block-barrier {
+                background: var(--danger);
+                border: 2px solid #f87171;
+            }
+
+            .reference-count {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .reference-arrow {
+                position: absolute;
+                z-index: -1;
+                stroke: var(--accent-light);
+                stroke-width: 2;
+                fill: none;
+            }
+
+            .roots-container {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid var(--accent);
+            }
+
+            .root-pointer {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--warning);
+                margin-bottom: 10px;
+                font-size: 12px;
+            }
+
+            .status-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 14px;
+                font-family: "Roboto Mono", monospace;
+                text-align: center;
+                color: var(--accent-light);
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .phase-indicator {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .phase {
+                padding: 5px 10px;
+                border-radius: 5px;
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--text-secondary);
+            }
+
+            .phase.active {
+                background: var(--accent);
+                color: white;
+            }
+
+            .log-entry {
+                margin: 5px 0;
+                padding: 5px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .log-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 220px;
+                max-height: 150px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .algorithm-stats {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                background: rgba(30, 41, 59, 0.5);
+                border-radius: 8px;
+                margin-top: 10px;
+                font-size: 14px;
+            }
+
+            .stat-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-value {
+                font-weight: bold;
+                color: var(--accent-light);
+            }
+
+            .stat-label {
+                font-size: 12px;
+                color: var(--text-secondary);
+            }
+
+            .memory-address {
+                font-size: 10px;
+                position: absolute;
+                bottom: 5px;
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .thread-indicator {
+                position: absolute;
+                top: 20px;
+                right: 240px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid var(--accent);
+                font-size: 12px;
+            }
+
+            .thread {
+                padding: 5px 10px;
+                border-radius: 5px;
+                margin-bottom: 5px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .mutator-thread {
+                background: rgba(16, 185, 129, 0.2);
+                border: 1px solid var(--success);
+            }
+
+            .collector-thread {
+                background: rgba(99, 102, 241, 0.2);
+                border: 1px solid var(--accent);
+            }
+
+            .thread-active {
+                animation: threadPulse 2s infinite;
+            }
+
+            @keyframes threadPulse {
+                0% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.7;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            .write-barrier-indicator {
+                position: absolute;
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--danger);
+                color: white;
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-size: 14px;
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Memory Management</a> >
+                            <span>Incremental/Concurrent GC</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Incremental & Concurrent GC</h1>
+                <div class="category">
+                    <i class="fas fa-clock"></i> Low-Pause Garbage Collection
+                </div>
+                <div class="complexity-badge">
+                    Pause Times: Minimal | Throughput: High
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            Incremental and Concurrent Garbage Collection
+                            algorithms are designed to minimize pause times by
+                            breaking up garbage collection work into small
+                            increments that can be interleaved with application
+                            execution (mutator). This approach provides
+                            consistent responsiveness at the cost of slightly
+                            reduced throughput.
+                        </p>
+                        <p>
+                            Incremental GC performs collection in small steps
+                            between mutator operations, while Concurrent GC runs
+                            collection simultaneously with the mutator on
+                            multiple threads. Both approaches require write
+                            barriers to maintain consistency while the mutator
+                            continues to run.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Minimal pause times by interleaving GC work
+                                    with mutator execution
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Excellent responsiveness with slightly
+                                    reduced throughput
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Memory Usage
+                                </h3>
+                                <p>
+                                    Requires additional metadata for write
+                                    barriers and consistency
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Approach
+                                </h3>
+                                <p>
+                                    Breaks collection into small units and uses
+                                    barriers for consistency
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            The visualization below demonstrates Incremental and
+                            Concurrent garbage collection algorithms. You can
+                            see how the collector works in small increments
+                            alongside the mutator, and how write barriers
+                            maintain consistency. Use the controls to simulate
+                            different scenarios.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Heap
+                                    Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        class="console-btn secondary"
+                                        id="step-btn"
+                                    >
+                                        <i class="fas fa-step-forward"></i> Step
+                                    </button>
+                                    <button
+                                        class="console-btn"
+                                        id="run-incr-btn"
+                                    >
+                                        <i class="fas fa-play"></i> Run
+                                        Incremental
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="run-conc-btn"
+                                    >
+                                        <i class="fas fa-play-circle"></i> Run
+                                        Concurrent
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="visualization-area"
+                                id="gc-visualization"
+                            >
+                                <!-- Visualization will be rendered here by JavaScript -->
+                                <div class="heap-container" id="heap-container">
+                                    <div
+                                        class="heap-memory"
+                                        id="heap-memory"
+                                    ></div>
+                                    <div
+                                        class="write-barrier-indicator"
+                                        id="write-barrier-indicator"
+                                    >
+                                        <i class="fas fa-shield-alt"></i> Write
+                                        Barrier Active
+                                    </div>
+                                    <div class="algorithm-stats">
+                                        <div class="stat-item">
+                                            <span
+                                                class="stat-value"
+                                                id="total-objects"
+                                                >0</span
+                                            >
+                                            <span class="stat-label"
+                                                >Total Objects</span
+                                            >
+                                        </div>
+                                        <div class="stat-item">
+                                            <span
+                                                class="stat-value"
+                                                id="marked-objects"
+                                                >0</span
+                                            >
+                                            <span class="stat-label"
+                                                >Marked</span
+                                            >
+                                        </div>
+                                        <div class="stat-item">
+                                            <span
+                                                class="stat-value"
+                                                id="barrier-count"
+                                                >0</span
+                                            >
+                                            <span class="stat-label"
+                                                >Barrier Hits</span
+                                            >
+                                        </div>
+                                        <div class="stat-item">
+                                            <span
+                                                class="stat-value"
+                                                id="pause-time"
+                                                >0ms</span
+                                            >
+                                            <span class="stat-label"
+                                                >Pause Time</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="console-input">
+                                <button class="console-btn" id="allocate-btn">
+                                    <i class="fas fa-plus-circle"></i> Allocate
+                                    Object
+                                </button>
+                                <button class="console-btn" id="create-ref-btn">
+                                    <i class="fas fa-link"></i> Create Reference
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="mutator-btn"
+                                >
+                                    <i class="fas fa-code"></i> Run Mutator
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="reset-btn"
+                                >
+                                    <i class="fas fa-redo"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-list-ol"></i> Algorithm Approaches
+                        </h2>
+                        <p>
+                            Incremental and Concurrent GC use various techniques
+                            to minimize pause times:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-pause-circle"></i> 1.
+                                    Incremental Mark-Sweep
+                                </h3>
+                                <p>
+                                    Breaks the mark phase into small increments,
+                                    interleaving with mutator execution. Uses a
+                                    write barrier to track references from black
+                                    to white objects.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-users"></i> 2. Concurrent
+                                    Mark-Sweep
+                                </h3>
+                                <p>
+                                    Runs the mark phase concurrently with
+                                    mutator execution in separate threads.
+                                    Requires more sophisticated synchronization
+                                    and barriers.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-shield-alt"></i> 3. Write
+                                    Barriers
+                                </h3>
+                                <p>
+                                    Special code that executes on pointer stores
+                                    to maintain invariants. Tracks references
+                                    from black to white objects during
+                                    concurrent marking.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-tachometer-alt"></i> 4.
+                                    Tricolor Abstraction
+                                </h3>
+                                <p>
+                                    Models object states as white (unprocessed),
+                                    grey (being processed), and black
+                                    (processed). Write barriers maintain the
+                                    invariant that black objects never point to
+                                    white objects.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-sync-alt"></i> 5.
+                                    Snapshot-at-the-Beginning
+                                </h3>
+                                <p>
+                                    Records all objects live at the start of
+                                    collection. Any object allocated after this
+                                    point is considered live for the current
+                                    cycle.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-wave-square"></i> 6.
+                                    Incremental Update
+                                </h3>
+                                <p>
+                                    Tracks changes to the object graph during
+                                    collection. When a reference is updated,
+                                    both old and new targets may need special
+                                    handling.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Incremental Mark-Sweep Algorithm</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code>// Incremental Mark-Sweep Garbage Collection
+function incrementalGC():
+  // Initialization phase (short pause)
+  stopTheWorld()
+  initializeMarking()
+  resumeExecution()
+
+  // Incremental marking phase
+  while hasGreyObjects():
+    // Short pause to process some grey objects
+    stopTheWorld()
+    processSomeGreyObjects()
+    resumeExecution()
+
+    // Mutator runs here, possibly creating new references
+    // Write barrier tracks references from black to white objects
+
+  // Final marking phase (short pause)
+  stopTheWorld()
+  drainMarkStack()
+  resumeExecution()
+
+  // Concurrent sweeping phase
+  sweepConcurrently()
+
+// Write barrier for incremental collection
+function writeBarrier(src, field, newValue):
+  if isBlack(src) and isWhite(newValue):
+    // Remember this reference for later processing
+    remember(src, field, newValue)
+    newValue = grey  // Mark target as grey
+  updateField(src, field, newValue)
+
+// Concurrent marking thread
+function concurrentMarker():
+  while hasGreyObjects():
+    processSomeGreyObjects()
+    sleep(smallTimeSlice)  // Yield to mutator
+
+// Concurrent sweeping thread
+function concurrentSweeper():
+  for each object in heap:
+    if object is white:
+      free(object)
+    else:
+      object.color = white  // For next GC cycle</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of an
+                            Incremental Garbage Collector.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">class</span> <span class="function">IncrementalGC</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.heap = []
+        <span class="keyword">self</span>.roots = []
+        <span class="keyword">self</span>.grey_list = []
+        <span class="keyword">self</span>.black_set = set()
+        <span class="keyword">self</span>.white_set = set()
+        <span class="keyword">self</span>.write_barrier_log = []
+
+    <span class="keyword">def</span> <span class="function">allocate</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.heap.append(obj)
+        <span class="keyword">self</span>.white_set.add(obj)
+        <span class="keyword">return</span> obj
+
+    <span class="keyword">def</span> <span class="function">add_root</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.roots.append(obj)
+        <span class="keyword">self</span>.write_barrier(None, None, obj)  <span class="comment"># Treat as new reference</span>
+
+    <span class="keyword">def</span> <span class="function">write_barrier</span>(<span class="keyword">self</span>, src, field, new_val):
+        <span class="comment"># If source is black and new value is white, we need to remember this</span>
+        <span class="keyword">if</span> src <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> src <span class="keyword">in</span> <span class="keyword">self</span>.black_set <span class="keyword">and</span> new_val <span class="keyword">in</span> <span class="keyword">self</span>.white_set:
+            <span class="keyword">self</span>.write_barrier_log.append((src, field, new_val))
+            <span class="keyword">self</span>.grey_list.append(new_val)  <span class="comment"># Make the target grey</span>
+            <span class="keyword">self</span>.white_set.remove(new_val)
+        <span class="comment"># Actually update the reference</span>
+        <span class="keyword">if</span> src <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+            setattr(src, field, new_val)
+
+    <span class="keyword">def</span> <span class="function">start_gc_cycle</span>(<span class="keyword">self</span>):
+        <span class="comment"># Initial pause: mark roots as grey</span>
+        <span class="keyword">self</span>.grey_list.extend(<span class="keyword">self</span>.roots)
+        <span class="keyword">for</span> root <span class="keyword">in</span> <span class="keyword">self</span>.roots:
+            <span class="keyword">if</span> root <span class="keyword">in</span> <span class="keyword">self</span>.white_set:
+                <span class="keyword">self</span>.white_set.remove(root)
+
+    <span class="keyword">def</span> <span class="function">incremental_mark_step</span>(<span class="keyword">self</span>, steps=5):
+        <span class="comment"># Process a few grey objects</span>
+        <span class="keyword">for</span> _ <span class="keyword">in</span> range(min(steps, len(<span class="keyword">self</span>.grey_list))):
+            <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">self</span>.grey_list:
+                <span class="keyword">break</span>
+            obj = <span class="keyword">self</span>.grey_list.pop()
+            <span class="keyword">self</span>.black_set.add(obj)
+            <span class="comment"># Mark all children as grey</span>
+            <span class="keyword">for</span> ref <span class="keyword">in</span> get_references(obj):
+                <span class="keyword">if</span> ref <span class="keyword">in</span> <span class="keyword">self</span>.white_set:
+                    <span class="keyword">self</span>.white_set.remove(ref)
+                    <span class="keyword">self</span>.grey_list.append(ref)
+
+        <span class="comment"># Also process any write barrier entries</span>
+        <span class="keyword">while</span> <span class="keyword">self</span>.write_barrier_log:
+            src, field, new_val = <span class="keyword">self</span>.write_barrier_log.pop()
+            <span class="keyword">if</span> new_val <span class="keyword">in</span> <span class="keyword">self</span>.white_set:
+                <span class="keyword">self</span>.white_set.remove(new_val)
+                <span class="keyword">self</span>.grey_list.append(new_val)
+
+    <span class="keyword">def</span> <span class="function">sweep</span>(<span class="keyword">self</span>):
+        <span class="comment"># Sweep phase: free white objects</span>
+        new_heap = []
+        <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.heap:
+            <span class="keyword">if</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.white_set:
+                <span class="comment"># Free the object</span>
+                <span class="keyword">pass</span>
+            <span class="keyword">else</span>:
+                new_heap.append(obj)
+                <span class="comment"># Reset for next GC cycle</span>
+                <span class="keyword">self</span>.white_set.add(obj)
+
+        <span class="keyword">self</span>.heap = new_heap
+        <span class="keyword">self</span>.black_set.clear()
+        <span class="keyword">self</span>.grey_list.clear()
+        <span class="keyword">self</span>.write_barrier_log.clear()
+
+<span class="comment"># Example usage</span>
+gc = IncrementalGC()
+
+<span class="comment"># Create and allocate objects</span>
+obj1 = gc.allocate(MyObject())
+obj2 = gc.allocate(MyObject())
+
+<span class="comment"># Add roots</span>
+gc.add_root(obj1)
+
+<span class="comment"># Start GC cycle</span>
+gc.start_gc_cycle()
+
+<span class="comment"># Incremental marking steps</span>
+<span class="keyword">for</span> i <span class="keyword">in</span> range(10):
+    gc.incremental_mark_step(steps=2)
+    <span class="comment"># Mutator runs here...</span>
+
+<span class="comment"># Final sweep</span>
+gc.sweep()</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Low-Pause GC</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">Incremental/Concurrent</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Pause Times</h4>
+                                <div class="value">Minimal</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Throughput</h4>
+                                <div class="value">Medium-High</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Memory Overhead</h4>
+                                <div class="value">Medium</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Complexity</h4>
+                                <div class="value">High</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Synchronization</h4>
+                                <div class="value">Required</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Barriers</h4>
+                                <div class="value">Write Barrier</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Incremental and Concurrent GC are used in systems
+                            requiring low latency:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Real-time systems and games
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Interactive applications and UI frameworks
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Web browsers (JavaScript engines)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                High-performance servers and databases
+                            </li>
+                            <li>Financial trading systems</li>
+                            <li>Telecommunications systems</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>Low Pause Times:</strong> Minimal
+                                disruption to application
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Responsive:</strong> Better user
+                                experience for interactive apps
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Predictable:</strong> More consistent
+                                performance
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Scalable:</strong> Works well on
+                                multi-core systems
+                            </li>
+                            <li>
+                                <strong>Flexible:</strong> Can be tuned for
+                                latency or throughput
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Disadvantages Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Challenges
+                        </h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                More complex implementation than stop-the-world
+                                GC
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Write barrier overhead affects mutator
+                                performance
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Requires careful synchronization in concurrent
+                                collectors
+                            </li>
+                            <li>
+                                May require more total CPU cycles for collection
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a
+                        href="https://www.linkedin.com/in/sgkandale/"
+                        target="_blank"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="mailto:me@sgkandale.com"
+                        ><i class="fa-solid fa-at"></i> E-Mail</a
+                    >
+                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization for Incremental/Concurrent Garbage Collection
+            document.addEventListener("DOMContentLoaded", function () {
+                const visualization =
+                    document.getElementById("gc-visualization");
+                const heapMemory = document.getElementById("heap-memory");
+                const allocateBtn = document.getElementById("allocate-btn");
+                const runIncrBtn = document.getElementById("run-incr-btn");
+                const runConcBtn = document.getElementById("run-conc-btn");
+                const resetBtn = document.getElementById("reset-btn");
+                const createRefBtn = document.getElementById("create-ref-btn");
+                const mutatorBtn = document.getElementById("mutator-btn");
+                const writeBarrierIndicator = document.getElementById(
+                    "write-barrier-indicator",
+                );
+
+                // State variables
+                let objects = [];
+                let roots = [];
+                let references = [];
+                let selectedObject = null;
+                let gcMode = null; // 'incremental', 'concurrent'
+                let gcActive = false;
+                let gcPhase = "inactive";
+                let greyList = [];
+                let blackSet = new Set();
+                let whiteSet = new Set();
+                let writeBarrierLog = [];
+                let mutatorActive = false;
+                let barrierHits = 0;
+
+                // Initialize visualization
+                function initVisualization() {
+                    heapMemory.innerHTML = "";
+                    objects = [];
+                    references = [];
+                    roots = [];
+                    selectedObject = null;
+                    gcMode = null;
+                    gcActive = false;
+                    gcPhase = "inactive";
+                    greyList = [];
+                    blackSet = new Set();
+                    whiteSet = new Set();
+                    writeBarrierLog = [];
+                    mutatorActive = false;
+                    barrierHits = 0;
+                    writeBarrierIndicator.style.display = "none";
+
+                    // Create heap memory blocks
+                    for (let i = 0; i < 16; i++) {
+                        const block = document.createElement("div");
+                        block.className = "memory-block block-free";
+                        block.innerHTML = `Free<div class="memory-address">${i}</div>`;
+                        block.dataset.index = i;
+                        heapMemory.appendChild(block);
+                    }
+
+                    // Create log container
+                    const logContainer = document.createElement("div");
+                    logContainer.className = "log-container";
+                    logContainer.id = "log-container";
+                    visualization.appendChild(logContainer);
+
+                    // Create status panel
+                    const statusPanel = document.createElement("div");
+                    statusPanel.className = "status-panel";
+                    statusPanel.id = "status-panel";
+                    statusPanel.innerHTML = "System Status: Initialized";
+                    visualization.appendChild(statusPanel);
+
+                    // Create thread indicator
+                    const threadIndicator = document.createElement("div");
+                    threadIndicator.className = "thread-indicator";
+                    threadIndicator.innerHTML = `
+            <div class="thread mutator-thread" id="mutator-thread">
+              <i class="fas fa-code"></i> Mutator Thread
+            </div>
+            <div class="thread collector-thread" id="collector-thread">
+              <i class="fas fa-trash-alt"></i> Collector Thread
+            </div>
+          `;
+                    visualization.appendChild(threadIndicator);
+
+                    // Create 2 root objects
+                    roots = [createObject(), createObject()];
+                    roots[0].element.textContent = "Root 1";
+                    roots[1].element.textContent = "Root 2";
+
+                    // Add roots to white set
+                    roots.forEach((root) => {
+                        whiteSet.add(root);
+                    });
+
+                    // Create some additional objects
+                    const obj1 = createObject();
+                    const obj2 = createObject();
+
+                    // Create initial references
+                    createReference(roots[0], obj1);
+                    createReference(roots[0], obj2);
+                    createReference(obj1, obj2);
+
+                    updateStats();
+                    logEvent("Initialized heap with objects and references");
+                    updateStatus("Ready - Click on objects to select them");
+                }
+
+                // Create a new object
+                function createObject() {
+                    // Find a free block
+                    const freeBlocks = Array.from(heapMemory.children).filter(
+                        (block) => block.classList.contains("block-free"),
+                    );
+
+                    if (freeBlocks.length === 0) {
+                        logEvent("Cannot allocate object: heap full");
+                        return null;
+                    }
+
+                    // Select a random free block
+                    const randomIndex = Math.floor(
+                        Math.random() * freeBlocks.length,
+                    );
+                    const block = freeBlocks[randomIndex];
+                    const index = parseInt(block.dataset.index);
+
+                    const object = {
+                        id: objects.length + 1,
+                        index: index,
+                        color: "white",
+                        references: [],
+                        element: block,
+                    };
+
+                    block.className = "memory-block block-allocated";
+                    block.innerHTML = `Obj ${object.id}<div class="memory-address">${index}</div>`;
+                    block.dataset.objId = object.id;
+
+                    objects.push(object);
+                    whiteSet.add(object);
+
+                    logEvent(`Allocated new object: ${object.id}`);
+                    updateStatus(`Allocated object ${object.id}`);
+                    updateStats();
+
+                    return object;
+                }
+
+                // Create a reference between objects
+                function createReference(from, to) {
+                    if (from === to || !from || !to) return;
+
+                    // Check if reference already exists
+                    if (from.references.includes(to)) return;
+
+                    // Use write barrier if GC is active
+                    if (
+                        gcActive &&
+                        from.color === "black" &&
+                        to.color === "white"
+                    ) {
+                        writeBarrier(from, to);
+                    }
+
+                    from.references.push(to);
+
+                    references.push({
+                        from: from,
+                        to: to,
+                    });
+
+                    logEvent(`Created reference from ${from.id} to ${to.id}`);
+                    updateStatus(
+                        `Reference from ${from.id} to ${to.id} created`,
+                    );
+                }
+
+                // Write barrier function
+                function writeBarrier(src, newVal) {
+                    barrierHits++;
+                    writeBarrierLog.push({ src, newVal });
+
+                    // Show write barrier indicator
+                    writeBarrierIndicator.style.display = "block";
+                    setTimeout(() => {
+                        writeBarrierIndicator.style.display = "none";
+                    }, 1000);
+
+                    // Mark the new value as grey
+                    if (newVal.color === "white") {
+                        newVal.color = "grey";
+                        newVal.element.classList.remove("block-allocated");
+                        newVal.element.classList.add("block-grey");
+                        greyList.push(newVal);
+                        whiteSet.delete(newVal);
+                    }
+
+                    logEvent(
+                        `Write barrier: reference from black object ${src.id} to white object ${newVal.id}`,
+                    );
+                    updateStats();
+                }
+
+                // Start incremental GC
+                function startIncrementalGC() {
+                    gcMode = "incremental";
+                    gcActive = true;
+                    gcPhase = "initializing";
+
+                    logEvent("Starting incremental garbage collection");
+                    updateStatus("Incremental GC: Initializing");
+
+                    // Initial pause: mark roots as grey
+                    setTimeout(() => {
+                        document
+                            .getElementById("collector-thread")
+                            .classList.add("thread-active");
+                        initialMarkingPause();
+                    }, 500);
+                }
+
+                // Initial marking pause
+                function initialMarkingPause() {
+                    gcPhase = "marking";
+                    logEvent("Initial marking pause: processing roots");
+                    updateStatus("Incremental GC: Marking roots");
+
+                    // Mark roots as grey
+                    roots.forEach((root) => {
+                        if (root.color === "white") {
+                            root.color = "grey";
+                            root.element.classList.remove("block-allocated");
+                            root.element.classList.add("block-grey");
+                            greyList.push(root);
+                            whiteSet.delete(root);
+                        }
+                    });
+
+                    updateStats();
+
+                    // Continue with incremental marking
+                    setTimeout(() => {
+                        incrementalMarkStep();
+                    }, 1000);
+                }
+
+                // Perform an incremental marking step
+                function incrementalMarkStep() {
+                    if (greyList.length === 0) {
+                        // Marking complete, move to sweeping
+                        gcPhase = "sweeping";
+                        logEvent("Incremental marking complete");
+                        updateStatus("Incremental GC: Sweeping");
+                        setTimeout(sweepPhase, 500);
+                        return;
+                    }
+
+                    // Process a few grey objects
+                    const steps = Math.min(2, greyList.length);
+                    logEvent(
+                        `Incremental mark step: processing ${steps} objects`,
+                    );
+                    updateStatus(
+                        `Incremental GC: Marking (${greyList.length} grey objects remaining)`,
+                    );
+
+                    for (let i = 0; i < steps; i++) {
+                        if (greyList.length === 0) break;
+
+                        const obj = greyList.shift();
+                        obj.color = "black";
+                        obj.element.classList.remove("block-grey");
+                        obj.element.classList.add("block-marked");
+                        blackSet.add(obj);
+
+                        // Process references
+                        obj.references.forEach((ref) => {
+                            if (ref.color === "white") {
+                                ref.color = "grey";
+                                ref.element.classList.remove("block-allocated");
+                                ref.element.classList.add("block-grey");
+                                greyList.push(ref);
+                                whiteSet.delete(ref);
+                            }
+                        });
+                    }
+
+                    // Process write barrier log
+                    processWriteBarrierLog();
+
+                    updateStats();
+
+                    // Continue with next step after a delay
+                    if (gcActive && gcPhase === "marking") {
+                        setTimeout(incrementalMarkStep, 1000);
+                    }
+                }
+
+                // Process write barrier log
+                function processWriteBarrierLog() {
+                    while (writeBarrierLog.length > 0) {
+                        const entry = writeBarrierLog.shift();
+                        const { newVal } = entry;
+
+                        if (newVal.color === "white") {
+                            newVal.color = "grey";
+                            newVal.element.classList.remove("block-allocated");
+                            newVal.element.classList.add("block-grey");
+                            greyList.push(newVal);
+                            whiteSet.delete(newVal);
+                            logEvent(
+                                `Processed write barrier for object ${newVal.id}`,
+                            );
+                        }
+                    }
+                }
+
+                // Sweep phase
+                function sweepPhase() {
+                    logEvent("Sweep phase: reclaiming white objects");
+                    updateStatus("Incremental GC: Sweeping");
+
+                    let sweptCount = 0;
+                    const whiteObjects = objects.filter(
+                        (obj) => obj.color === "white",
+                    );
+
+                    if (whiteObjects.length === 0) {
+                        logEvent("No white objects to sweep");
+                        completeGC();
+                        return;
+                    }
+
+                    function sweepNext() {
+                        if (sweptCount < whiteObjects.length) {
+                            const obj = whiteObjects[sweptCount];
+
+                            // Free the object
+                            obj.element.className = "memory-block block-free";
+                            obj.element.innerHTML = `Free<div class="memory-address">${obj.index}</div>`;
+                            obj.element.removeAttribute("data-obj-id");
+
+                            // Remove from objects array
+                            objects = objects.filter((o) => o !== obj);
+                            whiteSet.delete(obj);
+
+                            logEvent(`Swept object ${obj.id}`);
+                            sweptCount++;
+
+                            setTimeout(sweepNext, 500);
+                        } else {
+                            completeGC();
+                        }
+                    }
+
+                    sweepNext();
+                }
+
+                // Complete GC cycle
+                function completeGC() {
+                    logEvent("Garbage collection completed");
+                    updateStatus("GC completed");
+                    gcActive = false;
+                    gcPhase = "inactive";
+                    document
+                        .getElementById("collector-thread")
+                        .classList.remove("thread-active");
+
+                    // Reset object colors for next GC
+                    objects.forEach((obj) => {
+                        obj.color = "white";
+                        if (obj.element.classList.contains("block-marked")) {
+                            obj.element.classList.remove("block-marked");
+                            obj.element.classList.add("block-allocated");
+                        }
+                    });
+
+                    // Reset GC state
+                    greyList = [];
+                    blackSet.clear();
+                    whiteSet = new Set(objects);
+                    writeBarrierLog = [];
+                }
+
+                // Run mutator
+                function runMutator() {
+                    if (mutatorActive) return;
+
+                    mutatorActive = true;
+                    document
+                        .getElementById("mutator-thread")
+                        .classList.add("thread-active");
+                    logEvent(
+                        "Mutator running: allocating objects and creating references",
+                    );
+                    updateStatus("Mutator running");
+
+                    // Simulate mutator activity
+                    const actions = [
+                        () => {
+                            const obj = createObject();
+                            if (obj && objects.length > 2) {
+                                const randomObj =
+                                    objects[
+                                        Math.floor(
+                                            Math.random() *
+                                                (objects.length - 2),
+                                        ) + 2
+                                    ];
+                                createReference(randomObj, obj);
+                            }
+                        },
+                        () => {
+                            if (objects.length > 4) {
+                                const obj1 =
+                                    objects[
+                                        Math.floor(
+                                            Math.random() *
+                                                (objects.length - 2),
+                                        ) + 2
+                                    ];
+                                const obj2 =
+                                    objects[
+                                        Math.floor(
+                                            Math.random() *
+                                                (objects.length - 2),
+                                        ) + 2
+                                    ];
+                                if (obj1 !== obj2) {
+                                    createReference(obj1, obj2);
+                                }
+                            }
+                        },
+                        () => {
+                            // Sometimes create a reference from a root
+                            if (objects.length > 2 && Math.random() > 0.7) {
+                                const root =
+                                    roots[
+                                        Math.floor(Math.random() * roots.length)
+                                    ];
+                                const obj =
+                                    objects[
+                                        Math.floor(
+                                            Math.random() *
+                                                (objects.length - 2),
+                                        ) + 2
+                                    ];
+                                createReference(root, obj);
+                            }
+                        },
+                    ];
+
+                    let actionCount = 0;
+                    function performAction() {
+                        if (actionCount < 5 && mutatorActive) {
+                            const action =
+                                actions[
+                                    Math.floor(Math.random() * actions.length)
+                                ];
+                            action();
+                            actionCount++;
+                            setTimeout(performAction, 800);
+                        } else {
+                            mutatorActive = false;
+                            document
+                                .getElementById("mutator-thread")
+                                .classList.remove("thread-active");
+                            logEvent("Mutator completed");
+                            updateStatus("Mutator completed");
+                        }
+                    }
+
+                    performAction();
+                }
+
+                // Update statistics
+                function updateStats() {
+                    const totalObjects = objects.length;
+                    const markedObjects = objects.filter(
+                        (obj) => obj.color !== "white",
+                    ).length;
+
+                    document.getElementById("total-objects").textContent =
+                        totalObjects;
+                    document.getElementById("marked-objects").textContent =
+                        markedObjects;
+                    document.getElementById("barrier-count").textContent =
+                        barrierHits;
+
+                    // Calculate approximate pause time
+                    let pauseTime = 0;
+                    if (gcMode === "incremental") {
+                        pauseTime = 5 + objects.length * 0.1;
+                    } else if (gcMode === "concurrent") {
+                        pauseTime = 2;
+                    }
+                    document.getElementById("pause-time").textContent =
+                        `${pauseTime.toFixed(1)}ms`;
+                }
+
+                // Log event to log container
+                function logEvent(message) {
+                    const logContainer =
+                        document.getElementById("log-container");
+                    if (!logContainer) return;
+
+                    const logEntry = document.createElement("div");
+                    logEntry.className = "log-entry";
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                    logContainer.appendChild(logEntry);
+
+                    // Auto-scroll
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+
+                // Update status panel
+                function updateStatus(status) {
+                    const statusPanel = document.getElementById("status-panel");
+                    if (!statusPanel) return;
+
+                    statusPanel.innerHTML = `System Status: ${status}`;
+                }
+
+                // Handle object selection
+                function selectObject(object) {
+                    if (selectedObject === object) {
+                        selectedObject = null;
+                        object.element.style.border = "";
+                    } else {
+                        if (selectedObject) {
+                            selectedObject.element.style.border = "";
+                        }
+                        selectedObject = object;
+                        object.element.style.border =
+                            "2px solid var(--warning)";
+                        logEvent(
+                            `Selected object ${object.id} (Color: ${object.color})`,
+                        );
+                        updateStatus(
+                            `Object ${object.id} selected - Color: ${object.color}`,
+                        );
+                    }
+                }
+
+                // Event listeners
+                allocateBtn.addEventListener("click", createObject);
+                runIncrBtn.addEventListener("click", startIncrementalGC);
+                mutatorBtn.addEventListener("click", runMutator);
+                createRefBtn.addEventListener("click", () => {
+                    if (selectedObject) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                    updateStatus("Select source object for new reference");
+                });
+                resetBtn.addEventListener("click", initVisualization);
+
+                // For concurrent GC, we would need a more complex implementation with web workers
+                // For this visualization, we'll just show a message
+                runConcBtn.addEventListener("click", () => {
+                    logEvent(
+                        "Concurrent GC would require multi-threading (not implemented in this visualization)",
+                    );
+                    updateStatus("Concurrent GC simulation not implemented");
+                });
+
+                // Add click event to memory blocks
+                heapMemory.addEventListener("click", (e) => {
+                    const block = e.target.closest(".memory-block");
+                    if (!block) return;
+
+                    const objId = block.dataset.objId;
+                    if (objId) {
+                        const object = objects.find((obj) => obj.id == objId);
+                        if (object) {
+                            selectObject(object);
+                        }
+                    }
+                });
+
+                // Initialize the visualization
+                initVisualization();
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
