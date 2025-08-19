@@ -1,0 +1,1883 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Stop-and-Copy GC | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 400px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .visualization-area::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 0;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+
+            .console-input button {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+
+                .console-input button {
+                    min-width: 100px;
+                    font-size: 12px;
+                    padding: 8px 10px;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* Stop-and-Copy Visualization Styles */
+            .heap-container {
+                display: flex;
+                width: 100%;
+                height: 100%;
+            }
+
+            .semispace {
+                flex: 1;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+            }
+
+            .semispace-title {
+                text-align: center;
+                padding: 5px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                font-weight: bold;
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .from-space {
+                background: rgba(239, 68, 68, 0.1);
+                border: 1px solid var(--danger);
+            }
+
+            .to-space {
+                background: rgba(16, 185, 129, 0.1);
+                border: 1px solid var(--success);
+            }
+
+            .memory-region {
+                flex: 1;
+                margin: 5px;
+                border-radius: 8px;
+                padding: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-content: flex-start;
+                position: relative;
+                min-height: 250px;
+            }
+
+            .from-region {
+                background: rgba(239, 68, 68, 0.15);
+                border: 1px dashed var(--danger);
+            }
+
+            .to-region {
+                background: rgba(16, 185, 129, 0.15);
+                border: 1px dashed var(--success);
+            }
+
+            .memory-block {
+                width: 50px;
+                height: 50px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: "Roboto Mono", monospace;
+                font-size: 12px;
+                text-align: center;
+                transition: all 0.5s ease;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+            }
+
+            .block-active {
+                background: var(--accent);
+                border: 1px solid var(--accent-light);
+                box-shadow: var(--glow);
+            }
+
+            .block-reachable {
+                background: var(--success);
+                border: 1px solid #34d399;
+            }
+
+            .block-copied {
+                background: var(--warning);
+                border: 1px solid #fbbf24;
+            }
+
+            .block-unreachable {
+                background: var(--danger);
+                border: 1px solid #f87171;
+                opacity: 0.7;
+            }
+
+            .block-moving {
+                animation: moveObject 1.5s ease-in-out;
+                z-index: 10;
+            }
+
+            @keyframes moveObject {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.1) translateY(-20px);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .reference-arrow {
+                position: absolute;
+                z-index: -1;
+                stroke: var(--accent-light);
+                stroke-width: 2;
+                fill: none;
+            }
+
+            .roots-container {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid var(--accent);
+            }
+
+            .root-pointer {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--warning);
+                margin-bottom: 10px;
+                font-size: 12px;
+            }
+
+            .status-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 14px;
+                font-family: "Roboto Mono", monospace;
+                text-align: center;
+                color: var(--accent-light);
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .phase-indicator {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .phase {
+                padding: 5px 10px;
+                border-radius: 5px;
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--text-secondary);
+            }
+
+            .phase.active {
+                background: var(--accent);
+                color: white;
+            }
+
+            .log-entry {
+                margin: 5px 0;
+                padding: 5px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .log-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 200px;
+                max-height: 150px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .stats-bar {
+                display: flex;
+                justify-content: space-between;
+                padding: 5px 10px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 5px;
+                margin-top: 10px;
+                font-size: 12px;
+            }
+
+            .copy-pointer {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background: var(--warning);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                color: white;
+                z-index: 5;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Memory Management</a> >
+                            <span>Stop-and-Copy GC</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Stop-and-Copy Garbage Collection</h1>
+                <div class="category">
+                    <i class="fas fa-clone"></i> Copying Garbage Collection
+                    Algorithm
+                </div>
+                <div class="complexity-badge">
+                    Time Complexity: O(Live Objects)
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            Stop-and-Copy is a garbage collection algorithm that
+                            divides the heap into two equal-sized semispaces.
+                            During program execution, only one semispace is
+                            active. When garbage collection is triggered, the
+                            algorithm stops program execution, copies all
+                            reachable objects from the current semispace
+                            (from-space) to the other semispace (to-space), and
+                            then updates all references to point to the new
+                            copies.
+                        </p>
+                        <p>
+                            This approach eliminates fragmentation by compacting
+                            objects during the copy process. The algorithm then
+                            swaps the roles of the semispaces, making the
+                            to-space the new active heap. The main drawback is
+                            that it requires twice the memory since only half of
+                            the heap is used at any time.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Eliminates memory fragmentation by
+                                    compacting objects during copying
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Time proportional to number of live objects,
+                                    not heap size
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Memory Usage
+                                </h3>
+                                <p>
+                                    Requires 2x memory due to semispace division
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Approach
+                                </h3>
+                                <p>
+                                    Copy reachable objects to new space and
+                                    update references
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            The visualization below demonstrates the
+                            Stop-and-Copy algorithm in action. You can see
+                            objects in the from-space, some of which are
+                            reachable and some are not. The algorithm will copy
+                            reachable objects to the to-space and update
+                            references. Use the controls to simulate allocation
+                            and trigger garbage collection.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-exchange-alt"></i>
+                                    Semispace Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        class="console-btn secondary"
+                                        id="step-btn"
+                                    >
+                                        <i class="fas fa-step-forward"></i> Step
+                                    </button>
+                                    <button class="console-btn" id="run-gc-btn">
+                                        <i class="fas fa-play"></i> Run GC
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="reset-btn"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="visualization-area"
+                                id="gc-visualization"
+                            >
+                                <!-- Visualization will be rendered here by JavaScript -->
+                                <div
+                                    class="heap-container"
+                                    id="heap-container"
+                                ></div>
+                            </div>
+
+                            <div class="console-input">
+                                <button class="console-btn" id="allocate-btn">
+                                    <i class="fas fa-plus-circle"></i> Allocate
+                                    Object
+                                </button>
+                                <button class="console-btn" id="create-ref-btn">
+                                    <i class="fas fa-link"></i> Create Reference
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="null-ref-btn"
+                                >
+                                    <i class="fas fa-unlink"></i> Nullify
+                                    Reference
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="swap-btn"
+                                >
+                                    <i class="fas fa-exchange-alt"></i> Swap
+                                    Semispaces
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            The Stop-and-Copy garbage collection algorithm
+                            operates through these key phases:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-pause"></i> 1. Stop The
+                                    World
+                                </h3>
+                                <p>
+                                    Pause program execution to ensure memory
+                                    consistency during collection
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-search"></i> 2. Identify
+                                    Roots
+                                </h3>
+                                <p>
+                                    Identify all root references that point
+                                    directly to objects in the from-space
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-copy"></i> 3. Copy
+                                    Reachable Objects
+                                </h3>
+                                <p>
+                                    Copy all objects reachable from roots to the
+                                    to-space, maintaining object relationships
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-sync-alt"></i> 4. Update
+                                    References
+                                </h3>
+                                <p>
+                                    Update all references to point to the new
+                                    object locations in the to-space
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-exchange-alt"></i> 5. Swap
+                                    Semispaces
+                                </h3>
+                                <p>
+                                    Swap the roles of the semispaces, making the
+                                    to-space the new active heap
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-play"></i> 6. Resume
+                                    Execution
+                                </h3>
+                                <p>
+                                    Resume program execution with the newly
+                                    compacted heap
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>// Stop-and-Copy Garbage Collection
+function collectGarbage():
+  stopTheWorld()  // Pause all mutator threads
+
+  // Initialize copying
+  toSpace.start = heap.start
+  toSpace.free = toSpace.start
+  fromSpace = currentActiveSpace
+
+  // Process roots first
+  for each root in roots:
+    if root != null and root is in fromSpace:
+      newAddress = copyObject(root, fromSpace, toSpace)
+      updateReference(root, newAddress)
+
+  // Process copied objects (breadth-first)
+  current = toSpace.start
+  while current < toSpace.free:
+    for each reference in object at current:
+      if reference != null and reference is in fromSpace:
+        newAddress = copyObject(reference, fromSpace, toSpace)
+        updateReference(reference, newAddress)
+    current = current + size(object at current)
+
+  // Swap semispaces
+  swap(fromSpace, toSpace)
+
+  resumeExecution()  // Resume mutator threads
+
+// Copy an object to to-space
+function copyObject(obj, fromSpace, toSpace):
+  if obj already copied:
+    return forwardingAddress(obj)
+
+  size = getSize(obj)
+  newObj = toSpace.free
+  toSpace.free += size
+
+  // Copy object contents
+  memoryCopy(newObj, obj, size)
+
+  // Set forwarding address
+  setForwardingAddress(obj, newObj)
+
+  return newObj
+
+// Update a reference to point to new location
+function updateReference(ref, newAddress):
+  *ref = newAddress</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of the
+                            Stop-and-Copy garbage collector. This example
+                            demonstrates the core algorithm with object
+                            representation and reference management.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">class</span> <span class="function">Heap</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, size):
+        <span class="keyword">self</span>.size = size
+        <span class="keyword">self</span>.from_space = [<span class="keyword">None</span>] * (size // 2)
+        <span class="keyword">self</span>.to_space = [<span class="keyword">None</span>] * (size // 2)
+        <span class="keyword">self</span>.alloc_ptr = 0
+        <span class="keyword">self</span>.from_active = <span class="keyword">True</span>
+        <span class="keyword">self</span>.roots = []
+
+    <span class="keyword">def</span> <span class="function">allocate</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">if</span> <span class="keyword">self</span>.from_active:
+            space = <span class="keyword">self</span>.from_space
+        <span class="keyword">else</span>:
+            space = <span class="keyword">self</span>.to_space
+
+        <span class="keyword">if</span> <span class="keyword">self</span>.alloc_ptr >= len(space):
+            <span class="keyword">self</span>.collect()
+            <span class="keyword">if</span> <span class="keyword">self</span>.alloc_ptr >= len(space):
+                <span class="keyword">raise</span> MemoryError(<span class="string">"Out of memory"</span>)
+
+        space[<span class="keyword">self</span>.alloc_ptr] = obj
+        obj.address = <span class="keyword">self</span>.alloc_ptr
+        <span class="keyword">self</span>.alloc_ptr += 1
+        <span class="keyword">return</span> obj.address
+
+    <span class="keyword">def</span> <span class="function">collect</span>(<span class="keyword">self</span>):
+        <span class="comment"># Stop the world</span>
+        <span class="keyword">print</span>(<span class="string">"Starting garbage collection..."</span>)
+
+        <span class="keyword">if</span> <span class="keyword">self</span>.from_active:
+            from_space, to_space = <span class="keyword">self</span>.from_space, <span class="keyword">self</span>.to_space
+        <span class="keyword">else</span>:
+            from_space, to_space = <span class="keyword">self</span>.to_space, <span class="keyword">self</span>.from_space
+
+        <span class="comment"># Reset to_space and copy pointers</span>
+        to_space_alloc = 0
+        forwarding_addresses = {}
+
+        <span class="comment"># Copy roots first</span>
+        <span class="keyword">for</span> root <span class="keyword">in</span> <span class="keyword">self</span>.roots:
+            <span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> from_space[root] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+                new_addr = self.copyObject(from_space[root], from_space, to_space,
+                                        to_space_alloc, forwarding_addresses)
+                root = new_addr  <span class="comment"># Update root reference</span>
+
+        <span class="comment"># Process copied objects</span>
+        current = 0
+        <span class="keyword">while</span> current < to_space_alloc:
+            obj = to_space[current]
+            <span class="comment"># Update all references in the object</span>
+            <span class="keyword">for</span> i, ref <span class="keyword">in</span> enumerate(obj.references):
+                <span class="keyword">if</span> ref <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span> <span class="keyword">and</span> from_space[ref] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+                    new_addr = self.copyObject(from_space[ref], from_space, to_space,
+                                            to_space_alloc, forwarding_addresses)
+                    obj.references[i] = new_addr
+            current += 1
+
+        <span class="comment"># Swap semispaces</span>
+        <span class="keyword">self</span>.from_active = <span class="keyword">not</span> <span class="keyword">self</span>.from_active
+        <span class="keyword">self</span>.alloc_ptr = to_space_alloc
+
+        <span class="comment"># Clear the from_space for future use</span>
+        <span class="keyword">if</span> <span class="keyword">self</span>.from_active:
+            <span class="keyword">self</span>.from_space = [<span class="keyword">None</span>] * (self.size // 2)
+        <span class="keyword">else</span>:
+            <span class="keyword">self</span>.to_space = [<span class="keyword">None</span>] * (self.size // 2)
+
+        <span class="keyword">print</span>(<span class="string">"Garbage collection completed"</span>)
+
+    <span class="keyword">def</span> <span class="function">copyObject</span>(<span class="keyword">self</span>, obj, from_space, to_space, to_space_alloc, forwarding_addresses):
+        <span class="keyword">if</span> obj.address <span class="keyword">in</span> forwarding_addresses:
+            <span class="keyword">return</span> forwarding_addresses[obj.address]
+
+        <span class="comment"># Copy the object</span>
+        to_space[to_space_alloc] = obj
+        obj.address = to_space_alloc
+        forwarding_addresses[obj.address] = to_space_alloc
+        to_space_alloc += 1
+
+        <span class="keyword">return</span> obj.address
+
+<span class="keyword">class</span> <span class="function">GCObject</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, references=None):
+        <span class="keyword">self</span>.address = -1
+        <span class="keyword">self</span>.references = references <span class="keyword">or</span> []
+
+    <span class="keyword">def</span> <span class="function">add_reference</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.references.append(obj.address)
+
+<span class="comment"># Example usage</span>
+heap = Heap(<span class="number">100</span>)
+root = GCObject()
+heap.roots.append(heap.allocate(root))
+
+child1 = GCObject()
+child2 = GCObject()
+heap.allocate(child1)
+heap.allocate(child2)
+
+root.add_reference(child1)
+root.add_reference(child2)
+
+<span class="comment"># Trigger garbage collection</span>
+heap.collect()</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Copying GC</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">Tracing</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Fragmentation</h4>
+                                <div class="value">None</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Pause Time</h4>
+                                <div class="value">Medium</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Throughput</h4>
+                                <div class="value">High</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Memory Overhead</h4>
+                                <div class="value">2x</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Complexity</h4>
+                                <div class="value">O(Live)</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Compaction</h4>
+                                <div class="value">Automatic</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Stop-and-Copy is used in various systems and
+                            languages:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Young generation collection in generational
+                                garbage collectors
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Functional programming language runtimes
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Lisp and Scheme implementations
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Smalltalk virtual machines
+                            </li>
+                            <li>Embedded systems with memory constraints</li>
+                            <li>Research programming languages</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>No Fragmentation:</strong> Objects are
+                                compacted during copy
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Fast Allocation:</strong> Simple pointer
+                                bump allocation
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Efficient Collection:</strong> Time
+                                proportional to live objects
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Simple Implementation:</strong> Easy to
+                                implement correctly
+                            </li>
+                            <li>
+                                <strong>Cache Friendly:</strong> Objects are
+                                allocated sequentially
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Disadvantages Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Limitations
+                        </h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Requires twice the memory (half is unused at any
+                                time)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Stop-the-world pauses can affect responsiveness
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Not suitable for very large heaps
+                            </li>
+                            <li>
+                                Inefficient for large objects or heaps with high
+                                survival rates
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a href="#"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+                    <a href="#"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization for Stop-and-Copy Garbage Collection
+            document.addEventListener("DOMContentLoaded", function () {
+                const visualization =
+                    document.getElementById("gc-visualization");
+                const heapContainer = document.getElementById("heap-container");
+                const allocateBtn = document.getElementById("allocate-btn");
+                const runGcBtn = document.getElementById("run-gc-btn");
+                const resetBtn = document.getElementById("reset-btn");
+                const createRefBtn = document.getElementById("create-ref-btn");
+                const nullRefBtn = document.getElementById("null-ref-btn");
+                const swapBtn = document.getElementById("swap-btn");
+
+                // State variables
+                let objects = [];
+                let roots = [];
+                let references = [];
+                let selectedObject = null;
+                let fromSpaceActive = true;
+                let copyPointer = 0;
+
+                // Initialize visualization
+                function initVisualization() {
+                    heapContainer.innerHTML = "";
+                    objects = [];
+                    references = [];
+                    roots = [];
+                    selectedObject = null;
+                    fromSpaceActive = true;
+                    copyPointer = 0;
+
+                    // Create semispace containers
+                    const fromSpace = document.createElement("div");
+                    fromSpace.className = "semispace";
+                    fromSpace.innerHTML = `
+            <div class="semispace-title from-space">From-Space</div>
+            <div class="memory-region from-region" id="from-region"></div>
+          `;
+
+                    const toSpace = document.createElement("div");
+                    toSpace.className = "semispace";
+                    toSpace.innerHTML = `
+            <div class="semispace-title to-space">To-Space</div>
+            <div class="memory-region to-region" id="to-region"></div>
+          `;
+
+                    heapContainer.appendChild(fromSpace);
+                    heapContainer.appendChild(toSpace);
+
+                    // Create log container
+                    const logContainer = document.createElement("div");
+                    logContainer.className = "log-container";
+                    logContainer.id = "log-container";
+                    visualization.appendChild(logContainer);
+
+                    // Create status panel
+                    const statusPanel = document.createElement("div");
+                    statusPanel.className = "status-panel";
+                    statusPanel.id = "status-panel";
+                    statusPanel.innerHTML = "System Status: Initialized";
+                    visualization.appendChild(statusPanel);
+
+                    // Create 2 root objects
+                    roots = [createObject(), createObject()];
+                    roots[0].element.textContent = "Root 1";
+                    roots[1].element.textContent = "Root 2";
+
+                    logEvent("Initialized heap with 2 root objects");
+                    updateStatus("Ready - 2 objects in From-Space");
+                }
+
+                // Create a new object
+                function createObject() {
+                    const object = {
+                        id: objects.length,
+                        copied: false,
+                        references: [],
+                        element: null,
+                        address: null,
+                    };
+
+                    const block = document.createElement("div");
+                    block.className = "memory-block block-active";
+                    block.innerHTML = `Obj ${object.id}`;
+                    block.dataset.id = object.id;
+                    block.addEventListener("click", () => selectObject(object));
+
+                    // Add to appropriate space
+                    const container = document.getElementById("from-region");
+                    container.appendChild(block);
+                    object.element = block;
+                    object.address = objects.length;
+                    objects.push(object);
+
+                    logEvent(`Allocated new object: ${object.id}`);
+                    updateStatus(`Allocated object ${object.id} in From-Space`);
+
+                    return object;
+                }
+
+                // Create a reference between objects
+                function createReference(from, to) {
+                    if (from === to) return;
+
+                    // Check if reference already exists
+                    if (from.references.includes(to)) return;
+
+                    from.references.push(to);
+
+                    // Create visual reference
+                    const fromRect = from.element.getBoundingClientRect();
+                    const toRect = to.element.getBoundingClientRect();
+                    const containerRect = heapContainer.getBoundingClientRect();
+
+                    const x1 =
+                        fromRect.left + fromRect.width / 2 - containerRect.left;
+                    const y1 =
+                        fromRect.top + fromRect.height / 2 - containerRect.top;
+                    const x2 =
+                        toRect.left + toRect.width / 2 - containerRect.left;
+                    const y2 =
+                        toRect.top + toRect.height / 2 - containerRect.top;
+
+                    // Create arrow with SVG
+                    const svgNS = "http://www.w3.org/2000/svg";
+                    const svg = document.createElementNS(svgNS, "svg");
+                    svg.setAttribute("class", "reference-arrow");
+                    svg.style.position = "absolute";
+                    svg.style.left = "0";
+                    svg.style.top = "0";
+                    svg.style.width = "100%";
+                    svg.style.height = "100%";
+                    svg.style.pointerEvents = "none";
+
+                    const line = document.createElementNS(svgNS, "line");
+                    line.setAttribute("x1", x1);
+                    line.setAttribute("y1", y1);
+                    line.setAttribute("x2", x2);
+                    line.setAttribute("y2", y2);
+                    line.setAttribute("class", "reference-arrow");
+
+                    // Add arrowhead
+                    const defs = document.createElementNS(svgNS, "defs");
+                    const marker = document.createElementNS(svgNS, "marker");
+                    marker.setAttribute("id", `arrowhead-${from.id}-${to.id}`);
+                    marker.setAttribute("markerWidth", "10");
+                    marker.setAttribute("markerHeight", "7");
+                    marker.setAttribute("refX", "10");
+                    marker.setAttribute("refY", "3.5");
+                    marker.setAttribute("orient", "auto");
+
+                    const polygon = document.createElementNS(svgNS, "polygon");
+                    polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
+                    polygon.setAttribute("fill", "var(--accent-light)");
+
+                    marker.appendChild(polygon);
+                    defs.appendChild(marker);
+                    svg.appendChild(defs);
+                    line.setAttribute(
+                        "marker-end",
+                        `url(#arrowhead-${from.id}-${to.id})`,
+                    );
+                    svg.appendChild(line);
+
+                    heapContainer.appendChild(svg);
+                    references.push({
+                        from,
+                        to,
+                        element: svg,
+                    });
+
+                    logEvent(`Created reference from ${from.id} to ${to.id}`);
+                }
+
+                // Select an object for reference creation
+                function selectObject(object) {
+                    if (selectedObject === null) {
+                        selectedObject = object;
+                        object.element.style.border = "2px solid white";
+                        logEvent(
+                            `Selected object ${object.id} as reference source`,
+                        );
+                        updateStatus(
+                            `Select target object for reference from ${object.id}`,
+                        );
+                    } else if (selectedObject === object) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    } else {
+                        createReference(selectedObject, object);
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                }
+
+                // Nullify a random reference
+                function nullifyRandomReference() {
+                    const objectsWithRefs = objects.filter(
+                        (obj) => obj.references.length > 0,
+                    );
+                    if (objectsWithRefs.length === 0) return;
+
+                    const from =
+                        objectsWithRefs[
+                            Math.floor(Math.random() * objectsWithRefs.length)
+                        ];
+                    const refIndex = Math.floor(
+                        Math.random() * from.references.length,
+                    );
+                    const to = from.references[refIndex];
+
+                    // Remove reference
+                    from.references.splice(refIndex, 1);
+
+                    // Remove visual reference
+                    const refSvg = references.find(
+                        (ref) => ref.from === from && ref.to === to,
+                    );
+                    if (refSvg) {
+                        refSvg.element.remove();
+                        references = references.filter((ref) => ref !== refSvg);
+                    }
+
+                    logEvent(`Nullified reference from ${from.id} to ${to.id}`);
+                    updateStatus(
+                        `Reference from ${from.id} to ${to.id} removed`,
+                    );
+                }
+
+                // Run garbage collection
+                function runGarbageCollection() {
+                    logEvent("Starting Stop-and-Copy GC...");
+                    updateStatus("GC: Stopping program execution");
+
+                    // Reset all objects in to-space
+                    const toRegion = document.getElementById("to-region");
+                    toRegion.innerHTML = "";
+
+                    // Reset copy pointer
+                    copyPointer = 0;
+
+                    // Create copy pointer visualization
+                    const copyPointerEl = document.createElement("div");
+                    copyPointerEl.className = "copy-pointer";
+                    copyPointerEl.innerHTML = "CP";
+                    copyPointerEl.style.position = "absolute";
+                    copyPointerEl.style.top = "10px";
+                    copyPointerEl.style.left = "10px";
+                    toRegion.appendChild(copyPointerEl);
+
+                    // Step 1: Copy roots
+                    setTimeout(() => {
+                        logEvent("Copying root objects to to-space");
+                        updateStatus("GC: Copying root objects");
+
+                        let processed = 0;
+
+                        function copyNextRoot() {
+                            if (processed < roots.length) {
+                                const root = roots[processed];
+                                copyObject(root);
+                                processed++;
+                                setTimeout(copyNextRoot, 800);
+                            } else {
+                                // Step 2: Process copied objects
+                                setTimeout(processCopiedObjects, 1000);
+                            }
+                        }
+
+                        copyNextRoot();
+                    }, 1000);
+                }
+
+                // Copy an object to to-space
+                function copyObject(obj) {
+                    if (obj.copied) return;
+
+                    obj.copied = true;
+
+                    // Create a copy of the object in to-space
+                    const toRegion = document.getElementById("to-region");
+                    const newBlock = document.createElement("div");
+                    newBlock.className = "memory-block block-copied";
+                    newBlock.innerHTML = `Obj ${obj.id}`;
+                    newBlock.style.position = "absolute";
+                    newBlock.style.top = `${10 + copyPointer * 60}px`;
+                    newBlock.style.left = "10px";
+
+                    // Animate the copy process
+                    const fromRect = obj.element.getBoundingClientRect();
+                    const toRect = toRegion.getBoundingClientRect();
+                    const containerRect = heapContainer.getBoundingClientRect();
+
+                    const x1 =
+                        fromRect.left + fromRect.width / 2 - containerRect.left;
+                    const y1 =
+                        fromRect.top + fromRect.height / 2 - containerRect.top;
+                    const x2 = toRect.left + 30 - containerRect.left;
+                    const y2 =
+                        toRect.top + 30 + copyPointer * 60 - containerRect.top;
+
+                    // Create flying object animation
+                    const flyingObj = document.createElement("div");
+                    flyingObj.className = "memory-block block-moving";
+                    flyingObj.innerHTML = `Obj ${obj.id}`;
+                    flyingObj.style.position = "absolute";
+                    flyingObj.style.left = `${x1}px`;
+                    flyingObj.style.top = `${y1}px`;
+                    flyingObj.style.zIndex = "100";
+                    visualization.appendChild(flyingObj);
+
+                    // Animate the flight
+                    setTimeout(() => {
+                        flyingObj.style.left = `${x2}px`;
+                        flyingObj.style.top = `${y2}px`;
+
+                        setTimeout(() => {
+                            flyingObj.remove();
+                            toRegion.appendChild(newBlock);
+                            logEvent(`Copied object ${obj.id} to to-space`);
+
+                            // Update copy pointer
+                            const cp = document.querySelector(".copy-pointer");
+                            if (cp) {
+                                cp.style.top = `${30 + (copyPointer + 1) * 60}px`;
+                            }
+
+                            copyPointer++;
+                        }, 800);
+                    }, 100);
+                }
+
+                // Process copied objects and their references
+                function processCopiedObjects() {
+                    logEvent("Processing references in copied objects");
+                    updateStatus("GC: Updating references");
+
+                    // Find objects that have been copied but their references haven't been processed
+                    const copiedObjects = objects.filter(
+                        (obj) => obj.copied && obj.references.length > 0,
+                    );
+                    let processed = 0;
+
+                    function processNextObject() {
+                        if (processed < copiedObjects.length) {
+                            const obj = copiedObjects[processed];
+
+                            // Process each reference
+                            obj.references.forEach((ref) => {
+                                copyObject(ref);
+                            });
+
+                            processed++;
+                            setTimeout(processNextObject, 1000);
+                        } else {
+                            // All objects processed, complete GC
+                            setTimeout(completeGarbageCollection, 1000);
+                        }
+                    }
+
+                    processNextObject();
+                }
+
+                // Complete the garbage collection process
+                function completeGarbageCollection() {
+                    logEvent(
+                        "Garbage collection complete, swapping semispaces",
+                    );
+                    updateStatus("GC: Swapping semispaces");
+
+                    // Mark unreachable objects
+                    objects.forEach((obj) => {
+                        if (!obj.copied) {
+                            obj.element.classList.add("block-unreachable");
+                            logEvent(
+                                `Object ${obj.id} is unreachable and will be collected`,
+                            );
+                        }
+                    });
+
+                    // Swap semispaces
+                    setTimeout(() => {
+                        fromSpaceActive = !fromSpaceActive;
+
+                        // Clear the from-space
+                        const fromRegion =
+                            document.getElementById("from-region");
+                        fromRegion.innerHTML = "";
+                        fromRegion.classList.remove("from-region");
+                        fromRegion.classList.add("to-region");
+
+                        // Reset the to-space to become the new from-space
+                        const toRegion = document.getElementById("to-region");
+                        toRegion.classList.remove("to-region");
+                        toRegion.classList.add("from-region");
+
+                        // Update object states
+                        objects.forEach((obj) => {
+                            obj.copied = false;
+                            if (obj.element.parentNode === toRegion) {
+                                fromRegion.appendChild(obj.element);
+                                obj.element.classList.remove("block-copied");
+                                obj.element.classList.add("block-active");
+                            }
+                        });
+
+                        // Update titles
+                        document.querySelector(".from-space").textContent =
+                            fromSpaceActive ? "From-Space" : "To-Space";
+                        document.querySelector(".to-space").textContent =
+                            fromSpaceActive ? "To-Space" : "From-Space";
+
+                        document.querySelector(".from-space").className =
+                            fromSpaceActive
+                                ? "semispace-title from-space"
+                                : "semispace-title to-space";
+                        document.querySelector(".to-space").className =
+                            fromSpaceActive
+                                ? "semispace-title to-space"
+                                : "semispace-title from-space";
+
+                        logEvent(
+                            "Semispaces swapped, resuming program execution",
+                        );
+                        updateStatus(
+                            `Program resumed. ${objects.filter((obj) => obj.copied).length} objects in use`,
+                        );
+                    }, 1500);
+                }
+
+                // Swap semispaces manually
+                function swapSemispaces() {
+                    fromSpaceActive = !fromSpaceActive;
+
+                    // Update titles
+                    document.querySelector(".from-space").textContent =
+                        fromSpaceActive ? "From-Space" : "To-Space";
+                    document.querySelector(".to-space").textContent =
+                        fromSpaceActive ? "To-Space" : "From-Space";
+
+                    document.querySelector(".from-space").className =
+                        fromSpaceActive
+                            ? "semispace-title from-space"
+                            : "semispace-title to-space";
+                    document.querySelector(".to-space").className =
+                        fromSpaceActive
+                            ? "semispace-title to-space"
+                            : "semispace-title from-space";
+
+                    logEvent("Manually swapped semispaces");
+                    updateStatus(
+                        `Semispaces swapped. Now ${fromSpaceActive ? "From" : "To"}-Space is active`,
+                    );
+                }
+
+                // Log event to log container
+                function logEvent(message) {
+                    const logContainer =
+                        document.getElementById("log-container");
+                    if (!logContainer) return;
+
+                    const logEntry = document.createElement("div");
+                    logEntry.className = "log-entry";
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                    logContainer.appendChild(logEntry);
+
+                    // Auto-scroll
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+
+                // Update status panel
+                function updateStatus(status) {
+                    const statusPanel = document.getElementById("status-panel");
+                    if (!statusPanel) return;
+
+                    statusPanel.innerHTML = `System Status: ${status}`;
+                }
+
+                // Event listeners
+                allocateBtn.addEventListener("click", createObject);
+                runGcBtn.addEventListener("click", runGarbageCollection);
+                createRefBtn.addEventListener("click", () => {
+                    if (selectedObject) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                    updateStatus("Select source object for new reference");
+                });
+                nullRefBtn.addEventListener("click", nullifyRandomReference);
+                swapBtn.addEventListener("click", swapSemispaces);
+                resetBtn.addEventListener("click", initVisualization);
+
+                // Initialize the visualization
+                initVisualization();
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
