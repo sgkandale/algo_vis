@@ -1,0 +1,1693 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mark & Sweep GC | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 300px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .visualization-area::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 0;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .console-input input {
+                flex: 1;
+                padding: 12px 15px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 5px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .console-input input:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* GC Visualization Styles */
+            .memory-heap {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding: 20px;
+                width: 100%;
+                height: 100%;
+            }
+
+            .memory-block {
+                width: 60px;
+                height: 60px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: "Roboto Mono", monospace;
+                font-size: 14px;
+                text-align: center;
+                transition: all 0.5s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .block-free {
+                background: rgba(148, 163, 184, 0.3);
+                border: 1px dashed var(--text-secondary);
+            }
+
+            .block-allocated {
+                background: var(--accent);
+                border: 1px solid var(--accent-light);
+                box-shadow: var(--glow);
+            }
+
+            .block-reachable {
+                background: var(--success);
+                border: 1px solid #34d399;
+            }
+
+            .block-unreachable {
+                background: var(--danger);
+                border: 1px solid #f87171;
+            }
+
+            .block-marked {
+                animation: pulse 1.5s infinite;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .reference-arrow {
+                position: absolute;
+                z-index: -1;
+                stroke: var(--accent-light);
+                stroke-width: 2;
+                fill: none;
+            }
+
+            .roots-container {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid var(--accent);
+            }
+
+            .root-pointer {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--warning);
+                margin-bottom: 10px;
+                font-size: 12px;
+            }
+
+            .status-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 14px;
+                font-family: "Roboto Mono", monospace;
+                text-align: center;
+                color: var(--accent-light);
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .phase-indicator {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .phase {
+                padding: 5px 10px;
+                border-radius: 5px;
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--text-secondary);
+            }
+
+            .phase.active {
+                background: var(--accent);
+                color: white;
+            }
+
+            .log-entry {
+                margin: 5px 0;
+                padding: 5px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .log-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 200px;
+                max-height: 120px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Memory Management</a> >
+                            <span>Mark & Sweep GC</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Mark & Sweep Garbage Collection</h1>
+                <div class="category">
+                    <i class="fas fa-memory"></i> Automatic Memory Management
+                    Algorithm
+                </div>
+                <div class="complexity-badge">Time Complexity: O(n)</div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            The Mark & Sweep garbage collection algorithm is a
+                            fundamental automatic memory management technique
+                            that identifies and reclaims unreachable objects in
+                            a program's heap memory. It operates in two phases:
+                            first marking all reachable objects starting from
+                            root pointers, then sweeping through the entire heap
+                            to deallocate unmarked objects.
+                        </p>
+                        <p>
+                            Unlike reference counting, Mark & Sweep can handle
+                            cyclic references, making it suitable for complex
+                            data structures. It's widely used in programming
+                            languages like Java, C#, and JavaScript, forming the
+                            basis for more advanced garbage collection
+                            algorithms.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Handles cyclic references that reference
+                                    counting cannot collect
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Linear time complexity relative to heap size
+                                    and live objects
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Memory Usage
+                                </h3>
+                                <p>
+                                    Requires a mark bit per object but no
+                                    per-object overhead during execution
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Approach
+                                </h3>
+                                <p>
+                                    Two-phase algorithm: mark reachable objects,
+                                    sweep unreachable ones
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            The visualization below demonstrates the Mark &
+                            Sweep algorithm in action. You can see objects in
+                            memory, references between them, and the root
+                            pointers that keep objects reachable. Use the
+                            controls to allocate objects, create references, and
+                            trigger garbage collection.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Heap Memory
+                                    Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        class="console-btn secondary"
+                                        id="step-btn"
+                                    >
+                                        <i class="fas fa-step-forward"></i> Step
+                                    </button>
+                                    <button class="console-btn" id="run-btn">
+                                        <i class="fas fa-play"></i> Run GC
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="reset-btn"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="visualization-area"
+                                id="gc-visualization"
+                            >
+                                <!-- Visualization will be rendered here by JavaScript -->
+                                <div
+                                    class="roots-container"
+                                    id="roots-container"
+                                >
+                                    <div class="root-pointer">Root 1</div>
+                                    <div class="root-pointer">Root 2</div>
+                                </div>
+                                <div class="memory-heap" id="memory-heap"></div>
+                            </div>
+
+                            <div class="console-input">
+                                <button class="console-btn" id="allocate-btn">
+                                    <i class="fas fa-plus-circle"></i> Allocate
+                                    Object
+                                </button>
+                                <button class="console-btn" id="create-ref-btn">
+                                    <i class="fas fa-link"></i> Create Reference
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="null-ref-btn"
+                                >
+                                    <i class="fas fa-unlink"></i> Nullify
+                                    Reference
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            The Mark & Sweep garbage collection algorithm
+                            operates through these key phases:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-pause"></i> 1. Stop The
+                                    World
+                                </h3>
+                                <p>
+                                    Pause program execution to ensure memory
+                                    consistency during collection
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-pen"></i> 2. Mark Phase
+                                </h3>
+                                <p>
+                                    Traverse object graph starting from root
+                                    pointers, mark each reachable object
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-broom"></i> 3. Sweep Phase
+                                </h3>
+                                <p>
+                                    Iterate through entire heap, deallocate
+                                    unmarked objects, and reset marks
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-play"></i> 4. Resume
+                                    Execution
+                                </h3>
+                                <p>
+                                    Resume program execution with reclaimed
+                                    memory available for new allocations
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-sync-alt"></i> 5.
+                                    Compaction (Optional)
+                                </h3>
+                                <p>
+                                    Some implementations add compaction to
+                                    reduce memory fragmentation
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>// Mark Phase
+function markFromRoots():
+  for each root in roots:
+    mark(root)
+
+function mark(object):
+  if object is not marked:
+    setMarked(object)
+    for each child in getReferences(object):
+      mark(child)
+
+// Sweep Phase
+function sweep():
+  for each object in heap:
+    if isMarked(object):
+      unmark(object)  // For next GC cycle
+    else:
+      deallocate(object)
+
+// Main GC Algorithm
+function garbageCollect():
+  stopTheWorld()  // Pause all threads
+  markFromRoots()
+  sweep()
+  resumeExecution()</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of the
+                            Mark & Sweep garbage collector. This example
+                            demonstrates the core algorithm with object
+                            representation and reference management.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">class</span> <span class="function">GCObject</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.marked = <span class="keyword">False</span>
+        <span class="keyword">self</span>.references = []
+
+    <span class="keyword">def</span> <span class="function">add_reference</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.references.append(obj)
+
+<span class="keyword">class</span> <span class="function">GarbageCollector</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.heap = []
+        <span class="keyword">self</span>.roots = []
+
+    <span class="keyword">def</span> <span class="function">allocate</span>(<span class="keyword">self</span>) -> GCObject:
+        obj = GCObject()
+        <span class="keyword">self</span>.heap.append(obj)
+        <span class="keyword">return</span> obj
+
+    <span class="keyword">def</span> <span class="function">add_root</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.roots.append(obj)
+
+    <span class="keyword">def</span> <span class="function">collect</span>(<span class="keyword">self</span>):
+        <span class="comment"># Mark phase</span>
+        <span class="keyword">self</span>.mark()
+
+        <span class="comment"># Sweep phase</span>
+        <span class="keyword">self</span>.sweep()
+
+    <span class="keyword">def</span> <span class="function">mark</span>(<span class="keyword">self</span>):
+        <span class="keyword">for</span> root <span class="keyword">in</span> <span class="keyword">self</span>.roots:
+            <span class="keyword">self</span>.mark_object(root)
+
+    <span class="keyword">def</span> <span class="function">mark_object</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">if</span> <span class="keyword">not</span> obj.marked:
+            obj.marked = <span class="keyword">True</span>
+            <span class="keyword">for</span> ref <span class="keyword">in</span> obj.references:
+                <span class="keyword">self</span>.mark_object(ref)
+
+    <span class="keyword">def</span> <span class="function">sweep</span>(<span class="keyword">self</span>):
+        new_heap = []
+        <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.heap:
+            <span class="keyword">if</span> obj.marked:
+                obj.marked = <span class="keyword">False</span>  <span class="comment">// Reset for next GC</span>
+                new_heap.append(obj)
+            <span class="keyword">else</span>:
+                <span class="comment"># Deallocate the object</span>
+                <span class="keyword">print</span>(f<span class="string">"Deallocating object at {id(obj)}"</span>)
+        <span class="keyword">self</span>.heap = new_heap
+
+<span class="comment"># Example usage</span>
+gc = GarbageCollector()
+
+<span class="comment"># Allocate objects</span>
+obj1 = gc.allocate()
+obj2 = gc.allocate()
+obj3 = gc.allocate()
+
+<span class="comment"># Create references</span>
+obj1.add_reference(obj2)
+obj2.add_reference(obj3)
+
+<span class="comment"># Add roots</span>
+gc.add_root(obj1)
+
+<span class="comment"># Run garbage collection</span>
+gc.collect()</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Garbage Collection</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">Tracing GC</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Cycles</h4>
+                                <div class="value">Handles</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Pause Time</h4>
+                                <div class="value">High</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Throughput</h4>
+                                <div class="value">Medium</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Memory Overhead</h4>
+                                <div class="value">Low</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Fragmentation</h4>
+                                <div class="value">High</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Complexity</h4>
+                                <div class="value">O(n)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Mark & Sweep forms the basis for garbage collection
+                            in many systems:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Java Virtual Machine (JVM) garbage collectors
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                .NET Common Language Runtime (CLR)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                JavaScript engines (V8, SpiderMonkey)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Python's cyclic garbage collector
+                            </li>
+                            <li>Ruby's garbage collector</li>
+                            <li>Lua's garbage collector</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>Cycle Handling:</strong> Can collect
+                                cyclic references
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Predictable:</strong> Collects all
+                                garbage at once
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Simple:</strong> Easy to implement and
+                                understand
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Low Overhead:</strong> Minimal
+                                per-object metadata
+                            </li>
+                            <li>
+                                <strong>Comprehensive:</strong> Collects all
+                                unreachable objects
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Disadvantages Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Limitations
+                        </h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Stop-the-world pauses can affect application
+                                responsiveness
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Memory fragmentation over time
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Cache performance issues during mark phase
+                            </li>
+                            <li>
+                                Doesn't compact memory (without additional
+                                phase)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a href="#"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+                    <a href="#"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization for Mark & Sweep Garbage Collection
+            document.addEventListener("DOMContentLoaded", function () {
+                const visualization =
+                    document.getElementById("gc-visualization");
+                const memoryHeap = document.getElementById("memory-heap");
+                const rootsContainer =
+                    document.getElementById("roots-container");
+                const runBtn = document.getElementById("run-btn");
+                const stepBtn = document.getElementById("step-btn");
+                const resetBtn = document.getElementById("reset-btn");
+                const allocateBtn = document.getElementById("allocate-btn");
+                const createRefBtn = document.getElementById("create-ref-btn");
+                const nullRefBtn = document.getElementById("null-ref-btn");
+
+                // State variables
+                let simulationRunning = false;
+                let objects = [];
+                let roots = [];
+                let references = [];
+                let selectedObject = null;
+                let currentPhase = 0;
+
+                // Initialize visualization
+                function initVisualization() {
+                    memoryHeap.innerHTML = "";
+                    objects = [];
+                    references = [];
+                    roots = [];
+                    selectedObject = null;
+                    currentPhase = 0;
+
+                    // Create initial objects
+                    for (let i = 0; i < 6; i++) {
+                        createObject();
+                    }
+
+                    // Create root references
+                    roots = [objects[0], objects[3]];
+                    updateRoots();
+
+                    // Create some initial references
+                    createReference(objects[0], objects[1]);
+                    createReference(objects[0], objects[2]);
+                    createReference(objects[3], objects[4]);
+                    createReference(objects[4], objects[5]);
+
+                    // Create a cyclic reference
+                    createReference(objects[2], objects[1]);
+
+                    // Create an unreachable object
+                    const unreachable = createObject();
+                    unreachable.element.classList.remove("block-allocated");
+                    unreachable.element.classList.add("block-unreachable");
+
+                    logEvent("Initialized heap with 7 objects");
+                    logEvent("Roots established for objects 0 and 3");
+                    updateStatus("Ready - Heap contains 7 objects");
+                }
+
+                // Create a new object
+                function createObject() {
+                    const object = {
+                        id: objects.length,
+                        marked: false,
+                        references: [],
+                        element: null,
+                    };
+
+                    const block = document.createElement("div");
+                    block.className = "memory-block block-allocated";
+                    block.innerHTML = `Obj ${object.id}`;
+                    block.dataset.id = object.id;
+                    block.addEventListener("click", () => selectObject(object));
+
+                    memoryHeap.appendChild(block);
+                    object.element = block;
+                    objects.push(object);
+
+                    logEvent(`Allocated new object: ${object.id}`);
+                    updateStatus(`Allocated object ${object.id}`);
+
+                    return object;
+                }
+
+                // Create a reference between objects
+                function createReference(from, to) {
+                    if (from === to) return;
+
+                    // Check if reference already exists
+                    if (from.references.includes(to)) return;
+
+                    from.references.push(to);
+
+                    // Create visual reference
+                    const fromRect = from.element.getBoundingClientRect();
+                    const toRect = to.element.getBoundingClientRect();
+                    const containerRect = memoryHeap.getBoundingClientRect();
+
+                    const x1 =
+                        fromRect.left + fromRect.width / 2 - containerRect.left;
+                    const y1 =
+                        fromRect.top + fromRect.height / 2 - containerRect.top;
+                    const x2 =
+                        toRect.left + toRect.width / 2 - containerRect.left;
+                    const y2 =
+                        toRect.top + toRect.height / 2 - containerRect.top;
+
+                    // Create arrow with SVG
+                    const svgNS = "http://www.w3.org/2000/svg";
+                    const svg = document.createElementNS(svgNS, "svg");
+                    svg.setAttribute("class", "reference-arrow");
+                    svg.style.position = "absolute";
+                    svg.style.left = "0";
+                    svg.style.top = "0";
+                    svg.style.width = "100%";
+                    svg.style.height = "100%";
+                    svg.style.pointerEvents = "none";
+
+                    const line = document.createElementNS(svgNS, "line");
+                    line.setAttribute("x1", x1);
+                    line.setAttribute("y1", y1);
+                    line.setAttribute("x2", x2);
+                    line.setAttribute("y2", y2);
+                    line.setAttribute("class", "reference-arrow");
+
+                    // Add arrowhead
+                    const defs = document.createElementNS(svgNS, "defs");
+                    const marker = document.createElementNS(svgNS, "marker");
+                    marker.setAttribute("id", `arrowhead-${from.id}-${to.id}`);
+                    marker.setAttribute("markerWidth", "10");
+                    marker.setAttribute("markerHeight", "7");
+                    marker.setAttribute("refX", "10");
+                    marker.setAttribute("refY", "3.5");
+                    marker.setAttribute("orient", "auto");
+
+                    const polygon = document.createElementNS(svgNS, "polygon");
+                    polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
+                    polygon.setAttribute("fill", "var(--accent-light)");
+
+                    marker.appendChild(polygon);
+                    defs.appendChild(marker);
+                    svg.appendChild(defs);
+                    line.setAttribute(
+                        "marker-end",
+                        `url(#arrowhead-${from.id}-${to.id})`,
+                    );
+                    svg.appendChild(line);
+
+                    memoryHeap.appendChild(svg);
+                    references.push({
+                        from,
+                        to,
+                        element: svg,
+                    });
+
+                    logEvent(`Created reference from ${from.id} to ${to.id}`);
+                }
+
+                // Select an object for reference creation
+                function selectObject(object) {
+                    if (selectedObject === null) {
+                        selectedObject = object;
+                        object.element.style.border =
+                            "2px solid var(--warning)";
+                        logEvent(
+                            `Selected object ${object.id} as reference source`,
+                        );
+                        updateStatus(
+                            `Select target object for reference from ${object.id}`,
+                        );
+                    } else if (selectedObject === object) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    } else {
+                        createReference(selectedObject, object);
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                }
+
+                // Nullify a random reference
+                function nullifyRandomReference() {
+                    const objectsWithRefs = objects.filter(
+                        (obj) => obj.references.length > 0,
+                    );
+                    if (objectsWithRefs.length === 0) return;
+
+                    const from =
+                        objectsWithRefs[
+                            Math.floor(Math.random() * objectsWithRefs.length)
+                        ];
+                    const refIndex = Math.floor(
+                        Math.random() * from.references.length,
+                    );
+                    const to = from.references[refIndex];
+
+                    // Remove reference
+                    from.references.splice(refIndex, 1);
+
+                    // Remove visual reference
+                    const refSvg = references.find(
+                        (ref) => ref.from === from && ref.to === to,
+                    );
+                    if (refSvg) {
+                        refSvg.element.remove();
+                        references = references.filter((ref) => ref !== refSvg);
+                    }
+
+                    logEvent(`Nullified reference from ${from.id} to ${to.id}`);
+                    updateStatus(
+                        `Reference from ${from.id} to ${to.id} removed`,
+                    );
+                }
+
+                // Update roots display
+                function updateRoots() {
+                    const rootPointers =
+                        rootsContainer.querySelectorAll(".root-pointer");
+                    rootPointers.forEach((pointer, i) => {
+                        if (roots[i]) {
+                            pointer.textContent = `Root ${i + 1} → Obj ${roots[i].id}`;
+                        } else {
+                            pointer.textContent = `Root ${i + 1}`;
+                        }
+                    });
+                }
+
+                // Run garbage collection
+                function runGarbageCollection() {
+                    logEvent("Starting garbage collection...");
+                    updateStatus("Garbage collection started");
+                    highlightPhase(0);
+
+                    // Step 1: Stop the world (simulate)
+                    setTimeout(() => {
+                        logEvent("Program execution paused");
+                        updateStatus("Stop the world: program paused");
+                        highlightPhase(1);
+
+                        // Step 2: Mark phase
+                        setTimeout(() => {
+                            logEvent("Starting mark phase");
+                            updateStatus(
+                                "Mark phase: tracing reachable objects",
+                            );
+                            markPhase();
+                        }, 1000);
+                    }, 500);
+                }
+
+                // Mark phase implementation
+                function markPhase() {
+                    // Reset marks
+                    objects.forEach((obj) => {
+                        obj.marked = false;
+                        obj.element.classList.remove(
+                            "block-reachable",
+                            "block-marked",
+                        );
+                    });
+
+                    // Mark roots
+                    roots.forEach((root) => {
+                        markObject(root);
+                    });
+
+                    // Start animation
+                    animateMarkPhase();
+                }
+
+                function markObject(obj) {
+                    if (obj.marked) return;
+
+                    obj.marked = true;
+                    obj.element.classList.add("block-reachable");
+
+                    // Recursively mark references
+                    obj.references.forEach((ref) => {
+                        markObject(ref);
+                    });
+                }
+
+                // Animate the mark phase
+                function animateMarkPhase() {
+                    let index = 0;
+                    const reachable = objects.filter((obj) => obj.marked);
+
+                    function markNext() {
+                        if (index < reachable.length) {
+                            const obj = reachable[index];
+                            obj.element.classList.add("block-marked");
+                            logEvent(`Marked object ${obj.id}`);
+
+                            index++;
+                            setTimeout(markNext, 500);
+                        } else {
+                            logEvent(
+                                `Mark phase complete. ${reachable.length} objects marked`,
+                            );
+                            updateStatus(
+                                `Mark phase complete: ${reachable.length} objects reachable`,
+                            );
+
+                            // Proceed to sweep phase
+                            setTimeout(() => {
+                                highlightPhase(2);
+                                sweepPhase();
+                            }, 1000);
+                        }
+                    }
+
+                    markNext();
+                }
+
+                // Sweep phase implementation
+                function sweepPhase() {
+                    logEvent("Starting sweep phase");
+                    updateStatus("Sweep phase: collecting unreachable objects");
+
+                    const unreachable = objects.filter((obj) => !obj.marked);
+                    let index = 0;
+
+                    function sweepNext() {
+                        if (index < unreachable.length) {
+                            const obj = unreachable[index];
+                            obj.element.classList.remove("block-allocated");
+                            obj.element.classList.add("block-unreachable");
+                            logEvent(`Sweeping object ${obj.id}`);
+
+                            index++;
+                            setTimeout(sweepNext, 500);
+                        } else {
+                            // Final cleanup
+                            setTimeout(() => {
+                                objects.forEach((obj) => {
+                                    if (!obj.marked) {
+                                        obj.element.remove();
+                                    }
+                                });
+
+                                // Remove references to swept objects
+                                references = references.filter(
+                                    (ref) => ref.from.marked && ref.to.marked,
+                                );
+
+                                // Update objects array
+                                objects = objects.filter((obj) => obj.marked);
+
+                                // Reset marks
+                                objects.forEach((obj) => {
+                                    obj.marked = false;
+                                    obj.element.classList.remove(
+                                        "block-reachable",
+                                        "block-marked",
+                                    );
+                                    obj.element.classList.add(
+                                        "block-allocated",
+                                    );
+                                });
+
+                                logEvent(
+                                    `Sweep phase complete. ${unreachable.length} objects collected`,
+                                );
+                                updateStatus(
+                                    `GC complete: ${unreachable.length} objects collected`,
+                                );
+                                highlightPhase(3);
+
+                                // Resume execution
+                                setTimeout(() => {
+                                    highlightPhase(4);
+                                    logEvent("Resuming program execution");
+                                    updateStatus(
+                                        "Program resumed with reclaimed memory",
+                                    );
+
+                                    setTimeout(() => {
+                                        highlightPhase(0);
+                                        updateStatus(
+                                            `Heap contains ${objects.length} objects`,
+                                        );
+                                    }, 2000);
+                                }, 1000);
+                            }, 500);
+                        }
+                    }
+
+                    sweepNext();
+                }
+
+                // Log event to log container
+                function logEvent(message) {
+                    const logContainer =
+                        document.getElementById("log-container");
+                    if (!logContainer) return;
+
+                    const logEntry = document.createElement("div");
+                    logEntry.className = "log-entry";
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                    logContainer.appendChild(logEntry);
+
+                    // Auto-scroll
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+
+                // Update status panel
+                function updateStatus(status) {
+                    const statusPanel = document.getElementById("status-panel");
+                    if (!statusPanel) return;
+
+                    statusPanel.innerHTML = `System Status: ${status}`;
+
+                    const phaseIndicator = document.createElement("div");
+                    phaseIndicator.className = "phase-indicator";
+                    phaseIndicator.innerHTML = `
+            <div class="phase">Stopped</div>
+            <div class="phase">Mark</div>
+            <div class="phase">Sweep</div>
+            <div class="phase">Resume</div>
+          `;
+                    statusPanel.appendChild(phaseIndicator);
+                }
+
+                // Highlight current phase
+                function highlightPhase(index) {
+                    const phases = document.querySelectorAll(".phase");
+                    phases.forEach((phase, i) => {
+                        if (i === index) {
+                            phase.classList.add("active");
+                        } else {
+                            phase.classList.remove("active");
+                        }
+                    });
+                }
+
+                // Event listeners
+                runBtn.addEventListener("click", runGarbageCollection);
+                allocateBtn.addEventListener("click", createObject);
+                createRefBtn.addEventListener("click", () => {
+                    if (selectedObject) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                    updateStatus("Select source object for new reference");
+                });
+                nullRefBtn.addEventListener("click", nullifyRandomReference);
+                resetBtn.addEventListener("click", () => {
+                    memoryHeap.innerHTML = "";
+                    initVisualization();
+                });
+
+                // Initialize the visualization
+                initVisualization();
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
