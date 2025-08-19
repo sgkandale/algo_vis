@@ -1,0 +1,1862 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Reference Counting GC | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 400px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .visualization-area::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 0;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+
+            .console-input button {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+                font-size: 14px;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+                font-size: 14px;
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+
+                .console-input button {
+                    min-width: 100px;
+                    font-size: 12px;
+                    padding: 8px 10px;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* Reference Counting Visualization Styles */
+            .heap-container {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .heap-memory {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 15px;
+                background: rgba(30, 41, 59, 0.5);
+                border-radius: 8px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                min-height: 250px;
+                align-content: flex-start;
+                position: relative;
+            }
+
+            .memory-block {
+                width: 70px;
+                height: 80px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: "Roboto Mono", monospace;
+                font-size: 14px;
+                text-align: center;
+                transition: all 0.5s ease;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+            }
+
+            .block-free {
+                background: rgba(148, 163, 184, 0.2);
+                border: 1px dashed var(--text-secondary);
+            }
+
+            .block-allocated {
+                background: var(--accent);
+                border: 1px solid var(--accent-light);
+                box-shadow: var(--glow);
+            }
+
+            .block-referenced {
+                background: var(--success);
+                border: 1px solid #34d399;
+            }
+
+            .block-zero-ref {
+                background: var(--danger);
+                border: 1px solid #f87171;
+                animation: pulse 1.5s infinite;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(0.95);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .reference-count {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .reference-arrow {
+                position: absolute;
+                z-index: -1;
+                stroke: var(--accent-light);
+                stroke-width: 2;
+                fill: none;
+            }
+
+            .roots-container {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid var(--accent);
+            }
+
+            .root-pointer {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--warning);
+                margin-bottom: 10px;
+                font-size: 12px;
+            }
+
+            .status-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 14px;
+                font-family: "Roboto Mono", monospace;
+                text-align: center;
+                color: var(--accent-light);
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .phase-indicator {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .phase {
+                padding: 5px 10px;
+                border-radius: 5px;
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--text-secondary);
+            }
+
+            .phase.active {
+                background: var(--accent);
+                color: white;
+            }
+
+            .log-entry {
+                margin: 5px 0;
+                padding: 5px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .log-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 220px;
+                max-height: 150px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .algorithm-stats {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                background: rgba(30, 41, 59, 0.5);
+                border-radius: 8px;
+                margin-top: 10px;
+                font-size: 14px;
+            }
+
+            .stat-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-value {
+                font-weight: bold;
+                color: var(--accent-light);
+            }
+
+            .stat-label {
+                font-size: 12px;
+                color: var(--text-secondary);
+            }
+
+            .memory-address {
+                font-size: 10px;
+                position: absolute;
+                bottom: 5px;
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .cyclic-warning {
+                position: absolute;
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--danger);
+                color: white;
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-size: 14px;
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-retweet"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Memory Management</a> >
+                            <span>Reference Counting GC</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Reference Counting GC</h1>
+                <div class="category">
+                    <i class="fas fa-calculator"></i> Immediate Garbage
+                    Collection Algorithm
+                </div>
+                <div class="complexity-badge">
+                    Immediate Collection | No Pause Times
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            Reference Counting is a straightforward garbage
+                            collection technique that keeps track of the number
+                            of references to each object. Each object has a
+                            reference count field that is incremented when a new
+                            reference is created and decremented when a
+                            reference is destroyed.
+                        </p>
+                        <p>
+                            When an object's reference count reaches zero, it is
+                            immediately reclaimed. This approach provides
+                            deterministic collection without stop-the-world
+                            pauses but struggles with cyclic references where
+                            objects reference each other, preventing their
+                            counts from reaching zero.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Immediate reclamation of objects when they
+                                    become unreachable
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    No stop-the-world pauses, but overhead on
+                                    every reference operation
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Memory Usage
+                                </h3>
+                                <p>
+                                    Low memory overhead with just a counter per
+                                    object
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Approach
+                                </h3>
+                                <p>
+                                    Track references counts and immediately
+                                    collect objects with zero references
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            The visualization below demonstrates the Reference
+                            Counting algorithm in action. You can see objects
+                            with their reference counts, create and remove
+                            references between them, and observe how objects are
+                            immediately collected when their reference count
+                            reaches zero.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Heap
+                                    Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        class="console-btn secondary"
+                                        id="step-btn"
+                                    >
+                                        <i class="fas fa-step-forward"></i> Step
+                                    </button>
+                                    <button class="console-btn" id="run-gc-btn">
+                                        <i class="fas fa-play"></i> Run GC
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="reset-btn"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="visualization-area"
+                                id="gc-visualization"
+                            >
+                                <!-- Visualization will be rendered here by JavaScript -->
+                                <div class="heap-container" id="heap-container">
+                                    <div
+                                        class="heap-memory"
+                                        id="heap-memory"
+                                    ></div>
+                                    <div
+                                        class="cyclic-warning"
+                                        id="cyclic-warning"
+                                    >
+                                        <i
+                                            class="fas fa-exclamation-triangle"
+                                        ></i>
+                                        Cyclic reference detected!
+                                    </div>
+                                    <div class="algorithm-stats">
+                                        <div class="stat-item">
+                                            <span
+                                                class="stat-value"
+                                                id="total-objects"
+                                                >0</span
+                                            >
+                                            <span class="stat-label"
+                                                >Total Objects</span
+                                            >
+                                        </div>
+                                        <div class="stat-item">
+                                            <span
+                                                class="stat-value"
+                                                id="active-objects"
+                                                >0</span
+                                            >
+                                            <span class="stat-label"
+                                                >Active</span
+                                            >
+                                        </div>
+                                        <div class="stat-item">
+                                            <span
+                                                class="stat-value"
+                                                id="free-space"
+                                                >0</span
+                                            >
+                                            <span class="stat-label"
+                                                >Free Space</span
+                                            >
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value" id="cycles"
+                                                >0</span
+                                            >
+                                            <span class="stat-label"
+                                                >Cycles</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="console-input">
+                                <button class="console-btn" id="allocate-btn">
+                                    <i class="fas fa-plus-circle"></i> Allocate
+                                    Object
+                                </button>
+                                <button class="console-btn" id="create-ref-btn">
+                                    <i class="fas fa-link"></i> Create Reference
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="remove-ref-btn"
+                                >
+                                    <i class="fas fa-unlink"></i> Remove
+                                    Reference
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="create-cycle-btn"
+                                >
+                                    <i class="fas fa-infinity"></i> Create Cycle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            Reference Counting operates through these simple but
+                            effective steps:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-plus-circle"></i> 1. Object
+                                    Creation
+                                </h3>
+                                <p>
+                                    When an object is created, its reference
+                                    count is initialized to 1 (if created with a
+                                    reference) or 0 (if created without
+                                    immediate reference)
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-plus"></i> 2. Reference
+                                    Addition
+                                </h3>
+                                <p>
+                                    When a new reference to an object is
+                                    created, the object's reference count is
+                                    incremented
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-minus"></i> 3. Reference
+                                    Removal
+                                </h3>
+                                <p>
+                                    When a reference to an object is removed,
+                                    the object's reference count is decremented
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-trash"></i> 4. Garbage
+                                    Collection
+                                </h3>
+                                <p>
+                                    If after decrementing, the reference count
+                                    reaches zero, the object is immediately
+                                    reclaimed
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-recycle"></i> 5. Cascading
+                                    Collection
+                                </h3>
+                                <p>
+                                    When an object is collected, all references
+                                    it contains are also removed, potentially
+                                    triggering further collection
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    6. Cycle Handling
+                                </h3>
+                                <p>
+                                    Cyclic references are not automatically
+                                    detected and can lead to memory leaks
+                                    without additional mechanisms
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Reference Counting Algorithm</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code>// Reference Counting Garbage Collection
+function createObject():
+  obj = allocateMemory()
+  obj.refCount = 0  // Initially no references
+  return obj
+
+function addReference(ref):
+  if ref != null:
+    ref.refCount += 1
+
+function removeReference(ref):
+  if ref != null:
+    ref.refCount -= 1
+    if ref.refCount == 0:
+      // Recursively remove references from this object
+      for each field in ref:
+        removeReference(ref.field)
+      freeMemory(ref)
+
+// Example usage
+function example():
+  // Create two objects
+  obj1 = createObject()
+  obj2 = createObject()
+
+  // Create a reference from obj1 to obj2
+  obj1.field = obj2
+  addReference(obj2)  // obj2.refCount = 1
+
+  // Remove the reference
+  removeReference(obj1.field)  // obj2.refCount = 0, so it's collected
+  obj1.field = null</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of the
+                            Reference Counting garbage collector.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">class</span> <span class="function">RefCounted</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, value=None):
+        <span class="keyword">self</span>.ref_count = 0
+        <span class="keyword">self</span>.value = value
+        <span class="keyword">self</span>.references = []
+
+    <span class="keyword">def</span> <span class="function">add_reference</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">if</span> obj <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+            obj.ref_count += 1
+            <span class="keyword">self</span>.references.append(obj)
+
+    <span class="keyword">def</span> <span class="function">remove_reference</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">if</span> obj <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+            obj.ref_count -= 1
+            <span class="keyword">if</span> obj.ref_count == 0:
+                <span class="keyword">self</span>.collect(obj)
+
+    <span class="keyword">def</span> <span class="function">collect</span>(<span class="keyword">self</span>, obj):
+        <span class="comment"># Recursively remove all references from this object</span>
+        <span class="keyword">for</span> ref <span class="keyword">in</span> obj.references:
+            <span class="keyword">self</span>.remove_reference(ref)
+        print(f<span class="string">"Collected object with value: {obj.value}"</span>)
+        <span class="comment"># In a real implementation, we would free the memory here</span>
+
+    <span class="keyword">def</span> <span class="function">__str__</span>(<span class="keyword">self</span>):
+        <span class="keyword">return</span> f<span class="string">"Value: {self.value}, RefCount: {self.ref_count}"</span>
+
+<span class="comment"># Example usage</span>
+<span class="keyword">def</span> <span class="function">demo_reference_counting</span>():
+    <span class="comment"># Create objects</span>
+    obj1 = RefCounted(<span class="string">"Object 1"</span>)
+    obj2 = RefCounted(<span class="string">"Object 2"</span>)
+
+    <span class="comment"># Add reference from obj1 to obj2</span>
+    obj1.add_reference(obj2)
+    print(f<span class="string">"After adding reference: {obj2}"</span>)  <span class="comment"># RefCount: 1</span>
+
+    <span class="comment"># Remove reference</span>
+    obj1.remove_reference(obj2)
+    print(f<span class="string">"After removing reference: {obj2}"</span>)  <span class="comment"># RefCount: 0, collected</span>
+
+<span class="comment"># Demonstrate cyclic reference problem</span>
+<span class="keyword">def</span> <span class="function">demo_cyclic_reference</span>():
+    obj1 = RefCounted(<span class="string">"Cyclic 1"</span>)
+    obj2 = RefCounted(<span class="string">"Cyclic 2"</span>)
+
+    <span class="comment"># Create cyclic reference</span>
+    obj1.add_reference(obj2)
+    obj2.add_reference(obj1)
+
+    <span class="comment"># Even if we remove external references, the cycle remains</span>
+    print(<span class="string">"Cyclic reference created - memory leak would occur!"</span>)
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    demo_reference_counting()
+    demo_cyclic_reference()</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Direct GC</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Type</h4>
+                                <div class="value">Reference Tracking</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Cycles</h4>
+                                <div class="value">Not Handled</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Pause Time</h4>
+                                <div class="value">None</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Throughput</h4>
+                                <div class="value">High</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Memory Overhead</h4>
+                                <div class="value">Low</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Complexity</h4>
+                                <div class="value">O(1) per ref</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Collection</h4>
+                                <div class="value">Immediate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Reference Counting is used in various systems and
+                            languages:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Python (with cycle detector)
+                            </li>
+                            <li style="margin-bottom: 10px">PHP</li>
+                            <li style="margin-bottom: 10px">Swift</li>
+                            <li style="margin-bottom: 10px">Objective-C</li>
+                            <li>COM (Component Object Model)</li>
+                            <li>File systems (hard links)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>Immediate Collection:</strong> Objects
+                                reclaimed as soon as they become unreachable
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Predictable:</strong> No stop-the-world
+                                pauses
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Simple:</strong> Easy to implement and
+                                understand
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Incremental:</strong> Work is spread
+                                throughout program execution
+                            </li>
+                            <li>
+                                <strong>Localized:</strong> Only affected
+                                objects are processed during collection
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Disadvantages Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Limitations
+                        </h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Cannot handle cyclic references without
+                                additional mechanisms
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Overhead on every reference assignment
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Not thread-safe without synchronization
+                            </li>
+                            <li>
+                                Cascading deletions can cause unexpected pauses
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a
+                        href="https://www.linkedin.com/in/sgkandale/"
+                        target="_blank"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="mailto:me@sgkandale.com"
+                        ><i class="fa-solid fa-at"></i> E-Mail</a
+                    >
+                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization for Reference Counting Garbage Collection
+            document.addEventListener("DOMContentLoaded", function () {
+                const visualization =
+                    document.getElementById("gc-visualization");
+                const heapMemory = document.getElementById("heap-memory");
+                const allocateBtn = document.getElementById("allocate-btn");
+                const runGcBtn = document.getElementById("run-gc-btn");
+                const resetBtn = document.getElementById("reset-btn");
+                const createRefBtn = document.getElementById("create-ref-btn");
+                const removeRefBtn = document.getElementById("remove-ref-btn");
+                const createCycleBtn =
+                    document.getElementById("create-cycle-btn");
+                const cyclicWarning = document.getElementById("cyclic-warning");
+
+                // State variables
+                let objects = [];
+                let roots = [];
+                let references = [];
+                let selectedObject = null;
+                let mode = null; // 'create-ref', 'remove-ref'
+                let nextObjectId = 1;
+
+                // Initialize visualization
+                function initVisualization() {
+                    heapMemory.innerHTML = "";
+                    objects = [];
+                    references = [];
+                    roots = [];
+                    selectedObject = null;
+                    mode = null;
+                    nextObjectId = 1;
+                    cyclicWarning.style.display = "none";
+
+                    // Create heap memory blocks
+                    for (let i = 0; i < 16; i++) {
+                        const block = document.createElement("div");
+                        block.className = "memory-block block-free";
+                        block.innerHTML = `Free<div class="memory-address">${i}</div>`;
+                        block.dataset.index = i;
+                        heapMemory.appendChild(block);
+                    }
+
+                    // Create log container
+                    const logContainer = document.createElement("div");
+                    logContainer.className = "log-container";
+                    logContainer.id = "log-container";
+                    visualization.appendChild(logContainer);
+
+                    // Create status panel
+                    const statusPanel = document.createElement("div");
+                    statusPanel.className = "status-panel";
+                    statusPanel.id = "status-panel";
+                    statusPanel.innerHTML = "System Status: Initialized";
+                    visualization.appendChild(statusPanel);
+
+                    // Create 2 root objects
+                    roots = [createObject(), createObject()];
+                    roots[0].element.textContent = "Root 1";
+                    roots[1].element.textContent = "Root 2";
+
+                    // Create some additional objects
+                    const obj1 = createObject();
+                    const obj2 = createObject();
+
+                    // Create initial references
+                    createReference(roots[0], obj1);
+                    createReference(roots[0], obj2);
+                    createReference(obj1, obj2);
+
+                    updateStats();
+                    logEvent("Initialized heap with objects and references");
+                    updateStatus("Ready - Click on objects to select them");
+                }
+
+                // Create a new object
+                function createObject() {
+                    // Find a free block
+                    const freeBlocks = Array.from(heapMemory.children).filter(
+                        (block) => block.classList.contains("block-free"),
+                    );
+
+                    if (freeBlocks.length === 0) {
+                        logEvent("Cannot allocate object: heap full");
+                        return null;
+                    }
+
+                    // Select a random free block
+                    const randomIndex = Math.floor(
+                        Math.random() * freeBlocks.length,
+                    );
+                    const block = freeBlocks[randomIndex];
+                    const index = parseInt(block.dataset.index);
+
+                    const object = {
+                        id: nextObjectId++,
+                        index: index,
+                        refCount: 0,
+                        references: [],
+                        element: block,
+                    };
+
+                    block.className = "memory-block block-allocated";
+                    block.innerHTML = `Obj ${object.id}<div class="memory-address">${index}</div>`;
+                    block.dataset.objId = object.id;
+
+                    // Create reference count badge
+                    const refCountBadge = document.createElement("div");
+                    refCountBadge.className = "reference-count";
+                    refCountBadge.id = `ref-count-${object.id}`;
+                    refCountBadge.textContent = "0";
+                    block.appendChild(refCountBadge);
+
+                    objects.push(object);
+                    logEvent(`Allocated new object: ${object.id}`);
+                    updateStatus(`Allocated object ${object.id}`);
+                    updateStats();
+
+                    return object;
+                }
+
+                // Create a reference between objects
+                function createReference(from, to) {
+                    if (from === to || !from || !to) return;
+
+                    // Check if reference already exists
+                    if (from.references.includes(to)) return;
+
+                    from.references.push(to);
+                    to.refCount++;
+                    updateRefCountDisplay(to);
+
+                    references.push({
+                        from: from,
+                        to: to,
+                    });
+
+                    logEvent(`Created reference from ${from.id} to ${to.id}`);
+                    updateStatus(
+                        `Reference from ${from.id} to ${to.id} created`,
+                    );
+
+                    // Check for cyclic reference
+                    checkForCycles();
+                }
+
+                // Remove a reference between objects
+                function removeReference(from, to) {
+                    if (!from || !to) return;
+
+                    // Find and remove the reference
+                    const refIndex = from.references.indexOf(to);
+                    if (refIndex === -1) return;
+
+                    from.references.splice(refIndex, 1);
+                    to.refCount--;
+                    updateRefCountDisplay(to);
+
+                    // Remove from references array
+                    references = references.filter(
+                        (ref) => !(ref.from === from && ref.to === to),
+                    );
+
+                    logEvent(`Removed reference from ${from.id} to ${to.id}`);
+                    updateStatus(
+                        `Reference from ${from.id} to ${to.id} removed`,
+                    );
+
+                    // Check if object should be collected
+                    if (to.refCount === 0) {
+                        collectObject(to);
+                    }
+
+                    // Check for cyclic reference
+                    checkForCycles();
+                }
+
+                // Update reference count display
+                function updateRefCountDisplay(obj) {
+                    const refCountBadge = document.getElementById(
+                        `ref-count-${obj.id}`,
+                    );
+                    if (refCountBadge) {
+                        refCountBadge.textContent = obj.refCount;
+
+                        // Update visual style based on reference count
+                        if (obj.refCount === 0) {
+                            obj.element.classList.remove("block-allocated");
+                            obj.element.classList.add("block-zero-ref");
+                        } else {
+                            obj.element.classList.remove("block-zero-ref");
+                            obj.element.classList.add("block-allocated");
+                        }
+                    }
+                }
+
+                // Collect an object with zero references
+                function collectObject(obj) {
+                    logEvent(
+                        `Collecting object ${obj.id} (reference count zero)`,
+                    );
+
+                    // Remove all references from this object
+                    for (const ref of [...obj.references]) {
+                        removeReference(obj, ref);
+                    }
+
+                    // Free the memory block
+                    obj.element.className = "memory-block block-free";
+                    obj.element.innerHTML = `Free<div class="memory-address">${obj.index}</div>`;
+                    obj.element.removeAttribute("data-obj-id");
+
+                    // Remove from objects array
+                    objects = objects.filter((o) => o !== obj);
+
+                    logEvent(`Object ${obj.id} collected`);
+                    updateStats();
+                }
+
+                // Check for cyclic references
+                function checkForCycles() {
+                    let hasCycle = false;
+
+                    // Simple cycle detection for visualization purposes
+                    for (const obj of objects) {
+                        if (
+                            obj.references.some((ref) =>
+                                ref.references.includes(obj),
+                            )
+                        ) {
+                            hasCycle = true;
+                            break;
+                        }
+                    }
+
+                    if (hasCycle) {
+                        cyclicWarning.style.display = "block";
+                        logEvent(
+                            "Cyclic reference detected - memory leak possible!",
+                        );
+                    } else {
+                        cyclicWarning.style.display = "none";
+                    }
+
+                    // Update cycle count in stats
+                    updateStats();
+                }
+
+                // Create a cyclic reference between two objects
+                function createCyclicReference() {
+                    const availableObjects = objects.filter(
+                        (obj) =>
+                            !roots.includes(obj) && obj.references.length < 3,
+                    );
+
+                    if (availableObjects.length < 2) {
+                        logEvent("Not enough objects to create cycle");
+                        return;
+                    }
+
+                    // Select two random objects
+                    const obj1 =
+                        availableObjects[
+                            Math.floor(Math.random() * availableObjects.length)
+                        ];
+                    let obj2 =
+                        availableObjects[
+                            Math.floor(Math.random() * availableObjects.length)
+                        ];
+
+                    // Make sure they're different
+                    while (obj2 === obj1) {
+                        obj2 =
+                            availableObjects[
+                                Math.floor(
+                                    Math.random() * availableObjects.length,
+                                )
+                            ];
+                    }
+
+                    // Create cyclic reference
+                    createReference(obj1, obj2);
+                    createReference(obj2, obj1);
+
+                    logEvent(
+                        `Created cyclic reference between ${obj1.id} and ${obj2.id}`,
+                    );
+                    updateStatus(
+                        `Cyclic reference created between ${obj1.id} and ${obj2.id}`,
+                    );
+                }
+
+                // Run garbage collection (for reference counting, this is mostly for show)
+                function runGarbageCollection() {
+                    logEvent("Checking for objects with zero references");
+                    updateStatus("GC: Checking for collectable objects");
+
+                    // Find objects with zero references (that aren't roots)
+                    const collectable = objects.filter(
+                        (obj) => obj.refCount === 0 && !roots.includes(obj),
+                    );
+
+                    if (collectable.length === 0) {
+                        logEvent("No objects with zero references found");
+                        updateStatus("No objects to collect");
+                        return;
+                    }
+
+                    logEvent(
+                        `Found ${collectable.length} objects with zero references`,
+                    );
+
+                    // Collect objects one by one with animation
+                    let index = 0;
+                    function collectNext() {
+                        if (index < collectable.length) {
+                            const obj = collectable[index];
+                            obj.element.classList.add("block-zero-ref");
+
+                            setTimeout(() => {
+                                collectObject(obj);
+                                index++;
+                                collectNext();
+                            }, 800);
+                        } else {
+                            updateStatus("Garbage collection completed");
+                        }
+                    }
+
+                    collectNext();
+                }
+
+                // Update statistics
+                function updateStats() {
+                    const totalObjects = objects.length;
+                    const activeObjects = objects.filter(
+                        (obj) => obj.refCount > 0,
+                    ).length;
+                    const freeSpace = 16 - totalObjects;
+
+                    // Count cycles
+                    let cycleCount = 0;
+                    for (const obj of objects) {
+                        if (
+                            obj.references.some((ref) =>
+                                ref.references.includes(obj),
+                            )
+                        ) {
+                            cycleCount++;
+                        }
+                    }
+
+                    document.getElementById("total-objects").textContent =
+                        totalObjects;
+                    document.getElementById("active-objects").textContent =
+                        activeObjects;
+                    document.getElementById("free-space").textContent =
+                        freeSpace;
+                    document.getElementById("cycles").textContent = cycleCount;
+                }
+
+                // Log event to log container
+                function logEvent(message) {
+                    const logContainer =
+                        document.getElementById("log-container");
+                    if (!logContainer) return;
+
+                    const logEntry = document.createElement("div");
+                    logEntry.className = "log-entry";
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                    logContainer.appendChild(logEntry);
+
+                    // Auto-scroll
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+
+                // Update status panel
+                function updateStatus(status) {
+                    const statusPanel = document.getElementById("status-panel");
+                    if (!statusPanel) return;
+
+                    statusPanel.innerHTML = `System Status: ${status}`;
+                }
+
+                // Handle object selection
+                function selectObject(object) {
+                    if (mode === "create-ref") {
+                        if (selectedObject === null) {
+                            selectedObject = object;
+                            object.element.style.border = "2px solid white";
+                            logEvent(
+                                `Selected object ${object.id} as reference source`,
+                            );
+                            updateStatus(
+                                `Select target object for reference from ${object.id}`,
+                            );
+                        } else if (selectedObject === object) {
+                            selectedObject.element.style.border = "";
+                            selectedObject = null;
+                            mode = null;
+                        } else {
+                            createReference(selectedObject, object);
+                            selectedObject.element.style.border = "";
+                            selectedObject = null;
+                            mode = null;
+                        }
+                    } else if (mode === "remove-ref") {
+                        if (selectedObject === null) {
+                            selectedObject = object;
+                            object.element.style.border = "2px solid white";
+                            logEvent(
+                                `Selected object ${object.id} as reference source`,
+                            );
+                            updateStatus(
+                                `Select target object to remove reference from ${object.id}`,
+                            );
+                        } else if (selectedObject === object) {
+                            selectedObject.element.style.border = "";
+                            selectedObject = null;
+                            mode = null;
+                        } else {
+                            removeReference(selectedObject, object);
+                            selectedObject.element.style.border = "";
+                            selectedObject = null;
+                            mode = null;
+                        }
+                    } else {
+                        // Just select for information
+                        if (selectedObject === object) {
+                            selectedObject = null;
+                            object.element.style.border = "";
+                        } else {
+                            if (selectedObject) {
+                                selectedObject.element.style.border = "";
+                            }
+                            selectedObject = object;
+                            object.element.style.border =
+                                "2px solid var(--warning)";
+                            logEvent(
+                                `Selected object ${object.id} (RefCount: ${object.refCount})`,
+                            );
+                            updateStatus(
+                                `Object ${object.id} selected - RefCount: ${object.refCount}`,
+                            );
+                        }
+                    }
+                }
+
+                // Event listeners
+                allocateBtn.addEventListener("click", createObject);
+                runGcBtn.addEventListener("click", runGarbageCollection);
+                createRefBtn.addEventListener("click", () => {
+                    mode = "create-ref";
+                    if (selectedObject) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                    updateStatus("Select source object for new reference");
+                });
+                removeRefBtn.addEventListener("click", () => {
+                    mode = "remove-ref";
+                    if (selectedObject) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                    updateStatus("Select source object to remove reference");
+                });
+                createCycleBtn.addEventListener("click", createCyclicReference);
+                resetBtn.addEventListener("click", initVisualization);
+
+                // Add click event to memory blocks
+                heapMemory.addEventListener("click", (e) => {
+                    const block = e.target.closest(".memory-block");
+                    if (!block) return;
+
+                    const objId = block.dataset.objId;
+                    if (objId) {
+                        const object = objects.find((obj) => obj.id == objId);
+                        if (object) {
+                            selectObject(object);
+                        }
+                    }
+                });
+
+                // Initialize the visualization
+                initVisualization();
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
