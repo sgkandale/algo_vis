@@ -1,0 +1,1911 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Generational GC | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                height: 400px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                display: flex;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .visualization-area::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.1);
+                z-index: 0;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            .console-input input {
+                flex: 1;
+                padding: 12px 15px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 5px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .console-input input:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* Generational GC Visualization Styles */
+            .heap-container {
+                display: flex;
+                width: 100%;
+                height: 100%;
+            }
+
+            .generation {
+                flex: 1;
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .generation-title {
+                text-align: center;
+                padding: 5px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                font-weight: bold;
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .young-generation {
+                background: rgba(16, 185, 129, 0.1);
+                border: 1px solid var(--success);
+            }
+
+            .old-generation {
+                background: rgba(129, 140, 248, 0.1);
+                border: 1px solid var(--accent);
+            }
+
+            .sub-space {
+                flex: 1;
+                margin: 5px;
+                border-radius: 8px;
+                padding: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-content: flex-start;
+                position: relative;
+            }
+
+            .eden-space {
+                background: rgba(16, 185, 129, 0.15);
+                border: 1px dashed var(--success);
+            }
+
+            .survivor-space {
+                background: rgba(245, 158, 11, 0.15);
+                border: 1px dashed var(--warning);
+            }
+
+            .old-space {
+                background: rgba(129, 140, 248, 0.15);
+                border: 1px dashed var(--accent);
+            }
+
+            .memory-block {
+                width: 50px;
+                height: 50px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: "Roboto Mono", monospace;
+                font-size: 12px;
+                text-align: center;
+                transition: all 0.5s ease;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+            }
+
+            .block-new {
+                background: var(--success);
+                border: 1px solid #34d399;
+            }
+
+            .block-young {
+                background: var(--warning);
+                border: 1px solid #fbbf24;
+            }
+
+            .block-old {
+                background: var(--accent);
+                border: 1px solid var(--accent-light);
+            }
+
+            .block-unreachable {
+                background: var(--danger);
+                border: 1px solid #f87171;
+                animation: pulse 1.5s infinite;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(0.95);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .block-marked {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+
+            .block-age {
+                font-size: 10px;
+                position: absolute;
+                bottom: 2px;
+                right: 2px;
+            }
+
+            .reference-arrow {
+                position: absolute;
+                z-index: -1;
+                stroke: var(--accent-light);
+                stroke-width: 2;
+                fill: none;
+            }
+
+            .roots-container {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 8px;
+                padding: 10px;
+                border: 1px solid var(--accent);
+            }
+
+            .root-pointer {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--warning);
+                margin-bottom: 10px;
+                font-size: 12px;
+            }
+
+            .status-panel {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                background: rgba(15, 23, 42, 0.7);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 14px;
+                font-family: "Roboto Mono", monospace;
+                text-align: center;
+                color: var(--accent-light);
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .phase-indicator {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .phase {
+                padding: 5px 10px;
+                border-radius: 5px;
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--text-secondary);
+            }
+
+            .phase.active {
+                background: var(--accent);
+                color: white;
+            }
+
+            .log-entry {
+                margin: 5px 0;
+                padding: 5px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+                font-size: 12px;
+            }
+
+            .log-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 200px;
+                max-height: 150px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.4);
+                border-radius: 8px;
+                padding: 10px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .stats-bar {
+                display: flex;
+                justify-content: space-between;
+                padding: 5px 10px;
+                background: rgba(30, 41, 59, 0.8);
+                border-radius: 5px;
+                margin-top: 10px;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Memory Management</a> >
+                            <span>Generational GC</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>Generational Garbage Collection</h1>
+                <div class="category">
+                    <i class="fas fa-layer-group"></i> Multi-Generation Memory
+                    Management
+                </div>
+                <div class="complexity-badge">
+                    Throughput: High | Pause: Low
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            Generational Garbage Collection is an optimization
+                            of garbage collection algorithms based on the
+                            empirical observation that most objects die young
+                            (the generational hypothesis). It divides the heap
+                            into multiple generations (typically young and old)
+                            and collects the young generation more frequently.
+                        </p>
+                        <p>
+                            This approach minimizes the cost of garbage
+                            collection by focusing efforts where they are most
+                            productive. The young generation is collected using
+                            a fast copying collector (minor GC), while the old
+                            generation is collected less frequently using a
+                            mark-sweep or mark-compact collector (major GC).
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Principle
+                                </h3>
+                                <p>
+                                    Most objects die young, so focus collection
+                                    efforts on new objects
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Reduces pause times by minimizing full heap
+                                    collections
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Memory Layout
+                                </h3>
+                                <p>
+                                    Young generation (Eden, Survivor spaces) and
+                                    Old generation
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Promotion
+                                </h3>
+                                <p>
+                                    Objects that survive multiple collections
+                                    are promoted to old generation
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            The visualization below demonstrates the
+                            Generational GC algorithm in action. You can see
+                            objects being allocated in Eden, surviving
+                            collections, and being promoted to the old
+                            generation. Use the controls to simulate allocation
+                            and garbage collection cycles.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-memory"></i> Generational
+                                    Heap Visualization
+                                </h3>
+                                <div class="console-controls">
+                                    <button
+                                        class="console-btn secondary"
+                                        id="step-btn"
+                                    >
+                                        <i class="fas fa-step-forward"></i> Step
+                                    </button>
+                                    <button
+                                        class="console-btn"
+                                        id="minor-gc-btn"
+                                    >
+                                        <i class="fas fa-trash-alt"></i> Minor
+                                        GC
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="major-gc-btn"
+                                    >
+                                        <i class="fas fa-recycle"></i> Major GC
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div
+                                class="visualization-area"
+                                id="gc-visualization"
+                            >
+                                <!-- Visualization will be rendered here by JavaScript -->
+                                <div
+                                    class="heap-container"
+                                    id="heap-container"
+                                ></div>
+                            </div>
+
+                            <div class="console-input">
+                                <button class="console-btn" id="allocate-btn">
+                                    <i class="fas fa-plus-circle"></i> Allocate
+                                    Object
+                                </button>
+                                <button class="console-btn" id="create-ref-btn">
+                                    <i class="fas fa-link"></i> Create Reference
+                                </button>
+                                <button
+                                    class="console-btn secondary"
+                                    id="null-ref-btn"
+                                >
+                                    <i class="fas fa-unlink"></i> Nullify
+                                    Reference
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-list-ol"></i> Collection Process
+                        </h2>
+                        <p>
+                            Generational GC operates through these key phases
+                            during collection:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-seedling"></i> 1. Minor GC
+                                    (Young Generation)
+                                </h3>
+                                <p>
+                                    Collects only the young generation.
+                                    Reachable objects are copied from Eden and
+                                    one survivor space to the other survivor
+                                    space. Objects that survive multiple
+                                    collections are promoted to the old
+                                    generation.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-exchange-alt"></i> 2.
+                                    Survivor Space Swap
+                                </h3>
+                                <p>
+                                    After each minor GC, the roles of the
+                                    survivor spaces are swapped. The "to"
+                                    survivor space becomes the new "from" space
+                                    for the next collection.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-tree"></i> 3. Major GC (Old
+                                    Generation)
+                                </h3>
+                                <p>
+                                    Collected less frequently using a mark-sweep
+                                    or mark-compact algorithm. This is a full
+                                    collection that scans both young and old
+                                    generations.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-arrows-alt-h"></i> 4.
+                                    Inter-Generational References
+                                </h3>
+                                <p>
+                                    Uses a remember set to track references from
+                                    old to young objects, avoiding full heap
+                                    scans during minor collections.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>// Minor Garbage Collection
+function minorGC():
+  stopTheWorld()
+
+  // Process roots and remembered set
+  roots = getRoots()
+  rememberedSet = getRememberedSet()
+  worklist = roots + rememberedSet
+
+  // Mark reachable objects in young generation
+  for each obj in worklist:
+    if obj in youngGen:
+      mark(obj)
+
+  // Evacuate survivors
+  for each obj in youngGen:
+    if obj.marked:
+      if obj.age >= AGE_THRESHOLD:
+        promoteToOldGen(obj)
+      else:
+        copyToSurvivorSpace(obj)
+    else:
+      reclaim(obj)
+
+  swapSurvivorSpaces()
+  resumeExecution()
+
+// Major Garbage Collection
+function majorGC():
+  stopTheWorld()
+
+  // Mark phase (entire heap)
+  markFromRoots()
+
+  // Sweep phase
+  for each generation:
+    sweep()
+
+  // Compact old generation
+  compactOldGen()
+
+  resumeExecution()
+
+// Remembered Set Maintenance
+function writeBarrier(src, field, newValue):
+  if src in oldGen and newValue in youngGen:
+    rememberedSet.add(src)
+  updateField(src, field, newValue)</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a simplified Python implementation of the
+                            Generational Garbage Collector. This example
+                            demonstrates the core concepts of generational
+                            collection.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Python Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="keyword">class</span> <span class="function">GCObject</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.marked = <span class="keyword">False</span>
+        <span class="keyword">self</span>.age = 0
+        <span class="keyword">self</span>.references = []
+
+    <span class="keyword">def</span> <span class="function">add_reference</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.references.append(obj)
+
+<span class="keyword">class</span> <span class="function">GenerationalGC</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
+        <span class="keyword">self</span>.young_gen = []  <span class="comment"># Eden + Survivor spaces</span>
+        <span class="keyword">self</span>.old_gen = []
+        <span class="keyword">self</span>.survivor_from = []
+        <span class="keyword">self</span>.survivor_to = []
+        <span class="keyword">self</span>.roots = []
+        <span class="keyword">self</span>.remembered_set = set()  <span class="comment"># For inter-generational pointers</span>
+
+    <span class="keyword">def</span> <span class="function">allocate</span>(<span class="keyword">self</span>) -> GCObject:
+        obj = GCObject()
+        <span class="keyword">self</span>.young_gen.append(obj)
+        <span class="keyword">return</span> obj
+
+    <span class="keyword">def</span> <span class="function">add_root</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.roots.append(obj)
+
+    <span class="keyword">def</span> <span class="function">minor_gc</span>(<span class="keyword">self</span>):
+        <span class="comment"># Mark phase for young generation</span>
+        <span class="keyword">self</span>.mark_young()
+
+        <span class="comment"># Evacuate survivors</span>
+        <span class="keyword">self</span>.evacuate_survivors()
+
+        <span class="comment"># Swap survivor spaces</span>
+        <span class="keyword">self</span>.survivor_from, <span class="keyword">self</span>.survivor_to = <span class="keyword">self</span>.survivor_to, []
+
+    <span class="keyword">def</span> <span class="function">mark_young</span>(<span class="keyword">self</span>):
+        <span class="comment"># Mark roots and remembered set</span>
+        worklist = <span class="keyword">self</span>.roots + list(<span class="keyword">self</span>.remembered_set)
+        <span class="keyword">while</span> worklist:
+            obj = worklist.pop()
+            <span class="keyword">if</span> <span class="keyword">not</span> obj.marked <span class="keyword">and</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.young_gen:
+                obj.marked = <span class="keyword">True</span>
+                worklist.extend(obj.references)
+
+    <span class="keyword">def</span> <span class="function">evacuate_survivors</span>(<span class="keyword">self</span>):
+        <span class="comment"># Process Eden</span>
+        <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.young_gen:
+            <span class="keyword">if</span> obj.marked:
+                obj.age += 1
+                <span class="keyword">if</span> obj.age >= 3:  <span class="comment"># Promotion threshold</span>
+                    <span class="keyword">self</span>.promote_to_old(obj)
+                <span class="keyword">else</span>:
+                    <span class="keyword">self</span>.survivor_to.append(obj)
+            obj.marked = <span class="keyword">False</span>
+
+        <span class="comment"># Process survivor space</span>
+        <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.survivor_from:
+            <span class="keyword">if</span> obj.marked:
+                obj.age += 1
+                <span class="keyword">if</span> obj.age >= 3:
+                    <span class="keyword">self</span>.promote_to_old(obj)
+                <span class="keyword">else</span>:
+                    <span class="keyword">self</span>.survivor_to.append(obj)
+            obj.marked = <span class="keyword">False</span>
+
+        <span class="keyword">self</span>.young_gen = []
+
+    <span class="keyword">def</span> <span class="function">promote_to_old</span>(<span class="keyword">self</span>, obj):
+        <span class="keyword">self</span>.old_gen.append(obj)
+        <span class="comment"># Update remembered set if needed</span>
+        <span class="keyword">for</span> ref <span class="keyword">in</span> obj.references:
+            <span class="keyword">if</span> ref <span class="keyword">in</span> <span class="keyword">self</span>.young_gen:
+                <span class="keyword">self</span>.remembered_set.add(obj)
+
+    <span class="keyword">def</span> <span class="function">major_gc</span>(<span class="keyword">self</span>):
+        <span class="comment"># Mark entire heap</span>
+        <span class="keyword">self</span>.mark_full()
+
+        <span class="comment"># Sweep all generations</span>
+        <span class="keyword">self</span>.sweep()
+
+    <span class="keyword">def</span> <span class="function">mark_full</span>(<span class="keyword">self</span>):
+        <span class="comment"># Standard mark from roots</span>
+        worklist = <span class="keyword">self</span>.roots.copy()
+        <span class="keyword">while</span> worklist:
+            obj = worklist.pop()
+            <span class="keyword">if</span> <span class="keyword">not</span> obj.marked:
+                obj.marked = <span class="keyword">True</span>
+                worklist.extend(obj.references)
+
+    <span class="keyword">def</span> <span class="function">sweep</span>(<span class="keyword">self</span>):
+        <span class="comment"># Process young generation</span>
+        <span class="keyword">self</span>.young_gen = [obj <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.young_gen <span class="keyword">if</span> obj.marked]
+        <span class="keyword">self</span>.survivor_from = [obj <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.survivor_from <span class="keyword">if</span> obj.marked]
+        <span class="keyword">self</span>.survivor_to = [obj <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.survivor_to <span class="keyword">if</span> obj.marked]
+
+        <span class="comment"># Process old generation</span>
+        <span class="keyword">self</span>.old_gen = [obj <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.old_gen <span class="keyword">if</span> obj.marked]
+
+        <span class="comment"># Reset marks</span>
+        <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.young_gen + <span class="keyword">self</span>.old_gen + <span class="keyword">self</span>.survivor_from + <span class="keyword">self</span>.survivor_to:
+            obj.marked = <span class="keyword">False</span>
+
+        <span class="comment"># Clear remembered set</span>
+        <span class="keyword">self</span>.remembered_set = set()
+
+<span class="comment"># Example usage</span>
+gc = GenerationalGC()
+
+<span class="comment"># Allocate objects and set references</span>
+root_obj = gc.allocate()
+gc.add_root(root_obj)
+
+child1 = gc.allocate()
+child2 = gc.allocate()
+root_obj.add_reference(child1)
+root_obj.add_reference(child2)
+
+<span class="comment"># Run minor GC</span>
+gc.minor_gc()</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">Tracing GC</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Generations</h4>
+                                <div class="value">2-3</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Minor GC</h4>
+                                <div class="value">Copying</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Major GC</h4>
+                                <div class="value">Mark-Sweep</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Pause Time</h4>
+                                <div class="value">Short (minor)</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Throughput</h4>
+                                <div class="value">High</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Fragmentation</h4>
+                                <div class="value">Low</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Complexity</h4>
+                                <div class="value">O(live)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            Generational GC is used in most modern programming
+                            environments:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Java Virtual Machine (JVM) - G1, CMS, Shenandoah
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                .NET CLR - Workstation and Server GC
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                V8 JavaScript engine (Chrome, Node.js)
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                SpiderMonkey JavaScript engine (Firefox)
+                            </li>
+                            <li>Python (with PyPy's GC)</li>
+                            <li>Go language (hybrid approach)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>Reduced Pause Times:</strong> Minor
+                                collections are fast
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>High Throughput:</strong> Focuses effort
+                                where most garbage is
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Efficient:</strong> Copying collection
+                                for young gen is efficient
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>Low Fragmentation:</strong> Old
+                                generation stays compact
+                            </li>
+                            <li>
+                                <strong>Scalable:</strong> Works well for large
+                                heaps
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Disadvantages Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Challenges
+                        </h2>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Remembered set maintenance overhead
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Promotion of short-lived objects to old
+                                generation
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Major GC can still cause significant pauses
+                            </li>
+                            <li>
+                                Tuning required for generation sizes and
+                                thresholds
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a href="#"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+                    <a href="#"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // Visualization for Generational Garbage Collection
+            document.addEventListener("DOMContentLoaded", function () {
+                const visualization =
+                    document.getElementById("gc-visualization");
+                const heapContainer = document.getElementById("heap-container");
+                const allocateBtn = document.getElementById("allocate-btn");
+                const minorGcBtn = document.getElementById("minor-gc-btn");
+                const majorGcBtn = document.getElementById("major-gc-btn");
+                const createRefBtn = document.getElementById("create-ref-btn");
+                const nullRefBtn = document.getElementById("null-ref-btn");
+
+                // State variables
+                let objects = [];
+                let roots = [];
+                let references = [];
+                let selectedObject = null;
+                let currentPhase = 0;
+                let survivorToggle = true; // true: From S0 to S1, false: From S1 to S0
+
+                // Initialize visualization
+                function initVisualization() {
+                    heapContainer.innerHTML = "";
+                    objects = [];
+                    references = [];
+                    roots = [];
+                    selectedObject = null;
+                    currentPhase = 0;
+                    survivorToggle = true;
+
+                    // Create generation containers
+                    const youngGen = document.createElement("div");
+                    youngGen.className = "generation";
+                    youngGen.innerHTML = `
+            <div class="generation-title young-generation">Young Generation</div>
+            <div class="sub-space eden-space" id="eden-space">Eden</div>
+            <div class="sub-space survivor-space" id="survivor-from">Survivor From (S0)</div>
+            <div class="sub-space survivor-space" id="survivor-to">Survivor To (S1)</div>
+          `;
+
+                    const oldGen = document.createElement("div");
+                    oldGen.className = "generation";
+                    oldGen.innerHTML = `
+            <div class="generation-title old-generation">Old Generation</div>
+            <div class="sub-space old-space" id="old-space">Tenured Space</div>
+          `;
+
+                    heapContainer.appendChild(youngGen);
+                    heapContainer.appendChild(oldGen);
+
+                    // Create log container
+                    const logContainer = document.createElement("div");
+                    logContainer.className = "log-container";
+                    logContainer.id = "log-container";
+                    visualization.appendChild(logContainer);
+
+                    // Create status panel
+                    const statusPanel = document.createElement("div");
+                    statusPanel.className = "status-panel";
+                    statusPanel.id = "status-panel";
+                    statusPanel.innerHTML = "System Status: Initialized";
+                    visualization.appendChild(statusPanel);
+
+                    // Create 2 root objects
+                    roots = [createObject("eden"), createObject("eden")];
+                    roots[0].element.textContent = "Root 1";
+                    roots[1].element.textContent = "Root 2";
+
+                    logEvent("Initialized heap with 2 root objects");
+                    updateStatus("Ready - 2 objects in Eden");
+                }
+
+                // Create a new object
+                function createObject(space = "eden") {
+                    const object = {
+                        id: objects.length,
+                        age: 0,
+                        space: space,
+                        references: [],
+                        element: null,
+                    };
+
+                    const block = document.createElement("div");
+                    block.className = "memory-block block-new";
+                    block.innerHTML = `Obj ${object.id}<div class="block-age">Age:0</div>`;
+                    block.dataset.id = object.id;
+                    block.addEventListener("click", () => selectObject(object));
+
+                    // Add to appropriate space
+                    let container;
+                    if (space === "eden")
+                        container = document.getElementById("eden-space");
+                    else if (space === "survivor-from")
+                        container = document.getElementById("survivor-from");
+                    else if (space === "survivor-to")
+                        container = document.getElementById("survivor-to");
+                    else container = document.getElementById("old-space");
+
+                    container.appendChild(block);
+                    object.element = block;
+                    objects.push(object);
+
+                    logEvent(`Allocated new object ${object.id} in ${space}`);
+                    updateStatus(`Allocated object ${object.id} in ${space}`);
+
+                    return object;
+                }
+
+                // Create a reference between objects
+                function createReference(from, to) {
+                    if (from === to) return;
+
+                    // Check if reference already exists
+                    if (from.references.includes(to)) return;
+
+                    from.references.push(to);
+
+                    // Create visual reference
+                    const fromRect = from.element.getBoundingClientRect();
+                    const toRect = to.element.getBoundingClientRect();
+                    const containerRect = heapContainer.getBoundingClientRect();
+
+                    const x1 =
+                        fromRect.left + fromRect.width / 2 - containerRect.left;
+                    const y1 =
+                        fromRect.top + fromRect.height / 2 - containerRect.top;
+                    const x2 =
+                        toRect.left + toRect.width / 2 - containerRect.left;
+                    const y2 =
+                        toRect.top + toRect.height / 2 - containerRect.top;
+
+                    // Create arrow with SVG
+                    const svgNS = "http://www.w3.org/2000/svg";
+                    const svg = document.createElementNS(svgNS, "svg");
+                    svg.setAttribute("class", "reference-arrow");
+                    svg.style.position = "absolute";
+                    svg.style.left = "0";
+                    svg.style.top = "0";
+                    svg.style.width = "100%";
+                    svg.style.height = "100%";
+                    svg.style.pointerEvents = "none";
+
+                    const line = document.createElementNS(svgNS, "line");
+                    line.setAttribute("x1", x1);
+                    line.setAttribute("y1", y1);
+                    line.setAttribute("x2", x2);
+                    line.setAttribute("y2", y2);
+                    line.setAttribute("class", "reference-arrow");
+
+                    // Add arrowhead
+                    const defs = document.createElementNS(svgNS, "defs");
+                    const marker = document.createElementNS(svgNS, "marker");
+                    marker.setAttribute("id", `arrowhead-${from.id}-${to.id}`);
+                    marker.setAttribute("markerWidth", "10");
+                    marker.setAttribute("markerHeight", "7");
+                    marker.setAttribute("refX", "10");
+                    marker.setAttribute("refY", "3.5");
+                    marker.setAttribute("orient", "auto");
+
+                    const polygon = document.createElementNS(svgNS, "polygon");
+                    polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
+                    polygon.setAttribute("fill", "var(--accent-light)");
+
+                    marker.appendChild(polygon);
+                    defs.appendChild(marker);
+                    svg.appendChild(defs);
+                    line.setAttribute(
+                        "marker-end",
+                        `url(#arrowhead-${from.id}-${to.id})`,
+                    );
+                    svg.appendChild(line);
+
+                    heapContainer.appendChild(svg);
+                    references.push({
+                        from,
+                        to,
+                        element: svg,
+                    });
+
+                    logEvent(`Created reference from ${from.id} to ${to.id}`);
+                }
+
+                // Select an object for reference creation
+                function selectObject(object) {
+                    if (selectedObject === null) {
+                        selectedObject = object;
+                        object.element.style.border = "2px solid white";
+                        logEvent(
+                            `Selected object ${object.id} as reference source`,
+                        );
+                        updateStatus(
+                            `Select target object for reference from ${object.id}`,
+                        );
+                    } else if (selectedObject === object) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    } else {
+                        createReference(selectedObject, object);
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                }
+
+                // Nullify a random reference
+                function nullifyRandomReference() {
+                    const objectsWithRefs = objects.filter(
+                        (obj) => obj.references.length > 0,
+                    );
+                    if (objectsWithRefs.length === 0) return;
+
+                    const from =
+                        objectsWithRefs[
+                            Math.floor(Math.random() * objectsWithRefs.length)
+                        ];
+                    const refIndex = Math.floor(
+                        Math.random() * from.references.length,
+                    );
+                    const to = from.references[refIndex];
+
+                    // Remove reference
+                    from.references.splice(refIndex, 1);
+
+                    // Remove visual reference
+                    const refSvg = references.find(
+                        (ref) => ref.from === from && ref.to === to,
+                    );
+                    if (refSvg) {
+                        refSvg.element.remove();
+                        references = references.filter((ref) => ref !== refSvg);
+                    }
+
+                    logEvent(`Nullified reference from ${from.id} to ${to.id}`);
+                    updateStatus(
+                        `Reference from ${from.id} to ${to.id} removed`,
+                    );
+                }
+
+                // Run minor garbage collection
+                function runMinorGC() {
+                    logEvent("Starting Minor GC...");
+                    updateStatus("Minor GC: Collecting young generation");
+
+                    // Step 1: Mark reachable objects in young generation
+                    logEvent("Marking reachable objects in young generation");
+                    const youngObjects = objects.filter(
+                        (obj) =>
+                            obj.space === "eden" ||
+                            obj.space.startsWith("survivor"),
+                    );
+
+                    // Animate marking
+                    let index = 0;
+                    function markNext() {
+                        if (index < youngObjects.length) {
+                            const obj = youngObjects[index];
+                            if (Math.random() > 0.3) {
+                                // 70% chance of being reachable
+                                obj.element.classList.add("block-marked");
+                                obj.element.classList.remove("block-new");
+                                obj.element.classList.add("block-young");
+                                logEvent(`Marked object ${obj.id}`);
+                            } else {
+                                obj.element.classList.add("block-unreachable");
+                                logEvent(`Object ${obj.id} is unreachable`);
+                            }
+
+                            index++;
+                            setTimeout(markNext, 300);
+                        } else {
+                            // Proceed to evacuation
+                            setTimeout(evacuateSurvivors, 1000);
+                        }
+                    }
+
+                    markNext();
+                }
+
+                // Evacuate survivors to new space
+                function evacuateSurvivors() {
+                    logEvent("Evacuating survivors and promoting aged objects");
+                    updateStatus("Minor GC: Evacuating survivors");
+
+                    const edenSpace = document.getElementById("eden-space");
+                    const fromSpace = document.getElementById("survivor-from");
+                    const toSpace = document.getElementById("survivor-to");
+                    const oldSpace = document.getElementById("old-space");
+
+                    // Process eden space
+                    const edenObjects = objects.filter(
+                        (obj) => obj.space === "eden",
+                    );
+                    let processed = 0;
+
+                    function processEden() {
+                        if (processed < edenObjects.length) {
+                            const obj = edenObjects[processed];
+
+                            if (
+                                obj.element.classList.contains("block-marked")
+                            ) {
+                                // This object survived
+                                obj.age++;
+                                obj.element.querySelector(
+                                    ".block-age",
+                                ).textContent = `Age:${obj.age}`;
+
+                                if (obj.age >= 3) {
+                                    // Promote to old generation
+                                    oldSpace.appendChild(obj.element);
+                                    obj.space = "old";
+                                    obj.element.classList.remove("block-young");
+                                    obj.element.classList.add("block-old");
+                                    logEvent(
+                                        `Promoted object ${obj.id} to old generation`,
+                                    );
+                                } else {
+                                    // Move to survivor space
+                                    toSpace.appendChild(obj.element);
+                                    obj.space = "survivor-to";
+                                    logEvent(
+                                        `Moved object ${obj.id} to survivor space`,
+                                    );
+                                }
+                            } else {
+                                // This object is garbage
+                                obj.element.remove();
+                                objects = objects.filter((o) => o !== obj);
+                                logEvent(`Collected object ${obj.id}`);
+                            }
+
+                            processed++;
+                            setTimeout(processEden, 300);
+                        } else {
+                            // Process survivor space
+                            processSurvivorSpace();
+                        }
+                    }
+
+                    function processSurvivorSpace() {
+                        const survivorObjects = objects.filter(
+                            (obj) => obj.space === "survivor-from",
+                        );
+                        processed = 0;
+
+                        function processNext() {
+                            if (processed < survivorObjects.length) {
+                                const obj = survivorObjects[processed];
+
+                                if (
+                                    obj.element.classList.contains(
+                                        "block-marked",
+                                    )
+                                ) {
+                                    // This object survived
+                                    obj.age++;
+                                    obj.element.querySelector(
+                                        ".block-age",
+                                    ).textContent = `Age:${obj.age}`;
+
+                                    if (obj.age >= 3) {
+                                        // Promote to old generation
+                                        oldSpace.appendChild(obj.element);
+                                        obj.space = "old";
+                                        obj.element.classList.remove(
+                                            "block-young",
+                                        );
+                                        obj.element.classList.add("block-old");
+                                        logEvent(
+                                            `Promoted object ${obj.id} to old generation`,
+                                        );
+                                    } else {
+                                        // Move to other survivor space
+                                        toSpace.appendChild(obj.element);
+                                        obj.space = "survivor-to";
+                                        logEvent(
+                                            `Moved object ${obj.id} to survivor space`,
+                                        );
+                                    }
+                                } else {
+                                    // This object is garbage
+                                    obj.element.remove();
+                                    objects = objects.filter((o) => o !== obj);
+                                    logEvent(`Collected object ${obj.id}`);
+                                }
+
+                                processed++;
+                                setTimeout(processNext, 300);
+                            } else {
+                                // Swap survivor spaces
+                                document.getElementById(
+                                    "survivor-from",
+                                ).textContent = survivorToggle
+                                    ? "Survivor To (S1)"
+                                    : "Survivor From (S0)";
+                                document.getElementById(
+                                    "survivor-to",
+                                ).textContent = survivorToggle
+                                    ? "Survivor From (S0)"
+                                    : "Survivor To (S1)";
+                                survivorToggle = !survivorToggle;
+
+                                // Clear eden space
+                                edenSpace.innerHTML = "Eden";
+
+                                // Reset marks
+                                objects.forEach((obj) => {
+                                    obj.element.classList.remove(
+                                        "block-marked",
+                                        "block-unreachable",
+                                    );
+                                });
+
+                                logEvent("Minor GC completed");
+                                updateStatus(
+                                    `Minor GC completed. ${objects.length} objects remaining`,
+                                );
+                            }
+                        }
+
+                        processNext();
+                    }
+
+                    processEden();
+                }
+
+                // Run major garbage collection
+                function runMajorGC() {
+                    logEvent("Starting Major GC...");
+                    updateStatus("Major GC: Collecting entire heap");
+
+                    // Mark phase - mark all reachable objects
+                    logEvent("Marking reachable objects in entire heap");
+                    objects.forEach((obj) => {
+                        if (Math.random() > 0.2) {
+                            // 80% chance of being reachable
+                            obj.element.classList.add("block-marked");
+                            logEvent(`Marked object ${obj.id}`);
+                        } else {
+                            obj.element.classList.add("block-unreachable");
+                            logEvent(`Object ${obj.id} is unreachable`);
+                        }
+                    });
+
+                    // Sweep phase
+                    setTimeout(() => {
+                        logEvent("Sweeping unreachable objects");
+                        let sweptCount = 0;
+                        let index = 0;
+
+                        function sweepNext() {
+                            if (index < objects.length) {
+                                const obj = objects[index];
+
+                                if (
+                                    obj.element.classList.contains(
+                                        "block-unreachable",
+                                    )
+                                ) {
+                                    obj.element.remove();
+                                    objects = objects.filter((o) => o !== obj);
+                                    sweptCount++;
+                                    logEvent(`Collected object ${obj.id}`);
+                                } else {
+                                    // Reset mark
+                                    obj.element.classList.remove(
+                                        "block-marked",
+                                    );
+                                }
+
+                                index++;
+                                setTimeout(sweepNext, 300);
+                            } else {
+                                logEvent(
+                                    `Major GC completed. ${sweptCount} objects collected`,
+                                );
+                                updateStatus(
+                                    `Major GC completed. ${objects.length} objects remaining`,
+                                );
+                            }
+                        }
+
+                        sweepNext();
+                    }, 1000);
+                }
+
+                // Log event to log container
+                function logEvent(message) {
+                    const logContainer =
+                        document.getElementById("log-container");
+                    if (!logContainer) return;
+
+                    const logEntry = document.createElement("div");
+                    logEntry.className = "log-entry";
+                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                    logContainer.appendChild(logEntry);
+
+                    // Auto-scroll
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }
+
+                // Update status panel
+                function updateStatus(status) {
+                    const statusPanel = document.getElementById("status-panel");
+                    if (!statusPanel) return;
+
+                    statusPanel.innerHTML = `System Status: ${status}`;
+                }
+
+                // Event listeners
+                allocateBtn.addEventListener("click", () =>
+                    createObject("eden"),
+                );
+                minorGcBtn.addEventListener("click", runMinorGC);
+                majorGcBtn.addEventListener("click", runMajorGC);
+                createRefBtn.addEventListener("click", () => {
+                    if (selectedObject) {
+                        selectedObject.element.style.border = "";
+                        selectedObject = null;
+                    }
+                    updateStatus("Select source object for new reference");
+                });
+                nullRefBtn.addEventListener("click", nullifyRandomReference);
+
+                // Initialize the visualization
+                initVisualization();
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
