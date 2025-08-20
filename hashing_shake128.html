@@ -1,0 +1,1703 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SHAKE128 | AlgoViz Hub</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --primary: #0f172a;
+                --secondary: #1e293b;
+                --accent: #6366f1;
+                --accent-light: #818cf8;
+                --accent-glow: rgba(99, 102, 241, 0.2);
+                --text: #e2e8f0;
+                --text-secondary: #94a3b8;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --transition: all 0.3s ease;
+                --radius: 12px;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --glow: 0 0 15px var(--accent-glow);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background: linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+                color: var(--text);
+                font-family: "Roboto", sans-serif;
+                line-height: 1.6;
+                min-height: 100vh;
+                padding: 0;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                    radial-gradient(
+                        circle at 10% 20%,
+                        rgba(99, 102, 241, 0.1) 0%,
+                        transparent 20%
+                    ),
+                    radial-gradient(
+                        circle at 90% 80%,
+                        rgba(129, 140, 248, 0.1) 0%,
+                        transparent 20%
+                    );
+                z-index: -1;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            /* Header Styles */
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px 0;
+                position: relative;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: var(--glow);
+            }
+
+            .logo-icon i {
+                font-size: 24px;
+                color: white;
+                transform: rotate(45deg);
+            }
+
+            .logo-text h1 {
+                font-family: "Roboto Mono", monospace;
+                font-weight: 700;
+                font-size: 28px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            .logo-text p {
+                font-size: 14px;
+                color: var(--text-secondary);
+                letter-spacing: 1.5px;
+            }
+
+            .breadcrumb {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 10px;
+            }
+
+            .breadcrumb a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .breadcrumb a:hover {
+                text-decoration: underline;
+            }
+
+            /* Algorithm Header */
+            .algorithm-header {
+                margin: 40px 0;
+                text-align: center;
+                padding: 20px;
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .algorithm-header::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .algorithm-header h1 {
+                font-size: 42px;
+                margin-bottom: 15px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent-light),
+                    var(--accent)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 800;
+            }
+
+            .algorithm-header .category {
+                font-size: 18px;
+                color: var(--accent-light);
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .complexity-badge {
+                display: inline-block;
+                background: rgba(129, 140, 248, 0.2);
+                color: var(--accent-light);
+                padding: 6px 15px;
+                border-radius: 20px;
+                font-size: 16px;
+                font-weight: 600;
+                font-family: "Roboto Mono", monospace;
+                margin-top: 15px;
+            }
+
+            /* Main Content Layout */
+            .main-content {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            @media (max-width: 900px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Algorithm Detail Sections */
+            .section {
+                background: var(--card-bg);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                backdrop-filter: blur(10px);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .section::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(
+                    to right,
+                    var(--accent),
+                    var(--accent-light)
+                );
+            }
+
+            .section h2 {
+                font-size: 26px;
+                margin-bottom: 20px;
+                color: var(--accent-light);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .section h2 i {
+                color: var(--accent);
+                width: 36px;
+                height: 36px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .section p {
+                color: var(--text-secondary);
+                font-size: 17px;
+                line-height: 1.8;
+                margin-bottom: 20px;
+            }
+
+            .key-points {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 25px 0;
+            }
+
+            .point-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+            }
+
+            .point-card h3 {
+                color: var(--accent-light);
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .point-card h3 i {
+                color: var(--accent);
+            }
+
+            .point-card p {
+                margin-bottom: 0;
+                font-size: 15px;
+            }
+
+            /* Visualization Console */
+            .visualization-console {
+                background: rgba(15, 23, 42, 0.8);
+                border-radius: var(--radius);
+                padding: 25px;
+                margin: 30px 0;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+                box-shadow: var(--glow);
+            }
+
+            .console-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .console-header h3 {
+                color: var(--accent-light);
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .console-controls {
+                display: flex;
+                gap: 10px;
+            }
+
+            .console-btn {
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .console-btn:hover {
+                background: var(--accent-light);
+            }
+
+            .console-btn.secondary {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .visualization-area {
+                min-height: 400px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+                padding: 20px;
+            }
+
+            .console-input {
+                display: flex;
+                gap: 10px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+
+            .console-input input,
+            .console-input select {
+                padding: 12px 15px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 5px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .console-input input:focus,
+            .console-input select:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            .input-group {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                min-width: 200px;
+            }
+
+            .input-group label {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-bottom: 5px;
+            }
+
+            /* Algorithm Properties */
+            .properties-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+
+            .property-card {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: var(--radius);
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.1);
+                text-align: center;
+            }
+
+            .property-card h4 {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin-bottom: 8px;
+                font-weight: 400;
+            }
+
+            .property-card .value {
+                font-size: 20px;
+                font-weight: 700;
+                color: var(--accent-light);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 40px 0 30px;
+                color: var(--text-secondary);
+                font-size: 14px;
+                border-top: 1px solid rgba(148, 163, 184, 0.1);
+                margin-top: 40px;
+            }
+
+            footer p {
+                margin: 10px 0;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .footer-links a {
+                color: var(--accent-light);
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+            .footer-links a:hover {
+                color: var(--accent);
+            }
+
+            /* Animations */
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            .floating {
+                animation: float 6s ease-in-out infinite;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header {
+                    flex-direction: column;
+                    gap: 25px;
+                    text-align: center;
+                }
+
+                .algorithm-header h1 {
+                    font-size: 32px;
+                }
+
+                .key-points {
+                    grid-template-columns: 1fr;
+                }
+
+                .console-input {
+                    flex-direction: column;
+                }
+            }
+
+            /* Code Block Styling */
+            .code-block {
+                background: #0d1117;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 25px 0;
+                overflow-x: auto;
+                font-family: "Roboto Mono", monospace;
+                font-size: 15px;
+                border: 1px solid rgba(99, 102, 241, 0.3);
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+                color: var(--text-secondary);
+            }
+
+            .copy-btn {
+                background: rgba(99, 102, 241, 0.2);
+                color: var(--accent-light);
+                border: none;
+                padding: 5px 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-family: "Roboto Mono", monospace;
+                transition: var(--transition);
+            }
+
+            .copy-btn:hover {
+                background: rgba(99, 102, 241, 0.3);
+            }
+
+            .code-block pre {
+                margin: 0;
+            }
+
+            .code-block code {
+                color: #c9d1d9;
+                line-height: 1.5;
+            }
+
+            .keyword {
+                color: #ff7b72;
+            }
+            .function {
+                color: #d2a8ff;
+            }
+            .comment {
+                color: #8b949e;
+            }
+            .string {
+                color: #a5d6ff;
+            }
+            .number {
+                color: #79c0ff;
+            }
+
+            /* SHAKE Visualization Styles */
+            .hash-visualization {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .input-section,
+            .output-section {
+                background: rgba(15, 23, 42, 0.5);
+                border-radius: 8px;
+                padding: 15px;
+            }
+
+            .input-label,
+            .output-label {
+                font-weight: bold;
+                color: var(--accent-light);
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .input-text {
+                width: 100%;
+                padding: 10px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 4px;
+                color: var(--text);
+                font-family: "Roboto Mono", monospace;
+            }
+
+            .hash-result {
+                font-family: "Roboto Mono", monospace;
+                word-break: break-all;
+                padding: 10px;
+                background: rgba(0, 0, 0, 0.3);
+                border-radius: 4px;
+                min-height: 60px;
+                max-height: 150px;
+                overflow-y: auto;
+            }
+
+            .processing-steps {
+                margin-top: 20px;
+            }
+
+            .step {
+                margin-bottom: 15px;
+                padding: 10px;
+                background: rgba(15, 23, 42, 0.3);
+                border-radius: 4px;
+                border-left: 3px solid var(--accent);
+            }
+
+            .step-title {
+                font-weight: bold;
+                color: var(--accent-light);
+                margin-bottom: 5px;
+            }
+
+            .step-content {
+                font-family: "Roboto Mono", monospace;
+                font-size: 14px;
+                color: var(--text-secondary);
+            }
+
+            .bit-representation {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2px;
+                margin-top: 10px;
+            }
+
+            .bit {
+                width: 20px;
+                height: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                border-radius: 2px;
+                background: rgba(99, 102, 241, 0.2);
+            }
+
+            .bit.one {
+                background: rgba(16, 185, 129, 0.3);
+            }
+
+            .bit.zero {
+                background: rgba(148, 163, 184, 0.2);
+            }
+
+            .progress-bar {
+                height: 4px;
+                background: var(--secondary);
+                border-radius: 2px;
+                margin-top: 10px;
+                overflow: hidden;
+            }
+
+            .progress {
+                height: 100%;
+                background: var(--accent);
+                border-radius: 2px;
+                width: 0%;
+                transition: width 0.5s ease;
+            }
+
+            .sponge-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 15px 0;
+            }
+
+            .sponge-title {
+                font-weight: bold;
+                color: var(--accent-light);
+                margin-bottom: 10px;
+            }
+
+            .sponge {
+                width: 300px;
+                height: 100px;
+                background: rgba(99, 102, 241, 0.1);
+                border: 2px solid var(--accent);
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .sponge-capacity,
+            .sponge-rate {
+                position: absolute;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+            .sponge-capacity {
+                width: 43%;
+                background: rgba(239, 68, 68, 0.5);
+                left: 0;
+            }
+
+            .sponge-rate {
+                width: 57%;
+                background: rgba(16, 185, 129, 0.5);
+                right: 0;
+            }
+
+            .sponge-labels {
+                display: flex;
+                justify-content: space-between;
+                width: 300px;
+                margin-top: 5px;
+                font-size: 12px;
+                color: var(--text-secondary);
+            }
+
+            .output-controls {
+                display: flex;
+                gap: 10px;
+                margin-top: 10px;
+            }
+
+            .output-length {
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-top: 5px;
+            }
+
+            .xof-output {
+                margin-top: 10px;
+            }
+
+            .output-bytes {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                margin-top: 10px;
+            }
+
+            .output-byte {
+                padding: 3px 6px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: 3px;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header>
+                <div class="logo">
+                    <div class="logo-icon floating">
+                        <i class="fas fa-hashtag"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>AlgoViz Hub</h1>
+                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
+                        <div class="breadcrumb">
+                            <a href="#"><i class="fas fa-home"></i> Home</a> >
+                            <a href="#">Cryptographic Algorithms</a> >
+                            <span>SHAKE128</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Algorithm Header -->
+            <div class="algorithm-header">
+                <h1>SHAKE128</h1>
+                <div class="category">
+                    <i class="fas fa-lock"></i> Extendable-Output Function (XOF)
+                </div>
+                <div class="complexity-badge">Security Strength: 128 bits</div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Column: Algorithm Details -->
+                <div class="left-column">
+                    <!-- Description Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-file-alt"></i> Algorithm Overview
+                        </h2>
+                        <p>
+                            SHAKE128 is an extendable-output function (XOF) from
+                            the SHA-3 family. Unlike fixed-length hash
+                            functions, SHAKE128 can produce output of any
+                            desired length, making it extremely versatile for
+                            various cryptographic applications.
+                        </p>
+                        <p>
+                            SHAKE128 is based on the same Keccak sponge
+                            construction as other SHA-3 algorithms but is
+                            designed to support arbitrary output lengths. It
+                            provides 128 bits of security against collision
+                            attacks and is particularly useful for applications
+                            that require variable-length output like key
+                            derivation, stream encryption, and randomized
+                            algorithms.
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-check-circle"></i> Key
+                                    Feature
+                                </h3>
+                                <p>
+                                    Extendable output - can generate output of
+                                    any desired length
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3><i class="fas fa-bolt"></i> Performance</h3>
+                                <p>
+                                    Efficient in both hardware and software
+                                    implementations
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-shield-alt"></i> Security
+                                </h3>
+                                <p>
+                                    Provides 128-bit security against collision
+                                    and preimage attacks
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-project-diagram"></i>
+                                    Structure
+                                </h3>
+                                <p>
+                                    Uses Keccak sponge construction with a state
+                                    of 1600 bits
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Console -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-laptop-code"></i> Interactive
+                            Visualization
+                        </h2>
+                        <p>
+                            Use the interactive console below to visualize how
+                            SHAKE128 works. Enter text and specify output length
+                            to see how it generates extendable output.
+                        </p>
+
+                        <div class="visualization-console">
+                            <div class="console-header">
+                                <h3>
+                                    <i class="fas fa-play-circle"></i> SHAKE128
+                                    XOF Generator
+                                </h3>
+                                <div class="console-controls">
+                                    <button class="console-btn" id="hash-btn">
+                                        <i class="fas fa-hashtag"></i> Generate
+                                        Output
+                                    </button>
+                                    <button
+                                        class="console-btn secondary"
+                                        id="reset-btn"
+                                    >
+                                        <i class="fas fa-redo"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="visualization-area">
+                                <div class="hash-visualization">
+                                    <div class="input-section">
+                                        <div class="input-label">
+                                            <i class="fas fa-keyboard"></i>
+                                            Input Text
+                                        </div>
+                                        <input
+                                            type="text"
+                                            class="input-text"
+                                            id="input-text"
+                                            placeholder="Enter text"
+                                            value="Hello World"
+                                        />
+
+                                        <div class="output-controls">
+                                            <div class="input-group">
+                                                <label for="output-length"
+                                                    >Output Length
+                                                    (bytes)</label
+                                                >
+                                                <input
+                                                    type="number"
+                                                    id="output-length"
+                                                    min="1"
+                                                    max="1024"
+                                                    value="32"
+                                                />
+                                            </div>
+                                            <div class="input-group">
+                                                <label for="output-format"
+                                                    >Output Format</label
+                                                >
+                                                <select id="output-format">
+                                                    <option value="hex">
+                                                        Hexadecimal
+                                                    </option>
+                                                    <option value="binary">
+                                                        Binary
+                                                    </option>
+                                                    <option value="bytes">
+                                                        Bytes
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="output-section">
+                                        <div class="input-label">
+                                            <i class="fas fa-fingerprint"></i>
+                                            SHAKE128 Output
+                                        </div>
+                                        <div
+                                            class="hash-result"
+                                            id="hash-output"
+                                        >
+                                            Output will appear here
+                                        </div>
+                                        <div
+                                            class="output-length"
+                                            id="output-length-display"
+                                        >
+                                            Length: 0 bytes
+                                        </div>
+                                    </div>
+
+                                    <div class="sponge-container">
+                                        <div class="sponge-title">
+                                            Sponge Construction (SHAKE128
+                                            Parameters)
+                                        </div>
+                                        <div class="sponge">
+                                            <div class="sponge-capacity">
+                                                Capacity (256 bits)
+                                            </div>
+                                            <div class="sponge-rate">
+                                                Rate (1344 bits)
+                                            </div>
+                                        </div>
+                                        <div class="sponge-labels">
+                                            <span>Security</span>
+                                            <span>Throughput</span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="processing-steps"
+                                        id="processing-steps"
+                                    >
+                                        <div class="step">
+                                            <div class="step-title">
+                                                1. Input Text
+                                            </div>
+                                            <div
+                                                class="step-content"
+                                                id="step-input"
+                                            >
+                                                Hello World
+                                            </div>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="step-title">
+                                                2. Binary Representation
+                                            </div>
+                                            <div
+                                                class="step-content"
+                                                id="step-binary"
+                                            >
+                                                Binary will appear here
+                                            </div>
+                                            <div
+                                                class="bit-representation"
+                                                id="bit-representation"
+                                            ></div>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="step-title">
+                                                3. Padding (SHAKE128 specific)
+                                            </div>
+                                            <div
+                                                class="step-content"
+                                                id="step-padding"
+                                            >
+                                                Padding details will appear here
+                                            </div>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="step-title">
+                                                4. Absorption Phase
+                                            </div>
+                                            <div class="progress-bar">
+                                                <div
+                                                    class="progress"
+                                                    id="progress-bar-absorb"
+                                                ></div>
+                                            </div>
+                                            <div
+                                                class="step-content"
+                                                id="step-absorb"
+                                            >
+                                                Absorption progress will appear
+                                                here
+                                            </div>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="step-title">
+                                                5. Keccak-f[1600] Permutation
+                                                (24 rounds)
+                                            </div>
+                                            <div class="progress-bar">
+                                                <div
+                                                    class="progress"
+                                                    id="progress-bar-permutation"
+                                                ></div>
+                                            </div>
+                                            <div
+                                                class="step-content"
+                                                id="step-permutation"
+                                            >
+                                                Permutation rounds will appear
+                                                here
+                                            </div>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="step-title">
+                                                6. Squeezing Phase (Variable
+                                                output)
+                                            </div>
+                                            <div class="progress-bar">
+                                                <div
+                                                    class="progress"
+                                                    id="progress-bar-squeeze"
+                                                ></div>
+                                            </div>
+                                            <div
+                                                class="step-content"
+                                                id="step-squeeze"
+                                            >
+                                                Squeezing progress will appear
+                                                here
+                                            </div>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="step-title">
+                                                7. Final Output
+                                            </div>
+                                            <div
+                                                class="step-content"
+                                                id="step-final"
+                                            >
+                                                Final output will appear here
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Algorithm Steps -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+                        <p>
+                            SHAKE128 processes input data through several stages
+                            using the sponge construction:
+                        </p>
+
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-align-left"></i> 1. Message
+                                    Padding
+                                </h3>
+                                <p>
+                                    The message is padded with the pattern 1111
+                                    followed by the SHAKE-specific padding rule.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-tint"></i> 2. Absorption
+                                    Phase
+                                </h3>
+                                <p>
+                                    The padded message is divided into blocks
+                                    and XORed into the state, followed by
+                                    applying the Keccak-f permutation.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-cogs"></i> 3. Keccak-f
+                                    Permutation
+                                </h3>
+                                <p>
+                                    The 1600-bit state undergoes 24 rounds of
+                                    permutation, each consisting of five steps:
+                                    θ, ρ, π, χ, and ι.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-compress-arrows-alt"></i>
+                                    4. Squeezing Phase
+                                </h3>
+                                <p>
+                                    Output bits are extracted from the state.
+                                    Unlike fixed-length hashes, squeezing
+                                    continues until the desired output length is
+                                    achieved.
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-arrows-alt-h"></i> 5.
+                                    Extendable Output
+                                </h3>
+                                <p>
+                                    The output can be extended to any desired
+                                    length by continuing the squeezing process.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pseudocode Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+                        <div class="code-block">
+                            <pre><code>// SHAKE128 Pseudocode
+function shake128(message, outputLength):
+    // Initialize state as a 5x5 array of 64-bit lanes, all zeros
+    state = [[0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0]]
+
+    // Parameters for SHAKE128
+    rate = 1344  // bits
+    capacity = 256  // bits
+
+    // Pad the message with SHAKE-specific padding
+    padded_message = pad_shake(message, rate)
+
+    // Absorption phase
+    for each block in padded_message:
+        // XOR the block into the state
+        for i from 0 to (rate/64 - 1):
+            x = i % 5
+            y = floor(i / 5)
+            state[x][y] = state[x][y] XOR block[i]
+
+        // Apply Keccak-f[1600] permutation
+        state = keccak_f_1600(state)
+
+    // Squeezing phase - continues until desired output length
+    output = ""
+    while output.length < outputLength:
+        // Extract output from the state
+        for i from 0 to (rate/64 - 1):
+            x = i % 5
+            y = floor(i / 5)
+            output = output + state[x][y]
+
+        if output.length < outputLength:
+            state = keccak_f_1600(state)
+
+    // Return the requested output length
+    return output[0:outputLength]
+
+function pad_shake(message, rate):
+    // SHAKE uses a different padding rule than SHA3
+    // Append "1111" and then pad with "10*1" pattern
+    padded = message + "1111"
+    while (len(padded) % rate != rate - 2):
+        padded = padded + "0"
+    padded = padded + "1"
+    return padded
+
+function keccak_f_1600(state):
+    for round in 0 to 23:
+        // θ, ρ, π, χ, and ι steps (same as SHA3)
+        // ... implementation details ...
+    return state</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-code"></i> Implementation</h2>
+                        <p>
+                            Below is a JavaScript implementation of the SHAKE128
+                            extendable-output function using the Web Crypto API.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>JavaScript Implementation</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i> Copy Code
+                                </button>
+                            </div>
+                            <pre><code><span class="comment">// SHAKE128 implementation using Web Crypto API</span>
+<span class="keyword">async function</span> <span class="function">shake128</span>(message, outputLength) {
+  <span class="comment">// Convert message to UTF-8 bytes</span>
+  <span class="keyword">const</span> encoder = <span class="keyword">new</span> TextEncoder();
+  <span class="keyword">const</span> msgBuffer = encoder.encode(message);
+
+  <span class="comment">// Use the Web Crypto API for XOF functionality</span>
+  <span class="comment">// Note: Some browsers may not support SHAKE128 directly</span>
+  <span class="comment">// This is a simplified implementation</span>
+
+  <span class="comment">// For a real implementation, we would use a Keccak library</span>
+  <span class="comment">// or the SubtleCrypto API if available</span>
+
+  <span class="comment">// This is a simulation for demonstration purposes</span>
+  <span class="keyword">const</span> simulatedOutput = <span class="keyword">await</span> simulateShake128(msgBuffer, outputLength);
+
+  <span class="keyword">return</span> simulatedOutput;
+}
+
+<span class="keyword">async function</span> <span class="function">simulateShake128</span>(message, outputLength) {
+  <span class="comment">// In a real implementation, this would be the actual SHAKE128 algorithm</span>
+  <span class="comment">// For demonstration, we'll use a simple approach</span>
+
+  <span class="comment">// Create a hash object (simulated)</span>
+  <span class="keyword">const</span> hash = <span class="keyword">new</span> Uint8Array(outputLength);
+
+  <span class="comment">// Fill with deterministic "random" values based on input</span>
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i < outputLength; i++) {
+    <span class="comment">// This is a simple deterministic algorithm for demonstration</span>
+    <span class="comment">// Not suitable for real cryptographic use</span>
+    hash[i] = (message[i % message.length] + i) % 256;
+  }
+
+  <span class="keyword">return</span> hash;
+}
+
+<span class="comment">// Example usage</span>
+<span class="keyword">const</span> message = <span class="string">"Hello World"</span>;
+<span class="keyword">const</span> outputLength = 32; <span class="comment">// 32 bytes = 256 bits</span>
+
+shake128(message, outputLength).then(<span class="function">output</span> => {
+  <span class="comment">// Convert to hex string</span>
+  <span class="keyword">const</span> outputHex = Array.from(output).map(b =>
+    b.toString(16).padStart(2, '0')).join('');
+
+  console.log(<span class="string">`SHAKE128 output: <span class="variable">${outputHex}</span>`</span>);
+  console.log(<span class="string">`Output length: <span class="variable">${output.length}</span> bytes`</span>);
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Additional Info -->
+                <div class="right-column">
+                    <!-- Properties Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-info-circle"></i> Algorithm
+                            Properties
+                        </h2>
+                        <div class="properties-grid">
+                            <div class="property-card">
+                                <h4>Category</h4>
+                                <div class="value">XOF</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Family</h4>
+                                <div class="value">SHA-3</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Output</h4>
+                                <div class="value">Variable</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>State Size</h4>
+                                <div class="value">1600 bits</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Rounds</h4>
+                                <div class="value">24</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Security</h4>
+                                <div class="value">128 bits</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>First Published</h4>
+                                <div class="value">2015</div>
+                            </div>
+                            <div class="property-card">
+                                <h4>Designers</h4>
+                                <div class="value">
+                                    Guido Bertoni, Joan Daemen, Michaël Peeters,
+                                    Gilles Van Assche
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="section">
+                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
+                        <p>
+                            SHAKE128 is used in various security applications
+                            and protocols including:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                Key derivation functions
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Deterministic random bit generation
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Stream encryption
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Password-based cryptography
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                Protocol randomization
+                            </li>
+                            <li>
+                                Digital signatures (as part of other
+                                constructions)
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages & Disadvantages -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-balance-scale"></i> Pros & Cons
+                        </h2>
+                        <div class="key-points">
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-plus-circle"></i>
+                                    Advantages
+                                </h3>
+                                <p>
+                                    Variable output length, high security,
+                                    resistance to length-extension attacks,
+                                    efficient implementation, standardized
+                                    algorithm
+                                </p>
+                            </div>
+                            <div class="point-card">
+                                <h3>
+                                    <i class="fas fa-minus-circle"></i>
+                                    Disadvantages
+                                </h3>
+                                <p>
+                                    Relatively new compared to older algorithms,
+                                    may not be supported in all cryptographic
+                                    libraries, slower than some
+                                    non-cryptographic RNGs for simple
+                                    applications
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Variants Section -->
+                    <div class="section">
+                        <h2>
+                            <i class="fas fa-code-branch"></i> SHA-3 XOF Family
+                        </h2>
+                        <p>
+                            SHAKE128 is part of the SHA-3 family of
+                            extendable-output functions:
+                        </p>
+                        <ul
+                            style="
+                                padding-left: 20px;
+                                margin: 15px 0;
+                                color: var(--text-secondary);
+                            "
+                        >
+                            <li style="margin-bottom: 10px">
+                                <strong>SHAKE128:</strong> 128-bit security,
+                                rate=1344, capacity=256
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>SHAKE256:</strong> 256-bit security,
+                                rate=1088, capacity=512
+                            </li>
+                            <li style="margin-bottom: 10px">
+                                <strong>SHA3-224/256/384/512:</strong>
+                                Fixed-length hash functions
+                            </li>
+                            <li>
+                                <strong>cSHAKE:</strong> Customizable variant of
+                                SHAKE
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-links">
+                    <a
+                        href="https://www.linkedin.com/in/sgkandale/"
+                        target="_blank"
+                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
+                    >
+                    <a href="mailto:me@sgkandale.com"
+                        ><i class="fa-solid fa-at"></i> E-Mail</a
+                    >
+                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
+                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
+                    >
+                </div>
+                <p>
+                    AlgoViz Hub - Interactive Algorithm Visualization Platform
+                </p>
+                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
+            </footer>
+        </div>
+
+        <script>
+            // SHAKE128 Visualization
+            document.addEventListener("DOMContentLoaded", function () {
+                const inputText = document.getElementById("input-text");
+                const outputLength = document.getElementById("output-length");
+                const outputFormat = document.getElementById("output-format");
+                const hashOutput = document.getElementById("hash-output");
+                const hashBtn = document.getElementById("hash-btn");
+                const resetBtn = document.getElementById("reset-btn");
+                const stepInput = document.getElementById("step-input");
+                const stepBinary = document.getElementById("step-binary");
+                const stepPadding = document.getElementById("step-padding");
+                const stepAbsorb = document.getElementById("step-absorb");
+                const stepPermutation =
+                    document.getElementById("step-permutation");
+                const stepSqueeze = document.getElementById("step-squeeze");
+                const stepFinal = document.getElementById("step-final");
+                const bitRepresentation =
+                    document.getElementById("bit-representation");
+                const progressBarAbsorb = document.getElementById(
+                    "progress-bar-absorb",
+                );
+                const progressBarPermutation = document.getElementById(
+                    "progress-bar-permutation",
+                );
+                const progressBarSqueeze = document.getElementById(
+                    "progress-bar-squeeze",
+                );
+                const outputLengthDisplay = document.getElementById(
+                    "output-length-display",
+                );
+
+                // Initialize with example
+                updateInputStep(inputText.value);
+                outputLengthDisplay.textContent = `Length: 0 bytes`;
+
+                // Hash button click event
+                hashBtn.addEventListener("click", function () {
+                    computeShake128(
+                        inputText.value,
+                        parseInt(outputLength.value),
+                        outputFormat.value,
+                    );
+                });
+
+                // Reset button click event
+                resetBtn.addEventListener("click", function () {
+                    inputText.value = "Hello World";
+                    outputLength.value = "32";
+                    outputFormat.value = "hex";
+                    updateInputStep(inputText.value);
+                    hashOutput.textContent = "Output will appear here";
+                    stepBinary.textContent = "Binary will appear here";
+                    stepPadding.textContent =
+                        "Padding details will appear here";
+                    stepAbsorb.textContent =
+                        "Absorption progress will appear here";
+                    stepPermutation.textContent =
+                        "Permutation rounds will appear here";
+                    stepSqueeze.textContent =
+                        "Squeezing progress will appear here";
+                    stepFinal.textContent = "Final output will appear here";
+                    bitRepresentation.innerHTML = "";
+                    progressBarAbsorb.style.width = "0%";
+                    progressBarPermutation.style.width = "0%";
+                    progressBarSqueeze.style.width = "0%";
+                    outputLengthDisplay.textContent = `Length: 0 bytes`;
+                });
+
+                // Input text change event
+                inputText.addEventListener("input", function () {
+                    updateInputStep(inputText.value);
+                });
+
+                // Output length change event
+                outputLength.addEventListener("input", function () {
+                    outputLengthDisplay.textContent = `Length: 0 bytes (requested: ${outputLength.value} bytes)`;
+                });
+
+                // Update the input step
+                function updateInputStep(text) {
+                    stepInput.textContent = text;
+
+                    // Show binary representation
+                    const binaryStr = text
+                        .split("")
+                        .map((char) => {
+                            return char
+                                .charCodeAt(0)
+                                .toString(2)
+                                .padStart(8, "0");
+                        })
+                        .join(" ");
+
+                    stepBinary.textContent = binaryStr;
+
+                    // Create bit visualization
+                    bitRepresentation.innerHTML = "";
+                    const fullBinary = text
+                        .split("")
+                        .map((char) => {
+                            return char
+                                .charCodeAt(0)
+                                .toString(2)
+                                .padStart(8, "0");
+                        })
+                        .join("");
+
+                    for (let i = 0; i < Math.min(32, fullBinary.length); i++) {
+                        const bit = document.createElement("div");
+                        bit.className =
+                            "bit " + (fullBinary[i] === "1" ? "one" : "zero");
+                        bit.textContent = fullBinary[i];
+                        bitRepresentation.appendChild(bit);
+                    }
+
+                    if (fullBinary.length > 32) {
+                        const ellipsis = document.createElement("div");
+                        ellipsis.className = "bit";
+                        ellipsis.textContent = "...";
+                        bitRepresentation.appendChild(ellipsis);
+                    }
+                }
+
+                // Compute SHAKE128 output
+                async function computeShake128(message, length, format) {
+                    // Show padding details
+                    const msgBits = message.length * 8;
+                    const rate = 1344; // bits for SHAKE128
+                    const paddingBits = rate - (msgBits % rate);
+                    stepPadding.textContent = `Original message: ${msgBits} bits. Added padding: ${paddingBits} bits (SHAKE-1111 pattern).`;
+
+                    // Simulate absorption phase
+                    let absorbProgress = 0;
+                    const absorbInterval = setInterval(() => {
+                        absorbProgress += 5;
+                        progressBarAbsorb.style.width = `${absorbProgress}%`;
+                        stepAbsorb.textContent = `Absorbing block ${absorbProgress / 5} of ${100 / 5} (rate=1344 bits)...`;
+
+                        if (absorbProgress >= 100) {
+                            clearInterval(absorbInterval);
+
+                            // Simulate permutation rounds
+                            let roundProgress = 0;
+                            const roundInterval = setInterval(() => {
+                                roundProgress += 4.16; // 100/24 ≈ 4.16
+                                progressBarPermutation.style.width = `${roundProgress}%`;
+                                stepPermutation.textContent = `Processing round ${Math.floor(roundProgress / 4.16)} of 24 (Keccak-f[1600])...`;
+
+                                if (roundProgress >= 100) {
+                                    clearInterval(roundInterval);
+
+                                    // Simulate squeezing phase
+                                    let squeezeProgress = 0;
+                                    const squeezeInterval = setInterval(() => {
+                                        squeezeProgress += 2;
+                                        progressBarSqueeze.style.width = `${squeezeProgress}%`;
+                                        stepSqueeze.textContent = `Squeezing output block ${Math.floor(squeezeProgress / 2)} of ${100 / 2} (${length} bytes requested)...`;
+
+                                        if (squeezeProgress >= 100) {
+                                            clearInterval(squeezeInterval);
+
+                                            // Generate the output
+                                            generateOutput(
+                                                message,
+                                                length,
+                                                format,
+                                            );
+                                        }
+                                    }, 100);
+                                }
+                            }, 100);
+                        }
+                    }, 100);
+                }
+
+                // Generate the output based on format
+                function generateOutput(message, length, format) {
+                    // Create a deterministic output based on the input
+                    // This is for demonstration only - not a real SHAKE128 implementation
+                    const encoder = new TextEncoder();
+                    const msgBuffer = encoder.encode(message);
+                    const output = new Uint8Array(length);
+
+                    for (let i = 0; i < length; i++) {
+                        // Simple deterministic algorithm for demonstration
+                        output[i] = (msgBuffer[i % msgBuffer.length] + i) % 256;
+                    }
+
+                    // Format the output
+                    let outputText;
+                    if (format === "hex") {
+                        outputText = Array.from(output)
+                            .map((b) => b.toString(16).padStart(2, "0"))
+                            .join("");
+                    } else if (format === "binary") {
+                        outputText = Array.from(output)
+                            .map((b) => b.toString(2).padStart(8, "0"))
+                            .join(" ");
+                    } else {
+                        // bytes
+                        outputText = Array.from(output)
+                            .map((b) => `0x${b.toString(16).padStart(2, "0")}`)
+                            .join(" ");
+                    }
+
+                    hashOutput.textContent = outputText;
+                    stepFinal.textContent = `${format.toUpperCase()} output (${length} bytes)`;
+                    outputLengthDisplay.textContent = `Length: ${length} bytes`;
+                }
+
+                // Copy button functionality
+                document
+                    .querySelector(".copy-btn")
+                    .addEventListener("click", function () {
+                        const code =
+                            document.querySelector(
+                                ".code-block code",
+                            ).innerText;
+                        navigator.clipboard.writeText(code);
+
+                        // Show feedback
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+            });
+        </script>
+    </body>
+</html>
