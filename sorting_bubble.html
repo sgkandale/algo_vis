@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bubble Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bubble Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -680,206 +675,204 @@
         font-size: 14px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Bubble Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_bubble.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Bubble Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_bubble.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bubble Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_bubble.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Bubble Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Bubble Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Bubble Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Bubble Sort is a simple, comparison-based sorting algorithm that
               repeatedly steps through a list, compares adjacent elements, and
               swaps them if they are in the wrong order. The pass through the
               list is repeated until no swaps are needed, indicating the list is
               sorted.
             </p>
-            <p>
+<p>
               Despite its simplicity, Bubble Sort is not efficient for large
               datasets. Its name comes from the way smaller elements "bubble" to
               the top of the list as the algorithm progresses. While not
               practical for most real-world applications, it serves as an
               excellent educational tool for understanding sorting algorithms.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Simple implementation with minimal code</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n²) time complexity in worst and average cases</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>In-place sorting with O(1) additional space</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Repeatedly swapping adjacent elements</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Simple implementation with minimal code</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n²) time complexity in worst and average cases</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>In-place sorting with O(1) additional space</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Repeatedly swapping adjacent elements</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Bubble Sort
               works. Enter a comma-separated list of numbers, adjust the speed,
               and observe how elements "bubble" to their correct positions.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Bubble Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Bubble Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="array-container" id="array-container"></div>
-                <div class="pass-counter" id="pass-counter">Pass: 0</div>
-                <div class="status-bar" id="status-bar">Ready to visualize</div>
-              </div>
-
-              <div class="legend">
-                <div class="legend-item">
-                  <div class="legend-color comparing-color"></div>
-                  <span>Comparing</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color swapping-color"></div>
-                  <span>Swapping</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color sorted-color"></div>
-                  <span>Sorted</span>
-                </div>
-              </div>
-
-              <div class="controls">
-                <div class="slider-container">
-                  <span>Speed:</span>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="7, 3, 9, 2, 5, 1, 8, 4"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="array-container" id="array-container"></div>
+<div class="pass-counter" id="pass-counter">Pass: 0</div>
+<div class="status-bar" id="status-bar">Ready to visualize</div>
+</div>
+<div class="legend">
+<div class="legend-item">
+<div class="legend-color comparing-color"></div>
+<span>Comparing</span>
+</div>
+<div class="legend-item">
+<div class="legend-color swapping-color"></div>
+<span>Swapping</span>
+</div>
+<div class="legend-item">
+<div class="legend-color sorted-color"></div>
+<span>Sorted</span>
+</div>
+</div>
+<div class="controls">
+<div class="slider-container">
+<span>Speed:</span>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 3, 9, 2, 5, 1, 8, 4"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Bubble Sort involves the following steps to sort an array:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-sync"></i> 1. Start Pass</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Bubble Sort involves the following steps to sort an array:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-sync"></i> 1. Start Pass</h3>
+<p>
                   Begin a new pass through the array, starting from the first
                   element
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 2. Compare Adjacent</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 2. Compare Adjacent</h3>
+<p>
                   Compare each pair of adjacent elements from the beginning of
                   the array
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrows-alt-h"></i> 3. Swap if Needed</h3>
-                <p>If elements are in the wrong order, swap them</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> 4. Complete Pass</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrows-alt-h"></i> 3. Swap if Needed</h3>
+<p>If elements are in the wrong order, swap them</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> 4. Complete Pass</h3>
+<p>
                   After each pass, the largest unsorted element bubbles to the
                   end
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 5. Repeat</h3>
-                <p>Repeat passes until no swaps are needed</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure bubbleSort(array)
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 5. Repeat</h3>
+<p>Repeat passes until no swaps are needed</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure bubbleSort(array)
     n = length(array)
     swapped = true
     
     while swapped
         swapped = false
         for i from 1 to n-1
-            if array[i-1] > array[i]
+            if array[i-1] &gt; array[i]
                 swap(array[i-1], array[i])
                 swapped = true
             end if
@@ -887,26 +880,24 @@
         n = n - 1  // Last element is sorted
     end while
 end procedure</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Bubble Sort algorithm. The
               algorithm repeatedly steps through the list, compares adjacent
               elements, and swaps them if they are in the wrong order.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">bubble_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">bubble_sort</span>(arr):
     <span class="comment"># Length of the array</span>
     n = len(arr)
     
@@ -918,7 +909,7 @@ end procedure</code></pre>
         <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, n-i-<span class="number">1</span>):
             <span class="comment"># Traverse the array from 0 to n-i-1</span>
             <span class="comment"># Swap if the element found is greater than the next</span>
-            <span class="keyword">if</span> arr[j] > arr[j+<span class="number">1</span>]:
+            <span class="keyword">if</span> arr[j] &gt; arr[j+<span class="number">1</span>]:
                 <span class="comment"># Swap elements</span>
                 arr[j], arr[j+<span class="number">1</span>] = arr[j+<span class="number">1</span>], arr[j]
                 swapped = <span class="keyword">True</span>
@@ -933,116 +924,109 @@ end procedure</code></pre>
 arr = [<span class="number">64</span>, <span class="number">34</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>, <span class="number">90</span>]
 sorted_arr = bubble_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               While not efficient for large datasets, Bubble Sort has
               educational and specialized applications:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Teaching introductory computer science concepts
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting small datasets where simplicity is preferred
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Detecting nearly sorted arrays efficiently (best case O(n))
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Understanding algorithm optimization techniques
               </li>
-              <li>Embedded systems with memory constraints</li>
-            </ul>
-          </div>
-
-          <!-- Algorithm Complexity -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>Bubble Sort's time complexity varies based on the input:</p>
-            <div class="point-card" style="margin-top: 20px">
-              <h3><i class="fas fa-star"></i> Best Case: O(n)</h3>
-              <p>When the array is already sorted, only one pass is needed</p>
-            </div>
-            <div class="point-card">
-              <h3><i class="fas fa-star-half-alt"></i> Average Case: O(n²)</h3>
-              <p>For randomly ordered arrays, requires multiple passes</p>
-            </div>
-            <div class="point-card">
-              <h3><i class="fas fa-star"></i> Worst Case: O(n²)</h3>
-              <p>
+<li>Embedded systems with memory constraints</li>
+</ul>
+</div>
+<!-- Algorithm Complexity -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>Bubble Sort's time complexity varies based on the input:</p>
+<div class="point-card" style="margin-top: 20px">
+<h3><i class="fas fa-star"></i> Best Case: O(n)</h3>
+<p>When the array is already sorted, only one pass is needed</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-star-half-alt"></i> Average Case: O(n²)</h3>
+<p>For randomly ordered arrays, requires multiple passes</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-star"></i> Worst Case: O(n²)</h3>
+<p>
                 When the array is reverse sorted, maximum comparisons needed
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const arrayInput = document.getElementById("array-input");
       const randomBtn = document.getElementById("random-btn");
@@ -1282,5 +1266,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
         });
       });
     </script>
-  </body>
+</body>
 </html>
