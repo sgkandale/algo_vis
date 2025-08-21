@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Conservative Garbage Collector | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Conservative Garbage Collector | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -658,48 +653,67 @@
                 pointer-events: none;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Conservative Garbage Collector | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_cgc.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Conservative Garbage Collector | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_cgc.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Conservative Garbage Collector | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_cgc.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Conservative Garbage Collector</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Conservative Garbage Collector</h1>
+<div class="category">
+<i class="fas fa-memory"></i> Memory Management Algorithm
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Conservative Garbage Collector</h1>
-                <div class="category">
-                    <i class="fas fa-memory"></i> Memory Management Algorithm
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Time Complexity: O(Heap Size + Root Set)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             The Conservative Garbage Collector is a memory
                             management algorithm designed for environments where
                             precise type information is not available (like C
@@ -707,7 +721,7 @@
                             word-sized data that could be a pointer as if it
                             were an actual pointer to a live object.
                         </p>
-                        <p>
+<p>
                             This approach is called "conservative" because it
                             may retain some objects that are not actually
                             reachable (false positives), but it will never free
@@ -717,216 +731,187 @@
                             widely used in languages and systems that weren't
                             originally designed with garbage collection in mind.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Works without precise type information by
                                     treating any word that looks like a pointer
                                     as a pointer
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Time proportional to heap size plus root set
                                     size, with occasional false positives
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Compatibility
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Compatibility
                                 </h3>
-                                <p>
+<p>
                                     Can be added to existing systems without
                                     language support for precise GC
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Safety
                                 </h3>
-                                <p>
+<p>
                                     Never deallocates live objects (safe but may
                                     be less efficient due to false positives)
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             the Conservative Garbage Collector works. The
                             visualization shows both stack and heap memory,
                             demonstrating how the collector identifies potential
                             pointers and marks reachable objects.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i>
                                     Conservative GC Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button class="console-btn" id="step-btn">
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- GC Visualization will be rendered here -->
-                                <div class="phase-indicator">
-                                    <div class="phase" id="phase-root">
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- GC Visualization will be rendered here -->
+<div class="phase-indicator">
+<div class="phase" id="phase-root">
                                         Root Scan
                                     </div>
-                                    <div class="phase" id="phase-mark">
+<div class="phase" id="phase-mark">
                                         Mark
                                     </div>
-                                    <div class="phase" id="phase-sweep">
+<div class="phase" id="phase-sweep">
                                         Sweep
                                     </div>
-                                </div>
-                                <div class="memory-layout">
-                                    <div class="stack-section">
-                                        <div class="section-title">
+</div>
+<div class="memory-layout">
+<div class="stack-section">
+<div class="section-title">
                                             Stack Memory
                                         </div>
-                                        <div
-                                            class="stack-content"
-                                            id="stack-content"
-                                        ></div>
-                                    </div>
-                                    <div class="heap-section">
-                                        <div class="section-title">
+<div class="stack-content" id="stack-content"></div>
+</div>
+<div class="heap-section">
+<div class="section-title">
                                             Heap Memory
                                         </div>
-                                        <div
-                                            class="heap-content"
-                                            id="heap-content"
-                                        ></div>
-                                    </div>
-                                </div>
-                                <div class="info-panel" id="info-panel">
+<div class="heap-content" id="heap-content"></div>
+</div>
+</div>
+<div class="info-panel" id="info-panel">
                                     Ready to start garbage collection
                                 </div>
-                                <div
-                                    class="sliding-window"
-                                    id="sliding-window"
-                                    style="display: none"
-                                ></div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="object-input"
-                                    placeholder="Enter object structure (e.g., A:100, B:200, C:300)"
-                                    value="A:100, B:200, C:300, D:400, E:500"
-                                />
-                                <button class="console-btn" id="random-btn">
-                                    <i class="fas fa-random"></i> Random
+<div class="sliding-window" id="sliding-window" style="display: none"></div>
+</div>
+<div class="console-input">
+<input id="object-input" placeholder="Enter object structure (e.g., A:100, B:200, C:300)" type="text" value="A:100, B:200, C:300, D:400, E:500"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             The Conservative Garbage Collector operates in the
                             following steps:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-search"></i> 1. Root
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-search"></i> 1. Root
                                     Identification
                                 </h3>
-                                <p>
+<p>
                                     The collector scans the stack, registers,
                                     and global variables for potential pointers.
                                     Any word that could be interpreted as a
                                     pointer (falls within heap address range) is
                                     treated as a root.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-pen"></i> 2. Mark Phase
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-pen"></i> 2. Mark Phase
                                 </h3>
-                                <p>
+<p>
                                     Starting from the identified roots, the
                                     collector marks all reachable objects. Since
                                     pointer identification is conservative, some
                                     non-pointers may be treated as pointers
                                     (false positives).
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-broom"></i> 3. Sweep Phase
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-broom"></i> 3. Sweep Phase
                                 </h3>
-                                <p>
+<p>
                                     The collector scans through the entire heap,
                                     reclaiming memory from objects that were not
                                     marked as reachable during the mark phase.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-compress-arrows-alt"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i>
                                     4. Compaction (Optional)
                                 </h3>
-                                <p>
+<p>
                                     Some conservative collectors include a
                                     sliding compaction phase to reduce
                                     fragmentation, carefully updating potential
                                     pointers to moved objects.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-redo"></i> 5. Repeat</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 5. Repeat</h3>
+<p>
                                     The process repeats when memory allocation
                                     requests cannot be satisfied, or based on
                                     heuristics like memory pressure.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Conservative Mark-and-Sweep Garbage Collection
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Conservative Mark-and-Sweep Garbage Collection
 function collectGarbage():
     // Stop-the-world pause (in most implementations)
     pauseProgramExecution()
@@ -971,7 +956,7 @@ function looksLikePointer(word):
         return false
 
     // Check if word falls within heap address range
-    if word < heapStart or word >= heapEnd:
+    if word &lt; heapStart or word &gt;= heapEnd:
         return false
 
     // Check if word points to a valid object header
@@ -1008,27 +993,25 @@ function compactHeap():
             free += object.size
             // Update any potential pointers to the object
             updateReferencesTo(object)</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation
                             demonstrating the concepts of a conservative garbage
                             collector. Note that a real implementation would be
                             in C/C++ and involve low-level memory operations.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation (Conceptual)</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation (Conceptual)</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">ConservativeGC</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">ConservativeGC</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(self, heap_size):
         self.heap = [None] * heap_size
         self.heap_start = 0
@@ -1095,7 +1078,7 @@ function compactHeap():
 
     <span class="keyword">def</span> <span class="function">looks_like_pointer</span>(self, value):
         <span class="comment"># Check if value is within heap bounds</span>
-        <span class="keyword">if</span> value < self.heap_start <span class="keyword">or</span> value > self.heap_end:
+        <span class="keyword">if</span> value &lt; self.heap_start <span class="keyword">or</span> value &gt; self.heap_end:
             <span class="keyword">return</span> False
 
         <span class="comment"># Check if value points to an allocated object</span>
@@ -1127,192 +1110,174 @@ function compactHeap():
                 <span class="keyword">for</span> i <span class="keyword">in</span> range(obj['address'], obj['address'] + obj['size']):
                     self.heap[i] = None
                 <span class="keyword">del</span> self.allocated_objects[obj_id]</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Conservative</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Tracing</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Precision</h4>
-                                <div class="value">Imprecise</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Compaction</h4>
-                                <div class="value">Optional</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fragmentation</h4>
-                                <div class="value">Possible</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Time Complexity</h4>
-                                <div class="value">O(H + R)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Compatibility</h4>
-                                <div class="value">High</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Safety</h4>
-                                <div class="value">No false negatives</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Conservative</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Tracing</div>
+</div>
+<div class="property-card">
+<h4>Precision</h4>
+<div class="value">Imprecise</div>
+</div>
+<div class="property-card">
+<h4>Compaction</h4>
+<div class="value">Optional</div>
+</div>
+<div class="property-card">
+<h4>Fragmentation</h4>
+<div class="value">Possible</div>
+</div>
+<div class="property-card">
+<h4>Time Complexity</h4>
+<div class="value">O(H + R)</div>
+</div>
+<div class="property-card">
+<h4>Compatibility</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Safety</h4>
+<div class="value">No false negatives</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Conservative Garbage Collection is widely used in
                             various systems and languages:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Boehm-Demers-Weiser GC:</strong> The
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Boehm-Demers-Weiser GC:</strong> The
                                 most famous conservative collector, used in many
                                 C/C++ projects
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Ruby:</strong> Used conservative GC in
+<li style="margin-bottom: 10px">
+<strong>Ruby:</strong> Used conservative GC in
                                 earlier versions
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Embedded systems:</strong> Where precise
+<li style="margin-bottom: 10px">
+<strong>Embedded systems:</strong> Where precise
                                 type information may not be available
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Legacy systems:</strong> Adding garbage
+<li style="margin-bottom: 10px">
+<strong>Legacy systems:</strong> Adding garbage
                                 collection to systems not designed for it
                             </li>
-                            <li>
-                                <strong>Scripting languages:</strong> Some
+<li>
+<strong>Scripting languages:</strong> Some
                                 implementations use conservative GC for
                                 simplicity
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages & Disadvantages -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-balance-scale"></i> Pros & Cons
+</ul>
+</div>
+<!-- Advantages & Disadvantages -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Pros &amp; Cons
                         </h2>
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus-circle"></i>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-plus-circle"></i>
                                     Advantages
                                 </h3>
-                                <p>
+<p>
                                     Works with unmodified code, no need for
                                     language support, safe (no false negatives),
                                     can be added to existing systems, handles
                                     ambiguous roots well
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-minus-circle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-minus-circle"></i>
                                     Disadvantages
                                 </h3>
-                                <p>
+<p>
                                     May retain some garbage (false positives),
                                     can be less efficient than precise
                                     collectors, potential issues with pointer
                                     misidentification, more difficult to
                                     implement compaction
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Variants Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-code-branch"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2>
+<i class="fas fa-code-branch"></i> Algorithm
                             Variants
                         </h2>
-                        <p>
+<p>
                             Several approaches exist within conservative garbage
                             collection:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Boehm-Demers-Weiser GC:</strong> The
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Boehm-Demers-Weiser GC:</strong> The
                                 classic conservative collector with mark-sweep
                                 algorithm
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Mostly-copying collectors:</strong> Use
+<li style="margin-bottom: 10px">
+<strong>Mostly-copying collectors:</strong> Use
                                 copying for most objects but conservative
                                 handling for ambiguous roots
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Hybrid collectors:</strong> Combine
+<li style="margin-bottom: 10px">
+<strong>Hybrid collectors:</strong> Combine
                                 conservative and precise approaches for
                                 different parts of the system
                             </li>
-                            <li>
-                                <strong>Incremental conservative GC:</strong>
+<li>
+<strong>Incremental conservative GC:</strong>
                                 Perform garbage collection incrementally to
                                 reduce pause times
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Conservative Garbage Collector Visualization
             class ConservativeGCVisualization {
                 constructor() {
@@ -1663,5 +1628,5 @@ function compactHeap():
                     });
             });
         </script>
-    </body>
+</body>
 </html>

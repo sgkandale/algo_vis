@@ -1,19 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Random Forest | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Random Forest | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -716,44 +711,63 @@
         z-index: 20;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Machine Learning</a> >
+<meta content="Random Forest | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_random_forest.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Random Forest | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_random_forest.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Random Forest | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_random_forest.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Machine Learning</a> &gt;
               <span>Random Forest</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Random Forest</h1>
+<div class="category">
+<i class="fas fa-tree"></i> Ensemble Learning Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Random Forest</h1>
-        <div class="category">
-          <i class="fas fa-tree"></i> Ensemble Learning Algorithm
-        </div>
-        <div class="complexity-badge">Type: Classification & Regression</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Type: Classification &amp; Regression</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Random Forest is an ensemble learning method that operates by
               constructing multiple decision trees and outputting the class that
               is the mode of the classes (classification) or mean prediction
@@ -761,229 +775,200 @@
               bagging with random feature selection to create diverse trees and
               reduce overfitting.
             </p>
-            <p>
+<p>
               The algorithm introduces randomness in two ways: 1) Bootstrap
               aggregating (bagging) - each tree is trained on a random subset of
               data 2) Random feature selection - each split considers only a
               random subset of features This results in a robust model with high
               accuracy and good generalization capabilities.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-forest"></i> Ensemble Method</h3>
-                <p>Combines predictions from multiple decision trees</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> Randomness</h3>
-                <p>Uses random data subsets and feature selection</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Robustness</h3>
-                <p>Resistant to overfitting and noise in data</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Applications</h3>
-                <p>Widely used in finance, healthcare, and ecology</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-forest"></i> Ensemble Method</h3>
+<p>Combines predictions from multiple decision trees</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-random"></i> Randomness</h3>
+<p>Uses random data subsets and feature selection</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Robustness</h3>
+<p>Resistant to overfitting and noise in data</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Applications</h3>
+<p>Widely used in finance, healthcare, and ecology</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Explore how Random Forest combines multiple decision trees to
               create a robust classifier. Add data points, train the forest, and
               see how individual trees vote to make the final prediction. Hover
               over trees to see their decision boundaries and click to inspect
               individual trees.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-trees"></i> Random Forest Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-trees"></i> Random Forest Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="add-points-btn">
-                    <i class="fas fa-plus-circle"></i> Add Points
+<div class="console-controls">
+<button class="console-btn" id="add-points-btn">
+<i class="fas fa-plus-circle"></i> Add Points
                   </button>
-                  <button class="console-btn" id="train-btn">
-                    <i class="fas fa-bolt"></i> Train Forest
+<button class="console-btn" id="train-btn">
+<i class="fas fa-bolt"></i> Train Forest
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="chart-container">
-                  <canvas id="feature-space"></canvas>
-                  <div class="forest-container" id="forest-container"></div>
-                  <div class="ensemble-boundary" id="ensemble-boundary"></div>
-                  <div class="forest-info" id="forest-info">
+</div>
+</div>
+<div class="visualization-area">
+<div class="chart-container">
+<canvas id="feature-space"></canvas>
+<div class="forest-container" id="forest-container"></div>
+<div class="ensemble-boundary" id="ensemble-boundary"></div>
+<div class="forest-info" id="forest-info">
                     Trees: 0 | Accuracy: 0%
                   </div>
-                  <div class="tree-detail" id="tree-detail">
+<div class="tree-detail" id="tree-detail">
                     Select a tree to see details
                   </div>
-                  <div class="vote-display" id="vote-display">
+<div class="vote-display" id="vote-display">
                     Prediction: -
                   </div>
-                </div>
-              </div>
-
-              <div class="slider-container">
-                <div class="slider-label">
-                  <span>Number of Trees:</span>
-                  <span id="trees-value">10</span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="20"
-                  step="1"
-                  value="10"
-                  class="slider"
-                  id="trees-slider"
-                />
-
-                <div class="slider-label">
-                  <span>Max Tree Depth:</span>
-                  <span id="depth-value">3</span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  step="1"
-                  value="3"
-                  class="slider"
-                  id="depth-slider"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Random Forest construction involves the following steps:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-seedling"></i> 1. Bootstrap Sampling</h3>
-                <p>
+</div>
+</div>
+<div class="slider-container">
+<div class="slider-label">
+<span>Number of Trees:</span>
+<span id="trees-value">10</span>
+</div>
+<input class="slider" id="trees-slider" max="20" min="1" step="1" type="range" value="10"/>
+<div class="slider-label">
+<span>Max Tree Depth:</span>
+<span id="depth-value">3</span>
+</div>
+<input class="slider" id="depth-slider" max="5" min="1" step="1" type="range" value="3"/>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Random Forest construction involves the following steps:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-seedling"></i> 1. Bootstrap Sampling</h3>
+<p>
                   Create multiple training sets by sampling with replacement
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-tree"></i> 2. Tree Construction</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-tree"></i> 2. Tree Construction</h3>
+<p>
                   For each sample, build a decision tree using random feature
                   subsets
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> 3. Feature Randomness</h3>
-                <p>At each split, consider only a random subset of features</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-vote-yea"></i> 4. Voting/Averaging</h3>
-                <p>For classification: majority vote of all trees</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-chart-bar"></i> 5. Prediction</h3>
-                <p>Combine predictions from all trees for final result</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-balance-scale"></i> 6. Evaluation</h3>
-                <p>Use out-of-bag samples for unbiased error estimation</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Ensemble</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Classification/Regression</div>
-              </div>
-              <div class="property-card">
-                <h4>Robustness</h4>
-                <div class="value">High</div>
-              </div>
-              <div class="property-card">
-                <h4>Overfitting</h4>
-                <div class="value">Low</div>
-              </div>
-              <div class="property-card">
-                <h4>Feature Importance</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Parallelization</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Handles</h4>
-                <div class="value">High Dimensionality</div>
-              </div>
-              <div class="property-card">
-                <h4>Year</h4>
-                <div class="value">2001</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Random Forest is widely used across various domains:</p>
-            <ul
-              style="
+</div>
+<div class="point-card">
+<h3><i class="fas fa-random"></i> 3. Feature Randomness</h3>
+<p>At each split, consider only a random subset of features</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-vote-yea"></i> 4. Voting/Averaging</h3>
+<p>For classification: majority vote of all trees</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-chart-bar"></i> 5. Prediction</h3>
+<p>Combine predictions from all trees for final result</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-balance-scale"></i> 6. Evaluation</h3>
+<p>Use out-of-bag samples for unbiased error estimation</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Ensemble</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Classification/Regression</div>
+</div>
+<div class="property-card">
+<h4>Robustness</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Overfitting</h4>
+<div class="value">Low</div>
+</div>
+<div class="property-card">
+<h4>Feature Importance</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Parallelization</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Handles</h4>
+<div class="value">High Dimensionality</div>
+</div>
+<div class="property-card">
+<h4>Year</h4>
+<div class="value">2001</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Random Forest is widely used across various domains:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Banking: Credit risk assessment and fraud detection
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Healthcare: Disease diagnosis and patient outcome prediction
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 E-commerce: Customer segmentation and recommendation systems
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Ecology: Species distribution modeling and habitat analysis
               </li>
-              <li>Finance: Stock market trend prediction</li>
-              <li style="margin-top: 10px">
+<li>Finance: Stock market trend prediction</li>
+<li style="margin-top: 10px">
                 Computer Vision: Object recognition
               </li>
-            </ul>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code><span class="keyword">function</span> <span class="function">random_forest</span>(X, y, n_trees, max_depth, feature_subset):
+</ul>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code><span class="keyword">function</span> <span class="function">random_forest</span>(X, y, n_trees, max_depth, feature_subset):
     forest = []
     
     <span class="keyword">for</span> i <span class="keyword">in</span> range(n_trees):
@@ -1013,66 +998,61 @@
     features = random_select(X.columns, feature_subset)
     best_feature, best_threshold = find_best_split(X, y, features)
     
-    left_idx = X[best_feature] <= best_threshold
+    left_idx = X[best_feature] &lt;= best_threshold
     right_idx = ~left_idx
     
     left_tree = build_tree(X[left_idx], y[left_idx], depth-1, feature_subset)
     right_tree = build_tree(X[right_idx], y[right_idx], depth-1, feature_subset)
     
     <span class="keyword">return</span> DecisionNode(best_feature, best_threshold, left_tree, right_tree)</code></pre>
-            </div>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Advantages</h2>
-            <p>
+</div>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Advantages</h2>
+<p>
               Random Forest offers several advantages over other algorithms:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>High Accuracy</strong>: Often outperforms single
+              ">
+<li style="margin-bottom: 10px">
+<strong>High Accuracy</strong>: Often outperforms single
                 decision trees
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Robustness</strong>: Handles noise and outliers
+<li style="margin-bottom: 10px">
+<strong>Robustness</strong>: Handles noise and outliers
                 effectively
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Feature Importance</strong>: Provides estimates of
+<li style="margin-bottom: 10px">
+<strong>Feature Importance</strong>: Provides estimates of
                 feature importance
               </li>
-              <li>
-                <strong>Parallelization</strong>: Trees can be built in parallel
+<li>
+<strong>Parallelization</strong>: Trees can be built in parallel
               </li>
-              <li style="margin-top: 10px">
-                <strong>Versatility</strong>: Works for classification and
+<li style="margin-top: 10px">
+<strong>Versatility</strong>: Works for classification and
                 regression
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // Initialize Chart
         const ctx = document.getElementById("feature-space").getContext("2d");
@@ -1538,5 +1518,5 @@
         initChart();
       });
     </script>
-  </body>
+</body>
 </html>

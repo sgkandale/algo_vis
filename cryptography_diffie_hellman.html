@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diffie-Hellman Key Exchange</title>
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Diffie-Hellman Key Exchange</title>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -286,227 +287,226 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>🔐 Diffie-Hellman Key Exchange</h1>
-
-      <div class="explanation">
-        <p>
-          <strong>The Diffie-Hellman key exchange</strong> allows two parties to
+<meta content="Diffie-Hellman Key Exchange" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_diffie_hellman.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Diffie-Hellman Key Exchange" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_diffie_hellman.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Diffie-Hellman Key Exchange",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_diffie_hellman.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<h1>🔐 Diffie-Hellman Key Exchange</h1>
+<div class="explanation">
+<p>
+<strong>The Diffie-Hellman key exchange</strong> allows two parties to
           establish a shared secret key over an insecure channel without ever
           directly transmitting the key. It's like mixing paint colors - easy to
           mix, hard to separate!
         </p>
-      </div>
-
-      <div class="step-container">
-        <!-- Step 0: Setup -->
-        <div class="step active" data-step="0">
-          <div class="step-header">
-            <div class="step-number">0</div>
-            <div class="step-title">Public Parameters Setup</div>
-          </div>
-          <div class="public-info">
-            <h3>🌐 Publicly Known Values</h3>
-            <div class="math-display">
-              Prime (p) = <span id="prime">23</span><br />
+</div>
+<div class="step-container">
+<!-- Step 0: Setup -->
+<div class="step active" data-step="0">
+<div class="step-header">
+<div class="step-number">0</div>
+<div class="step-title">Public Parameters Setup</div>
+</div>
+<div class="public-info">
+<h3>🌐 Publicly Known Values</h3>
+<div class="math-display">
+              Prime (p) = <span id="prime">23</span><br/>
               Generator (g) = <span id="generator">5</span>
-            </div>
-            <p>These values are known to everyone, including eavesdroppers!</p>
-          </div>
-
-          <div class="analogy">
-            <h4>🎨 Paint Mixing Analogy</h4>
-            <p>
+</div>
+<p>These values are known to everyone, including eavesdroppers!</p>
+</div>
+<div class="analogy">
+<h4>🎨 Paint Mixing Analogy</h4>
+<p>
               Think of <strong>g</strong> as a common base paint color that
               everyone knows about. Alice and Bob will each add their secret
               colors to this base.
             </p>
-          </div>
-        </div>
-
-        <!-- Step 1: Private Keys -->
-        <div class="step" data-step="1">
-          <div class="step-header">
-            <div class="step-number">1</div>
-            <div class="step-title">Private Keys Generation</div>
-          </div>
-          <div class="parties-container">
-            <div class="party alice">
-              <div class="party-name">👩‍💻 Alice</div>
-              <div class="party-info">
-                <strong>Private key (a):</strong><br />
-                <span id="alice-private">6</span><br />
-                <small>🤫 Kept secret!</small>
-              </div>
-            </div>
-            <div class="party bob">
-              <div class="party-name">👨‍💻 Bob</div>
-              <div class="party-info">
-                <strong>Private key (b):</strong><br />
-                <span id="bob-private">15</span><br />
-                <small>🤫 Kept secret!</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="analogy">
-            <h4>🎨 Paint Mixing Analogy</h4>
-            <p>
+</div>
+</div>
+<!-- Step 1: Private Keys -->
+<div class="step" data-step="1">
+<div class="step-header">
+<div class="step-number">1</div>
+<div class="step-title">Private Keys Generation</div>
+</div>
+<div class="parties-container">
+<div class="party alice">
+<div class="party-name">👩‍💻 Alice</div>
+<div class="party-info">
+<strong>Private key (a):</strong><br/>
+<span id="alice-private">6</span><br/>
+<small>🤫 Kept secret!</small>
+</div>
+</div>
+<div class="party bob">
+<div class="party-name">👨‍💻 Bob</div>
+<div class="party-info">
+<strong>Private key (b):</strong><br/>
+<span id="bob-private">15</span><br/>
+<small>🤫 Kept secret!</small>
+</div>
+</div>
+</div>
+<div class="analogy">
+<h4>🎨 Paint Mixing Analogy</h4>
+<p>
               Alice picks her secret color (red) and Bob picks his secret color
               (blue). They keep these colors private!
             </p>
-          </div>
-        </div>
-
-        <!-- Step 2: Public Keys -->
-        <div class="step" data-step="2">
-          <div class="step-header">
-            <div class="step-number">2</div>
-            <div class="step-title">Public Keys Calculation</div>
-          </div>
-          <div class="parties-container">
-            <div class="party alice">
-              <div class="party-name">👩‍💻 Alice</div>
-              <div class="party-info">
-                <strong>Public key (A):</strong><br />
-                <div class="math-display">
+</div>
+</div>
+<!-- Step 2: Public Keys -->
+<div class="step" data-step="2">
+<div class="step-header">
+<div class="step-number">2</div>
+<div class="step-title">Public Keys Calculation</div>
+</div>
+<div class="parties-container">
+<div class="party alice">
+<div class="party-name">👩‍💻 Alice</div>
+<div class="party-info">
+<strong>Public key (A):</strong><br/>
+<div class="math-display">
                   g^a mod p = <span id="alice-public">8</span>
-                </div>
-                <small>📢 Sent to Bob</small>
-              </div>
-            </div>
-            <div class="arrow" id="exchange-arrow">🔄 Exchange Public Keys</div>
-            <div class="party bob">
-              <div class="party-name">👨‍💻 Bob</div>
-              <div class="party-info">
-                <strong>Public key (B):</strong><br />
-                <div class="math-display">
+</div>
+<small>📢 Sent to Bob</small>
+</div>
+</div>
+<div class="arrow" id="exchange-arrow">🔄 Exchange Public Keys</div>
+<div class="party bob">
+<div class="party-name">👨‍💻 Bob</div>
+<div class="party-info">
+<strong>Public key (B):</strong><br/>
+<div class="math-display">
                   g^b mod p = <span id="bob-public">19</span>
-                </div>
-                <small>📢 Sent to Alice</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="warning">
+</div>
+<small>📢 Sent to Alice</small>
+</div>
+</div>
+</div>
+<div class="warning">
             ⚠️ These public keys can be intercepted by anyone listening to the
             communication!
           </div>
-
-          <div class="analogy">
-            <h4>🎨 Paint Mixing Analogy</h4>
-            <p>
+<div class="analogy">
+<h4>🎨 Paint Mixing Analogy</h4>
+<p>
               Alice mixes the base color with her secret red to create
               "reddish-base" and sends it to Bob. Bob mixes base with his secret
               blue to create "bluish-base" and sends it to Alice.
             </p>
-          </div>
-        </div>
-
-        <!-- Step 3: Shared Secret -->
-        <div class="step" data-step="3">
-          <div class="step-header">
-            <div class="step-number">3</div>
-            <div class="step-title">Shared Secret Calculation</div>
-          </div>
-          <div class="parties-container">
-            <div class="party alice">
-              <div class="party-name">👩‍💻 Alice</div>
-              <div class="party-info">
-                <strong>Alice computes:</strong><br />
-                <div class="math-display">
+</div>
+</div>
+<!-- Step 3: Shared Secret -->
+<div class="step" data-step="3">
+<div class="step-header">
+<div class="step-number">3</div>
+<div class="step-title">Shared Secret Calculation</div>
+</div>
+<div class="parties-container">
+<div class="party alice">
+<div class="party-name">👩‍💻 Alice</div>
+<div class="party-info">
+<strong>Alice computes:</strong><br/>
+<div class="math-display">
                   B^a mod p = <span id="alice-shared">2</span>
-                </div>
-                <small>Using Bob's public key + her private key</small>
-              </div>
-            </div>
-            <div class="party bob">
-              <div class="party-name">👨‍💻 Bob</div>
-              <div class="party-info">
-                <strong>Bob computes:</strong><br />
-                <div class="math-display">
+</div>
+<small>Using Bob's public key + her private key</small>
+</div>
+</div>
+<div class="party bob">
+<div class="party-name">👨‍💻 Bob</div>
+<div class="party-info">
+<strong>Bob computes:</strong><br/>
+<div class="math-display">
                   A^b mod p = <span id="bob-shared">2</span>
-                </div>
-                <small>Using Alice's public key + his private key</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="shared-secret" id="final-secret" style="display: none">
+</div>
+<small>Using Alice's public key + his private key</small>
+</div>
+</div>
+</div>
+<div class="shared-secret" id="final-secret" style="display: none">
             🎉 Shared Secret Established: <span id="shared-value">2</span>
-            <br /><small>Both parties now have the same secret key!</small>
-          </div>
-
-          <div class="analogy">
-            <h4>🎨 Paint Mixing Analogy</h4>
-            <p>
+<br/><small>Both parties now have the same secret key!</small>
+</div>
+<div class="analogy">
+<h4>🎨 Paint Mixing Analogy</h4>
+<p>
               Alice adds her secret red to Bob's "bluish-base" creating purple.
               Bob adds his secret blue to Alice's "reddish-base" creating the
               same purple! The final color (purple) is their shared secret.
             </p>
-          </div>
-        </div>
-
-        <!-- Step 4: Security -->
-        <div class="step" data-step="4">
-          <div class="step-header">
-            <div class="step-number">4</div>
-            <div class="step-title">Why Is This Secure?</div>
-          </div>
-
-          <div class="warning">
-            <h4>🕵️ What an eavesdropper knows:</h4>
-            <p>
+</div>
+</div>
+<!-- Step 4: Security -->
+<div class="step" data-step="4">
+<div class="step-header">
+<div class="step-number">4</div>
+<div class="step-title">Why Is This Secure?</div>
+</div>
+<div class="warning">
+<h4>🕵️ What an eavesdropper knows:</h4>
+<p>
               • Public parameters: p = <span class="prime-val">23</span>, g =
               <span class="gen-val">5</span>
-            </p>
-            <p>• Alice's public key: <span class="alice-pub-val">8</span></p>
-            <p>• Bob's public key: <span class="bob-pub-val">19</span></p>
-          </div>
-
-          <div class="success">
-            <h4>🔒 What an eavesdropper CANNOT easily find:</h4>
-            <p>• Alice's private key (a)</p>
-            <p>• Bob's private key (b)</p>
-            <p>• The shared secret</p>
-          </div>
-
-          <p style="margin-top: 20px; text-align: center; font-style: italic">
+</p>
+<p>• Alice's public key: <span class="alice-pub-val">8</span></p>
+<p>• Bob's public key: <span class="bob-pub-val">19</span></p>
+</div>
+<div class="success">
+<h4>🔒 What an eavesdropper CANNOT easily find:</h4>
+<p>• Alice's private key (a)</p>
+<p>• Bob's private key (b)</p>
+<p>• The shared secret</p>
+</div>
+<p style="margin-top: 20px; text-align: center; font-style: italic">
             The security relies on the
             <strong>discrete logarithm problem</strong> - it's computationally
             difficult to find the private keys from the public information when
             using large prime numbers.
           </p>
-
-          <div class="analogy">
-            <h4>🎨 Paint Mixing Analogy</h4>
-            <p>
+<div class="analogy">
+<h4>🎨 Paint Mixing Analogy</h4>
+<p>
               An eavesdropper can see the "reddish-base" and "bluish-base"
               colors, but can't easily separate them back to the original base
               color and secret colors. Mixing is easy, unmixing is hard!
             </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="controls">
-        <button class="btn" onclick="prevStep()" id="prevBtn">
+</div>
+</div>
+</div>
+<div class="controls">
+<button class="btn" id="prevBtn" onclick="prevStep()">
           ⬅️ Previous
         </button>
-        <button class="btn" onclick="nextStep()" id="nextBtn">Next ➡️</button>
-        <button
-          class="btn"
-          onclick="generateNewKeys()"
-          style="background: linear-gradient(45deg, #e17055, #f39c12)"
-        >
+<button class="btn" id="nextBtn" onclick="nextStep()">Next ➡️</button>
+<button class="btn" onclick="generateNewKeys()" style="background: linear-gradient(45deg, #e17055, #f39c12)">
           🎲 New Random Keys
         </button>
-      </div>
-    </div>
-
-    <script>
+</div>
+</div>
+<script>
       let currentStep = 0;
       const totalSteps = 5;
 
@@ -628,5 +628,5 @@
         }
       });
     </script>
-  </body>
+</body>
 </html>

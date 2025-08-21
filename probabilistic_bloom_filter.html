@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloom Filter Internal Working</title>
-    <style>
+<head><meta content="Discover probabilistic data structures for approximate computing and big data" name="description"/><meta content="probabilistic data structure, bloom filter, count-min sketch, hyperloglog, flajolet-martin" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bloom Filter Internal Working</title>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -230,178 +231,192 @@
             .benefits-grid { gap: 10px; }
         }
     </style>
-</head>
+<meta content="Bloom Filter Internal Working" property="og:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/probabilistic_bloom_filter.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Bloom Filter Internal Working" name="twitter:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/probabilistic_bloom_filter.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bloom Filter Internal Working",
+  "description": "Discover probabilistic data structures for approximate computing and big data",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/probabilistic_bloom_filter.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>🌸 Bloom Filter Internal Working</h1>
-        <p class="subtitle">A space-efficient probabilistic data structure for fast membership queries</p>
-
-        <!-- Step 1: Bit Array Setup -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">1</div>
-                <span>Initialize Bit Array</span>
-            </div>
-            <p>A Bloom Filter starts with a bit array of <strong>m</strong> bits, all set to 0:</p>
-            <div class="bit-array" id="bf-bits-static">
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-                <div class="bit">0</div>
-            </div>
-        </div>
-
-        <!-- Step 2: Adding Items -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">2</div>
-                <span>Adding Items with Hash Functions</span>
-            </div>
-            <p>To add an item, run it through <strong>k</strong> hash functions. Each hash sets a bit in the array:</p>
-            <div class="hash-process">
-                <div class="hash-input">"apple"</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">Hash 1</div>
-                <div class="arrow">→</div>
-                <div class="bit set">1</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">Hash 2</div>
-                <div class="arrow">→</div>
-                <div class="bit set">1</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">Hash 3</div>
-                <div class="arrow">→</div>
-                <div class="bit set">1</div>
-            </div>
-            <p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
+<div class="container">
+<h1>🌸 Bloom Filter Internal Working</h1>
+<p class="subtitle">A space-efficient probabilistic data structure for fast membership queries</p>
+<!-- Step 1: Bit Array Setup -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">1</div>
+<span>Initialize Bit Array</span>
+</div>
+<p>A Bloom Filter starts with a bit array of <strong>m</strong> bits, all set to 0:</p>
+<div class="bit-array" id="bf-bits-static">
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+<div class="bit">0</div>
+</div>
+</div>
+<!-- Step 2: Adding Items -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">2</div>
+<span>Adding Items with Hash Functions</span>
+</div>
+<p>To add an item, run it through <strong>k</strong> hash functions. Each hash sets a bit in the array:</p>
+<div class="hash-process">
+<div class="hash-input">"apple"</div>
+<div class="arrow">→</div>
+<div class="hash-function">Hash 1</div>
+<div class="arrow">→</div>
+<div class="bit set">1</div>
+<div class="arrow">→</div>
+<div class="hash-function">Hash 2</div>
+<div class="arrow">→</div>
+<div class="bit set">1</div>
+<div class="arrow">→</div>
+<div class="hash-function">Hash 3</div>
+<div class="arrow">→</div>
+<div class="bit set">1</div>
+</div>
+<p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
                 Multiple items may set overlapping bits. No item is ever stored directly!
             </p>
-        </div>
-
-        <!-- Step 3: Querying Items -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">3</div>
-                <span>Querying for Membership</span>
-            </div>
-            <p>To check if an item is in the set, run it through the same hash functions and check the bits:</p>
-            <div class="hash-process">
-                <div class="hash-input">"apple"</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">Hash 1</div>
-                <div class="arrow">→</div>
-                <div class="bit set">1</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">Hash 2</div>
-                <div class="arrow">→</div>
-                <div class="bit set">1</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">Hash 3</div>
-                <div class="arrow">→</div>
-                <div class="bit set">1</div>
-            </div>
-            <p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
+</div>
+<!-- Step 3: Querying Items -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">3</div>
+<span>Querying for Membership</span>
+</div>
+<p>To check if an item is in the set, run it through the same hash functions and check the bits:</p>
+<div class="hash-process">
+<div class="hash-input">"apple"</div>
+<div class="arrow">→</div>
+<div class="hash-function">Hash 1</div>
+<div class="arrow">→</div>
+<div class="bit set">1</div>
+<div class="arrow">→</div>
+<div class="hash-function">Hash 2</div>
+<div class="arrow">→</div>
+<div class="bit set">1</div>
+<div class="arrow">→</div>
+<div class="hash-function">Hash 3</div>
+<div class="arrow">→</div>
+<div class="bit set">1</div>
+</div>
+<p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
                 If all bits are 1, the item <strong>might</strong> be present. If any bit is 0, it's <strong>definitely absent</strong>.
             </p>
-        </div>
-
-        <!-- Step 4: Interactive Demo -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">4</div>
-                <span>🎮 Interactive Bloom Filter Demo</span>
-            </div>
-            <p>Type a word to add/query and watch the bits change:</p>
-            <div class="demo-input">
-                <input type="text" id="bf-input" placeholder="Add item (e.g. apple)">
-                <button class="demo-button" onclick="addToBloom()">Add</button>
-                <input type="text" id="bf-query" placeholder="Query item">
-                <button class="demo-button" onclick="queryBloom()">Query</button>
-            </div>
-            <div class="result-display" id="bf-result">
+</div>
+<!-- Step 4: Interactive Demo -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">4</div>
+<span>🎮 Interactive Bloom Filter Demo</span>
+</div>
+<p>Type a word to add/query and watch the bits change:</p>
+<div class="demo-input">
+<input id="bf-input" placeholder="Add item (e.g. apple)" type="text"/>
+<button class="demo-button" onclick="addToBloom()">Add</button>
+<input id="bf-query" placeholder="Query item" type="text"/>
+<button class="demo-button" onclick="queryBloom()">Query</button>
+</div>
+<div class="result-display" id="bf-result">
                 Add or query an item to see the Bloom Filter in action!
             </div>
-            <div class="bit-array" id="bf-bits"></div>
-        </div>
-
-        <!-- Step 5: Real-World Example -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">5</div>
-                <span>Real-World Example: Web Caching</span>
-            </div>
-            <div class="data-blocks">
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">URL</div>
-                    <div style="font-size: 0.9rem;">www.example.com</div>
-                </div>
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Hash Functions</div>
-                    <div style="font-size: 0.9rem;">Hashes: 3, 7, 12</div>
-                </div>
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Bit Array</div>
-                    <div style="font-size: 0.9rem;">Bits 3, 7, 12 set to 1</div>
-                </div>
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Fast Lookup</div>
-                    <div style="font-size: 0.9rem;">Check bits to see if URL <span style="color:#43cea2;font-weight:bold;">might</span> be cached</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 6: Key Benefits -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">6</div>
-                <span>Key Benefits & Properties</span>
-            </div>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">⚡</div>
-                    <div class="benefit-title">Speed</div>
-                    <div>Super-fast membership checks</div>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">💾</div>
-                    <div class="benefit-title">Space Efficiency</div>
-                    <div>Uses much less memory than storing all items</div>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🚫</div>
-                    <div class="benefit-title">No False Negatives</div>
-                    <div>If it says "not present", it's definitely not!</div>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔄</div>
-                    <div class="benefit-title">Scalable</div>
-                    <div>Works for huge sets and streams</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 7: Bloom Filter Magic -->
-        <div class="highlight">
-            <h3>🎯 The Bloom Filter Magic</h3>
-            <p><strong>Probabilistic Membership:</strong> Bloom filters trade a tiny chance of false positives for massive space savings and speed. No false negatives!</p>
-            <p><strong>Hash Power:</strong> Multiple hash functions spread items across the bit array, minimizing collisions.</p>
-            <p><strong>Real-World Impact:</strong> Used in databases, web caches, networking, and more to quickly answer "Have I seen this before?"</p>
-            <p><strong>Scaling:</strong> Bloom filters can handle millions of items with just kilobytes of memory!</p>
-        </div>
-    </div>
-    <script>
+<div class="bit-array" id="bf-bits"></div>
+</div>
+<!-- Step 5: Real-World Example -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">5</div>
+<span>Real-World Example: Web Caching</span>
+</div>
+<div class="data-blocks">
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">URL</div>
+<div style="font-size: 0.9rem;">www.example.com</div>
+</div>
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">Hash Functions</div>
+<div style="font-size: 0.9rem;">Hashes: 3, 7, 12</div>
+</div>
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">Bit Array</div>
+<div style="font-size: 0.9rem;">Bits 3, 7, 12 set to 1</div>
+</div>
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">Fast Lookup</div>
+<div style="font-size: 0.9rem;">Check bits to see if URL <span style="color:#43cea2;font-weight:bold;">might</span> be cached</div>
+</div>
+</div>
+</div>
+<!-- Step 6: Key Benefits -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">6</div>
+<span>Key Benefits &amp; Properties</span>
+</div>
+<div class="benefits-grid">
+<div class="benefit-card">
+<div class="benefit-icon">⚡</div>
+<div class="benefit-title">Speed</div>
+<div>Super-fast membership checks</div>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">💾</div>
+<div class="benefit-title">Space Efficiency</div>
+<div>Uses much less memory than storing all items</div>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🚫</div>
+<div class="benefit-title">No False Negatives</div>
+<div>If it says "not present", it's definitely not!</div>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🔄</div>
+<div class="benefit-title">Scalable</div>
+<div>Works for huge sets and streams</div>
+</div>
+</div>
+</div>
+<!-- Step 7: Bloom Filter Magic -->
+<div class="highlight">
+<h3>🎯 The Bloom Filter Magic</h3>
+<p><strong>Probabilistic Membership:</strong> Bloom filters trade a tiny chance of false positives for massive space savings and speed. No false negatives!</p>
+<p><strong>Hash Power:</strong> Multiple hash functions spread items across the bit array, minimizing collisions.</p>
+<p><strong>Real-World Impact:</strong> Used in databases, web caches, networking, and more to quickly answer "Have I seen this before?"</p>
+<p><strong>Scaling:</strong> Bloom filters can handle millions of items with just kilobytes of memory!</p>
+</div>
+</div>
+<script>
         // Simple Bloom Filter demo (not cryptographically strong)
         const BIT_SIZE = 16;
         let bits = Array(BIT_SIZE).fill(0);

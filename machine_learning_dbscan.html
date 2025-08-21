@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DBSCAN Clustering | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DBSCAN Clustering | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -694,44 +689,63 @@
         color: var(--accent-light);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Unsupervised Learning</a> >
+<meta content="DBSCAN Clustering | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_dbscan.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="DBSCAN Clustering | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_dbscan.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "DBSCAN Clustering | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_dbscan.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Unsupervised Learning</a> &gt;
               <span>DBSCAN Clustering</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>DBSCAN Clustering</h1>
+<div class="category">
+<i class="fas fa-object-group"></i> Density-Based Clustering Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>DBSCAN Clustering</h1>
-        <div class="category">
-          <i class="fas fa-object-group"></i> Density-Based Clustering Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               DBSCAN (Density-Based Spatial Clustering of Applications with
               Noise) is a density-based clustering algorithm that groups
               together points that are closely packed together, marking points
@@ -739,213 +753,177 @@
               algorithms like K-Means, DBSCAN does not require specifying the
               number of clusters in advance.
             </p>
-            <p>
+<p>
               DBSCAN is particularly effective for discovering clusters of
               arbitrary shapes and handling noise. It works by defining clusters
               as dense regions of points separated by regions of lower density.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Discovers clusters of arbitrary shapes and identifies noise
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Efficient for large datasets with spatial indexing (O(n log
                   n))
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Requires O(n) space for data storage</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Based on density connectivity between points</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Requires O(n) space for data storage</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Based on density connectivity between points</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Explore how DBSCAN identifies clusters based on density. Adjust
               the epsilon (ε) and minPoints parameters, then step through the
               algorithm to see how core points, border points, and noise are
               identified. Click "Generate Data" to create new datasets or
               "Reset" to start over.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3><i class="fas fa-play-circle"></i> DBSCAN Clustering</h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="visualization-console">
+<div class="console-header">
+<h3><i class="fas fa-play-circle"></i> DBSCAN Clustering</h3>
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div id="dbscan-viz">
-                  <div class="iteration-info">Iteration: 0 | Clusters: 0</div>
-                  <div class="legend">
-                    <div class="legend-item">
-                      <div
-                        class="legend-color"
-                        style="background: #818cf8"
-                      ></div>
-                      <div class="legend-label">Core Point</div>
-                    </div>
-                    <div class="legend-item">
-                      <div
-                        class="legend-color"
-                        style="background: #10b981"
-                      ></div>
-                      <div class="legend-label">Border Point</div>
-                    </div>
-                    <div class="legend-item">
-                      <div
-                        class="legend-color"
-                        style="background: #ef4444"
-                      ></div>
-                      <div class="legend-label">Noise Point</div>
-                    </div>
-                    <div class="legend-item">
-                      <div
-                        class="legend-color"
-                        style="background: #f59e0b"
-                      ></div>
-                      <div class="legend-label">Current Point</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <div class="param-controls">
-                  <div class="param-slider">
-                    <div class="param-label">Epsilon (ε)</div>
-                    <input
-                      type="range"
-                      id="epsilon"
-                      min="20"
-                      max="100"
-                      value="40"
-                    />
-                    <div class="param-value">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div id="dbscan-viz">
+<div class="iteration-info">Iteration: 0 | Clusters: 0</div>
+<div class="legend">
+<div class="legend-item">
+<div class="legend-color" style="background: #818cf8"></div>
+<div class="legend-label">Core Point</div>
+</div>
+<div class="legend-item">
+<div class="legend-color" style="background: #10b981"></div>
+<div class="legend-label">Border Point</div>
+</div>
+<div class="legend-item">
+<div class="legend-color" style="background: #ef4444"></div>
+<div class="legend-label">Noise Point</div>
+</div>
+<div class="legend-item">
+<div class="legend-color" style="background: #f59e0b"></div>
+<div class="legend-label">Current Point</div>
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<div class="param-controls">
+<div class="param-slider">
+<div class="param-label">Epsilon (ε)</div>
+<input id="epsilon" max="100" min="20" type="range" value="40"/>
+<div class="param-value">
                       ε = <span id="epsilon-value">40</span>
-                    </div>
-                  </div>
-                  <div class="param-slider">
-                    <div class="param-label">Min Points</div>
-                    <input
-                      type="range"
-                      id="min-points"
-                      min="3"
-                      max="10"
-                      value="4"
-                    />
-                    <div class="param-value">
+</div>
+</div>
+<div class="param-slider">
+<div class="param-label">Min Points</div>
+<input id="min-points" max="10" min="3" type="range" value="4"/>
+<div class="param-value">
                       MinPts = <span id="min-points-value">4</span>
-                    </div>
-                  </div>
-                </div>
-                <button class="console-btn" id="generate-btn">
-                  <i class="fas fa-random"></i> Generate Data
+</div>
+</div>
+</div>
+<button class="console-btn" id="generate-btn">
+<i class="fas fa-random"></i> Generate Data
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               DBSCAN works by categorizing points and expanding clusters based
               on density:
             </p>
-
-            <div class="step-container">
-              <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                  <h4>Point Classification</h4>
-                  <p>
+<div class="step-container">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">
+<h4>Point Classification</h4>
+<p>
                     For each point, find points within ε distance (neighbors).
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                  <h4>Identify Core Points</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">
+<h4>Identify Core Points</h4>
+<p>
                     If a point has ≥ minPts neighbors, mark it as a core point.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                  <h4>Expand Clusters</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">
+<h4>Expand Clusters</h4>
+<p>
                     For each core point, if not assigned to a cluster, start a
                     new cluster and add all density-reachable points.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                  <h4>Identify Border Points</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">4</div>
+<div class="step-content">
+<h4>Identify Border Points</h4>
+<p>
                     Points that are reachable from a core point but have fewer
                     than minPts neighbors are border points.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">5</div>
-                <div class="step-content">
-                  <h4>Mark Noise</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">5</div>
+<div class="step-content">
+<h4>Mark Noise</h4>
+<p>
                     Points not reachable from any core point are marked as
                     noise.
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function DBSCAN(data, ε, minPts):
+</div>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function DBSCAN(data, ε, minPts):
     cluster_id = 0
     for each point p in data:
         if p is visited: continue
         mark p as visited
         neighbors = regionQuery(p, ε)
-        if len(neighbors) < minPts:
+        if len(neighbors) &lt; minPts:
             mark p as noise
         else:
             cluster_id += 1
@@ -957,33 +935,31 @@ function expandCluster(p, neighbors, cluster_id, ε, minPts):
         if q is not visited:
             mark q as visited
             q_neighbors = regionQuery(q, ε)
-            if len(q_neighbors) >= minPts:
+            if len(q_neighbors) &gt;= minPts:
                 neighbors = neighbors ∪ q_neighbors
         if q is not assigned to any cluster:
             add q to cluster cluster_id
 
 function regionQuery(p, ε):
     return all points within ε distance of p</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the DBSCAN clustering
               algorithm. The implementation includes core point identification,
               cluster expansion, and noise detection.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+</div>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
 <span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> NearestNeighbors
 <span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_blobs
 <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
@@ -1010,7 +986,7 @@ function regionQuery(p, ε):
             <span class="comment"># Find neighbors</span>
             neighbors = nn.radius_neighbors([X[i]], return_distance=False)[0]
             
-            <span class="keyword">if</span> len(neighbors) < <span class="keyword">self</span>.min_samples:
+            <span class="keyword">if</span> len(neighbors) &lt; <span class="keyword">self</span>.min_samples:
                 <span class="keyword">self</span>.labels_[i] = -2  <span class="comment"># Mark as noise</span>
             <span class="keyword">else</span>:
                 <span class="keyword">self</span>._expand_cluster(i, neighbors, cluster_id, nn)
@@ -1024,7 +1000,7 @@ function regionQuery(p, ε):
         queue = list(neighbors)
         i = 0
         
-        <span class="keyword">while</span> i < len(queue):
+        <span class="keyword">while</span> i &lt; len(queue):
             point_idx = queue[i]
             
             <span class="comment"># If point is noise, add to current cluster</span>
@@ -1040,7 +1016,7 @@ function regionQuery(p, ε):
                                                      return_distance=False)[0]
                 
                 <span class="comment"># If core point, add its neighbors to queue</span>
-                <span class="keyword">if</span> len(point_neighbors) >= <span class="keyword">self</span>.min_samples:
+                <span class="keyword">if</span> len(point_neighbors) &gt;= <span class="keyword">self</span>.min_samples:
                     <span class="comment"># Add new neighbors not already in queue</span>
                     <span class="keyword">for</span> n <span class="keyword">in</span> point_neighbors:
                         <span class="keyword">if</span> n <span class="keyword">not</span> <span class="keyword">in</span> queue:
@@ -1065,170 +1041,155 @@ plt.figure(figsize=(10, 6))
 plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', alpha=0.7)
 plt.title(<span class="string">"DBSCAN Clustering Results"</span>)
 plt.show()</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Clustering</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Density-Based</div>
-              </div>
-              <div class="property-card">
-                <h4>Supervision</h4>
-                <div class="value">Unsupervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Parametric</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Training Time</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Prediction Time</h4>
-                <div class="value">O(1)</div>
-              </div>
-              <div class="property-card">
-                <h4>Memory</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Hyperparameters</h4>
-                <div class="value">ε, minPts</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Clustering</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Density-Based</div>
+</div>
+<div class="property-card">
+<h4>Supervision</h4>
+<div class="value">Unsupervised</div>
+</div>
+<div class="property-card">
+<h4>Parametric</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Training Time</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Prediction Time</h4>
+<div class="value">O(1)</div>
+</div>
+<div class="property-card">
+<h4>Memory</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Hyperparameters</h4>
+<div class="value">ε, minPts</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               DBSCAN is widely used in various domains for density-based
               clustering:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Anomaly detection in network security
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Geographic data analysis and hotspot detection
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Image segmentation and computer vision
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Customer segmentation in marketing
               </li>
-              <li>Astronomy data analysis (star/galaxy clustering)</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
-            <ul
-              style="
+<li>Astronomy data analysis (star/galaxy clustering)</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Discovers clusters of arbitrary shapes
               </li>
-              <li style="margin-bottom: 10px">Robust to noise and outliers</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Robust to noise and outliers</li>
+<li style="margin-bottom: 10px">
                 Does not require specifying number of clusters
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Handles clusters of varying densities
               </li>
-              <li>Efficient with spatial indexing</li>
-            </ul>
-          </div>
-
-          <!-- Limitations Section -->
-          <div class="section">
-            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
-            <ul
-              style="
+<li>Efficient with spatial indexing</li>
+</ul>
+</div>
+<!-- Limitations Section -->
+<div class="section">
+<h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sensitive to parameter selection (ε, minPts)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Struggles with clusters of varying densities
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Performance degrades in high dimensions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Border points can belong to multiple clusters
               </li>
-              <li>Not deterministic for border points</li>
-            </ul>
-          </div>
-
-          <!-- Point Types Section -->
-          <div class="section">
-            <h2><i class="fas fa-dot-circle"></i> Point Types</h2>
-            <p>DBSCAN categorizes points into three types:</p>
-            <ul
-              style="
+<li>Not deterministic for border points</li>
+</ul>
+</div>
+<!-- Point Types Section -->
+<div class="section">
+<h2><i class="fas fa-dot-circle"></i> Point Types</h2>
+<p>DBSCAN categorizes points into three types:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <b>Core Points:</b> Have at least minPts within ε distance
+              ">
+<li style="margin-bottom: 10px">
+<b>Core Points:</b> Have at least minPts within ε distance
               </li>
-              <li style="margin-bottom: 10px">
-                <b>Border Points:</b> Within ε of a core point but have fewer
+<li style="margin-bottom: 10px">
+<b>Border Points:</b> Within ε of a core point but have fewer
                 than minPts neighbors
               </li>
-              <li style="margin-bottom: 10px">
-                <b>Noise Points:</b> Neither core nor border points
+<li style="margin-bottom: 10px">
+<b>Noise Points:</b> Neither core nor border points
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DBSCAN Visualization
       document.addEventListener("DOMContentLoaded", function () {
         // DOM Elements
@@ -1621,5 +1582,5 @@ plt.show()</code></pre>
         generateData();
       });
     </script>
-  </body>
+</body>
 </html>

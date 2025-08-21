@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Radix Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Radix Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -713,45 +708,64 @@
         border-radius: 5px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Radix Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_radix.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Radix Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_radix.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Radix Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_radix.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Radix Sort</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Radix Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Non-Comparison Sorting
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Radix Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Non-Comparison Sorting
           Algorithm
         </div>
-        <div class="complexity-badge">Time Complexity: O(d*(n+b))</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(d*(n+b))</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Radix Sort is a non-comparative integer sorting algorithm that
               sorts numbers by processing individual digits. It works by
               distributing numbers into buckets based on each digit, starting
@@ -759,187 +773,150 @@
               digit (MSD). Radix Sort can be implemented using a stable sort
               (like Counting Sort) as its subroutine.
             </p>
-            <p>
+<p>
               Unlike comparison-based algorithms, Radix Sort takes advantage of
               the integer structure to achieve linear time complexity in many
               practical scenarios. It's particularly efficient for sorting large
               collections of numbers with a fixed digit length.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Digit-by-digit sorting without direct comparisons</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(d*(n+b)) complexity (d=digits, n=elements, b=base)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Requires O(n + b) additional space</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Digit-by-digit sorting without direct comparisons</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(d*(n+b)) complexity (d=digits, n=elements, b=base)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Requires O(n + b) additional space</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>
                   Distribute numbers into buckets based on each digit position
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Radix Sort in action! Enter numbers to sort, adjust the
               speed, and step through the algorithm to see how numbers are
               distributed into buckets based on each digit position and then
               collected back.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Radix Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Radix Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="viz-area">
-                <div class="radix-container">
-                  <div class="array-container" id="array-container"></div>
-                  <div class="buckets-container" id="buckets-container"></div>
-
-                  <div class="stats-bar" id="stats-bar">
-                    <div class="stats-item">
-                      <i
-                        class="fas fa-layer-group"
-                        style="color: var(--accent-light)"
-                      ></i>
-                      <span
-                        >Pass: <span id="pass-count">1</span>/<span
-                          id="max-pass"
-                          >1</span
-                        ></span
-                      >
-                    </div>
-                    <div class="stats-item">
-                      <i
-                        class="fas fa-sort-numeric-down"
-                        style="color: var(--warning)"
-                      ></i>
-                      <span>Digit: <span id="digit-pos">1s</span></span>
-                    </div>
-                  </div>
-
-                  <div class="digit-info">
+</div>
+</div>
+<div class="visualization-area" id="viz-area">
+<div class="radix-container">
+<div class="array-container" id="array-container"></div>
+<div class="buckets-container" id="buckets-container"></div>
+<div class="stats-bar" id="stats-bar">
+<div class="stats-item">
+<i class="fas fa-layer-group" style="color: var(--accent-light)"></i>
+<span>Pass: <span id="pass-count">1</span>/<span id="max-pass">1</span></span>
+</div>
+<div class="stats-item">
+<i class="fas fa-sort-numeric-down" style="color: var(--warning)"></i>
+<span>Digit: <span id="digit-pos">1s</span></span>
+</div>
+</div>
+<div class="digit-info">
                     Current Digit Place: <span id="current-digit">1s</span>
-                  </div>
-
-                  <div class="step-info" id="step-info">
+</div>
+<div class="step-info" id="step-info">
                     Ready to visualize Radix Sort!
                   </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  value="170, 45, 75, 90, 802, 24, 2, 66"
-                  placeholder="Enter numbers (e.g., 170, 45, 75, 90, 802, 24, 2, 66)"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 170, 45, 75, 90, 802, 24, 2, 66)" type="text" value="170, 45, 75, 90, 802, 24, 2, 66"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div class="controls">
-                <div class="speed-control">
-                  <i
-                    class="fas fa-tachometer-alt"
-                    style="color: var(--accent-light)"
-                  ></i>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+<div class="controls">
+<div class="speed-control">
+<i class="fas fa-tachometer-alt" style="color: var(--accent-light)"></i>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Radix Sort processes numbers digit by digit, from the least
               significant to the most significant:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-search"></i> 1. Find Maximum</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-search"></i> 1. Find Maximum</h3>
+<p>
                   Determine the maximum number to know how many digits to
                   process.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-sort-amount-down"></i> 2. Initialize Buckets
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sort-amount-down"></i> 2. Initialize Buckets
                 </h3>
-                <p>Create 10 buckets (0-9) for base-10 digits.</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-repeat"></i> 3. Process Digits</h3>
-                <p>For each digit position (starting from LSD):</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-boxes"></i> 4. Distribute to Buckets</h3>
-                <p>
+<p>Create 10 buckets (0-9) for base-10 digits.</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-repeat"></i> 3. Process Digits</h3>
+<p>For each digit position (starting from LSD):</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-boxes"></i> 4. Distribute to Buckets</h3>
+<p>
                   Place each number in the bucket corresponding to its current
                   digit.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-stream"></i> 5. Collect from Buckets</h3>
-                <p>Gather numbers from buckets in order to form a new list.</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> 6. Repeat</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-stream"></i> 5. Collect from Buckets</h3>
+<p>Gather numbers from buckets in order to form a new list.</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> 6. Repeat</h3>
+<p>
                   Repeat the process for the next digit until all digits are
                   processed.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function radixSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function radixSort(arr):
     // Find the maximum number to know number of digits
     max_num = max(arr)
     exp = 1  // Start with least significant digit
     
-    while max_num / exp > 0:
+    while max_num / exp &gt; 0:
         // Create 10 buckets (0-9)
         buckets = array of 10 empty lists
         
@@ -957,33 +934,31 @@
                 
         // Move to next significant digit
         exp *= 10</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Radix Sort using base-10
               digits. The algorithm uses buckets to distribute numbers based on
               each digit position.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">radix_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">radix_sort</span>(arr):
     <span class="comment"># Find the maximum number to know the number of digits</span>
     max_num = max(arr)
     
     <span class="comment"># Start with the least significant digit</span>
     exp = 1
     
-    <span class="keyword">while</span> max_num // exp > 0:
+    <span class="keyword">while</span> max_num // exp &gt; 0:
         <span class="comment"># Create 10 buckets for digits 0-9</span>
         buckets = [[] <span class="keyword">for</span> _ <span class="keyword">in</span> range(10)]
         
@@ -1006,195 +981,172 @@
 arr = [170, 45, 75, 90, 802, 24, 2, 66]
 radix_sort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)  <span class="comment"># Output: [2, 24, 45, 66, 75, 90, 170, 802]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Non-Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(d*(n+b))</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(d*(n+b))</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(d*(n+b))</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n + b)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Non-Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(d*(n+b))</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(d*(n+b))</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(d*(n+b))</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n + b)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Radix Sort is particularly effective for specific types of data:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting large collections of integers
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting fixed-length strings (e.g., phone numbers)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Applications requiring stable integer sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Computer graphics and numerical computations
               </li>
-              <li>Card sorting machines and punch card systems</li>
-            </ul>
-          </div>
-
-          <!-- Advantages/Disadvantages Section -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-balance-scale"></i> Advantages & Disadvantages
+<li>Card sorting machines and punch card systems</li>
+</ul>
+</div>
+<!-- Advantages/Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Advantages &amp; Disadvantages
             </h2>
-            <div style="margin-top: 20px">
-              <h3 style="color: var(--success); margin-bottom: 10px">
-                <i class="fas fa-check-circle"></i> Advantages
+<div style="margin-top: 20px">
+<h3 style="color: var(--success); margin-bottom: 10px">
+<i class="fas fa-check-circle"></i> Advantages
               </h3>
-              <ul
-                style="
+<ul style="
                   padding-left: 20px;
                   margin-bottom: 20px;
                   color: var(--text-secondary);
-                "
-              >
-                <li style="margin-bottom: 8px">
+                ">
+<li style="margin-bottom: 8px">
                   Linear time complexity for fixed-digit numbers
                 </li>
-                <li style="margin-bottom: 8px">Stable sorting algorithm</li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">Stable sorting algorithm</li>
+<li style="margin-bottom: 8px">
                   Efficient for large datasets with limited digit length
                 </li>
-                <li>No comparisons between elements</li>
-              </ul>
-
-              <h3 style="color: var(--danger); margin-bottom: 10px">
-                <i class="fas fa-exclamation-circle"></i> Disadvantages
+<li>No comparisons between elements</li>
+</ul>
+<h3 style="color: var(--danger); margin-bottom: 10px">
+<i class="fas fa-exclamation-circle"></i> Disadvantages
               </h3>
-              <ul style="padding-left: 20px; color: var(--text-secondary)">
-                <li style="margin-bottom: 8px">
+<ul style="padding-left: 20px; color: var(--text-secondary)">
+<li style="margin-bottom: 8px">
                   Requires additional memory for buckets
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Only works for integer and fixed-length string data
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Inefficient for numbers with many digits
                 </li>
-                <li>Performance depends on the base used</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
-            <p style="margin-bottom: 15px">
+<li>Performance depends on the base used</li>
+</ul>
+</div>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
+<p style="margin-bottom: 15px">
               Radix Sort's performance depends on the number of digits (d) and
               the base (b):
             </p>
-            <div
-              style="
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: var(--radius);
                 padding: 15px;
-              "
-            >
-              <div
-                style="
+              ">
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Time Complexity:</span>
-                <span
-                  style="
+                ">
+<span>Time Complexity:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(d*(n + b))</span
-                >
-              </div>
-              <div
-                style="
+                  ">O(d*(n + b))</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Space Complexity:</span>
-                <span
-                  style="
+                ">
+<span>Space Complexity:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n + b)</span
-                >
-              </div>
-              <div style="margin-top: 15px">
-                <p style="color: var(--text-secondary); font-size: 15px">
+                  ">O(n + b)</span>
+</div>
+<div style="margin-top: 15px">
+<p style="color: var(--text-secondary); font-size: 15px">
                   Where n is the number of elements, d is the number of digits,
                   and b is the base (number of buckets). When d is constant and
                   b is O(n), Radix Sort runs in linear time O(n).
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1496,5 +1448,5 @@ print(<span class="string">"Sorted array:"</span>, arr)  <span class="comment">#
         speedSlider.dispatchEvent(new Event("input"));
       });
     </script>
-  </body>
+</body>
 </html>

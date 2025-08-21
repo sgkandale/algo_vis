@@ -1,19 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Principal Component Analysis | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Principal Component Analysis | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -639,44 +634,63 @@
         color: var(--accent-light);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Dimensionality Reduction</a> >
+<meta content="Principal Component Analysis | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_pca.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Principal Component Analysis | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_pca.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Principal Component Analysis | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_pca.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Dimensionality Reduction</a> &gt;
               <span>Principal Component Analysis</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Principal Component Analysis</h1>
+<div class="category">
+<i class="fas fa-chart-line"></i> Dimensionality Reduction Technique
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Principal Component Analysis</h1>
-        <div class="category">
-          <i class="fas fa-chart-line"></i> Dimensionality Reduction Technique
-        </div>
-        <div class="complexity-badge">Time Complexity: O(p³ + n×p²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(p³ + n×p²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Principal Component Analysis (PCA) is a statistical technique for
               dimensionality reduction that transforms a set of possibly
               correlated variables into a set of linearly uncorrelated variables
@@ -685,182 +699,157 @@
               succeeding component accounting for the highest remaining variance
               under the constraint of orthogonality to the preceding components.
             </p>
-            <p>
+<p>
               PCA is widely used for data compression, feature extraction, and
               visualization of high-dimensional data. It helps to reduce the
               dimensionality of data while preserving as much variance as
               possible.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Transforms correlated variables into orthogonal principal
                   components
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>Efficient for dimensionality reduction on large datasets</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Requires O(p²) space for covariance matrix</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Eigenvalue decomposition of the covariance matrix</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>Efficient for dimensionality reduction on large datasets</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Requires O(p²) space for covariance matrix</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Eigenvalue decomposition of the covariance matrix</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Explore how PCA transforms data and reduces dimensionality. Adjust
               the correlation parameter to see how it affects the principal
               components. The visualization shows the original data, principal
               components, and the projection of data onto the first principal
               component.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3><i class="fas fa-play-circle"></i> PCA Transformation</h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="visualization-console">
+<div class="console-header">
+<h3><i class="fas fa-play-circle"></i> PCA Transformation</h3>
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div id="pca-plot" class="plot-container"></div>
-              </div>
-
-              <div class="console-input">
-                <div class="pca-controls">
-                  <div class="pca-slider">
-                    <div class="pca-label">Data Correlation</div>
-                    <input
-                      type="range"
-                      id="correlation"
-                      min="-90"
-                      max="90"
-                      value="70"
-                    />
-                    <div class="pca-value">
+</div>
+</div>
+<div class="visualization-area">
+<div class="plot-container" id="pca-plot"></div>
+</div>
+<div class="console-input">
+<div class="pca-controls">
+<div class="pca-slider">
+<div class="pca-label">Data Correlation</div>
+<input id="correlation" max="90" min="-90" type="range" value="70"/>
+<div class="pca-value">
                       Correlation: <span id="correlation-value">0.7</span>
-                    </div>
-                  </div>
-                  <div class="pca-slider">
-                    <div class="pca-label">Number of Points</div>
-                    <input
-                      type="range"
-                      id="point-count"
-                      min="50"
-                      max="200"
-                      value="100"
-                    />
-                    <div class="pca-value">
+</div>
+</div>
+<div class="pca-slider">
+<div class="pca-label">Number of Points</div>
+<input id="point-count" max="200" min="50" type="range" value="100"/>
+<div class="pca-value">
                       Points: <span id="point-count-value">100</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="variance-info">
-                <div class="variance-item">
-                  <div class="variance-label">PC1 Variance</div>
-                  <div class="variance-value" id="pc1-variance">85.3%</div>
-                </div>
-                <div class="variance-item">
-                  <div class="variance-label">PC2 Variance</div>
-                  <div class="variance-value" id="pc2-variance">14.7%</div>
-                </div>
-                <div class="variance-item">
-                  <div class="variance-label">Total Variance</div>
-                  <div class="variance-value" id="total-variance">100%</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>PCA transforms data through a series of mathematical steps:</p>
-
-            <div class="step-container">
-              <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                  <h4>Standardize the Data</h4>
-                  <p>
+</div>
+</div>
+</div>
+</div>
+<div class="variance-info">
+<div class="variance-item">
+<div class="variance-label">PC1 Variance</div>
+<div class="variance-value" id="pc1-variance">85.3%</div>
+</div>
+<div class="variance-item">
+<div class="variance-label">PC2 Variance</div>
+<div class="variance-value" id="pc2-variance">14.7%</div>
+</div>
+<div class="variance-item">
+<div class="variance-label">Total Variance</div>
+<div class="variance-value" id="total-variance">100%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>PCA transforms data through a series of mathematical steps:</p>
+<div class="step-container">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">
+<h4>Standardize the Data</h4>
+<p>
                     Center the data by subtracting the mean of each feature, and
                     scale to unit variance.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                  <h4>Compute Covariance Matrix</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">
+<h4>Compute Covariance Matrix</h4>
+<p>
                     Calculate the covariance matrix of the standardized data to
                     understand feature relationships.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                  <h4>Eigenvalue Decomposition</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">
+<h4>Eigenvalue Decomposition</h4>
+<p>
                     Compute the eigenvalues and eigenvectors of the covariance
                     matrix.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                  <h4>Sort Eigenvectors</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">4</div>
+<div class="step-content">
+<h4>Sort Eigenvectors</h4>
+<p>
                     Sort eigenvectors by their eigenvalues in descending order
                     to prioritize principal components.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">5</div>
-                <div class="step-content">
-                  <h4>Project Data</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">5</div>
+<div class="step-content">
+<h4>Project Data</h4>
+<p>
                     Transform the original data using the selected eigenvectors
                     to get the principal components.
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function PCA(data, n_components):
+</div>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function PCA(data, n_components):
     # Step 1: Standardize the data
     standardized = (data - mean(data)) / standard_deviation(data)
     
@@ -882,27 +871,25 @@
     transformed_data = dot(standardized, principal_components)
     
     return transformed_data, eigenvalues, eigenvectors</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of PCA using NumPy. The
               implementation follows the standard PCA steps of standardization,
               covariance matrix calculation, eigenvalue decomposition, and data
               transformation.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+</div>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
 
 <span class="keyword">class</span> <span class="function">PCA</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, n_components=2):
@@ -967,170 +954,155 @@ plt.scatter(X_pca[:, 0], X_pca[:, 1])
 plt.title(<span class="string">"PCA-transformed Data"</span>)
 plt.tight_layout()
 plt.show()</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Dimensionality Reduction</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Linear Transformation</div>
-              </div>
-              <div class="property-card">
-                <h4>Supervision</h4>
-                <div class="value">Unsupervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Parametric</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Training Time</h4>
-                <div class="value">O(p³)</div>
-              </div>
-              <div class="property-card">
-                <h4>Transform Time</h4>
-                <div class="value">O(n×p×k)</div>
-              </div>
-              <div class="property-card">
-                <h4>Memory</h4>
-                <div class="value">O(p²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Output</h4>
-                <div class="value">Orthogonal Components</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>PCA is widely used in various domains for data analysis:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Dimensionality Reduction</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Linear Transformation</div>
+</div>
+<div class="property-card">
+<h4>Supervision</h4>
+<div class="value">Unsupervised</div>
+</div>
+<div class="property-card">
+<h4>Parametric</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Training Time</h4>
+<div class="value">O(p³)</div>
+</div>
+<div class="property-card">
+<h4>Transform Time</h4>
+<div class="value">O(n×p×k)</div>
+</div>
+<div class="property-card">
+<h4>Memory</h4>
+<div class="value">O(p²)</div>
+</div>
+<div class="property-card">
+<h4>Output</h4>
+<div class="value">Orthogonal Components</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>PCA is widely used in various domains for data analysis:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Data compression and storage optimization
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Feature extraction for machine learning
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Visualization of high-dimensional data
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Noise reduction in signal processing
               </li>
-              <li>Genomics and bioinformatics data analysis</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
-            <ul
-              style="
+<li>Genomics and bioinformatics data analysis</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Reduces dimensionality while preserving variance
               </li>
-              <li style="margin-bottom: 10px">Removes correlated features</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Removes correlated features</li>
+<li style="margin-bottom: 10px">
                 Improves algorithm performance and efficiency
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Helps visualize high-dimensional data
               </li>
-              <li>Provides interpretable components</li>
-            </ul>
-          </div>
-
-          <!-- Limitations Section -->
-          <div class="section">
-            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
-            <ul
-              style="
+<li>Provides interpretable components</li>
+</ul>
+</div>
+<!-- Limitations Section -->
+<div class="section">
+<h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">Sensitive to feature scaling</li>
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">Sensitive to feature scaling</li>
+<li style="margin-bottom: 10px">
                 Assumes linear relationships between variables
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Principal components can be difficult to interpret
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 May discard important variance in the data
               </li>
-              <li>Computationally expensive for high-dimensional data</li>
-            </ul>
-          </div>
-
-          <!-- Variance Explanation -->
-          <div class="section">
-            <h2><i class="fas fa-percentage"></i> Explained Variance</h2>
-            <p>
+<li>Computationally expensive for high-dimensional data</li>
+</ul>
+</div>
+<!-- Variance Explanation -->
+<div class="section">
+<h2><i class="fas fa-percentage"></i> Explained Variance</h2>
+<p>
               The explained variance ratio indicates how much information
               (variance) each principal component contributes:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <b>PC1:</b> The first principal component captures the most
+              ">
+<li style="margin-bottom: 10px">
+<b>PC1:</b> The first principal component captures the most
                 variance
               </li>
-              <li style="margin-bottom: 10px">
-                <b>PC2:</b> The second principal component captures the next
+<li style="margin-bottom: 10px">
+<b>PC2:</b> The second principal component captures the next
                 most variance
               </li>
-              <li>
-                <b>Cumulative Variance:</b> Sum of explained variances from all
+<li>
+<b>Cumulative Variance:</b> Sum of explained variances from all
                 components
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // PCA Visualization
       document.addEventListener("DOMContentLoaded", function () {
         // DOM Elements
@@ -1491,5 +1463,5 @@ plt.show()</code></pre>
         document.head.appendChild(script);
       });
     </script>
-  </body>
+</body>
 </html>

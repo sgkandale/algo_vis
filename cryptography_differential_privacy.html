@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizing Differential Privacy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Visualizing Differential Privacy</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f9ff; /* Lightest blue background */
@@ -205,142 +206,147 @@
             }
         }
     </style>
-</head>
+<meta content="Visualizing Differential Privacy" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_differential_privacy.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Visualizing Differential Privacy" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_differential_privacy.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Visualizing Differential Privacy",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_differential_privacy.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>Differential Privacy</h1>
-        <p class="subtitle">Protecting Individual Privacy in Data Analysis</p>
-
-        <div class="explanation-box">
-            <h2>What is Differential Privacy (DP)?</h2>
-            <p>Imagine a large dataset containing sensitive information about many individuals (e.g., medical records, census data, app usage patterns). Data analysts want to learn general trends and statistics from this dataset, but without revealing anything specific about *any single person* in it.</p>
-            <p><strong>Differential Privacy (DP)</strong> is a rigorous, mathematical definition of privacy that guarantees that the outcome of any statistical analysis or query on a dataset will be *almost the same* whether or not a single individual's data is included in or excluded from the dataset.</p>
-            <p>In simpler terms: **You shouldn't be able to tell if someone's data was in the dataset just by looking at the released results.** This is achieved by carefully adding "noise" or randomness to the query results.</p>
-        </div>
-
-        <h2 class="text-3xl font-bold text-center text-gray-800 mt-12 mb-8">How Differential Privacy Works: The "Noise" Principle</h2>
-
-        <div class="flow-section">
-            <!-- Step 1: Original Sensitive Data -->
-            <div class="flow-step">
-                <div class="flow-step-title">Step 1: Your Sensitive Data (Raw Dataset)</div>
-                <div class="visual-elements">
-                    <span class="database-icon">📊</span>
-                    <div class="data-representation">Database of Ages: [25, 30, 42, 19, 55, ...]</div>
-                </div>
-                <p class="mt-4 text-gray-600">A database holds sensitive information from many individuals. Let's say we want to find the average age.</p>
-            </div>
-
-            <!-- Arrow -->
-            <div class="flex justify-center">
-                <span class="arrow-icon">↓</span>
-            </div>
-
-            <!-- Step 2: Formulating a Query -->
-            <div class="flow-step">
-                <div class="flow-step-title">Step 2: The Data Analyst Asks a Question</div>
-                <div class="visual-elements">
-                    <span class="chart-icon">📈</span>
-                    <div class="query-box">Query: "What is the average age of participants?"</div>
-                </div>
-                <p class="mt-4 text-gray-600">A data analyst wants to compute a statistic (e.g., average age) from the sensitive data.</p>
-            </div>
-
-            <!-- Arrow -->
-            <div class="flex justify-center">
-                <span class="arrow-icon">↓</span>
-            </div>
-
-            <!-- Step 3: Computing the True Result (Internally) -->
-            <div class="flow-step">
-                <div class="flow-step-title">Step 3: Compute True Result (Private to System)</div>
-                <div class="visual-elements">
-                    <span class="database-icon">🗄️</span>
-                    <div class="data-representation">True Average Age: 35.7</div>
-                </div>
-                <p class="mt-4 text-gray-600">The system computes the *true* answer to the query on the original, sensitive dataset.</p>
-            </div>
-
-            <!-- Arrow -->
-            <div class="flex justify-center">
-                <span class="arrow-icon">↓</span>
-            </div>
-
-            <!-- Step 4: Adding Calibrated Noise -->
-            <div class="flow-step">
-                <div class="flow-step-title">Step 4: Adding "Noise" for Privacy</div>
-                <div class="visual-elements">
-                    <div class="data-representation">True Average: 35.7</div>
-                    <span class="noise-icon">➕</span>
-                    <div class="noise-box">Random Noise (e.g., +1.2 or -0.8)</div>
-                    <span class="arrow-icon">→</span>
-                    <div class="result-box">Noisy Average: 36.9</div>
-                </div>
-                <p class="mt-4 text-gray-600">Before releasing the result, a carefully calculated amount of random "noise" is added to the true answer. This noise is determined by the "privacy budget" (epsilon and delta).</p>
-            </div>
-
-            <!-- Arrow -->
-            <div class="flex justify-center">
-                <span class="arrow-icon">↓</span>
-            </div>
-
-            <!-- Step 5: Releasing the Noisy Result -->
-            <div class="flow-step">
-                <div class="flow-step-title">Step 5: Releasing the Differentially Private Result</div>
-                <div class="visual-elements">
-                    <span class="chart-icon">📊</span>
-                    <div class="result-box">Released Average Age: 36.9</div>
-                </div>
-                <p class="mt-4 text-gray-600">The data analyst receives the noisy result. This result is still useful for understanding group trends, but the noise obscures any individual's contribution.</p>
-            </div>
-
-            <!-- Arrow -->
-            <div class="flex justify-center">
-                <span class="arrow-icon">↓</span>
-            </div>
-
-            <!-- Step 6: The Privacy Guarantee -->
-            <div class="flow-step">
-                <div class="flow-step-title">Step 6: The Core Guarantee: Plausible Deniability</div>
-                <div class="visual-elements">
-                    <span class="person-icon">👤</span>
-                    <div class="data-representation">Original Data: [..., **Alice's Age (42)**, ...]</div>
-                    <span class="arrow-icon">↔️</span>
-                    <div class="data-representation">Data without Alice: [..., ...]</div>
-                </div>
-                <div class="visual-elements mt-4">
-                    <div class="result-box">Released Average (with Alice): 36.9</div>
-                    <span class="arrow-icon">≈</span>
-                    <div class="result-box">Released Average (without Alice): 36.8</div>
-                </div>
-                <p class="mt-4 text-gray-600">Because of the added noise, the released average would look *almost the same* whether Alice's data was in the original dataset or not. An attacker cannot confidently infer Alice's specific information from the output.</p>
-            </div>
-        </div>
-
-        <div class="explanation-box mt-12">
-            <h2>Key Parameters: Epsilon ($\epsilon$) and Delta ($\delta$)</h2>
-            <p>Differential Privacy is quantified by two parameters:</p>
-            <ul class="list-disc list-inside ml-4 mt-2 text-gray-700">
-                <li><strong>Epsilon ($\epsilon$): The Privacy Budget</strong>
-                    <p class="ml-4 mt-2">This is the primary measure of privacy loss. A *smaller* $\epsilon$ means *stronger* privacy (more noise added, harder to distinguish individual contributions). A *larger* $\epsilon$ means *weaker* privacy (less noise, more utility). It represents the maximum amount of information an adversary can learn about an individual.</p>
-                </li>
-                <li><strong>Delta ($\delta$): The Probability of Failure</strong>
-                    <p class="ml-4 mt-2">This is typically a very small value, often negligible (e.g., $10^{-9}$ or $1/N$, where N is dataset size). It represents the tiny probability that the $\epsilon$-privacy guarantee might *not* hold. For many practical purposes, if $\delta$ is small enough, it's considered "pure" $\epsilon$-differential privacy.</p>
-                </li>
-            </ul>
-            <p class="mt-4">The choice of $\epsilon$ and $\delta$ involves a crucial **privacy-utility trade-off**. More privacy (smaller $\epsilon$) generally means less accurate results (lower utility), and vice-versa.</p>
-        </div>
-
-        <div class="explanation-box mt-8">
-            <h2>Why is Differential Privacy Important?</h2>
-            <ul class="list-disc list-inside ml-4 mt-2 text-gray-700">
-                <li><strong>Strong Guarantees:</strong> Provides mathematically provable privacy guarantees, unlike traditional anonymization techniques that can be vulnerable to re-identification attacks.</li>
-                <li><strong>Immunity to Post-Processing:</strong> The privacy guarantee holds even if an attacker performs additional analysis or combines the differentially private output with other publicly available data.</li>
-                <li><strong>Real-World Adoption:</strong> Used by major organizations like the U.S. Census Bureau (for the 2020 Census), Google (for Chrome usage statistics, Google Maps mobility data), Apple (for iOS usage analytics, health data), and Microsoft (for Windows telemetry).</li>
-                <li><strong>Enables Data Sharing:</strong> Allows organizations to share valuable insights from sensitive data without compromising individual privacy, fostering collaboration and research.</li>
-            </ul>
-        </div>
-
-    </div>
+<div class="container">
+<h1>Differential Privacy</h1>
+<p class="subtitle">Protecting Individual Privacy in Data Analysis</p>
+<div class="explanation-box">
+<h2>What is Differential Privacy (DP)?</h2>
+<p>Imagine a large dataset containing sensitive information about many individuals (e.g., medical records, census data, app usage patterns). Data analysts want to learn general trends and statistics from this dataset, but without revealing anything specific about *any single person* in it.</p>
+<p><strong>Differential Privacy (DP)</strong> is a rigorous, mathematical definition of privacy that guarantees that the outcome of any statistical analysis or query on a dataset will be *almost the same* whether or not a single individual's data is included in or excluded from the dataset.</p>
+<p>In simpler terms: **You shouldn't be able to tell if someone's data was in the dataset just by looking at the released results.** This is achieved by carefully adding "noise" or randomness to the query results.</p>
+</div>
+<h2 class="text-3xl font-bold text-center text-gray-800 mt-12 mb-8">How Differential Privacy Works: The "Noise" Principle</h2>
+<div class="flow-section">
+<!-- Step 1: Original Sensitive Data -->
+<div class="flow-step">
+<div class="flow-step-title">Step 1: Your Sensitive Data (Raw Dataset)</div>
+<div class="visual-elements">
+<span class="database-icon">📊</span>
+<div class="data-representation">Database of Ages: [25, 30, 42, 19, 55, ...]</div>
+</div>
+<p class="mt-4 text-gray-600">A database holds sensitive information from many individuals. Let's say we want to find the average age.</p>
+</div>
+<!-- Arrow -->
+<div class="flex justify-center">
+<span class="arrow-icon">↓</span>
+</div>
+<!-- Step 2: Formulating a Query -->
+<div class="flow-step">
+<div class="flow-step-title">Step 2: The Data Analyst Asks a Question</div>
+<div class="visual-elements">
+<span class="chart-icon">📈</span>
+<div class="query-box">Query: "What is the average age of participants?"</div>
+</div>
+<p class="mt-4 text-gray-600">A data analyst wants to compute a statistic (e.g., average age) from the sensitive data.</p>
+</div>
+<!-- Arrow -->
+<div class="flex justify-center">
+<span class="arrow-icon">↓</span>
+</div>
+<!-- Step 3: Computing the True Result (Internally) -->
+<div class="flow-step">
+<div class="flow-step-title">Step 3: Compute True Result (Private to System)</div>
+<div class="visual-elements">
+<span class="database-icon">🗄️</span>
+<div class="data-representation">True Average Age: 35.7</div>
+</div>
+<p class="mt-4 text-gray-600">The system computes the *true* answer to the query on the original, sensitive dataset.</p>
+</div>
+<!-- Arrow -->
+<div class="flex justify-center">
+<span class="arrow-icon">↓</span>
+</div>
+<!-- Step 4: Adding Calibrated Noise -->
+<div class="flow-step">
+<div class="flow-step-title">Step 4: Adding "Noise" for Privacy</div>
+<div class="visual-elements">
+<div class="data-representation">True Average: 35.7</div>
+<span class="noise-icon">➕</span>
+<div class="noise-box">Random Noise (e.g., +1.2 or -0.8)</div>
+<span class="arrow-icon">→</span>
+<div class="result-box">Noisy Average: 36.9</div>
+</div>
+<p class="mt-4 text-gray-600">Before releasing the result, a carefully calculated amount of random "noise" is added to the true answer. This noise is determined by the "privacy budget" (epsilon and delta).</p>
+</div>
+<!-- Arrow -->
+<div class="flex justify-center">
+<span class="arrow-icon">↓</span>
+</div>
+<!-- Step 5: Releasing the Noisy Result -->
+<div class="flow-step">
+<div class="flow-step-title">Step 5: Releasing the Differentially Private Result</div>
+<div class="visual-elements">
+<span class="chart-icon">📊</span>
+<div class="result-box">Released Average Age: 36.9</div>
+</div>
+<p class="mt-4 text-gray-600">The data analyst receives the noisy result. This result is still useful for understanding group trends, but the noise obscures any individual's contribution.</p>
+</div>
+<!-- Arrow -->
+<div class="flex justify-center">
+<span class="arrow-icon">↓</span>
+</div>
+<!-- Step 6: The Privacy Guarantee -->
+<div class="flow-step">
+<div class="flow-step-title">Step 6: The Core Guarantee: Plausible Deniability</div>
+<div class="visual-elements">
+<span class="person-icon">👤</span>
+<div class="data-representation">Original Data: [..., **Alice's Age (42)**, ...]</div>
+<span class="arrow-icon">↔️</span>
+<div class="data-representation">Data without Alice: [..., ...]</div>
+</div>
+<div class="visual-elements mt-4">
+<div class="result-box">Released Average (with Alice): 36.9</div>
+<span class="arrow-icon">≈</span>
+<div class="result-box">Released Average (without Alice): 36.8</div>
+</div>
+<p class="mt-4 text-gray-600">Because of the added noise, the released average would look *almost the same* whether Alice's data was in the original dataset or not. An attacker cannot confidently infer Alice's specific information from the output.</p>
+</div>
+</div>
+<div class="explanation-box mt-12">
+<h2>Key Parameters: Epsilon ($\epsilon$) and Delta ($\delta$)</h2>
+<p>Differential Privacy is quantified by two parameters:</p>
+<ul class="list-disc list-inside ml-4 mt-2 text-gray-700">
+<li><strong>Epsilon ($\epsilon$): The Privacy Budget</strong>
+<p class="ml-4 mt-2">This is the primary measure of privacy loss. A *smaller* $\epsilon$ means *stronger* privacy (more noise added, harder to distinguish individual contributions). A *larger* $\epsilon$ means *weaker* privacy (less noise, more utility). It represents the maximum amount of information an adversary can learn about an individual.</p>
+</li>
+<li><strong>Delta ($\delta$): The Probability of Failure</strong>
+<p class="ml-4 mt-2">This is typically a very small value, often negligible (e.g., $10^{-9}$ or $1/N$, where N is dataset size). It represents the tiny probability that the $\epsilon$-privacy guarantee might *not* hold. For many practical purposes, if $\delta$ is small enough, it's considered "pure" $\epsilon$-differential privacy.</p>
+</li>
+</ul>
+<p class="mt-4">The choice of $\epsilon$ and $\delta$ involves a crucial **privacy-utility trade-off**. More privacy (smaller $\epsilon$) generally means less accurate results (lower utility), and vice-versa.</p>
+</div>
+<div class="explanation-box mt-8">
+<h2>Why is Differential Privacy Important?</h2>
+<ul class="list-disc list-inside ml-4 mt-2 text-gray-700">
+<li><strong>Strong Guarantees:</strong> Provides mathematically provable privacy guarantees, unlike traditional anonymization techniques that can be vulnerable to re-identification attacks.</li>
+<li><strong>Immunity to Post-Processing:</strong> The privacy guarantee holds even if an attacker performs additional analysis or combines the differentially private output with other publicly available data.</li>
+<li><strong>Real-World Adoption:</strong> Used by major organizations like the U.S. Census Bureau (for the 2020 Census), Google (for Chrome usage statistics, Google Maps mobility data), Apple (for iOS usage analytics, health data), and Microsoft (for Windows telemetry).</li>
+<li><strong>Enables Data Sharing:</strong> Allows organizations to share valuable insights from sensitive data without compromising individual privacy, fostering collaboration and research.</li>
+</ul>
+</div>
+</div>
 </body>
 </html>

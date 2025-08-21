@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Strand Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Strand Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -642,212 +637,214 @@
         border-left: 3px solid var(--accent);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Strand Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_strand.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Strand Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_strand.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Strand Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_strand.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Strand Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Strand Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Strand Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Strand Sort is a recursive sorting algorithm that works by
               repeatedly extracting sorted subsequences (strands) from the
               unsorted list and merging them into a sorted list. It's
               particularly efficient for linked lists but can also be applied to
               arrays.
             </p>
-            <p>
+<p>
               The algorithm gets its name from the way it extracts "strands" of
               sorted elements. It has two main phases: extracting sorted strands
               from the input list and merging these strands into the output
               list. This process continues until the input list is empty.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Extracts sorted strands and merges them recursively</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Extracts sorted strands and merges them recursively</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n) in best case (already sorted), O(n²) average and worst
                   case
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n) additional space for strands and merging</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Recursive strand extraction and merging</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n) additional space for strands and merging</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Recursive strand extraction and merging</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Strand Sort in action. Enter a comma-separated list of
               numbers, adjust the speed, and step through the algorithm to see
               each stage of the sorting process. The visualization shows strand
               extraction and merging.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Strand Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Strand Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="strand-container">
-                  <div class="array-section">
-                    <h4><i class="fas fa-list"></i> Input List</h4>
-                    <div class="array-bars" id="input-container"></div>
-                  </div>
-
-                  <div class="array-section">
-                    <h4><i class="fas fa-link"></i> Current Strand</h4>
-                    <div class="array-bars" id="strand-container"></div>
-                  </div>
-
-                  <div class="array-section">
-                    <h4><i class="fas fa-check-circle"></i> Output List</h4>
-                    <div class="array-bars" id="output-container"></div>
-                  </div>
-
-                  <div class="stats-container">
-                    <div class="stat-item">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="strand-container">
+<div class="array-section">
+<h4><i class="fas fa-list"></i> Input List</h4>
+<div class="array-bars" id="input-container"></div>
+</div>
+<div class="array-section">
+<h4><i class="fas fa-link"></i> Current Strand</h4>
+<div class="array-bars" id="strand-container"></div>
+</div>
+<div class="array-section">
+<h4><i class="fas fa-check-circle"></i> Output List</h4>
+<div class="array-bars" id="output-container"></div>
+</div>
+<div class="stats-container">
+<div class="stat-item">
                       Strands: <span id="strand-count">0</span>
-                    </div>
-                    <div class="stat-item">
+</div>
+<div class="stat-item">
                       Merges: <span id="merge-count">0</span>
-                    </div>
-                    <div class="stat-item">
+</div>
+<div class="stat-item">
                       Step: <span id="step-count">0</span>
-                    </div>
-                  </div>
-
-                  <div id="explanation" class="explanation">
+</div>
+</div>
+<div class="explanation" id="explanation">
                     Initializing visualization...
                   </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="38, 27, 43, 3, 9, 82, 10, 15"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="38, 27, 43, 3, 9, 82, 10, 15"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Strand Sort works through two main phases: strand extraction and
               merging:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-magnet"></i> 1. Strand Extraction</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-magnet"></i> 1. Strand Extraction</h3>
+<p>
                   Start with the first element as the initial strand.
                   Sequentially find elements that are larger than the last
                   element in the strand to extend it.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-cut"></i> 2. Remove Strand</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-cut"></i> 2. Remove Strand</h3>
+<p>
                   Remove the extracted strand from the input list, leaving the
                   remaining elements.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-object-group"></i> 3. Merge Strand</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-object-group"></i> 3. Merge Strand</h3>
+<p>
                   Merge the newly extracted strand with the output list (which
                   is built from previously extracted strands) in sorted order.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 4. Repeat</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 4. Repeat</h3>
+<p>
                   Continue extracting strands from the remaining input list
                   until it is empty.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
+<p>
                   When the input list is empty, the output list contains the
                   fully sorted result.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure strandSort(inputList)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure strandSort(inputList)
     outputList = empty list
     
     while inputList is not empty
@@ -857,8 +854,8 @@
         i = 0
         
         // Build the strand
-        while i < length(inputList)
-            if inputList[i] > last element of sublist
+        while i &lt; length(inputList)
+            if inputList[i] &gt; last element of sublist
                 append inputList[i] to sublist
                 remove inputList[i]
             else
@@ -872,32 +869,30 @@
 procedure merge(list1, list2)
     result = empty list
     while both lists are not empty
-        if first element of list1 < first element of list2
+        if first element of list1 &lt; first element of list2
             append list1[0] to result and remove it
         else
             append list2[0] to result and remove it
     append remaining elements of list1 and list2 to result
     return result</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Strand Sort. The algorithm
               extracts sorted strands from the input and merges them with the
               output list.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">strand_sort</span>(input_list):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">strand_sort</span>(input_list):
     <span class="keyword">if</span> <span class="keyword">not</span> input_list:
         <span class="keyword">return</span> input_list
         
@@ -909,8 +904,8 @@ procedure merge(list1, list2)
         i = 0
         
         <span class="comment"># Build the strand</span>
-        <span class="keyword">while</span> i < len(input_list):
-            <span class="keyword">if</span> input_list[i] > sublist[-1]:
+        <span class="keyword">while</span> i &lt; len(input_list):
+            <span class="keyword">if</span> input_list[i] &gt; sublist[-1]:
                 sublist.append(input_list.pop(i))
             <span class="keyword">else</span>:
                 i += 1
@@ -922,7 +917,7 @@ procedure merge(list1, list2)
             <span class="comment"># Merge two sorted lists</span>
             merged = []
             <span class="keyword">while</span> output_list <span class="keyword">and</span> sublist:
-                <span class="keyword">if</span> output_list[0] < sublist[0]:
+                <span class="keyword">if</span> output_list[0] &lt; sublist[0]:
                     merged.append(output_list.pop(0))
                 <span class="keyword">else</span>:
                     merged.append(sublist.pop(0))
@@ -937,124 +932,109 @@ arr = [38, 27, 43, 3, 9, 82, 10, 15]
 sorted_arr = strand_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)
 <span class="comment"># Output: Sorted array: [3, 9, 10, 15, 27, 38, 43, 82]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Strand Sort is useful in specific scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Strand Sort is useful in specific scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting linked lists efficiently
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Educational purposes to demonstrate recursive sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 When data is already partially sorted
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Situations where stability is important
               </li>
-              <li>As an alternative to other recursive sorts</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Advantages</h2>
-            <p>Strand Sort has some unique characteristics:</p>
-            <ul
-              style="
+<li>As an alternative to other recursive sorts</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Advantages</h2>
+<p>Strand Sort has some unique characteristics:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Efficient for linked lists (O(n) space and O(n log n) time in
                 best case)
               </li>
-              <li style="margin-bottom: 10px">Naturally stable algorithm</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Naturally stable algorithm</li>
+<li style="margin-bottom: 10px">
                 Performs well on partially sorted data
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Conceptually simple recursive design
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Strand Sort Visualization
       class StrandSortVisualizer {
         constructor(
@@ -1401,5 +1381,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)
           });
       });
     </script>
-  </body>
+</body>
 </html>

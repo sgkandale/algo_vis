@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quick Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quick Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -718,212 +713,210 @@
         align-items: center;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Quick Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_quick.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Quick Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_quick.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Quick Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_quick.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Quick Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Quick Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Quick Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Quick Sort is an efficient, comparison-based, divide and conquer
               sorting algorithm. It works by selecting a 'pivot' element from
               the array and partitioning the other elements into two sub-arrays
               according to whether they are less than or greater than the pivot.
               The sub-arrays are then sorted recursively.
             </p>
-            <p>
+<p>
               Quick Sort is one of the most efficient sorting algorithms and is
               often the best choice for large datasets. Its average-case time
               complexity is O(n log n), though it can degrade to O(n²) in the
               worst case if the pivot selection is poor.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Average O(n log n), worst O(n²) but rare with good pivot
                   selection
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(log n) stack space for recursion</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-cut"></i> Approach</h3>
-                <p>Divide and conquer with in-place partitioning</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-star"></i> Advantage</h3>
-                <p>Often faster than other O(n log n) algorithms in practice</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(log n) stack space for recursion</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-cut"></i> Approach</h3>
+<p>Divide and conquer with in-place partitioning</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-star"></i> Advantage</h3>
+<p>Often faster than other O(n log n) algorithms in practice</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Quick Sort
               works. The algorithm works by selecting a pivot element,
               partitioning the array around the pivot, and recursively sorting
               the sub-arrays. Watch as elements are compared, swapped, and moved
               into their correct positions.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Quick Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Quick Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="call-stack" id="call-stack">Partitions: 0</div>
-                <div class="array-container" id="array-container"></div>
-                <div class="status-bar" id="status-bar">Ready to visualize</div>
-              </div>
-
-              <div class="legend">
-                <div class="legend-item">
-                  <div class="legend-color pivot-color"></div>
-                  <span>Pivot</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color comparing-color"></div>
-                  <span>Comparing</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color partition-color"></div>
-                  <span>Partition</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color sorted-color"></div>
-                  <span>Sorted</span>
-                </div>
-              </div>
-
-              <div class="controls">
-                <div class="slider-container">
-                  <span>Speed:</span>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-                <div class="slider-container">
-                  <span>Pivot:</span>
-                  <select id="pivot-select">
-                    <option value="last">Last Element</option>
-                    <option value="first">First Element</option>
-                    <option value="middle">Middle Element</option>
-                    <option value="random">Random</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="8, 3, 5, 1, 9, 4, 7, 2"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="call-stack" id="call-stack">Partitions: 0</div>
+<div class="array-container" id="array-container"></div>
+<div class="status-bar" id="status-bar">Ready to visualize</div>
+</div>
+<div class="legend">
+<div class="legend-item">
+<div class="legend-color pivot-color"></div>
+<span>Pivot</span>
+</div>
+<div class="legend-item">
+<div class="legend-color comparing-color"></div>
+<span>Comparing</span>
+</div>
+<div class="legend-item">
+<div class="legend-color partition-color"></div>
+<span>Partition</span>
+</div>
+<div class="legend-item">
+<div class="legend-color sorted-color"></div>
+<span>Sorted</span>
+</div>
+</div>
+<div class="controls">
+<div class="slider-container">
+<span>Speed:</span>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+<div class="slider-container">
+<span>Pivot:</span>
+<select id="pivot-select">
+<option value="last">Last Element</option>
+<option value="first">First Element</option>
+<option value="middle">Middle Element</option>
+<option value="random">Random</option>
+</select>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="8, 3, 5, 1, 9, 4, 7, 2"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Quick Sort involves the following steps to sort an array:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-bullseye"></i> 1. Choose Pivot</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Quick Sort involves the following steps to sort an array:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-bullseye"></i> 1. Choose Pivot</h3>
+<p>
                   Select a pivot element from the array (commonly the last
                   element)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 2. Partition</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 2. Partition</h3>
+<p>
                   Rearrange elements so values less than pivot come before,
                   greater come after
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-map-marker-alt"></i> 3. Pivot Position</h3>
-                <p>Place the pivot in its correct sorted position</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-code-branch"></i> 4. Recursive Sort</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-map-marker-alt"></i> 3. Pivot Position</h3>
+<p>Place the pivot in its correct sorted position</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-code-branch"></i> 4. Recursive Sort</h3>
+<p>
                   Recursively apply to the sub-arrays before and after the pivot
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function quickSort(array, low, high)
-    if low < high
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function quickSort(array, low, high)
+    if low &lt; high
         // Partition the array
         pivotIndex = partition(array, low, high)
         
@@ -937,35 +930,33 @@ function partition(array, low, high)
     i = low - 1
     
     for j from low to high - 1
-        if array[j] <= pivot
+        if array[j] &lt;= pivot
             i = i + 1
             swap array[i] and array[j]
     
     // Place pivot in correct position
     swap array[i+1] and array[high]
     return i + 1</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Quick Sort algorithm. The
               algorithm consists of the main <code>quick_sort()</code> function
               and a <code>partition()</code> function that rearranges elements
               around the pivot.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">quick_sort</span>(arr, low, high):
-    <span class="keyword">if</span> low < high:
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">quick_sort</span>(arr, low, high):
+    <span class="keyword">if</span> low &lt; high:
         <span class="comment"># Partition the array</span>
         pivot_index = partition(arr, low, high)
         
@@ -979,7 +970,7 @@ function partition(array, low, high)
     i = low - <span class="number">1</span>
     
     <span class="keyword">for</span> j <span class="keyword">in</span> range(low, high):
-        <span class="keyword">if</span> arr[j] <= pivot:
+        <span class="keyword">if</span> arr[j] &lt;= pivot:
             i += <span class="number">1</span>
             <span class="comment"># Swap elements</span>
             arr[i], arr[j] = arr[j], arr[i]
@@ -992,136 +983,128 @@ function partition(array, low, high)
 arr = [<span class="number">10</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>]
 quick_sort(arr, <span class="number">0</span>, len(arr)-<span class="number">1</span>)
 print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(log n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(log n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Quick Sort is used in various scenarios where efficient sorting is
               required:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Standard library sort implementations (like in C, Java, etc.)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting large datasets in memory
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 When average-case performance matters more than worst-case
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Implementations where cache performance is important
               </li>
-              <li>Parallel processing environments</li>
-            </ul>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>Quick Sort's performance depends on pivot selection:</p>
-            <div class="point-card" style="margin-top: 20px">
-              <h3><i class="fas fa-star"></i> Best Case: O(n log n)</h3>
-              <p>When pivot divides array into equal parts</p>
-            </div>
-            <div class="point-card">
-              <h3>
-                <i class="fas fa-star-half-alt"></i> Average Case: O(n log n)
+<li>Parallel processing environments</li>
+</ul>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>Quick Sort's performance depends on pivot selection:</p>
+<div class="point-card" style="margin-top: 20px">
+<h3><i class="fas fa-star"></i> Best Case: O(n log n)</h3>
+<p>When pivot divides array into equal parts</p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-star-half-alt"></i> Average Case: O(n log n)
               </h3>
-              <p>With random pivot selection</p>
-            </div>
-            <div class="point-card">
-              <h3><i class="fas fa-star"></i> Worst Case: O(n²)</h3>
-              <p>When pivot is smallest or largest element</p>
-            </div>
-          </div>
-
-          <!-- Pivot Strategies -->
-          <div class="section">
-            <h2><i class="fas fa-bullseye"></i> Pivot Selection</h2>
-            <p>Different pivot selection strategies affect performance:</p>
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> First/Last</h3>
-                <p>Simple but worst-case O(n²) for sorted arrays</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> Random</h3>
-                <p>Reduces chance of worst-case to negligible</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-balance-scale"></i> Median-of-Three</h3>
-                <p>Takes median of first, middle, last elements</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<p>With random pivot selection</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-star"></i> Worst Case: O(n²)</h3>
+<p>When pivot is smallest or largest element</p>
+</div>
+</div>
+<!-- Pivot Strategies -->
+<div class="section">
+<h2><i class="fas fa-bullseye"></i> Pivot Selection</h2>
+<p>Different pivot selection strategies affect performance:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> First/Last</h3>
+<p>Simple but worst-case O(n²) for sorted arrays</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-random"></i> Random</h3>
+<p>Reduces chance of worst-case to negligible</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-balance-scale"></i> Median-of-Three</h3>
+<p>Takes median of first, middle, last elements</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const arrayInput = document.getElementById("array-input");
       const randomBtn = document.getElementById("random-btn");
@@ -1410,5 +1393,5 @@ print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
         });
       });
     </script>
-  </body>
+</body>
 </html>

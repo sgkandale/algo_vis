@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Quorum Consensus | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quorum Consensus | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -762,49 +757,68 @@
                 color: var(--success);
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Consensus Algorithms</a> >
+<meta content="Quorum Consensus | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_quorum.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Quorum Consensus | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_quorum.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Quorum Consensus | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_quorum.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-network-wired"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Consensus Algorithms</a> &gt;
                             <span>Quorum Consensus</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Quorum Consensus</h1>
-                <div class="category">
-                    <i class="fas fa-database"></i> Distributed Consistency
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Quorum Consensus</h1>
+<div class="category">
+<i class="fas fa-database"></i> Distributed Consistency
                     Protocol
                 </div>
-                <div class="complexity-badge">
-                    Min Nodes: N, Read Quorum: R, Write Quorum: W (R + W > N)
+<div class="complexity-badge">
+                    Min Nodes: N, Read Quorum: R, Write Quorum: W (R + W &gt; N)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Quorum Consensus is a distributed protocol that
                             ensures consistency across multiple replicas by
                             requiring that read and write operations are
@@ -812,63 +826,61 @@
                             uses quorum intersection to guarantee that any read
                             operation retrieves the most recent written value.
                         </p>
-                        <p>
+<p>
                             The system requires that for any read operation, a
                             client must contact a read quorum (R) of nodes, and
                             for any write operation, it must contact a write
                             quorum (W) of nodes. The key constraint is that R +
-                            W > N (where N is the total number of replicas),
+                            W &gt; N (where N is the total number of replicas),
                             ensuring that read and write quorums always overlap.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Ensures strong consistency through quorum
                                     intersection
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Configurable R and W values allow
                                     performance tuning
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Fault
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Fault
                                     Tolerance
                                 </h3>
-                                <p>
+<p>
                                     Tolerates up to N - W write failures and N -
                                     R read failures
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Uses version numbers to determine latest
                                     value
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Visualize how Quorum Consensus works with
                             configurable parameters. Adjust the number of
                             replicas (N), read quorum (R), and write quorum (W)
@@ -876,213 +888,187 @@
                             and write operations to understand how consistency
                             is maintained.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> Quorum
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Quorum
                                     Consensus Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        id="reset-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                    <button id="read-btn" class="console-btn">
-                                        <i class="fas fa-book-open"></i> Read
+<button class="console-btn" id="read-btn">
+<i class="fas fa-book-open"></i> Read
                                     </button>
-                                    <button id="write-btn" class="console-btn">
-                                        <i class="fas fa-pen"></i> Write
+<button class="console-btn" id="write-btn">
+<i class="fas fa-pen"></i> Write
                                     </button>
-                                </div>
-                            </div>
-
-                            <div class="visualization-area">
-                                <div id="quorum-container">
-                                    <div class="phase-indicator">
+</div>
+</div>
+<div class="visualization-area">
+<div id="quorum-container">
+<div class="phase-indicator">
                                         Operation:
                                         <span id="op-type">None</span>
-                                    </div>
-                                    <div class="quorum-info">
+</div>
+<div class="quorum-info">
                                         N: <span id="n-value">5</span>, R:
                                         <span id="r-value">3</span>, W:
                                         <span id="w-value">3</span>
-                                    </div>
-                                    <div class="quorum-rules">
-                                        <h4>Quorum Rules</h4>
-                                        <div class="quorum-rule">
-                                            <i class="fas fa-check-circle"></i>
-                                            R + W > N
+</div>
+<div class="quorum-rules">
+<h4>Quorum Rules</h4>
+<div class="quorum-rule">
+<i class="fas fa-check-circle"></i>
+                                            R + W &gt; N
                                         </div>
-                                        <div class="quorum-rule">
-                                            <i class="fas fa-check-circle"></i>
-                                            W > N/2
+<div class="quorum-rule">
+<i class="fas fa-check-circle"></i>
+                                            W &gt; N/2
                                         </div>
-                                        <div class="quorum-rule">
-                                            <i class="fas fa-check-circle"></i>
+<div class="quorum-rule">
+<i class="fas fa-check-circle"></i>
                                             Read quorum: R nodes
                                         </div>
-                                        <div class="quorum-rule">
-                                            <i class="fas fa-check-circle"></i>
+<div class="quorum-rule">
+<i class="fas fa-check-circle"></i>
                                             Write quorum: W nodes
                                         </div>
-                                    </div>
-                                    <div class="client">Client</div>
-                                    <div class="replicas">
-                                        <div class="replica" id="rep1">
-                                            <div class="replica-header">
+</div>
+<div class="client">Client</div>
+<div class="replicas">
+<div class="replica" id="rep1">
+<div class="replica-header">
                                                 Replica 1
                                             </div>
-                                            <div class="replica-data">
-                                                <div class="version">v1</div>
-                                                <div class="value">100</div>
-                                            </div>
-                                        </div>
-                                        <div class="replica" id="rep2">
-                                            <div class="replica-header">
+<div class="replica-data">
+<div class="version">v1</div>
+<div class="value">100</div>
+</div>
+</div>
+<div class="replica" id="rep2">
+<div class="replica-header">
                                                 Replica 2
                                             </div>
-                                            <div class="replica-data">
-                                                <div class="version">v1</div>
-                                                <div class="value">100</div>
-                                            </div>
-                                        </div>
-                                        <div class="replica" id="rep3">
-                                            <div class="replica-header">
+<div class="replica-data">
+<div class="version">v1</div>
+<div class="value">100</div>
+</div>
+</div>
+<div class="replica" id="rep3">
+<div class="replica-header">
                                                 Replica 3
                                             </div>
-                                            <div class="replica-data">
-                                                <div class="version">v1</div>
-                                                <div class="value">100</div>
-                                            </div>
-                                        </div>
-                                        <div class="replica" id="rep4">
-                                            <div class="replica-header">
+<div class="replica-data">
+<div class="version">v1</div>
+<div class="value">100</div>
+</div>
+</div>
+<div class="replica" id="rep4">
+<div class="replica-header">
                                                 Replica 4
                                             </div>
-                                            <div class="replica-data">
-                                                <div class="version">v1</div>
-                                                <div class="value">100</div>
-                                            </div>
-                                        </div>
-                                        <div class="replica" id="rep5">
-                                            <div class="replica-header">
+<div class="replica-data">
+<div class="version">v1</div>
+<div class="value">100</div>
+</div>
+</div>
+<div class="replica" id="rep5">
+<div class="replica-header">
                                                 Replica 5
                                             </div>
-                                            <div class="replica-data">
-                                                <div class="version">v1</div>
-                                                <div class="value">100</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="state-info" id="state-info">
+<div class="replica-data">
+<div class="version">v1</div>
+<div class="value">100</div>
+</div>
+</div>
+</div>
+<div class="state-info" id="state-info">
                                         Select an operation to begin
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="value-input"
-                                    placeholder="Enter new value (e.g. 150)"
-                                    value="150"
-                                />
-                                <div class="controls">
-                                    <button
-                                        id="inc-r-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-plus"></i> R
+</div>
+</div>
+<div class="console-input">
+<input id="value-input" placeholder="Enter new value (e.g. 150)" type="text" value="150"/>
+<div class="controls">
+<button class="console-btn secondary" id="inc-r-btn">
+<i class="fas fa-plus"></i> R
                                     </button>
-                                    <button
-                                        id="dec-r-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-minus"></i> R
+<button class="console-btn secondary" id="dec-r-btn">
+<i class="fas fa-minus"></i> R
                                     </button>
-                                    <button
-                                        id="inc-w-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-plus"></i> W
+<button class="console-btn secondary" id="inc-w-btn">
+<i class="fas fa-plus"></i> W
                                     </button>
-                                    <button
-                                        id="dec-w-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-minus"></i> W
+<button class="console-btn secondary" id="dec-w-btn">
+<i class="fas fa-minus"></i> W
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             Quorum Consensus operates through specific steps for
                             read and write operations:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-book-reader"></i> Read
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-book-reader"></i> Read
                                     Operation
                                 </h3>
-                                <p>
+<p>
                                     Client contacts R replicas and requests the
                                     value and version number. The client selects
                                     the value with the highest version number
                                     and returns it.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-pen-fancy"></i> Write
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-pen-fancy"></i> Write
                                     Operation
                                 </h3>
-                                <p>
+<p>
                                     Client contacts W replicas and sends the new
                                     value along with a version number (previous
                                     highest version + 1). Replicas update their
                                     value if the new version is higher.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sync-alt"></i> Consistency
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sync-alt"></i> Consistency
                                     Guarantee
                                 </h3>
-                                <p>
-                                    Since R + W > N, any read quorum must
+<p>
+                                    Since R + W &gt; N, any read quorum must
                                     overlap with the last write quorum, ensuring
                                     the read gets the latest value.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-exclamation-triangle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exclamation-triangle"></i>
                                     Fault Handling
                                 </h3>
-                                <p>
+<p>
                                     The system can tolerate N - W failed writes
                                     and N - R failed reads while still
                                     functioning correctly.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Read operation
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Read operation
 function read():
     responses = []
     // Contact R replicas
@@ -1094,7 +1080,7 @@ function read():
     // Find value with highest version
     latest = responses[0]
     for response in responses:
-        if response.version > latest.version:
+        if response.version &gt; latest.version:
             latest = response
 
     return latest.value
@@ -1112,7 +1098,7 @@ function write(new_value):
         if replica.set_value(new_value, new_version):
             successes++
 
-    return successes >= W  // Return true if write succeeded
+    return successes &gt;= W  // Return true if write succeeded
 
 // Replica handling
 replica:
@@ -1123,31 +1109,29 @@ replica:
         return (value, version)
 
     function set_value(new_value, new_version):
-        if new_version > version:
+        if new_version &gt; version:
             value = new_value
             version = new_version
             return true
         return false</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a Python implementation of the Quorum
                             Consensus protocol, including read and write
                             operations with version tracking.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">import</span> random
+</div>
+<pre><code><span class="keyword">import</span> random
 
 <span class="keyword">class</span> <span class="function">Replica</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(self, replica_id):
@@ -1165,7 +1149,7 @@ replica:
         <span class="keyword">if</span> self.is_faulty:
             <span class="keyword">return</span> <span class="keyword">False</span>  <span class="comment"># Simulate failure</span>
 
-        <span class="keyword">if</span> new_version > self.version:
+        <span class="keyword">if</span> new_version &gt; self.version:
             self.value = new_value
             self.version = new_version
             <span class="keyword">return</span> <span class="keyword">True</span>
@@ -1185,7 +1169,7 @@ replica:
         contacted = set()
 
         <span class="comment"># Contact R replicas</span>
-        <span class="keyword">while</span> len(contacted) < self.r:
+        <span class="keyword">while</span> len(contacted) &lt; self.r:
             replica = random.choice(self.replicas)
             <span class="keyword">if</span> replica <span class="keyword">in</span> contacted:
                 <span class="keyword">continue</span>
@@ -1200,7 +1184,7 @@ replica:
         <span class="comment"># Find the response with the highest version</span>
         latest_value, latest_version = responses[0]
         <span class="keyword">for</span> value, version <span class="keyword">in</span> responses:
-            <span class="keyword">if</span> version > latest_version:
+            <span class="keyword">if</span> version &gt; latest_version:
                 latest_value, latest_version = value, version
 
         <span class="keyword">return</span> latest_value
@@ -1210,7 +1194,7 @@ replica:
         latest_version = 0
         <span class="keyword">for</span> replica <span class="keyword">in</span> self.replicas:
             value, version = replica.get_value() <span class="keyword">or</span> (0, 0)
-            <span class="keyword">if</span> version > latest_version:
+            <span class="keyword">if</span> version &gt; latest_version:
                 latest_version = version
 
         new_version = latest_version + 1
@@ -1218,7 +1202,7 @@ replica:
         contacted = set()
 
         <span class="comment"># Contact W replicas</span>
-        <span class="keyword">while</span> len(contacted) < self.w:
+        <span class="keyword">while</span> len(contacted) &lt; self.w:
             replica = random.choice(self.replicas)
             <span class="keyword">if</span> replica <span class="keyword">in</span> contacted:
                 <span class="keyword">continue</span>
@@ -1226,7 +1210,7 @@ replica:
             <span class="keyword">if</span> replica.set_value(new_value, new_version):
                 successes += 1
 
-        <span class="keyword">return</span> successes >= self.w
+        <span class="keyword">return</span> successes &gt;= self.w
 
 <span class="comment"># Example usage</span>
 quorum = QuorumSystem(n=5, r=3, w=3)
@@ -1234,151 +1218,134 @@ print(<span class="string">"Read value:"</span>, quorum.read())
 success = quorum.write(150)
 print(<span class="string">"Write successful:"</span>, success)
 print(<span class="string">"Read after write:"</span>, quorum.read())</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Consistency</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Quorum System</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fault Tolerance</h4>
-                                <div class="value">Configurable</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Consistency</h4>
-                                <div class="value">Strong</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Min Nodes</h4>
-                                <div class="value">3</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Read Quorum</h4>
-                                <div class="value">R</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Write Quorum</h4>
-                                <div class="value">W</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Constraint</h4>
-                                <div class="value">R+W>N</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Consistency</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Quorum System</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">Configurable</div>
+</div>
+<div class="property-card">
+<h4>Consistency</h4>
+<div class="value">Strong</div>
+</div>
+<div class="property-card">
+<h4>Min Nodes</h4>
+<div class="value">3</div>
+</div>
+<div class="property-card">
+<h4>Read Quorum</h4>
+<div class="value">R</div>
+</div>
+<div class="property-card">
+<h4>Write Quorum</h4>
+<div class="value">W</div>
+</div>
+<div class="property-card">
+<h4>Constraint</h4>
+<div class="value">R+W&gt;N</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Quorum Consensus is widely used in distributed
                             systems requiring consistency:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Distributed databases (e.g., Apache Cassandra,
                                 DynamoDB)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Distributed file systems (e.g., Google File
                                 System)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Blockchain consensus mechanisms
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Replicated state machines
                             </li>
-                            <li>Distributed locking services</li>
-                        </ul>
-                    </div>
-
-                    <!-- Configuration Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-sliders-h"></i> Configuration
+<li>Distributed locking services</li>
+</ul>
+</div>
+<!-- Configuration Section -->
+<div class="section">
+<h2>
+<i class="fas fa-sliders-h"></i> Configuration
                             Tradeoffs
                         </h2>
-                        <p>
+<p>
                             Different quorum configurations offer various
                             tradeoffs:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>R=1, W=N:</strong> Fast reads, slow
+                            ">
+<li style="margin-bottom: 10px">
+<strong>R=1, W=N:</strong> Fast reads, slow
                                 writes
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>R=N, W=1:</strong> Slow reads, fast
+<li style="margin-bottom: 10px">
+<strong>R=N, W=1:</strong> Slow reads, fast
                                 writes
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>R=W=(N+1)/2:</strong> Balanced
+<li style="margin-bottom: 10px">
+<strong>R=W=(N+1)/2:</strong> Balanced
                                 read/write performance
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>R=W=ceil(N/2)+1:</strong> Tolerates
+<li style="margin-bottom: 10px">
+<strong>R=W=ceil(N/2)+1:</strong> Tolerates
                                 failures while maintaining consistency
                             </li>
-                            <li>
-                                <strong>R=3, W=3, N=5:</strong> Common balanced
+<li>
+<strong>R=3, W=3, N=5:</strong> Common balanced
                                 configuration
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization state
             let quorumState = {
                 operation: "none",
@@ -1739,5 +1706,5 @@ print(<span class="string">"Read after write:"</span>, quorum.read())</code></pr
                 validateQuorum();
             });
         </script>
-    </body>
+</body>
 </html>

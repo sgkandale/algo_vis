@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>K-Means Clustering | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>K-Means Clustering | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -698,189 +693,197 @@
         color: var(--accent-light);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Unsupervised Learning</a> >
+<meta content="K-Means Clustering | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_k_means_clustering.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="K-Means Clustering | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_k_means_clustering.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "K-Means Clustering | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_k_means_clustering.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Unsupervised Learning</a> &gt;
               <span>K-Means Clustering</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>K-Means Clustering</h1>
+<div class="category">
+<i class="fas fa-object-group"></i> Unsupervised Learning Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>K-Means Clustering</h1>
-        <div class="category">
-          <i class="fas fa-object-group"></i> Unsupervised Learning Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n × k × i × d)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n × k × i × d)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               K-Means Clustering is an unsupervised machine learning algorithm
               that partitions n observations into k clusters. Each observation
               belongs to the cluster with the nearest mean, serving as a
               prototype of the cluster. The algorithm iteratively refines
               cluster assignments by minimizing within-cluster variance.
             </p>
-            <p>
+<p>
               K-Means is widely used for data segmentation, customer profiling,
               image compression, and anomaly detection. It works best when
               clusters are spherical and roughly equal in size, making it a
               popular choice for exploratory data analysis.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Partitions data into k distinct clusters based on feature
                   similarity
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Efficient for large datasets with linear time complexity in
                   practice
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>
                   Requires O(n × d) space for data and O(k × d) for centroids
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Iterative refinement of cluster centroids and assignments</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Iterative refinement of cluster centroids and assignments</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Explore how K-Means groups data points into clusters. Adjust the
               number of clusters (k), step through the algorithm iterations, and
               observe how centroids move and cluster assignments change. Click
               "Generate Data" to create new datasets or "Reset" to start over.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3><i class="fas fa-play-circle"></i> K-Means Clustering</h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="visualization-console">
+<div class="console-header">
+<h3><i class="fas fa-play-circle"></i> K-Means Clustering</h3>
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div id="kmeans-viz"></div>
-              </div>
-
-              <div class="console-input">
-                <div class="k-slider">
-                  <label for="k-value">Number of Clusters (k):</label>
-                  <input type="range" id="k-value" min="2" max="8" value="3" />
-                  <div class="k-value">k = <span id="k-display">3</span></div>
-                </div>
-                <button class="console-btn" id="generate-btn">
-                  <i class="fas fa-random"></i> Generate Data
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div id="kmeans-viz"></div>
+</div>
+<div class="console-input">
+<div class="k-slider">
+<label for="k-value">Number of Clusters (k):</label>
+<input id="k-value" max="8" min="2" type="range" value="3"/>
+<div class="k-value">k = <span id="k-display">3</span></div>
+</div>
+<button class="console-btn" id="generate-btn">
+<i class="fas fa-random"></i> Generate Data
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               The K-Means algorithm follows these iterative steps to form
               clusters:
             </p>
-
-            <div class="step-container">
-              <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                  <h4>Initialize Centroids</h4>
-                  <p>
+<div class="step-container">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">
+<h4>Initialize Centroids</h4>
+<p>
                     Randomly select k data points as initial cluster centroids.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                  <h4>Assign Points to Clusters</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">
+<h4>Assign Points to Clusters</h4>
+<p>
                     For each data point, calculate distance to all centroids and
                     assign to the nearest centroid's cluster.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                  <h4>Update Centroids</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">
+<h4>Update Centroids</h4>
+<p>
                     Recalculate centroids as the mean of all points assigned to
                     each cluster.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                  <h4>Check for Convergence</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">4</div>
+<div class="step-content">
+<h4>Check for Convergence</h4>
+<p>
                     Repeat steps 2-3 until centroids stabilize (no changes) or
                     maximum iterations reached.
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function kmeans(data, k, max_iterations):
+</div>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function kmeans(data, k, max_iterations):
     # Step 1: Initialize centroids randomly
     centroids = randomly select k points from data
     
@@ -908,27 +911,25 @@
             centroids = new_centroids
     
     return clusters, centroids</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the K-Means clustering
               algorithm. The implementation includes Euclidean distance
               calculation, centroid initialization, and iterative refinement of
               cluster assignments.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+</div>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
 <span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_blobs
 <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
 
@@ -956,7 +957,7 @@
             new_centroids = np.zeros((<span class="keyword">self</span>.n_clusters, n_features))
             <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="keyword">self</span>.n_clusters):
                 cluster_points = X[<span class="keyword">self</span>.labels == i]
-                <span class="keyword">if</span> len(cluster_points) > 0:
+                <span class="keyword">if</span> len(cluster_points) &gt; 0:
                     new_centroids[i] = np.mean(cluster_points, axis=0)
                 <span class="keyword">else</span>:
                     new_centroids[i] = X[np.random.randint(n_samples)]
@@ -991,147 +992,135 @@ plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', alpha=0.7)
 plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='X', s=200)
 plt.title(<span class="string">"K-Means Clustering Results"</span>)
 plt.show()</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Clustering</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Partitioning</div>
-              </div>
-              <div class="property-card">
-                <h4>Supervision</h4>
-                <div class="value">Unsupervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Parametric</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Training Time</h4>
-                <div class="value">O(n × k × i)</div>
-              </div>
-              <div class="property-card">
-                <h4>Prediction Time</h4>
-                <div class="value">O(k × d)</div>
-              </div>
-              <div class="property-card">
-                <h4>Memory</h4>
-                <div class="value">O(n × d)</div>
-              </div>
-              <div class="property-card">
-                <h4>Hyperparameter</h4>
-                <div class="value">k</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Clustering</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Partitioning</div>
+</div>
+<div class="property-card">
+<h4>Supervision</h4>
+<div class="value">Unsupervised</div>
+</div>
+<div class="property-card">
+<h4>Parametric</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Training Time</h4>
+<div class="value">O(n × k × i)</div>
+</div>
+<div class="property-card">
+<h4>Prediction Time</h4>
+<div class="value">O(k × d)</div>
+</div>
+<div class="property-card">
+<h4>Memory</h4>
+<div class="value">O(n × d)</div>
+</div>
+<div class="property-card">
+<h4>Hyperparameter</h4>
+<div class="value">k</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               K-Means is widely used in various domains for data segmentation:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Customer segmentation for marketing
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Image compression and color quantization
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Document clustering and topic modeling
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Anomaly detection in network security
               </li>
-              <li>Genomic data analysis in bioinformatics</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
-            <ul
-              style="
+<li>Genomic data analysis in bioinformatics</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Simple to understand and implement
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Efficient and scalable for large datasets
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Adapts easily to new data points
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Guaranteed convergence to a local optimum
               </li>
-              <li>Works well with spherical cluster shapes</li>
-            </ul>
-          </div>
-
-          <!-- Limitations Section -->
-          <div class="section">
-            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
-            <ul
-              style="
+<li>Works well with spherical cluster shapes</li>
+</ul>
+</div>
+<!-- Limitations Section -->
+<div class="section">
+<h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Requires specifying k in advance
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sensitive to initial centroid positions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Struggles with non-spherical clusters
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Not robust to outliers and noisy data
               </li>
-              <li>Assumes clusters of similar size and density</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Assumes clusters of similar size and density</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // K-Means Visualization
       document.addEventListener("DOMContentLoaded", function () {
         // DOM Elements
@@ -1450,5 +1439,5 @@ plt.show()</code></pre>
         generateData();
       });
     </script>
-  </body>
+</body>
 </html>

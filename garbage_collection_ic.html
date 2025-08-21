@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Incremental/Concurrent GC | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Incremental/Concurrent GC | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -827,48 +822,67 @@
                 display: none;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Incremental/Concurrent GC | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_ic.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Incremental/Concurrent GC | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_ic.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Incremental/Concurrent GC | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_ic.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-tachometer-alt"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Incremental/Concurrent GC</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Incremental &amp; Concurrent GC</h1>
+<div class="category">
+<i class="fas fa-clock"></i> Low-Pause Garbage Collection
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Incremental & Concurrent GC</h1>
-                <div class="category">
-                    <i class="fas fa-clock"></i> Low-Pause Garbage Collection
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Pause Times: Minimal | Throughput: High
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Incremental and Concurrent Garbage Collection
                             algorithms are designed to minimize pause times by
                             breaking up garbage collection work into small
@@ -877,7 +891,7 @@
                             consistent responsiveness at the cost of slightly
                             reduced throughput.
                         </p>
-                        <p>
+<p>
                             Incremental GC performs collection in small steps
                             between mutator operations, while Concurrent GC runs
                             collection simultaneously with the mutator on
@@ -885,54 +899,52 @@
                             barriers to maintain consistency while the mutator
                             continues to run.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Minimal pause times by interleaving GC work
                                     with mutator execution
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Excellent responsiveness with slightly
                                     reduced throughput
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Memory Usage
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Memory Usage
                                 </h3>
-                                <p>
+<p>
                                     Requires additional metadata for write
                                     barriers and consistency
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Breaks collection into small units and uses
                                     barriers for consistency
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             The visualization below demonstrates Incremental and
                             Concurrent garbage collection algorithms. You can
                             see how the collector works in small increments
@@ -940,221 +952,167 @@
                             maintain consistency. Use the controls to simulate
                             different scenarios.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Heap
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-memory"></i> Heap
                                     Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="step-btn"
-                                    >
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button
-                                        class="console-btn"
-                                        id="run-incr-btn"
-                                    >
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-incr-btn">
+<i class="fas fa-play"></i> Run
                                         Incremental
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="run-conc-btn"
-                                    >
-                                        <i class="fas fa-play-circle"></i> Run
+<button class="console-btn secondary" id="run-conc-btn">
+<i class="fas fa-play-circle"></i> Run
                                         Concurrent
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- Visualization will be rendered here by JavaScript -->
-                                <div class="heap-container" id="heap-container">
-                                    <div
-                                        class="heap-memory"
-                                        id="heap-memory"
-                                    ></div>
-                                    <div
-                                        class="write-barrier-indicator"
-                                        id="write-barrier-indicator"
-                                    >
-                                        <i class="fas fa-shield-alt"></i> Write
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- Visualization will be rendered here by JavaScript -->
+<div class="heap-container" id="heap-container">
+<div class="heap-memory" id="heap-memory"></div>
+<div class="write-barrier-indicator" id="write-barrier-indicator">
+<i class="fas fa-shield-alt"></i> Write
                                         Barrier Active
                                     </div>
-                                    <div class="algorithm-stats">
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="total-objects"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Total Objects</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="marked-objects"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Marked</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="barrier-count"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Barrier Hits</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="pause-time"
-                                                >0ms</span
-                                            >
-                                            <span class="stat-label"
-                                                >Pause Time</span
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <button class="console-btn" id="allocate-btn">
-                                    <i class="fas fa-plus-circle"></i> Allocate
+<div class="algorithm-stats">
+<div class="stat-item">
+<span class="stat-value" id="total-objects">0</span>
+<span class="stat-label">Total Objects</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="marked-objects">0</span>
+<span class="stat-label">Marked</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="barrier-count">0</span>
+<span class="stat-label">Barrier Hits</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="pause-time">0ms</span>
+<span class="stat-label">Pause Time</span>
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<button class="console-btn" id="allocate-btn">
+<i class="fas fa-plus-circle"></i> Allocate
                                     Object
                                 </button>
-                                <button class="console-btn" id="create-ref-btn">
-                                    <i class="fas fa-link"></i> Create Reference
+<button class="console-btn" id="create-ref-btn">
+<i class="fas fa-link"></i> Create Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="mutator-btn"
-                                >
-                                    <i class="fas fa-code"></i> Run Mutator
+<button class="console-btn secondary" id="mutator-btn">
+<i class="fas fa-code"></i> Run Mutator
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="reset-btn"
-                                >
-                                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-list-ol"></i> Algorithm Approaches
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2>
+<i class="fas fa-list-ol"></i> Algorithm Approaches
                         </h2>
-                        <p>
+<p>
                             Incremental and Concurrent GC use various techniques
                             to minimize pause times:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-pause-circle"></i> 1.
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-pause-circle"></i> 1.
                                     Incremental Mark-Sweep
                                 </h3>
-                                <p>
+<p>
                                     Breaks the mark phase into small increments,
                                     interleaving with mutator execution. Uses a
                                     write barrier to track references from black
                                     to white objects.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-users"></i> 2. Concurrent
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-users"></i> 2. Concurrent
                                     Mark-Sweep
                                 </h3>
-                                <p>
+<p>
                                     Runs the mark phase concurrently with
                                     mutator execution in separate threads.
                                     Requires more sophisticated synchronization
                                     and barriers.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-shield-alt"></i> 3. Write
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-shield-alt"></i> 3. Write
                                     Barriers
                                 </h3>
-                                <p>
+<p>
                                     Special code that executes on pointer stores
                                     to maintain invariants. Tracks references
                                     from black to white objects during
                                     concurrent marking.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-tachometer-alt"></i> 4.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-tachometer-alt"></i> 4.
                                     Tricolor Abstraction
                                 </h3>
-                                <p>
+<p>
                                     Models object states as white (unprocessed),
                                     grey (being processed), and black
                                     (processed). Write barriers maintain the
                                     invariant that black objects never point to
                                     white objects.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sync-alt"></i> 5.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sync-alt"></i> 5.
                                     Snapshot-at-the-Beginning
                                 </h3>
-                                <p>
+<p>
                                     Records all objects live at the start of
                                     collection. Any object allocated after this
                                     point is considered live for the current
                                     cycle.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-wave-square"></i> 6.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-wave-square"></i> 6.
                                     Incremental Update
                                 </h3>
-                                <p>
+<p>
                                     Tracks changes to the object graph during
                                     collection. When a reference is updated,
                                     both old and new targets may need special
                                     handling.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Incremental Mark-Sweep Algorithm</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<div class="code-header">
+<span>Incremental Mark-Sweep Algorithm</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code>// Incremental Mark-Sweep Garbage Collection
+</div>
+<pre><code>// Incremental Mark-Sweep Garbage Collection
 function incrementalGC():
   // Initialization phase (short pause)
   stopTheWorld()
@@ -1200,25 +1158,23 @@ function concurrentSweeper():
       free(object)
     else:
       object.color = white  // For next GC cycle</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of an
                             Incremental Garbage Collector.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">IncrementalGC</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">IncrementalGC</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
         <span class="keyword">self</span>.heap = []
         <span class="keyword">self</span>.roots = []
@@ -1310,174 +1266,154 @@ gc.start_gc_cycle()
 
 <span class="comment"># Final sweep</span>
 gc.sweep()</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Low-Pause GC</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Incremental/Concurrent</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Pause Times</h4>
-                                <div class="value">Minimal</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">Medium-High</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Memory Overhead</h4>
-                                <div class="value">Medium</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Complexity</h4>
-                                <div class="value">High</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Synchronization</h4>
-                                <div class="value">Required</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Barriers</h4>
-                                <div class="value">Write Barrier</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Low-Pause GC</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Incremental/Concurrent</div>
+</div>
+<div class="property-card">
+<h4>Pause Times</h4>
+<div class="value">Minimal</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">Medium-High</div>
+</div>
+<div class="property-card">
+<h4>Memory Overhead</h4>
+<div class="value">Medium</div>
+</div>
+<div class="property-card">
+<h4>Complexity</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Synchronization</h4>
+<div class="value">Required</div>
+</div>
+<div class="property-card">
+<h4>Barriers</h4>
+<div class="value">Write Barrier</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Incremental and Concurrent GC are used in systems
                             requiring low latency:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Real-time systems and games
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Interactive applications and UI frameworks
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Web browsers (JavaScript engines)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 High-performance servers and databases
                             </li>
-                            <li>Financial trading systems</li>
-                            <li>Telecommunications systems</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
-                        <ul
-                            style="
+<li>Financial trading systems</li>
+<li>Telecommunications systems</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Key Advantages</h2>
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Low Pause Times:</strong> Minimal
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Low Pause Times:</strong> Minimal
                                 disruption to application
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Responsive:</strong> Better user
+<li style="margin-bottom: 10px">
+<strong>Responsive:</strong> Better user
                                 experience for interactive apps
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Predictable:</strong> More consistent
+<li style="margin-bottom: 10px">
+<strong>Predictable:</strong> More consistent
                                 performance
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Scalable:</strong> Works well on
+<li style="margin-bottom: 10px">
+<strong>Scalable:</strong> Works well on
                                 multi-core systems
                             </li>
-                            <li>
-                                <strong>Flexible:</strong> Can be tuned for
+<li>
+<strong>Flexible:</strong> Can be tuned for
                                 latency or throughput
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Disadvantages Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-exclamation-triangle"></i>
+</ul>
+</div>
+<!-- Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-exclamation-triangle"></i>
                             Challenges
                         </h2>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 More complex implementation than stop-the-world
                                 GC
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Write barrier overhead affects mutator
                                 performance
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Requires careful synchronization in concurrent
                                 collectors
                             </li>
-                            <li>
+<li>
                                 May require more total CPU cycles for collection
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization for Incremental/Concurrent Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
                 const visualization =
@@ -2080,5 +2016,5 @@ gc.sweep()</code></pre>
                     });
             });
         </script>
-    </body>
+</body>
 </html>

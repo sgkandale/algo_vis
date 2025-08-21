@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Postman Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Postman Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -684,190 +679,196 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Postman Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_postman.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Postman Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_postman.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Postman Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_postman.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Postman Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Postman Sort</h1>
+<div class="category">
+<i class="fas fa-mail-bulk"></i> Distribution Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Postman Sort</h1>
-        <div class="category">
-          <i class="fas fa-mail-bulk"></i> Distribution Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n + k)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n + k)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Postman Sort (also known as Bucket Sort) is a distribution sorting
               algorithm that works by distributing elements into a number of
               buckets. Each bucket is then sorted individually, either using a
               different sorting algorithm or by recursively applying the bucket
               sort.
             </p>
-            <p>
+<p>
               This algorithm is efficient when the input is uniformly
               distributed over a range. It works by creating buckets for
               different ranges and distributing elements into these buckets. The
               buckets are then sorted individually and concatenated to produce
               the sorted array.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Distributes elements into buckets based on their value</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Distributes elements into buckets based on their value</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Efficient when input is uniformly distributed over a range
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n + k) where k is the number of buckets</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Bucket distribution followed by individual sorting</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n + k) where k is the number of buckets</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Bucket distribution followed by individual sorting</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Postman Sort
               works. Enter comma-separated numbers, adjust the simulation speed,
               and step through the algorithm to see each stage of the sorting
               process.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Postman Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Postman Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="settingsBtn">
-                    <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settingsBtn">
+<i class="fas fa-cog"></i> Settings
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="stepBtn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="postmanViz">
-                <div class="postman-container" id="postmanContainer">
-                  <div class="action-label" id="actionLabel">
+</div>
+</div>
+<div class="visualization-area" id="postmanViz">
+<div class="postman-container" id="postmanContainer">
+<div class="action-label" id="actionLabel">
                     Initializing...
                   </div>
-                  <div class="array-container" id="arrayContainer"></div>
-                  <div class="buckets-container" id="bucketsContainer"></div>
-                  <div class="step-info" id="stepInfo">
+<div class="array-container" id="arrayContainer"></div>
+<div class="buckets-container" id="bucketsContainer"></div>
+<div class="step-info" id="stepInfo">
                     Step 0: Initial state
                   </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="inputArray"
-                  placeholder="Enter numbers (e.g., 38, 27, 43, 3, 9, 82, 10)"
-                  value="38, 27, 43, 3, 9, 82, 10"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="console-input">
+<input id="inputArray" placeholder="Enter numbers (e.g., 38, 27, 43, 3, 9, 82, 10)" type="text" value="38, 27, 43, 3, 9, 82, 10"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Postman Sort processes data through these distinct phases:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-search"></i> 1. Determine Range</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Postman Sort processes data through these distinct phases:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-search"></i> 1. Determine Range</h3>
+<p>
                   Find the minimum and maximum values to determine the range of
                   the input data.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-boxes"></i> 2. Create Buckets</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-boxes"></i> 2. Create Buckets</h3>
+<p>
                   Create a number of empty buckets based on the range and
                   distribution of the data.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-share-alt"></i> 3. Distribute Elements</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-share-alt"></i> 3. Distribute Elements</h3>
+<p>
                   Scatter the elements into their respective buckets based on
                   their value.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort"></i> 4. Sort Buckets</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort"></i> 4. Sort Buckets</h3>
+<p>
                   Sort each bucket individually using a stable sorting algorithm
                   like insertion sort.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-layer-group"></i> 5. Concatenate Buckets
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-layer-group"></i> 5. Concatenate Buckets
                 </h3>
-                <p>Gather all sorted buckets to form the final sorted array.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function postmanSort(arr, bucketCount):
+<p>Gather all sorted buckets to form the final sorted array.</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function postmanSort(arr, bucketCount):
     n = length(arr)
-    if n <= 1: return arr
+    if n &lt;= 1: return arr
     
     // Step 1: Find min and max
     minVal = min(arr)
@@ -880,7 +881,7 @@
     // Step 3: Distribute elements into buckets
     for each element in arr:
         bucketIndex = floor((element - minVal) / range)
-        if bucketIndex >= bucketCount:
+        if bucketIndex &gt;= bucketCount:
             bucketIndex = bucketCount - 1
         append element to buckets[bucketIndex]
     
@@ -894,27 +895,25 @@
         append bucket to sortedArr
     
     return sortedArr</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Postman Sort algorithm.
               The algorithm efficiently distributes elements into buckets and
               then sorts each bucket using insertion sort.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">postman_sort</span>(arr, bucket_count=5):
-    <span class="keyword">if</span> len(arr) <= 1:
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">postman_sort</span>(arr, bucket_count=5):
+    <span class="keyword">if</span> len(arr) &lt;= 1:
         <span class="keyword">return</span> arr
     
     <span class="comment"># Find min and max values</span>
@@ -951,7 +950,7 @@
     <span class="keyword">for</span> i <span class="keyword">in</span> range(1, len(bucket)):
         key = bucket[i]
         j = i - 1
-        <span class="keyword">while</span> j >= 0 <span class="keyword">and</span> bucket[j] > key:
+        <span class="keyword">while</span> j &gt;= 0 <span class="keyword">and</span> bucket[j] &gt; key:
             bucket[j+1] = bucket[j]
             j -= 1
         bucket[j+1] = key
@@ -961,102 +960,90 @@ arr = [38, 27, 43, 3, 9, 82, 10]
 sorted_arr = postman_sort(arr)
 print(<span class="string">"Original:"</span>, arr)
 print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Distribution</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Non-comparative</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n + k)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n + k)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n + k)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Distribution</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Non-comparative</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n + k)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n + k)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n + k)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Postman Sort is particularly effective in scenarios with uniformly
               distributed data:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting floating-point numbers in a known range
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting uniformly distributed integer data
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting data that can be partitioned into categories
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Parallel processing of large datasets
               </li>
-              <li>External sorting algorithms</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>External sorting algorithms</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Postman Sort Visualization Logic
       class PostmanSortVisualizer {
         constructor(container) {
@@ -1377,5 +1364,5 @@ print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
           });
       });
     </script>
-  </body>
+</body>
 </html>

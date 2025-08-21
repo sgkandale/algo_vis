@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Smoothsort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Smoothsort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -633,44 +628,63 @@
         border-radius: 5px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Smoothsort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_smooth.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Smoothsort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_smooth.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Smoothsort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_smooth.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Smoothsort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Smoothsort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Smoothsort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Smoothsort is an adaptive variant of heapsort developed by Edsger
               Dijkstra. It has a time complexity of O(n log n) in the worst
               case, and O(n) in the best case (when the input is already
@@ -678,139 +692,125 @@
               Leonardo heap - a heap-like data structure composed of Leonardo
               trees.
             </p>
-            <p>
+<p>
               The algorithm is particularly efficient for partially sorted data
               and minimizes the number of comparisons and swaps. Its adaptive
               nature makes it suitable for scenarios where data is already
               partially ordered.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Adaptive algorithm with O(n) best-case performance</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Adaptive algorithm with O(n) best-case performance</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n log n) worst-case, O(n) best-case (when input is sorted)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(1) additional space - in-place sorting algorithm</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Leonardo heap construction and deconstruction</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(1) additional space - in-place sorting algorithm</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Leonardo heap construction and deconstruction</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Smoothsort
               works. Enter comma-separated numbers and step through the
               algorithm to see how the Leonardo heap is built and deconstructed.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Smoothsort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Smoothsort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="array-container" id="array-container">
-                  <!-- Array elements will be generated here -->
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  id="array-input"
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="3, 1, 5, 4, 2, 9, 7, 8, 6"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area">
+<div class="array-container" id="array-container">
+<!-- Array elements will be generated here -->
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="3, 1, 5, 4, 2, 9, 7, 8, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div id="status" class="status-bar">
+</div>
+<div class="status-bar" id="status">
                 Enter numbers and click Run or Step
               </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Smoothsort processes the array using Leonardo heaps:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tree"></i> 1. Leonardo Heaps</h3>
-                <p>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Smoothsort processes the array using Leonardo heaps:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tree"></i> 1. Leonardo Heaps</h3>
+<p>
                   The algorithm uses Leonardo numbers (L(n) = L(n-1) + L(n-2) +
                   1) to form a heap structure
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-layer-group"></i> 2. Heap Construction</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-layer-group"></i> 2. Heap Construction</h3>
+<p>
                   Build the heap by adding elements while maintaining heap
                   properties
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-sort-amount-down"></i> 3. Heap Ordering
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sort-amount-down"></i> 3. Heap Ordering
                 </h3>
-                <p>
+<p>
                   Ensure each Leonardo tree satisfies the heap property (parent
-                  > children)
+                  &gt; children)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-cogs"></i> 4. Heap Balancing</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-cogs"></i> 4. Heap Balancing</h3>
+<p>
                   Maintain the heap by balancing tree sizes according to
                   Leonardo numbers
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-trash"></i> 5. Heap Deconstruction</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-trash"></i> 5. Heap Deconstruction</h3>
+<p>
                   Remove the root (largest element) and place it in sorted
                   position
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function smoothSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function smoothSort(arr):
     n = length(arr)
     p = n - 1  // Last element index
     q = p
@@ -839,7 +839,7 @@
         
         // Reduce heap size
         p = p - 1
-        if p < 0:
+        if p &lt; 0:
             q = q - 1
             p = indexOf(q)
         
@@ -848,14 +848,14 @@
 
 function siftDown(arr, root, treeSize):
     current = root
-    while treeSize > 1:
+    while treeSize &gt; 1:
         left = current - (treeSize - leo[treeSize-2])
         right = current - 1
         
-        if arr[current] >= arr[left] and arr[current] >= arr[right]:
+        if arr[current] &gt;= arr[left] and arr[current] &gt;= arr[right]:
             break
         
-        if arr[left] > arr[right]:
+        if arr[left] &gt; arr[right]:
             swap(arr[current], arr[left])
             current = left
             treeSize = treeSize - 1
@@ -863,37 +863,35 @@ function siftDown(arr, root, treeSize):
             swap(arr[current], arr[right])
             current = right
             treeSize = treeSize - 2</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Smoothsort. The algorithm uses
               Leonardo numbers to form heap structures and efficiently sorts
               data:
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">leonardo_numbers</span>(n):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">leonardo_numbers</span>(n):
     <span class="comment"># Generate Leonardo numbers up to n</span>
     a, b = 1, 1
     numbers = []
-    <span class="keyword">while</span> a < n:
+    <span class="keyword">while</span> a &lt; n:
         numbers.append(a)
         a, b = b, a + b + 1
     <span class="keyword">return</span> numbers
 
 <span class="keyword">def</span> <span class="function">smooth_sort</span>(arr):
     n = len(arr)
-    <span class="keyword">if</span> n <= 1:
+    <span class="keyword">if</span> n &lt;= 1:
         <span class="keyword">return</span> arr
         
     leo = leonardo_numbers(n)
@@ -901,11 +899,11 @@ function siftDown(arr, root, treeSize):
     <span class="comment"># Build the heap</span>
     heap = []
     <span class="keyword">for</span> i <span class="keyword">in</span> range(n):
-        <span class="keyword">if</span> len(heap) >= 2 <span class="keyword">and</span> heap[-2] == heap[-1] + 1:
+        <span class="keyword">if</span> len(heap) &gt;= 2 <span class="keyword">and</span> heap[-2] == heap[-1] + 1:
             heap.pop()
             heap[-1] += 1
         <span class="keyword">else</span>:
-            <span class="keyword">if</span> len(heap) >= 1 <span class="keyword">and</span> heap[-1] == 1:
+            <span class="keyword">if</span> len(heap) &gt;= 1 <span class="keyword">and</span> heap[-1] == 1:
                 heap.append(0)
             <span class="keyword">else</span>:
                 heap.append(1)
@@ -915,7 +913,7 @@ function siftDown(arr, root, treeSize):
     
     <span class="comment"># Deconstruct the heap</span>
     <span class="keyword">for</span> i <span class="keyword">in</span> range(n-1, 0, -1):
-        <span class="keyword">if</span> heap[-1] < 2:
+        <span class="keyword">if</span> heap[-1] &lt; 2:
             heap.pop()
         <span class="keyword">else</span>:
             k = heap.pop()
@@ -929,18 +927,18 @@ function siftDown(arr, root, treeSize):
 
 <span class="keyword">def</span> <span class="function">sift_down</span>(arr, root, heap, leo):
     k = heap[-1]
-    <span class="keyword">if</span> k < 2:
+    <span class="keyword">if</span> k &lt; 2:
         <span class="keyword">return</span>
     
     r = root
-    <span class="keyword">while</span> k >= 2:
+    <span class="keyword">while</span> k &gt;= 2:
         right = r - 1
         left = r - 1 - leo[k-2]
         
-        <span class="keyword">if</span> arr[r] >= arr[left] <span class="keyword">and</span> arr[r] >= arr[right]:
+        <span class="keyword">if</span> arr[r] &gt;= arr[left] <span class="keyword">and</span> arr[r] &gt;= arr[right]:
             <span class="keyword">break</span>
             
-        <span class="keyword">if</span> arr[left] > arr[right]:
+        <span class="keyword">if</span> arr[left] &gt; arr[right]:
             arr[r], arr[left] = arr[left], arr[r]
             r = left
             k = k - 1
@@ -954,146 +952,133 @@ arr = [3, 1, 5, 4, 2, 9, 7, 8, 6]
 sorted_arr = smooth_sort(arr.copy())
 print(<span class="string">"Original array:"</span>, arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-              <div class="property-card">
-                <h4>Adaptive</h4>
-                <div class="value">Yes</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Smoothsort is particularly useful in specialized scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+<div class="property-card">
+<h4>Adaptive</h4>
+<div class="value">Yes</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Smoothsort is particularly useful in specialized scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Systems requiring adaptive sorting algorithms
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Real-time systems with partially sorted inputs
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Memory-constrained environments (in-place sorting)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Applications where data is frequently nearly sorted
               </li>
-              <li>Educational demonstrations of adaptive heapsort</li>
-            </ul>
-          </div>
-
-          <!-- Leonardo Numbers Section -->
-          <div class="section">
-            <h2><i class="fas fa-calculator"></i> Leonardo Numbers</h2>
-            <p>
+<li>Educational demonstrations of adaptive heapsort</li>
+</ul>
+</div>
+<!-- Leonardo Numbers Section -->
+<div class="section">
+<h2><i class="fas fa-calculator"></i> Leonardo Numbers</h2>
+<p>
               Leonardo numbers (similar to Fibonacci numbers) are used to
               determine heap sizes:
             </p>
-            <div style="margin: 15px 0; color: var(--text-secondary)">
-              <p>L(0) = 1, L(1) = 1</p>
-              <p>L(n) = L(n-1) + L(n-2) + 1 for n > 1</p>
-            </div>
-            <div
-              style="
+<div style="margin: 15px 0; color: var(--text-secondary)">
+<p>L(0) = 1, L(1) = 1</p>
+<p>L(n) = L(n-1) + L(n-2) + 1 for n &gt; 1</p>
+</div>
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: 8px;
                 padding: 15px;
-              "
-            >
-              <h4
-                style="
+              ">
+<h4 style="
                   color: var(--accent-light);
                   text-align: center;
                   margin-bottom: 10px;
-                "
-              >
+                ">
                 First 10 Leonardo Numbers
               </h4>
-              <div
-                style="
+<div style="
                   display: grid;
                   grid-template-columns: repeat(5, 1fr);
                   gap: 10px;
                   text-align: center;
-                "
-              >
-                <div>1</div>
-                <div>1</div>
-                <div>3</div>
-                <div>5</div>
-                <div>9</div>
-                <div>15</div>
-                <div>25</div>
-                <div>41</div>
-                <div>67</div>
-                <div>109</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+                ">
+<div>1</div>
+<div>1</div>
+<div>3</div>
+<div>5</div>
+<div>9</div>
+<div>15</div>
+<div>25</div>
+<div>41</div>
+<div>67</div>
+<div>109</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Smoothsort Visualization
       let array = [3, 1, 5, 4, 2, 9, 7, 8, 6];
       let heap = [];
@@ -1294,5 +1279,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
       // Initialize
       initVisualization();
     </script>
-  </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Linear SVM | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Linear SVM | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -609,307 +604,305 @@
         opacity: 0.5;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Machine Learning</a> >
+<meta content="Linear SVM | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_linear_svm.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Linear SVM | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_linear_svm.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Linear SVM | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_linear_svm.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Machine Learning</a> &gt;
               <span>Linear SVM</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Linear Support Vector Machine</h1>
+<div class="category">
+<i class="fas fa-brain"></i> Classification Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Linear Support Vector Machine</h1>
-        <div class="category">
-          <i class="fas fa-brain"></i> Classification Algorithm
-        </div>
-        <div class="complexity-badge">Training Complexity: O(n²) to O(n³)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Training Complexity: O(n²) to O(n³)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Linear Support Vector Machines (SVM) are powerful supervised
               learning algorithms for classification tasks. The core idea is to
               find the optimal hyperplane that maximizes the margin between
               different classes in the feature space. This hyperplane serves as
               the decision boundary for classifying new data points.
             </p>
-            <p>
+<p>
               SVMs are particularly effective in high-dimensional spaces and are
               robust against overfitting. They work by transforming data points
               into a higher dimension where a linear separation is possible,
               using the kernel trick. For linearly separable data, the algorithm
               finds the maximum-margin hyperplane.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Maximizes the margin between classes for better generalization
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Effective in high-dimensional spaces and robust to overfitting
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Memory</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Memory</h3>
+<p>
                   Uses only support vectors for prediction, making it memory
                   efficient
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Converts classification problem into convex optimization</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Converts classification problem into convex optimization</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Explore how Linear SVM creates decision boundaries. Add data
               points by clicking on the canvas, adjust parameters, and see how
               the SVM finds the optimal hyperplane that maximizes the margin
               between classes.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Linear SVM Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Linear SVM Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="clearBtn">
-                    <i class="fas fa-trash"></i> Clear
+<div class="console-controls">
+<button class="console-btn" id="clearBtn">
+<i class="fas fa-trash"></i> Clear
                   </button>
-                  <button class="console-btn" id="trainBtn">
-                    <i class="fas fa-play"></i> Train
+<button class="console-btn" id="trainBtn">
+<i class="fas fa-play"></i> Train
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <canvas id="svmCanvas"></canvas>
-              </div>
-
-              <div class="svm-legend">
-                <div class="legend-item">
-                  <div class="legend-color legend-class1"></div>
-                  <span>Class 1</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color legend-class2"></div>
-                  <span>Class 2</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color legend-sv"></div>
-                  <span>Support Vector</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color legend-boundary"></div>
-                  <span>Decision Boundary</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color legend-margin"></div>
-                  <span>Margin</span>
-                </div>
-              </div>
-
-              <div class="slider-container">
-                <label for="cParam">C (Regularization):</label>
-                <input
-                  type="range"
-                  id="cParam"
-                  min="0.1"
-                  max="10"
-                  step="0.1"
-                  value="1"
-                />
-                <span id="cValue">1.0</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+<div class="visualization-area">
+<canvas id="svmCanvas"></canvas>
+</div>
+<div class="svm-legend">
+<div class="legend-item">
+<div class="legend-color legend-class1"></div>
+<span>Class 1</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-class2"></div>
+<span>Class 2</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-sv"></div>
+<span>Support Vector</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-boundary"></div>
+<span>Decision Boundary</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-margin"></div>
+<span>Margin</span>
+</div>
+</div>
+<div class="slider-container">
+<label for="cParam">C (Regularization):</label>
+<input id="cParam" max="10" min="0.1" step="0.1" type="range" value="1"/>
+<span id="cValue">1.0</span>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Linear SVM training involves the following key steps to find the
               optimal hyperplane:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-vector-square"></i> 1. Problem Formulation
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-vector-square"></i> 1. Problem Formulation
                 </h3>
-                <p>
+<p>
                   Define the optimization problem to find the hyperplane that
                   maximizes the margin between classes. The margin is the
                   distance between the hyperplane and the nearest data points
                   (support vectors).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-calculator"></i> 2. Quadratic Programming
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-calculator"></i> 2. Quadratic Programming
                 </h3>
-                <p>
+<p>
                   Solve the constrained optimization problem using quadratic
                   programming techniques. The solution involves finding Lagrange
                   multipliers that maximize the margin while minimizing
                   classification errors.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-dot-circle"></i> 3. Support Vectors
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-dot-circle"></i> 3. Support Vectors
                   Identification
                 </h3>
-                <p>
+<p>
                   Identify the support vectors - data points that lie closest to
                   the decision boundary. These points define the margin and are
                   critical for the classification function.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-ruler-combined"></i> 4. Hyperplane
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-ruler-combined"></i> 4. Hyperplane
                   Construction
                 </h3>
-                <p>
+<p>
                   Construct the optimal hyperplane using the support vectors.
                   The decision boundary is defined as w·x + b = 0, where w is
                   the weight vector and b is the bias term.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-expand-arrows-alt"></i> 5. Margin Calculation
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-expand-arrows-alt"></i> 5. Margin Calculation
                 </h3>
-                <p>
+<p>
                   Calculate the margin as 2/||w||. Maximizing the margin is
                   equivalent to minimizing ||w||, which is the core optimization
                   objective of SVM.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Classification</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Supervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Kernel</h4>
-                <div class="value">Linear</div>
-              </div>
-              <div class="property-card">
-                <h4>Margin Type</h4>
-                <div class="value">Hard/Soft</div>
-              </div>
-              <div class="property-card">
-                <h4>Training Time</h4>
-                <div class="value">O(n²) to O(n³)</div>
-              </div>
-              <div class="property-card">
-                <h4>Prediction Time</h4>
-                <div class="value">O(m)</div>
-              </div>
-              <div class="property-card">
-                <h4>Regularization</h4>
-                <div class="value">Parameter C</div>
-              </div>
-              <div class="property-card">
-                <h4>Robustness</h4>
-                <div class="value">High</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Classification</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Supervised</div>
+</div>
+<div class="property-card">
+<h4>Kernel</h4>
+<div class="value">Linear</div>
+</div>
+<div class="property-card">
+<h4>Margin Type</h4>
+<div class="value">Hard/Soft</div>
+</div>
+<div class="property-card">
+<h4>Training Time</h4>
+<div class="value">O(n²) to O(n³)</div>
+</div>
+<div class="property-card">
+<h4>Prediction Time</h4>
+<div class="value">O(m)</div>
+</div>
+<div class="property-card">
+<h4>Regularization</h4>
+<div class="value">Parameter C</div>
+</div>
+<div class="property-card">
+<h4>Robustness</h4>
+<div class="value">High</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Linear SVM is widely used in various domains due to its
               effectiveness and efficiency:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Text and hypertext categorization
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Image classification and recognition
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Handwritten character recognition
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Biological sequence analysis (protein, DNA)
               </li>
-              <li>Medical diagnosis and prognosis</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Medical diagnosis and prognosis</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Initialize canvas and context
       const canvas = document.getElementById("svmCanvas");
       const ctx = canvas.getContext("2d");
@@ -1154,5 +1147,5 @@
       initializeSampleData();
       draw();
     </script>
-  </body>
+</body>
 </html>

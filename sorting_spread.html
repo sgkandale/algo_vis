@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spreadsort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spreadsort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -684,44 +679,63 @@
         border-left: 3px solid var(--accent);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-sort-amount-down"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Spreadsort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_spread.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Spreadsort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_spread.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Spreadsort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_spread.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-sort-amount-down"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Spreadsort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Spreadsort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Spreadsort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n) average</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n) average</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Spreadsort is a highly efficient hybrid sorting algorithm that
               combines the best features of distribution-based sorts (like
               Bucket sort) and comparison-based sorts (like Quicksort). It works
@@ -729,154 +743,138 @@
               significant bits and then applying a comparison sort to each
               bucket.
             </p>
-            <p>
+<p>
               The algorithm was developed by Steven J. Ross in 2002 as an
               improvement over traditional sorting algorithms. Spreadsort adapts
               to the distribution of the input data, making it particularly
               efficient for real-world datasets that often have uneven
               distributions.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+<p>
                   O(n log n) average case, O(n log k) for uniformly distributed
                   keys
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-layer-group"></i> Hybrid Approach</h3>
-                <p>Combines bucket distribution with comparison sorting</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-microchip"></i> Adaptability</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-layer-group"></i> Hybrid Approach</h3>
+<p>Combines bucket distribution with comparison sorting</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-microchip"></i> Adaptability</h3>
+<p>
                   Automatically adjusts to data distribution characteristics
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Efficiency</h3>
-                <p>Outperforms std::sort in many real-world scenarios</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Efficiency</h3>
+<p>Outperforms std::sort in many real-world scenarios</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Spreadsort in action. The visualization shows how the
               algorithm recursively distributes elements into buckets based on
               their significant bits and then sorts each bucket. Use the
               controls to step through the process or run it automatically.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-project-diagram"></i> Spreadsort
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-project-diagram"></i> Spreadsort
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="spreadsort-container">
-                  <div class="array-section">
-                    <h4><i class="fas fa-list-ol"></i> Current Array</h4>
-                    <div class="array-bars" id="current-array"></div>
-                  </div>
-
-                  <div id="buckets-section" class="array-section">
-                    <h4><i class="fas fa-folder"></i> Buckets</h4>
-                    <div class="buckets-container" id="buckets-container"></div>
-                  </div>
-
-                  <div class="stats-container">
-                    <div class="stat-item">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="spreadsort-container">
+<div class="array-section">
+<h4><i class="fas fa-list-ol"></i> Current Array</h4>
+<div class="array-bars" id="current-array"></div>
+</div>
+<div class="array-section" id="buckets-section">
+<h4><i class="fas fa-folder"></i> Buckets</h4>
+<div class="buckets-container" id="buckets-container"></div>
+</div>
+<div class="stats-container">
+<div class="stat-item">
                       Recursion Depth: <span id="depth">0</span>
-                    </div>
-                    <div class="stat-item">
+</div>
+<div class="stat-item">
                       Comparisons: <span id="comparisons">0</span>
-                    </div>
-                    <div class="stat-item">
+</div>
+<div class="stat-item">
                       Buckets: <span id="bucket-count">0</span>
-                    </div>
-                  </div>
-
-                  <div id="explanation" class="explanation">
+</div>
+</div>
+<div class="explanation" id="explanation">
                     Initializing Spreadsort visualization...
                   </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="38, 27, 43, 3, 9, 82, 10, 15, 22, 51, 17, 64"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="38, 27, 43, 3, 9, 82, 10, 15, 22, 51, 17, 64"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Spreadsort works through a recursive process of distribution and
               sorting:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-search"></i> 1. Find Range</h3>
-                <p>Determine the minimum and maximum values in the input</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sitemap"></i> 2. Calculate Buckets</h3>
-                <p>Divide the range into buckets based on significant bits</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-boxes"></i> 3. Distribute Elements</h3>
-                <p>Place each element into the appropriate bucket</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort"></i> 4. Recursively Sort Buckets</h3>
-                <p>Apply Spreadsort to buckets with many elements</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-merge"></i> 5. Combine Results</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-search"></i> 1. Find Range</h3>
+<p>Determine the minimum and maximum values in the input</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sitemap"></i> 2. Calculate Buckets</h3>
+<p>Divide the range into buckets based on significant bits</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-boxes"></i> 3. Distribute Elements</h3>
+<p>Place each element into the appropriate bucket</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort"></i> 4. Recursively Sort Buckets</h3>
+<p>Apply Spreadsort to buckets with many elements</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-merge"></i> 5. Combine Results</h3>
+<p>
                   Concatenate the sorted buckets to form the final sorted array
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure spreadsort(arr, depth = 0)
-    if length(arr) <= threshold or depth > max_depth
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure spreadsort(arr, depth = 0)
+    if length(arr) &lt;= threshold or depth &gt; max_depth
         use comparison sort (e.g., introsort) on arr
         return
     
@@ -897,7 +895,7 @@
     
     // Recursively sort each bucket
     for each bucket in buckets:
-        if bucket size > threshold:
+        if bucket size &gt; threshold:
             spreadsort(bucket, depth + 1)
         else:
             sort bucket with comparison sort
@@ -907,26 +905,24 @@
     for each bucket in buckets:
         result.append(bucket)
     return result</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Spreadsort. Note that this is
               a simplified version for demonstration purposes.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">spreadsort</span>(arr, depth=0, max_depth=10, threshold=16):
-    <span class="keyword">if</span> len(arr) <= threshold <span class="keyword">or</span> depth > max_depth:
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">spreadsort</span>(arr, depth=0, max_depth=10, threshold=16):
+    <span class="keyword">if</span> len(arr) &lt;= threshold <span class="keyword">or</span> depth &gt; max_depth:
         <span class="comment"># Use built-in sort for small buckets or max depth reached</span>
         <span class="keyword">return</span> sorted(arr)
     
@@ -939,7 +935,7 @@
         <span class="keyword">return</span> arr
         
     <span class="comment"># Calculate bucket parameters</span>
-    bucket_count = min(1 << 4, len(arr))  <span class="comment"># 16 buckets max</span>
+    bucket_count = min(1 &lt;&lt; 4, len(arr))  <span class="comment"># 16 buckets max</span>
     range_val = max_val - min_val
     
     <span class="comment"># Create buckets</span>
@@ -954,7 +950,7 @@
     <span class="comment"># Recursively sort each bucket</span>
     sorted_buckets = []
     <span class="keyword">for</span> bucket <span class="keyword">in</span> buckets:
-        <span class="keyword">if</span> len(bucket) > threshold:
+        <span class="keyword">if</span> len(bucket) &gt; threshold:
             sorted_buckets.append(spreadsort(bucket, depth + 1, max_depth, threshold))
         <span class="keyword">else</span>:
             sorted_buckets.append(sorted(bucket))
@@ -967,129 +963,114 @@ arr = [38, 27, 43, 3, 9, 82, 10, 15, 22, 51, 17, 64]
 sorted_arr = spreadsort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)
 <span class="comment"># Output: Sorted array: [3, 9, 10, 15, 17, 22, 27, 38, 43, 51, 64, 82]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Hybrid Sort</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Distribution + Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Spreadsort is particularly effective in:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Hybrid Sort</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Distribution + Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Spreadsort is particularly effective in:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting large datasets with uneven distributions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Real-world data sorting where data isn't uniformly random
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Databases and data processing systems
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Situations where traditional sorts underperform
               </li>
-              <li>High-performance computing applications</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Advantages</h2>
-            <p>
+<li>High-performance computing applications</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Advantages</h2>
+<p>
               Spreadsort offers several advantages over traditional sorting
               algorithms:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Adaptive to data distribution characteristics
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Better cache utilization than many other algorithms
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Often outperforms quicksort and mergesort on real-world data
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Handles duplicate values efficiently
               </li>
-              <li>Minimizes expensive comparison operations</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Minimizes expensive comparison operations</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Spreadsort Visualization
       class SpreadsortVisualizer {
         constructor(container, bucketsContainer, explanation, stats) {
@@ -1393,5 +1374,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)
           });
       });
     </script>
-  </body>
+</body>
 </html>

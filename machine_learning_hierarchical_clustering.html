@@ -1,19 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hierarchical Clustering | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hierarchical Clustering | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -699,44 +694,63 @@
         color: var(--accent-light);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Unsupervised Learning</a> >
+<meta content="Hierarchical Clustering | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_hierarchical_clustering.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Hierarchical Clustering | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_hierarchical_clustering.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Hierarchical Clustering | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_hierarchical_clustering.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Unsupervised Learning</a> &gt;
               <span>Hierarchical Clustering</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Hierarchical Clustering</h1>
+<div class="category">
+<i class="fas fa-sitemap"></i> Unsupervised Learning Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Hierarchical Clustering</h1>
-        <div class="category">
-          <i class="fas fa-sitemap"></i> Unsupervised Learning Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n³)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n³)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Hierarchical Clustering is an unsupervised machine learning
               algorithm that builds a hierarchy of clusters. It creates a
               tree-like structure of clusters called a dendrogram, which shows
@@ -744,163 +758,151 @@
               clustering doesn't require specifying the number of clusters in
               advance.
             </p>
-            <p>
+<p>
               The algorithm works by either starting with each point as a
               cluster and merging the closest pairs (agglomerative), or starting
               with one cluster and recursively splitting it (divisive).
               Agglomerative hierarchical clustering is the most common approach
               and is visualized here.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Builds a hierarchy of clusters without pre-specifying cluster
                   count
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Computationally intensive (O(n³)) but provides rich cluster
                   hierarchy
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Requires O(n²) space for distance matrix storage</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Iteratively merges closest clusters until one remains</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Requires O(n²) space for distance matrix storage</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Iteratively merges closest clusters until one remains</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Explore how Hierarchical Clustering builds a hierarchy of
               clusters. Step through the algorithm to see how clusters are
               progressively merged. The visualization shows the current clusters
               and the dendrogram being built in real-time.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Hierarchical Clustering
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Hierarchical Clustering
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div id="hierarchical-viz">
-                  <div class="iteration-info">Iteration: 0 | Clusters: 8</div>
-                  <div class="dendrogram-container">
-                    <svg class="dendrogram"></svg>
-                  </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <div class="linkage-controls">
-                  <div class="linkage-btn active" data-linkage="single">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div id="hierarchical-viz">
+<div class="iteration-info">Iteration: 0 | Clusters: 8</div>
+<div class="dendrogram-container">
+<svg class="dendrogram"></svg>
+</div>
+</div>
+</div>
+<div class="console-input">
+<div class="linkage-controls">
+<div class="linkage-btn active" data-linkage="single">
                     Single
                   </div>
-                  <div class="linkage-btn" data-linkage="complete">
+<div class="linkage-btn" data-linkage="complete">
                     Complete
                   </div>
-                  <div class="linkage-btn" data-linkage="average">Average</div>
-                </div>
-                <button class="console-btn" id="generate-btn">
-                  <i class="fas fa-random"></i> Generate Data
+<div class="linkage-btn" data-linkage="average">Average</div>
+</div>
+<button class="console-btn" id="generate-btn">
+<i class="fas fa-random"></i> Generate Data
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Agglomerative Hierarchical Clustering follows these iterative
               steps:
             </p>
-
-            <div class="step-container">
-              <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                  <h4>Initialize Clusters</h4>
-                  <p>
+<div class="step-container">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">
+<h4>Initialize Clusters</h4>
+<p>
                     Start by treating each data point as an individual cluster.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                  <h4>Compute Distance Matrix</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">
+<h4>Compute Distance Matrix</h4>
+<p>
                     Calculate the distance between every pair of clusters using
                     a linkage method.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                  <h4>Merge Closest Clusters</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">
+<h4>Merge Closest Clusters</h4>
+<p>
                     Find the two closest clusters and merge them into a new
                     cluster.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                  <h4>Update Distance Matrix</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">4</div>
+<div class="step-content">
+<h4>Update Distance Matrix</h4>
+<p>
                     Recalculate distances between the new cluster and remaining
                     clusters.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">5</div>
-                <div class="step-content">
-                  <h4>Repeat Until Convergence</h4>
-                  <p>Continue merging clusters until only one remains.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function hierarchical_clustering(data, linkage):
+</div>
+</div>
+<div class="step">
+<div class="step-number">5</div>
+<div class="step-content">
+<h4>Repeat Until Convergence</h4>
+<p>Continue merging clusters until only one remains.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function hierarchical_clustering(data, linkage):
     # Step 1: Initialize clusters
     clusters = [each data point as a cluster]
     
@@ -910,7 +912,7 @@
     # Initialize dendrogram
     dendrogram = []
     
-    while len(clusters) > 1:
+    while len(clusters) &gt; 1:
         # Step 3: Find closest clusters
         i, j = find_min_distance_indexes(distance_matrix)
         cluster_i = clusters[i]
@@ -935,27 +937,25 @@
         distance_matrix = update_distance_matrix(distance_matrix, i, j, clusters, linkage)
     
     return dendrogram</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Agglomerative Hierarchical
               Clustering. The implementation includes different linkage methods
               (single, complete, average) and builds a dendrogram to visualize
               the hierarchy.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+</div>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
 <span class="keyword">from</span> scipy.spatial.distance <span class="keyword">import</span> pdist, squareform
 <span class="keyword">from</span> scipy.cluster.hierarchy <span class="keyword">import</span> dendrogram, linkage
 <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
@@ -1008,173 +1008,158 @@ hc_average.fit(X)
 hc_single.plot_dendrogram()
 hc_complete.plot_dendrogram()
 hc_average.plot_dendrogram()</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Clustering</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Hierarchical</div>
-              </div>
-              <div class="property-card">
-                <h4>Supervision</h4>
-                <div class="value">Unsupervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Parametric</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Training Time</h4>
-                <div class="value">O(n³)</div>
-              </div>
-              <div class="property-card">
-                <h4>Prediction Time</h4>
-                <div class="value">O(1)</div>
-              </div>
-              <div class="property-card">
-                <h4>Memory</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Output</h4>
-                <div class="value">Dendrogram</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Hierarchical Clustering is widely used in various domains:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Clustering</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Hierarchical</div>
+</div>
+<div class="property-card">
+<h4>Supervision</h4>
+<div class="value">Unsupervised</div>
+</div>
+<div class="property-card">
+<h4>Parametric</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Training Time</h4>
+<div class="value">O(n³)</div>
+</div>
+<div class="property-card">
+<h4>Prediction Time</h4>
+<div class="value">O(1)</div>
+</div>
+<div class="property-card">
+<h4>Memory</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Output</h4>
+<div class="value">Dendrogram</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Hierarchical Clustering is widely used in various domains:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Phylogenetic tree construction in biology
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Social network analysis and community detection
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Document clustering and topic hierarchy
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Image segmentation in computer vision
               </li>
-              <li>Market segmentation and customer profiling</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
-            <ul
-              style="
+<li>Market segmentation and customer profiling</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Doesn't require pre-specifying number of clusters
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Provides intuitive hierarchical structure
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Dendrogram visualization helps in interpretation
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Works with any distance metric
               </li>
-              <li>Flexible with different linkage methods</li>
-            </ul>
-          </div>
-
-          <!-- Limitations Section -->
-          <div class="section">
-            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
-            <ul
-              style="
+<li>Flexible with different linkage methods</li>
+</ul>
+</div>
+<!-- Limitations Section -->
+<div class="section">
+<h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Computationally expensive for large datasets
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sensitive to noise and outliers
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Different linkage methods yield different results
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Once clusters are merged, they cannot be split
               </li>
-              <li>Difficult to scale to large datasets</li>
-            </ul>
-          </div>
-
-          <!-- Linkage Methods Section -->
-          <div class="section">
-            <h2><i class="fas fa-link"></i> Linkage Methods</h2>
-            <p>
+<li>Difficult to scale to large datasets</li>
+</ul>
+</div>
+<!-- Linkage Methods Section -->
+<div class="section">
+<h2><i class="fas fa-link"></i> Linkage Methods</h2>
+<p>
               The distance between clusters can be defined in different ways:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <b>Single Linkage:</b> Minimum distance between clusters
+              ">
+<li style="margin-bottom: 10px">
+<b>Single Linkage:</b> Minimum distance between clusters
               </li>
-              <li style="margin-bottom: 10px">
-                <b>Complete Linkage:</b> Maximum distance between clusters
+<li style="margin-bottom: 10px">
+<b>Complete Linkage:</b> Maximum distance between clusters
               </li>
-              <li style="margin-bottom: 10px">
-                <b>Average Linkage:</b> Average distance between clusters
+<li style="margin-bottom: 10px">
+<b>Average Linkage:</b> Average distance between clusters
               </li>
-              <li style="margin-bottom: 10px">
-                <b>Ward's Method:</b> Minimizes within-cluster variance
+<li style="margin-bottom: 10px">
+<b>Ward's Method:</b> Minimizes within-cluster variance
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Hierarchical Clustering Visualization
       document.addEventListener("DOMContentLoaded", function () {
         // DOM Elements
@@ -1609,5 +1594,5 @@ hc_average.plot_dendrogram()</code></pre>
         initVisualization();
       });
     </script>
-  </body>
+</body>
 </html>

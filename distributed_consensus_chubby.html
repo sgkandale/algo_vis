@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Chubby Consensus | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chubby Consensus | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -669,110 +664,127 @@
                 font-family: "Roboto Mono", monospace;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Distributed Algorithms</a> >
+<meta content="Chubby Consensus | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_chubby.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Chubby Consensus | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_chubby.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Chubby Consensus | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_chubby.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-network-wired"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Distributed Algorithms</a> &gt;
                             <span>Chubby Consensus</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Chubby Consensus Algorithm</h1>
+<div class="category">
+<i class="fas fa-server"></i> Distributed Consensus Protocol
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Chubby Consensus Algorithm</h1>
-                <div class="category">
-                    <i class="fas fa-server"></i> Distributed Consensus Protocol
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Fault Tolerance: f failures with 2f+1 nodes
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             The Chubby Consensus Algorithm is a fault-tolerant
                             distributed system protocol based on the Paxos
                             algorithm. It enables a cluster of machines to
                             maintain consistent state and agree on values
                             despite potential node failures.
                         </p>
-                        <p>
+<p>
                             Chubby provides a lock service for loosely-coupled
                             distributed systems, ensuring that only one client
                             can hold a lock at a time. It's designed to handle
                             network partitions and node failures while
                             maintaining consistency and availability.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Provides a highly available, reliable lock
                                     service for distributed systems
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Optimized for read-heavy workloads with
                                     master leases and caching
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Fault
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Fault
                                     Tolerance
                                 </h3>
-                                <p>
+<p>
                                     Tolerates f failures with 2f+1 replicas
                                     using consensus protocol
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Architecture
                                 </h3>
-                                <p>
+<p>
                                     Master-based system with replicas, using
                                     leases for efficiency
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             The visualization below demonstrates the Chubby
                             consensus algorithm in action. You can see the
                             master election process, client interactions, and
@@ -780,136 +792,115 @@
                             failures. Use the controls to simulate different
                             scenarios.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-network-wired"></i> Chubby
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-network-wired"></i> Chubby
                                     Cluster Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="step-btn"
-                                    >
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="chubby-visualization"
-                            >
-                                <!-- Visualization will be rendered here by JavaScript -->
-                                <div
-                                    class="cluster"
-                                    id="cluster-container"
-                                ></div>
-                            </div>
-
-                            <div class="console-input">
-                                <button class="console-btn" id="fail-node-btn">
-                                    <i class="fas fa-skull"></i> Fail Random
+</div>
+</div>
+<div class="visualization-area" id="chubby-visualization">
+<!-- Visualization will be rendered here by JavaScript -->
+<div class="cluster" id="cluster-container"></div>
+</div>
+<div class="console-input">
+<button class="console-btn" id="fail-node-btn">
+<i class="fas fa-skull"></i> Fail Random
                                     Node
                                 </button>
-                                <button class="console-btn" id="add-client-btn">
-                                    <i class="fas fa-user-plus"></i> Add Client
+<button class="console-btn" id="add-client-btn">
+<i class="fas fa-user-plus"></i> Add Client
                                     Request
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="partition-btn"
-                                >
-                                    <i class="fas fa-plug"></i> Simulate
+<button class="console-btn secondary" id="partition-btn">
+<i class="fas fa-plug"></i> Simulate
                                     Partition
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             The Chubby consensus algorithm operates through
                             these key phases:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-crown"></i> 1. Master
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-crown"></i> 1. Master
                                     Election
                                 </h3>
-                                <p>
+<p>
                                     Nodes participate in a leader election using
                                     a Paxos-based protocol. The node with the
                                     highest proposal number becomes the master.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-file-contract"></i> 2.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-file-contract"></i> 2.
                                     Master Lease
                                 </h3>
-                                <p>
+<p>
                                     The master obtains a lease for a limited
                                     time period. During this lease, it can serve
                                     client requests without consulting replicas.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-lock"></i> 3. Lock
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-lock"></i> 3. Lock
                                     Acquisition
                                 </h3>
-                                <p>
+<p>
                                     Clients request locks from the master. The
                                     master grants locks sequentially and
                                     maintains lock state in its local database.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sync-alt"></i> 4.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sync-alt"></i> 4.
                                     Replication
                                 </h3>
-                                <p>
+<p>
                                     The master periodically replicates its state
                                     to other nodes. If the master fails, a new
                                     master is elected and reconstructs state
                                     from replicas.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-heartbeat"></i> 5. Failure
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-heartbeat"></i> 5. Failure
                                     Detection
                                 </h3>
-                                <p>
+<p>
                                     Nodes use keep-alive messages to detect
                                     failures. If the master fails to renew its
                                     lease, a new election begins.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Master Election (Paxos-based)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Master Election (Paxos-based)
 function electMaster(nodes):
   while no majority:
     proposer = selectProposer()
@@ -948,27 +939,25 @@ function onMasterFailure():
   newMaster = electMaster(nodes)
   newMaster.recoverStateFromReplicas()
   newMaster.rebuildLockDatabase()</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Chubby consensus algorithm. This example
                             demonstrates the core master election and lease
                             renewal mechanisms.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">import</span> threading
+</div>
+<pre><code><span class="keyword">import</span> threading
 <span class="keyword">import</span> time
 <span class="keyword">import</span> random
 
@@ -998,18 +987,18 @@ function onMasterFailure():
                             promises += 1
 
                 <span class="comment"># Phase 2: Propose/Accept</span>
-                <span class="keyword">if</span> promises >= len(<span class="keyword">self</span>.nodes) // 2:
+                <span class="keyword">if</span> promises &gt;= len(<span class="keyword">self</span>.nodes) // 2:
                     accepts = 0
                     <span class="keyword">for</span> node <span class="keyword">in</span> <span class="keyword">self</span>.nodes:
                         <span class="keyword">if</span> node != <span class="keyword">self</span>:
                             <span class="keyword">if</span> node.accept_request(<span class="keyword">self</span>.proposal_number, <span class="keyword">self</span>.node_id):
                                 accepts += 1
 
-                    <span class="keyword">if</span> accepts >= len(<span class="keyword">self</span>.nodes) // 2:
+                    <span class="keyword">if</span> accepts &gt;= len(<span class="keyword">self</span>.nodes) // 2:
                         <span class="keyword">self</span>.become_master()
 
             <span class="comment"># Check lease if master</span>
-            <span class="keyword">if</span> <span class="keyword">self</span>.is_master <span class="keyword">and</span> time.time() > <span class="keyword">self</span>.lease_end:
+            <span class="keyword">if</span> <span class="keyword">self</span>.is_master <span class="keyword">and</span> time.time() &gt; <span class="keyword">self</span>.lease_end:
                 <span class="keyword">self</span>.step_down()
 
             time.sleep(random.uniform(1, 3))
@@ -1031,11 +1020,11 @@ function onMasterFailure():
 
     <span class="keyword">def</span> <span class="function">promise_request</span>(<span class="keyword">self</span>, proposal_number):
         <span class="comment"># Simplified promise logic</span>
-        <span class="keyword">return</span> random.random() > 0.3  <span class="comment"># 70% success rate</span>
+        <span class="keyword">return</span> random.random() &gt; 0.3  <span class="comment"># 70% success rate</span>
 
     <span class="keyword">def</span> <span class="function">accept_request</span>(<span class="keyword">self</span>, proposal_number, master_id):
         <span class="comment"># Simplified accept logic</span>
-        <span class="keyword">return</span> random.random() > 0.3  <span class="comment"># 70% success rate</span>
+        <span class="keyword">return</span> random.random() &gt; 0.3  <span class="comment"># 70% success rate</span>
 
 <span class="comment"># Create a cluster of 5 nodes</span>
 nodes = [ChubbyNode(i, []) <span class="keyword">for</span> i <span class="keyword">in</span> range(5)]
@@ -1045,139 +1034,126 @@ nodes = [ChubbyNode(i, []) <span class="keyword">for</span> i <span class="keywo
 <span class="comment"># Keep the program running</span>
 <span class="keyword">while</span> <span class="keyword">True</span>:
     time.sleep(1)</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Consensus</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Leader-Based</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fault Tolerance</h4>
-                                <div class="value">f failures</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Consistency</h4>
-                                <div class="value">Linearizable</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Message Complexity</h4>
-                                <div class="value">O(n²) election</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Latency</h4>
-                                <div class="value">2 RTTs</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">Master-bound</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Deployment</h4>
-                                <div class="value">Google Systems</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Consensus</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Leader-Based</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">f failures</div>
+</div>
+<div class="property-card">
+<h4>Consistency</h4>
+<div class="value">Linearizable</div>
+</div>
+<div class="property-card">
+<h4>Message Complexity</h4>
+<div class="value">O(n²) election</div>
+</div>
+<div class="property-card">
+<h4>Latency</h4>
+<div class="value">2 RTTs</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">Master-bound</div>
+</div>
+<div class="property-card">
+<h4>Deployment</h4>
+<div class="value">Google Systems</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Chubby consensus is used in various distributed
                             systems scenarios:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Distributed locking for coordination
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Leader election in distributed systems
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Configuration management
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Name service in large-scale systems
                             </li>
-                            <li>Distributed synchronization</li>
-                            <li>Google's internal infrastructure</li>
-                        </ul>
-                    </div>
-
-                    <!-- Characteristics Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-star"></i> Key Characteristics</h2>
-                        <ul
-                            style="
+<li>Distributed synchronization</li>
+<li>Google's internal infrastructure</li>
+</ul>
+</div>
+<!-- Characteristics Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Key Characteristics</h2>
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Leases:</strong> Masters use
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Leases:</strong> Masters use
                                 time-limited leases
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Caching:</strong> Clients cache data to
+<li style="margin-bottom: 10px">
+<strong>Caching:</strong> Clients cache data to
                                 reduce master load
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Event Notifications:</strong> Clients
+<li style="margin-bottom: 10px">
+<strong>Event Notifications:</strong> Clients
                                 subscribe to changes
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Coarse-Grained Locks:</strong> Optimized
+<li style="margin-bottom: 10px">
+<strong>Coarse-Grained Locks:</strong> Optimized
                                 for infrequent changes
                             </li>
-                            <li>
-                                <strong>Session-Based:</strong> Clients maintain
+<li>
+<strong>Session-Based:</strong> Clients maintain
                                 sessions with master
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a href="#"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
-                    <a href="#"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="#"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization for Chubby Consensus Algorithm
             document.addEventListener("DOMContentLoaded", function () {
                 const visualization = document.getElementById(
@@ -1615,5 +1591,5 @@ nodes = [ChubbyNode(i, []) <span class="keyword">for</span> i <span class="keywo
                     });
             });
         </script>
-    </body>
+</body>
 </html>

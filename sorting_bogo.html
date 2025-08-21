@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bogo Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bogo Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -663,46 +658,65 @@
         color: #79c0ff;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-random"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Bogo Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_bogo.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Bogo Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_bogo.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bogo Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_bogo.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-random"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Bogo Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Bogo Sort</h1>
+<div class="category">
+<i class="fas fa-random"></i> Sorting Algorithm (Inefficient)
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Bogo Sort</h1>
-        <div class="category">
-          <i class="fas fa-random"></i> Sorting Algorithm (Inefficient)
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Time Complexity: O(n*n!) [avg], O(∞) [worst]
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Bogo Sort (also known as permutation sort, stupid sort, or slow
               sort) is a highly inefficient sorting algorithm based on the
               generate and test paradigm. The algorithm works by repeatedly
@@ -710,7 +724,7 @@
               sorted. It is not useful for sorting but is sometimes used for
               educational purposes to illustrate what not to do.
             </p>
-            <p>
+<p>
               The algorithm's name comes from the word "bogus" due to its
               inefficiency. Bogo Sort has an average time complexity of O(n*n!)
               and an unbounded worst-case performance. The algorithm is
@@ -718,151 +732,129 @@
               grows factorially with the number of elements, making it
               impractical for any non-trivial input.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-random"></i> Key Feature</h3>
+<p>
                   Randomly shuffles the array until it magically becomes sorted
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Average: O(n*n!), Worst: Unbounded (infinite time possible)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>
                   O(1) - operates in-place with no additional memory required
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Generate random permutations until sorted by chance</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Generate random permutations until sorted by chance</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Bogo Sort
               works. Enter a comma-separated list of numbers (keep it small for
               practical reasons!), adjust the speed, and watch as the algorithm
               randomly shuffles the array until it's sorted.
-              <strong
-                >Warning: For arrays larger than 5 elements, this may take a
-                very long time!</strong
-              >
-            </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3><i class="fas fa-random"></i> Bogo Sort Visualization</h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+              <strong>Warning: For arrays larger than 5 elements, this may take a
+                very long time!</strong>
+</p>
+<div class="visualization-console">
+<div class="console-header">
+<h3><i class="fas fa-random"></i> Bogo Sort Visualization</h3>
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="status-message" id="status-message">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="status-message" id="status-message">
                   Ready to sort!
                 </div>
-                <div class="array-container" id="array-container"></div>
-                <div class="attempt-counter">
+<div class="array-container" id="array-container"></div>
+<div class="attempt-counter">
                   Attempts: <span id="attempt-count">0</span>
-                </div>
-              </div>
-
-              <div class="speed-control">
-                <span>Slow</span>
-                <input
-                  type="range"
-                  id="speed-slider"
-                  min="50"
-                  max="500"
-                  value="200"
-                />
-                <span>Fast</span>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2)"
-                  value="5, 3, 8, 1, 2"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="speed-control">
+<span>Slow</span>
+<input id="speed-slider" max="500" min="50" type="range" value="200"/>
+<span>Fast</span>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2)" type="text" value="5, 3, 8, 1, 2"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Bogo Sort follows a deceptively simple process that relies
               entirely on chance:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-list"></i> 1. Start with an array</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-list"></i> 1. Start with an array</h3>
+<p>
                   Begin with an unsorted array of elements. The algorithm
                   doesn't care about the initial arrangement since it will be
                   shuffled randomly.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> 2. Check if sorted</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> 2. Check if sorted</h3>
+<p>
                   Verify if the array is sorted. If it is, the algorithm is
                   done. If not, proceed to the next step.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> 3. Shuffle randomly</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-random"></i> 3. Shuffle randomly</h3>
+<p>
                   Randomly permute (shuffle) the elements in the array. This is
                   typically done using a Fisher-Yates shuffle or similar method.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 4. Repeat until sorted</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 4. Repeat until sorted</h3>
+<p>
                   Return to step 2 and repeat the process. This continues until
                   by pure chance, the array becomes sorted.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-infinity"></i> 5. Hope for the best</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-infinity"></i> 5. Hope for the best</h3>
+<p>
                   With each permutation, there's a 1/(n!) chance the array will
                   be sorted. For n=10, this is 1 in 3,628,800!
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function bogoSort(array)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function bogoSort(array)
     while not isSorted(array)
         shuffle(array)
     end while
@@ -870,7 +862,7 @@
 
 function isSorted(array)
     for i from 1 to length(array) - 1
-        if array[i] > array[i+1]
+        if array[i] &gt; array[i+1]
             return false
     return true
 
@@ -878,13 +870,12 @@ function shuffle(array)
     for i from length(array) downto 2
         j = random integer between 1 and i
         swap array[i] and array[j]</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Bogo Sort algorithm. The
               algorithm consists of two helper functions:
               <code>is_sorted()</code> to check if the array is sorted, and
@@ -892,20 +883,19 @@ function shuffle(array)
               function <code>bogo_sort()</code> repeatedly shuffles until the
               array is sorted.
             </p>
-            <p>
-              <strong>Warning:</strong> This implementation should only be used
+<p>
+<strong>Warning:</strong> This implementation should only be used
               for educational purposes with very small arrays (n ≤ 5). For
               larger arrays, the execution time becomes impractical.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> random
+</div>
+<pre><code><span class="keyword">import</span> random
 
 <span class="keyword">def</span> <span class="function">bogo_sort</span>(arr):
     <span class="comment"># Continue shuffling until array is sorted</span>
@@ -916,7 +906,7 @@ function shuffle(array)
 <span class="keyword">def</span> <span class="function">is_sorted</span>(arr):
     <span class="comment"># Check if the array is sorted in ascending order</span>
     <span class="keyword">for</span> i <span class="keyword">in</span> range(1, len(arr)):
-        <span class="keyword">if</span> arr[i] < arr[i-1]:
+        <span class="keyword">if</span> arr[i] &lt; arr[i-1]:
             <span class="keyword">return</span> False
     <span class="keyword">return</span> True
 
@@ -931,135 +921,120 @@ arr = [3, 1, 2]
 sorted_arr = bogo_sort(arr)
 print(<span class="string">"Original array:"</span>, [3, 1, 2])
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value danger">O(∞)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value warning">O(n*n!)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value danger">O(∞)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value warning">O(n*n!)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               While Bogo Sort is not practical for real-world applications, it
               serves important educational purposes:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Educational tool</strong> to illustrate inefficient
+              ">
+<li style="margin-bottom: 10px">
+<strong>Educational tool</strong> to illustrate inefficient
                 algorithms
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Algorithm analysis</strong> demonstrating factorial time
+<li style="margin-bottom: 10px">
+<strong>Algorithm analysis</strong> demonstrating factorial time
                 complexity
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Computational humor</strong> and programming jokes
+<li style="margin-bottom: 10px">
+<strong>Computational humor</strong> and programming jokes
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Benchmarking</strong> for worst-case algorithm
+<li style="margin-bottom: 10px">
+<strong>Benchmarking</strong> for worst-case algorithm
                 performance
               </li>
-              <li>
-                <strong>Teaching probability</strong> (chance of random
+<li>
+<strong>Teaching probability</strong> (chance of random
                 permutation being sorted is 1/n!)
               </li>
-            </ul>
-          </div>
-
-          <!-- Fun Facts Section -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Did You Know?</h2>
-            <p>Bogo Sort has some fascinating (and frightening) properties:</p>
-            <ul
-              style="
+</ul>
+</div>
+<!-- Fun Facts Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Did You Know?</h2>
+<p>Bogo Sort has some fascinating (and frightening) properties:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting a deck of 52 cards with Bogo Sort could take longer than
                 the current age of the universe
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 The algorithm is also known as "monkey sort" - if a monkey
                 randomly types on a keyboard forever, it will eventually produce
                 the sorted array
               </li>
-              <li>
+<li>
                 For a 10-element array, the average number of shuffles needed is
                 about 10! ≈ 3.6 million
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1281,5 +1256,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
           }, 2000);
         });
     </script>
-  </body>
+</body>
 </html>

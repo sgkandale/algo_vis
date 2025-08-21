@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paxos Consensus | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Paxos Consensus | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -683,199 +678,204 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-network-wired"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Distributed Algorithms</a> >
+<meta content="Paxos Consensus | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_paxos.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Paxos Consensus | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_paxos.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Paxos Consensus | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_paxos.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-network-wired"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Distributed Algorithms</a> &gt;
               <span>Paxos Consensus</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Paxos Consensus</h1>
+<div class="category">
+<i class="fas fa-brain"></i> Distributed Consensus Protocol
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Paxos Consensus</h1>
-        <div class="category">
-          <i class="fas fa-brain"></i> Distributed Consensus Protocol
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Fault-tolerant • Asynchronous • Guaranteed Safety
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Paxos is a family of protocols for solving consensus in a network
               of unreliable processors. It ensures that a distributed system can
               agree on a single value even when some nodes fail or messages are
               lost.
             </p>
-            <p>
+<p>
               The protocol involves three roles: <strong>Proposers</strong> (who
               propose values), <strong>Acceptors</strong> (who accept
               proposals), and <strong>Learners</strong> (who learn the chosen
               value). Paxos guarantees safety (only one value is chosen) and
               liveness (a value is eventually chosen) under certain conditions.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-lightbulb"></i> Proposers</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-lightbulb"></i> Proposers</h3>
+<p>
                   Propose values to acceptors. May compete to have their value
                   chosen.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Acceptors</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Acceptors</h3>
+<p>
                   Accept proposed values and form quorums to decide on a value.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-book"></i> Learners</h3>
-                <p>Discover the value that has been chosen by the acceptors.</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Quorums</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-book"></i> Learners</h3>
+<p>Discover the value that has been chosen by the acceptors.</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Quorums</h3>
+<p>
                   Any majority of acceptors forms a quorum. Safety is maintained
                   as long as quorums overlap.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               This visualization demonstrates the Paxos consensus protocol in
               action. You can propose values, simulate failures, and observe how
               nodes communicate to reach agreement.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-project-diagram"></i> Paxos Consensus
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-project-diagram"></i> Paxos Consensus
                   Simulation
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="status-message" id="status-message">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="status-message" id="status-message">
                   Initializing Paxos cluster...
                 </div>
-                <div class="cluster-container" id="cluster-container">
-                  <!-- Nodes will be dynamically added here -->
-                </div>
-                <div class="log-container" id="log-container">
-                  <!-- Log entries will appear here -->
-                </div>
-              </div>
-
-              <div class="controls-row">
-                <input
-                  type="text"
-                  id="proposal-value"
-                  placeholder="Enter value to propose"
-                  value="42"
-                />
-                <button class="console-btn" id="propose-btn">
-                  <i class="fas fa-paper-plane"></i> Propose Value
+<div class="cluster-container" id="cluster-container">
+<!-- Nodes will be dynamically added here -->
+</div>
+<div class="log-container" id="log-container">
+<!-- Log entries will appear here -->
+</div>
+</div>
+<div class="controls-row">
+<input id="proposal-value" placeholder="Enter value to propose" type="text" value="42"/>
+<button class="console-btn" id="propose-btn">
+<i class="fas fa-paper-plane"></i> Propose Value
                 </button>
-              </div>
-
-              <div class="simulation-controls">
-                <button class="console-btn secondary" id="fail-node-btn">
-                  <i class="fas fa-skull"></i> Fail Random Node
+</div>
+<div class="simulation-controls">
+<button class="console-btn secondary" id="fail-node-btn">
+<i class="fas fa-skull"></i> Fail Random Node
                 </button>
-                <button class="console-btn secondary" id="recover-node-btn">
-                  <i class="fas fa-heartbeat"></i> Recover All
+<button class="console-btn secondary" id="recover-node-btn">
+<i class="fas fa-heartbeat"></i> Recover All
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Phases</h2>
-            <p>Paxos operates in two main phases to achieve consensus:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-envelope"></i> Phase 1: Prepare & Promise
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Phases</h2>
+<p>Paxos operates in two main phases to achieve consensus:</p>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-envelope"></i> Phase 1: Prepare &amp; Promise
                 </h3>
-                <p>
+<p>
                   Proposer selects proposal number n and sends PREPARE(n) to
                   acceptors. Acceptors respond with PROMISE(n) if n is highest
                   they've seen, along with any previously accepted value.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-check-double"></i> Phase 2: Accept & Accepted
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-check-double"></i> Phase 2: Accept &amp; Accepted
                 </h3>
-                <p>
+<p>
                   If proposer receives PROMISE from majority, it sends ACCEPT(n,
                   v) with value v. If acceptor receives ACCEPT(n, v) for highest
                   n it's seen, it accepts and sends ACCEPTED(n, v).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-graduation-cap"></i> Learning Phase</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-graduation-cap"></i> Learning Phase</h3>
+<p>
                   When proposer receives ACCEPTED from majority, value is
                   chosen. Learners discover chosen value by receiving ACCEPTED
                   messages from acceptors.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> Failure Handling</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> Failure Handling</h3>
+<p>
                   If no value is chosen, proposers retry with higher proposal
                   numbers. The protocol ensures safety even with message loss
                   and node failures.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>// Proposer:
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Proposer:
 function run_paxos(value):
     while not decided:
         n = generate_proposal_number()
@@ -897,174 +897,156 @@ state:
     accepted_value = null
 
 on PREPARE(n):
-    if n > promised_n:
+    if n &gt; promised_n:
         promised_n = n
         respond PROMISE(n, accepted_n, accepted_value)
 
 on ACCEPT(n, v):
-    if n >= promised_n:
+    if n &gt;= promised_n:
         promised_n = n
         accepted_n = n
         accepted_value = v
         respond ACCEPTED(n)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Consensus</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Asynchronous</div>
-              </div>
-              <div class="property-card">
-                <h4>Fault Tolerance</h4>
-                <div class="value">F < N/2 failures</div>
-              </div>
-              <div class="property-card">
-                <h4>Safety</h4>
-                <div class="value">Guaranteed</div>
-              </div>
-              <div class="property-card">
-                <h4>Liveness</h4>
-                <div class="value">Partial synchrony</div>
-              </div>
-              <div class="property-card">
-                <h4>Rounds</h4>
-                <div class="value">2 phases</div>
-              </div>
-              <div class="property-card">
-                <h4>Messages</h4>
-                <div class="value">O(N²) worst-case</div>
-              </div>
-              <div class="property-card">
-                <h4>Complexity</h4>
-                <div class="value">O(N) per operation</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Consensus</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Asynchronous</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">F &lt; N/2 failures</div>
+</div>
+<div class="property-card">
+<h4>Safety</h4>
+<div class="value">Guaranteed</div>
+</div>
+<div class="property-card">
+<h4>Liveness</h4>
+<div class="value">Partial synchrony</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">2 phases</div>
+</div>
+<div class="property-card">
+<h4>Messages</h4>
+<div class="value">O(N²) worst-case</div>
+</div>
+<div class="property-card">
+<h4>Complexity</h4>
+<div class="value">O(N) per operation</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Paxos is used in critical distributed systems requiring strong
               consistency:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Google Chubby:</strong> Distributed lock service
+              ">
+<li style="margin-bottom: 10px">
+<strong>Google Chubby:</strong> Distributed lock service
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Amazon DynamoDB:</strong> Configuration management
+<li style="margin-bottom: 10px">
+<strong>Amazon DynamoDB:</strong> Configuration management
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Apache ZooKeeper:</strong> Core consensus protocol
+<li style="margin-bottom: 10px">
+<strong>Apache ZooKeeper:</strong> Core consensus protocol
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Distributed Databases:</strong> Spanner, CockroachDB
+<li style="margin-bottom: 10px">
+<strong>Distributed Databases:</strong> Spanner, CockroachDB
               </li>
-              <li>
-                <strong>Blockchain Systems:</strong> Private blockchain
+<li>
+<strong>Blockchain Systems:</strong> Private blockchain
                 consensus
               </li>
-            </ul>
-          </div>
-
-          <!-- Key Concepts Section -->
-          <div class="section">
-            <h2><i class="fas fa-key"></i> Key Concepts</h2>
-            <p>Understanding these terms is crucial for Paxos:</p>
-            <ul
-              style="
+</ul>
+</div>
+<!-- Key Concepts Section -->
+<div class="section">
+<h2><i class="fas fa-key"></i> Key Concepts</h2>
+<p>Understanding these terms is crucial for Paxos:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Proposal Number:</strong> Unique, totally ordered
+              ">
+<li style="margin-bottom: 10px">
+<strong>Proposal Number:</strong> Unique, totally ordered
                 identifier for each proposal
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Quorum:</strong> Majority of acceptors (N/2 + 1)
+<li style="margin-bottom: 10px">
+<strong>Quorum:</strong> Majority of acceptors (N/2 + 1)
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Promise:</strong> Acceptor's guarantee not to accept
+<li style="margin-bottom: 10px">
+<strong>Promise:</strong> Acceptor's guarantee not to accept
                 proposals with lower numbers
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Chosen Value:</strong> Value that has been accepted by a
+<li style="margin-bottom: 10px">
+<strong>Chosen Value:</strong> Value that has been accepted by a
                 quorum
               </li>
-              <li>
-                <strong>Liveness:</strong> Property that a value will eventually
+<li>
+<strong>Liveness:</strong> Property that a value will eventually
                 be chosen
               </li>
-            </ul>
-          </div>
-
-          <!-- Comparison Section -->
-          <div class="section">
-            <h2><i class="fas fa-balance-scale"></i> Paxos vs Raft</h2>
-            <p>How Paxos compares to the Raft consensus algorithm:</p>
-            <ul
-              style="
+</ul>
+</div>
+<!-- Comparison Section -->
+<div class="section">
+<h2><i class="fas fa-balance-scale"></i> Paxos vs Raft</h2>
+<p>How Paxos compares to the Raft consensus algorithm:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Understandability:</strong> Raft was designed to be
+              ">
+<li style="margin-bottom: 10px">
+<strong>Understandability:</strong> Raft was designed to be
                 easier to understand than Paxos
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Leader Role:</strong> Raft has a strong leader while
+<li style="margin-bottom: 10px">
+<strong>Leader Role:</strong> Raft has a strong leader while
                 Paxos has multiple proposers
               </li>
-              <li>
-                <strong>Log Management:</strong> Raft manages logs directly
+<li>
+<strong>Log Management:</strong> Raft manages logs directly
                 while Paxos focuses on individual values
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1375,5 +1357,5 @@ on ACCEPT(n, v):
       // Initialize on load
       window.addEventListener("load", initSimulation);
     </script>
-  </body>
+</body>
 </html>

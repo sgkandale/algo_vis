@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comb Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Comb Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -660,205 +655,193 @@
         background: rgba(0, 0, 0, 0.5);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Comb Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_comb.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Comb Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_comb.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Comb Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_comb.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Comb Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Comb Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Bubble Sort Variant
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Comb Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Bubble Sort Variant
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Comb Sort is an efficient variant of Bubble Sort that improves
               performance by eliminating small values near the end of the list
               (known as "turtles" in Bubble Sort). It works by comparing
               elements separated by a gap, which decreases over time.
             </p>
-            <p>
+<p>
               The algorithm starts with a large gap (typically the array length)
               and reduces the gap by a shrink factor (traditionally 1.3) with
               each pass. This approach allows the algorithm to quickly move
               small elements to the beginning and large elements to the end of
               the array.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Eliminates "turtle" values that slow down Bubble Sort</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n²) worst case, but faster than Bubble Sort in practice</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(1) space complexity (in-place sorting)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Compares elements with a decreasing gap size</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Eliminates "turtle" values that slow down Bubble Sort</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n²) worst case, but faster than Bubble Sort in practice</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(1) space complexity (in-place sorting)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Compares elements with a decreasing gap size</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Comb Sort in action! The visualization shows how the
               algorithm compares elements separated by a gap and swaps them if
               they are in the wrong order. The gap shrinks with each pass until
               it becomes 1, at which point it performs a final Bubble Sort pass.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Comb Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Comb Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="viz-area">
-                <div class="array-container" id="array-container"></div>
-
-                <div class="stats-bar" id="stats-bar">
-                  <div class="stats-item">
-                    <i class="fas fa-ruler" style="color: var(--warning)"></i>
-                    <span>Gap: <span id="gap-value">0</span></span>
-                  </div>
-                  <div class="stats-item">
-                    <i
-                      class="fas fa-exchange-alt"
-                      style="color: var(--success)"
-                    ></i>
-                    <span>Swaps: <span id="swap-count">0</span></span>
-                  </div>
-                  <div class="stats-item">
-                    <i
-                      class="fas fa-sync-alt"
-                      style="color: var(--accent-light)"
-                    ></i>
-                    <span>Passes: <span id="pass-count">0</span></span>
-                  </div>
-                </div>
-
-                <div class="step-info" id="step-info">
+</div>
+</div>
+<div class="visualization-area" id="viz-area">
+<div class="array-container" id="array-container"></div>
+<div class="stats-bar" id="stats-bar">
+<div class="stats-item">
+<i class="fas fa-ruler" style="color: var(--warning)"></i>
+<span>Gap: <span id="gap-value">0</span></span>
+</div>
+<div class="stats-item">
+<i class="fas fa-exchange-alt" style="color: var(--success)"></i>
+<span>Swaps: <span id="swap-count">0</span></span>
+</div>
+<div class="stats-item">
+<i class="fas fa-sync-alt" style="color: var(--accent-light)"></i>
+<span>Passes: <span id="pass-count">0</span></span>
+</div>
+</div>
+<div class="step-info" id="step-info">
                   Ready to visualize Comb Sort!
                 </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  value="7, 2, 9, 5, 1, 4, 8, 3, 6"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 2, 9, 5, 1, 4, 8, 3, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div class="controls">
-                <div class="speed-control">
-                  <i
-                    class="fas fa-tachometer-alt"
-                    style="color: var(--accent-light)"
-                  ></i>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+<div class="controls">
+<div class="speed-control">
+<i class="fas fa-tachometer-alt" style="color: var(--accent-light)"></i>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Comb Sort improves on Bubble Sort by using a gap greater than 1 to
               eliminate small values at the end:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-ruler"></i> 1. Initialize Gap</h3>
-                <p>Set gap = array length and shrink factor = 1.3</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 2. Shrink Gap</h3>
-                <p>Reduce gap by shrink factor after each pass</p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-compress-arrows-alt"></i> 3. Compare Elements
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-ruler"></i> 1. Initialize Gap</h3>
+<p>Set gap = array length and shrink factor = 1.3</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 2. Shrink Gap</h3>
+<p>Reduce gap by shrink factor after each pass</p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i> 3. Compare Elements
                 </h3>
-                <p>Compare elements that are "gap" apart</p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-exchange-alt"></i> 4. Swap if Necessary
+<p>Compare elements that are "gap" apart</p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 4. Swap if Necessary
                 </h3>
-                <p>Swap elements if they are in the wrong order</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 5. Repeat Until Sorted</h3>
-                <p>Continue until gap = 1 and no swaps are made</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function combSort(arr):
+<p>Swap elements if they are in the wrong order</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 5. Repeat Until Sorted</h3>
+<p>Continue until gap = 1 and no swaps are made</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function combSort(arr):
     gap = length(arr)
     shrink = 1.3
     sorted = false
@@ -866,38 +849,36 @@
     while not sorted:
         // Update gap for next pass
         gap = floor(gap / shrink)
-        if gap <= 1:
+        if gap &lt;= 1:
             gap = 1
             sorted = true  // Last pass
         
         i = 0
-        while i + gap < length(arr):
-            if arr[i] > arr[i + gap]:
+        while i + gap &lt; length(arr):
+            if arr[i] &gt; arr[i + gap]:
                 swap arr[i] and arr[i + gap]
                 sorted = false  // If we swapped, we're not done
             i = i + 1
         // End while i+gap
     // End while not sorted</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Comb Sort. The algorithm
               efficiently eliminates "turtles" by comparing elements separated
               by a gap that decreases with each pass.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">comb_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">comb_sort</span>(arr):
     n = len(arr)
     gap = n
     shrink = 1.3
@@ -906,13 +887,13 @@
     <span class="keyword">while not</span> sorted:
         <span class="comment"># Update gap for next pass</span>
         gap = int(gap / shrink)
-        <span class="keyword">if</span> gap <= 1:
+        <span class="keyword">if</span> gap &lt;= 1:
             gap = 1
             sorted = True  <span class="comment"># Last pass will be a Bubble Sort</span>
         
         i = 0
-        <span class="keyword">while</span> i + gap < n:
-            <span class="keyword">if</span> arr[i] > arr[i + gap]:
+        <span class="keyword">while</span> i + gap &lt; n:
+            <span class="keyword">if</span> arr[i] &gt; arr[i + gap]:
                 <span class="comment"># Swap elements</span>
                 arr[i], arr[i + gap] = arr[i + gap], arr[i]
                 sorted = False  <span class="comment"># Set to false as swap occurred</span>
@@ -922,218 +903,190 @@
 arr = [7, 2, 9, 5, 1, 4, 8, 3, 6]
 comb_sort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)  <span class="comment"># Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Comb Sort is useful in scenarios where a simple, in-place sort is
               needed:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Educational purposes to demonstrate gap-based sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Systems with limited memory resources
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Situations where a stable sort is not required
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting small to medium-sized datasets
               </li>
-              <li>
+<li>
                 When a simple implementation is preferred over complex
                 algorithms
               </li>
-            </ul>
-          </div>
-
-          <!-- Advantages/Disadvantages Section -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-balance-scale"></i> Advantages & Disadvantages
+</ul>
+</div>
+<!-- Advantages/Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Advantages &amp; Disadvantages
             </h2>
-            <div style="margin-top: 20px">
-              <h3 style="color: var(--success); margin-bottom: 10px">
-                <i class="fas fa-check-circle"></i> Advantages
+<div style="margin-top: 20px">
+<h3 style="color: var(--success); margin-bottom: 10px">
+<i class="fas fa-check-circle"></i> Advantages
               </h3>
-              <ul
-                style="
+<ul style="
                   padding-left: 20px;
                   margin-bottom: 20px;
                   color: var(--text-secondary);
-                "
-              >
-                <li style="margin-bottom: 8px">
+                ">
+<li style="margin-bottom: 8px">
                   Faster than Bubble Sort in practice
                 </li>
-                <li style="margin-bottom: 8px">Simple to implement</li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">Simple to implement</li>
+<li style="margin-bottom: 8px">
                   In-place sorting with O(1) space complexity
                 </li>
-                <li>Eliminates "turtle" problem of Bubble Sort</li>
-              </ul>
-
-              <h3 style="color: var(--danger); margin-bottom: 10px">
-                <i class="fas fa-exclamation-circle"></i> Disadvantages
+<li>Eliminates "turtle" problem of Bubble Sort</li>
+</ul>
+<h3 style="color: var(--danger); margin-bottom: 10px">
+<i class="fas fa-exclamation-circle"></i> Disadvantages
               </h3>
-              <ul style="padding-left: 20px; color: var(--text-secondary)">
-                <li style="margin-bottom: 8px">
+<ul style="padding-left: 20px; color: var(--text-secondary)">
+<li style="margin-bottom: 8px">
                   Not a stable sorting algorithm
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   O(n²) worst-case time complexity
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Performance depends on shrink factor
                 </li>
-                <li>
+<li>
                   Less efficient than more advanced algorithms for large
                   datasets
                 </li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
-            <p style="margin-bottom: 15px">
+</ul>
+</div>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
+<p style="margin-bottom: 15px">
               Comb Sort's performance varies based on the shrink factor and
               input data:
             </p>
-            <div
-              style="
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: var(--radius);
                 padding: 15px;
-              "
-            >
-              <div
-                style="
+              ">
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Best Case:</span>
-                <span
-                  style="
+                ">
+<span>Best Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n log n)</span
-                >
-              </div>
-              <div
-                style="
+                  ">O(n log n)</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Average Case:</span>
-                <span
-                  style="
+                ">
+<span>Average Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n²)</span
-                >
-              </div>
-              <div
-                style="
+                  ">O(n²)</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Worst Case:</span>
-                <span
-                  style="
+                ">
+<span>Worst Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n²)</span
-                >
-              </div>
-              <div style="margin-top: 15px">
-                <p style="color: var(--text-secondary); font-size: 15px">
+                  ">O(n²)</span>
+</div>
+<div style="margin-top: 15px">
+<p style="color: var(--text-secondary); font-size: 15px">
                   With an optimal shrink factor (≈1.3), Comb Sort can approach
                   O(n log n) performance for some data distributions, though its
                   worst-case remains O(n²).
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1423,5 +1376,5 @@ print(<span class="string">"Sorted array:"</span>, arr)  <span class="comment">#
         speedSlider.dispatchEvent(new Event("input"));
       });
     </script>
-  </body>
+</body>
 </html>

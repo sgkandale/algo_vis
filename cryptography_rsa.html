@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RSA Key Exchange | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RSA Key Exchange | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -659,221 +654,228 @@
         color: var(--success);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Cryptography Algorithms</a> >
+<meta content="RSA Key Exchange | AlgoViz Hub" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_rsa.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="RSA Key Exchange | AlgoViz Hub" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_rsa.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "RSA Key Exchange | AlgoViz Hub",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_rsa.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Cryptography Algorithms</a> &gt;
               <span>RSA Key Exchange</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>RSA Key Exchange</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Public-Key Cryptography
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>RSA Key Exchange</h1>
-        <div class="category">
-          <i class="fas fa-lock"></i> Public-Key Cryptography
-        </div>
-        <div class="complexity-badge">Security: 2048-bit</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Security: 2048-bit</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               RSA (Rivest-Shamir-Adleman) is a public-key cryptosystem widely
               used for secure data transmission. It uses asymmetric encryption
               based on the practical difficulty of factoring large integers. The
               RSA algorithm involves three main steps: key generation,
               encryption, and decryption.
             </p>
-            <p>
+<p>
               In key exchange scenarios, RSA allows two parties to securely
               exchange symmetric keys over an insecure channel. One party
               encrypts the symmetric key using the recipient's public key, and
               only the recipient can decrypt it using their private key,
               ensuring secure key exchange.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> Key Generation</h3>
-                <p>Select two large primes, compute modulus and keys</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-lock"></i> Encryption</h3>
-                <p>Encrypt message using recipient's public key</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> Decryption</h3>
-                <p>Decrypt ciphertext using private key</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Security</h3>
-                <p>Based on difficulty of factoring large numbers</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> Key Generation</h3>
+<p>Select two large primes, compute modulus and keys</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> Encryption</h3>
+<p>Encrypt message using recipient's public key</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> Decryption</h3>
+<p>Decrypt ciphertext using private key</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Security</h3>
+<p>Based on difficulty of factoring large numbers</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console to visualize the RSA key exchange
               process. Step through each stage to see how symmetric keys are
               securely exchanged using public-key cryptography.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-exchange-alt"></i> RSA Key Exchange
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-exchange-alt"></i> RSA Key Exchange
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="prev-btn">
-                    <i class="fas fa-arrow-left"></i> Prev
+<div class="console-controls">
+<button class="console-btn secondary" id="prev-btn">
+<i class="fas fa-arrow-left"></i> Prev
                   </button>
-                  <button class="console-btn" id="next-btn">
+<button class="console-btn" id="next-btn">
                     Next <i class="fas fa-arrow-right"></i>
+</button>
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
-                  </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="rsa-container">
-                  <!-- Alice's Side -->
-                  <div class="participant" id="alice">
-                    <h4><i class="fas fa-user"></i> Alice</h4>
-                    <div class="key-container">
-                      <div class="key-label">Private Key (d, n)</div>
-                      <div class="key-value" id="alice-private">
-                        d: 2753<br />n: 3233
+</div>
+</div>
+<div class="visualization-area">
+<div class="rsa-container">
+<!-- Alice's Side -->
+<div class="participant" id="alice">
+<h4><i class="fas fa-user"></i> Alice</h4>
+<div class="key-container">
+<div class="key-label">Private Key (d, n)</div>
+<div class="key-value" id="alice-private">
+                        d: 2753<br/>n: 3233
                       </div>
-                    </div>
-                    <div class="key-container">
-                      <div class="key-label">Public Key (e, n)</div>
-                      <div class="key-value" id="alice-public">
-                        e: 17<br />n: 3233
+</div>
+<div class="key-container">
+<div class="key-label">Public Key (e, n)</div>
+<div class="key-value" id="alice-public">
+                        e: 17<br/>n: 3233
                       </div>
-                    </div>
-                    <div class="key-container" id="alice-secret">
-                      <div class="key-label">Symmetric Key</div>
-                      <div class="key-value">-</div>
-                    </div>
+</div>
+<div class="key-container" id="alice-secret">
+<div class="key-label">Symmetric Key</div>
+<div class="key-value">-</div>
+</div>
+</div>
+<!-- Bob's Side -->
+<div class="participant" id="bob">
+<h4><i class="fas fa-user"></i> Bob</h4>
+<div class="key-container">
+<div class="key-label">Symmetric Key</div>
+<div class="key-value" id="bob-secret">123</div>
+</div>
+<div class="key-container">
+<div class="key-label">Encrypted Key</div>
+<div class="key-value" id="bob-encrypted">-</div>
+</div>
+</div>
+<!-- Messages -->
+<div class="message-container" id="msg-public-key">
+<i class="fas fa-key"></i> Public Key<br/>(e, n)
                   </div>
-
-                  <!-- Bob's Side -->
-                  <div class="participant" id="bob">
-                    <h4><i class="fas fa-user"></i> Bob</h4>
-                    <div class="key-container">
-                      <div class="key-label">Symmetric Key</div>
-                      <div class="key-value" id="bob-secret">123</div>
-                    </div>
-                    <div class="key-container">
-                      <div class="key-label">Encrypted Key</div>
-                      <div class="key-value" id="bob-encrypted">-</div>
-                    </div>
+<div class="message-container" id="msg-encrypted">
+<i class="fas fa-lock"></i> Encrypted Key<br/>C = 855
                   </div>
-
-                  <!-- Messages -->
-                  <div class="message-container" id="msg-public-key">
-                    <i class="fas fa-key"></i> Public Key<br />(e, n)
-                  </div>
-
-                  <div class="message-container" id="msg-encrypted">
-                    <i class="fas fa-lock"></i> Encrypted Key<br />C = 855
-                  </div>
-
-                  <div class="arrow" id="arrow-1"></div>
-                  <div class="arrow" id="arrow-2"></div>
-
-                  <div class="step-indicator">
+<div class="arrow" id="arrow-1"></div>
+<div class="arrow" id="arrow-2"></div>
+<div class="step-indicator">
                     Step: <span id="step-num">1</span>/5
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               RSA key exchange involves the following steps to securely share a
               symmetric key:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> 1. Key Generation</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Key Generation</h3>
+<p>
                   Alice selects two large primes (p=61, q=53), computes modulus
                   (n=p*q=3233), Euler's totient (φ=3120), chooses public
                   exponent (e=17), and computes private exponent (d=2753).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
+<p>
                   Alice shares her public key (e, n) with Bob. This key can be
                   safely transmitted over insecure channels.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-lock"></i> 3. Encrypt Symmetric Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> 3. Encrypt Symmetric Key</h3>
+<p>
                   Bob generates a symmetric key (K=123) and encrypts it using
                   Alice's public key: C = K<sup>e</sup> mod n = 123<sup>17</sup>
                   mod 3233 = 855.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-paper-plane"></i> 4. Send Encrypted Key
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-paper-plane"></i> 4. Send Encrypted Key
                 </h3>
-                <p>
+<p>
                   Bob sends the encrypted key (C=855) to Alice. Even if
                   intercepted, this value cannot be decrypted without the
                   private key.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> 5. Decrypt Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> 5. Decrypt Key</h3>
+<p>
                   Alice decrypts the symmetric key using her private key: K =
                   C<sup>d</sup> mod n = 855<sup>2753</sup> mod 3233 = 123.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code><span class="comment">// Key Generation</span>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code><span class="comment">// Key Generation</span>
 p = large_prime()
 q = large_prime()
 n = p * q
@@ -890,91 +892,85 @@ ciphertext = pow(symmetric_key, e, n)
 
 <span class="comment">// Decryption (by Alice)</span>
 symmetric_key = pow(ciphertext, d, n)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Cryptography</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Asymmetric</div>
-              </div>
-              <div class="property-card">
-                <h4>Key Exchange</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Encryption</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Digital Signatures</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Security</h4>
-                <div class="value">Integer Factorization</div>
-              </div>
-              <div class="property-card">
-                <h4>Key Size</h4>
-                <div class="value">2048-4096 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Year</h4>
-                <div class="value">1977</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>RSA is used in various security applications and protocols:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptography</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Asymmetric</div>
+</div>
+<div class="property-card">
+<h4>Key Exchange</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Encryption</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Digital Signatures</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Security</h4>
+<div class="value">Integer Factorization</div>
+</div>
+<div class="property-card">
+<h4>Key Size</h4>
+<div class="value">2048-4096 bits</div>
+</div>
+<div class="property-card">
+<h4>Year</h4>
+<div class="value">1977</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>RSA is used in various security applications and protocols:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Secure key exchange in SSL/TLS protocols
               </li>
-              <li style="margin-bottom: 10px">Secure email (PGP, S/MIME)</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Secure email (PGP, S/MIME)</li>
+<li style="margin-bottom: 10px">
                 Digital signatures for document verification
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Secure shell (SSH) authentication
               </li>
-              <li>VPN and secure communication channels</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>VPN and secure communication channels</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // RSA Visualization State
         let currentStep = 1;
@@ -1098,5 +1094,5 @@ symmetric_key = pow(ciphertext, d, n)</code></pre>
         }
       });
     </script>
-  </body>
+</body>
 </html>

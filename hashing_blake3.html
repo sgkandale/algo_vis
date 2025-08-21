@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Algorithm Detail | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Algorithm Detail | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -715,251 +710,237 @@
                 transform: scale(1.1);
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Cryptographic Algorithms</a> >
+<meta content="Algorithm Detail | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_blake3.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Algorithm Detail | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_blake3.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Algorithm Detail | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_blake3.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Cryptographic Algorithms</a> &gt;
                             <span>BLAKE3</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>BLAKE3</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Cryptographic Hash Function
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>BLAKE3</h1>
-                <div class="category">
-                    <i class="fas fa-lock"></i> Cryptographic Hash Function
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Extremely Fast, Parallelizable, and Secure
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             BLAKE3 is a cryptographic hash function that is
                             extremely fast, parallelizable, and provides high
                             security. It is a single algorithm with many
                             features, including hashing, keyed hashing, key
                             derivation, and authenticated encryption.
                         </p>
-                        <p>
+<p>
                             BLAKE3 is based on a Merkle tree structure and the
                             BLAKE2 compression function. It is designed to be
                             faster than BLAKE2 and other cryptographic hash
                             functions while maintaining the same security level.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Extremely fast hashing with parallelization
                                     support
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Faster than BLAKE2 and other cryptographic
                                     hash functions
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-memory"></i> Structure</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Structure</h3>
+<p>
                                     Based on a Merkle tree with unlimited
                                     parallelism
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Versatility
                                 </h3>
-                                <p>
+<p>
                                     Supports hashing, key derivation, and
                                     authenticated encryption
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             BLAKE3 works. Enter text input and see how it gets
                             processed through the compression function and
                             Merkle tree to produce the hash output.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> BLAKE3
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> BLAKE3
                                     Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="settings-btn"
-                                    >
-                                        <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settings-btn">
+<i class="fas fa-cog"></i> Settings
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="visualization-area"
-                            >
-                                <div class="hash-visualization">
-                                    <div class="blake3-container">
-                                        <div class="input-section">
-                                            <div
-                                                class="hash-input"
-                                                id="input-display"
-                                            >
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="hash-visualization">
+<div class="blake3-container">
+<div class="input-section">
+<div class="hash-input" id="input-display">
                                                 Input will appear here
                                             </div>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div
-                                                class="progress-fill"
-                                                id="progress-fill"
-                                            ></div>
-                                        </div>
-                                        <div class="compression-function">
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="progress-fill"></div>
+</div>
+<div class="compression-function">
                                             BLAKE3 Compression Function
                                         </div>
-                                        <div
-                                            class="state-grid"
-                                            id="state-display"
-                                        >
-                                            <!-- State cells will be inserted here by JavaScript -->
-                                        </div>
-                                        <div
-                                            class="tree-structure"
-                                            id="tree-display"
-                                        >
-                                            <!-- Tree structure will be inserted here by JavaScript -->
-                                        </div>
-                                        <div class="output-section">
-                                            <div
-                                                class="hash-output"
-                                                id="output-display"
-                                            >
+<div class="state-grid" id="state-display">
+<!-- State cells will be inserted here by JavaScript -->
+</div>
+<div class="tree-structure" id="tree-display">
+<!-- Tree structure will be inserted here by JavaScript -->
+</div>
+<div class="output-section">
+<div class="hash-output" id="output-display">
                                                 Hash output will appear here
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="hash-input"
-                                    placeholder="Enter text to hash (e.g., Hello World)"
-                                />
-                                <button class="console-btn" id="random-btn">
-                                    <i class="fas fa-random"></i> Random
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="hash-input" placeholder="Enter text to hash (e.g., Hello World)" type="text"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             BLAKE3 processes input messages through a Merkle
                             tree structure with parallel processing:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-key"></i> 1. Initialization
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-key"></i> 1. Initialization
                                 </h3>
-                                <p>
+<p>
                                     The algorithm initializes the state with IV
                                     values and parameters. BLAKE3 uses a 256-bit
                                     key and 64-byte block size.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-share-alt"></i> 2. Chunk
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-share-alt"></i> 2. Chunk
                                     Processing
                                 </h3>
-                                <p>
+<p>
                                     The input message is divided into 1024-byte
                                     chunks. Each chunk is processed
                                     independently, allowing for parallelism.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-compress-arrows-alt"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i>
                                     3. Compression Function
                                 </h3>
-                                <p>
+<p>
                                     Each chunk is processed by the compression
                                     function, which is based on BLAKE2's
                                     compression function but simplified.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sitemap"></i> 4. Merkle
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sitemap"></i> 4. Merkle
                                     Tree Construction
                                 </h3>
-                                <p>
+<p>
                                     The outputs of chunk processing are combined
                                     in a binary Merkle tree structure to produce
                                     the final hash.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>function BLAKE3(input, key, flags):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function BLAKE3(input, key, flags):
     # Initialize state
     state = IV ⊕ key
 
@@ -973,10 +954,10 @@
         chunk_hashes.append(chunk_hash)
 
     # Build Merkle tree
-    while len(chunk_hashes) > 1:
+    while len(chunk_hashes) &gt; 1:
         new_level = []
         for i in range(0, len(chunk_hashes), 2):
-            if i+1 < len(chunk_hashes):
+            if i+1 &lt; len(chunk_hashes):
                 combined = chunk_hashes[i] || chunk_hashes[i+1]
                 parent_hash = compress(combined, state, flags)
                 new_level.append(parent_hash)
@@ -1004,28 +985,26 @@ function compress(block, state, flags):
         v = G(v, 3, 4, 9, 14)
 
     return state ⊕ v</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a Python implementation of BLAKE3 using the
                             standard library. In practice, you should use
                             established cryptographic libraries rather than
                             implementing your own for security-critical
                             applications.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">import</span> hashlib
+</div>
+<pre><code><span class="keyword">import</span> hashlib
 
 <span class="comment"># Using Python's built-in library implementation</span>
 <span class="keyword">def</span> <span class="function">blake3_demo</span>(input_data, digest_size=32):
@@ -1052,144 +1031,127 @@ print(blake3_hash)
 blake3_long_hash = blake3_demo(input_text, 64)
 print(<span class="string">f"\nBLAKE3 hash (64 bytes) of '{input_text}':"</span>)
 print(blake3_long_hash)</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Cryptography</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Hash Function</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Designers</h4>
-                                <div class="value">Jack O'Connor et al.</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>First Published</h4>
-                                <div class="value">2020</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Digest Sizes</h4>
-                                <div class="value">Any length</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Rounds</h4>
-                                <div class="value">7</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Security (bits)</h4>
-                                <div class="value">256</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Parallelizable</h4>
-                                <div class="value">Yes</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptography</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Hash Function</div>
+</div>
+<div class="property-card">
+<h4>Designers</h4>
+<div class="value">Jack O'Connor et al.</div>
+</div>
+<div class="property-card">
+<h4>First Published</h4>
+<div class="value">2020</div>
+</div>
+<div class="property-card">
+<h4>Digest Sizes</h4>
+<div class="value">Any length</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">7</div>
+</div>
+<div class="property-card">
+<h4>Security (bits)</h4>
+<div class="value">256</div>
+</div>
+<div class="property-card">
+<h4>Parallelizable</h4>
+<div class="value">Yes</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             BLAKE3 is used in various applications where high
                             performance and security are required:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Checksumming and data integrity verification
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Digital signatures and certificates
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Password hashing
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Cryptocurrencies and blockchain technologies
                             </li>
-                            <li>Content addressing in distributed systems</li>
-                        </ul>
-                    </div>
-
-                    <!-- Variants Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-code-branch"></i> BLAKE3 Features
+<li>Content addressing in distributed systems</li>
+</ul>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2>
+<i class="fas fa-code-branch"></i> BLAKE3 Features
                         </h2>
-                        <p>
+<p>
                             BLAKE3 includes several advanced features that make
                             it unique:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Extensible Output:</strong> Can produce
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Extensible Output:</strong> Can produce
                                 output of any length
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Keyed Hashing:</strong> Supports keyed
+<li style="margin-bottom: 10px">
+<strong>Keyed Hashing:</strong> Supports keyed
                                 hashing (MAC)
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Key Derivation:</strong> Can be used for
+<li style="margin-bottom: 10px">
+<strong>Key Derivation:</strong> Can be used for
                                 key derivation (KDF)
                             </li>
-                            <li>
-                                <strong>Parallelism:</strong> Unlimited
+<li>
+<strong>Parallelism:</strong> Unlimited
                                 parallelism with Merkle tree structure
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Simple copy button functionality
             document
                 .querySelector(".copy-btn")
@@ -1402,5 +1364,5 @@ print(blake3_long_hash)</code></pre>
                 initStateVisualization();
             });
         </script>
-    </body>
+</body>
 </html>

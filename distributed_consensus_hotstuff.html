@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>HotStuff Consensus | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HotStuff Consensus | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -687,47 +682,66 @@
                 font-family: "Roboto Mono", monospace;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Consensus Algorithms</a> >
+<meta content="HotStuff Consensus | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_hotstuff.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="HotStuff Consensus | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_hotstuff.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "HotStuff Consensus | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_hotstuff.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-fire"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Consensus Algorithms</a> &gt;
                             <span>HotStuff</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>HotStuff Consensus</h1>
-                <div class="category">
-                    <i class="fas fa-bolt"></i> Byzantine Fault-Tolerant
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>HotStuff Consensus</h1>
+<div class="category">
+<i class="fas fa-bolt"></i> Byzantine Fault-Tolerant
                     Protocol
                 </div>
-                <div class="complexity-badge">Latency: 3 View Changes</div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+<div class="complexity-badge">Latency: 3 View Changes</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             HotStuff is a leader-based Byzantine fault-tolerant
                             (BFT) consensus protocol that provides linear
                             communication complexity per leader. It introduces
@@ -735,194 +749,171 @@
                             each block contains a cryptographic hash of the
                             previous block.
                         </p>
-                        <p>
+<p>
                             The protocol operates in views with rotating leaders
                             and achieves consensus through a three-phase voting
                             process: prepare, pre-commit, and commit. HotStuff
                             is known for its simplicity, efficiency, and being
                             the foundation for Facebook's Libra blockchain.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Linear message complexity per leader with
                                     threshold signatures
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Optimized for low latency with just three
                                     communication steps
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Fault
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Fault
                                     Tolerance
                                 </h3>
-                                <p>
+<p>
                                     Tolerates up to f Byzantine faults with 3f+1
                                     replicas
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Architecture
                                 </h3>
-                                <p>
+<p>
                                     Leader rotation with pipelined block
                                     processing
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             The visualization below demonstrates the HotStuff
                             consensus algorithm in action. You can see the
                             leader rotation, three-phase voting process, and how
                             the system maintains consensus during failures. Use
                             the controls to simulate different scenarios.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-network-wired"></i>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-network-wired"></i>
                                     HotStuff Protocol Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="step-btn"
-                                    >
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="hotstuff-visualization"
-                            >
-                                <!-- Visualization will be rendered here by JavaScript -->
-                                <div
-                                    class="cluster"
-                                    id="cluster-container"
-                                ></div>
-                            </div>
-
-                            <div class="console-input">
-                                <button class="console-btn" id="byzantine-btn">
-                                    <i class="fas fa-user-secret"></i> Toggle
+</div>
+</div>
+<div class="visualization-area" id="hotstuff-visualization">
+<!-- Visualization will be rendered here by JavaScript -->
+<div class="cluster" id="cluster-container"></div>
+</div>
+<div class="console-input">
+<button class="console-btn" id="byzantine-btn">
+<i class="fas fa-user-secret"></i> Toggle
                                     Byzantine Node
                                 </button>
-                                <button class="console-btn" id="add-client-btn">
-                                    <i class="fas fa-plus"></i> Add Transaction
+<button class="console-btn" id="add-client-btn">
+<i class="fas fa-plus"></i> Add Transaction
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="fail-leader-btn"
-                                >
-                                    <i class="fas fa-crown"></i> Fail Leader
+<button class="console-btn secondary" id="fail-leader-btn">
+<i class="fas fa-crown"></i> Fail Leader
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Protocol Phases</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Protocol Phases</h2>
+<p>
                             The HotStuff consensus protocol operates through
                             these key phases:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-paper-plane"></i> 1.
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-paper-plane"></i> 1.
                                     Propose
                                 </h3>
-                                <p>
+<p>
                                     The leader proposes a new block containing
                                     transactions. The block includes the hash of
                                     the previous block to form a chain.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> 2.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> 2.
                                     Prepare
                                 </h3>
-                                <p>
+<p>
                                     Replicas validate the proposed block and
                                     send a PREPARE vote to the leader. The
                                     leader collects 2f+1 votes to proceed.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-lock"></i> 3. Pre-commit
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-lock"></i> 3. Pre-commit
                                 </h3>
-                                <p>
+<p>
                                     The leader sends a PRE-COMMIT message.
                                     Replicas vote again after ensuring enough
                                     PREPARE votes exist. Requires 2f+1 votes.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-double"></i> 4.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-check-double"></i> 4.
                                     Commit
                                 </h3>
-                                <p>
+<p>
                                     The leader sends a COMMIT message. Replicas
                                     vote after ensuring enough PRE-COMMIT votes
                                     exist. Requires 2f+1 votes.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-flag-checkered"></i> 5.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-flag-checkered"></i> 5.
                                     Decide
                                 </h3>
-                                <p>
+<p>
                                     The leader collects COMMIT votes and sends a
                                     DECIDE message. Replicas execute the block
                                     and update their state.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Leader Protocol
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Leader Protocol
 function proposeBlock(block):
   send PROPOSAL(block) to all replicas
   wait for 2f+1 PREPARE votes
@@ -949,27 +940,25 @@ on receive DECIDE(block) from leader:
   if received 2f+1 COMMIT votes for block:
     executeBlock(block)
     updateHighQC(block.qc) // Update highest quorum certificate</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             HotStuff consensus algorithm. This example
                             demonstrates the core consensus mechanism with
                             leader rotation and voting.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">import</span> time
+</div>
+<pre><code><span class="keyword">import</span> time
 <span class="keyword">import</span> hashlib
 <span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict
 <span class="keyword">from</span> typing <span class="keyword">import</span> List, Dict
@@ -981,7 +970,7 @@ on receive DECIDE(block) from leader:
         <span class="keyword">self</span>.view = view
         <span class="keyword">self</span>.hash = self.calculate_hash()
 
-    <span class="keyword">def</span> <span class="function">calculate_hash</span>(<span class="keyword">self</span>) -> str:
+    <span class="keyword">def</span> <span class="function">calculate_hash</span>(<span class="keyword">self</span>) -&gt; str:
         block_data = f<span class="string">"{self.parent_hash}{''.join(self.transactions)}{self.view}"</span>
         <span class="keyword">return</span> hashlib.sha256(block_data.encode()).hexdigest()
 
@@ -993,10 +982,10 @@ on receive DECIDE(block) from leader:
         <span class="keyword">self</span>.current_view = 0
         <span class="keyword">self</span>.leader = self.current_view % n
         <span class="keyword">self</span>.blockchain = []
-        <span class="keyword">self</span>.votes = defaultdict(dict)  <span class="comment"># phase -> block_hash -> votes</span>
+        <span class="keyword">self</span>.votes = defaultdict(dict)  <span class="comment"># phase -&gt; block_hash -&gt; votes</span>
         <span class="keyword">self</span>.high_qc = <span class="keyword">None</span>  <span class="comment"># Highest quorum certificate</span>
 
-    <span class="keyword">def</span> <span class="function">is_leader</span>(<span class="keyword">self</span>) -> bool:
+    <span class="keyword">def</span> <span class="function">is_leader</span>(<span class="keyword">self</span>) -&gt; bool:
         <span class="keyword">return</span> self.node_id == self.leader
 
     <span class="keyword">def</span> <span class="function">receive_proposal</span>(<span class="keyword">self</span>, block: Block):
@@ -1005,17 +994,17 @@ on receive DECIDE(block) from leader:
 
     <span class="keyword">def</span> <span class="function">receive_pre_commit</span>(<span class="keyword">self</span>, block: Block):
         prepare_votes = self.votes[<span class="string">"PREPARE"</span>].get(block.hash, [])
-        <span class="keyword">if</span> len(prepare_votes) >= 2*self.f + 1:
+        <span class="keyword">if</span> len(prepare_votes) &gt;= 2*self.f + 1:
             self.send_vote(<span class="string">"PRE-COMMIT"</span>, block)
 
     <span class="keyword">def</span> <span class="function">receive_commit</span>(<span class="keyword">self</span>, block: Block):
         pre_commit_votes = self.votes[<span class="string">"PRE-COMMIT"</span>].get(block.hash, [])
-        <span class="keyword">if</span> len(pre_commit_votes) >= 2*self.f + 1:
+        <span class="keyword">if</span> len(pre_commit_votes) &gt;= 2*self.f + 1:
             self.send_vote(<span class="string">"COMMIT"</span>, block)
 
     <span class="keyword">def</span> <span class="function">receive_decide</span>(<span class="keyword">self</span>, block: Block):
         commit_votes = self.votes[<span class="string">"COMMIT"</span>].get(block.hash, [])
-        <span class="keyword">if</span> len(commit_votes) >= 2*self.f + 1:
+        <span class="keyword">if</span> len(commit_votes) &gt;= 2*self.f + 1:
             self.commit_block(block)
 
     <span class="keyword">def</span> <span class="function">send_vote</span>(<span class="keyword">self</span>, phase: str, block: Block):
@@ -1024,11 +1013,11 @@ on receive DECIDE(block) from leader:
             self.votes[phase][block.hash] = []
         self.votes[phase][block.hash].append(self.node_id)
 
-    <span class="keyword">def</span> <span class="function">validate_block</span>(<span class="keyword">self</span>, block: Block) -> bool:
+    <span class="keyword">def</span> <span class="function">validate_block</span>(<span class="keyword">self</span>, block: Block) -&gt; bool:
         <span class="comment"># Simplified validation logic</span>
         <span class="keyword">return</span> block.parent_hash == self.get_last_block_hash()
 
-    <span class="keyword">def</span> <span class="function">get_last_block_hash</span>(<span class="keyword">self</span>) -> str:
+    <span class="keyword">def</span> <span class="function">get_last_block_hash</span>(<span class="keyword">self</span>) -&gt; str:
         <span class="keyword">return</span> self.blockchain[-1].hash <span class="keyword">if</span> self.blockchain <span class="keyword">else</span> <span class="string">"genesis"</span>
 
     <span class="keyword">def</span> <span class="function">commit_block</span>(<span class="keyword">self</span>, block: Block):
@@ -1052,138 +1041,125 @@ block = Block(<span class="string">"genesis"</span>, [<span class="string">"tx1"
 <span class="keyword">for</span> replica <span class="keyword">in</span> replicas:
     <span class="keyword">if</span> replica.node_id != leader.node_id:
         replica.receive_proposal(block)</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Protocol
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Protocol
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">BFT Consensus</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fault Model</h4>
-                                <div class="value">Byzantine</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fault Tolerance</h4>
-                                <div class="value">f failures</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Replica Count</h4>
-                                <div class="value">3f+1</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Latency</h4>
-                                <div class="value">3 RTTs</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Message Complexity</h4>
-                                <div class="value">O(n)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Leader Rotation</h4>
-                                <div class="value">Per View</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Deployment</h4>
-                                <div class="value">Libra Blockchain</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">BFT Consensus</div>
+</div>
+<div class="property-card">
+<h4>Fault Model</h4>
+<div class="value">Byzantine</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">f failures</div>
+</div>
+<div class="property-card">
+<h4>Replica Count</h4>
+<div class="value">3f+1</div>
+</div>
+<div class="property-card">
+<h4>Latency</h4>
+<div class="value">3 RTTs</div>
+</div>
+<div class="property-card">
+<h4>Message Complexity</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Leader Rotation</h4>
+<div class="value">Per View</div>
+</div>
+<div class="property-card">
+<h4>Deployment</h4>
+<div class="value">Libra Blockchain</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             HotStuff is used in various blockchain and
                             distributed systems:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Facebook's Libra blockchain (now Diem)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Permissioned blockchain networks
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Enterprise BFT systems
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Financial settlement systems
                             </li>
-                            <li>Supply chain management</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
-                        <ul
-                            style="
+<li>Supply chain management</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Key Advantages</h2>
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Linear Communication:</strong> O(n)
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Linear Communication:</strong> O(n)
                                 messages per decision
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Optimistic Responsiveness:</strong>
+<li style="margin-bottom: 10px">
+<strong>Optimistic Responsiveness:</strong>
                                 Progress at network speed
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Leader Rotation:</strong> Automatic
+<li style="margin-bottom: 10px">
+<strong>Leader Rotation:</strong> Automatic
                                 leader change per view
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Pipelining:</strong> Concurrent
+<li style="margin-bottom: 10px">
+<strong>Pipelining:</strong> Concurrent
                                 processing of blocks
                             </li>
-                            <li>
-                                <strong>Simplicity:</strong> Easier to implement
+<li>
+<strong>Simplicity:</strong> Easier to implement
                                 than PBFT
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a href="#"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
-                    <a href="#"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="#"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization for HotStuff Consensus Algorithm
             document.addEventListener("DOMContentLoaded", function () {
                 const visualization = document.getElementById(
@@ -1768,5 +1744,5 @@ block = Block(<span class="string">"genesis"</span>, [<span class="string">"tx1"
                     });
             });
         </script>
-    </body>
+</body>
 </html>

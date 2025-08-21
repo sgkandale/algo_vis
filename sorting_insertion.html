@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Insertion Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Insertion Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -692,213 +687,211 @@
         align-items: center;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Insertion Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_insertion.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Insertion Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_insertion.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Insertion Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_insertion.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Insertion Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Insertion Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Insertion Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Insertion Sort is a simple, efficient comparison-based sorting
               algorithm that builds the final sorted array one element at a
               time. It works similarly to how you might sort a hand of playing
               cards - by repeatedly taking the next element and inserting it
               into its correct position in the already sorted part.
             </p>
-            <p>
+<p>
               Despite its O(n²) time complexity, Insertion Sort performs well
               for small datasets and is often used as the base for more advanced
               algorithms like Shell Sort. It is particularly efficient when
               sorting nearly sorted arrays, where it can achieve O(n) time
               complexity.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Efficient for small or nearly sorted datasets</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n²) worst-case, O(n) best-case (for sorted input)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>In-place sorting with O(1) additional space</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Builds sorted array by inserting elements one by one</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Efficient for small or nearly sorted datasets</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n²) worst-case, O(n) best-case (for sorted input)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>In-place sorting with O(1) additional space</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Builds sorted array by inserting elements one by one</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Insertion Sort
               works. The algorithm works by maintaining a sorted sublist and
               inserting each new element into its correct position. Watch as
               elements are shifted to make room for the "key" element being
               inserted.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Insertion Sort
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Insertion Sort
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="array-container" id="array-container"></div>
-                <div class="status-bar" id="status-bar">Ready to visualize</div>
-              </div>
-
-              <div class="legend">
-                <div class="legend-item">
-                  <div class="legend-color key-color"></div>
-                  <span>Key Element</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color comparing-color"></div>
-                  <span>Comparing</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color shifting-color"></div>
-                  <span>Shifting</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color sorted-color"></div>
-                  <span>Sorted</span>
-                </div>
-              </div>
-
-              <div class="controls">
-                <div class="slider-container">
-                  <span>Speed:</span>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="8, 3, 5, 1, 4, 2, 7, 6"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="array-container" id="array-container"></div>
+<div class="status-bar" id="status-bar">Ready to visualize</div>
+</div>
+<div class="legend">
+<div class="legend-item">
+<div class="legend-color key-color"></div>
+<span>Key Element</span>
+</div>
+<div class="legend-item">
+<div class="legend-color comparing-color"></div>
+<span>Comparing</span>
+</div>
+<div class="legend-item">
+<div class="legend-color shifting-color"></div>
+<span>Shifting</span>
+</div>
+<div class="legend-item">
+<div class="legend-color sorted-color"></div>
+<span>Sorted</span>
+</div>
+</div>
+<div class="controls">
+<div class="slider-container">
+<span>Speed:</span>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="8, 3, 5, 1, 4, 2, 7, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Insertion Sort involves the following steps to sort an array:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> 1. Select Key</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Insertion Sort involves the following steps to sort an array:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Select Key</h3>
+<p>
                   Start with the second element as the key (first element is
                   considered sorted)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-exchange-alt"></i> 2. Compare and Shift
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 2. Compare and Shift
                 </h3>
-                <p>
+<p>
                   Compare the key with elements to its left and shift larger
                   elements right
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-map-marker-alt"></i> 3. Insert Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-map-marker-alt"></i> 3. Insert Key</h3>
+<p>
                   Insert the key into its correct position in the sorted
                   subarray
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-forward"></i> 4. Move to Next</h3>
-                <p>Move to the next element and repeat the process</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
-                <p>After processing all elements, the array is sorted</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure insertionSort(array)
+</div>
+<div class="point-card">
+<h3><i class="fas fa-forward"></i> 4. Move to Next</h3>
+<p>Move to the next element and repeat the process</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
+<p>After processing all elements, the array is sorted</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure insertionSort(array)
     for i from 1 to length(array) - 1
         key = array[i]
         j = i - 1
         
         // Move elements greater than key to the right
-        while j >= 0 and array[j] > key
+        while j &gt;= 0 and array[j] &gt; key
             array[j+1] = array[j]
             j = j - 1
         end while
@@ -907,34 +900,32 @@
         array[j+1] = key
     end for
 end procedure</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Insertion Sort algorithm.
               The algorithm maintains a sorted subarray and inserts each new
               element into its correct position by shifting larger elements to
               the right.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">insertion_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">insertion_sort</span>(arr):
     <span class="comment"># Traverse from 1 to len(arr)</span>
     <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(arr)):
         key = arr[i]
         <span class="comment"># Move elements of arr[0..i-1] that are greater than key</span>
         <span class="comment"># to one position ahead of their current position</span>
         j = i - <span class="number">1</span>
-        <span class="keyword">while</span> j >= <span class="number">0</span> <span class="keyword">and</span> key < arr[j]:
+        <span class="keyword">while</span> j &gt;= <span class="number">0</span> <span class="keyword">and</span> key &lt; arr[j]:
             arr[j + <span class="number">1</span>] = arr[j]
             j -= <span class="number">1</span>
         arr[j + <span class="number">1</span>] = key
@@ -945,144 +936,136 @@ end procedure</code></pre>
 arr = [<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>]
 sorted_arr = insertion_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Insertion Sort is used in various scenarios where efficiency for
               small datasets is important:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting small datasets (n ≤ 100)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting nearly sorted arrays (adaptive nature)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Online algorithms where input is received sequentially
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 As the base for more complex algorithms like Shell Sort
               </li>
-              <li>Implementing other algorithms like Timsort</li>
-            </ul>
-          </div>
-
-          <!-- Algorithm Complexity -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>Insertion Sort's time complexity varies based on the input:</p>
-            <div class="point-card" style="margin-top: 20px">
-              <h3><i class="fas fa-star"></i> Best Case: O(n)</h3>
-              <p>
+<li>Implementing other algorithms like Timsort</li>
+</ul>
+</div>
+<!-- Algorithm Complexity -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>Insertion Sort's time complexity varies based on the input:</p>
+<div class="point-card" style="margin-top: 20px">
+<h3><i class="fas fa-star"></i> Best Case: O(n)</h3>
+<p>
                 When the array is already sorted, only one comparison per
                 element
               </p>
-            </div>
-            <div class="point-card">
-              <h3><i class="fas fa-star-half-alt"></i> Average Case: O(n²)</h3>
-              <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-star-half-alt"></i> Average Case: O(n²)</h3>
+<p>
                 For randomly ordered arrays, requires shifting half the elements
               </p>
-            </div>
-            <div class="point-card">
-              <h3><i class="fas fa-star"></i> Worst Case: O(n²)</h3>
-              <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-star"></i> Worst Case: O(n²)</h3>
+<p>
                 When the array is reverse sorted, maximum comparisons and shifts
               </p>
-            </div>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Adaptive</h3>
-                <p>Efficient for nearly sorted data (O(n) time)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space Efficient</h3>
-                <p>Only requires O(1) additional space</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-code"></i> Simple</h3>
-                <p>Easy to understand and implement</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync"></i> Online</h3>
-                <p>Can sort data as it's received</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Adaptive</h3>
+<p>Efficient for nearly sorted data (O(n) time)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space Efficient</h3>
+<p>Only requires O(1) additional space</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-code"></i> Simple</h3>
+<p>Easy to understand and implement</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync"></i> Online</h3>
+<p>Can sort data as it's received</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const arrayInput = document.getElementById("array-input");
       const randomBtn = document.getElementById("random-btn");
@@ -1317,5 +1300,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
         });
       });
     </script>
-  </body>
+</body>
 </html>

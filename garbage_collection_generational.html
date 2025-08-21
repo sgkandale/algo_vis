@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Generational GC | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Generational GC | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -771,49 +766,68 @@
                 font-size: 12px;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-recycle"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Generational GC | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_generational.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Generational GC | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_generational.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Generational GC | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_generational.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-recycle"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Generational GC</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Generational Garbage Collection</h1>
-                <div class="category">
-                    <i class="fas fa-layer-group"></i> Multi-Generation Memory
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Generational Garbage Collection</h1>
+<div class="category">
+<i class="fas fa-layer-group"></i> Multi-Generation Memory
                     Management
                 </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Throughput: High | Pause: Low
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Generational Garbage Collection is an optimization
                             of garbage collection algorithms based on the
                             empirical observation that most objects die young
@@ -821,7 +835,7 @@
                             into multiple generations (typically young and old)
                             and collects the young generation more frequently.
                         </p>
-                        <p>
+<p>
                             This approach minimizes the cost of garbage
                             collection by focusing efforts where they are most
                             productive. The young generation is collected using
@@ -829,54 +843,52 @@
                             generation is collected less frequently using a
                             mark-sweep or mark-compact collector (major GC).
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Principle
                                 </h3>
-                                <p>
+<p>
                                     Most objects die young, so focus collection
                                     efforts on new objects
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Reduces pause times by minimizing full heap
                                     collections
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Memory Layout
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Memory Layout
                                 </h3>
-                                <p>
+<p>
                                     Young generation (Eden, Survivor spaces) and
                                     Old generation
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Promotion
                                 </h3>
-                                <p>
+<p>
                                     Objects that survive multiple collections
                                     are promoted to old generation
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             The visualization below demonstrates the
                             Generational GC algorithm in action. You can see
                             objects being allocated in Eden, surviving
@@ -884,83 +896,60 @@
                             generation. Use the controls to simulate allocation
                             and garbage collection cycles.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Generational
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-memory"></i> Generational
                                     Heap Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="step-btn"
-                                    >
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button
-                                        class="console-btn"
-                                        id="minor-gc-btn"
-                                    >
-                                        <i class="fas fa-trash-alt"></i> Minor
+<button class="console-btn" id="minor-gc-btn">
+<i class="fas fa-trash-alt"></i> Minor
                                         GC
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="major-gc-btn"
-                                    >
-                                        <i class="fas fa-recycle"></i> Major GC
+<button class="console-btn secondary" id="major-gc-btn">
+<i class="fas fa-recycle"></i> Major GC
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- Visualization will be rendered here by JavaScript -->
-                                <div
-                                    class="heap-container"
-                                    id="heap-container"
-                                ></div>
-                            </div>
-
-                            <div class="console-input">
-                                <button class="console-btn" id="allocate-btn">
-                                    <i class="fas fa-plus-circle"></i> Allocate
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- Visualization will be rendered here by JavaScript -->
+<div class="heap-container" id="heap-container"></div>
+</div>
+<div class="console-input">
+<button class="console-btn" id="allocate-btn">
+<i class="fas fa-plus-circle"></i> Allocate
                                     Object
                                 </button>
-                                <button class="console-btn" id="create-ref-btn">
-                                    <i class="fas fa-link"></i> Create Reference
+<button class="console-btn" id="create-ref-btn">
+<i class="fas fa-link"></i> Create Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="null-ref-btn"
-                                >
-                                    <i class="fas fa-unlink"></i> Nullify
+<button class="console-btn secondary" id="null-ref-btn">
+<i class="fas fa-unlink"></i> Nullify
                                     Reference
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-list-ol"></i> Collection Process
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2>
+<i class="fas fa-list-ol"></i> Collection Process
                         </h2>
-                        <p>
+<p>
                             Generational GC operates through these key phases
                             during collection:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-seedling"></i> 1. Minor GC
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-seedling"></i> 1. Minor GC
                                     (Young Generation)
                                 </h3>
-                                <p>
+<p>
                                     Collects only the young generation.
                                     Reachable objects are copied from Eden and
                                     one survivor space to the other survivor
@@ -968,50 +957,49 @@
                                     collections are promoted to the old
                                     generation.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-exchange-alt"></i> 2.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 2.
                                     Survivor Space Swap
                                 </h3>
-                                <p>
+<p>
                                     After each minor GC, the roles of the
                                     survivor spaces are swapped. The "to"
                                     survivor space becomes the new "from" space
                                     for the next collection.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-tree"></i> 3. Major GC (Old
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-tree"></i> 3. Major GC (Old
                                     Generation)
                                 </h3>
-                                <p>
+<p>
                                     Collected less frequently using a mark-sweep
                                     or mark-compact algorithm. This is a full
                                     collection that scans both young and old
                                     generations.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-arrows-alt-h"></i> 4.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-arrows-alt-h"></i> 4.
                                     Inter-Generational References
                                 </h3>
-                                <p>
+<p>
                                     Uses a remember set to track references from
                                     old to young objects, avoiding full heap
                                     scans during minor collections.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Minor Garbage Collection
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Minor Garbage Collection
 function minorGC():
   stopTheWorld()
 
@@ -1028,7 +1016,7 @@ function minorGC():
   // Evacuate survivors
   for each obj in youngGen:
     if obj.marked:
-      if obj.age >= AGE_THRESHOLD:
+      if obj.age &gt;= AGE_THRESHOLD:
         promoteToOldGen(obj)
       else:
         copyToSurvivorSpace(obj)
@@ -1059,27 +1047,25 @@ function writeBarrier(src, field, newValue):
   if src in oldGen and newValue in youngGen:
     rememberedSet.add(src)
   updateField(src, field, newValue)</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Generational Garbage Collector. This example
                             demonstrates the core concepts of generational
                             collection.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">GCObject</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">GCObject</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
         <span class="keyword">self</span>.marked = <span class="keyword">False</span>
         <span class="keyword">self</span>.age = 0
@@ -1097,7 +1083,7 @@ function writeBarrier(src, field, newValue):
         <span class="keyword">self</span>.roots = []
         <span class="keyword">self</span>.remembered_set = set()  <span class="comment"># For inter-generational pointers</span>
 
-    <span class="keyword">def</span> <span class="function">allocate</span>(<span class="keyword">self</span>) -> GCObject:
+    <span class="keyword">def</span> <span class="function">allocate</span>(<span class="keyword">self</span>) -&gt; GCObject:
         obj = GCObject()
         <span class="keyword">self</span>.young_gen.append(obj)
         <span class="keyword">return</span> obj
@@ -1129,7 +1115,7 @@ function writeBarrier(src, field, newValue):
         <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.young_gen:
             <span class="keyword">if</span> obj.marked:
                 obj.age += 1
-                <span class="keyword">if</span> obj.age >= 3:  <span class="comment"># Promotion threshold</span>
+                <span class="keyword">if</span> obj.age &gt;= 3:  <span class="comment"># Promotion threshold</span>
                     <span class="keyword">self</span>.promote_to_old(obj)
                 <span class="keyword">else</span>:
                     <span class="keyword">self</span>.survivor_to.append(obj)
@@ -1139,7 +1125,7 @@ function writeBarrier(src, field, newValue):
         <span class="keyword">for</span> obj <span class="keyword">in</span> <span class="keyword">self</span>.survivor_from:
             <span class="keyword">if</span> obj.marked:
                 obj.age += 1
-                <span class="keyword">if</span> obj.age >= 3:
+                <span class="keyword">if</span> obj.age &gt;= 3:
                     <span class="keyword">self</span>.promote_to_old(obj)
                 <span class="keyword">else</span>:
                     <span class="keyword">self</span>.survivor_to.append(obj)
@@ -1200,169 +1186,153 @@ root_obj.add_reference(child2)
 
 <span class="comment"># Run minor GC</span>
 gc.minor_gc()</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Tracing GC</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Generations</h4>
-                                <div class="value">2-3</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Minor GC</h4>
-                                <div class="value">Copying</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Major GC</h4>
-                                <div class="value">Mark-Sweep</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Pause Time</h4>
-                                <div class="value">Short (minor)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">High</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fragmentation</h4>
-                                <div class="value">Low</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Complexity</h4>
-                                <div class="value">O(live)</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Tracing GC</div>
+</div>
+<div class="property-card">
+<h4>Generations</h4>
+<div class="value">2-3</div>
+</div>
+<div class="property-card">
+<h4>Minor GC</h4>
+<div class="value">Copying</div>
+</div>
+<div class="property-card">
+<h4>Major GC</h4>
+<div class="value">Mark-Sweep</div>
+</div>
+<div class="property-card">
+<h4>Pause Time</h4>
+<div class="value">Short (minor)</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Fragmentation</h4>
+<div class="value">Low</div>
+</div>
+<div class="property-card">
+<h4>Complexity</h4>
+<div class="value">O(live)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Generational GC is used in most modern programming
                             environments:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Java Virtual Machine (JVM) - G1, CMS, Shenandoah
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 .NET CLR - Workstation and Server GC
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 V8 JavaScript engine (Chrome, Node.js)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 SpiderMonkey JavaScript engine (Firefox)
                             </li>
-                            <li>Python (with PyPy's GC)</li>
-                            <li>Go language (hybrid approach)</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
-                        <ul
-                            style="
+<li>Python (with PyPy's GC)</li>
+<li>Go language (hybrid approach)</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Key Advantages</h2>
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Reduced Pause Times:</strong> Minor
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Reduced Pause Times:</strong> Minor
                                 collections are fast
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>High Throughput:</strong> Focuses effort
+<li style="margin-bottom: 10px">
+<strong>High Throughput:</strong> Focuses effort
                                 where most garbage is
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Efficient:</strong> Copying collection
+<li style="margin-bottom: 10px">
+<strong>Efficient:</strong> Copying collection
                                 for young gen is efficient
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Low Fragmentation:</strong> Old
+<li style="margin-bottom: 10px">
+<strong>Low Fragmentation:</strong> Old
                                 generation stays compact
                             </li>
-                            <li>
-                                <strong>Scalable:</strong> Works well for large
+<li>
+<strong>Scalable:</strong> Works well for large
                                 heaps
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Disadvantages Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-exclamation-triangle"></i>
+</ul>
+</div>
+<!-- Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-exclamation-triangle"></i>
                             Challenges
                         </h2>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Remembered set maintenance overhead
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Promotion of short-lived objects to old
                                 generation
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Major GC can still cause significant pauses
                             </li>
-                            <li>
+<li>
                                 Tuning required for generation sizes and
                                 thresholds
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a href="#"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
-                    <a href="#"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="#"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization for Generational Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
                 const visualization =
@@ -1907,5 +1877,5 @@ gc.minor_gc()</code></pre>
                     });
             });
         </script>
-    </body>
+</body>
 </html>

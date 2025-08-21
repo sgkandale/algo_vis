@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merkle Tree Internal Working</title>
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Merkle Tree Internal Working</title>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -422,301 +423,301 @@
             }
         }
     </style>
-</head>
+<meta content="Merkle Tree Internal Working" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_merkle_tree_v2.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Merkle Tree Internal Working" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_merkle_tree_v2.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Merkle Tree Internal Working",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_merkle_tree_v2.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>🌳 Merkle Tree Internal Working</h1>
-        <p class="subtitle">The cryptographic data structure that powers blockchain integrity and efficient verification</p>
-
-        <!-- Step 1: Data Blocks -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">1</div>
-                <span>Starting with Data Blocks</span>
-            </div>
-            <p>Merkle trees begin with individual pieces of data that need to be organized and verified:</p>
-            <div class="data-blocks">
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction A</div>
-                    <div style="font-size: 0.9rem;">Alice → Bob: $50</div>
-                </div>
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction B</div>
-                    <div style="font-size: 0.9rem;">Bob → Charlie: $30</div>
-                </div>
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction C</div>
-                    <div style="font-size: 0.9rem;">Charlie → Dave: $20</div>
-                </div>
-                <div class="data-block">
-                    <div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction D</div>
-                    <div style="font-size: 0.9rem;">Dave → Eve: $15</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 2: Hash Generation -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">2</div>
-                <span>Creating Cryptographic Hashes</span>
-            </div>
-            <p>Each data block is processed through a cryptographic hash function (usually SHA-256):</p>
-            <div class="hash-process">
-                <div class="hash-input">Transaction A<br>Alice → Bob: $50</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">SHA-256</div>
-                <div class="arrow">→</div>
-                <div class="hash-output">a1b2c3d4...</div>
-            </div>
-            <div class="hash-process">
-                <div class="hash-input">Transaction B<br>Bob → Charlie: $30</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">SHA-256</div>
-                <div class="arrow">→</div>
-                <div class="hash-output">e5f6g7h8...</div>
-            </div>
-            <p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
+<div class="container">
+<h1>🌳 Merkle Tree Internal Working</h1>
+<p class="subtitle">The cryptographic data structure that powers blockchain integrity and efficient verification</p>
+<!-- Step 1: Data Blocks -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">1</div>
+<span>Starting with Data Blocks</span>
+</div>
+<p>Merkle trees begin with individual pieces of data that need to be organized and verified:</p>
+<div class="data-blocks">
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction A</div>
+<div style="font-size: 0.9rem;">Alice → Bob: $50</div>
+</div>
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction B</div>
+<div style="font-size: 0.9rem;">Bob → Charlie: $30</div>
+</div>
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction C</div>
+<div style="font-size: 0.9rem;">Charlie → Dave: $20</div>
+</div>
+<div class="data-block">
+<div style="font-size: 1.1rem; margin-bottom: 8px;">Transaction D</div>
+<div style="font-size: 0.9rem;">Dave → Eve: $15</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Hash Generation -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">2</div>
+<span>Creating Cryptographic Hashes</span>
+</div>
+<p>Each data block is processed through a cryptographic hash function (usually SHA-256):</p>
+<div class="hash-process">
+<div class="hash-input">Transaction A<br/>Alice → Bob: $50</div>
+<div class="arrow">→</div>
+<div class="hash-function">SHA-256</div>
+<div class="arrow">→</div>
+<div class="hash-output">a1b2c3d4...</div>
+</div>
+<div class="hash-process">
+<div class="hash-input">Transaction B<br/>Bob → Charlie: $30</div>
+<div class="arrow">→</div>
+<div class="hash-function">SHA-256</div>
+<div class="arrow">→</div>
+<div class="hash-output">e5f6g7h8...</div>
+</div>
+<p style="margin-top: 20px; font-style: italic; color: #7f8c8d;">
                 Each hash is a unique 256-bit fingerprint. Even tiny changes in data produce completely different hashes.
             </p>
-        </div>
-
-        <!-- Step 3: Tree Construction -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">3</div>
-                <span>Building the Tree Structure</span>
-            </div>
-            <p>Hashes are combined in pairs, level by level, until reaching a single root hash:</p>
-            <div class="merkle-tree">
-                <!-- Root Level -->
-                <div class="tree-level">
-                    <div class="tree-node root-node">
+</div>
+<!-- Step 3: Tree Construction -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">3</div>
+<span>Building the Tree Structure</span>
+</div>
+<p>Hashes are combined in pairs, level by level, until reaching a single root hash:</p>
+<div class="merkle-tree">
+<!-- Root Level -->
+<div class="tree-level">
+<div class="tree-node root-node">
                         ROOT HASH
                         <div class="hash-display">9a8b7c6d5e4f...</div>
-                    </div>
-                </div>
-                
-                <!-- Connections Level 1 -->
-                <div class="tree-connections">
-                    <div class="connection-line"></div>
-                    <div style="width: 100px;"></div>
-                    <div class="connection-line"></div>
-                </div>
-                
-                <!-- Internal Level -->
-                <div class="tree-level">
-                    <div class="tree-node internal-node">
+</div>
+</div>
+<!-- Connections Level 1 -->
+<div class="tree-connections">
+<div class="connection-line"></div>
+<div style="width: 100px;"></div>
+<div class="connection-line"></div>
+</div>
+<!-- Internal Level -->
+<div class="tree-level">
+<div class="tree-node internal-node">
                         Hash(A+B)
                         <div class="hash-display">3c4d5e6f...</div>
-                    </div>
-                    <div class="tree-node internal-node">
+</div>
+<div class="tree-node internal-node">
                         Hash(C+D)
                         <div class="hash-display">7g8h9i0j...</div>
-                    </div>
-                </div>
-                
-                <!-- Connections Level 2 -->
-                <div class="tree-connections">
-                    <div class="connection-line"></div>
-                    <div class="connection-line"></div>
-                    <div style="width: 50px;"></div>
-                    <div class="connection-line"></div>
-                    <div class="connection-line"></div>
-                </div>
-                
-                <!-- Leaf Level -->
-                <div class="tree-level">
-                    <div class="tree-node leaf-node">
+</div>
+</div>
+<!-- Connections Level 2 -->
+<div class="tree-connections">
+<div class="connection-line"></div>
+<div class="connection-line"></div>
+<div style="width: 50px;"></div>
+<div class="connection-line"></div>
+<div class="connection-line"></div>
+</div>
+<!-- Leaf Level -->
+<div class="tree-level">
+<div class="tree-node leaf-node">
                         Hash(A)
                         <div class="hash-display">a1b2c3d4...</div>
-                    </div>
-                    <div class="tree-node leaf-node">
+</div>
+<div class="tree-node leaf-node">
                         Hash(B)
                         <div class="hash-display">e5f6g7h8...</div>
-                    </div>
-                    <div class="tree-node leaf-node">
+</div>
+<div class="tree-node leaf-node">
                         Hash(C)
                         <div class="hash-display">i9j0k1l2...</div>
-                    </div>
-                    <div class="tree-node leaf-node">
+</div>
+<div class="tree-node leaf-node">
                         Hash(D)
                         <div class="hash-display">m3n4o5p6...</div>
-                    </div>
-                </div>
-            </div>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold; color: #27ae60;">
+</div>
+</div>
+</div>
+<p style="text-align: center; margin-top: 20px; font-weight: bold; color: #27ae60;">
                 The root hash represents the entire dataset. Any change in any transaction changes the root hash!
             </p>
-        </div>
-
-        <!-- Step 4: Verification Process -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">4</div>
-                <span>Merkle Proof Verification</span>
-            </div>
-            <div class="verification-demo">
-                <h3>🔍 Verifying Transaction B without downloading the entire dataset</h3>
-                <p>To prove Transaction B exists, you only need a "Merkle Proof" - a path from the leaf to the root:</p>
-                
-                <div class="verification-steps">
-                    <div class="verification-step">
-                        <div class="step-header">Step 1: Provide Transaction B</div>
-                        <p>The data to be verified: "Bob → Charlie: $30"</p>
-                    </div>
-                    
-                    <div class="verification-step">
-                        <div class="step-header">Step 2: Provide Sibling Hashes</div>
-                        <p>Only need Hash(A) and Hash(C+D) to reconstruct the path to root</p>
-                    </div>
-                    
-                    <div class="verification-step">
-                        <div class="step-header">Step 3: Compute Missing Hashes</div>
-                        <p>Calculate Hash(B), then Hash(A+B), then Root Hash</p>
-                    </div>
-                    
-                    <div class="verification-step">
-                        <div class="step-header">Step 4: Compare with Known Root</div>
-                        <p>If computed root matches known root, Transaction B is verified!</p>
-                    </div>
-                </div>
-                
-                <h4 style="text-align: center; margin: 25px 0;">Verification Path:</h4>
-                <div class="proof-path">
-                    <div class="proof-node">Hash(A)<br>a1b2c3d4...</div>
-                    <div class="proof-arrow">+</div>
-                    <div class="proof-node">Hash(B)<br>computed</div>
-                    <div class="proof-arrow">→</div>
-                    <div class="proof-node">Hash(A+B)<br>3c4d5e6f...</div>
-                    <div class="proof-arrow">+</div>
-                    <div class="proof-node">Hash(C+D)<br>7g8h9i0j...</div>
-                    <div class="proof-arrow">→</div>
-                    <div class="proof-node">ROOT<br>9a8b7c6d...</div>
-                </div>
-                
-                <div style="background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 10px; margin-top: 20px;">
-                    <strong>Efficiency:</strong> Instead of downloading all 4 transactions (potentially GB of data), 
+</div>
+<!-- Step 4: Verification Process -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">4</div>
+<span>Merkle Proof Verification</span>
+</div>
+<div class="verification-demo">
+<h3>🔍 Verifying Transaction B without downloading the entire dataset</h3>
+<p>To prove Transaction B exists, you only need a "Merkle Proof" - a path from the leaf to the root:</p>
+<div class="verification-steps">
+<div class="verification-step">
+<div class="step-header">Step 1: Provide Transaction B</div>
+<p>The data to be verified: "Bob → Charlie: $30"</p>
+</div>
+<div class="verification-step">
+<div class="step-header">Step 2: Provide Sibling Hashes</div>
+<p>Only need Hash(A) and Hash(C+D) to reconstruct the path to root</p>
+</div>
+<div class="verification-step">
+<div class="step-header">Step 3: Compute Missing Hashes</div>
+<p>Calculate Hash(B), then Hash(A+B), then Root Hash</p>
+</div>
+<div class="verification-step">
+<div class="step-header">Step 4: Compare with Known Root</div>
+<p>If computed root matches known root, Transaction B is verified!</p>
+</div>
+</div>
+<h4 style="text-align: center; margin: 25px 0;">Verification Path:</h4>
+<div class="proof-path">
+<div class="proof-node">Hash(A)<br/>a1b2c3d4...</div>
+<div class="proof-arrow">+</div>
+<div class="proof-node">Hash(B)<br/>computed</div>
+<div class="proof-arrow">→</div>
+<div class="proof-node">Hash(A+B)<br/>3c4d5e6f...</div>
+<div class="proof-arrow">+</div>
+<div class="proof-node">Hash(C+D)<br/>7g8h9i0j...</div>
+<div class="proof-arrow">→</div>
+<div class="proof-node">ROOT<br/>9a8b7c6d...</div>
+</div>
+<div style="background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 10px; margin-top: 20px;">
+<strong>Efficiency:</strong> Instead of downloading all 4 transactions (potentially GB of data), 
                     you only need 2 hash values (64 bytes) plus the transaction to verify!
                 </div>
-            </div>
-        </div>
-
-        <!-- Benefits -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">5</div>
-                <span>Key Benefits & Properties</span>
-            </div>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">⚡</div>
-                    <div class="benefit-title">Efficient Verification</div>
-                    <div>Verify any piece of data with only O(log n) hashes instead of O(n) data</div>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔒</div>
-                    <div class="benefit-title">Tamper Detection</div>
-                    <div>Any change in data changes the root hash, making tampering immediately detectable</div>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📦</div>
-                    <div class="benefit-title">Space Efficient</div>
-                    <div>Store single root hash instead of entire dataset for integrity checking</div>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔗</div>
-                    <div class="benefit-title">Parallel Processing</div>
-                    <div>Tree construction can be parallelized, making it fast for large datasets</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Applications -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">6</div>
-                <span>Real-World Applications</span>
-            </div>
-            <div class="applications">
-                <div class="application-card">
-                    <div class="app-icon">₿</div>
-                    <div class="app-title">Bitcoin & Blockchain</div>
-                    <p>Every block contains a Merkle root of all transactions. Light clients can verify transactions without downloading entire blockchain.</p>
-                </div>
-                <div class="application-card">
-                    <div class="app-icon">📁</div>
-                    <div class="app-title">Git Version Control</div>
-                    <p>Git uses Merkle trees to efficiently track changes in codebases and verify repository integrity.</p>
-                </div>
-                <div class="application-card">
-                    <div class="app-icon">🌐</div>
-                    <div class="app-title">IPFS & Distributed Storage</div>
-                    <p>InterPlanetary File System uses Merkle trees for content addressing and deduplication.</p>
-                </div>
-                <div class="application-card">
-                    <div class="app-icon">☁️</div>
-                    <div class="app-title">Cloud Storage Verification</div>
-                    <p>Verify data integrity in cloud storage without downloading entire files, used by services like Dropbox.</p>
-                </div>
-                <div class="application-card">
-                    <div class="app-icon">🔄</div>
-                    <div class="app-title">Database Replication</div>
-                    <p>Efficiently synchronize databases by comparing Merkle roots and only updating changed subtrees.</p>
-                </div>
-                <div class="application-card">
-                    <div class="app-icon">🛡️</div>
-                    <div class="app-title">Certificate Transparency</div>
-                    <p>Public logs of SSL certificates use Merkle trees for efficient auditing and verification.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Complexity Comparison -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">7</div>
-                <span>Efficiency Comparison</span>
-            </div>
-            <div class="comparison-table">
-                <div class="table-header">
-                    <div>Operation</div>
-                    <div>Without Merkle Tree</div>
-                    <div>With Merkle Tree</div>
-                </div>
-                <div class="table-row">
-                    <div><strong>Verify single item</strong></div>
-                    <div>O(n) - scan all data</div>
-                    <div>O(log n) - proof path</div>
-                </div>
-                <div class="table-row">
-                    <div><strong>Storage for verification</strong></div>
-                    <div>O(n) - entire dataset</div>
-                    <div>O(1) - just root hash</div>
-                </div>
-                <div class="table-row">
-                    <div><strong>Detect tampering</strong></div>
-                    <div>O(n) - check all items</div>
-                    <div>O(1) - compare root hashes</div>
-                </div>
-                <div class="table-row">
-                    <div><strong>Network transfer</strong></div>
-                    <div>O(n) - full dataset</div>
-                    <div>O(log n) - proof only</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="highlight">
-            <h3>🎯 The Merkle Tree Magic</h3>
-            <p><strong>Logarithmic Verification:</strong> The tree structure reduces verification complexity from O(n) to O(log n). For 1 million transactions, instead of checking all 1 million, you only need about 20 hash values!</p>
-            
-            <p><strong>The Cascade Effect:</strong> When any leaf changes, it bubbles up through parent nodes to change the root. This creates a unique "fingerprint" for the entire dataset that's extremely sensitive to changes.</p>
-            
-            <p><strong>Trust Without Download:</strong> You can verify data integrity without trusting the source or downloading everything. Just get the root hash from a trusted source, then verify individual pieces with minimal data transfer.</p>
-            
-            <p><strong>Why It Powers Modern Systems:</strong> From Bitcoin's blockchain to Git's version control, Merkle trees solve the fundamental problem of efficient, trustworthy verification in distributed systems. They make it possible to have "light clients" that can verify without massive storage requirements!</p>
-        </div>
-    </div>
+</div>
+</div>
+<!-- Benefits -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">5</div>
+<span>Key Benefits &amp; Properties</span>
+</div>
+<div class="benefits-grid">
+<div class="benefit-card">
+<div class="benefit-icon">⚡</div>
+<div class="benefit-title">Efficient Verification</div>
+<div>Verify any piece of data with only O(log n) hashes instead of O(n) data</div>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🔒</div>
+<div class="benefit-title">Tamper Detection</div>
+<div>Any change in data changes the root hash, making tampering immediately detectable</div>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">📦</div>
+<div class="benefit-title">Space Efficient</div>
+<div>Store single root hash instead of entire dataset for integrity checking</div>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🔗</div>
+<div class="benefit-title">Parallel Processing</div>
+<div>Tree construction can be parallelized, making it fast for large datasets</div>
+</div>
+</div>
+</div>
+<!-- Applications -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">6</div>
+<span>Real-World Applications</span>
+</div>
+<div class="applications">
+<div class="application-card">
+<div class="app-icon">₿</div>
+<div class="app-title">Bitcoin &amp; Blockchain</div>
+<p>Every block contains a Merkle root of all transactions. Light clients can verify transactions without downloading entire blockchain.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">📁</div>
+<div class="app-title">Git Version Control</div>
+<p>Git uses Merkle trees to efficiently track changes in codebases and verify repository integrity.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">🌐</div>
+<div class="app-title">IPFS &amp; Distributed Storage</div>
+<p>InterPlanetary File System uses Merkle trees for content addressing and deduplication.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">☁️</div>
+<div class="app-title">Cloud Storage Verification</div>
+<p>Verify data integrity in cloud storage without downloading entire files, used by services like Dropbox.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">🔄</div>
+<div class="app-title">Database Replication</div>
+<p>Efficiently synchronize databases by comparing Merkle roots and only updating changed subtrees.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">🛡️</div>
+<div class="app-title">Certificate Transparency</div>
+<p>Public logs of SSL certificates use Merkle trees for efficient auditing and verification.</p>
+</div>
+</div>
+</div>
+<!-- Complexity Comparison -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">7</div>
+<span>Efficiency Comparison</span>
+</div>
+<div class="comparison-table">
+<div class="table-header">
+<div>Operation</div>
+<div>Without Merkle Tree</div>
+<div>With Merkle Tree</div>
+</div>
+<div class="table-row">
+<div><strong>Verify single item</strong></div>
+<div>O(n) - scan all data</div>
+<div>O(log n) - proof path</div>
+</div>
+<div class="table-row">
+<div><strong>Storage for verification</strong></div>
+<div>O(n) - entire dataset</div>
+<div>O(1) - just root hash</div>
+</div>
+<div class="table-row">
+<div><strong>Detect tampering</strong></div>
+<div>O(n) - check all items</div>
+<div>O(1) - compare root hashes</div>
+</div>
+<div class="table-row">
+<div><strong>Network transfer</strong></div>
+<div>O(n) - full dataset</div>
+<div>O(log n) - proof only</div>
+</div>
+</div>
+</div>
+<div class="highlight">
+<h3>🎯 The Merkle Tree Magic</h3>
+<p><strong>Logarithmic Verification:</strong> The tree structure reduces verification complexity from O(n) to O(log n). For 1 million transactions, instead of checking all 1 million, you only need about 20 hash values!</p>
+<p><strong>The Cascade Effect:</strong> When any leaf changes, it bubbles up through parent nodes to change the root. This creates a unique "fingerprint" for the entire dataset that's extremely sensitive to changes.</p>
+<p><strong>Trust Without Download:</strong> You can verify data integrity without trusting the source or downloading everything. Just get the root hash from a trusted source, then verify individual pieces with minimal data transfer.</p>
+<p><strong>Why It Powers Modern Systems:</strong> From Bitcoin's blockchain to Git's version control, Merkle trees solve the fundamental problem of efficient, trustworthy verification in distributed systems. They make it possible to have "light clients" that can verify without massive storage requirements!</p>
+</div>
+</div>
 </body>
 </html>

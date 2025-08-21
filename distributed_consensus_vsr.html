@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Viewstamped Replication | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Viewstamped Replication | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -740,49 +735,68 @@
                 border: 1px solid var(--accent);
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-copy"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Consensus Algorithms</a> >
+<meta content="Viewstamped Replication | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_vsr.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Viewstamped Replication | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_vsr.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Viewstamped Replication | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_vsr.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-copy"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Consensus Algorithms</a> &gt;
                             <span>Viewstamped Replication</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Viewstamped Replication</h1>
-                <div class="category">
-                    <i class="fas fa-server"></i> Primary-Backup Consensus
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Viewstamped Replication</h1>
+<div class="category">
+<i class="fas fa-server"></i> Primary-Backup Consensus
                     Protocol
                 </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Fault Tolerance: f failures with 2f+1 nodes
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Viewstamped Replication (VR) is a primary-backup
                             consensus protocol that enables distributed systems
                             to maintain consistent state across multiple
@@ -791,7 +805,7 @@
                             operations, and backup nodes that replicate the
                             state.
                         </p>
-                        <p>
+<p>
                             VR operates through a series of views, each with a
                             unique view number. The protocol handles client
                             requests, view changes when the primary fails, and
@@ -799,54 +813,52 @@
                             and fault tolerance in asynchronous networks,
                             requiring 2f+1 nodes to tolerate f failures.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Uses view numbers to manage primary
                                     leadership
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Optimistic path requires 2 round trips for
                                     client requests
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Fault
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Fault
                                     Tolerance
                                 </h3>
-                                <p>
+<p>
                                     Tolerates up to f failures with 2f+1 nodes
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Primary coordinates ordering of operations
                                     across backups
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Visualize how Viewstamped Replication works in a
                             distributed system. The client sends requests to the
                             primary (yellow), which coordinates with backup
@@ -854,188 +866,155 @@
                             primary failures, and view changes to understand the
                             protocol's fault tolerance mechanisms.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> VR
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> VR
                                     Protocol Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        id="reset-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                    <button id="run-btn" class="console-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                    <button
-                                        id="failure-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i
-                                            class="fas fa-exclamation-triangle"
-                                        ></i>
+<button class="console-btn secondary" id="failure-btn">
+<i class="fas fa-exclamation-triangle"></i>
                                         Fail Primary
                                     </button>
-                                </div>
-                            </div>
-
-                            <div class="visualization-area">
-                                <div id="vr-container">
-                                    <div class="phase-indicator">
+</div>
+</div>
+<div class="visualization-area">
+<div id="vr-container">
+<div class="phase-indicator">
                                         Phase:
                                         <span id="phase-text">Not Started</span>
-                                    </div>
-                                    <div class="view-indicator">
+</div>
+<div class="view-indicator">
                                         View: <span id="view-number">1</span>
-                                    </div>
-                                    <div class="client">Client</div>
-                                    <div class="primary-node">Primary</div>
-                                    <div class="backup-nodes">
-                                        <div class="backup-node" id="b1">
+</div>
+<div class="client">Client</div>
+<div class="primary-node">Primary</div>
+<div class="backup-nodes">
+<div class="backup-node" id="b1">
                                             B1
                                         </div>
-                                        <div class="backup-node" id="b2">
+<div class="backup-node" id="b2">
                                             B2
                                         </div>
-                                        <div class="backup-node" id="b3">
+<div class="backup-node" id="b3">
                                             B3
                                         </div>
-                                    </div>
-                                    <div class="state-info" id="state-info">
+</div>
+<div class="state-info" id="state-info">
                                         Replication State: Not Started
                                     </div>
-
-                                    <div class="log-container">
-                                        <div class="log-title">Primary Log</div>
-                                        <div id="log-entries"></div>
-                                    </div>
-
-                                    <div class="status-panel">
-                                        <div class="status-item">
-                                            <div class="status-label">View</div>
-                                            <div
-                                                class="status-value"
-                                                id="view-value"
-                                            >
+<div class="log-container">
+<div class="log-title">Primary Log</div>
+<div id="log-entries"></div>
+</div>
+<div class="status-panel">
+<div class="status-item">
+<div class="status-label">View</div>
+<div class="status-value" id="view-value">
                                                 1
                                             </div>
-                                        </div>
-                                        <div class="status-item">
-                                            <div class="status-label">
+</div>
+<div class="status-item">
+<div class="status-label">
                                                 Commit #
                                             </div>
-                                            <div
-                                                class="status-value"
-                                                id="commit-num"
-                                            >
+<div class="status-value" id="commit-num">
                                                 0
                                             </div>
-                                        </div>
-                                        <div class="status-item">
-                                            <div class="status-label">Op #</div>
-                                            <div
-                                                class="status-value"
-                                                id="op-num"
-                                            >
+</div>
+<div class="status-item">
+<div class="status-label">Op #</div>
+<div class="status-value" id="op-num">
                                                 0
                                             </div>
-                                        </div>
-                                        <div class="status-item">
-                                            <div class="status-label">
+</div>
+<div class="status-item">
+<div class="status-label">
                                                 Status
                                             </div>
-                                            <div
-                                                class="status-value"
-                                                id="status-value"
-                                            >
+<div class="status-value" id="status-value">
                                                 Stable
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="request-input"
-                                    placeholder="Enter request (e.g. SET X=5)"
-                                    value="SET BALANCE=100"
-                                />
-                                <button id="random-btn" class="console-btn">
-                                    <i class="fas fa-random"></i> Random Request
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="request-input" placeholder="Enter request (e.g. SET X=5)" type="text" value="SET BALANCE=100"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random Request
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             Viewstamped Replication operates through several key
                             mechanisms:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-paper-plane"></i> 1. Client
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-paper-plane"></i> 1. Client
                                     Request
                                 </h3>
-                                <p>
+<p>
                                     Client sends request to primary. Primary
                                     assigns op-number, adds to log, and sends
                                     PREPARE to backups with view#, op#, and
                                     request.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> 2.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> 2.
                                     Prepare Phase
                                 </h3>
-                                <p>
+<p>
                                     Backups receive PREPARE, log request if
                                     valid, and reply with PREPAREOK to primary.
                                     Primary waits for f PREPAREOK messages.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-double"></i> 3.
-                                    Commit & Execute
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-check-double"></i> 3.
+                                    Commit &amp; Execute
                                 </h3>
-                                <p>
+<p>
                                     Primary executes operation, updates state,
                                     and sends reply to client. Primary then
                                     sends COMMIT to backups, which execute the
                                     operation.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sync-alt"></i> 4. View
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sync-alt"></i> 4. View
                                     Change
                                 </h3>
-                                <p>
+<p>
                                     If primary fails, backups initiate view
                                     change. New primary collects log info,
                                     updates view, and resumes operations.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Primary Node
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Primary Node
 on receive(request) from client:
     if status != NORMAL: forward to primary
     op-number++
@@ -1043,7 +1022,7 @@ on receive(request) from client:
     send PREPARE(view, op-number, request) to all backups
 
 on receive(PREPAREOK) from backup:
-    if prepared_ok_count >= f:
+    if prepared_ok_count &gt;= f:
         execute(request)
         send REPLY to client
         send COMMIT(view, op-number) to backups
@@ -1066,26 +1045,24 @@ on suspect primary failure:
         send DOVIEWCHANGE(view, log) to new primary
     new primary collects logs from f+1 nodes, updates state
     send STARTVIEW(view, log, op-number) to backups</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Viewstamped Replication protocol, including core
                             operations and view change handling.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">VRNode</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">VRNode</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(self, node_id, is_primary=False):
         self.node_id = node_id
         self.is_primary = is_primary
@@ -1118,7 +1095,7 @@ on suspect primary failure:
         <span class="keyword">if</span> message[<span class="string">'view'</span>] != self.view_number:
             <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># Stale view</span>
 
-        <span class="keyword">if</span> message[<span class="string">'op_number'</span>] <= self.op_number:
+        <span class="keyword">if</span> message[<span class="string">'op_number'</span>] &lt;= self.op_number:
             <span class="keyword">return</span> <span class="keyword">None</span>  <span class="comment"># Already processed</span>
 
         self.op_number = message[<span class="string">'op_number'</span>]
@@ -1146,7 +1123,7 @@ on suspect primary failure:
         log_entry[<span class="string">'prepare_oks'</span>] = log_entry.get(<span class="string">'prepare_oks'</span>, <span class="number">0</span>) + 1
 
         <span class="comment"># If enough PREPAREOK messages, commit the operation</span>
-        <span class="keyword">if</span> log_entry[<span class="string">'prepare_oks'</span>] >= <span class="number">2</span>:  <span class="comment"># f=2 for 5 nodes</span>
+        <span class="keyword">if</span> log_entry[<span class="string">'prepare_oks'</span>] &gt;= <span class="number">2</span>:  <span class="comment"># f=2 for 5 nodes</span>
             self.execute_operation(log_entry[<span class="string">'request'</span>])
             log_entry[<span class="string">'status'</span>] = <span class="string">"COMMITTED"</span>
             self.commit_number = log_entry[<span class="string">'op_number'</span>]
@@ -1176,147 +1153,130 @@ prepare_msg = primary.handle_request(request)
 <span class="keyword">for</span> backup <span class="keyword">in</span> backups:
     prepare_ok = backup.handle_prepare(prepare_msg)
     <span class="comment"># Send PREPAREOK back to primary</span></code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Consensus</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">State Machine</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fault Tolerance</h4>
-                                <div class="value">Crash Fault</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Min Nodes</h4>
-                                <div class="value">2f+1</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Message Complexity</h4>
-                                <div class="value">O(n)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Leader</h4>
-                                <div class="value">Primary</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Recovery</h4>
-                                <div class="value">View Change</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Consistency</h4>
-                                <div class="value">Linearizable</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Consensus</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">State Machine</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">Crash Fault</div>
+</div>
+<div class="property-card">
+<h4>Min Nodes</h4>
+<div class="value">2f+1</div>
+</div>
+<div class="property-card">
+<h4>Message Complexity</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Leader</h4>
+<div class="value">Primary</div>
+</div>
+<div class="property-card">
+<h4>Recovery</h4>
+<div class="value">View Change</div>
+</div>
+<div class="property-card">
+<h4>Consistency</h4>
+<div class="value">Linearizable</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Viewstamped Replication is used in systems requiring
                             strong consistency and fault tolerance:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Distributed databases (e.g., IBM's Swift, CORFU)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Replicated state machines
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Distributed file systems
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Financial transaction processing systems
                             </li>
-                            <li>Cloud storage systems</li>
-                        </ul>
-                    </div>
-
-                    <!-- Comparison Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-balance-scale"></i> VR vs Raft</h2>
-                        <p>
+<li>Cloud storage systems</li>
+</ul>
+</div>
+<!-- Comparison Section -->
+<div class="section">
+<h2><i class="fas fa-balance-scale"></i> VR vs Raft</h2>
+<p>
                             Key differences between Viewstamped Replication and
                             Raft:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Terminology:</strong> VR uses "views",
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Terminology:</strong> VR uses "views",
                                 Raft uses "terms"
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Leader Election:</strong> VR has
+<li style="margin-bottom: 10px">
+<strong>Leader Election:</strong> VR has
                                 separate view change protocol, Raft combines
                                 election and log replication
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Log Management:</strong> VR has more
+<li style="margin-bottom: 10px">
+<strong>Log Management:</strong> VR has more
                                 complex log recovery during view changes
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Approach:</strong> VR was designed
+<li style="margin-bottom: 10px">
+<strong>Approach:</strong> VR was designed
                                 earlier and influenced Raft's development
                             </li>
-                            <li>
-                                <strong>Complexity:</strong> Raft was designed
+<li>
+<strong>Complexity:</strong> Raft was designed
                                 to be more understandable than VR
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization state
             let vrState = {
                 phase: "not-started",
@@ -1718,5 +1678,5 @@ prepare_msg = primary.handle_request(request)
             // Initialize
             document.addEventListener("DOMContentLoaded", initViz);
         </script>
-    </body>
+</body>
 </html>

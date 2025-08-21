@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Algorithm Detail | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Algorithm Detail | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -682,248 +677,237 @@
                 transition: width 0.5s ease;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Cryptographic Algorithms</a> >
+<meta content="Algorithm Detail | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_blake2.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Algorithm Detail | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_blake2.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Algorithm Detail | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_blake2.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Cryptographic Algorithms</a> &gt;
                             <span>BLAKE2</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>BLAKE2</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Cryptographic Hash Function
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>BLAKE2</h1>
-                <div class="category">
-                    <i class="fas fa-lock"></i> Cryptographic Hash Function
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Security Strength: 256-bit (BLAKE2s) / 512-bit (BLAKE2b)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             BLAKE2 is a cryptographic hash function that is
                             faster than MD5, SHA-1, SHA-2, and SHA-3, while
                             providing high security. It comes in two main
                             variants: BLAKE2b (optimized for 64-bit platforms)
                             and BLAKE2s (optimized for 8- to 32-bit platforms).
                         </p>
-                        <p>
+<p>
                             BLAKE2 is based on the HAIFA construction and the
                             core of the BLAKE algorithm, which was a finalist in
                             the NIST SHA-3 competition. It includes built-in
                             support for hash trees, personalization, and salt.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Extremely fast hashing with security
                                     equivalent to SHA-3
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Faster than MD5 on modern processors while
                                     being cryptographically secure
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-memory"></i> Variants</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Variants</h3>
+<p>
                                     BLAKE2b (64-bit, 1-64 byte digests), BLAKE2s
                                     (32-bit, 1-32 byte digests)
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Construction
                                 </h3>
-                                <p>
+<p>
                                     Based on HAIFA construction with a wide-pipe
                                     Merkle-Damgård structure
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             BLAKE2 works. Enter text input and see how it gets
                             processed through the compression function to
                             produce the hash output.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> BLAKE2
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> BLAKE2
                                     Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="settings-btn"
-                                    >
-                                        <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settings-btn">
+<i class="fas fa-cog"></i> Settings
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="visualization-area"
-                            >
-                                <div class="hash-visualization">
-                                    <div class="blake-container">
-                                        <div class="input-section">
-                                            <div
-                                                class="hash-input"
-                                                id="input-display"
-                                            >
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="hash-visualization">
+<div class="blake-container">
+<div class="input-section">
+<div class="hash-input" id="input-display">
                                                 Input will appear here
                                             </div>
-                                        </div>
-                                        <div class="progress-bar">
-                                            <div
-                                                class="progress-fill"
-                                                id="progress-fill"
-                                            ></div>
-                                        </div>
-                                        <div class="compression-function">
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="progress-fill"></div>
+</div>
+<div class="compression-function">
                                             BLAKE2 Compression Function
                                         </div>
-                                        <div
-                                            class="state-grid"
-                                            id="state-display"
-                                        >
-                                            <!-- State cells will be inserted here by JavaScript -->
-                                        </div>
-                                        <div class="output-section">
-                                            <div
-                                                class="hash-output"
-                                                id="output-display"
-                                            >
+<div class="state-grid" id="state-display">
+<!-- State cells will be inserted here by JavaScript -->
+</div>
+<div class="output-section">
+<div class="hash-output" id="output-display">
                                                 Hash output will appear here
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="hash-input"
-                                    placeholder="Enter text to hash (e.g., Hello World)"
-                                />
-                                <button class="console-btn" id="random-btn">
-                                    <i class="fas fa-random"></i> Random
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="hash-input" placeholder="Enter text to hash (e.g., Hello World)" type="text"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             BLAKE2 processes input messages through a series of
                             compression functions:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-key"></i> 1. Initialization
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-key"></i> 1. Initialization
                                 </h3>
-                                <p>
+<p>
                                     The algorithm initializes the state with IV
                                     values and parameters including salt,
                                     personalization, and tree hashing settings.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-share-alt"></i> 2. Message
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-share-alt"></i> 2. Message
                                     Processing
                                 </h3>
-                                <p>
+<p>
                                     The input message is divided into blocks.
                                     Each block is processed by the compression
                                     function which mixes the state with the
                                     message block.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-compress-arrows-alt"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i>
                                     3. Compression Function
                                 </h3>
-                                <p>
+<p>
                                     The compression function uses a series of 12
                                     rounds (for BLAKE2b) or 10 rounds (for
                                     BLAKE2s) of G mixing functions to update the
                                     state.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-expand-alt"></i> 4.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-expand-alt"></i> 4.
                                     Finalization
                                 </h3>
-                                <p>
+<p>
                                     After all message blocks are processed, the
                                     final hash value is derived from the
                                     internal state and output in the desired
                                     length.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>function BLAKE2(input, digest_size):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function BLAKE2(input, digest_size):
     # Initialize state with parameters
     state = IV ⊕ (digest_size || key_length || fanout || depth)
 
@@ -946,40 +930,38 @@
 
 function G(v, m, round):
     # Column round
-    a = (a + b + m[sigma[round][0]]) >>> 32
-    d = (d ⊕ a) >>> 16
-    c = (c + d) >>> 32
-    b = (b ⊕ c) >>> 12
+    a = (a + b + m[sigma[round][0]]) &gt;&gt;&gt; 32
+    d = (d ⊕ a) &gt;&gt;&gt; 16
+    c = (c + d) &gt;&gt;&gt; 32
+    b = (b ⊕ c) &gt;&gt;&gt; 12
 
     # Diagonal round
-    a = (a + b + m[sigma[round][1]]) >>> 32
-    d = (d ⊕ a) >>> 8
-    c = (c + d) >>> 32
-    b = (b ⊕ c) >>> 7
+    a = (a + b + m[sigma[round][1]]) &gt;&gt;&gt; 32
+    d = (d ⊕ a) &gt;&gt;&gt; 8
+    c = (c + d) &gt;&gt;&gt; 32
+    b = (b ⊕ c) &gt;&gt;&gt; 7
 
     return v</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a Python implementation of BLAKE2 using the
                             standard library. In practice, you should use
                             established cryptographic libraries rather than
                             implementing your own for security-critical
                             applications.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">import</span> hashlib
+</div>
+<pre><code><span class="keyword">import</span> hashlib
 
 <span class="comment"># Using Python's built-in library implementation</span>
 <span class="keyword">def</span> <span class="function">blake2b_demo</span>(input_data, digest_size=64):
@@ -1018,146 +1000,129 @@ print(blake2b_hash)
 blake2s_hash = blake2s_demo(input_text)
 print(<span class="string">f"\nBLAKE2s hash of '{input_text}':"</span>)
 print(blake2s_hash)</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Cryptography</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Hash Function</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Designers</h4>
-                                <div class="value">Aumasson et al.</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>First Published</h4>
-                                <div class="value">2012</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Digest Sizes</h4>
-                                <div class="value">1-64 bytes</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Rounds (BLAKE2b)</h4>
-                                <div class="value">12</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Rounds (BLAKE2s)</h4>
-                                <div class="value">10</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Security (bits)</h4>
-                                <div class="value">256/512</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptography</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Hash Function</div>
+</div>
+<div class="property-card">
+<h4>Designers</h4>
+<div class="value">Aumasson et al.</div>
+</div>
+<div class="property-card">
+<h4>First Published</h4>
+<div class="value">2012</div>
+</div>
+<div class="property-card">
+<h4>Digest Sizes</h4>
+<div class="value">1-64 bytes</div>
+</div>
+<div class="property-card">
+<h4>Rounds (BLAKE2b)</h4>
+<div class="value">12</div>
+</div>
+<div class="property-card">
+<h4>Rounds (BLAKE2s)</h4>
+<div class="value">10</div>
+</div>
+<div class="property-card">
+<h4>Security (bits)</h4>
+<div class="value">256/512</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             BLAKE2 is used in various applications where high
                             performance and security are required:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Checksumming and data integrity verification
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Digital signatures and certificates
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Password hashing
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Cryptocurrencies and blockchain technologies
                             </li>
-                            <li>
+<li>
                                 Message authentication codes (HMAC alternative)
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Variants Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-code-branch"></i> BLAKE2 Variants
+</ul>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2>
+<i class="fas fa-code-branch"></i> BLAKE2 Variants
                         </h2>
-                        <p>
+<p>
                             The BLAKE2 family includes several variants
                             optimized for different use cases:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>BLAKE2b:</strong> 64-bit optimized,
+                            ">
+<li style="margin-bottom: 10px">
+<strong>BLAKE2b:</strong> 64-bit optimized,
                                 digests from 1-64 bytes
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>BLAKE2s:</strong> 8-32-bit optimized,
+<li style="margin-bottom: 10px">
+<strong>BLAKE2s:</strong> 8-32-bit optimized,
                                 digests from 1-32 bytes
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>BLAKE2X:</strong> Extendable-output
+<li style="margin-bottom: 10px">
+<strong>BLAKE2X:</strong> Extendable-output
                                 functions (XOF)
                             </li>
-                            <li>
-                                <strong>BLAKE2bp and BLAKE2sp:</strong> Parallel
+<li>
+<strong>BLAKE2bp and BLAKE2sp:</strong> Parallel
                                 versions for multicore processing
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Simple copy button functionality
             document
                 .querySelector(".copy-btn")
@@ -1331,5 +1296,5 @@ print(blake2s_hash)</code></pre>
                 initStateVisualization();
             });
         </script>
-    </body>
+</body>
 </html>

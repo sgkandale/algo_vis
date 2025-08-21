@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Error Correction - Shor Code</title>
-    <style>
+<head><meta content="Explore quantum computing algorithms and error correction techniques" name="description"/><meta content="quantum computing, quantum algorithm, shor code, quantum error correction" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quantum Error Correction - Shor Code</title>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -365,236 +366,238 @@
             }
         }
     </style>
-</head>
+<meta content="Quantum Error Correction - Shor Code" property="og:title"/><meta content="Explore quantum computing algorithms and error correction techniques" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/quantum_computing_shor_code.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Quantum Error Correction - Shor Code" name="twitter:title"/><meta content="Explore quantum computing algorithms and error correction techniques" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/quantum_computing_shor_code.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Quantum Error Correction - Shor Code",
+  "description": "Explore quantum computing algorithms and error correction techniques",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/quantum_computing_shor_code.html"
+  }
+}</script></head>
 <body>
-    <div class="step-counter" id="stepCounter">Step 1: Original Qubit</div>
-    
-    <div class="container">
-        <h1>🌌 Quantum Error Correction</h1>
-        <p class="subtitle">The Shor 9-Qubit Code: Protecting Quantum Information from Decoherence</p>
-
-        <!-- Stage 1: Original Qubit -->
-        <div class="quantum-stage" id="stage1">
-            <div class="stage-title">Stage 1: Fragile Quantum Information</div>
-            <div class="qubit-container">
-                <div class="qubit original-qubit" id="originalQubit">
+<div class="step-counter" id="stepCounter">Step 1: Original Qubit</div>
+<div class="container">
+<h1>🌌 Quantum Error Correction</h1>
+<p class="subtitle">The Shor 9-Qubit Code: Protecting Quantum Information from Decoherence</p>
+<!-- Stage 1: Original Qubit -->
+<div class="quantum-stage" id="stage1">
+<div class="stage-title">Stage 1: Fragile Quantum Information</div>
+<div class="qubit-container">
+<div class="qubit original-qubit" id="originalQubit">
                     |ψ⟩
                     <div class="qubit-label">Original Qubit</div>
-                </div>
-            </div>
-            <div class="info-panel">
-                <div class="info-title">The Problem</div>
-                <p>Quantum information is extremely fragile. Environmental noise causes bit flips (X errors) and phase flips (Z errors). A single qubit has no protection against these errors.</p>
-                <div class="probability-bar">
-                    <div class="probability-fill" style="width: 15%" id="errorProb1"></div>
-                </div>
-                <p style="text-align: center; margin-top: 5px;">Error Probability: 15%</p>
-            </div>
-        </div>
-
-        <!-- Stage 2: Encoding -->
-        <div class="quantum-stage" id="stage2" style="display: none;">
-            <div class="stage-title">Stage 2: Quantum Error Correction Encoding</div>
-            <div class="quantum-circuit">
-                <div class="circuit-wire">
-                    <div class="wire-label">|ψ⟩</div>
-                    <div class="quantum-gate">H</div>
-                    <div class="quantum-gate">CNOT</div>
-                    <div class="quantum-gate">CNOT</div>
-                </div>
-                <div class="circuit-wire">
-                    <div class="wire-label">|0⟩</div>
-                    <div class="quantum-gate">•</div>
-                    <div class="quantum-gate">H</div>
-                    <div class="quantum-gate">CNOT</div>
-                </div>
-                <div class="circuit-wire">
-                    <div class="wire-label">|0⟩</div>
-                    <div class="quantum-gate">•</div>
-                    <div class="quantum-gate">•</div>
-                    <div class="quantum-gate">H</div>
-                </div>
-            </div>
-            
-            <div class="qubit-container">
-                <div class="qubit encoded-qubit">
+</div>
+</div>
+<div class="info-panel">
+<div class="info-title">The Problem</div>
+<p>Quantum information is extremely fragile. Environmental noise causes bit flips (X errors) and phase flips (Z errors). A single qubit has no protection against these errors.</p>
+<div class="probability-bar">
+<div class="probability-fill" id="errorProb1" style="width: 15%"></div>
+</div>
+<p style="text-align: center; margin-top: 5px;">Error Probability: 15%</p>
+</div>
+</div>
+<!-- Stage 2: Encoding -->
+<div class="quantum-stage" id="stage2" style="display: none;">
+<div class="stage-title">Stage 2: Quantum Error Correction Encoding</div>
+<div class="quantum-circuit">
+<div class="circuit-wire">
+<div class="wire-label">|ψ⟩</div>
+<div class="quantum-gate">H</div>
+<div class="quantum-gate">CNOT</div>
+<div class="quantum-gate">CNOT</div>
+</div>
+<div class="circuit-wire">
+<div class="wire-label">|0⟩</div>
+<div class="quantum-gate">•</div>
+<div class="quantum-gate">H</div>
+<div class="quantum-gate">CNOT</div>
+</div>
+<div class="circuit-wire">
+<div class="wire-label">|0⟩</div>
+<div class="quantum-gate">•</div>
+<div class="quantum-gate">•</div>
+<div class="quantum-gate">H</div>
+</div>
+</div>
+<div class="qubit-container">
+<div class="qubit encoded-qubit">
                     Q₁
                     <div class="qubit-label">Logical Qubit Block 1</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₂
                     <div class="qubit-label">Logical Qubit Block 2</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₃
                     <div class="qubit-label">Logical Qubit Block 3</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₄
                     <div class="qubit-label">Logical Qubit Block 4</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₅
                     <div class="qubit-label">Logical Qubit Block 5</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₆
                     <div class="qubit-label">Logical Qubit Block 6</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₇
                     <div class="qubit-label">Logical Qubit Block 7</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₈
                     <div class="qubit-label">Logical Qubit Block 8</div>
-                </div>
-                <div class="qubit encoded-qubit">
+</div>
+<div class="qubit encoded-qubit">
                     Q₉
                     <div class="qubit-label">Logical Qubit Block 9</div>
-                </div>
-            </div>
-            
-            <div class="entanglement-line"></div>
-            
-            <div class="info-panel">
-                <div class="info-title">Shor 9-Qubit Encoding</div>
-                <p>The original qubit is encoded into 9 entangled qubits arranged in 3 blocks of 3. This creates redundancy that allows detection and correction of both bit-flip and phase-flip errors.</p>
-                <div class="probability-bar">
-                    <div class="probability-fill" style="width: 2%" id="errorProb2"></div>
-                </div>
-                <p style="text-align: center; margin-top: 5px;">Error Probability: 2% (after encoding)</p>
-            </div>
-        </div>
-
-        <!-- Stage 3: Error Introduction -->
-        <div class="quantum-stage" id="stage3" style="display: none;">
-            <div class="stage-title">Stage 3: Environmental Errors Strike!</div>
-            <div class="qubit-container">
-                <div class="qubit encoded-qubit">Q₁</div>
-                <div class="qubit encoded-qubit">Q₂</div>
-                <div class="qubit error-qubit" id="errorQubit">
+</div>
+</div>
+<div class="entanglement-line"></div>
+<div class="info-panel">
+<div class="info-title">Shor 9-Qubit Encoding</div>
+<p>The original qubit is encoded into 9 entangled qubits arranged in 3 blocks of 3. This creates redundancy that allows detection and correction of both bit-flip and phase-flip errors.</p>
+<div class="probability-bar">
+<div class="probability-fill" id="errorProb2" style="width: 2%"></div>
+</div>
+<p style="text-align: center; margin-top: 5px;">Error Probability: 2% (after encoding)</p>
+</div>
+</div>
+<!-- Stage 3: Error Introduction -->
+<div class="quantum-stage" id="stage3" style="display: none;">
+<div class="stage-title">Stage 3: Environmental Errors Strike!</div>
+<div class="qubit-container">
+<div class="qubit encoded-qubit">Q₁</div>
+<div class="qubit encoded-qubit">Q₂</div>
+<div class="qubit error-qubit" id="errorQubit">
                     ❌Q₃
                     <div class="qubit-label">Bit Flip Error!</div>
-                </div>
-                <div class="qubit encoded-qubit">Q₄</div>
-                <div class="qubit encoded-qubit">Q₅</div>
-                <div class="qubit encoded-qubit">Q₆</div>
-                <div class="qubit error-qubit" id="errorQubit2">
+</div>
+<div class="qubit encoded-qubit">Q₄</div>
+<div class="qubit encoded-qubit">Q₅</div>
+<div class="qubit encoded-qubit">Q₆</div>
+<div class="qubit error-qubit" id="errorQubit2">
                     ⚡Q₇
                     <div class="qubit-label">Phase Flip Error!</div>
-                </div>
-                <div class="qubit encoded-qubit">Q₈</div>
-                <div class="qubit encoded-qubit">Q₉</div>
-            </div>
-            
-            <div class="info-panel">
-                <div class="info-title">Noise and Decoherence</div>
-                <p>Environmental interference causes errors in 2 of the 9 qubits. In classical systems, this would corrupt the data. But quantum error correction can handle this!</p>
-                <div class="syndrome-display">
-                    <div class="syndrome-item">
-                        <div class="syndrome-value">S₁ = 1</div>
-                        <div>X-syndrome detected</div>
-                    </div>
-                    <div class="syndrome-item">
-                        <div class="syndrome-value">S₂ = 1</div>
-                        <div>Z-syndrome detected</div>
-                    </div>
-                    <div class="syndrome-item">
-                        <div class="syndrome-value">Error Location</div>
-                        <div>Q₃ and Q₇ identified</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stage 4: Error Correction -->
-        <div class="quantum-stage" id="stage4" style="display: none;">
-            <div class="stage-title">Stage 4: Quantum Error Correction in Action</div>
-            <div class="qubit-container">
-                <div class="qubit corrected-qubit">Q₁</div>
-                <div class="qubit corrected-qubit">Q₂</div>
-                <div class="qubit corrected-qubit">
+</div>
+<div class="qubit encoded-qubit">Q₈</div>
+<div class="qubit encoded-qubit">Q₉</div>
+</div>
+<div class="info-panel">
+<div class="info-title">Noise and Decoherence</div>
+<p>Environmental interference causes errors in 2 of the 9 qubits. In classical systems, this would corrupt the data. But quantum error correction can handle this!</p>
+<div class="syndrome-display">
+<div class="syndrome-item">
+<div class="syndrome-value">S₁ = 1</div>
+<div>X-syndrome detected</div>
+</div>
+<div class="syndrome-item">
+<div class="syndrome-value">S₂ = 1</div>
+<div>Z-syndrome detected</div>
+</div>
+<div class="syndrome-item">
+<div class="syndrome-value">Error Location</div>
+<div>Q₃ and Q₇ identified</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stage 4: Error Correction -->
+<div class="quantum-stage" id="stage4" style="display: none;">
+<div class="stage-title">Stage 4: Quantum Error Correction in Action</div>
+<div class="qubit-container">
+<div class="qubit corrected-qubit">Q₁</div>
+<div class="qubit corrected-qubit">Q₂</div>
+<div class="qubit corrected-qubit">
                     ✓Q₃
                     <div class="qubit-label">Corrected!</div>
-                </div>
-                <div class="qubit corrected-qubit">Q₄</div>
-                <div class="qubit corrected-qubit">Q₅</div>
-                <div class="qubit corrected-qubit">Q₆</div>
-                <div class="qubit corrected-qubit">
+</div>
+<div class="qubit corrected-qubit">Q₄</div>
+<div class="qubit corrected-qubit">Q₅</div>
+<div class="qubit corrected-qubit">Q₆</div>
+<div class="qubit corrected-qubit">
                     ✓Q₇
                     <div class="qubit-label">Corrected!</div>
-                </div>
-                <div class="qubit corrected-qubit">Q₈</div>
-                <div class="qubit corrected-qubit">Q₉</div>
-            </div>
-            
-            <div class="info-panel">
-                <div class="info-title">Syndrome Measurement & Correction</div>
-                <p>By measuring syndrome qubits (without disturbing the data), we identify error locations and apply corrective operations. The original quantum information is perfectly restored!</p>
-                <div class="probability-bar">
-                    <div class="probability-fill" style="width: 99%" id="successProb"></div>
-                </div>
-                <p style="text-align: center; margin-top: 5px;">Correction Success: 99%</p>
-            </div>
-        </div>
-
-        <!-- Stage 5: Recovery -->
-        <div class="quantum-stage" id="stage5" style="display: none;">
-            <div class="stage-title">Stage 5: Perfect Recovery</div>
-            <div class="qubit-container">
-                <div class="qubit original-qubit" style="box-shadow: 0 0 40px rgba(102, 187, 106, 0.6);">
+</div>
+<div class="qubit corrected-qubit">Q₈</div>
+<div class="qubit corrected-qubit">Q₉</div>
+</div>
+<div class="info-panel">
+<div class="info-title">Syndrome Measurement &amp; Correction</div>
+<p>By measuring syndrome qubits (without disturbing the data), we identify error locations and apply corrective operations. The original quantum information is perfectly restored!</p>
+<div class="probability-bar">
+<div class="probability-fill" id="successProb" style="width: 99%"></div>
+</div>
+<p style="text-align: center; margin-top: 5px;">Correction Success: 99%</p>
+</div>
+</div>
+<!-- Stage 5: Recovery -->
+<div class="quantum-stage" id="stage5" style="display: none;">
+<div class="stage-title">Stage 5: Perfect Recovery</div>
+<div class="qubit-container">
+<div class="qubit original-qubit" style="box-shadow: 0 0 40px rgba(102, 187, 106, 0.6);">
                     |ψ⟩
                     <div class="qubit-label">Recovered Original</div>
-                </div>
-            </div>
-            
-            <div class="info-panel">
-                <div class="info-title">Quantum Information Preserved</div>
-                <p>Through the miracle of quantum error correction, we've recovered the original quantum state perfectly, despite multiple errors. This is the foundation that makes fault-tolerant quantum computing possible.</p>
-            </div>
-        </div>
-
-        <!-- Control Panel -->
-        <div class="control-panel">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h3 style="color: #00f5ff; margin-bottom: 15px;">Interactive Quantum Error Correction</h3>
-                <p>Experience how quantum computers protect information from errors</p>
-            </div>
-            <div style="text-align: center;">
-                <button class="control-button" onclick="showStage(1)">Original Qubit</button>
-                <button class="control-button encode" onclick="showStage(2)">Encode (9-Qubit)</button>
-                <button class="control-button error" onclick="showStage(3)">Introduce Errors</button>
-                <button class="control-button correct" onclick="showStage(4)">Error Correction</button>
-                <button class="control-button" onclick="showStage(5)">Recovery</button>
-            </div>
-            <div style="text-align: center; margin-top: 15px;">
-                <button class="control-button" onclick="autoPlay()" id="autoPlayBtn">▶️ Auto Play Demo</button>
-                <button class="control-button" onclick="resetDemo()">🔄 Reset</button>
-            </div>
-        </div>
-
-        <!-- Explanation -->
-        <div class="explanation">
-            <h3 style="color: #00f5ff; margin-bottom: 15px;">🧠 How Quantum Error Correction Works</h3>
-            <p><strong>The Challenge:</strong> Quantum states are incredibly fragile. Any interaction with the environment can destroy quantum information through decoherence.</p>
-            
-            <p><strong>The Solution:</strong> The Shor 9-qubit code uses quantum entanglement to create redundancy. It can correct any single-qubit error by:</p>
-            
-            <ul style="margin: 15px 0; padding-left: 20px;">
-                <li><strong>Encoding:</strong> One logical qubit becomes 9 physical qubits in a carefully crafted entangled state</li>
-                <li><strong>Syndrome Detection:</strong> Measuring ancilla qubits reveals error information without disturbing the data</li>
-                <li><strong>Error Correction:</strong> Apply corrective operations based on syndrome measurements</li>
-                <li><strong>Recovery:</strong> The original quantum information is perfectly restored</li>
-            </ul>
-            
-            <p><strong>The Magic:</strong> This process violates our classical intuition - we can detect and correct errors without ever directly measuring the quantum data itself!</p>
-            
-            <p><strong>Real Impact:</strong> Quantum error correction is essential for building large-scale quantum computers. Companies like IBM, Google, and others are implementing these codes in their quantum processors to enable fault-tolerant quantum computation.</p>
-        </div>
-    </div>
-
-    <script>
+</div>
+</div>
+<div class="info-panel">
+<div class="info-title">Quantum Information Preserved</div>
+<p>Through the miracle of quantum error correction, we've recovered the original quantum state perfectly, despite multiple errors. This is the foundation that makes fault-tolerant quantum computing possible.</p>
+</div>
+</div>
+<!-- Control Panel -->
+<div class="control-panel">
+<div style="text-align: center; margin-bottom: 20px;">
+<h3 style="color: #00f5ff; margin-bottom: 15px;">Interactive Quantum Error Correction</h3>
+<p>Experience how quantum computers protect information from errors</p>
+</div>
+<div style="text-align: center;">
+<button class="control-button" onclick="showStage(1)">Original Qubit</button>
+<button class="control-button encode" onclick="showStage(2)">Encode (9-Qubit)</button>
+<button class="control-button error" onclick="showStage(3)">Introduce Errors</button>
+<button class="control-button correct" onclick="showStage(4)">Error Correction</button>
+<button class="control-button" onclick="showStage(5)">Recovery</button>
+</div>
+<div style="text-align: center; margin-top: 15px;">
+<button class="control-button" id="autoPlayBtn" onclick="autoPlay()">▶️ Auto Play Demo</button>
+<button class="control-button" onclick="resetDemo()">🔄 Reset</button>
+</div>
+</div>
+<!-- Explanation -->
+<div class="explanation">
+<h3 style="color: #00f5ff; margin-bottom: 15px;">🧠 How Quantum Error Correction Works</h3>
+<p><strong>The Challenge:</strong> Quantum states are incredibly fragile. Any interaction with the environment can destroy quantum information through decoherence.</p>
+<p><strong>The Solution:</strong> The Shor 9-qubit code uses quantum entanglement to create redundancy. It can correct any single-qubit error by:</p>
+<ul style="margin: 15px 0; padding-left: 20px;">
+<li><strong>Encoding:</strong> One logical qubit becomes 9 physical qubits in a carefully crafted entangled state</li>
+<li><strong>Syndrome Detection:</strong> Measuring ancilla qubits reveals error information without disturbing the data</li>
+<li><strong>Error Correction:</strong> Apply corrective operations based on syndrome measurements</li>
+<li><strong>Recovery:</strong> The original quantum information is perfectly restored</li>
+</ul>
+<p><strong>The Magic:</strong> This process violates our classical intuition - we can detect and correct errors without ever directly measuring the quantum data itself!</p>
+<p><strong>Real Impact:</strong> Quantum error correction is essential for building large-scale quantum computers. Companies like IBM, Google, and others are implementing these codes in their quantum processors to enable fault-tolerant quantum computation.</p>
+</div>
+</div>
+<script>
         let currentStage = 1;
         let isPlaying = false;
 

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>I Can't Believe It Can Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>I Can't Believe It Can Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -643,212 +638,216 @@
         animation: swapAnimation 0.8s ease;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="I Can't Believe It Can Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_i_cant_believe_it_can_sort.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="I Can't Believe It Can Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_i_cant_believe_it_can_sort.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "I Can't Believe It Can Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_i_cant_believe_it_can_sort.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>I Can't Believe It Can Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>I Can't Believe It Can Sort</h1>
+<div class="category">
+<i class="fas fa-face-surprise"></i> Unintuitive Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>I Can't Believe It Can Sort</h1>
-        <div class="category">
-          <i class="fas fa-face-surprise"></i> Unintuitive Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               "I Can't Believe It Can Sort" is a surprisingly effective sorting
               algorithm that appears too simple to work. It repeatedly scans
               through the array, swapping adjacent elements if they are in the
               wrong order, but restarts the scan from the beginning after each
               swap.
             </p>
-            <p>
+<p>
               Despite its inefficiency, this algorithm actually sorts the array
               correctly. The name comes from the creator's disbelief that such a
               simple approach could work. It's an interesting demonstration of
               how sometimes the most straightforward solutions can be effective,
               even if not optimal.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-lightbulb"></i> Key Insight</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-lightbulb"></i> Key Insight</h3>
+<p>
                   Repeated adjacent comparisons with restarts after each swap
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n²) time complexity - inefficient but functional</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-history"></i> Behavior</h3>
-                <p>Restarts scanning from beginning after every swap</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Use Case</h3>
-                <p>Educational demonstration of sorting fundamentals</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n²) time complexity - inefficient but functional</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-history"></i> Behavior</h3>
+<p>Restarts scanning from beginning after every swap</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Use Case</h3>
+<p>Educational demonstration of sorting fundamentals</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Enter numbers to sort and watch the "I Can't Believe It Can Sort"
               algorithm in action. The visualization shows each comparison,
               swap, and restart as the algorithm works its way through the
               array.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Algorithm Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Algorithm Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="settingsBtn">
-                    <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settingsBtn">
+<i class="fas fa-cog"></i> Settings
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="stepBtn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
+</div>
+</div>
+<div class="visualization-area">
+<div class="algorithm-explanation" id="explanation">
+<strong>Current Operation:</strong> Initializing algorithm
                 </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="algorithm-explanation" id="explanation">
-                  <strong>Current Operation:</strong> Initializing algorithm
-                </div>
-                <div class="array-container" id="arrayContainer"></div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="inputArray"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2)"
-                  value="5, 3, 8, 1, 2"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+<div class="array-container" id="arrayContainer"></div>
+</div>
+<div class="console-input">
+<input id="inputArray" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2)" type="text" value="5, 3, 8, 1, 2"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-              <div class="stats">
-                <div class="stat">
+</div>
+<div class="stats">
+<div class="stat">
                   Comparisons: <span id="comparisons">0</span>
-                </div>
-                <div class="stat">Swaps: <span id="swaps">0</span></div>
-                <div class="stat">Passes: <span id="passes">0</span></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>The algorithm works through these simple steps:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-arrow-right"></i> 1. Start at Beginning
+</div>
+<div class="stat">Swaps: <span id="swaps">0</span></div>
+<div class="stat">Passes: <span id="passes">0</span></div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>The algorithm works through these simple steps:</p>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-arrow-right"></i> 1. Start at Beginning
                 </h3>
-                <p>Begin scanning the array from the first element</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 2. Compare Adjacent</h3>
-                <p>Compare each element with the next one in the array</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 3. Swap & Restart</h3>
-                <p>
+<p>Begin scanning the array from the first element</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 2. Compare Adjacent</h3>
+<p>Compare each element with the next one in the array</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 3. Swap &amp; Restart</h3>
+<p>
                   If elements are out of order, swap them and restart scanning
                   from the beginning
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-flag-checkered"></i> 4. Complete Scan</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-flag-checkered"></i> 4. Complete Scan</h3>
+<p>
                   If a complete scan is made without any swaps, the array is
                   sorted
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure unbelievableSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure unbelievableSort(arr):
     n = length(arr)
     i = 0
     sorted = false
     
     while not sorted:
-        if i < n-1:
-            if arr[i] > arr[i+1]:
+        if i &lt; n-1:
+            if arr[i] &gt; arr[i+1]:
                 swap arr[i] and arr[i+1]
                 i = 0  // Restart from beginning
             else:
                 i = i + 1
         else:
             sorted = true  // Array is sorted</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a JavaScript implementation of the "I Can't Believe It
               Can Sort" algorithm. The algorithm repeatedly scans the array,
               restarting from the beginning whenever a swap is made.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>JavaScript Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>JavaScript Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code>function unbelievableSort(arr) {
+</div>
+<pre><code>function unbelievableSort(arr) {
     let n = arr.length;
     let i = 0;
     let sorted = false;
@@ -857,7 +856,7 @@
     
     while (!sorted) {
         // Check if we've reached the end of the array
-        if (i >= n - 1) {
+        if (i &gt;= n - 1) {
             sorted = true;
             continue;
         }
@@ -865,7 +864,7 @@
         comparisons++;
         
         // Compare adjacent elements
-        if (arr[i] > arr[i + 1]) {
+        if (arr[i] &gt; arr[i + 1]) {
             // Swap elements if they're in the wrong order
             [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
             swaps++;
@@ -886,133 +885,118 @@
 // Example usage
 const arr = [5, 3, 8, 1, 2];
 unbelievableSort(arr);</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Exchange</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Why It's Interesting</h2>
-            <p>This algorithm is fascinating for several reasons:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Exchange</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Why It's Interesting</h2>
+<p>This algorithm is fascinating for several reasons:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 It appears too simple to work at first glance
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Demonstrates that sorting can be achieved through repeated
                 adjacent comparisons
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Shows how restarting after each swap eventually leads to a
                 sorted array
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Excellent educational tool for understanding sorting
                 fundamentals
               </li>
-              <li>Historical curiosity in algorithm development</li>
-            </ul>
-          </div>
-
-          <!-- Complexity Section -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>
+<li>Historical curiosity in algorithm development</li>
+</ul>
+</div>
+<!-- Complexity Section -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>
               The "I Can't Believe It Can Sort" algorithm has a worst-case time
               complexity of O(n²), making it inefficient for large datasets.
               However, it has some interesting characteristics:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Best Case:</strong> O(n) for already sorted arrays
+              ">
+<li style="margin-bottom: 10px">
+<strong>Best Case:</strong> O(n) for already sorted arrays
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Worst Case:</strong> O(n²) for reverse-sorted arrays
+<li style="margin-bottom: 10px">
+<strong>Worst Case:</strong> O(n²) for reverse-sorted arrays
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Space Complexity:</strong> O(1) as it sorts in-place
+<li style="margin-bottom: 10px">
+<strong>Space Complexity:</strong> O(1) as it sorts in-place
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 The restart-after-swap approach leads to many repeated
                 comparisons
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Bead Sort Visualization Logic
       class UnbelievableSortVisualizer {
         constructor() {
@@ -1222,5 +1206,5 @@ unbelievableSort(arr);</code></pre>
           });
       });
     </script>
-  </body>
+</body>
 </html>

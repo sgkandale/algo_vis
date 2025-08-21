@@ -1,19 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Naive Bayes | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Naive Bayes | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -682,230 +677,234 @@
         color: var(--accent-light);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Machine Learning</a> >
+<meta content="Naive Bayes | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_naive_bayes.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Naive Bayes | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_naive_bayes.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Naive Bayes | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_naive_bayes.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Machine Learning</a> &gt;
               <span>Naive Bayes</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Naive Bayes</h1>
+<div class="category">
+<i class="fas fa-brain"></i> Probabilistic Classification Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Naive Bayes</h1>
-        <div class="category">
-          <i class="fas fa-brain"></i> Probabilistic Classification Algorithm
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Training Time: O(n) | Prediction Time: O(1)
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Naive Bayes is a family of probabilistic classifiers based on
               applying Bayes' theorem with strong independence assumptions
               between features. It is called "naive" because it assumes that the
               presence of a particular feature in a class is unrelated to the
               presence of any other feature.
             </p>
-            <p>
+<p>
               Despite its simplicity, Naive Bayes classifiers work remarkably
               well in many real-world situations and are particularly suited for
               high-dimensional datasets. They are efficient, require minimal
               training data, and are often used for text classification, spam
               filtering, and recommendation systems.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Applies Bayes' theorem with feature independence assumption
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Extremely fast training and prediction times, even for large
                   datasets
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Stores only probability values, not the entire dataset</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Stores only probability values, not the entire dataset</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>
                   Calculates posterior probabilities based on prior and
                   likelihood
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Explore how Naive Bayes calculates probabilities to classify new
               instances. Use the controls to set feature values and see how the
               algorithm computes probabilities for each class. The visualization
               shows the training data, probability calculations, and final
               prediction.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Naive Bayes Classifier
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Naive Bayes Classifier
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="random-btn">
-                    <i class="fas fa-random"></i> Random
+<div class="console-controls">
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                   </button>
-                  <button class="console-btn" id="classify-btn">
-                    <i class="fas fa-calculator"></i> Classify
+<button class="console-btn" id="classify-btn">
+<i class="fas fa-calculator"></i> Classify
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div id="bayes-viz">
-                  <div class="feature-controls">
-                    <div class="feature-control">
-                      <label for="outlook">Outlook</label>
-                      <select id="outlook">
-                        <option value="sunny">Sunny</option>
-                        <option value="overcast">Overcast</option>
-                        <option value="rainy">Rainy</option>
-                      </select>
-                    </div>
-                    <div class="feature-control">
-                      <label for="temperature">Temperature</label>
-                      <select id="temperature">
-                        <option value="hot">Hot</option>
-                        <option value="mild">Mild</option>
-                        <option value="cool">Cool</option>
-                      </select>
-                    </div>
-                    <div class="feature-control">
-                      <label for="humidity">Humidity</label>
-                      <select id="humidity">
-                        <option value="high">High</option>
-                        <option value="normal">Normal</option>
-                      </select>
-                    </div>
-                    <div class="feature-control">
-                      <label for="windy">Windy</label>
-                      <select id="windy">
-                        <option value="false">No</option>
-                        <option value="true">Yes</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="result-display">
-                    <div class="result-title">Probability Calculation:</div>
-                    <div id="probability-results">
-                      <!-- Results will be populated here -->
-                    </div>
-                    <div id="prediction-result" class="prediction">
-                      <!-- Prediction will be shown here -->
-                    </div>
-                  </div>
-
-                  <canvas
-                    id="probability-chart"
-                    class="probability-chart"
-                  ></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div id="bayes-viz">
+<div class="feature-controls">
+<div class="feature-control">
+<label for="outlook">Outlook</label>
+<select id="outlook">
+<option value="sunny">Sunny</option>
+<option value="overcast">Overcast</option>
+<option value="rainy">Rainy</option>
+</select>
+</div>
+<div class="feature-control">
+<label for="temperature">Temperature</label>
+<select id="temperature">
+<option value="hot">Hot</option>
+<option value="mild">Mild</option>
+<option value="cool">Cool</option>
+</select>
+</div>
+<div class="feature-control">
+<label for="humidity">Humidity</label>
+<select id="humidity">
+<option value="high">High</option>
+<option value="normal">Normal</option>
+</select>
+</div>
+<div class="feature-control">
+<label for="windy">Windy</label>
+<select id="windy">
+<option value="false">No</option>
+<option value="true">Yes</option>
+</select>
+</div>
+</div>
+<div class="result-display">
+<div class="result-title">Probability Calculation:</div>
+<div id="probability-results">
+<!-- Results will be populated here -->
+</div>
+<div class="prediction" id="prediction-result">
+<!-- Prediction will be shown here -->
+</div>
+</div>
+<canvas class="probability-chart" id="probability-chart"></canvas>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               The Naive Bayes classifier follows these steps for classification:
             </p>
-
-            <div class="step-container">
-              <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                  <h4>Calculate Prior Probabilities</h4>
-                  <p>
+<div class="step-container">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">
+<h4>Calculate Prior Probabilities</h4>
+<p>
                     Compute the probability of each class based on their
                     frequency in the training data.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                  <h4>Calculate Likelihoods</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">
+<h4>Calculate Likelihoods</h4>
+<p>
                     For each feature and class, compute the conditional
                     probability of the feature given the class.
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                  <h4>Apply Bayes' Theorem</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">
+<h4>Apply Bayes' Theorem</h4>
+<p>
                     For a new instance, compute the posterior probability for
                     each class using the formula: P(Class|Features) ∝ P(Class) ×
                     Π P(Feature|Class)
                   </p>
-                </div>
-              </div>
-
-              <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                  <h4>Select the Most Probable Class</h4>
-                  <p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">4</div>
+<div class="step-content">
+<h4>Select the Most Probable Class</h4>
+<p>
                     Choose the class with the highest posterior probability as
                     the prediction.
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code># Training Phase
+</div>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code># Training Phase
 function train_naive_bayes(training_data):
     class_counts = count frequency of each class
     prior_probabilities = class_counts / total_samples
@@ -925,26 +924,24 @@ function predict(instance, prior_probabilities, likelihoods):
             posterior[class] *= likelihoods[feature][class][instance[feature]]
     
     return class with maximum posterior probability</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Naive Bayes classifier
               using the classic "Play Tennis" dataset. The implementation
               includes Laplace smoothing to handle unseen feature values.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+</div>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
 <span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict
 
 <span class="keyword">class</span> <span class="function">NaiveBayesClassifier</span>:
@@ -1019,147 +1016,135 @@ nb.fit(X, y)
 new_instance = [<span class="string">'sunny'</span>, <span class="string">'cool'</span>, <span class="string">'high'</span>, <span class="string">'true'</span>]
 prediction = nb.predict([new_instance])
 print(<span class="string">f"Prediction: {prediction[0]}"</span>)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Classification</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Probabilistic</div>
-              </div>
-              <div class="property-card">
-                <h4>Supervision</h4>
-                <div class="value">Supervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Parametric</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Training Time</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Prediction Time</h4>
-                <div class="value">O(1)</div>
-              </div>
-              <div class="property-card">
-                <h4>Memory</h4>
-                <div class="value">O(c×f)</div>
-              </div>
-              <div class="property-card">
-                <h4>Key Assumption</h4>
-                <div class="value">Feature Independence</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Classification</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Probabilistic</div>
+</div>
+<div class="property-card">
+<h4>Supervision</h4>
+<div class="value">Supervised</div>
+</div>
+<div class="property-card">
+<h4>Parametric</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Training Time</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Prediction Time</h4>
+<div class="value">O(1)</div>
+</div>
+<div class="property-card">
+<h4>Memory</h4>
+<div class="value">O(c×f)</div>
+</div>
+<div class="property-card">
+<h4>Key Assumption</h4>
+<div class="value">Feature Independence</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Naive Bayes is widely used in various domains due to its
               simplicity and efficiency:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Spam email detection and filtering
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Text classification and sentiment analysis
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Medical diagnosis and disease prediction
               </li>
-              <li style="margin-bottom: 10px">Recommendation systems</li>
-              <li>Document categorization and news article classification</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
-            <ul
-              style="
+<li style="margin-bottom: 10px">Recommendation systems</li>
+<li>Document categorization and news article classification</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Simple, fast, and efficient even with large datasets
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Requires less training data than many other algorithms
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Handles both continuous and discrete data
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Highly scalable with number of predictors and data points
               </li>
-              <li>Performs well in multi-class prediction problems</li>
-            </ul>
-          </div>
-
-          <!-- Limitations Section -->
-          <div class="section">
-            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
-            <ul
-              style="
+<li>Performs well in multi-class prediction problems</li>
+</ul>
+</div>
+<!-- Limitations Section -->
+<div class="section">
+<h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Assumes features are independent (naive assumption)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Can be outperformed by more complex models with correlated
                 features
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Zero-frequency problem (requires smoothing techniques)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Relies on prior probabilities which may be inaccurate
               </li>
-              <li>Not ideal for regression tasks</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Not ideal for regression tasks</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Naive Bayes Visualization
       document.addEventListener("DOMContentLoaded", function () {
         // Sample dataset: Play Tennis
@@ -1494,5 +1479,5 @@ print(<span class="string">f"Prediction: {prediction[0]}"</span>)</code></pre>
         classifyBtn.click();
       });
     </script>
-  </body>
+</body>
 </html>

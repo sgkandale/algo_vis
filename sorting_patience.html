@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Patience Sorting | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patience Sorting | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -637,199 +632,201 @@
         border-radius: 5px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Patience Sorting | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_patience.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Patience Sorting | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_patience.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Patience Sorting | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_patience.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Patience Sorting</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Patience Sorting</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Patience Sorting</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Patience Sorting is a sorting algorithm inspired by the card game
               Patience (Solitaire). It works by dealing elements into piles and
               then repeatedly selecting the smallest visible element to build
               the sorted array. The algorithm has two phases: pile formation and
               pile merging.
             </p>
-            <p>
+<p>
               This algorithm is particularly interesting because it can
               efficiently compute the length of the longest increasing
               subsequence (LIS). It has a worst-case time complexity of O(n log
               n) and is efficient for partially ordered data.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-cards"></i> Key Feature</h3>
-                <p>Based on the card game Patience (Solitaire)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-cards"></i> Key Feature</h3>
+<p>Based on the card game Patience (Solitaire)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n log n) worst-case, efficient for partially sorted data
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n) - requires space for piles and pointers</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Applications</h3>
-                <p>Longest Increasing Subsequence (LIS) calculation</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n) - requires space for piles and pointers</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Applications</h3>
+<p>Longest Increasing Subsequence (LIS) calculation</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Patience
               Sorting works. Enter comma-separated numbers and step through the
               algorithm to see how elements are distributed into piles and then
               merged into a sorted list.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Patience Sorting
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Patience Sorting
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div
-                  class="visualization-container"
-                  id="visualization-container"
-                >
-                  <div class="piles-container" id="piles-container">
-                    <!-- Piles will be generated here -->
-                  </div>
-                  <div class="sorted-list" id="sorted-list">
-                    <span>Sorted List: </span>
-                    <!-- Sorted items will appear here -->
-                  </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  id="array-input"
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area">
+<div class="visualization-container" id="visualization-container">
+<div class="piles-container" id="piles-container">
+<!-- Piles will be generated here -->
+</div>
+<div class="sorted-list" id="sorted-list">
+<span>Sorted List: </span>
+<!-- Sorted items will appear here -->
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 3, 5, 1, 9, 4, 8, 2, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div id="status" class="status-bar">
+</div>
+<div class="status-bar" id="status">
                 Enter numbers and click Run or Step
               </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Patience Sorting processes the array in two distinct phases:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-layer-group"></i> 1. Pile Formation</h3>
-                <p>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Patience Sorting processes the array in two distinct phases:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-layer-group"></i> 1. Pile Formation</h3>
+<p>
                   Traverse the array and place each element on the leftmost pile
                   whose top card is greater than or equal to the current element
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-plus-circle"></i> 2. New Piles</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-plus-circle"></i> 2. New Piles</h3>
+<p>
                   If no suitable pile is found, create a new pile to the right
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-eye"></i> 3. Track Top Cards</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-eye"></i> 3. Track Top Cards</h3>
+<p>
                   Maintain a list of the top card of each pile for efficient
                   access
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort-amount-down"></i> 4. Merge Phase</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort-amount-down"></i> 4. Merge Phase</h3>
+<p>
                   Repeatedly select the smallest visible top card and move it to
                   the sorted array
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 5. Repeat</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 5. Repeat</h3>
+<p>
                   Continue until all piles are empty and all elements are sorted
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function patienceSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function patienceSort(arr):
     piles = []
     tops = []
     
     // Phase 1: Form piles
     for each element in arr:
-        // Find leftmost pile where top >= element
+        // Find leftmost pile where top &gt;= element
         pileIndex = binarySearch(tops, element)
         
-        if pileIndex < 0:
+        if pileIndex &lt; 0:
             pileIndex = -(pileIndex + 1)  // Convert to insertion point
         
         if pileIndex == len(piles):
@@ -848,7 +845,7 @@
         // Find pile with smallest top element
         minIndex = 0
         for i from 1 to len(tops)-1:
-            if tops[i] < tops[minIndex]:
+            if tops[i] &lt; tops[minIndex]:
                 minIndex = i
         
         // Remove top element from pile
@@ -865,26 +862,24 @@
             tops[minIndex] = last element of piles[minIndex]
     
     return sortedArr</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Patience Sorting. The
               algorithm uses binary search to efficiently find the correct pile
               for each element:
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> bisect
+</div>
+<pre><code><span class="keyword">import</span> bisect
 
 <span class="keyword">def</span> <span class="function">patience_sort</span>(arr):
     <span class="comment"># Phase 1: Create piles</span>
@@ -892,7 +887,7 @@
     tops = []
     
     <span class="keyword">for</span> x <span class="keyword">in</span> arr:
-        <span class="comment"># Find the leftmost pile where top >= x</span>
+        <span class="comment"># Find the leftmost pile where top &gt;= x</span>
         idx = bisect.bisect_left(tops, x)
         
         <span class="keyword">if</span> idx == len(piles):
@@ -910,7 +905,7 @@
         <span class="comment"># Find pile with smallest top element</span>
         min_idx = 0
         <span class="keyword">for</span> i <span class="keyword">in</span> range(1, len(tops)):
-            <span class="keyword">if</span> tops[i] < tops[min_idx]:
+            <span class="keyword">if</span> tops[i] &lt; tops[min_idx]:
                 min_idx = i
         
         <span class="comment"># Remove smallest element</span>
@@ -933,92 +928,87 @@ arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
 sorted_arr = patience_sort(arr.copy())
 print(<span class="string">"Original array:"</span>, arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Adaptive</h4>
-                <div class="value">Yes</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Patience Sorting is particularly useful in these scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Adaptive</h4>
+<div class="value">Yes</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Patience Sorting is particularly useful in these scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Calculating the longest increasing subsequence (LIS)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting partially ordered data
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Educational demonstrations of sorting algorithms
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Card game simulations and analysis
               </li>
-              <li>Algorithm competitions and puzzles</li>
-            </ul>
-          </div>
-
-          <!-- Longest Increasing Subsequence Section -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> LIS Calculation</h2>
-            <p>
+<li>Algorithm competitions and puzzles</li>
+</ul>
+</div>
+<!-- Longest Increasing Subsequence Section -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> LIS Calculation</h2>
+<p>
               An important application of Patience Sorting is calculating the
               length of the Longest Increasing Subsequence (LIS) in O(n log n)
               time:
             </p>
-            <div class="code-block" style="margin-top: 15px">
-              <pre><code><span class="keyword">def</span> <span class="function">longest_increasing_subsequence</span>(arr):
+<div class="code-block" style="margin-top: 15px">
+<pre><code><span class="keyword">def</span> <span class="function">longest_increasing_subsequence</span>(arr):
     piles = []
     tops = []
     
@@ -1038,24 +1028,22 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
 arr = [3, 1, 4, 1, 5, 9, 2, 6, 5]
 lis_length = longest_increasing_subsequence(arr)
 print(<span class="string">"Length of LIS:"</span>, lis_length)  <span class="comment"># Output: 4</span></code></pre>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Patience Sorting Visualization
       let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
       let piles = [];
@@ -1284,5 +1272,5 @@ print(<span class="string">"Length of LIS:"</span>, lis_length)  <span class="co
       // Initialize
       initVisualization();
     </script>
-  </body>
+</body>
 </html>

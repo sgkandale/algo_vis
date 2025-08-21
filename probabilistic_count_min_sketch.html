@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Count-Min Sketch Visualization</title>
-    <style>
+<head><meta content="Discover probabilistic data structures for approximate computing and big data" name="description"/><meta content="probabilistic data structure, bloom filter, count-min sketch, hyperloglog, flajolet-martin" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Count-Min Sketch Visualization</title>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -410,167 +411,161 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>📊 Count-Min Sketch</h1>
-
-      <div class="intro">
-        <p>
-          <strong>Count-Min Sketch</strong> is a probabilistic data structure
+<meta content="Count-Min Sketch Visualization" property="og:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/probabilistic_count_min_sketch.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Count-Min Sketch Visualization" name="twitter:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/probabilistic_count_min_sketch.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Count-Min Sketch Visualization",
+  "description": "Discover probabilistic data structures for approximate computing and big data",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/probabilistic_count_min_sketch.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<h1>📊 Count-Min Sketch</h1>
+<div class="intro">
+<p>
+<strong>Count-Min Sketch</strong> is a probabilistic data structure
           that estimates the frequency of elements in a data stream. It uses
           multiple hash functions and always overestimates (never
           underestimates) the true count, making it perfect for finding heavy
           hitters in massive datasets!
         </p>
-      </div>
-
-      <div class="controls">
-        <button class="btn success" onclick="addElement()">
+</div>
+<div class="controls">
+<button class="btn success" onclick="addElement()">
           ➕ Add Element
         </button>
-        <button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
-        <button class="btn" onclick="queryElement()">🔍 Query Frequency</button>
-        <button class="btn danger" onclick="reset()">🔄 Reset</button>
-      </div>
-
-      <div class="dataset-examples">
-        <button class="dataset-btn" onclick="loadWebTraffic()">
+<button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
+<button class="btn" onclick="queryElement()">🔍 Query Frequency</button>
+<button class="btn danger" onclick="reset()">🔄 Reset</button>
+</div>
+<div class="dataset-examples">
+<button class="dataset-btn" onclick="loadWebTraffic()">
           🌐 Web Traffic
         </button>
-        <button class="dataset-btn" onclick="loadWordFreq()">
+<button class="dataset-btn" onclick="loadWordFreq()">
           📝 Word Frequency
         </button>
-        <button class="dataset-btn" onclick="loadUserActivity()">
+<button class="dataset-btn" onclick="loadUserActivity()">
           👥 User Activity
         </button>
-        <button class="dataset-btn" onclick="generateStream()">
+<button class="dataset-btn" onclick="generateStream()">
           📈 Data Stream (1000 items)
         </button>
-      </div>
-
-      <div class="main-content">
-        <div class="input-section">
-          <h3>🔤 Add/Query Elements</h3>
-          <input
-            type="text"
-            id="elementInput"
-            placeholder="Enter element (e.g., page1, user123, word)"
-            onkeypress="handleKeyPress(event)"
-          />
-
-          <div class="query-section">
-            <h4>🔍 Query an Element</h4>
-            <input
-              type="text"
-              id="queryInput"
-              placeholder="Enter element to query frequency"
-              onkeypress="handleQueryKeyPress(event)"
-            />
-            <div
-              id="queryResult"
-              class="query-result"
-              style="display: none"
-            ></div>
-          </div>
-
-          <div id="currentProcessing" style="display: none">
-            <h4>Currently Processing:</h4>
-            <div class="hash-display" id="elementHash"></div>
-          </div>
-        </div>
-
-        <div class="sketch-section">
-          <h3>📊 Count-Min Sketch Matrix (4 × 10)</h3>
-          <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
+</div>
+<div class="main-content">
+<div class="input-section">
+<h3>🔤 Add/Query Elements</h3>
+<input id="elementInput" onkeypress="handleKeyPress(event)" placeholder="Enter element (e.g., page1, user123, word)" type="text"/>
+<div class="query-section">
+<h4>🔍 Query an Element</h4>
+<input id="queryInput" onkeypress="handleQueryKeyPress(event)" placeholder="Enter element to query frequency" type="text"/>
+<div class="query-result" id="queryResult" style="display: none"></div>
+</div>
+<div id="currentProcessing" style="display: none">
+<h4>Currently Processing:</h4>
+<div class="hash-display" id="elementHash"></div>
+</div>
+</div>
+<div class="sketch-section">
+<h3>📊 Count-Min Sketch Matrix (4 × 10)</h3>
+<p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
             4 hash functions × 10 buckets each = 40 total counters
           </p>
-          <div class="sketch-grid" id="sketchGrid"></div>
-        </div>
-      </div>
-
-      <div class="element-processing">
-        <h3>🔍 Hash Function Processing</h3>
-        <div id="hashProcessing">
-          <div class="explanation">
-            <h4>How Count-Min Sketch Works:</h4>
-            <p>
-              <strong>1. Multiple Hash Functions:</strong> Use k independent
+<div class="sketch-grid" id="sketchGrid"></div>
+</div>
+</div>
+<div class="element-processing">
+<h3>🔍 Hash Function Processing</h3>
+<div id="hashProcessing">
+<div class="explanation">
+<h4>How Count-Min Sketch Works:</h4>
+<p>
+<strong>1. Multiple Hash Functions:</strong> Use k independent
               hash functions
             </p>
-            <p>
-              <strong>2. Hash to Buckets:</strong> Each hash function maps
+<p>
+<strong>2. Hash to Buckets:</strong> Each hash function maps
               element to a bucket
             </p>
-            <p>
-              <strong>3. Increment Counters:</strong> Add 1 to all k buckets for
+<p>
+<strong>3. Increment Counters:</strong> Add 1 to all k buckets for
               the element
             </p>
-            <p>
-              <strong>4. Query:</strong> Return minimum value across all k
+<p>
+<strong>4. Query:</strong> Return minimum value across all k
               buckets
             </p>
-            <p>
-              <strong>5. Guarantee:</strong> Result ≥ true frequency (never
+<p>
+<strong>5. Guarantee:</strong> Result ≥ true frequency (never
               underestimates!)
             </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="frequency-tracker">
-        <h3>📈 Element Frequencies</h3>
-        <div class="frequency-list" id="frequencyList"></div>
-      </div>
-
-      <div class="stats">
-        <div class="stat-card">
-          <div class="stat-value" id="totalElements">0</div>
-          <div class="stat-label">Total Elements Added</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="uniqueElements">0</div>
-          <div class="stat-label">Unique Elements</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="memoryUsed">160</div>
-          <div class="stat-label">Bytes Used (4×10×4)</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="averageError">0%</div>
-          <div class="stat-label">Average Overestimation</div>
-        </div>
-      </div>
-
-      <div class="explanation">
-        <h4>🎯 Key Properties:</h4>
-        <p>
-          <strong>Never Underestimates:</strong> CM-Sketch always returns
+</div>
+</div>
+</div>
+<div class="frequency-tracker">
+<h3>📈 Element Frequencies</h3>
+<div class="frequency-list" id="frequencyList"></div>
+</div>
+<div class="stats">
+<div class="stat-card">
+<div class="stat-value" id="totalElements">0</div>
+<div class="stat-label">Total Elements Added</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="uniqueElements">0</div>
+<div class="stat-label">Unique Elements</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="memoryUsed">160</div>
+<div class="stat-label">Bytes Used (4×10×4)</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="averageError">0%</div>
+<div class="stat-label">Average Overestimation</div>
+</div>
+</div>
+<div class="explanation">
+<h4>🎯 Key Properties:</h4>
+<p>
+<strong>Never Underestimates:</strong> CM-Sketch always returns
           frequency ≥ true count
         </p>
-        <p>
-          <strong>Overestimation Bound:</strong> Error ≤ ε × N with probability
+<p>
+<strong>Overestimation Bound:</strong> Error ≤ ε × N with probability
           ≥ 1-δ
         </p>
-        <p>
-          <strong>Space Efficient:</strong> Uses O(log(1/δ)/ε) space regardless
+<p>
+<strong>Space Efficient:</strong> Uses O(log(1/δ)/ε) space regardless
           of stream size
         </p>
-        <p>
-          <strong>Update Time:</strong> O(log(1/δ)) per element - very fast!
+<p>
+<strong>Update Time:</strong> O(log(1/δ)) per element - very fast!
         </p>
-      </div>
-
-      <div class="explanation">
-        <h4>🧮 Parameters in this demo:</h4>
-        <p><strong>Width (w):</strong> 10 buckets per row</p>
-        <p><strong>Depth (d):</strong> 4 hash functions (rows)</p>
-        <p><strong>Error Rate (ε):</strong> ~10% (2.718/w)</p>
-        <p><strong>Confidence (δ):</strong> ~98% (1-2^(-d))</p>
-      </div>
-    </div>
-
-    <script>
+</div>
+<div class="explanation">
+<h4>🧮 Parameters in this demo:</h4>
+<p><strong>Width (w):</strong> 10 buckets per row</p>
+<p><strong>Depth (d):</strong> 4 hash functions (rows)</p>
+<p><strong>Error Rate (ε):</strong> ~10% (2.718/w)</p>
+<p><strong>Confidence (δ):</strong> ~98% (1-2^(-d))</p>
+</div>
+</div>
+<script>
       // Count-Min Sketch parameters
       const width = 10; // number of buckets per hash function
       const depth = 4; // number of hash functions
@@ -1021,5 +1016,5 @@
       // Auto-focus input
       document.getElementById("elementInput").focus();
     </script>
-  </body>
+</body>
 </html>

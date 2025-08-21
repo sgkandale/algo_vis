@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Block Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Block Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -641,175 +636,179 @@
         font-family: "Roboto Mono", monospace;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Block Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_block.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Block Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_block.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Block Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_block.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Block Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Block Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Block Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Block Sort (also known as Block Merge Sort) is an efficient,
               stable, in-place sorting algorithm that combines the concepts of
               merge sort and insertion sort. It works by dividing the array into
               small blocks, sorting each block with insertion sort, and then
               merging the blocks using a technique inspired by merge sort.
             </p>
-            <p>
+<p>
               This algorithm is particularly efficient for in-memory sorting and
               is designed to minimize memory usage while maintaining stability.
               It's an excellent choice when memory is constrained but stable
               sorting is required.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Stable, in-place sorting with O(n log n) performance</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n log n) time complexity in worst-case scenarios</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(1) additional space - operates in-place</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Block-based insertion sort + efficient block merging</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Stable, in-place sorting with O(n log n) performance</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n log n) time complexity in worst-case scenarios</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(1) additional space - operates in-place</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Block-based insertion sort + efficient block merging</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Block Sort
               works. The visualization shows:
             </p>
-            <ul
-              style="
+<ul style="
                 color: var(--text-secondary);
                 margin: 15px 0;
                 padding-left: 20px;
-              "
-            >
-              <li>Array division into blocks (highlighted with borders)</li>
-              <li>Sorting of individual blocks with insertion sort</li>
-              <li>
+              ">
+<li>Array division into blocks (highlighted with borders)</li>
+<li>Sorting of individual blocks with insertion sort</li>
+<li>
                 Merging of sorted blocks using an efficient in-place method
               </li>
-              <li>Final sorted array with progress indicators</li>
-            </ul>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Block Sort Visualization
+<li>Final sorted array with progress indicators</li>
+</ul>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Block Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="stepBtn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="vizArea">
-                <!-- Visualization will be rendered here -->
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="arrayInput"
-                  value="8, 3, 2, 7, 4, 9, 1, 6, 5, 12, 11, 10"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="vizArea">
+<!-- Visualization will be rendered here -->
+</div>
+<div class="console-input">
+<input id="arrayInput" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="8, 3, 2, 7, 4, 9, 1, 6, 5, 12, 11, 10"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Block Sort processes the array through three main phases:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-th-large"></i> 1. Block Division</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Block Sort processes the array through three main phases:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-th-large"></i> 1. Block Division</h3>
+<p>
                   Divide the array into √n blocks of approximately equal size
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort-amount-up"></i> 2. Block Sorting</h3>
-                <p>Sort each block individually using insertion sort</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-merge"></i> 3. Block Merging</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort-amount-up"></i> 2. Block Sorting</h3>
+<p>Sort each block individually using insertion sort</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-merge"></i> 3. Block Merging</h3>
+<p>
                   Merge sorted blocks using an efficient in-place merging
                   technique
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 4. Recursive Merging</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 4. Recursive Merging</h3>
+<p>
                   Recursively merge larger blocks until the entire array is
                   sorted
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function blockSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function blockSort(arr):
     n = length(arr)
     blockSize = ceil(sqrt(n))
     
@@ -829,7 +828,7 @@ function insertionSort(arr, left, right):
     for i = left+1 to right:
         key = arr[i]
         j = i - 1
-        while j >= left and arr[j] > key:
+        while j &gt;= left and arr[j] &gt; key:
             arr[j+1] = arr[j]
             j = j - 1
         arr[j+1] = key
@@ -837,32 +836,30 @@ function insertionSort(arr, left, right):
 function merge(arr, left, mid, right):
     // Efficient in-place merge implementation
     // using rotations and binary search</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Block Sort algorithm. The
               implementation includes block division, insertion sort for blocks,
               and an efficient in-place merging technique.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> math
+</div>
+<pre><code><span class="keyword">import</span> math
 
 <span class="keyword">def</span> <span class="function">insertion_sort</span>(arr, left, right):
     <span class="keyword">for</span> i <span class="keyword">in</span> range(left+1, right+1):
         key = arr[i]
         j = i-1
-        <span class="keyword">while</span> j >= left <span class="keyword">and</span> arr[j] > key:
+        <span class="keyword">while</span> j &gt;= left <span class="keyword">and</span> arr[j] &gt; key:
             arr[j+1] = arr[j]
             j -= 1
         arr[j+1] = key
@@ -872,19 +869,19 @@ function merge(arr, left, mid, right):
     temp = []
     i, j = left, mid+1
     
-    <span class="keyword">while</span> i <= mid <span class="keyword">and</span> j <= right:
-        <span class="keyword">if</span> arr[i] <= arr[j]:
+    <span class="keyword">while</span> i &lt;= mid <span class="keyword">and</span> j &lt;= right:
+        <span class="keyword">if</span> arr[i] &lt;= arr[j]:
             temp.append(arr[i])
             i += 1
         <span class="keyword">else</span>:
             temp.append(arr[j])
             j += 1
             
-    <span class="keyword">while</span> i <= mid:
+    <span class="keyword">while</span> i &lt;= mid:
         temp.append(arr[i])
         i += 1
         
-    <span class="keyword">while</span> j <= right:
+    <span class="keyword">while</span> j &lt;= right:
         temp.append(arr[j])
         j += 1
         
@@ -893,7 +890,7 @@ function merge(arr, left, mid, right):
 
 <span class="keyword">def</span> <span class="function">block_sort</span>(arr):
     n = len(arr)
-    <span class="keyword">if</span> n <= 1:
+    <span class="keyword">if</span> n &lt;= 1:
         <span class="keyword">return</span> arr
         
     <span class="comment"># Determine block size (√n)</span>
@@ -908,11 +905,11 @@ function merge(arr, left, mid, right):
     
     <span class="comment"># Merge sorted blocks</span>
     size = block_size
-    <span class="keyword">while</span> size < n:
+    <span class="keyword">while</span> size &lt; n:
         <span class="keyword">for</span> left <span class="keyword">in</span> range(0, n, 2 * size):
             mid = min(left + size - 1, n-1)
             right = min(left + 2 * size - 1, n-1)
-            <span class="keyword">if</span> mid < right:
+            <span class="keyword">if</span> mid &lt; right:
                 merge(arr, left, mid, right)
         size *= 2
     
@@ -922,128 +919,120 @@ function merge(arr, left, mid, right):
 arr = [<span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">12</span>, <span class="number">11</span>, <span class="number">10</span>]
 sorted_arr = block_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Hybrid</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Hybrid</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Block Sort is particularly useful in scenarios requiring stable,
               in-place sorting:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Memory-constrained environments
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Systems programming and embedded systems
               </li>
-              <li style="margin-bottom: 10px">Database management systems</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Database management systems</li>
+<li style="margin-bottom: 10px">
                 Real-time systems with strict memory requirements
               </li>
-              <li>Programming language standard libraries</li>
-            </ul>
-          </div>
-
-          <!-- Advantages -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Advantages</h2>
-            <p>
-              <strong>Memory Efficiency:</strong> Operates in-place with O(1)
+<li>Programming language standard libraries</li>
+</ul>
+</div>
+<!-- Advantages -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Advantages</h2>
+<p>
+<strong>Memory Efficiency:</strong> Operates in-place with O(1)
               additional space.
             </p>
-            <p>
-              <strong>Stability:</strong> Preserves the relative order of equal
+<p>
+<strong>Stability:</strong> Preserves the relative order of equal
               elements.
             </p>
-            <p>
-              <strong>Predictable Performance:</strong> Guarantees O(n log n)
+<p>
+<strong>Predictable Performance:</strong> Guarantees O(n log n)
               worst-case time complexity.
             </p>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>
               Block Sort has a worst-case time complexity of O(n log n), which
               is optimal for comparison-based sorting algorithms. The block
               division and merging strategy ensures efficient performance even
               for large datasets.
             </p>
-            <p>
+<p>
               The space complexity is O(1) as the algorithm operates entirely
               in-place, making it highly memory efficient. This is achieved
               through clever merging techniques that minimize additional memory
               requirements.
             </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Block Sort Visualization Logic
       let array = [8, 3, 2, 7, 4, 9, 1, 6, 5, 12, 11, 10];
       let originalArray = [...array];
@@ -1375,5 +1364,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
           }, 2000);
         });
     </script>
-  </body>
+</body>
 </html>

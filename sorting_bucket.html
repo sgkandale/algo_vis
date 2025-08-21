@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bucket Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bucket Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -723,216 +718,198 @@
         border-color: var(--success);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Bucket Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_bucket.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Bucket Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_bucket.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bucket Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_bucket.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Bucket Sort</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Bucket Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Scatter-Gather Sorting
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Bucket Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Scatter-Gather Sorting
           Algorithm
         </div>
-        <div class="complexity-badge">Time Complexity: O(n + k)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n + k)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Bucket Sort is a sorting algorithm that works by distributing the
               elements of an array into a number of buckets. Each bucket is then
               sorted individually, either using a different sorting algorithm or
               by recursively applying the bucket sort algorithm. It is mainly
               useful when input is uniformly distributed over a range.
             </p>
-            <p>
+<p>
               The algorithm works by dividing the range of the input into a
               fixed number of intervals (buckets) and distributing the input
               values into these buckets. The buckets are then sorted, and the
               sorted buckets are concatenated to produce the final sorted array.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Efficient for uniformly distributed data</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n + k) average case (k = number of buckets)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Requires O(n + k) additional space</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Efficient for uniformly distributed data</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n + k) average case (k = number of buckets)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Requires O(n + k) additional space</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>
                   Distribute elements into buckets, sort each bucket,
                   concatenate
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Bucket Sort in action! Enter numbers to sort, adjust the
               speed, and step through the algorithm to see how numbers are
               distributed into buckets, sorted within each bucket, and then
               concatenated.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Bucket Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Bucket Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="viz-area">
-                <div class="bucket-container">
-                  <div class="array-row">
-                    <div class="bucket-label">Input Array</div>
-                    <div class="array-container" id="input-container"></div>
-                  </div>
-
-                  <div class="buckets-row" id="buckets-container"></div>
-
-                  <div class="stats-bar" id="stats-bar">
-                    <div class="stats-item">
-                      <i
-                        class="fas fa-layer-group"
-                        style="color: var(--accent-light)"
-                      ></i>
-                      <span>Buckets: <span id="bucket-count">5</span></span>
-                    </div>
-                    <div class="stats-item">
-                      <i
-                        class="fas fa-sort-amount-down"
-                        style="color: var(--warning)"
-                      ></i>
-                      <span
-                        >Sorted: <span id="sorted-count">0</span>/<span
-                          id="total-count"
-                          >0</span
-                        ></span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="step-info" id="step-info">
+</div>
+</div>
+<div class="visualization-area" id="viz-area">
+<div class="bucket-container">
+<div class="array-row">
+<div class="bucket-label">Input Array</div>
+<div class="array-container" id="input-container"></div>
+</div>
+<div class="buckets-row" id="buckets-container"></div>
+<div class="stats-bar" id="stats-bar">
+<div class="stats-item">
+<i class="fas fa-layer-group" style="color: var(--accent-light)"></i>
+<span>Buckets: <span id="bucket-count">5</span></span>
+</div>
+<div class="stats-item">
+<i class="fas fa-sort-amount-down" style="color: var(--warning)"></i>
+<span>Sorted: <span id="sorted-count">0</span>/<span id="total-count">0</span></span>
+</div>
+</div>
+<div class="step-info" id="step-info">
                     Ready to visualize Bucket Sort!
                   </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  value="0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68"
-                  placeholder="Enter numbers (0-1, e.g., 0.42, 0.32, 0.89)"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (0-1, e.g., 0.42, 0.32, 0.89)" type="text" value="0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div class="controls">
-                <div class="speed-control">
-                  <i
-                    class="fas fa-tachometer-alt"
-                    style="color: var(--accent-light)"
-                  ></i>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+<div class="controls">
+<div class="speed-control">
+<i class="fas fa-tachometer-alt" style="color: var(--accent-light)"></i>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Bucket Sort works by distributing elements into buckets and
               sorting them:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-boxes"></i> 1. Create Buckets</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-boxes"></i> 1. Create Buckets</h3>
+<p>
                   Create n empty buckets (where n is the number of elements).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-project-diagram"></i> 2. Distribute Elements
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i> 2. Distribute Elements
                 </h3>
-                <p>Insert each element into its corresponding bucket.</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort"></i> 3. Sort Buckets</h3>
-                <p>
+<p>Insert each element into its corresponding bucket.</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort"></i> 3. Sort Buckets</h3>
+<p>
                   Sort each bucket individually (using insertion sort or
                   similar).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-stream"></i> 4. Concatenate Buckets</h3>
-                <p>Concatenate all sorted buckets to form the sorted array.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function bucketSort(arr):
+</div>
+<div class="point-card">
+<h3><i class="fas fa-stream"></i> 4. Concatenate Buckets</h3>
+<p>Concatenate all sorted buckets to form the sorted array.</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function bucketSort(arr):
     n = length(arr)
     
     // Create n empty buckets
@@ -955,25 +932,23 @@
         for each element in buckets[i]:
             arr[index] = element
             index += 1</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Bucket Sort. The algorithm
               uses insertion sort to sort each bucket.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">bucket_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">bucket_sort</span>(arr):
     <span class="comment"># Determine the number of buckets</span>
     n = len(arr)
     <span class="keyword">if</span> n == 0:
@@ -1003,7 +978,7 @@
     <span class="keyword">for</span> i <span class="keyword">in</span> range(1, len(bucket)):
         key = bucket[i]
         j = i - 1
-        <span class="keyword">while</span> j >= 0 <span class="keyword">and</span> bucket[j] > key:
+        <span class="keyword">while</span> j &gt;= 0 <span class="keyword">and</span> bucket[j] &gt; key:
             bucket[j + 1] = bucket[j]
             j -= 1
         bucket[j + 1] = key
@@ -1013,211 +988,183 @@
 arr = [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68]
 bucket_sort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Distribution</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n + k)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n + k)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n + k)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Distribution</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n + k)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n + k)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n + k)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Bucket Sort is particularly effective for specific types of data:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting floating-point numbers uniformly distributed in [0, 1)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting data that is uniformly distributed over a known range
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 External sorting when data doesn't fit in memory
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Histogram generation and data analysis
               </li>
-              <li>Sorting large datasets with known distribution</li>
-            </ul>
-          </div>
-
-          <!-- Advantages/Disadvantages Section -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-balance-scale"></i> Advantages & Disadvantages
+<li>Sorting large datasets with known distribution</li>
+</ul>
+</div>
+<!-- Advantages/Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Advantages &amp; Disadvantages
             </h2>
-            <div style="margin-top: 20px">
-              <h3 style="color: var(--success); margin-bottom: 10px">
-                <i class="fas fa-check-circle"></i> Advantages
+<div style="margin-top: 20px">
+<h3 style="color: var(--success); margin-bottom: 10px">
+<i class="fas fa-check-circle"></i> Advantages
               </h3>
-              <ul
-                style="
+<ul style="
                   padding-left: 20px;
                   margin-bottom: 20px;
                   color: var(--text-secondary);
-                "
-              >
-                <li style="margin-bottom: 8px">
+                ">
+<li style="margin-bottom: 8px">
                   Linear time complexity for uniformly distributed data
                 </li>
-                <li style="margin-bottom: 8px">Stable sorting algorithm</li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">Stable sorting algorithm</li>
+<li style="margin-bottom: 8px">
                   Efficient when data is uniformly distributed
                 </li>
-                <li>Can be parallelized for better performance</li>
-              </ul>
-
-              <h3 style="color: var(--danger); margin-bottom: 10px">
-                <i class="fas fa-exclamation-circle"></i> Disadvantages
+<li>Can be parallelized for better performance</li>
+</ul>
+<h3 style="color: var(--danger); margin-bottom: 10px">
+<i class="fas fa-exclamation-circle"></i> Disadvantages
               </h3>
-              <ul style="padding-left: 20px; color: var(--text-secondary)">
-                <li style="margin-bottom: 8px">
+<ul style="padding-left: 20px; color: var(--text-secondary)">
+<li style="margin-bottom: 8px">
                   Inefficient for non-uniformly distributed data
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Requires additional memory for buckets
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Performance depends on the distribution of input data
                 </li>
-                <li>Not efficient for data with many duplicates</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
-            <p style="margin-bottom: 15px">
+<li>Not efficient for data with many duplicates</li>
+</ul>
+</div>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
+<p style="margin-bottom: 15px">
               Bucket Sort's performance depends on the distribution of input
               data:
             </p>
-            <div
-              style="
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: var(--radius);
                 padding: 15px;
-              "
-            >
-              <div
-                style="
+              ">
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Best Case:</span>
-                <span
-                  style="
+                ">
+<span>Best Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n + k)</span
-                >
-              </div>
-              <div
-                style="
+                  ">O(n + k)</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Average Case:</span>
-                <span
-                  style="
+                ">
+<span>Average Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n + k)</span
-                >
-              </div>
-              <div
-                style="
+                  ">O(n + k)</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Worst Case:</span>
-                <span
-                  style="
+                ">
+<span>Worst Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n²)</span
-                >
-              </div>
-              <div style="margin-top: 15px">
-                <p style="color: var(--text-secondary); font-size: 15px">
+                  ">O(n²)</span>
+</div>
+<div style="margin-top: 15px">
+<p style="color: var(--text-secondary); font-size: 15px">
                   Where n is the number of elements and k is the number of
                   buckets. Worst case occurs when all elements are placed in a
                   single bucket.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1559,5 +1506,5 @@ print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
         speedSlider.dispatchEvent(new Event("input"));
       });
     </script>
-  </body>
+</body>
 </html>

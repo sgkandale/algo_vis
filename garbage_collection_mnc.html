@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Mark-and-Compact GC | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mark-and-Compact GC | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -776,49 +771,68 @@
                 color: var(--text-secondary);
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-compress-arrows-alt"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Mark-and-Compact GC | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_mnc.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Mark-and-Compact GC | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_mnc.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Mark-and-Compact GC | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_mnc.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-compress-arrows-alt"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Mark-and-Compact GC</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Mark-and-Compact Garbage Collection</h1>
-                <div class="category">
-                    <i class="fas fa-broom"></i> Compacting Garbage Collection
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Mark-and-Compact Garbage Collection</h1>
+<div class="category">
+<i class="fas fa-broom"></i> Compacting Garbage Collection
                     Algorithm
                 </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Time Complexity: O(n) | Eliminates Fragmentation
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Mark-and-Compact is a garbage collection algorithm
                             that combines the marking phase of Mark-and-Sweep
                             with a compaction phase that moves all reachable
@@ -826,7 +840,7 @@
                             eliminates memory fragmentation, making subsequent
                             allocations faster and more efficient.
                         </p>
-                        <p>
+<p>
                             The algorithm operates in three phases: marking all
                             reachable objects, calculating new locations for
                             these objects, updating all references to point to
@@ -834,54 +848,52 @@
                             While more complex than Mark-and-Sweep, it provides
                             better memory locality and eliminates fragmentation.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Eliminates memory fragmentation by
                                     compacting live objects
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Better memory locality and allocation speed
                                     after compaction
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Memory Usage
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Memory Usage
                                 </h3>
-                                <p>
+<p>
                                     No additional memory overhead like copying
                                     collectors
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Mark reachable objects, compute new
                                     locations, update references, move objects
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             The visualization below demonstrates the
                             Mark-and-Compact algorithm in action. You can see
                             objects in the heap, some of which are reachable and
@@ -890,195 +902,147 @@
                             and finally compact the objects. Use the controls to
                             simulate allocation and trigger garbage collection.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Heap
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-memory"></i> Heap
                                     Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="step-btn"
-                                    >
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-gc-btn">
-                                        <i class="fas fa-play"></i> Run GC
+<button class="console-btn" id="run-gc-btn">
+<i class="fas fa-play"></i> Run GC
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- Visualization will be rendered here by JavaScript -->
-                                <div class="heap-container" id="heap-container">
-                                    <div
-                                        class="heap-memory"
-                                        id="heap-memory"
-                                    ></div>
-                                    <div class="algorithm-stats">
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="total-objects"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Total Objects</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="reachable-objects"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Reachable</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="free-space"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Free Space</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="fragmentation"
-                                                >0%</span
-                                            >
-                                            <span class="stat-label"
-                                                >Fragmentation</span
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <button class="console-btn" id="allocate-btn">
-                                    <i class="fas fa-plus-circle"></i> Allocate
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- Visualization will be rendered here by JavaScript -->
+<div class="heap-container" id="heap-container">
+<div class="heap-memory" id="heap-memory"></div>
+<div class="algorithm-stats">
+<div class="stat-item">
+<span class="stat-value" id="total-objects">0</span>
+<span class="stat-label">Total Objects</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="reachable-objects">0</span>
+<span class="stat-label">Reachable</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="free-space">0</span>
+<span class="stat-label">Free Space</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="fragmentation">0%</span>
+<span class="stat-label">Fragmentation</span>
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<button class="console-btn" id="allocate-btn">
+<i class="fas fa-plus-circle"></i> Allocate
                                     Object
                                 </button>
-                                <button class="console-btn" id="create-ref-btn">
-                                    <i class="fas fa-link"></i> Create Reference
+<button class="console-btn" id="create-ref-btn">
+<i class="fas fa-link"></i> Create Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="null-ref-btn"
-                                >
-                                    <i class="fas fa-unlink"></i> Nullify
+<button class="console-btn secondary" id="null-ref-btn">
+<i class="fas fa-unlink"></i> Nullify
                                     Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="fragment-btn"
-                                >
-                                    <i class="fas fa-puzzle-piece"></i> Fragment
+<button class="console-btn secondary" id="fragment-btn">
+<i class="fas fa-puzzle-piece"></i> Fragment
                                     Heap
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             The Mark-and-Compact garbage collection algorithm
                             operates through these key phases:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-pause"></i> 1. Stop The
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-pause"></i> 1. Stop The
                                     World
                                 </h3>
-                                <p>
+<p>
                                     Pause program execution to ensure memory
                                     consistency during collection
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-search"></i> 2. Mark Phase
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-search"></i> 2. Mark Phase
                                 </h3>
-                                <p>
+<p>
                                     Traverse object graph starting from root
                                     pointers, mark each reachable object
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-calculator"></i> 3. Compute
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-calculator"></i> 3. Compute
                                     New Locations
                                 </h3>
-                                <p>
+<p>
                                     Calculate where each live object will be
                                     moved during compaction
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sync-alt"></i> 4. Update
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sync-alt"></i> 4. Update
                                     References
                                 </h3>
-                                <p>
+<p>
                                     Update all references to point to the new
                                     object locations
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-arrows-alt-h"></i> 5.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-arrows-alt-h"></i> 5.
                                     Compact Objects
                                 </h3>
-                                <p>
+<p>
                                     Move objects to their new locations,
                                     compacting all live data
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-play"></i> 6. Resume
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-play"></i> 6. Resume
                                     Execution
                                 </h3>
-                                <p>
+<p>
                                     Resume program execution with a compacted,
                                     defragmented heap
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Mark-and-Compact Algorithm</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<div class="code-header">
+<span>Mark-and-Compact Algorithm</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code>// Mark-and-Compact Garbage Collection
+</div>
+<pre><code>// Mark-and-Compact Garbage Collection
 function collectGarbage():
   stopTheWorld()  // Pause all mutator threads
 
@@ -1128,27 +1092,25 @@ function moveObjects():
     if object is marked:
       copy object to object.newAddress
       unmark(object)  // For next GC cycle</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Mark-and-Compact garbage collector. This example
                             demonstrates the core algorithm with object
                             representation and reference management.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">GCObject</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">GCObject</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, size=1):
         <span class="keyword">self</span>.marked = <span class="keyword">False</span>
         <span class="keyword">self</span>.size = size
@@ -1254,170 +1216,154 @@ gc.add_root(idx1)
 
 <span class="comment"># Run garbage collection</span>
 gc.collect()</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Compacting GC</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Tracing</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fragmentation</h4>
-                                <div class="value">None</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Pause Time</h4>
-                                <div class="value">Medium-High</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">Medium</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Memory Overhead</h4>
-                                <div class="value">Low</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Complexity</h4>
-                                <div class="value">O(n)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Allocation</h4>
-                                <div class="value">Pointer Bump</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Compacting GC</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Tracing</div>
+</div>
+<div class="property-card">
+<h4>Fragmentation</h4>
+<div class="value">None</div>
+</div>
+<div class="property-card">
+<h4>Pause Time</h4>
+<div class="value">Medium-High</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">Medium</div>
+</div>
+<div class="property-card">
+<h4>Memory Overhead</h4>
+<div class="value">Low</div>
+</div>
+<div class="property-card">
+<h4>Complexity</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Allocation</h4>
+<div class="value">Pointer Bump</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Mark-and-Compact is used in various systems and
                             languages:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 .NET CLR (as part of generational GC)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 JavaScript engines (V8, SpiderMonkey)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 JVM implementations
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Real-time systems requiring predictable
                                 allocation
                             </li>
-                            <li>Embedded systems with limited memory</li>
-                            <li>
+<li>Embedded systems with limited memory</li>
+<li>
                                 Applications with long runtimes and
                                 fragmentation issues
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
-                        <ul
-                            style="
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Key Advantages</h2>
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>No Fragmentation:</strong> Eliminates
+                            ">
+<li style="margin-bottom: 10px">
+<strong>No Fragmentation:</strong> Eliminates
                                 memory fragmentation completely
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Fast Allocation:</strong> Simple pointer
+<li style="margin-bottom: 10px">
+<strong>Fast Allocation:</strong> Simple pointer
                                 bump allocation after compaction
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Memory Efficiency:</strong> No memory
+<li style="margin-bottom: 10px">
+<strong>Memory Efficiency:</strong> No memory
                                 overhead like copying collectors
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Cache Performance:</strong> Better
+<li style="margin-bottom: 10px">
+<strong>Cache Performance:</strong> Better
                                 locality of reference
                             </li>
-                            <li>
-                                <strong>Predictable:</strong> Works well for
+<li>
+<strong>Predictable:</strong> Works well for
                                 real-time systems
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Disadvantages Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-exclamation-triangle"></i>
+</ul>
+</div>
+<!-- Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-exclamation-triangle"></i>
                             Limitations
                         </h2>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Longer pause times compared to non-compacting
                                 collectors
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 More complex implementation than Mark-and-Sweep
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Requires multiple passes over the heap
                             </li>
-                            <li>Higher CPU overhead during collection</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a href="#"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
-                    <a href="#"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+<li>Higher CPU overhead during collection</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="#"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization for Mark-and-Compact Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
                 const visualization =
@@ -1953,5 +1899,5 @@ gc.collect()</code></pre>
                     });
             });
         </script>
-    </body>
+</body>
 </html>

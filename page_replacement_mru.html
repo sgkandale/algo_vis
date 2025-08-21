@@ -1,14 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MRU Page Replacement Algorithm</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
+<head><meta content="Study page replacement algorithms used in operating systems memory management" name="description"/><meta content="page replacement algorithm, fifo, lru, lfu, mru, nru, second chance" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MRU Page Replacement Algorithm</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -482,209 +480,201 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>MRU Page Replacement Algorithm</h1>
-        <p class="subtitle">
+<meta content="MRU Page Replacement Algorithm" property="og:title"/><meta content="Study page replacement algorithms used in operating systems memory management" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/page_replacement_mru.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="MRU Page Replacement Algorithm" name="twitter:title"/><meta content="Study page replacement algorithms used in operating systems memory management" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/page_replacement_mru.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "MRU Page Replacement Algorithm",
+  "description": "Study page replacement algorithms used in operating systems memory management",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/page_replacement_mru.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<header>
+<h1>MRU Page Replacement Algorithm</h1>
+<p class="subtitle">
           Visualization of the Most Recently Used (MRU) page replacement
           algorithm
         </p>
-      </header>
-
-      <section class="card">
-        <h2 class="card-title">
-          <i class="fas fa-sliders-h"></i> Simulation Controls
+</header>
+<section class="card">
+<h2 class="card-title">
+<i class="fas fa-sliders-h"></i> Simulation Controls
         </h2>
-        <div class="controls">
-          <div class="control-group">
-            <label for="referenceInput"
-              ><i class="fas fa-list-ol"></i> Reference String</label
-            >
-            <input
-              type="text"
-              id="referenceInput"
-              value="1,2,3,4,1,2,5,6,2,1,3,7"
-            />
-          </div>
-
-          <div class="control-group">
-            <label for="frameCount"
-              ><i class="fas fa-border-all"></i> Number of Frames</label
-            >
-            <select id="frameCount">
-              <option value="3" selected>3 Frames</option>
-              <option value="4">4 Frames</option>
-              <option value="5">5 Frames</option>
-            </select>
-          </div>
-
-          <div class="control-group">
-            <label for="speedControl"
-              ><i class="fas fa-tachometer-alt"></i> Animation Speed</label
-            >
-            <select id="speedControl">
-              <option value="1500">Slow</option>
-              <option value="1000" selected>Medium</option>
-              <option value="500">Fast</option>
-            </select>
-          </div>
-
-          <div class="control-group">
-            <button class="btn" id="startBtn">
-              <i class="fas fa-play"></i> Start Simulation
+<div class="controls">
+<div class="control-group">
+<label for="referenceInput"><i class="fas fa-list-ol"></i> Reference String</label>
+<input id="referenceInput" type="text" value="1,2,3,4,1,2,5,6,2,1,3,7"/>
+</div>
+<div class="control-group">
+<label for="frameCount"><i class="fas fa-border-all"></i> Number of Frames</label>
+<select id="frameCount">
+<option selected="" value="3">3 Frames</option>
+<option value="4">4 Frames</option>
+<option value="5">5 Frames</option>
+</select>
+</div>
+<div class="control-group">
+<label for="speedControl"><i class="fas fa-tachometer-alt"></i> Animation Speed</label>
+<select id="speedControl">
+<option value="1500">Slow</option>
+<option selected="" value="1000">Medium</option>
+<option value="500">Fast</option>
+</select>
+</div>
+<div class="control-group">
+<button class="btn" id="startBtn">
+<i class="fas fa-play"></i> Start Simulation
             </button>
-            <button class="btn btn-outline" id="resetBtn">
-              <i class="fas fa-undo"></i> Reset
+<button class="btn btn-outline" id="resetBtn">
+<i class="fas fa-undo"></i> Reset
             </button>
-          </div>
-        </div>
-
-        <div class="controls">
-          <button class="btn" id="prevBtn">
-            <i class="fas fa-step-backward"></i> Previous
+</div>
+</div>
+<div class="controls">
+<button class="btn" id="prevBtn">
+<i class="fas fa-step-backward"></i> Previous
           </button>
-          <button class="btn" id="nextBtn">
-            <i class="fas fa-step-forward"></i> Next
+<button class="btn" id="nextBtn">
+<i class="fas fa-step-forward"></i> Next
           </button>
-          <button class="btn" id="autoBtn">
-            <i class="fas fa-sync-alt"></i> Auto Run
+<button class="btn" id="autoBtn">
+<i class="fas fa-sync-alt"></i> Auto Run
           </button>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2 class="card-title"><i class="fas fa-tv"></i> Visualization</h2>
-
-        <div class="visualization-container">
-          <h3><i class="fas fa-list"></i> Reference String</h3>
-          <div class="reference-string" id="refStringContainer">
-            <!-- Reference items will be generated here -->
-          </div>
-
-          <h3><i class="fas fa-memory"></i> Page Frames</h3>
-          <div class="frames-container" id="framesContainer">
-            <!-- Page frames will be generated here -->
-          </div>
-
-          <h3><i class="fas fa-star"></i> Most Recently Used</h3>
-          <div class="mru-container" id="mruContainer">
-            <!-- MRU items will be generated here -->
-          </div>
-
-          <h3><i class="fas fa-chart-line"></i> Statistics</h3>
-          <div class="stats-container">
-            <div class="stat-card">
-              <div class="stat-label">Page Faults</div>
-              <div class="stat-value" id="faultCount">0</div>
-              <div>Misses when page not in memory</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Page Hits</div>
-              <div class="stat-value" id="hitCount">0</div>
-              <div>Successes when page found</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Fault Rate</div>
-              <div class="stat-value" id="faultRate">0%</div>
-              <div>Faults / Total References</div>
-            </div>
-          </div>
-
-          <div class="history-container">
-            <h3><i class="fas fa-history"></i> Replacement History</h3>
-            <table class="history-table">
-              <thead>
-                <tr>
-                  <th>Step</th>
-                  <th>Page</th>
-                  <th>Status</th>
-                  <th>Frames</th>
-                  <th>Replaced</th>
-                  <th>MRU Page</th>
-                </tr>
-              </thead>
-              <tbody id="historyBody">
-                <!-- History rows will be added here -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section class="card explanation">
-        <h2 class="card-title">
-          <i class="fas fa-lightbulb"></i> How MRU Works
+</div>
+</section>
+<section class="card">
+<h2 class="card-title"><i class="fas fa-tv"></i> Visualization</h2>
+<div class="visualization-container">
+<h3><i class="fas fa-list"></i> Reference String</h3>
+<div class="reference-string" id="refStringContainer">
+<!-- Reference items will be generated here -->
+</div>
+<h3><i class="fas fa-memory"></i> Page Frames</h3>
+<div class="frames-container" id="framesContainer">
+<!-- Page frames will be generated here -->
+</div>
+<h3><i class="fas fa-star"></i> Most Recently Used</h3>
+<div class="mru-container" id="mruContainer">
+<!-- MRU items will be generated here -->
+</div>
+<h3><i class="fas fa-chart-line"></i> Statistics</h3>
+<div class="stats-container">
+<div class="stat-card">
+<div class="stat-label">Page Faults</div>
+<div class="stat-value" id="faultCount">0</div>
+<div>Misses when page not in memory</div>
+</div>
+<div class="stat-card">
+<div class="stat-label">Page Hits</div>
+<div class="stat-value" id="hitCount">0</div>
+<div>Successes when page found</div>
+</div>
+<div class="stat-card">
+<div class="stat-label">Fault Rate</div>
+<div class="stat-value" id="faultRate">0%</div>
+<div>Faults / Total References</div>
+</div>
+</div>
+<div class="history-container">
+<h3><i class="fas fa-history"></i> Replacement History</h3>
+<table class="history-table">
+<thead>
+<tr>
+<th>Step</th>
+<th>Page</th>
+<th>Status</th>
+<th>Frames</th>
+<th>Replaced</th>
+<th>MRU Page</th>
+</tr>
+</thead>
+<tbody id="historyBody">
+<!-- History rows will be added here -->
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="card explanation">
+<h2 class="card-title">
+<i class="fas fa-lightbulb"></i> How MRU Works
         </h2>
-        <div class="explanation-content">
-          <div class="explanation-card">
-            <h3 class="card-heading"><i class="fas fa-1"></i> Concept</h3>
-            <p>
+<div class="explanation-content">
+<div class="explanation-card">
+<h3 class="card-heading"><i class="fas fa-1"></i> Concept</h3>
+<p>
               The Most Recently Used (MRU) page replacement algorithm replaces
               the page that has been used most recently.
             </p>
-            <p>
+<p>
               Unlike LRU, MRU assumes that the most recently used page might not
               be needed again in the near future.
             </p>
-          </div>
-
-          <div class="explanation-card">
-            <h3 class="card-heading">
-              <i class="fas fa-2"></i> Implementation
+</div>
+<div class="explanation-card">
+<h3 class="card-heading">
+<i class="fas fa-2"></i> Implementation
             </h3>
-            <p>MRU can be implemented using:</p>
-            <ul>
-              <li>A stack or list to track the order of page usage</li>
-              <li>A timestamp for each page's last access</li>
-              <li>Special hardware support for access tracking</li>
-            </ul>
-            <p>
+<p>MRU can be implemented using:</p>
+<ul>
+<li>A stack or list to track the order of page usage</li>
+<li>A timestamp for each page's last access</li>
+<li>Special hardware support for access tracking</li>
+</ul>
+<p>
               When a page needs to be replaced, the most recently accessed page
               is selected.
             </p>
-          </div>
-
-          <div class="explanation-card">
-            <h3 class="card-heading"><i class="fas fa-3"></i> Advantages</h3>
-            <ul>
-              <li>Effective for workloads with sequential access patterns</li>
-              <li>
+</div>
+<div class="explanation-card">
+<h3 class="card-heading"><i class="fas fa-3"></i> Advantages</h3>
+<ul>
+<li>Effective for workloads with sequential access patterns</li>
+<li>
                 Performs well when recently used pages are unlikely to be reused
               </li>
-              <li>Simple to implement with stack-based approach</li>
-              <li>Useful in certain database scenarios</li>
-            </ul>
-          </div>
-
-          <div class="explanation-card">
-            <h3 class="card-heading"><i class="fas fa-4"></i> Disadvantages</h3>
-            <ul>
-              <li>Poor performance for most common access patterns</li>
-              <li>Can remove frequently used pages if recently accessed</li>
-              <li>Not commonly used in general-purpose systems</li>
-              <li>Susceptible to Belady's Anomaly</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <footer>
-        <p>
+<li>Simple to implement with stack-based approach</li>
+<li>Useful in certain database scenarios</li>
+</ul>
+</div>
+<div class="explanation-card">
+<h3 class="card-heading"><i class="fas fa-4"></i> Disadvantages</h3>
+<ul>
+<li>Poor performance for most common access patterns</li>
+<li>Can remove frequently used pages if recently accessed</li>
+<li>Not commonly used in general-purpose systems</li>
+<li>Susceptible to Belady's Anomaly</li>
+</ul>
+</div>
+</div>
+</section>
+<footer>
+<p>
           MRU Page Replacement Algorithm Visualization | Created for Educational
           Purposes
         </p>
-        <p>
+<p>
           Note: This visualization demonstrates the algorithm behavior and does
           not interact with actual system memory
         </p>
-      </footer>
-    </div>
-
-    <script>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // DOM elements
         const refInput = document.getElementById("referenceInput");
@@ -1076,5 +1066,5 @@
         });
       });
     </script>
-  </body>
+</body>
 </html>

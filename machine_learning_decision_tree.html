@@ -1,19 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Decision Tree | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Decision Tree | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -693,44 +688,63 @@
         z-index: 5;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Machine Learning</a> >
+<meta content="Decision Tree | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_decision_tree.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Decision Tree | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_decision_tree.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Decision Tree | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_decision_tree.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Machine Learning</a> &gt;
               <span>Decision Tree</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Decision Tree</h1>
+<div class="category">
+<i class="fas fa-sitemap"></i> Supervised Learning Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Decision Tree</h1>
-        <div class="category">
-          <i class="fas fa-sitemap"></i> Supervised Learning Algorithm
-        </div>
-        <div class="complexity-badge">Type: Classification & Regression</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Type: Classification &amp; Regression</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Decision Trees are versatile supervised learning algorithms used
               for both classification and regression tasks. They model decisions
               and their possible consequences as a tree structure, where each
@@ -738,231 +752,202 @@
               outcome, and each leaf node represents a class label or continuous
               value.
             </p>
-            <p>
+<p>
               Decision Trees work by recursively partitioning the feature space
               into regions, with each partition chosen to maximize information
               gain or minimize impurity. This results in a model that is easy to
               interpret and visualize.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Structure</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Structure</h3>
+<p>
                   Tree with root, internal nodes (decisions), and leaf nodes
                   (outcomes)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-cogs"></i> Splitting Criteria</h3>
-                <p>Gini impurity, entropy, or variance reduction for splits</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-eye"></i> Interpretability</h3>
-                <p>Highly interpretable with clear decision rules</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-forest"></i> Extensions</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-cogs"></i> Splitting Criteria</h3>
+<p>Gini impurity, entropy, or variance reduction for splits</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-eye"></i> Interpretability</h3>
+<p>Highly interpretable with clear decision rules</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-forest"></i> Extensions</h3>
+<p>
                   Random Forests and Gradient Boosting for improved performance
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive visualization below to understand how decision
               trees work. Add data points for different classes, train the tree,
               and explore how splits partition the feature space. Click on tree
               nodes to see the corresponding decision boundaries.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-sitemap"></i> Decision Tree Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-sitemap"></i> Decision Tree Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="add-points-btn">
-                    <i class="fas fa-plus-circle"></i> Add Points
+<div class="console-controls">
+<button class="console-btn" id="add-points-btn">
+<i class="fas fa-plus-circle"></i> Add Points
                   </button>
-                  <button class="console-btn" id="train-btn">
-                    <i class="fas fa-bolt"></i> Train Tree
+<button class="console-btn" id="train-btn">
+<i class="fas fa-bolt"></i> Train Tree
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="chart-container">
-                  <canvas id="feature-space"></canvas>
-                  <div class="tree-container" id="tree-container"></div>
-                  <div class="tree-info" id="tree-info">
+</div>
+</div>
+<div class="visualization-area">
+<div class="chart-container">
+<canvas id="feature-space"></canvas>
+<div class="tree-container" id="tree-container"></div>
+<div class="tree-info" id="tree-info">
                     Depth: 0 | Nodes: 0
                   </div>
-                </div>
-              </div>
-
-              <div class="slider-container">
-                <div class="slider-label">
-                  <span>Max Depth:</span>
-                  <span id="depth-value">3</span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  step="1"
-                  value="3"
-                  class="slider"
-                  id="depth-slider"
-                />
-
-                <div class="slider-label">
-                  <span>Min Samples per Leaf:</span>
-                  <span id="samples-value">3</span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="10"
-                  step="1"
-                  value="3"
-                  class="slider"
-                  id="samples-slider"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Decision Tree construction involves the following steps:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-database"></i> 1. Data Preparation</h3>
-                <p>Prepare labeled dataset with features and target variable</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-ruler"></i> 2. Select Best Split</h3>
-                <p>Find feature and threshold that best separates the data</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-code-branch"></i> 3. Partition Data</h3>
-                <p>Split dataset into subsets based on selected feature</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 4. Recursion</h3>
-                <p>Repeat process recursively for each subset</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-leaf"></i> 5. Stopping Criteria</h3>
-                <p>Stop when max depth reached or node is pure enough</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-tag"></i> 6. Assign Leaf Node</h3>
-                <p>Assign most common class or mean value to leaf</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Supervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Classification/Regression</div>
-              </div>
-              <div class="property-card">
-                <h4>Interpretability</h4>
-                <div class="value">High</div>
-              </div>
-              <div class="property-card">
-                <h4>Non-Parametric</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Feature Types</h4>
-                <div class="value">Numeric/Categorical</div>
-              </div>
-              <div class="property-card">
-                <h4>Splitting Criteria</h4>
-                <div class="value">Gini, Entropy, MSE</div>
-              </div>
-              <div class="property-card">
-                <h4>Prone to</h4>
-                <div class="value">Overfitting</div>
-              </div>
-              <div class="property-card">
-                <h4>Ensemble Methods</h4>
-                <div class="value">Random Forest</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Decision Trees are widely used across various domains:</p>
-            <ul
-              style="
+</div>
+</div>
+<div class="slider-container">
+<div class="slider-label">
+<span>Max Depth:</span>
+<span id="depth-value">3</span>
+</div>
+<input class="slider" id="depth-slider" max="5" min="1" step="1" type="range" value="3"/>
+<div class="slider-label">
+<span>Min Samples per Leaf:</span>
+<span id="samples-value">3</span>
+</div>
+<input class="slider" id="samples-slider" max="10" min="1" step="1" type="range" value="3"/>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Decision Tree construction involves the following steps:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-database"></i> 1. Data Preparation</h3>
+<p>Prepare labeled dataset with features and target variable</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-ruler"></i> 2. Select Best Split</h3>
+<p>Find feature and threshold that best separates the data</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-code-branch"></i> 3. Partition Data</h3>
+<p>Split dataset into subsets based on selected feature</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 4. Recursion</h3>
+<p>Repeat process recursively for each subset</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-leaf"></i> 5. Stopping Criteria</h3>
+<p>Stop when max depth reached or node is pure enough</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-tag"></i> 6. Assign Leaf Node</h3>
+<p>Assign most common class or mean value to leaf</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Supervised</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Classification/Regression</div>
+</div>
+<div class="property-card">
+<h4>Interpretability</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Non-Parametric</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Feature Types</h4>
+<div class="value">Numeric/Categorical</div>
+</div>
+<div class="property-card">
+<h4>Splitting Criteria</h4>
+<div class="value">Gini, Entropy, MSE</div>
+</div>
+<div class="property-card">
+<h4>Prone to</h4>
+<div class="value">Overfitting</div>
+</div>
+<div class="property-card">
+<h4>Ensemble Methods</h4>
+<div class="value">Random Forest</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Decision Trees are widely used across various domains:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Healthcare: Medical diagnosis and treatment decisions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Finance: Credit scoring and risk assessment
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Marketing: Customer segmentation and targeting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Manufacturing: Quality control and fault detection
               </li>
-              <li>Ecology: Species classification and habitat analysis</li>
-              <li style="margin-top: 10px">
+<li>Ecology: Species classification and habitat analysis</li>
+<li style="margin-top: 10px">
                 Business: Decision support systems
               </li>
-            </ul>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code><span class="keyword">function</span> <span class="function">build_tree</span>(data, depth, max_depth, min_samples):
-    <span class="keyword">if</span> depth == max_depth <span class="keyword">or</span> len(data) < min_samples:
+</ul>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code><span class="keyword">function</span> <span class="function">build_tree</span>(data, depth, max_depth, min_samples):
+    <span class="keyword">if</span> depth == max_depth <span class="keyword">or</span> len(data) &lt; min_samples:
         leaf_value = calculate_leaf_value(data)
         <span class="keyword">return</span> LeafNode(leaf_value)
     
     best_split = find_best_split(data)
-    <span class="keyword">if</span> best_split.gain <= 0:
+    <span class="keyword">if</span> best_split.gain &lt;= 0:
         leaf_value = calculate_leaf_value(data)
         <span class="keyword">return</span> LeafNode(leaf_value)
     
-    left_data = data[data[best_split.feature] <= best_split.threshold]
-    right_data = data[data[best_split.feature] > best_split.threshold]
+    left_data = data[data[best_split.feature] &lt;= best_split.threshold]
+    right_data = data[data[best_split.feature] &gt; best_split.threshold]
     
     left_subtree = build_tree(left_data, depth+1, max_depth, min_samples)
     right_subtree = build_tree(right_data, depth+1, max_depth, min_samples)
@@ -980,61 +965,56 @@
             left, right = split_data(data, feature, threshold)
             gain = calculate_gain(left, right)
             
-            <span class="keyword">if</span> gain > best_gain:
+            <span class="keyword">if</span> gain &gt; best_gain:
                 best_gain = gain
                 best_feature = feature
                 best_threshold = threshold
     
     <span class="keyword">return</span> {feature: best_feature, threshold: best_threshold, gain: best_gain}</code></pre>
-            </div>
-          </div>
-
-          <!-- Evaluation Metrics -->
-          <div class="section">
-            <h2><i class="fas fa-ruler"></i> Splitting Criteria</h2>
-            <p>
+</div>
+</div>
+<!-- Evaluation Metrics -->
+<div class="section">
+<h2><i class="fas fa-ruler"></i> Splitting Criteria</h2>
+<p>
               Decision Trees use various criteria to determine the best split:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Gini Impurity</strong>: Measures probability of
+              ">
+<li style="margin-bottom: 10px">
+<strong>Gini Impurity</strong>: Measures probability of
                 misclassification
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Entropy/Information Gain</strong>: Measures reduction in
+<li style="margin-bottom: 10px">
+<strong>Entropy/Information Gain</strong>: Measures reduction in
                 uncertainty
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Variance Reduction</strong>: For regression trees
+<li style="margin-bottom: 10px">
+<strong>Variance Reduction</strong>: For regression trees
                 (minimize MSE)
               </li>
-              <li>
-                <strong>Chi-Square</strong>: Statistical test for independence
+<li>
+<strong>Chi-Square</strong>: Statistical test for independence
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // Initialize Chart
         const ctx = document.getElementById("feature-space").getContext("2d");
@@ -1554,5 +1534,5 @@
         initChart();
       });
     </script>
-  </body>
+</body>
 </html>

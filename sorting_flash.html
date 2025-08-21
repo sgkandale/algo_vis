@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flashsort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Flashsort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -671,44 +666,63 @@
         background: #e0e7ff;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Flashsort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_flash.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Flashsort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_flash.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Flashsort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_flash.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Flashsort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Flashsort</h1>
+<div class="category">
+<i class="fas fa-bolt"></i> Distribution Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Flashsort</h1>
-        <div class="category">
-          <i class="fas fa-bolt"></i> Distribution Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Flashsort is an efficient distribution sorting algorithm that
               works well for datasets with a known distribution. It uses a
               linear-time histogram approach to distribute elements into
@@ -716,151 +730,135 @@
               Flashsort is particularly effective for data that is uniformly
               distributed.
             </p>
-            <p>
+<p>
               The algorithm works by first determining the minimum and maximum
               values in the array. It then divides the range into classes and
               counts how many elements fall into each class. Using these counts,
               it computes the starting index for each class and permutes the
               elements into their correct positions.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Linear time complexity for uniformly distributed data</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Linear time complexity for uniformly distributed data</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n) for uniform distributions, O(n log n) for normal
                   distributions
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(m) additional space where m is the number of classes</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Histogram-based distribution and permutation</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(m) additional space where m is the number of classes</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Histogram-based distribution and permutation</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Flashsort
               works. Enter comma-separated numbers, adjust the simulation speed,
               and step through the algorithm to see each stage of the sorting
               process.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Flashsort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Flashsort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="settingsBtn">
-                    <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settingsBtn">
+<i class="fas fa-cog"></i> Settings
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="stepBtn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="flashViz">
-                <div class="flash-container" id="flashContainer">
-                  <div class="action-label" id="actionLabel">
+</div>
+</div>
+<div class="visualization-area" id="flashViz">
+<div class="flash-container" id="flashContainer">
+<div class="action-label" id="actionLabel">
                     Initializing...
                   </div>
-                  <div class="array-container" id="arrayContainer"></div>
-                  <div
-                    class="histogram-container"
-                    id="histogramContainer"
-                  ></div>
-                  <div class="step-info" id="stepInfo">
+<div class="array-container" id="arrayContainer"></div>
+<div class="histogram-container" id="histogramContainer"></div>
+<div class="step-info" id="stepInfo">
                     Step 0: Initial state
                   </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="inputArray"
-                  placeholder="Enter numbers (e.g., 38, 27, 43, 3, 9, 82, 10)"
-                  value="38, 27, 43, 3, 9, 82, 10"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="console-input">
+<input id="inputArray" placeholder="Enter numbers (e.g., 38, 27, 43, 3, 9, 82, 10)" type="text" value="38, 27, 43, 3, 9, 82, 10"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Flashsort processes data through these distinct phases:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-search"></i> 1. Find Min & Max</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Flashsort processes data through these distinct phases:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-search"></i> 1. Find Min &amp; Max</h3>
+<p>
                   Scan the array to find the minimum and maximum values. These
                   define the range of the data.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-chart-bar"></i> 2. Classify Elements</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-chart-bar"></i> 2. Classify Elements</h3>
+<p>
                   Divide the range into m classes. Each element is assigned to a
                   class based on its value.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-calculator"></i> 3. Build Histogram</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-calculator"></i> 3. Build Histogram</h3>
+<p>
                   Count the number of elements in each class and compute prefix
                   sums to determine starting indices.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 4. Permute Elements</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 4. Permute Elements</h3>
+<p>
                   Move elements to their correct positions based on class
                   assignments, swapping elements as needed.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort-amount-down"></i> 5. Sort Classes</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort-amount-down"></i> 5. Sort Classes</h3>
+<p>
                   Apply insertion sort to each class to finalize the sorted
                   order.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function flashSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function flashSort(arr):
     n = length(arr)
-    if n <= 1: return arr
+    if n &lt;= 1: return arr
     
     // Step 1: Find min and max
     minVal = min(arr)
@@ -885,8 +883,8 @@
     moves = 0
     j = 0
     k = m-1
-    while moves < n:
-        while j >= prefix[k]:
+    while moves &lt; n:
+        while j &gt;= prefix[k]:
             j += 1
             k = floor(c * (arr[j] - minVal))
         
@@ -907,29 +905,27 @@
         insertionSort(arr, start, end)
     
     return arr</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Flashsort algorithm. The
               algorithm efficiently sorts data by distributing elements into
               classes and then permuting them into approximately correct
               positions before applying insertion sort within each class.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">flash_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">flash_sort</span>(arr):
     n = len(arr)
-    <span class="keyword">if</span> n <= 1:
+    <span class="keyword">if</span> n &lt;= 1:
         <span class="keyword">return</span> arr
     
     <span class="comment"># Step 1: Find min and max</span>
@@ -938,14 +934,14 @@
     
     <span class="comment"># Step 2: Create classes</span>
     m = int(n * 0.1)  <span class="comment"># number of classes</span>
-    <span class="keyword">if</span> m < 1: m = 1
+    <span class="keyword">if</span> m &lt; 1: m = 1
     classes = [0] * m
     
     <span class="comment"># Step 3: Classify elements</span>
     c = (m - 1) / (max_val - min_val) <span class="keyword">if</span> max_val != min_val <span class="keyword">else</span> 1
     <span class="keyword">for</span> num <span class="keyword">in</span> arr:
         k = int(c * (num - min_val))
-        <span class="keyword">if</span> k >= m: k = m - 1
+        <span class="keyword">if</span> k &gt;= m: k = m - 1
         classes[k] += 1
     
     <span class="comment"># Step 4: Compute prefix sums</span>
@@ -957,19 +953,19 @@
     moves = 0
     j = 0
     k = m - 1
-    <span class="keyword">while</span> moves < n:
-        <span class="keyword">while</span> j >= prefix[k] <span class="keyword">and</span> j < n:
+    <span class="keyword">while</span> moves &lt; n:
+        <span class="keyword">while</span> j &gt;= prefix[k] <span class="keyword">and</span> j &lt; n:
             j += 1
-            <span class="keyword">if</span> j < n:
+            <span class="keyword">if</span> j &lt; n:
                 k = int(c * (arr[j] - min_val))
-                <span class="keyword">if</span> k >= m: k = m - 1
+                <span class="keyword">if</span> k &gt;= m: k = m - 1
         
-        <span class="keyword">if</span> j >= n: <span class="keyword">break</span>
+        <span class="keyword">if</span> j &gt;= n: <span class="keyword">break</span>
         
         flash = arr[j]
         <span class="keyword">while</span> <span class="keyword">True</span>:
             k = int(c * (flash - min_val))
-            <span class="keyword">if</span> k >= m: k = m - 1
+            <span class="keyword">if</span> k &gt;= m: k = m - 1
             pos = prefix[k]
             
             arr[j], arr[pos] = arr[pos], flash
@@ -979,14 +975,14 @@
             
             <span class="keyword">if</span> pos == j:
                 <span class="keyword">break</span>
-            <span class="keyword">if</span> moves >= n:
+            <span class="keyword">if</span> moves &gt;= n:
                 <span class="keyword">break</span>
     
     <span class="comment"># Step 6: Sort each class with insertion sort</span>
     <span class="keyword">for</span> i <span class="keyword">in</span> range(1, m):
         start = prefix[i-1]
         end = prefix[i] - 1
-        <span class="keyword">if</span> end - start > 0:
+        <span class="keyword">if</span> end - start &gt; 0:
             insertion_sort(arr, start, end)
     
     <span class="comment"># Sort the last class</span>
@@ -998,7 +994,7 @@
     <span class="keyword">for</span> i <span class="keyword">in</span> range(start+1, end+1):
         key = arr[i]
         j = i - 1
-        <span class="keyword">while</span> j >= start <span class="keyword">and</span> arr[j] > key:
+        <span class="keyword">while</span> j &gt;= start <span class="keyword">and</span> arr[j] &gt; key:
             arr[j+1] = arr[j]
             j -= 1
         arr[j+1] = key
@@ -1008,102 +1004,90 @@ arr = [38, 27, 43, 3, 9, 82, 10]
 sorted_arr = flash_sort(arr.copy())
 print(<span class="string">"Original:"</span>, arr)
 print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Distribution</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Non-comparative</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(m)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Distribution</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Non-comparative</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(m)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Flashsort is particularly effective in scenarios involving
               uniformly distributed data:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting large datasets with known distribution
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Scientific computing with uniform data distributions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting sensor data from physical measurements
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting timestamps and other uniformly distributed values
               </li>
-              <li>Preprocessing step in data analysis pipelines</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Preprocessing step in data analysis pipelines</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Flashsort Visualization Logic
       class FlashSortVisualizer {
         constructor(container) {
@@ -1496,5 +1480,5 @@ print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
           });
       });
     </script>
-  </body>
+</body>
 </html>

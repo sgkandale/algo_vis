@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LogLog Algorithm Visualization</title>
-    <style>
+<head><meta content="Discover probabilistic data structures for approximate computing and big data" name="description"/><meta content="probabilistic data structure, bloom filter, count-min sketch, hyperloglog, flajolet-martin" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LogLog Algorithm Visualization</title>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -381,180 +382,171 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>📊 LogLog Algorithm</h1>
-
-      <div class="intro">
-        <p>
-          <strong>LogLog</strong> is the simpler predecessor to HyperLogLog that
+<meta content="LogLog Algorithm Visualization" property="og:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/probabilistic_loglog.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="LogLog Algorithm Visualization" name="twitter:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/probabilistic_loglog.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "LogLog Algorithm Visualization",
+  "description": "Discover probabilistic data structures for approximate computing and big data",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/probabilistic_loglog.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<h1>📊 LogLog Algorithm</h1>
+<div class="intro">
+<p>
+<strong>LogLog</strong> is the simpler predecessor to HyperLogLog that
           estimates cardinality by tracking the maximum number of leading zeros
           in hash values. It's the foundation that led to the more advanced
           HyperLogLog algorithm!
         </p>
-      </div>
-
-      <div class="algorithm-comparison">
-        <div class="algo-card loglog">
-          <h3>🔴 LogLog (This Demo)</h3>
-          <p>
-            <strong>Method:</strong> Use maximum leading zeros across ALL
+</div>
+<div class="algorithm-comparison">
+<div class="algo-card loglog">
+<h3>🔴 LogLog (This Demo)</h3>
+<p>
+<strong>Method:</strong> Use maximum leading zeros across ALL
             elements
           </p>
-          <p><strong>Buckets:</strong> Optional for better accuracy</p>
-          <p><strong>Estimation:</strong> 2^(max_zeros) × constant</p>
-          <p><strong>Accuracy:</strong> ~20% error (good for its simplicity)</p>
-        </div>
-        <div class="algo-card hyperloglog">
-          <h3>🟢 HyperLogLog (Advanced)</h3>
-          <p><strong>Method:</strong> Harmonic mean of bucket maximums</p>
-          <p><strong>Buckets:</strong> Always uses multiple buckets</p>
-          <p><strong>Estimation:</strong> Complex harmonic mean formula</p>
-          <p><strong>Accuracy:</strong> ~2% error (much more accurate)</p>
-        </div>
-      </div>
-
-      <div class="controls">
-        <button class="btn success" onclick="addElement()">
+<p><strong>Buckets:</strong> Optional for better accuracy</p>
+<p><strong>Estimation:</strong> 2^(max_zeros) × constant</p>
+<p><strong>Accuracy:</strong> ~20% error (good for its simplicity)</p>
+</div>
+<div class="algo-card hyperloglog">
+<h3>🟢 HyperLogLog (Advanced)</h3>
+<p><strong>Method:</strong> Harmonic mean of bucket maximums</p>
+<p><strong>Buckets:</strong> Always uses multiple buckets</p>
+<p><strong>Estimation:</strong> Complex harmonic mean formula</p>
+<p><strong>Accuracy:</strong> ~2% error (much more accurate)</p>
+</div>
+</div>
+<div class="controls">
+<button class="btn success" onclick="addElement()">
           ➕ Add Element
         </button>
-        <button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
-        <button class="btn danger" onclick="reset()">🔄 Reset</button>
-        <button class="btn" onclick="showComparison()">
+<button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
+<button class="btn danger" onclick="reset()">🔄 Reset</button>
+<button class="btn" onclick="showComparison()">
           ⚖️ vs HyperLogLog
         </button>
-      </div>
-
-      <div class="dataset-examples">
-        <button
-          class="dataset-btn"
-          onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])"
-        >
+</div>
+<div class="dataset-examples">
+<button class="dataset-btn" onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])">
           🍎 Fruits
         </button>
-        <button
-          class="dataset-btn"
-          onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])"
-        >
+<button class="dataset-btn" onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])">
           👥 Users
         </button>
-        <button
-          class="dataset-btn"
-          onclick="loadDataset(['192.168.1.1', '10.0.0.1', '172.16.0.1', '8.8.8.8'])"
-        >
+<button class="dataset-btn" onclick="loadDataset(['192.168.1.1', '10.0.0.1', '172.16.0.1', '8.8.8.8'])">
           🌐 IPs
         </button>
-        <button class="dataset-btn" onclick="generateLargeDataset()">
+<button class="dataset-btn" onclick="generateLargeDataset()">
           📈 Large Dataset (1000 items)
         </button>
-      </div>
-
-      <div class="max-tracker">
-        <h3>🎯 Maximum Leading Zeros Found</h3>
-        <div class="max-value" id="maxZeros">0</div>
-        <p>This is the key value LogLog uses for estimation!</p>
-      </div>
-
-      <div class="main-content">
-        <div class="input-section">
-          <h3>🔤 Add New Element</h3>
-          <input
-            type="text"
-            id="elementInput"
-            placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)"
-            onkeypress="handleKeyPress(event)"
-          />
-
-          <div id="currentElement" style="display: none">
-            <h4>Current Element Processing:</h4>
-            <div class="hash-display" id="elementHash"></div>
-            <div class="binary-display" id="binaryHash"></div>
-          </div>
-
-          <div class="elements-processed">
-            <h4>Elements Processed:</h4>
-            <div id="elementsList"></div>
-          </div>
-        </div>
-
-        <div class="buckets-section">
-          <h3>🪣 LogLog Buckets (Optional Enhancement)</h3>
-          <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
+</div>
+<div class="max-tracker">
+<h3>🎯 Maximum Leading Zeros Found</h3>
+<div class="max-value" id="maxZeros">0</div>
+<p>This is the key value LogLog uses for estimation!</p>
+</div>
+<div class="main-content">
+<div class="input-section">
+<h3>🔤 Add New Element</h3>
+<input id="elementInput" onkeypress="handleKeyPress(event)" placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)" type="text"/>
+<div id="currentElement" style="display: none">
+<h4>Current Element Processing:</h4>
+<div class="hash-display" id="elementHash"></div>
+<div class="binary-display" id="binaryHash"></div>
+</div>
+<div class="elements-processed">
+<h4>Elements Processed:</h4>
+<div id="elementsList"></div>
+</div>
+</div>
+<div class="buckets-section">
+<h3>🪣 LogLog Buckets (Optional Enhancement)</h3>
+<p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
             Basic LogLog uses one value, but buckets improve accuracy
           </p>
-          <div class="buckets-grid" id="bucketsGrid"></div>
-        </div>
-      </div>
-
-      <div class="step-by-step">
-        <h3>🔍 Step-by-Step LogLog Process</h3>
-        <div id="steps">
-          <div class="explanation">
-            <h4>How LogLog Works (Simplified):</h4>
-            <p><strong>1. Hash:</strong> Convert each element to binary hash</p>
-            <p>
-              <strong>2. Count Zeros:</strong> Count leading zeros in the hash
+<div class="buckets-grid" id="bucketsGrid"></div>
+</div>
+</div>
+<div class="step-by-step">
+<h3>🔍 Step-by-Step LogLog Process</h3>
+<div id="steps">
+<div class="explanation">
+<h4>How LogLog Works (Simplified):</h4>
+<p><strong>1. Hash:</strong> Convert each element to binary hash</p>
+<p>
+<strong>2. Count Zeros:</strong> Count leading zeros in the hash
             </p>
-            <p>
-              <strong>3. Track Maximum:</strong> Keep the highest zero count
+<p>
+<strong>3. Track Maximum:</strong> Keep the highest zero count
               seen
             </p>
-            <p><strong>4. Estimate:</strong> Cardinality ≈ 2^(max_zeros) × φ</p>
-            <br />
-            <p>
-              <em
-                >The insight: If you see k leading zeros, there are likely ~2^k
-                unique elements</em
-              >
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats">
-        <div class="stat-card">
-          <div class="stat-value" id="actualCount">0</div>
-          <div class="stat-label">Actual Unique Count</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="basicEstimate">0</div>
-          <div class="stat-label">Basic LogLog Estimate</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="bucketEstimate">0</div>
-          <div class="stat-label">Bucket-Enhanced Estimate</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="errorRate">0%</div>
-          <div class="stat-label">Basic LogLog Error</div>
-        </div>
-      </div>
-
-      <div class="explanation">
-        <h4>🧮 LogLog Estimation Formulas:</h4>
-        <div class="formula">
+<p><strong>4. Estimate:</strong> Cardinality ≈ 2^(max_zeros) × φ</p>
+<br/>
+<p>
+<em>The insight: If you see k leading zeros, there are likely ~2^k
+                unique elements</em>
+</p>
+</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat-card">
+<div class="stat-value" id="actualCount">0</div>
+<div class="stat-label">Actual Unique Count</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="basicEstimate">0</div>
+<div class="stat-label">Basic LogLog Estimate</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="bucketEstimate">0</div>
+<div class="stat-label">Bucket-Enhanced Estimate</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="errorRate">0%</div>
+<div class="stat-label">Basic LogLog Error</div>
+</div>
+</div>
+<div class="explanation">
+<h4>🧮 LogLog Estimation Formulas:</h4>
+<div class="formula">
           Basic: Cardinality ≈ 2^(L_max) × φ
-          <br /><small>where L_max = maximum leading zeros, φ ≈ 0.77351</small>
-        </div>
-        <div class="formula">
+          <br/><small>where L_max = maximum leading zeros, φ ≈ 0.77351</small>
+</div>
+<div class="formula">
           With Buckets: Average the estimates from each bucket
-          <br /><small>Reduces variance and improves accuracy</small>
-        </div>
-      </div>
-
-      <div class="explanation">
-        <h4>🎯 Key Insight:</h4>
-        <p>
+          <br/><small>Reduces variance and improves accuracy</small>
+</div>
+</div>
+<div class="explanation">
+<h4>🎯 Key Insight:</h4>
+<p>
           LogLog exploits a simple probability fact: if you flip a coin and get
           k heads in a row, you probably flipped about 2^k times total.
           Similarly, k leading zeros in a hash suggests about 2^k unique
           elements!
         </p>
-      </div>
-    </div>
-
-    <script>
+</div>
+</div>
+<script>
       // LogLog implementation
       const b = 4; // bucket bits for enhanced version
       const m = 16; // number of buckets
@@ -896,5 +888,5 @@ LogLog was the breakthrough that showed leading zeros could estimate cardinality
       // Auto-focus input
       document.getElementById("elementInput").focus();
     </script>
-  </body>
+</body>
 </html>

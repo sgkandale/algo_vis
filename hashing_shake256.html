@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Algorithm Detail | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Algorithm Detail | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -670,54 +665,73 @@
                 text-align: center;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Cryptographic Algorithms</a> >
+<meta content="Algorithm Detail | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_shake256.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Algorithm Detail | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_shake256.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Algorithm Detail | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_shake256.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Cryptographic Algorithms</a> &gt;
                             <span>SHAKE256</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>SHAKE256</h1>
-                <div class="category">
-                    <i class="fas fa-lock"></i> Cryptographic Extendable-Output
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>SHAKE256</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Cryptographic Extendable-Output
                     Function (XOF)
                 </div>
-                <div class="complexity-badge">Security Strength: 256-bit</div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+<div class="complexity-badge">Security Strength: 256-bit</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             SHAKE256 is a member of the SHA-3 (Secure Hash
                             Algorithm 3) family of cryptographic functions. It
                             is an extendable-output function (XOF) that can
                             produce output of any desired length, based on the
                             SHA-3 framework.
                         </p>
-                        <p>
+<p>
                             Unlike traditional hash functions with fixed output
                             sizes, SHAKE256 uses the sponge construction to
                             absorb input data and then squeeze output bits in a
@@ -726,190 +740,163 @@
                             like key derivation, stream encryption, and
                             generating random bits.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Extendable output function with arbitrary
                                     output length
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Based on Keccak sponge function with 24
                                     rounds of permutation
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Internal State
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Internal State
                                 </h3>
-                                <p>
+<p>
                                     1600-bit internal state with 1088-bit
                                     absorption rate (r) and 512-bit capacity (c)
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Construction
                                 </h3>
-                                <p>
+<p>
                                     Sponge construction with Keccak-f[1600]
                                     permutation function
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             SHAKE256 works. Enter text input and see how it gets
                             processed through the sponge construction to produce
                             the hash output.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> SHAKE256
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> SHAKE256
                                     Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="settings-btn"
-                                    >
-                                        <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settings-btn">
+<i class="fas fa-cog"></i> Settings
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="visualization-area"
-                            >
-                                <div class="hash-visualization">
-                                    <div class="sponge-container">
-                                        <div class="input-section">
-                                            <div
-                                                class="hash-input"
-                                                id="input-display"
-                                            >
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="hash-visualization">
+<div class="sponge-container">
+<div class="input-section">
+<div class="hash-input" id="input-display">
                                                 Input will appear here
                                             </div>
-                                        </div>
-                                        <div class="sponge-function">
+</div>
+<div class="sponge-function">
                                             SHAKE256 Sponge Function
                                         </div>
-                                        <div
-                                            class="sponge-state"
-                                            id="state-display"
-                                        >
-                                            <!-- State bytes will be inserted here by JavaScript -->
-                                        </div>
-                                        <div class="output-section">
-                                            <div
-                                                class="hash-output"
-                                                id="output-display"
-                                            >
+<div class="sponge-state" id="state-display">
+<!-- State bytes will be inserted here by JavaScript -->
+</div>
+<div class="output-section">
+<div class="hash-output" id="output-display">
                                                 Hash output will appear here
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="hash-input"
-                                    placeholder="Enter text to hash (e.g., Hello World)"
-                                />
-                                <button class="console-btn" id="random-btn">
-                                    <i class="fas fa-random"></i> Random
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="hash-input" placeholder="Enter text to hash (e.g., Hello World)" type="text"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             SHAKE256 follows the sponge construction paradigm
                             with these main steps:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3><i class="fas fa-key"></i> 1. Padding</h3>
-                                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Padding</h3>
+<p>
                                     The input message is padded with the suffix
                                     "1111" followed by a "1", then zeros, and
                                     finally a "1" to make the length a multiple
                                     of the rate (1088 bits).
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-share-alt"></i> 2.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-share-alt"></i> 2.
                                     Absorption Phase
                                 </h3>
-                                <p>
+<p>
                                     The padded message is divided into blocks of
                                     r bits (1088 bits). Each block is XORed into
                                     the state, followed by application of the
                                     Keccak-f permutation function.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-compress-arrows-alt"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i>
                                     3. Squeezing Phase
                                 </h3>
-                                <p>
+<p>
                                     After processing all input blocks, output
                                     bits are extracted from the state in blocks
                                     of r bits. If more output is needed, the
                                     permutation function is applied again.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-expand-alt"></i> 4. Output
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-expand-alt"></i> 4. Output
                                     Truncation
                                 </h3>
-                                <p>
+<p>
                                     The output can be truncated to the desired
                                     length. For SHAKE256, the security strength
                                     is 256 bits, meaning it provides 256-bit
                                     security against collisions and preimage
                                     attacks.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>function SHAKE256(input, outputLength):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function SHAKE256(input, outputLength):
     # Initialize state
     state = 0^{1600}
 
@@ -923,34 +910,32 @@
 
     # Squeezing phase
     output = ""
-    while output length < outputLength:
+    while output length &lt; outputLength:
         output = output || first 1088 bits of state
-        if output length < outputLength:
+        if output length &lt; outputLength:
             state = Keccak-f[1600](state)
 
     return first outputLength bits of output</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a Python implementation of SHAKE256 using
                             the standard library. In practice, you should use
                             established cryptographic libraries rather than
                             implementing your own for security-critical
                             applications.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">import</span> hashlib
+</div>
+<pre><code><span class="keyword">import</span> hashlib
 
 <span class="comment"># Using Python's built-in library implementation</span>
 <span class="keyword">def</span> <span class="function">shake256</span>(input_data, output_length):
@@ -972,112 +957,98 @@ output_length = 64  <span class="comment"># 64 hex characters = 32 bytes</span>
 hash_result = shake256(input_text, output_length)
 print(<span class="string">f"SHAKE256 hash of '{input_text}':"</span>)
 print(hash_result)</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Cryptography</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">XOF</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Standard</h4>
-                                <div class="value">SHA-3</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Output Size</h4>
-                                <div class="value">Variable</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Security (bits)</h4>
-                                <div class="value">256</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Internal State</h4>
-                                <div class="value">1600</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Rounds</h4>
-                                <div class="value">24</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>First Published</h4>
-                                <div class="value">2015</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptography</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">XOF</div>
+</div>
+<div class="property-card">
+<h4>Standard</h4>
+<div class="value">SHA-3</div>
+</div>
+<div class="property-card">
+<h4>Output Size</h4>
+<div class="value">Variable</div>
+</div>
+<div class="property-card">
+<h4>Security (bits)</h4>
+<div class="value">256</div>
+</div>
+<div class="property-card">
+<h4>Internal State</h4>
+<div class="value">1600</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">24</div>
+</div>
+<div class="property-card">
+<h4>First Published</h4>
+<div class="value">2015</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             SHAKE256 is used in various cryptographic
                             applications where variable-length output is needed:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Key derivation functions (KDFs)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Deterministic random bit generators (DRBGs)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Message authentication codes
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Digital signatures and certificates
                             </li>
-                            <li>
+<li>
                                 Cryptographic protocols requiring extensible
                                 output
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Simple copy button functionality
             document
                 .querySelector(".copy-btn")
@@ -1237,5 +1208,5 @@ print(hash_result)</code></pre>
                 initStateVisualization();
             });
         </script>
-    </body>
+</body>
 </html>

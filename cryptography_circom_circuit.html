@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circom Visual Guide</title>
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Circom Visual Guide</title>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -424,291 +425,280 @@
             }
         }
     </style>
-</head>
+<meta content="Circom Visual Guide" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_circom_circuit.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Circom Visual Guide" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_circom_circuit.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Circom Visual Guide",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_circom_circuit.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>⚡ Circom Circuit Compiler</h1>
-        <p class="subtitle">Building Zero-Knowledge Proofs through Arithmetic Circuits</p>
-
-        <!-- Introduction -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">🎯</div>
-                <span>What is Circom?</span>
-            </div>
-            <p>Circom is a domain-specific language (DSL) for writing arithmetic circuits used in zero-knowledge proofs. It compiles high-level circuit descriptions into the low-level constraints needed for zk-SNARK proof systems.</p>
-            
-            <div class="zk-properties">
-                <h3 style="text-align: center; margin-bottom: 20px;">Zero-Knowledge Proof Properties</h3>
-                <div class="properties-grid">
-                    <div class="property-card">
-                        <div class="property-icon">🔒</div>
-                        <div class="property-title">Completeness</div>
-                        <div>If the statement is true, an honest prover can convince an honest verifier</div>
-                    </div>
-                    <div class="property-card">
-                        <div class="property-icon">🛡️</div>
-                        <div class="property-title">Soundness</div>
-                        <div>If the statement is false, no cheating prover can convince an honest verifier</div>
-                    </div>
-                    <div class="property-card">
-                        <div class="property-icon">🕵️</div>
-                        <div class="property-title">Zero-Knowledge</div>
-                        <div>The verifier learns nothing about the secret beyond the fact that the statement is true</div>
-                    </div>
-                    <div class="property-card">
-                        <div class="property-icon">⚡</div>
-                        <div class="property-title">Succinctness</div>
-                        <div>Proofs are small and fast to verify, regardless of computation complexity</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 1: Circuit Definition -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">1</div>
-                <span>Writing Circom Circuits</span>
-            </div>
-            <p>Circom circuits define computational logic using templates, signals, and constraints:</p>
-            
-            <div class="code-block">
+<div class="container">
+<h1>⚡ Circom Circuit Compiler</h1>
+<p class="subtitle">Building Zero-Knowledge Proofs through Arithmetic Circuits</p>
+<!-- Introduction -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">🎯</div>
+<span>What is Circom?</span>
+</div>
+<p>Circom is a domain-specific language (DSL) for writing arithmetic circuits used in zero-knowledge proofs. It compiles high-level circuit descriptions into the low-level constraints needed for zk-SNARK proof systems.</p>
+<div class="zk-properties">
+<h3 style="text-align: center; margin-bottom: 20px;">Zero-Knowledge Proof Properties</h3>
+<div class="properties-grid">
+<div class="property-card">
+<div class="property-icon">🔒</div>
+<div class="property-title">Completeness</div>
+<div>If the statement is true, an honest prover can convince an honest verifier</div>
+</div>
+<div class="property-card">
+<div class="property-icon">🛡️</div>
+<div class="property-title">Soundness</div>
+<div>If the statement is false, no cheating prover can convince an honest verifier</div>
+</div>
+<div class="property-card">
+<div class="property-icon">🕵️</div>
+<div class="property-title">Zero-Knowledge</div>
+<div>The verifier learns nothing about the secret beyond the fact that the statement is true</div>
+</div>
+<div class="property-card">
+<div class="property-icon">⚡</div>
+<div class="property-title">Succinctness</div>
+<div>Proofs are small and fast to verify, regardless of computation complexity</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 1: Circuit Definition -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">1</div>
+<span>Writing Circom Circuits</span>
+</div>
+<p>Circom circuits define computational logic using templates, signals, and constraints:</p>
+<div class="code-block">
 <span class="code-keyword">pragma</span> circom <span class="code-number">2.0.0</span>;
 
 <span class="code-comment">// Template for proving knowledge of square root</span>
 <span class="code-keyword">template</span> SquareRoot() {
     <span class="code-comment">// Private input (secret)</span>
-    <span class="code-keyword">signal private input</span> x;
+<span class="code-keyword">signal private input</span> x;
     
     <span class="code-comment">// Public input (known value)</span>
-    <span class="code-keyword">signal input</span> square;
+<span class="code-keyword">signal input</span> square;
     
     <span class="code-comment">// Output signal</span>
-    <span class="code-keyword">signal output</span> valid;
+<span class="code-keyword">signal output</span> valid;
     
     <span class="code-comment">// Constraint: x * x must equal square</span>
     square === x * x;
     
     <span class="code-comment">// Output 1 if constraint is satisfied</span>
-    valid <== <span class="code-number">1</span>;
+    valid &lt;== <span class="code-number">1</span>;
 }
 
 <span class="code-comment">// Main component instantiation</span>
 <span class="code-keyword">component main</span> = SquareRoot();
             </div>
-            
-            <p>This circuit proves: "I know a secret number <code>x</code> such that <code>x² = square</code>" without revealing <code>x</code>.</p>
-        </div>
-
-        <!-- Step 2: Compilation Pipeline -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">2</div>
-                <span>Compilation Pipeline</span>
-            </div>
-            <p>Circom transforms high-level circuit descriptions into mathematical constraints:</p>
-            
-            <div class="pipeline-flow">
-                <div class="pipeline-step">
-                    <h4>.circom File</h4>
-                    <p>High-level circuit description with templates and constraints</p>
-                </div>
-                <div class="arrow">→</div>
-                <div class="pipeline-step compile">
-                    <h4>Circom Compiler</h4>
-                    <p>Generates R1CS constraints and JavaScript witness generator</p>
-                </div>
-                <div class="arrow">→</div>
-                <div class="pipeline-step witness">
-                    <h4>Witness Generation</h4>
-                    <p>Computes all intermediate signal values for given inputs</p>
-                </div>
-                <div class="arrow">→</div>
-                <div class="pipeline-step prove">
-                    <h4>Proof Generation</h4>
-                    <p>Creates zk-SNARK proof using constraints and witness</p>
-                </div>
-                <div class="arrow">→</div>
-                <div class="pipeline-step verify">
-                    <h4>Verification</h4>
-                    <p>Verifies proof without access to private inputs</p>
-                </div>
-            </div>
-            
-            <div class="files-grid">
-                <div class="file-card">
-                    <div class="file-icon">📄</div>
-                    <div class="file-name">circuit.circom</div>
-                    <div class="file-desc">Source circuit definition</div>
-                </div>
-                <div class="file-card">
-                    <div class="file-icon">🔧</div>
-                    <div class="file-name">circuit.r1cs</div>
-                    <div class="file-desc">Rank-1 Constraint System</div>
-                </div>
-                <div class="file-card">
-                    <div class="file-icon">⚙️</div>
-                    <div class="file-name">circuit.wasm</div>
-                    <div class="file-desc">WebAssembly witness generator</div>
-                </div>
-                <div class="file-card">
-                    <div class="file-icon">🔑</div>
-                    <div class="file-name">circuit.zkey</div>
-                    <div class="file-desc">Proving and verification keys</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 3: Circuit Visualization -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">3</div>
-                <span>Arithmetic Circuit Structure</span>
-            </div>
-            <p>Circom converts logic into arithmetic circuits with addition and multiplication gates:</p>
-            
-            <div class="circuit-visual">
-                <div class="circuit-nodes">
-                    <!-- Input Level -->
-                    <div class="circuit-level">
-                        <div class="circuit-node input-node">x (private)</div>
-                        <div class="circuit-node input-node">square (public)</div>
-                    </div>
-                    
-                    <div class="wire"></div>
-                    
-                    <!-- Computation Level -->
-                    <div class="circuit-level">
-                        <div class="circuit-node constraint-node">x × x</div>
-                    </div>
-                    
-                    <div class="wire"></div>
-                    
-                    <!-- Constraint Level -->
-                    <div class="circuit-level">
-                        <div class="circuit-node constraint-node">x² === square</div>
-                    </div>
-                    
-                    <div class="wire"></div>
-                    
-                    <!-- Output Level -->
-                    <div class="circuit-level">
-                        <div class="circuit-node output-node">valid = 1</div>
-                    </div>
-                </div>
-            </div>
-            
-            <p style="text-align: center; margin-top: 20px; font-style: italic;">
+<p>This circuit proves: "I know a secret number <code>x</code> such that <code>x² = square</code>" without revealing <code>x</code>.</p>
+</div>
+<!-- Step 2: Compilation Pipeline -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">2</div>
+<span>Compilation Pipeline</span>
+</div>
+<p>Circom transforms high-level circuit descriptions into mathematical constraints:</p>
+<div class="pipeline-flow">
+<div class="pipeline-step">
+<h4>.circom File</h4>
+<p>High-level circuit description with templates and constraints</p>
+</div>
+<div class="arrow">→</div>
+<div class="pipeline-step compile">
+<h4>Circom Compiler</h4>
+<p>Generates R1CS constraints and JavaScript witness generator</p>
+</div>
+<div class="arrow">→</div>
+<div class="pipeline-step witness">
+<h4>Witness Generation</h4>
+<p>Computes all intermediate signal values for given inputs</p>
+</div>
+<div class="arrow">→</div>
+<div class="pipeline-step prove">
+<h4>Proof Generation</h4>
+<p>Creates zk-SNARK proof using constraints and witness</p>
+</div>
+<div class="arrow">→</div>
+<div class="pipeline-step verify">
+<h4>Verification</h4>
+<p>Verifies proof without access to private inputs</p>
+</div>
+</div>
+<div class="files-grid">
+<div class="file-card">
+<div class="file-icon">📄</div>
+<div class="file-name">circuit.circom</div>
+<div class="file-desc">Source circuit definition</div>
+</div>
+<div class="file-card">
+<div class="file-icon">🔧</div>
+<div class="file-name">circuit.r1cs</div>
+<div class="file-desc">Rank-1 Constraint System</div>
+</div>
+<div class="file-card">
+<div class="file-icon">⚙️</div>
+<div class="file-name">circuit.wasm</div>
+<div class="file-desc">WebAssembly witness generator</div>
+</div>
+<div class="file-card">
+<div class="file-icon">🔑</div>
+<div class="file-name">circuit.zkey</div>
+<div class="file-desc">Proving and verification keys</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Circuit Visualization -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">3</div>
+<span>Arithmetic Circuit Structure</span>
+</div>
+<p>Circom converts logic into arithmetic circuits with addition and multiplication gates:</p>
+<div class="circuit-visual">
+<div class="circuit-nodes">
+<!-- Input Level -->
+<div class="circuit-level">
+<div class="circuit-node input-node">x (private)</div>
+<div class="circuit-node input-node">square (public)</div>
+</div>
+<div class="wire"></div>
+<!-- Computation Level -->
+<div class="circuit-level">
+<div class="circuit-node constraint-node">x × x</div>
+</div>
+<div class="wire"></div>
+<!-- Constraint Level -->
+<div class="circuit-level">
+<div class="circuit-node constraint-node">x² === square</div>
+</div>
+<div class="wire"></div>
+<!-- Output Level -->
+<div class="circuit-level">
+<div class="circuit-node output-node">valid = 1</div>
+</div>
+</div>
+</div>
+<p style="text-align: center; margin-top: 20px; font-style: italic;">
                 Each wire carries a signal value, and each gate enforces arithmetic constraints
             </p>
-        </div>
-
-        <!-- Step 4: R1CS Constraints -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">4</div>
-                <span>R1CS (Rank-1 Constraint System)</span>
-            </div>
-            <div class="constraint-demo">
-                <h3>Converting to Mathematical Constraints</h3>
-                <p>Circom converts circuit logic into R1CS format: (A • w) ○ (B • w) = C • w</p>
-                
-                <div class="constraint-examples">
-                    <div class="constraint-card">
-                        <div class="constraint-title">Original Constraint</div>
-                        <code>square === x * x</code>
-                        <p style="margin-top: 10px;">High-level Circom syntax</p>
-                    </div>
-                    
-                    <div class="constraint-card">
-                        <div class="constraint-title">R1CS Representation</div>
-                        <code>A = [0, 1, 0]  // x coefficient<br>
-B = [0, 1, 0]  // x coefficient<br>
+</div>
+<!-- Step 4: R1CS Constraints -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">4</div>
+<span>R1CS (Rank-1 Constraint System)</span>
+</div>
+<div class="constraint-demo">
+<h3>Converting to Mathematical Constraints</h3>
+<p>Circom converts circuit logic into R1CS format: (A • w) ○ (B • w) = C • w</p>
+<div class="constraint-examples">
+<div class="constraint-card">
+<div class="constraint-title">Original Constraint</div>
+<code>square === x * x</code>
+<p style="margin-top: 10px;">High-level Circom syntax</p>
+</div>
+<div class="constraint-card">
+<div class="constraint-title">R1CS Representation</div>
+<code>A = [0, 1, 0]  // x coefficient<br/>
+B = [0, 1, 0]  // x coefficient<br/>
 C = [1, 0, 0]  // square coefficient</code>
-                        <p style="margin-top: 10px;">Matrix form for proving systems</p>
-                    </div>
-                    
-                    <div class="constraint-card">
-                        <div class="constraint-title">Witness Vector</div>
-                        <code>w = [square, x, 1]</code>
-                        <p style="margin-top: 10px;">All signal values including constants</p>
-                    </div>
-                    
-                    <div class="constraint-card">
-                        <div class="constraint-title">Verification</div>
-                        <code>(0×square + 1×x + 0×1) × (0×square + 1×x + 0×1) = 1×square + 0×x + 0×1</code>
-                        <p style="margin-top: 10px;">Mathematical verification of constraint</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 5: Workflow Example -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">5</div>
-                <span>Complete Workflow Example</span>
-            </div>
-            <div class="workflow-demo">
-                <h3>🔍 Proving Knowledge of Square Root of 25</h3>
-                <p>Let's trace through a complete example:</p>
-                
-                <div class="workflow-steps">
-                    <div class="workflow-step">
-                        <div class="step-header">1. Circuit Compilation</div>
-                        <code>circom circuit.circom --r1cs --wasm</code>
-                        <p>Generates constraint system and witness generator</p>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="step-header">2. Trusted Setup</div>
-                        <code>snarkjs groth16 setup</code>
-                        <p>Creates proving and verification keys</p>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="step-header">3. Input Assignment</div>
-                        <code>{"x": 5, "square": 25}</code>
-                        <p>Private: x=5, Public: square=25</p>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="step-header">4. Witness Generation</div>
-                        <code>node generate_witness.js</code>
-                        <p>Computes all intermediate signal values</p>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="step-header">5. Proof Generation</div>
-                        <code>snarkjs groth16 prove</code>
-                        <p>Creates zk-SNARK proof (π_a, π_b, π_c)</p>
-                    </div>
-                    
-                    <div class="workflow-step">
-                        <div class="step-header">6. Proof Verification</div>
-                        <code>snarkjs groth16 verify</code>
-                        <p>Verifies proof without knowing x=5</p>
-                    </div>
-                </div>
-                
-                <div style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 10px; margin-top: 20px;">
-                    <h4 style="color: #fdcb6e; margin-top: 0;">🎉 Result:</h4>
-                    <p><strong>Prover proves:</strong> "I know a number that when squared equals 25"</p>
-                    <p><strong>Verifier confirms:</strong> "Yes, the prover knows such a number"</p>
-                    <p><strong>Privacy maintained:</strong> Verifier never learns that the number is 5</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 6: Advanced Features -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">6</div>
-                <span>Advanced Circom Features</span>
-            </div>
-            
-            <div class="code-block">
+<p style="margin-top: 10px;">Matrix form for proving systems</p>
+</div>
+<div class="constraint-card">
+<div class="constraint-title">Witness Vector</div>
+<code>w = [square, x, 1]</code>
+<p style="margin-top: 10px;">All signal values including constants</p>
+</div>
+<div class="constraint-card">
+<div class="constraint-title">Verification</div>
+<code>(0×square + 1×x + 0×1) × (0×square + 1×x + 0×1) = 1×square + 0×x + 0×1</code>
+<p style="margin-top: 10px;">Mathematical verification of constraint</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 5: Workflow Example -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">5</div>
+<span>Complete Workflow Example</span>
+</div>
+<div class="workflow-demo">
+<h3>🔍 Proving Knowledge of Square Root of 25</h3>
+<p>Let's trace through a complete example:</p>
+<div class="workflow-steps">
+<div class="workflow-step">
+<div class="step-header">1. Circuit Compilation</div>
+<code>circom circuit.circom --r1cs --wasm</code>
+<p>Generates constraint system and witness generator</p>
+</div>
+<div class="workflow-step">
+<div class="step-header">2. Trusted Setup</div>
+<code>snarkjs groth16 setup</code>
+<p>Creates proving and verification keys</p>
+</div>
+<div class="workflow-step">
+<div class="step-header">3. Input Assignment</div>
+<code>{"x": 5, "square": 25}</code>
+<p>Private: x=5, Public: square=25</p>
+</div>
+<div class="workflow-step">
+<div class="step-header">4. Witness Generation</div>
+<code>node generate_witness.js</code>
+<p>Computes all intermediate signal values</p>
+</div>
+<div class="workflow-step">
+<div class="step-header">5. Proof Generation</div>
+<code>snarkjs groth16 prove</code>
+<p>Creates zk-SNARK proof (π_a, π_b, π_c)</p>
+</div>
+<div class="workflow-step">
+<div class="step-header">6. Proof Verification</div>
+<code>snarkjs groth16 verify</code>
+<p>Verifies proof without knowing x=5</p>
+</div>
+</div>
+<div style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 10px; margin-top: 20px;">
+<h4 style="color: #fdcb6e; margin-top: 0;">🎉 Result:</h4>
+<p><strong>Prover proves:</strong> "I know a number that when squared equals 25"</p>
+<p><strong>Verifier confirms:</strong> "Yes, the prover knows such a number"</p>
+<p><strong>Privacy maintained:</strong> Verifier never learns that the number is 5</p>
+</div>
+</div>
+</div>
+<!-- Step 6: Advanced Features -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">6</div>
+<span>Advanced Circom Features</span>
+</div>
+<div class="code-block">
 <span class="code-comment">// Template with parameters</span>
 <span class="code-keyword">template</span> Multiplier(n) {
     <span class="code-keyword">signal input</span> a[n];
@@ -716,8 +706,8 @@ C = [1, 0, 0]  // square coefficient</code>
     <span class="code-keyword">signal output</span> c[n];
     
     <span class="code-comment">// Array operations</span>
-    <span class="code-keyword">for</span> (var i = <span class="code-number">0</span>; i < n; i++) {
-        c[i] <== a[i] * b[i];
+<span class="code-keyword">for</span> (var i = <span class="code-number">0</span>; i &lt; n; i++) {
+        c[i] &lt;== a[i] * b[i];
     }
 }
 
@@ -729,61 +719,52 @@ C = [1, 0, 0]  // square coefficient</code>
 
 <span class="code-comment">// Conditional logic using components</span>
 <span class="code-keyword">component</span> lt = LessThan(<span class="code-number">32</span>);
-lt.in[<span class="code-number">0</span>] <== a;
-lt.in[<span class="code-number">1</span>] <== b;
-<span class="code-comment">// lt.out will be 1 if a < b, 0 otherwise</span>
-            </div>
-        </div>
-
-        <!-- Applications -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">7</div>
-                <span>Real-World Applications</span>
-            </div>
-            <div class="applications">
-                <div class="application-card">
-                    <div class="app-icon">🗳️</div>
-                    <div class="app-title">Private Voting</div>
-                    <p>Prove you voted for a valid candidate without revealing your choice. Enables verifiable elections with ballot privacy.</p>
-                </div>
-                
-                <div class="application-card">
-                    <div class="app-icon">🏦</div>
-                    <div class="app-title">Financial Privacy</div>
-                    <p>Prove you have sufficient funds for a transaction without revealing your exact balance. Used in Zcash and other privacy coins.</p>
-                </div>
-                
-                <div class="application-card">
-                    <div class="app-icon">🎯</div>
-                    <div class="app-title">Identity Verification</div>
-                    <p>Prove you're over 18 without revealing your exact age, or prove you're from a specific country without showing your passport.</p>
-                </div>
-                
-                <div class="application-card">
-                    <div class="app-icon">🔐</div>
-                    <div class="app-title">Password Verification</div>
-                    <p>Prove you know a password that satisfies certain criteria (length, complexity) without revealing the password itself.</p>
-                </div>
-                
-                <div class="application-card">
-                    <div class="app-icon">📊</div>
-                    <div class="app-title">Private Computation</div>
-                    <p>Prove you performed a computation correctly on private data without revealing the input data or intermediate steps.</p>
-                </div>
-                
-                <div class="application-card">
-                    <div class="app-icon">🌐</div>
-                    <div class="app-title">Scalability Solutions</div>
-                    <p>Rollups use zk-proofs to compress many transactions into a single proof, enabling blockchain scalability (zk-Rollups).</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="highlight">
-            <h3>🚀 The Circom Revolution</h3>
-            <p><strong>Democratizing Zero-Knowledge:</strong> Before Circom, writing zk-proofs required deep cryptographic knowledge and working with low-level mathematical constraints. Circom makes it accessible through familiar programming constructs.</p>
-            
-            <p><strong>The Magic Translation:</strong> Circom automatically converts high-level logic (if/else, loops, templates) into the arithmetic circuits needed for zk-SNARKs. It handles the complex math so developers can focus on application logic.</p>
-            
-            <p><strong>Constraint Thinking:</strong> The key insight is thinking in terms of mathematical constraints rather than sequential computation. Every statement becomes an equation that must hol
+lt.in[<span class="code-number">0</span>] &lt;== a;
+lt.in[<span class="code-number">1</span>] &lt;== b;
+<span class="code-comment">// lt.out will be 1 if a &lt; b, 0 otherwise</span>
+</div>
+</div>
+<!-- Applications -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">7</div>
+<span>Real-World Applications</span>
+</div>
+<div class="applications">
+<div class="application-card">
+<div class="app-icon">🗳️</div>
+<div class="app-title">Private Voting</div>
+<p>Prove you voted for a valid candidate without revealing your choice. Enables verifiable elections with ballot privacy.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">🏦</div>
+<div class="app-title">Financial Privacy</div>
+<p>Prove you have sufficient funds for a transaction without revealing your exact balance. Used in Zcash and other privacy coins.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">🎯</div>
+<div class="app-title">Identity Verification</div>
+<p>Prove you're over 18 without revealing your exact age, or prove you're from a specific country without showing your passport.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">🔐</div>
+<div class="app-title">Password Verification</div>
+<p>Prove you know a password that satisfies certain criteria (length, complexity) without revealing the password itself.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">📊</div>
+<div class="app-title">Private Computation</div>
+<p>Prove you performed a computation correctly on private data without revealing the input data or intermediate steps.</p>
+</div>
+<div class="application-card">
+<div class="app-icon">🌐</div>
+<div class="app-title">Scalability Solutions</div>
+<p>Rollups use zk-proofs to compress many transactions into a single proof, enabling blockchain scalability (zk-Rollups).</p>
+</div>
+</div>
+</div>
+<div class="highlight">
+<h3>🚀 The Circom Revolution</h3>
+<p><strong>Democratizing Zero-Knowledge:</strong> Before Circom, writing zk-proofs required deep cryptographic knowledge and working with low-level mathematical constraints. Circom makes it accessible through familiar programming constructs.</p>
+<p><strong>The Magic Translation:</strong> Circom automatically converts high-level logic (if/else, loops, templates) into the arithmetic circuits needed for zk-SNARKs. It handles the complex math so developers can focus on application logic.</p>
+<p><strong>Constraint Thinking:</strong> The key insight is thinking in terms of mathematical constraints rather than sequential computation. Every statement becomes an equation that must hol</p></div></div></body></html>

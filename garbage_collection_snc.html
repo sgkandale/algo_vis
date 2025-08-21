@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Stop-and-Copy GC | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stop-and-Copy GC | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -774,49 +769,68 @@
                 z-index: 5;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Stop-and-Copy GC | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_snc.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Stop-and-Copy GC | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_snc.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Stop-and-Copy GC | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_snc.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-exchange-alt"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Stop-and-Copy GC</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Stop-and-Copy Garbage Collection</h1>
-                <div class="category">
-                    <i class="fas fa-clone"></i> Copying Garbage Collection
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Stop-and-Copy Garbage Collection</h1>
+<div class="category">
+<i class="fas fa-clone"></i> Copying Garbage Collection
                     Algorithm
                 </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Time Complexity: O(Live Objects)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Stop-and-Copy is a garbage collection algorithm that
                             divides the heap into two equal-sized semispaces.
                             During program execution, only one semispace is
@@ -827,7 +841,7 @@
                             then updates all references to point to the new
                             copies.
                         </p>
-                        <p>
+<p>
                             This approach eliminates fragmentation by compacting
                             objects during the copy process. The algorithm then
                             swaps the roles of the semispaces, making the
@@ -835,53 +849,51 @@
                             that it requires twice the memory since only half of
                             the heap is used at any time.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Eliminates memory fragmentation by
                                     compacting objects during copying
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Time proportional to number of live objects,
                                     not heap size
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Memory Usage
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Memory Usage
                                 </h3>
-                                <p>
+<p>
                                     Requires 2x memory due to semispace division
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Copy reachable objects to new space and
                                     update references
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             The visualization below demonstrates the
                             Stop-and-Copy algorithm in action. You can see
                             objects in the from-space, some of which are
@@ -890,146 +902,122 @@
                             references. Use the controls to simulate allocation
                             and trigger garbage collection.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-exchange-alt"></i>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-exchange-alt"></i>
                                     Semispace Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="step-btn"
-                                    >
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-gc-btn">
-                                        <i class="fas fa-play"></i> Run GC
+<button class="console-btn" id="run-gc-btn">
+<i class="fas fa-play"></i> Run GC
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- Visualization will be rendered here by JavaScript -->
-                                <div
-                                    class="heap-container"
-                                    id="heap-container"
-                                ></div>
-                            </div>
-
-                            <div class="console-input">
-                                <button class="console-btn" id="allocate-btn">
-                                    <i class="fas fa-plus-circle"></i> Allocate
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- Visualization will be rendered here by JavaScript -->
+<div class="heap-container" id="heap-container"></div>
+</div>
+<div class="console-input">
+<button class="console-btn" id="allocate-btn">
+<i class="fas fa-plus-circle"></i> Allocate
                                     Object
                                 </button>
-                                <button class="console-btn" id="create-ref-btn">
-                                    <i class="fas fa-link"></i> Create Reference
+<button class="console-btn" id="create-ref-btn">
+<i class="fas fa-link"></i> Create Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="null-ref-btn"
-                                >
-                                    <i class="fas fa-unlink"></i> Nullify
+<button class="console-btn secondary" id="null-ref-btn">
+<i class="fas fa-unlink"></i> Nullify
                                     Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="swap-btn"
-                                >
-                                    <i class="fas fa-exchange-alt"></i> Swap
+<button class="console-btn secondary" id="swap-btn">
+<i class="fas fa-exchange-alt"></i> Swap
                                     Semispaces
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             The Stop-and-Copy garbage collection algorithm
                             operates through these key phases:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-pause"></i> 1. Stop The
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-pause"></i> 1. Stop The
                                     World
                                 </h3>
-                                <p>
+<p>
                                     Pause program execution to ensure memory
                                     consistency during collection
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-search"></i> 2. Identify
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-search"></i> 2. Identify
                                     Roots
                                 </h3>
-                                <p>
+<p>
                                     Identify all root references that point
                                     directly to objects in the from-space
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-copy"></i> 3. Copy
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-copy"></i> 3. Copy
                                     Reachable Objects
                                 </h3>
-                                <p>
+<p>
                                     Copy all objects reachable from roots to the
                                     to-space, maintaining object relationships
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sync-alt"></i> 4. Update
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sync-alt"></i> 4. Update
                                     References
                                 </h3>
-                                <p>
+<p>
                                     Update all references to point to the new
                                     object locations in the to-space
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-exchange-alt"></i> 5. Swap
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 5. Swap
                                     Semispaces
                                 </h3>
-                                <p>
+<p>
                                     Swap the roles of the semispaces, making the
                                     to-space the new active heap
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-play"></i> 6. Resume
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-play"></i> 6. Resume
                                     Execution
                                 </h3>
-                                <p>
+<p>
                                     Resume program execution with the newly
                                     compacted heap
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Stop-and-Copy Garbage Collection
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Stop-and-Copy Garbage Collection
 function collectGarbage():
   stopTheWorld()  // Pause all mutator threads
 
@@ -1046,7 +1034,7 @@ function collectGarbage():
 
   // Process copied objects (breadth-first)
   current = toSpace.start
-  while current < toSpace.free:
+  while current &lt; toSpace.free:
     for each reference in object at current:
       if reference != null and reference is in fromSpace:
         newAddress = copyObject(reference, fromSpace, toSpace)
@@ -1078,27 +1066,25 @@ function copyObject(obj, fromSpace, toSpace):
 // Update a reference to point to new location
 function updateReference(ref, newAddress):
   *ref = newAddress</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Stop-and-Copy garbage collector. This example
                             demonstrates the core algorithm with object
                             representation and reference management.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">Heap</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">Heap</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, size):
         <span class="keyword">self</span>.size = size
         <span class="keyword">self</span>.from_space = [<span class="keyword">None</span>] * (size // 2)
@@ -1113,9 +1099,9 @@ function updateReference(ref, newAddress):
         <span class="keyword">else</span>:
             space = <span class="keyword">self</span>.to_space
 
-        <span class="keyword">if</span> <span class="keyword">self</span>.alloc_ptr >= len(space):
+        <span class="keyword">if</span> <span class="keyword">self</span>.alloc_ptr &gt;= len(space):
             <span class="keyword">self</span>.collect()
-            <span class="keyword">if</span> <span class="keyword">self</span>.alloc_ptr >= len(space):
+            <span class="keyword">if</span> <span class="keyword">self</span>.alloc_ptr &gt;= len(space):
                 <span class="keyword">raise</span> MemoryError(<span class="string">"Out of memory"</span>)
 
         space[<span class="keyword">self</span>.alloc_ptr] = obj
@@ -1145,7 +1131,7 @@ function updateReference(ref, newAddress):
 
         <span class="comment"># Process copied objects</span>
         current = 0
-        <span class="keyword">while</span> current < to_space_alloc:
+        <span class="keyword">while</span> current &lt; to_space_alloc:
             obj = to_space[current]
             <span class="comment"># Update all references in the object</span>
             <span class="keyword">for</span> i, ref <span class="keyword">in</span> enumerate(obj.references):
@@ -1202,170 +1188,154 @@ root.add_reference(child2)
 
 <span class="comment"># Trigger garbage collection</span>
 heap.collect()</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Copying GC</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Tracing</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fragmentation</h4>
-                                <div class="value">None</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Pause Time</h4>
-                                <div class="value">Medium</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">High</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Memory Overhead</h4>
-                                <div class="value">2x</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Complexity</h4>
-                                <div class="value">O(Live)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Compaction</h4>
-                                <div class="value">Automatic</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Copying GC</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Tracing</div>
+</div>
+<div class="property-card">
+<h4>Fragmentation</h4>
+<div class="value">None</div>
+</div>
+<div class="property-card">
+<h4>Pause Time</h4>
+<div class="value">Medium</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Memory Overhead</h4>
+<div class="value">2x</div>
+</div>
+<div class="property-card">
+<h4>Complexity</h4>
+<div class="value">O(Live)</div>
+</div>
+<div class="property-card">
+<h4>Compaction</h4>
+<div class="value">Automatic</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Stop-and-Copy is used in various systems and
                             languages:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Young generation collection in generational
                                 garbage collectors
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Functional programming language runtimes
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Lisp and Scheme implementations
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Smalltalk virtual machines
                             </li>
-                            <li>Embedded systems with memory constraints</li>
-                            <li>Research programming languages</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
-                        <ul
-                            style="
+<li>Embedded systems with memory constraints</li>
+<li>Research programming languages</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Key Advantages</h2>
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>No Fragmentation:</strong> Objects are
+                            ">
+<li style="margin-bottom: 10px">
+<strong>No Fragmentation:</strong> Objects are
                                 compacted during copy
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Fast Allocation:</strong> Simple pointer
+<li style="margin-bottom: 10px">
+<strong>Fast Allocation:</strong> Simple pointer
                                 bump allocation
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Efficient Collection:</strong> Time
+<li style="margin-bottom: 10px">
+<strong>Efficient Collection:</strong> Time
                                 proportional to live objects
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Simple Implementation:</strong> Easy to
+<li style="margin-bottom: 10px">
+<strong>Simple Implementation:</strong> Easy to
                                 implement correctly
                             </li>
-                            <li>
-                                <strong>Cache Friendly:</strong> Objects are
+<li>
+<strong>Cache Friendly:</strong> Objects are
                                 allocated sequentially
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Disadvantages Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-exclamation-triangle"></i>
+</ul>
+</div>
+<!-- Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-exclamation-triangle"></i>
                             Limitations
                         </h2>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Requires twice the memory (half is unused at any
                                 time)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Stop-the-world pauses can affect responsiveness
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Not suitable for very large heaps
                             </li>
-                            <li>
+<li>
                                 Inefficient for large objects or heaps with high
                                 survival rates
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a href="#"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
-                    <a href="#"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="#"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="#"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization for Stop-and-Copy Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
                 const visualization =
@@ -1879,5 +1849,5 @@ heap.collect()</code></pre>
                     });
             });
         </script>
-    </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Reference Counting GC | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reference Counting GC | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -773,49 +768,68 @@
                 display: none;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-retweet"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Reference Counting GC | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_rc.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Reference Counting GC | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_rc.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Reference Counting GC | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_rc.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-retweet"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Reference Counting GC</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Reference Counting GC</h1>
-                <div class="category">
-                    <i class="fas fa-calculator"></i> Immediate Garbage
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Reference Counting GC</h1>
+<div class="category">
+<i class="fas fa-calculator"></i> Immediate Garbage
                     Collection Algorithm
                 </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Immediate Collection | No Pause Times
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Reference Counting is a straightforward garbage
                             collection technique that keeps track of the number
                             of references to each object. Each object has a
@@ -823,7 +837,7 @@
                             reference is created and decremented when a
                             reference is destroyed.
                         </p>
-                        <p>
+<p>
                             When an object's reference count reaches zero, it is
                             immediately reclaimed. This approach provides
                             deterministic collection without stop-the-world
@@ -831,54 +845,52 @@
                             objects reference each other, preventing their
                             counts from reaching zero.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Immediate reclamation of objects when they
                                     become unreachable
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     No stop-the-world pauses, but overhead on
                                     every reference operation
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Memory Usage
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Memory Usage
                                 </h3>
-                                <p>
+<p>
                                     Low memory overhead with just a counter per
                                     object
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Track references counts and immediately
                                     collect objects with zero references
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             The visualization below demonstrates the Reference
                             Counting algorithm in action. You can see objects
                             with their reference counts, create and remove
@@ -886,208 +898,157 @@
                             immediately collected when their reference count
                             reaches zero.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Heap
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-memory"></i> Heap
                                     Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        class="console-btn secondary"
-                                        id="step-btn"
-                                    >
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-gc-btn">
-                                        <i class="fas fa-play"></i> Run GC
+<button class="console-btn" id="run-gc-btn">
+<i class="fas fa-play"></i> Run GC
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- Visualization will be rendered here by JavaScript -->
-                                <div class="heap-container" id="heap-container">
-                                    <div
-                                        class="heap-memory"
-                                        id="heap-memory"
-                                    ></div>
-                                    <div
-                                        class="cyclic-warning"
-                                        id="cyclic-warning"
-                                    >
-                                        <i
-                                            class="fas fa-exclamation-triangle"
-                                        ></i>
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- Visualization will be rendered here by JavaScript -->
+<div class="heap-container" id="heap-container">
+<div class="heap-memory" id="heap-memory"></div>
+<div class="cyclic-warning" id="cyclic-warning">
+<i class="fas fa-exclamation-triangle"></i>
                                         Cyclic reference detected!
                                     </div>
-                                    <div class="algorithm-stats">
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="total-objects"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Total Objects</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="active-objects"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Active</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span
-                                                class="stat-value"
-                                                id="free-space"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Free Space</span
-                                            >
-                                        </div>
-                                        <div class="stat-item">
-                                            <span class="stat-value" id="cycles"
-                                                >0</span
-                                            >
-                                            <span class="stat-label"
-                                                >Cycles</span
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <button class="console-btn" id="allocate-btn">
-                                    <i class="fas fa-plus-circle"></i> Allocate
+<div class="algorithm-stats">
+<div class="stat-item">
+<span class="stat-value" id="total-objects">0</span>
+<span class="stat-label">Total Objects</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="active-objects">0</span>
+<span class="stat-label">Active</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="free-space">0</span>
+<span class="stat-label">Free Space</span>
+</div>
+<div class="stat-item">
+<span class="stat-value" id="cycles">0</span>
+<span class="stat-label">Cycles</span>
+</div>
+</div>
+</div>
+</div>
+<div class="console-input">
+<button class="console-btn" id="allocate-btn">
+<i class="fas fa-plus-circle"></i> Allocate
                                     Object
                                 </button>
-                                <button class="console-btn" id="create-ref-btn">
-                                    <i class="fas fa-link"></i> Create Reference
+<button class="console-btn" id="create-ref-btn">
+<i class="fas fa-link"></i> Create Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="remove-ref-btn"
-                                >
-                                    <i class="fas fa-unlink"></i> Remove
+<button class="console-btn secondary" id="remove-ref-btn">
+<i class="fas fa-unlink"></i> Remove
                                     Reference
                                 </button>
-                                <button
-                                    class="console-btn secondary"
-                                    id="create-cycle-btn"
-                                >
-                                    <i class="fas fa-infinity"></i> Create Cycle
+<button class="console-btn secondary" id="create-cycle-btn">
+<i class="fas fa-infinity"></i> Create Cycle
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             Reference Counting operates through these simple but
                             effective steps:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus-circle"></i> 1. Object
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-plus-circle"></i> 1. Object
                                     Creation
                                 </h3>
-                                <p>
+<p>
                                     When an object is created, its reference
                                     count is initialized to 1 (if created with a
                                     reference) or 0 (if created without
                                     immediate reference)
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus"></i> 2. Reference
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-plus"></i> 2. Reference
                                     Addition
                                 </h3>
-                                <p>
+<p>
                                     When a new reference to an object is
                                     created, the object's reference count is
                                     incremented
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-minus"></i> 3. Reference
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-minus"></i> 3. Reference
                                     Removal
                                 </h3>
-                                <p>
+<p>
                                     When a reference to an object is removed,
                                     the object's reference count is decremented
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-trash"></i> 4. Garbage
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-trash"></i> 4. Garbage
                                     Collection
                                 </h3>
-                                <p>
+<p>
                                     If after decrementing, the reference count
                                     reaches zero, the object is immediately
                                     reclaimed
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-recycle"></i> 5. Cascading
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-recycle"></i> 5. Cascading
                                     Collection
                                 </h3>
-                                <p>
+<p>
                                     When an object is collected, all references
                                     it contains are also removed, potentially
                                     triggering further collection
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-exclamation-triangle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exclamation-triangle"></i>
                                     6. Cycle Handling
                                 </h3>
-                                <p>
+<p>
                                     Cyclic references are not automatically
                                     detected and can lead to memory leaks
                                     without additional mechanisms
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Reference Counting Algorithm</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<div class="code-header">
+<span>Reference Counting Algorithm</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code>// Reference Counting Garbage Collection
+</div>
+<pre><code>// Reference Counting Garbage Collection
 function createObject():
   obj = allocateMemory()
   obj.refCount = 0  // Initially no references
@@ -1119,25 +1080,23 @@ function example():
   // Remove the reference
   removeReference(obj1.field)  // obj2.refCount = 0, so it's collected
   obj1.field = null</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Reference Counting garbage collector.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">RefCounted</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">RefCounted</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, value=None):
         <span class="keyword">self</span>.ref_count = 0
         <span class="keyword">self</span>.value = value
@@ -1193,166 +1152,146 @@ function example():
 <span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
     demo_reference_counting()
     demo_cyclic_reference()</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Direct GC</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Reference Tracking</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Cycles</h4>
-                                <div class="value">Not Handled</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Pause Time</h4>
-                                <div class="value">None</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">High</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Memory Overhead</h4>
-                                <div class="value">Low</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Complexity</h4>
-                                <div class="value">O(1) per ref</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Collection</h4>
-                                <div class="value">Immediate</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Direct GC</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Reference Tracking</div>
+</div>
+<div class="property-card">
+<h4>Cycles</h4>
+<div class="value">Not Handled</div>
+</div>
+<div class="property-card">
+<h4>Pause Time</h4>
+<div class="value">None</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Memory Overhead</h4>
+<div class="value">Low</div>
+</div>
+<div class="property-card">
+<h4>Complexity</h4>
+<div class="value">O(1) per ref</div>
+</div>
+<div class="property-card">
+<h4>Collection</h4>
+<div class="value">Immediate</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Reference Counting is used in various systems and
                             languages:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Python (with cycle detector)
                             </li>
-                            <li style="margin-bottom: 10px">PHP</li>
-                            <li style="margin-bottom: 10px">Swift</li>
-                            <li style="margin-bottom: 10px">Objective-C</li>
-                            <li>COM (Component Object Model)</li>
-                            <li>File systems (hard links)</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-star"></i> Key Advantages</h2>
-                        <ul
-                            style="
+<li style="margin-bottom: 10px">PHP</li>
+<li style="margin-bottom: 10px">Swift</li>
+<li style="margin-bottom: 10px">Objective-C</li>
+<li>COM (Component Object Model)</li>
+<li>File systems (hard links)</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Key Advantages</h2>
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Immediate Collection:</strong> Objects
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Immediate Collection:</strong> Objects
                                 reclaimed as soon as they become unreachable
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Predictable:</strong> No stop-the-world
+<li style="margin-bottom: 10px">
+<strong>Predictable:</strong> No stop-the-world
                                 pauses
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Simple:</strong> Easy to implement and
+<li style="margin-bottom: 10px">
+<strong>Simple:</strong> Easy to implement and
                                 understand
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Incremental:</strong> Work is spread
+<li style="margin-bottom: 10px">
+<strong>Incremental:</strong> Work is spread
                                 throughout program execution
                             </li>
-                            <li>
-                                <strong>Localized:</strong> Only affected
+<li>
+<strong>Localized:</strong> Only affected
                                 objects are processed during collection
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Disadvantages Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-exclamation-triangle"></i>
+</ul>
+</div>
+<!-- Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-exclamation-triangle"></i>
                             Limitations
                         </h2>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Cannot handle cyclic references without
                                 additional mechanisms
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Overhead on every reference assignment
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Not thread-safe without synchronization
                             </li>
-                            <li>
+<li>
                                 Cascading deletions can cause unexpected pauses
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization for Reference Counting Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
                 const visualization =
@@ -1858,5 +1797,5 @@ function example():
                     });
             });
         </script>
-    </body>
+</body>
 </html>

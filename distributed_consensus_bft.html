@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Byzantine Fault Tolerance | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Byzantine Fault Tolerance | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -697,47 +692,66 @@
                 margin-top: 15px;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Consensus Algorithms</a> >
+<meta content="Byzantine Fault Tolerance | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_bft.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Byzantine Fault Tolerance | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_bft.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Byzantine Fault Tolerance | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_bft.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-shield-alt"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Consensus Algorithms</a> &gt;
                             <span>Byzantine Fault Tolerance</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Byzantine Fault Tolerance</h1>
-                <div class="category">
-                    <i class="fas fa-shield-alt"></i> Fault-Tolerant Consensus
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Byzantine Fault Tolerance</h1>
+<div class="category">
+<i class="fas fa-shield-alt"></i> Fault-Tolerant Consensus
                     Algorithm
                 </div>
-                <div class="complexity-badge">Min Nodes: 3f+1 (f faulty)</div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+<div class="complexity-badge">Min Nodes: 3f+1 (f faulty)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             Byzantine Fault Tolerance (BFT) is a property of
                             distributed systems that allows them to reach
                             consensus even when some nodes fail or act
@@ -747,7 +761,7 @@
                             arbitrary node failures, including malicious
                             behavior.
                         </p>
-                        <p>
+<p>
                             PBFT works through a three-phase consensus process:
                             <strong>Pre-Prepare</strong>,
                             <strong>Prepare</strong>, and
@@ -757,54 +771,52 @@
                             state even when up to one-third of the nodes are
                             Byzantine (malicious or faulty).
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Tolerates arbitrary failures including
                                     malicious behavior
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Operates efficiently in asynchronous systems
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-memory"></i> Fault
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-memory"></i> Fault
                                     Tolerance
                                 </h3>
-                                <p>
+<p>
                                     Requires 3f+1 nodes to tolerate f faulty
                                     nodes
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Replication with voting and cryptographic
                                     signatures
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Visualize how Byzantine Fault Tolerance works in a
                             network with malicious nodes. The primary node
                             (yellow) initiates a request. Honest nodes (blue)
@@ -812,125 +824,109 @@
                             to disrupt consensus. Observe how the system still
                             reaches agreement despite malicious behavior.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> PBFT
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> PBFT
                                     Protocol Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button
-                                        id="reset-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                    <button id="run-btn" class="console-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                    <button
-                                        id="faulty-btn"
-                                        class="console-btn secondary"
-                                    >
-                                        <i class="fas fa-bug"></i> Toggle Faulty
+<button class="console-btn secondary" id="faulty-btn">
+<i class="fas fa-bug"></i> Toggle Faulty
                                     </button>
-                                </div>
-                            </div>
-
-                            <div class="visualization-area">
-                                <div id="network-container">
-                                    <div class="phase-indicator">
+</div>
+</div>
+<div class="visualization-area">
+<div id="network-container">
+<div class="phase-indicator">
                                         Phase:
                                         <span id="phase-text">Not Started</span>
-                                    </div>
-                                    <div class="state-info" id="state-info">
+</div>
+<div class="state-info" id="state-info">
                                         Consensus State: Not Started
                                     </div>
-                                    <!-- Nodes will be dynamically created here -->
-                                </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="nodes-input"
-                                    placeholder="Number of nodes (default: 4)"
-                                />
-                                <button id="random-btn" class="console-btn">
-                                    <i class="fas fa-random"></i> Randomize
+<!-- Nodes will be dynamically created here -->
+</div>
+</div>
+<div class="console-input">
+<input id="nodes-input" placeholder="Number of nodes (default: 4)" type="text"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Randomize
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             The PBFT protocol operates in three distinct phases
                             to achieve consensus:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-comments"></i> Phase 1:
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-comments"></i> Phase 1:
                                     Pre-Prepare
                                 </h3>
-                                <p>
+<p>
                                     The primary node assigns a sequence number
                                     to the client request and broadcasts a
                                     pre-prepare message to all backup nodes.
                                     This message includes the request and its
                                     digest.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Phase 2:
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Phase 2:
                                     Prepare
                                 </h3>
-                                <p>
+<p>
                                     Each node verifies the pre-prepare message
                                     and broadcasts prepare messages to all other
                                     nodes. Nodes collect prepare messages until
                                     they have 2f+1 matching messages.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-double"></i> Phase 3:
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-check-double"></i> Phase 3:
                                     Commit
                                 </h3>
-                                <p>
+<p>
                                     Nodes broadcast commit messages after
                                     receiving 2f+1 prepare messages. After
                                     receiving 2f+1 matching commit messages,
                                     nodes execute the request and reply to the
                                     client.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-exclamation-triangle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exclamation-triangle"></i>
                                     View Change
                                 </h3>
-                                <p>
+<p>
                                     If the primary is faulty, nodes can initiate
                                     a view change to elect a new primary. This
                                     ensures liveness even when the primary is
                                     malicious.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Primary node behavior
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Primary node behavior
 function primaryNode(request):
     sequence = nextSequenceNumber()
     broadcast(PRE_PREPARE, request, sequence, digest(request))
@@ -957,26 +953,24 @@ function startViewChange():
         if received 2f+1 VIEW_CHANGE messages:
             becomePrimary(newView)
             broadcast(NEW_VIEW, newView)</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             PBFT algorithm. The implementation includes the core
                             phases and basic fault tolerance mechanisms.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">import</span> hashlib
+</div>
+<pre><code><span class="keyword">import</span> hashlib
 <span class="keyword">import</span> random
 
 <span class="keyword">class</span> <span class="function">PBFTNode</span>:
@@ -1028,7 +1022,7 @@ function startViewChange():
         key = (message['view'], message['sequence'], message['digest'])
         self.prepare_messages.setdefault(key, set()).add(message['node_id'])
 
-        <span class="keyword">if</span> len(self.prepare_messages[key]) >= 2 * (total_nodes // 3) + 1:
+        <span class="keyword">if</span> len(self.prepare_messages[key]) &gt;= 2 * (total_nodes // 3) + 1:
             <span class="keyword">return</span> self._commit(message, total_nodes)
         <span class="keyword">return</span> <span class="keyword">None</span>
 
@@ -1045,7 +1039,7 @@ function startViewChange():
         key = (message['view'], message['sequence'], message['digest'])
         self.commit_messages.setdefault(key, set()).add(message['node_id'])
 
-        <span class="keyword">if</span> len(self.commit_messages[key]) >= 2 * (total_nodes // 3) + 1:
+        <span class="keyword">if</span> len(self.commit_messages[key]) &gt;= 2 * (total_nodes // 3) + 1:
             <span class="comment"># Execute the request</span>
             <span class="keyword">return</span> <span class="string">"EXECUTE"</span>
         <span class="keyword">return</span> <span class="keyword">None</span>
@@ -1053,7 +1047,7 @@ function startViewChange():
     <span class="keyword">def</span> <span class="function">_validate_pre_prepare</span>(self, message):
         <span class="comment"># Validate digest and sequence number</span>
         computed_digest = self._hash(message['request'])
-        <span class="keyword">return</span> computed_digest == message['digest'] <span class="keyword">and</span> message['sequence'] > self.sequence_number
+        <span class="keyword">return</span> computed_digest == message['digest'] <span class="keyword">and</span> message['sequence'] &gt; self.sequence_number
 
     <span class="keyword">def</span> <span class="function">_hash</span>(self, data):
         <span class="keyword">return</span> hashlib.sha256(str(data).encode()).hexdigest()
@@ -1061,7 +1055,7 @@ function startViewChange():
     <span class="keyword">def</span> <span class="function">_malicious_behavior</span>(self):
         <span class="comment"># Byzantine nodes send conflicting messages</span>
         <span class="keyword">return</span> {
-            'type': 'PREPARE' <span class="keyword">if</span> random.random() > 0.5 <span class="keyword">else</span> 'COMMIT',
+            'type': 'PREPARE' <span class="keyword">if</span> random.random() &gt; 0.5 <span class="keyword">else</span> 'COMMIT',
             'view': self.view,
             'sequence': random.randint(1, 100),
             'digest': 'malicious_digest',
@@ -1083,147 +1077,130 @@ pre_prepare = nodes[0].pre_prepare(request)
 <span class="keyword">for</span> node <span class="keyword">in</span> nodes[1:]:
     prepare = node.receive_pre_prepare(pre_prepare)
     <span class="comment"># Broadcast prepare to all nodes...</span></code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Consensus</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">State Machine</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fault Tolerance</h4>
-                                <div class="value">Byzantine</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Min Nodes</h4>
-                                <div class="value">3f+1</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Message Complexity</h4>
-                                <div class="value">O(n²)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Safety</h4>
-                                <div class="value">Guaranteed</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Liveness</h4>
-                                <div class="value">With View Change</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Applications</h4>
-                                <div class="value">Blockchain</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Consensus</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">State Machine</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">Byzantine</div>
+</div>
+<div class="property-card">
+<h4>Min Nodes</h4>
+<div class="value">3f+1</div>
+</div>
+<div class="property-card">
+<h4>Message Complexity</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Safety</h4>
+<div class="value">Guaranteed</div>
+</div>
+<div class="property-card">
+<h4>Liveness</h4>
+<div class="value">With View Change</div>
+</div>
+<div class="property-card">
+<h4>Applications</h4>
+<div class="value">Blockchain</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Byzantine Fault Tolerance is crucial for systems
                             operating in untrusted environments:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Blockchain networks (e.g., Hyperledger,
                                 Tendermint)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Aircraft control systems and avionics
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Nuclear power plant controls
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Financial transaction systems
                             </li>
-                            <li>Military command and control systems</li>
-                        </ul>
-                    </div>
-
-                    <!-- Comparison Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-balance-scale"></i> BFT vs CFT</h2>
-                        <p>
+<li>Military command and control systems</li>
+</ul>
+</div>
+<!-- Comparison Section -->
+<div class="section">
+<h2><i class="fas fa-balance-scale"></i> BFT vs CFT</h2>
+<p>
                             Key differences between Byzantine and Crash Fault
                             Tolerance:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Fault Model:</strong> BFT handles
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Fault Model:</strong> BFT handles
                                 arbitrary failures, CFT only crash failures
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Node Requirements:</strong> BFT requires
+<li style="margin-bottom: 10px">
+<strong>Node Requirements:</strong> BFT requires
                                 3f+1 nodes, CFT requires 2f+1
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Security:</strong> BFT provides security
+<li style="margin-bottom: 10px">
+<strong>Security:</strong> BFT provides security
                                 against malicious actors
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Complexity:</strong> BFT is more complex
+<li style="margin-bottom: 10px">
+<strong>Complexity:</strong> BFT is more complex
                                 due to malicious behavior handling
                             </li>
-                            <li>
-                                <strong>Use Cases:</strong> BFT for adversarial
+<li>
+<strong>Use Cases:</strong> BFT for adversarial
                                 environments, CFT for trusted networks
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Visualization state
             let vizState = {
                 phase: "not-started",
@@ -1559,5 +1536,5 @@ pre_prepare = nodes[0].pre_prepare(request)
             // Initialize
             document.addEventListener("DOMContentLoaded", initViz);
         </script>
-    </body>
+</body>
 </html>

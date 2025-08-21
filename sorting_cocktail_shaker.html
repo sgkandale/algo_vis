@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cocktail Shaker Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cocktail Shaker Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -606,191 +601,197 @@
         border-radius: 5px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Cocktail Shaker Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_cocktail_shaker.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Cocktail Shaker Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_cocktail_shaker.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Cocktail Shaker Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_cocktail_shaker.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Cocktail Shaker Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Cocktail Shaker Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Cocktail Shaker Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Cocktail Shaker Sort, also known as bidirectional bubble sort,
               cocktail sort, shaker sort, ripple sort, or shuttle sort, is a
               variation of the bubble sort algorithm. It differs by sorting in
               both directions on each pass through the list.
             </p>
-            <p>
+<p>
               The algorithm gets its name from the way it moves elements -
               similar to the motion of a cocktail shaker. It addresses the issue
               of bubble sort's "turtle" problem, where small elements at the end
               of the list take many passes to move to the beginning.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Sorts in both directions, improving on bubble sort</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Sorts in both directions, improving on bubble sort</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n) in best case (already sorted), O(n²) average and worst
                   case
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(1) additional space (in-place algorithm)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Bidirectional bubbling of elements</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(1) additional space (in-place algorithm)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Bidirectional bubbling of elements</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Cocktail Shaker Sort in action. Enter a comma-separated
               list of numbers, adjust the speed, and step through the algorithm
               to see each stage of the sorting process.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Cocktail Shaker
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Cocktail Shaker
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div id="cocktail-container"></div>
-                <div class="stats-container">
-                  <div class="stat-item">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div id="cocktail-container"></div>
+<div class="stats-container">
+<div class="stat-item">
                     Comparisons: <span id="comparison-count">0</span>
-                  </div>
-                  <div class="stat-item">
+</div>
+<div class="stat-item">
                     Swaps: <span id="swap-count">0</span>
-                  </div>
-                  <div class="stat-item">
+</div>
+<div class="stat-item">
                     Passes: <span id="pass-count">0</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="38, 27, 43, 3, 9, 82, 10, 15, 22"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="38, 27, 43, 3, 9, 82, 10, 15, 22"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Cocktail Shaker Sort alternates between two directions on each
               pass:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> 1. Forward Pass</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> 1. Forward Pass</h3>
+<p>
                   Traverse from left to right, comparing adjacent elements and
                   swapping if they are in the wrong order
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-left"></i> 2. Backward Pass</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-left"></i> 2. Backward Pass</h3>
+<p>
                   Traverse from right to left, comparing adjacent elements and
                   swapping if they are in the wrong order
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-compress-alt"></i> 3. Adjust Boundaries
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-alt"></i> 3. Adjust Boundaries
                 </h3>
-                <p>
+<p>
                   After each pass, adjust the boundaries since the
                   largest/smallest element has bubbled to the end
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 4. Repeat</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 4. Repeat</h3>
+<p>
                   Continue alternating directions until no swaps occur in a full
                   pass
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
+<p>
                   When a complete pass with no swaps occurs, the list is sorted
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure cocktailShakerSort(A: list of sortable items)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure cocktailShakerSort(A: list of sortable items)
     n = length(A)
     swapped = true
     start = 0
@@ -802,7 +803,7 @@
         
         // Forward pass (left to right)
         for i = start to end - 1
-            if A[i] > A[i + 1] then
+            if A[i] &gt; A[i + 1] then
                 swap(A[i], A[i + 1])
                 swapped = true
         
@@ -817,33 +818,31 @@
         
         // Backward pass (right to left)
         for i = end - 1 downto start
-            if A[i] > A[i + 1] then
+            if A[i] &gt; A[i + 1] then
                 swap(A[i], A[i + 1])
                 swapped = true
         
         // Move the start point forward by one
         start = start + 1</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Cocktail Shaker Sort. The
               algorithm alternates between forward and backward passes until the
               list is sorted.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">cocktail_shaker_sort</span>(arr):
-    <span class="keyword">if</span> len(arr) <= 1:
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">cocktail_shaker_sort</span>(arr):
+    <span class="keyword">if</span> len(arr) &lt;= 1:
         <span class="keyword">return</span> arr
         
     swapped = True
@@ -856,7 +855,7 @@
         
         <span class="comment"># Forward pass (left to right)</span>
         <span class="keyword">for</span> i <span class="keyword">in</span> range(start, end):
-            <span class="keyword">if</span> arr[i] > arr[i + 1]:
+            <span class="keyword">if</span> arr[i] &gt; arr[i + 1]:
                 <span class="comment"># Swap elements</span>
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swapped = True
@@ -873,7 +872,7 @@
         
         <span class="comment"># Backward pass (right to left)</span>
         <span class="keyword">for</span> i <span class="keyword">in</span> range(end - 1, start - 1, -1):
-            <span class="keyword">if</span> arr[i] > arr[i + 1]:
+            <span class="keyword">if</span> arr[i] &gt; arr[i + 1]:
                 <span class="comment"># Swap elements</span>
                 arr[i], arr[i + 1] = arr[i + 1], arr[i]
                 swapped = True
@@ -888,123 +887,108 @@ arr = [38, 27, 43, 3, 9, 82, 10, 15, 22]
 sorted_arr = cocktail_shaker_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)
 <span class="comment"># Output: Sorted array: [3, 9, 10, 15, 22, 27, 38, 43, 82]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Cocktail Shaker Sort is useful in specific scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Cocktail Shaker Sort is useful in specific scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Educational purposes to demonstrate bidirectional sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Situations where data is nearly sorted
               </li>
-              <li style="margin-bottom: 10px">Small datasets</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Small datasets</li>
+<li style="margin-bottom: 10px">
                 When a stable sort is required
               </li>
-              <li>As an improvement to bubble sort</li>
-            </ul>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Advantages</h2>
-            <p>Compared to regular bubble sort:</p>
-            <ul
-              style="
+<li>As an improvement to bubble sort</li>
+</ul>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Advantages</h2>
+<p>Compared to regular bubble sort:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 More efficient for certain data distributions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Solves the "turtle problem" of bubble sort
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Better performance on nearly sorted lists
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Maintains bubble sort's simplicity
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Cocktail Shaker Sort Visualization
       class CocktailShakerVisualizer {
         constructor(container, stats) {
@@ -1287,5 +1271,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)
           });
       });
     </script>
-  </body>
+</body>
 </html>

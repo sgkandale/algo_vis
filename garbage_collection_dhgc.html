@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dual-Heap Garbage Collector | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dual-Heap Garbage Collector | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -664,198 +659,204 @@
         100% { opacity: 0; transform: translateY(100px); }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Memory Management</a> >
+<meta content="Dual-Heap Garbage Collector | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_dhgc.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Dual-Heap Garbage Collector | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_dhgc.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Dual-Heap Garbage Collector | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_dhgc.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Memory Management</a> &gt;
               <span>Dual-Heap Garbage Collector</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Dual-Heap Garbage Collector</h1>
+<div class="category">
+<i class="fas fa-memory"></i> Generational Memory Management Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Dual-Heap Garbage Collector</h1>
-        <div class="category">
-          <i class="fas fa-memory"></i> Generational Memory Management Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(Live Data)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(Live Data)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               The Dual-Heap Garbage Collector is a generational memory management algorithm that divides
               the heap into two spaces: a young generation (nursery) and an old generation (tenured space).
               This approach is based on the weak generational hypothesis, which states that most objects
               die young, while a small percentage of objects survive for longer periods.
             </p>
-            <p>
+<p>
               New objects are allocated in the young generation, which is collected frequently using a
               fast, copying garbage collector. Objects that survive multiple collections in the young
               generation are promoted to the old generation, which is collected less frequently using
               a more thorough but slower algorithm (typically mark-sweep or mark-compact).
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Uses two separate heaps with different collection strategies optimized for object lifetimes
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Fast collection of young generation with pause times proportional to live young objects
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Efficiency</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Efficiency</h3>
+<p>
                   Reduces overall collection time by focusing on the area where most garbage is created
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>
                   Combines copying collection for young generation with mark-sweep/compact for old generation
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how the Dual-Heap Garbage Collector works.
               The visualization shows both young and old generation heaps and demonstrates how objects
               are promoted from young to old generation after surviving multiple collections.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Dual-Heap GC Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Dual-Heap GC Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="gc-visualization">
-                <!-- GC Visualization will be rendered here -->
-                <div class="phase-indicator">
-                  <div class="phase" id="phase-young">Young GC</div>
-                  <div class="phase" id="phase-promote">Promotion</div>
-                  <div class="phase" id="phase-old">Old GC</div>
-                </div>
-                <div class="dual-heap-container">
-                  <div class="heap young-heap">
-                    <div class="heap-title">Young Generation</div>
-                    <div class="memory-blocks" id="young-heap"></div>
-                  </div>
-                  <div class="heap old-heap">
-                    <div class="heap-title">Old Generation</div>
-                    <div class="memory-blocks" id="old-heap"></div>
-                  </div>
-                </div>
-                <div class="info-panel" id="info-panel">Ready to start garbage collection</div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="object-input"
-                  placeholder="Enter object structure (e.g., A:0, B:1, C:2)"
-                  value="A:0, B:1, C:2, D:0, E:1"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- GC Visualization will be rendered here -->
+<div class="phase-indicator">
+<div class="phase" id="phase-young">Young GC</div>
+<div class="phase" id="phase-promote">Promotion</div>
+<div class="phase" id="phase-old">Old GC</div>
+</div>
+<div class="dual-heap-container">
+<div class="heap young-heap">
+<div class="heap-title">Young Generation</div>
+<div class="memory-blocks" id="young-heap"></div>
+</div>
+<div class="heap old-heap">
+<div class="heap-title">Old Generation</div>
+<div class="memory-blocks" id="old-heap"></div>
+</div>
+</div>
+<div class="info-panel" id="info-panel">Ready to start garbage collection</div>
+</div>
+<div class="console-input">
+<input id="object-input" placeholder="Enter object structure (e.g., A:0, B:1, C:2)" type="text" value="A:0, B:1, C:2, D:0, E:1"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               The Dual-Heap Garbage Collector operates in the following steps:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-baby"></i> 1. Object Allocation</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-baby"></i> 1. Object Allocation</h3>
+<p>
                   New objects are allocated in the young generation heap. Each object has an age counter
                   that tracks how many collections it has survived.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync"></i> 2. Young Generation Collection</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync"></i> 2. Young Generation Collection</h3>
+<p>
                   When the young generation fills up, a minor collection is triggered. This uses a
                   copying collector to quickly identify and retain live objects.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-up"></i> 3. Object Promotion</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-up"></i> 3. Object Promotion</h3>
+<p>
                   Objects that survive a certain number of young generation collections (age threshold)
                   are promoted to the old generation.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-database"></i> 4. Old Generation Collection</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-database"></i> 4. Old Generation Collection</h3>
+<p>
                   When the old generation fills up or based on heuristics, a major collection is triggered.
                   This uses a mark-sweep or mark-compact algorithm to reclaim memory.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 5. Cycle Repeat</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 5. Cycle Repeat</h3>
+<p>
                   The process repeats, with new allocations happening in the young generation and long-lived
                   objects accumulating in the old generation.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>// Dual-Heap Generational Garbage Collection
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Dual-Heap Generational Garbage Collection
 function collectGarbage():
     if youngGenerationIsFull():
         collectYoungGeneration()
@@ -871,7 +872,7 @@ function collectYoungGeneration():
     for each object in youngGeneration:
         if isLive(object):
             object.age += 1
-            if object.age >= PROMOTION_AGE:
+            if object.age &gt;= PROMOTION_AGE:
                 promoteToOldGeneration(object)
             else:
                 liveObjects.append(object)
@@ -928,38 +929,36 @@ function sweepPhaseOldGeneration():
             free(object)
         else:
             object.marked = false  // Reset for next GC</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a simplified Python implementation of a Dual-Heap Garbage Collector.
               This implementation demonstrates the core concepts of generational collection
               with object promotion between generations.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">class</span> <span class="function">DualHeapGC</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">DualHeapGC</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(self, young_size, old_size, promotion_age=2):
         self.young_gen = [None] * young_size
         self.old_gen = [None] * old_size
         self.young_free = 0
         self.old_free = 0
         self.promotion_age = promotion_age
-        self.remembered_set = set()  <span class="comment"># Tracks young->old references</span>
+        self.remembered_set = set()  <span class="comment"># Tracks young-&gt;old references</span>
         self.object_ages = {}  <span class="comment"># Tracks how many collections objects have survived</span>
 
     <span class="keyword">def</span> <span class="function">allocate</span>(self, obj_id, size):
         <span class="comment"># Try to allocate in young generation first</span>
-        <span class="keyword">if</span> self.young_free + size <= len(self.young_gen):
+        <span class="keyword">if</span> self.young_free + size &lt;= len(self.young_gen):
             <span class="keyword">for</span> i <span class="keyword">in</span> range(self.young_free, self.young_free + size):
                 self.young_gen[i] = obj_id
             self.young_free += size
@@ -970,7 +969,7 @@ function sweepPhaseOldGeneration():
         self.collect_young()
 
         <span class="comment"># Try again after collection</span>
-        <span class="keyword">if</span> self.young_free + size <= len(self.young_gen):
+        <span class="keyword">if</span> self.young_free + size &lt;= len(self.young_gen):
             <span class="keyword">for</span> i <span class="keyword">in</span> range(self.young_free, self.young_free + size):
                 self.young_gen[i] = obj_id
             self.young_free += size
@@ -978,7 +977,7 @@ function sweepPhaseOldGeneration():
             <span class="keyword">return</span> True
 
         <span class="comment"># If still no space, try old generation</span>
-        <span class="keyword">if</span> self.old_free + size <= len(self.old_gen):
+        <span class="keyword">if</span> self.old_free + size &lt;= len(self.old_gen):
             <span class="keyword">for</span> i <span class="keyword">in</span> range(self.old_free, self.old_free + size):
                 self.old_gen[i] = obj_id
             self.old_free += size
@@ -989,7 +988,7 @@ function sweepPhaseOldGeneration():
         self.collect_old()
 
         <span class="comment"># Try allocation in old generation after collection</span>
-        <span class="keyword">if</span> self.old_free + size <= len(self.old_gen):
+        <span class="keyword">if</span> self.old_free + size &lt;= len(self.old_gen):
             <span class="keyword">for</span> i <span class="keyword">in</span> range(self.old_free, self.old_free + size):
                 self.old_gen[i] = obj_id
             self.old_free += size
@@ -1006,7 +1005,7 @@ function sweepPhaseOldGeneration():
 
         <span class="comment"># Process young generation</span>
         i = 0
-        <span class="keyword">while</span> i < self.young_free:
+        <span class="keyword">while</span> i &lt; self.young_free:
             obj_id = self.young_gen[i]
             <span class="keyword">if</span> obj_id <span class="keyword">is</span> <span class="keyword">not</span> None:
                 size = self.get_object_size(obj_id, self.young_gen, i)
@@ -1016,7 +1015,7 @@ function sweepPhaseOldGeneration():
                     <span class="comment"># Increase age and check for promotion</span>
                     self.object_ages[obj_id] += 1
 
-                    <span class="keyword">if</span> self.object_ages[obj_id] >= self.promotion_age:
+                    <span class="keyword">if</span> self.object_ages[obj_id] &gt;= self.promotion_age:
                         <span class="comment"># Promote to old generation</span>
                         self.promote_to_old(obj_id, i, size)
                         promoted += 1
@@ -1038,11 +1037,11 @@ function sweepPhaseOldGeneration():
 
     <span class="keyword">def</span> <span class="function">promote_to_old</span>(self, obj_id, young_index, size):
         <span class="comment"># Move object from young to old generation</span>
-        <span class="keyword">if</span> self.old_free + size > len(self.old_gen):
+        <span class="keyword">if</span> self.old_free + size &gt; len(self.old_gen):
             <span class="comment"># Need to collect old generation first</span>
             self.collect_old()
 
-        <span class="keyword">if</span> self.old_free + size <= len(self.old_gen):
+        <span class="keyword">if</span> self.old_free + size &lt;= len(self.old_gen):
             <span class="comment"># Copy object to old generation</span>
             <span class="keyword">for</span> i <span class="keyword">in</span> range(size):
                 self.old_gen[self.old_free + i] = obj_id
@@ -1067,7 +1066,7 @@ function sweepPhaseOldGeneration():
         new_free = 0
         i = 0
 
-        <span class="keyword">while</span> i < self.old_free:
+        <span class="keyword">while</span> i &lt; self.old_free:
             obj_id = self.old_gen[i]
             <span class="keyword">if</span> obj_id <span class="keyword">is</span> <span class="keyword">not</span> None:
                 size = self.get_object_size(obj_id, self.old_gen, i)
@@ -1099,146 +1098,136 @@ function sweepPhaseOldGeneration():
             <span class="keyword">else</span>:
                 <span class="keyword">break</span>
         <span class="keyword">return</span> size</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Generational</div>
-              </div>
-              <div class="property-card">
-                <h4>Young GC</h4>
-                <div class="value">Copying</div>
-              </div>
-              <div class="property-card">
-                <h4>Old GC</h4>
-                <div class="value">Mark-Sweep</div>
-              </div>
-              <div class="property-card">
-                <h4>Compacting</h4>
-                <div class="value">Optional</div>
-              </div>
-              <div class="property-card">
-                <h4>Promotion</h4>
-                <div class="value">Age-based</div>
-              </div>
-              <div class="property-card">
-                <h4>Time Complexity</h4>
-                <div class="value">O(L<sub>y</sub> + L<sub>o</sub>)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space Overhead</h4>
-                <div class="value">Remembered Sets</div>
-              </div>
-              <div class="property-card">
-                <h4>Throughput</h4>
-                <div class="value">High</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Generational</div>
+</div>
+<div class="property-card">
+<h4>Young GC</h4>
+<div class="value">Copying</div>
+</div>
+<div class="property-card">
+<h4>Old GC</h4>
+<div class="value">Mark-Sweep</div>
+</div>
+<div class="property-card">
+<h4>Compacting</h4>
+<div class="value">Optional</div>
+</div>
+<div class="property-card">
+<h4>Promotion</h4>
+<div class="value">Age-based</div>
+</div>
+<div class="property-card">
+<h4>Time Complexity</h4>
+<div class="value">O(L<sub>y</sub> + L<sub>o</sub>)</div>
+</div>
+<div class="property-card">
+<h4>Space Overhead</h4>
+<div class="value">Remembered Sets</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">High</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Dual-Heap Garbage Collection is widely used in modern programming languages and systems:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Java Virtual Machine (JVM):</strong> Uses generational collection with young and old generations
+              ">
+<li style="margin-bottom: 10px">
+<strong>Java Virtual Machine (JVM):</strong> Uses generational collection with young and old generations
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>.NET CLR:</strong> Implements generational garbage collection with ephemeal (young) and full (old) generations
+<li style="margin-bottom: 10px">
+<strong>.NET CLR:</strong> Implements generational garbage collection with ephemeal (young) and full (old) generations
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>JavaScript engines:</strong> V8 and others use generational collection for efficient memory management
+<li style="margin-bottom: 10px">
+<strong>JavaScript engines:</strong> V8 and others use generational collection for efficient memory management
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Python:</strong> Some implementations use generational GC (e.g., PyPy)
+<li style="margin-bottom: 10px">
+<strong>Python:</strong> Some implementations use generational GC (e.g., PyPy)
               </li>
-              <li>
-                <strong>High-performance systems:</strong> Where predictable pause times are important
+<li>
+<strong>High-performance systems:</strong> Where predictable pause times are important
               </li>
-            </ul>
-          </div>
-
-          <!-- Advantages & Disadvantages -->
-          <div class="section">
-            <h2><i class="fas fa-balance-scale"></i> Pros & Cons</h2>
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-plus-circle"></i> Advantages</h3>
-                <p>
+</ul>
+</div>
+<!-- Advantages & Disadvantages -->
+<div class="section">
+<h2><i class="fas fa-balance-scale"></i> Pros &amp; Cons</h2>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-plus-circle"></i> Advantages</h3>
+<p>
                   High throughput, short pause times for young collections, efficient for object-oriented workloads,
                   reduces overall collection time by focusing on young generation
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-minus-circle"></i> Disadvantages</h4>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-minus-circle"></i> Disadvantages
+<p>
                   Complexity of maintaining remembered sets, overhead of object promotion,
                   longer pause times for old generation collections, requires tuning of generation sizes
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Variants Section -->
-          <div class="section">
-            <h2><i class="fas fa-code-branch"></i> Algorithm Variants</h2>
-            <p>
+</h3></div>
+</div>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2><i class="fas fa-code-branch"></i> Algorithm Variants</h2>
+<p>
               Several approaches exist within generational garbage collection:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Ephemeral GC:</strong> .NET's implementation with gen0, gen1, and gen2
+              ">
+<li style="margin-bottom: 10px">
+<strong>Ephemeral GC:</strong> .NET's implementation with gen0, gen1, and gen2
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Train GC:</strong> Uses multiple older generations for incremental collection of large heaps
+<li style="margin-bottom: 10px">
+<strong>Train GC:</strong> Uses multiple older generations for incremental collection of large heaps
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Concurrent generational GC:</strong> Performs old generation collection concurrently with program execution
+<li style="margin-bottom: 10px">
+<strong>Concurrent generational GC:</strong> Performs old generation collection concurrently with program execution
               </li>
-              <li>
-                <strong>Incremental generational GC:</strong> Breaks down collection into smaller increments to reduce pause times
+<li>
+<strong>Incremental generational GC:</strong> Breaks down collection into smaller increments to reduce pause times
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Dual-Heap Garbage Collector Visualization
       class DualHeapGCVisualization {
         constructor() {
@@ -1562,5 +1551,5 @@ function sweepPhaseOldGeneration():
         });
       });
     </script>
-  </body>
+</body>
 </html>

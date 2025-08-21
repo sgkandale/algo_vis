@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AlgoVis Hub | Algorithm Visualization Repository</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="description"/><meta content="algorithm, data structure, computer science, visualization, interactive" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AlgoVis Hub | Algorithm Visualization Repository</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -526,75 +521,87 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoVis Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-          </div>
-        </div>
-        <div class="search-container">
-          <i class="fas fa-search"></i>
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search algorithms by name, category or complexity..."
-          />
-        </div>
-      </header>
-
-      <!-- Stats Bar -->
-      <div class="stats-bar" id="statsBar">
-        <!-- Stats will be populated by JavaScript -->
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Sidebar with Categories -->
-        <aside class="sidebar">
-          <h2><i class="fas fa-sitemap"></i> Algorithm Categories</h2>
-          <ul class="category-list" id="categoryList">
-            <!-- Categories will be populated by JavaScript -->
-          </ul>
-        </aside>
-
-        <!-- Algorithm Grid -->
-        <div class="algorithm-grid" id="algorithmGrid">
-          <div class="section-header">
-            <h2 id="sectionTitle">
-              <i class="fas fa-star"></i> Popular Algorithms
+<meta content="AlgoVis Hub | Algorithm Visualization Repository" property="og:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/index_3.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="AlgoVis Hub | Algorithm Visualization Repository" name="twitter:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/index_3.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AlgoVis Hub | Algorithm Visualization Repository",
+  "description": "Interactive algorithm visualization platform for learning computer science concepts",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/index_3.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoVis Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+</div>
+</div>
+<div class="search-container">
+<i class="fas fa-search"></i>
+<input id="searchInput" placeholder="Search algorithms by name, category or complexity..." type="text"/>
+</div>
+</header>
+<!-- Stats Bar -->
+<div class="stats-bar" id="statsBar">
+<!-- Stats will be populated by JavaScript -->
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Sidebar with Categories -->
+<aside class="sidebar">
+<h2><i class="fas fa-sitemap"></i> Algorithm Categories</h2>
+<ul class="category-list" id="categoryList">
+<!-- Categories will be populated by JavaScript -->
+</ul>
+</aside>
+<!-- Algorithm Grid -->
+<div class="algorithm-grid" id="algorithmGrid">
+<div class="section-header">
+<h2 id="sectionTitle">
+<i class="fas fa-star"></i> Popular Algorithms
             </h2>
-            <span class="count-badge" id="countBadge">Loading...</span>
-          </div>
-          <div class="algorithms-container" id="algorithmsContainer">
-            <!-- Algorithms will be populated by JavaScript -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <p>AlgoVis Hub - Interactive Algorithm Visualization Platform</p>
-        <p>Designed for researchers, educators, and developers</p>
-        <div class="footer-links">
-          <a href="#"><i class="fas fa-book"></i> Documentation</a>
-          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
-          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
-          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
-          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-        </div>
-        <p>&copy; 2025 AlgoVis Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<span class="count-badge" id="countBadge">Loading...</span>
+</div>
+<div class="algorithms-container" id="algorithmsContainer">
+<!-- Algorithms will be populated by JavaScript -->
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<p>AlgoVis Hub - Interactive Algorithm Visualization Platform</p>
+<p>Designed for researchers, educators, and developers</p>
+<div class="footer-links">
+<a href="#"><i class="fas fa-book"></i> Documentation</a>
+<a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+<a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+<a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+<a href="#"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+<p>© 2025 AlgoVis Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Comprehensive algorithm data structure
       const algorithmData = {
         "Sorting Algorithms": {
@@ -779,5 +786,5 @@
         setupSearch();
       });
     </script>
-  </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Copying Garbage Collector | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Copying Garbage Collector | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -639,48 +634,67 @@
                 text-align: center;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Copying Garbage Collector | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_cc.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Copying Garbage Collector | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_cc.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Copying Garbage Collector | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_cc.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Copying Garbage Collector</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Copying Garbage Collector</h1>
+<div class="category">
+<i class="fas fa-memory"></i> Memory Management Algorithm
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Copying Garbage Collector</h1>
-                <div class="category">
-                    <i class="fas fa-memory"></i> Memory Management Algorithm
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Time Complexity: O(Live Data)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             The Copying Garbage Collector is a memory management
                             algorithm that divides the heap into two equal-sized
                             semispaces: FromSpace and ToSpace. During program
@@ -691,7 +705,7 @@
                             process. After the collection, the roles of the
                             semispaces are swapped.
                         </p>
-                        <p>
+<p>
                             This algorithm is efficient because it only
                             processes live objects and avoids fragmentation by
                             compacting objects during the copying process.
@@ -699,204 +713,176 @@
                             data size and needs to pause program execution
                             during the collection process.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Uses two semispaces and only processes live
                                     objects during collection
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Time proportional to the amount of live data
                                     (O(L))
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-memory"></i> Space</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>
                                     Requires twice the maximum live data size (2
                                     × M where M is max live data)
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Stop-the-world collection with copying and
                                     compaction
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             the Copying Garbage Collector works. The
                             visualization shows two semispaces (FromSpace and
                             ToSpace) and demonstrates how live objects are
                             identified and copied during garbage collection.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> Copying
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Copying
                                     GC Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button class="console-btn" id="step-btn">
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- GC Visualization will be rendered here -->
-                                <div
-                                    class="roots-panel"
-                                    id="roots-container"
-                                ></div>
-                                <div class="memory-container">
-                                    <div class="semispace from-space">
-                                        <div class="semispace-title">
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- GC Visualization will be rendered here -->
+<div class="roots-panel" id="roots-container"></div>
+<div class="memory-container">
+<div class="semispace from-space">
+<div class="semispace-title">
                                             FromSpace
                                         </div>
-                                        <div
-                                            class="memory-blocks"
-                                            id="from-space"
-                                        ></div>
-                                    </div>
-                                    <div class="semispace to-space">
-                                        <div class="semispace-title">
+<div class="memory-blocks" id="from-space"></div>
+</div>
+<div class="semispace to-space">
+<div class="semispace-title">
                                             ToSpace
                                         </div>
-                                        <div
-                                            class="memory-blocks"
-                                            id="to-space"
-                                        ></div>
-                                    </div>
-                                </div>
-                                <div class="info-panel" id="info-panel">
+<div class="memory-blocks" id="to-space"></div>
+</div>
+</div>
+<div class="info-panel" id="info-panel">
                                     Ready to start garbage collection
                                 </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="object-input"
-                                    placeholder="Enter object structure (e.g., A->B, B->C, C->A)"
-                                    value="A->B, B->C, C->A, D->E, E->D, F"
-                                />
-                                <button class="console-btn" id="random-btn">
-                                    <i class="fas fa-random"></i> Random
+</div>
+<div class="console-input">
+<input id="object-input" placeholder="Enter object structure (e.g., A-&gt;B, B-&gt;C, C-&gt;A)" type="text" value="A-&gt;B, B-&gt;C, C-&gt;A, D-&gt;E, E-&gt;D, F"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             The Copying Garbage Collector operates in the
                             following steps:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-exchange-alt"></i> 1.
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 1.
                                     Semispace Setup
                                 </h3>
-                                <p>
+<p>
                                     The heap is divided into two equal-sized
                                     semispaces: FromSpace and ToSpace. All
                                     allocations initially happen in FromSpace.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-search"></i> 2. Root
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-search"></i> 2. Root
                                     Identification
                                 </h3>
-                                <p>
+<p>
                                     When FromSpace becomes full, the collector
                                     identifies all root references (global
                                     variables, stack variables, registers) that
                                     point to objects in FromSpace.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-copy"></i> 3. Object
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-copy"></i> 3. Object
                                     Copying
                                 </h3>
-                                <p>
+<p>
                                     The collector starts from the roots and
                                     copies all reachable objects from FromSpace
                                     to ToSpace, updating references to point to
                                     the new locations.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-sync-alt"></i> 4. Role
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sync-alt"></i> 4. Role
                                     Swapping
                                 </h3>
-                                <p>
+<p>
                                     After all live objects are copied, the roles
                                     of the semispaces are swapped. ToSpace
                                     becomes the new FromSpace for future
                                     allocations.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-trash-alt"></i> 5. Memory
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-trash-alt"></i> 5. Memory
                                     Reclamation
                                 </h3>
-                                <p>
+<p>
                                     The entire original FromSpace (now
                                     containing only garbage) is reclaimed in one
                                     operation.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>function collectGarbage():
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function collectGarbage():
     swap(FromSpace, ToSpace)  // Swap the roles of semispaces
     free = 0  // Next free location in ToSpace
     scan = 0  // Next object to scan in ToSpace
@@ -907,7 +893,7 @@
             root = copyObject(root, FromSpace, ToSpace)
 
     // Process copied objects - update their references
-    while scan < free:
+    while scan &lt; free:
         currentObject = ToSpace[scan]
         for each reference in currentObject:
             if reference != null and reference is in FromSpace:
@@ -926,28 +912,26 @@ function copyObject(obj, FromSpace, ToSpace):
         return newLocation
     else:
         return forwarding pointer from FromSpace version of obj</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Copying Garbage Collector algorithm. This
                             implementation demonstrates the core concepts of the
                             algorithm including object copying and reference
                             updating.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">CopyingGC</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">CopyingGC</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(self, heap_size):
         self.heap_size = heap_size
         self.from_space = [None] * (heap_size // 2)
@@ -957,10 +941,10 @@ function copyObject(obj, FromSpace, ToSpace):
 
     <span class="keyword">def</span> <span class="function">allocate</span>(self, obj):
         <span class="comment"># Check if there's enough space in from_space</span>
-        <span class="keyword">if</span> self.alloc_ptr + len(obj) > len(self.from_space):
+        <span class="keyword">if</span> self.alloc_ptr + len(obj) &gt; len(self.from_space):
             self.collect()  <span class="comment"># Trigger garbage collection</span>
             <span class="comment"># If still not enough space after collection, raise error</span>
-            <span class="keyword">if</span> self.alloc_ptr + len(obj) > len(self.from_space):
+            <span class="keyword">if</span> self.alloc_ptr + len(obj) &gt; len(self.from_space):
                 <span class="keyword">raise</span> MemoryError(<span class="string">"Out of memory"</span>)
 
         <span class="comment"># Allocate the object</span>
@@ -977,7 +961,7 @@ function copyObject(obj, FromSpace, ToSpace):
         free = 0  <span class="comment"># Next free location in to_space</span>
         scan = 0  <span class="comment"># Next object to scan in to_space</span>
 
-        <span class="comment"># Forwarding pointers dictionary (original index -> new index)</span>
+        <span class="comment"># Forwarding pointers dictionary (original index -&gt; new index)</span>
         forwarded = {}
 
         <span class="comment"># Process roots - copy referenced objects to to_space</span>
@@ -987,7 +971,7 @@ function copyObject(obj, FromSpace, ToSpace):
                 self.roots[i] = forwarded[root]  <span class="comment"># Update root reference</span>
 
         <span class="comment"># Process copied objects - update their references</span>
-        <span class="keyword">while</span> scan < free:
+        <span class="keyword">while</span> scan &lt; free:
             obj_start = scan
             <span class="comment"># Process each reference in the current object</span>
             <span class="keyword">for</span> i <span class="keyword">in</span> range(obj_start, free):
@@ -1014,141 +998,126 @@ function copyObject(obj, FromSpace, ToSpace):
         self.to_space[free + 1] = self.from_space[obj_index + 1]
 
         <span class="keyword">return</span> free + 2  <span class="comment"># Return new free pointer</span></code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Tracing</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Copying</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Stop-the-world</h4>
-                                <div class="value">Yes</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Compacting</h4>
-                                <div class="value">Yes</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fragmentation</h4>
-                                <div class="value">None</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Time Complexity</h4>
-                                <div class="value">O(L)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Space Overhead</h4>
-                                <div class="value">2 × M</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">Medium</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Tracing</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Copying</div>
+</div>
+<div class="property-card">
+<h4>Stop-the-world</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Compacting</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Fragmentation</h4>
+<div class="value">None</div>
+</div>
+<div class="property-card">
+<h4>Time Complexity</h4>
+<div class="value">O(L)</div>
+</div>
+<div class="property-card">
+<h4>Space Overhead</h4>
+<div class="value">2 × M</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">Medium</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Copying Garbage Collection is used in various
                             scenarios where memory management is critical:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Functional programming languages (Lisp, ML,
                                 Haskell)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Modern JavaScript engines (V8, SpiderMonkey)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Java Virtual Machine (JVM)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Real-time systems with predictable pause times
                             </li>
-                            <li>Embedded systems with limited memory</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages & Disadvantages -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-balance-scale"></i> Pros & Cons
+<li>Embedded systems with limited memory</li>
+</ul>
+</div>
+<!-- Advantages & Disadvantages -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Pros &amp; Cons
                         </h2>
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus-circle"></i>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-plus-circle"></i>
                                     Advantages
                                 </h3>
-                                <p>
+<p>
                                     Eliminates fragmentation, fast allocation
                                     (pointer bumping), only processes live
                                     objects, predictable performance
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-minus-circle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-minus-circle"></i>
                                     Disadvantages
                                 </h3>
-                                <p>
+<p>
                                     Requires twice the memory, needs to pause
                                     program execution, not efficient for large
                                     heaps with low garbage rates
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Copying Garbage Collector Visualization
             class GCVisualization {
                 constructor() {
@@ -1459,5 +1428,5 @@ function copyObject(obj, FromSpace, ToSpace):
                     });
             });
         </script>
-    </body>
+</body>
 </html>

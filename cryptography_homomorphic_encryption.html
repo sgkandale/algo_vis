@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homomorphic Encryption Visual Guide</title>
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Homomorphic Encryption Visual Guide</title>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -262,167 +263,167 @@
             margin-bottom: 10px;
         }
     </style>
-</head>
+<meta content="Homomorphic Encryption Visual Guide" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_homomorphic_encryption.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Homomorphic Encryption Visual Guide" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_homomorphic_encryption.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Homomorphic Encryption Visual Guide",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_homomorphic_encryption.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>Homomorphic Encryption</h1>
-        <p class="intro">Imagine doing math on encrypted data without ever decrypting it! 🔐✨</p>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>What is Homomorphic Encryption?</h2>
-                <p>Homomorphic Encryption is like a <span class="magic-box">magic box</span> that lets you perform calculations on encrypted data without ever seeing the actual data!</p>
-                
-                <div class="demo-container">
-                    <div class="step">
-                        <div class="icon">📄</div>
-                        <h3>Original Data</h3>
-                        <p>Your sensitive information</p>
-                    </div>
-                    <div class="arrow">→</div>
-                    <div class="step">
-                        <div class="icon">🔐</div>
-                        <h3>Encrypt</h3>
-                        <p>Transform into secret code</p>
-                    </div>
-                    <div class="arrow">→</div>
-                    <div class="step">
-                        <div class="icon">🧮</div>
-                        <h3>Compute</h3>
-                        <p>Do math on encrypted data</p>
-                    </div>
-                    <div class="arrow">→</div>
-                    <div class="step">
-                        <div class="icon">📊</div>
-                        <h3>Encrypted Result</h3>
-                        <p>Get encrypted answer</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>🎮 Interactive Demo</h2>
-                <p>Try it yourself! Enter two numbers and see homomorphic encryption in action:</p>
-                
-                <div class="interactive-demo">
-                    <div class="demo-input">
-                        <input type="number" id="num1" placeholder="Number 1" value="5">
-                        <input type="number" id="num2" placeholder="Number 2" value="3">
-                        <button class="demo-button" onclick="demonstrateHE()">Encrypt & Add</button>
-                    </div>
-                    
-                    <div class="result-display" id="result">
+<div class="container">
+<h1>Homomorphic Encryption</h1>
+<p class="intro">Imagine doing math on encrypted data without ever decrypting it! 🔐✨</p>
+<section class="section">
+<div class="visual-box">
+<h2>What is Homomorphic Encryption?</h2>
+<p>Homomorphic Encryption is like a <span class="magic-box">magic box</span> that lets you perform calculations on encrypted data without ever seeing the actual data!</p>
+<div class="demo-container">
+<div class="step">
+<div class="icon">📄</div>
+<h3>Original Data</h3>
+<p>Your sensitive information</p>
+</div>
+<div class="arrow">→</div>
+<div class="step">
+<div class="icon">🔐</div>
+<h3>Encrypt</h3>
+<p>Transform into secret code</p>
+</div>
+<div class="arrow">→</div>
+<div class="step">
+<div class="icon">🧮</div>
+<h3>Compute</h3>
+<p>Do math on encrypted data</p>
+</div>
+<div class="arrow">→</div>
+<div class="step">
+<div class="icon">📊</div>
+<h3>Encrypted Result</h3>
+<p>Get encrypted answer</p>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="visual-box">
+<h2>🎮 Interactive Demo</h2>
+<p>Try it yourself! Enter two numbers and see homomorphic encryption in action:</p>
+<div class="interactive-demo">
+<div class="demo-input">
+<input id="num1" placeholder="Number 1" type="number" value="5"/>
+<input id="num2" placeholder="Number 2" type="number" value="3"/>
+<button class="demo-button" onclick="demonstrateHE()">Encrypt &amp; Add</button>
+</div>
+<div class="result-display" id="result">
                         Enter numbers and click the button to see the magic!
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>Real-World Example: Cloud Computing</h2>
-                
-                <div class="example-box">
-                    <p><span class="highlight">Scenario:</span> A hospital wants to analyze patient data using cloud computing but must protect privacy.</p>
-                    
-                    <div class="demo-container" style="margin-top: 20px;">
-                        <div class="step">
-                            <div class="icon">🏥</div>
-                            <h3>Hospital</h3>
-                            <p>Patient Age: <span class="highlight">45</span></p>
-                            <p>Blood Pressure: <span class="highlight">120</span></p>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="icon">🔐</div>
-                            <h3>Encrypt</h3>
-                            <p>Age: <span class="encrypted-text">x8Kj9#mN</span></p>
-                            <p>BP: <span class="encrypted-text">q2Lp5$vR</span></p>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="icon">☁️</div>
-                            <h3>Cloud Analysis</h3>
-                            <p>Calculate risk score on encrypted data</p>
-                            <p>Result: <span class="encrypted-text">h4Tz8@wQ</span></p>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="icon">🔓</div>
-                            <h3>Decrypt Result</h3>
-                            <p>Risk Score: <span class="highlight">Low</span></p>
-                            <p>Cloud never saw real data!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>Types of Homomorphic Encryption</h2>
-                
-                <div class="demo-container">
-                    <div class="step">
-                        <div class="icon">➕</div>
-                        <h3>Partially Homomorphic</h3>
-                        <p>Supports one operation (+ OR ×)</p>
-                        <p style="color: #00dbde; margin-top: 10px;">Fast & Practical</p>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="icon">🎯</div>
-                        <h3>Somewhat Homomorphic</h3>
-                        <p>Limited operations of both types</p>
-                        <p style="color: #fc00ff; margin-top: 10px;">Balanced Approach</p>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="icon">♾️</div>
-                        <h3>Fully Homomorphic</h3>
-                        <p>Unlimited operations (+ AND ×)</p>
-                        <p style="color: #00dbde; margin-top: 10px;">Most Powerful</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>Key Benefits</h2>
-                
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="benefit-icon">🛡️</div>
-                        <h3>Privacy Protection</h3>
-                        <p>Data stays encrypted during processing</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">☁️</div>
-                        <h3>Secure Cloud Computing</h3>
-                        <p>Use cloud services without exposing data</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">🏛️</div>
-                        <h3>Regulatory Compliance</h3>
-                        <p>Meet strict privacy requirements</p>
-                    </div>
-                    
-                    <div class="benefit-card">
-                        <div class="benefit-icon">🔗</div>
-                        <h3>Secure Collaboration</h3>
-                        <p>Share insights without sharing data</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
-    <script>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="visual-box">
+<h2>Real-World Example: Cloud Computing</h2>
+<div class="example-box">
+<p><span class="highlight">Scenario:</span> A hospital wants to analyze patient data using cloud computing but must protect privacy.</p>
+<div class="demo-container" style="margin-top: 20px;">
+<div class="step">
+<div class="icon">🏥</div>
+<h3>Hospital</h3>
+<p>Patient Age: <span class="highlight">45</span></p>
+<p>Blood Pressure: <span class="highlight">120</span></p>
+</div>
+<div class="step">
+<div class="icon">🔐</div>
+<h3>Encrypt</h3>
+<p>Age: <span class="encrypted-text">x8Kj9#mN</span></p>
+<p>BP: <span class="encrypted-text">q2Lp5$vR</span></p>
+</div>
+<div class="step">
+<div class="icon">☁️</div>
+<h3>Cloud Analysis</h3>
+<p>Calculate risk score on encrypted data</p>
+<p>Result: <span class="encrypted-text">h4Tz8@wQ</span></p>
+</div>
+<div class="step">
+<div class="icon">🔓</div>
+<h3>Decrypt Result</h3>
+<p>Risk Score: <span class="highlight">Low</span></p>
+<p>Cloud never saw real data!</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="visual-box">
+<h2>Types of Homomorphic Encryption</h2>
+<div class="demo-container">
+<div class="step">
+<div class="icon">➕</div>
+<h3>Partially Homomorphic</h3>
+<p>Supports one operation (+ OR ×)</p>
+<p style="color: #00dbde; margin-top: 10px;">Fast &amp; Practical</p>
+</div>
+<div class="step">
+<div class="icon">🎯</div>
+<h3>Somewhat Homomorphic</h3>
+<p>Limited operations of both types</p>
+<p style="color: #fc00ff; margin-top: 10px;">Balanced Approach</p>
+</div>
+<div class="step">
+<div class="icon">♾️</div>
+<h3>Fully Homomorphic</h3>
+<p>Unlimited operations (+ AND ×)</p>
+<p style="color: #00dbde; margin-top: 10px;">Most Powerful</p>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="visual-box">
+<h2>Key Benefits</h2>
+<div class="benefits-grid">
+<div class="benefit-card">
+<div class="benefit-icon">🛡️</div>
+<h3>Privacy Protection</h3>
+<p>Data stays encrypted during processing</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">☁️</div>
+<h3>Secure Cloud Computing</h3>
+<p>Use cloud services without exposing data</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🏛️</div>
+<h3>Regulatory Compliance</h3>
+<p>Meet strict privacy requirements</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🔗</div>
+<h3>Secure Collaboration</h3>
+<p>Share insights without sharing data</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<script>
         function demonstrateHE() {
             const num1 = parseInt(document.getElementById('num1').value) || 0;
             const num2 = parseInt(document.getElementById('num2').value) || 0;

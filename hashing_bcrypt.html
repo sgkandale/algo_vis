@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bcrypt Algorithm | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bcrypt Algorithm | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -723,270 +718,261 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Cryptographic Algorithms</a> >
+<meta content="Bcrypt Algorithm | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_bcrypt.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Bcrypt Algorithm | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_bcrypt.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bcrypt Algorithm | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_bcrypt.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Cryptographic Algorithms</a> &gt;
               <span>Bcrypt</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>🔐 Bcrypt Algorithm</h1>
+<div class="category">
+<i class="fas fa-shield-alt"></i> Password Hashing Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>🔐 Bcrypt Algorithm</h1>
-        <div class="category">
-          <i class="fas fa-shield-alt"></i> Password Hashing Algorithm
-        </div>
-        <div class="complexity-badge">Adaptive Cost: 2^n iterations</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Adaptive Cost: 2^n iterations</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Bcrypt is a password hashing function based on the Blowfish cipher.
               It incorporates a salt and a cost parameter to defend against
               rainbow table and brute-force attacks. The algorithm is designed
               to be slow and computationally expensive, making it resistant to
               brute-force attacks.
             </p>
-            <p>
+<p>
               Bcrypt is widely used in modern applications for secure password
               storage. Its adaptive nature allows the cost factor to be increased
               as hardware becomes more powerful, ensuring long-term security.
             </p>
-
-            <div class="security-highlight">
+<div class="security-highlight">
               ✅ <strong>Security Best Practice:</strong> Bcrypt is designed
               specifically for secure password hashing with adaptive cost, built-in
               salt generation, and resistance to timing attacks.
             </div>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> Built-in Salt</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-random"></i> Built-in Salt</h3>
+<p>
                   Automatically generates a unique salt for each password,
                   preventing rainbow table attacks
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-cog"></i> Adaptive Cost</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-cog"></i> Adaptive Cost</h3>
+<p>
                   Configurable work factor that can be increased as hardware
                   becomes more powerful
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-clock"></i> Timing Resistant</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-clock"></i> Timing Resistant</h3>
+<p>
                   Designed to be slow and resistant to timing attacks and
                   parallel processing
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Battle Tested</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Battle Tested</h3>
+<p>
                   Widely adopted and proven secure in production environments
                   worldwide
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Bcrypt Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Bcrypt Visualization
             </h2>
-            <p>
+<p>
               Enter a password and adjust the cost factor to see how Bcrypt
               processes the input through each step of the algorithm. Higher
               cost factors result in more secure but slower hashing.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-lock"></i> Bcrypt Hash Generator
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-lock"></i> Bcrypt Hash Generator
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" onclick="pauseVisualization()">
-                    <i class="fas fa-pause"></i> Pause
+<div class="console-controls">
+<button class="console-btn secondary" onclick="pauseVisualization()">
+<i class="fas fa-pause"></i> Pause
                   </button>
-                  <button class="console-btn secondary" onclick="resumeVisualization()">
-                    <i class="fas fa-play"></i> Resume
+<button class="console-btn secondary" onclick="resumeVisualization()">
+<i class="fas fa-play"></i> Resume
                   </button>
-                  <button class="console-btn secondary" onclick="resetVisualization()">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" onclick="resetVisualization()">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="input-row">
-                  <input
-                    type="password"
-                    id="passwordInput"
-                    placeholder="Enter password to hash..."
-                    value="mypassword123"
-                  />
-                  <button class="console-btn" onclick="startVisualization()">
+</div>
+</div>
+<div class="visualization-area">
+<div class="input-row">
+<input id="passwordInput" placeholder="Enter password to hash..." type="password" value="mypassword123"/>
+<button class="console-btn" onclick="startVisualization()">
                     🔒 Hash with Bcrypt
                   </button>
-                </div>
-                <div class="input-row">
-                  <label style="color: var(--text);">Cost Factor:</label>
-                  <input
-                    type="range"
-                    id="costRange"
-                    min="4"
-                    max="12"
-                    value="10"
-                    onchange="updateCostDisplay()"
-                    style="width: 200px; margin: 0 15px;"
-                  />
-                  <div class="cost-display" id="costDisplay">10 (1024 rounds)</div>
-                </div>
-
-                <div class="progress-bar">
-                  <div class="progress-fill" id="progressBar"></div>
-                </div>
-
-                <div class="step-container" id="stepContainer">
-                  <!-- Steps will be dynamically generated -->
-                </div>
-
-                <div class="final-hash" id="finalHash" style="display: none">
-                  <!-- Final hash will appear here -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Hashing</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Password</div>
-              </div>
-              <div class="property-card">
-                <h4>Salt</h4>
-                <div class="value">Built-in</div>
-              </div>
-              <div class="property-card">
-                <h4>Adaptive</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Min Cost</h4>
-                <div class="value">4</div>
-              </div>
-              <div class="property-card">
-                <h4>Max Cost</h4>
-                <div class="value">31</div>
-              </div>
-              <div class="property-card">
-                <h4>Output Size</h4>
-                <div class="value">60 chars</div>
-              </div>
-              <div class="property-card">
-                <h4>Based On</h4>
-                <div class="value">Blowfish</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+<div class="input-row">
+<label style="color: var(--text);">Cost Factor:</label>
+<input id="costRange" max="12" min="4" onchange="updateCostDisplay()" style="width: 200px; margin: 0 15px;" type="range" value="10"/>
+<div class="cost-display" id="costDisplay">10 (1024 rounds)</div>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="progressBar"></div>
+</div>
+<div class="step-container" id="stepContainer">
+<!-- Steps will be dynamically generated -->
+</div>
+<div class="final-hash" id="finalHash" style="display: none">
+<!-- Final hash will appear here -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Hashing</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Password</div>
+</div>
+<div class="property-card">
+<h4>Salt</h4>
+<div class="value">Built-in</div>
+</div>
+<div class="property-card">
+<h4>Adaptive</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Min Cost</h4>
+<div class="value">4</div>
+</div>
+<div class="property-card">
+<h4>Max Cost</h4>
+<div class="value">31</div>
+</div>
+<div class="property-card">
+<h4>Output Size</h4>
+<div class="value">60 chars</div>
+</div>
+<div class="property-card">
+<h4>Based On</h4>
+<div class="value">Blowfish</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Bcrypt is the gold standard for password hashing in modern
               applications:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Web application user authentication
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Database password storage
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 API authentication systems
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Mobile application security
               </li>
-              <li>Enterprise identity management</li>
-            </ul>
-          </div>
-
-          <!-- Cost Factor Guide -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Cost Factor Guide</h2>
-            <p>
+<li>Enterprise identity management</li>
+</ul>
+</div>
+<!-- Cost Factor Guide -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Cost Factor Guide</h2>
+<p>
               Choose the appropriate cost factor based on your security
               requirements and performance constraints:
             </p>
-            <div class="cost-explanation">
-              <div class="cost-item">Cost 4<br>16 rounds<br>~1ms</div>
-              <div class="cost-item">Cost 8<br>256 rounds<br>~16ms</div>
-              <div class="cost-item">Cost 10<br>1024 rounds<br>~65ms</div>
-              <div class="cost-item">Cost 12<br>4096 rounds<br>~260ms</div>
-            </div>
-            <p style="font-size: 14px; margin-top: 15px;">
-              <strong>Recommendation:</strong> Use cost 10-12 for most applications.
+<div class="cost-explanation">
+<div class="cost-item">Cost 4<br/>16 rounds<br/>~1ms</div>
+<div class="cost-item">Cost 8<br/>256 rounds<br/>~16ms</div>
+<div class="cost-item">Cost 10<br/>1024 rounds<br/>~65ms</div>
+<div class="cost-item">Cost 12<br/>4096 rounds<br/>~260ms</div>
+</div>
+<p style="font-size: 14px; margin-top: 15px;">
+<strong>Recommendation:</strong> Use cost 10-12 for most applications.
               Increase as hardware improves.
             </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       let currentStep = 0;
       let isPaused = false;
       let visualizationTimeout;
@@ -1331,5 +1317,5 @@
         startVisualization();
       };
     </script>
-  </body>
+</body>
 </html>

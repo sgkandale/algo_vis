@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Odd-Even Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Odd-Even Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -622,189 +617,195 @@
         border-left: 3px solid var(--accent);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Odd-Even Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_odd_even.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Odd-Even Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_odd_even.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Odd-Even Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_odd_even.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Odd-Even Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Odd-Even Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Odd-Even Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Odd-Even Sort (also known as Brick Sort) is a comparison-based
               sorting algorithm that works by repeatedly comparing and swapping
               adjacent elements in two alternating phases: the odd phase and the
               even phase.
             </p>
-            <p>
+<p>
               The algorithm is similar to bubble sort but with improved
               parallelization capabilities. It alternates between two passes:
               one for odd indices and one for even indices, allowing multiple
               comparisons to occur simultaneously in parallel implementations.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Alternates between odd and even comparison phases</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Alternates between odd and even comparison phases</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n) in best case (already sorted), O(n²) average and worst
                   case
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(1) additional space (in-place algorithm)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(1) additional space (in-place algorithm)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>
                   Compares and swaps adjacent elements in two alternating phases
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Odd-Even Sort in action. Enter a comma-separated list of
               numbers, adjust the speed, and step through the algorithm to see
               each stage of the sorting process. The visualization shows the
               current phase and comparisons.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Odd-Even Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Odd-Even Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div id="sort-container"></div>
-                <div class="phase-indicator" id="phase-indicator">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div id="sort-container"></div>
+<div class="phase-indicator" id="phase-indicator">
                   Initializing...
                 </div>
-                <div class="stats-container">
-                  <div class="stat-item">
+<div class="stats-container">
+<div class="stat-item">
                     Comparisons: <span id="comparison-count">0</span>
-                  </div>
-                  <div class="stat-item">
+</div>
+<div class="stat-item">
                     Swaps: <span id="swap-count">0</span>
-                  </div>
-                  <div class="stat-item">
+</div>
+<div class="stat-item">
                     Passes: <span id="pass-count">0</span>
-                  </div>
-                </div>
-                <div id="explanation" class="explanation"></div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="38, 27, 43, 3, 9, 82, 10, 15"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="explanation" id="explanation"></div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="38, 27, 43, 3, 9, 82, 10, 15"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Odd-Even Sort works in two alternating phases until the array is
               sorted:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-list-ol"></i> 1. Odd Phase</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-list-ol"></i> 1. Odd Phase</h3>
+<p>
                   Compare and swap elements at odd indices with their next
                   neighbors (i = 1, 3, 5,...)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-list-ol"></i> 2. Even Phase</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-list-ol"></i> 2. Even Phase</h3>
+<p>
                   Compare and swap elements at even indices with their next
                   neighbors (i = 0, 2, 4,...)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 3. Repeat</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 3. Repeat</h3>
+<p>
                   Continue alternating between odd and even phases until no
                   swaps occur in a full cycle
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-flag-checkered"></i> 4. Completion</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-flag-checkered"></i> 4. Completion</h3>
+<p>
                   When a complete odd-even cycle with no swaps occurs, the array
                   is sorted
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure oddEvenSort(A: list of sortable items)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure oddEvenSort(A: list of sortable items)
     n = length(A)
     sorted = false
     
@@ -813,35 +814,33 @@
         
         // Odd phase (i = 1, 3, 5,...)
         for i = 1 to n-2 step 2
-            if A[i] > A[i+1] then
+            if A[i] &gt; A[i+1] then
                 swap(A[i], A[i+1])
                 sorted = false
         
         // Even phase (i = 0, 2, 4,...)
         for i = 0 to n-2 step 2
-            if A[i] > A[i+1] then
+            if A[i] &gt; A[i+1] then
                 swap(A[i], A[i+1])
                 sorted = false</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Odd-Even Sort. The algorithm
               alternates between odd and even phases until no swaps occur in a
               full cycle.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">odd_even_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">odd_even_sort</span>(arr):
     n = len(arr)
     sorted = False
     
@@ -850,13 +849,13 @@
         
         <span class="comment"># Odd phase (i = 1, 3, 5, ...)</span>
         <span class="keyword">for</span> i <span class="keyword">in</span> range(1, n-1, 2):
-            <span class="keyword">if</span> arr[i] > arr[i+1]:
+            <span class="keyword">if</span> arr[i] &gt; arr[i+1]:
                 arr[i], arr[i+1] = arr[i+1], arr[i]
                 sorted = False
                 
         <span class="comment"># Even phase (i = 0, 2, 4, ...)</span>
         <span class="keyword">for</span> i <span class="keyword">in</span> range(0, n-1, 2):
-            <span class="keyword">if</span> arr[i] > arr[i+1]:
+            <span class="keyword">if</span> arr[i] &gt; arr[i+1]:
                 arr[i], arr[i+1] = arr[i+1], arr[i]
                 sorted = False
                 
@@ -867,129 +866,114 @@ arr = [38, 27, 43, 3, 9, 82, 10, 15]
 sorted_arr = odd_even_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)
 <span class="comment"># Output: Sorted array: [3, 9, 10, 15, 27, 38, 43, 82]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Odd-Even Sort is particularly useful in specific scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Odd-Even Sort is particularly useful in specific scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Parallel computing environments
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Educational purposes to demonstrate parallel sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Hardware description languages (VHDL/Verilog)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting small to medium datasets
               </li>
-              <li>As an alternative to bubble sort with parallel potential</li>
-            </ul>
-          </div>
-
-          <!-- Parallelism Section -->
-          <div class="section">
-            <h2><i class="fas fa-microchip"></i> Parallelism Advantage</h2>
-            <p>
+<li>As an alternative to bubble sort with parallel potential</li>
+</ul>
+</div>
+<!-- Parallelism Section -->
+<div class="section">
+<h2><i class="fas fa-microchip"></i> Parallelism Advantage</h2>
+<p>
               The main advantage of Odd-Even Sort is its parallelization
               capability:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 All comparisons in the odd phase can be performed simultaneously
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 All comparisons in the even phase can be performed
                 simultaneously
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 This allows for O(n) time complexity in parallel implementations
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Particularly efficient on SIMD parallel computing architectures
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Odd-Even Sort Visualization
       class OddEvenSortVisualizer {
         constructor(container, phaseIndicator, stats, explanation) {
@@ -1249,5 +1233,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)
           });
       });
     </script>
-  </body>
+</body>
 </html>

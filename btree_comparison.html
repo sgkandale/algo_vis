@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B-tree vs B+ tree Comparison</title>
-    <style>
+<head><meta content="Understand B-tree data structures and their use in database indexing" name="description"/><meta content="b-tree, b+ tree, data structure, tree algorithm, database index" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>B-tree vs B+ tree Comparison</title>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -244,142 +245,145 @@
             }
         }
     </style>
-</head>
+<meta content="B-tree vs B+ tree Comparison" property="og:title"/><meta content="Understand B-tree data structures and their use in database indexing" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/btree_comparison.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="B-tree vs B+ tree Comparison" name="twitter:title"/><meta content="Understand B-tree data structures and their use in database indexing" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/btree_comparison.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "B-tree vs B+ tree Comparison",
+  "description": "Understand B-tree data structures and their use in database indexing",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/btree_comparison.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>B-tree vs B+ tree</h1>
-        <p class="subtitle">Visual comparison of two fundamental tree data structures</p>
-
-        <div class="comparison">
-            <!-- B-tree Section -->
-            <div class="tree-section">
-                <h2 class="tree-title btree-title">B-tree</h2>
-                <div class="tree-visual">
-                    <div class="level">
-                        <span class="level-label">Root</span>
-                        <div class="node internal-node">15 | 30</div>
-                    </div>
-                    
-                    <div class="level">
-                        <span class="level-label">Internal</span>
-                        <div class="node internal-node">5 | 10</div>
-                        <div class="node internal-node">20 | 25</div>
-                        <div class="node internal-node">35 | 40</div>
-                    </div>
-                    
-                    <div class="level">
-                        <span class="level-label">Leaves</span>
-                        <div class="node btree-leaf">1 | 3</div>
-                        <div class="node btree-leaf">7 | 8</div>
-                        <div class="node btree-leaf">12 | 14</div>
-                        <div class="node btree-leaf">17 | 18</div>
-                        <div class="node btree-leaf">22 | 24</div>
-                        <div class="node btree-leaf">27 | 29</div>
-                        <div class="node btree-leaf">32 | 34</div>
-                        <div class="node btree-leaf">37 | 39</div>
-                        <div class="node btree-leaf">42 | 45</div>
-                    </div>
-                </div>
-                
-                <div style="background: #ffebee; padding: 15px; border-radius: 10px; margin-top: 20px;">
-                    <strong>Key Features:</strong><br>
-                    • Data stored in ALL nodes<br>
-                    • Each search may end at any level<br>
+<div class="container">
+<h1>B-tree vs B+ tree</h1>
+<p class="subtitle">Visual comparison of two fundamental tree data structures</p>
+<div class="comparison">
+<!-- B-tree Section -->
+<div class="tree-section">
+<h2 class="tree-title btree-title">B-tree</h2>
+<div class="tree-visual">
+<div class="level">
+<span class="level-label">Root</span>
+<div class="node internal-node">15 | 30</div>
+</div>
+<div class="level">
+<span class="level-label">Internal</span>
+<div class="node internal-node">5 | 10</div>
+<div class="node internal-node">20 | 25</div>
+<div class="node internal-node">35 | 40</div>
+</div>
+<div class="level">
+<span class="level-label">Leaves</span>
+<div class="node btree-leaf">1 | 3</div>
+<div class="node btree-leaf">7 | 8</div>
+<div class="node btree-leaf">12 | 14</div>
+<div class="node btree-leaf">17 | 18</div>
+<div class="node btree-leaf">22 | 24</div>
+<div class="node btree-leaf">27 | 29</div>
+<div class="node btree-leaf">32 | 34</div>
+<div class="node btree-leaf">37 | 39</div>
+<div class="node btree-leaf">42 | 45</div>
+</div>
+</div>
+<div style="background: #ffebee; padding: 15px; border-radius: 10px; margin-top: 20px;">
+<strong>Key Features:</strong><br/>
+                    • Data stored in ALL nodes<br/>
+                    • Each search may end at any level<br/>
                     • No sequential access optimization
                 </div>
-            </div>
-
-            <!-- B+ tree Section -->
-            <div class="tree-section">
-                <h2 class="tree-title bplus-title">B+ tree</h2>
-                <div class="tree-visual">
-                    <div class="level">
-                        <span class="level-label">Root</span>
-                        <div class="node internal-node">15 | 30</div>
-                    </div>
-                    
-                    <div class="level">
-                        <span class="level-label">Internal</span>
-                        <div class="node internal-node">5 | 10</div>
-                        <div class="node internal-node">20 | 25</div>
-                        <div class="node internal-node">35 | 40</div>
-                    </div>
-                    
-                    <div class="level">
-                        <span class="level-label">Leaves</span>
-                        <div class="node leaf-node">1 | 3 | 5</div>
-                        <div class="node leaf-node">7 | 8 | 10</div>
-                        <div class="node leaf-node">12 | 14 | 15</div>
-                        <div class="node leaf-node">17 | 18 | 20</div>
-                        <div class="node leaf-node">22 | 24 | 25</div>
-                        <div class="node leaf-node">27 | 29 | 30</div>
-                        <div class="node leaf-node">32 | 34 | 35</div>
-                        <div class="node leaf-node">37 | 39 | 40</div>
-                        <div class="node leaf-node">42 | 45 | 47</div>
-                    </div>
-                    
-                    <div class="linked-list">
-                        <span style="font-weight: bold; color: #27ae60;">Linked List:</span>
-                        <span class="arrow">→</span>
-                        <span class="arrow">→</span>
-                        <span class="arrow">→</span>
-                        <span class="arrow">→</span>
-                        <span class="arrow">→</span>
-                        <span class="arrow">→</span>
-                        <span class="arrow">→</span>
-                        <span class="arrow">→</span>
-                    </div>
-                </div>
-                
-                <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin-top: 20px;">
-                    <strong>Key Features:</strong><br>
-                    • Data ONLY in leaf nodes<br>
-                    • All searches go to leaf level<br>
-                    • Leaves linked for sequential access<br>
+</div>
+<!-- B+ tree Section -->
+<div class="tree-section">
+<h2 class="tree-title bplus-title">B+ tree</h2>
+<div class="tree-visual">
+<div class="level">
+<span class="level-label">Root</span>
+<div class="node internal-node">15 | 30</div>
+</div>
+<div class="level">
+<span class="level-label">Internal</span>
+<div class="node internal-node">5 | 10</div>
+<div class="node internal-node">20 | 25</div>
+<div class="node internal-node">35 | 40</div>
+</div>
+<div class="level">
+<span class="level-label">Leaves</span>
+<div class="node leaf-node">1 | 3 | 5</div>
+<div class="node leaf-node">7 | 8 | 10</div>
+<div class="node leaf-node">12 | 14 | 15</div>
+<div class="node leaf-node">17 | 18 | 20</div>
+<div class="node leaf-node">22 | 24 | 25</div>
+<div class="node leaf-node">27 | 29 | 30</div>
+<div class="node leaf-node">32 | 34 | 35</div>
+<div class="node leaf-node">37 | 39 | 40</div>
+<div class="node leaf-node">42 | 45 | 47</div>
+</div>
+<div class="linked-list">
+<span style="font-weight: bold; color: #27ae60;">Linked List:</span>
+<span class="arrow">→</span>
+<span class="arrow">→</span>
+<span class="arrow">→</span>
+<span class="arrow">→</span>
+<span class="arrow">→</span>
+<span class="arrow">→</span>
+<span class="arrow">→</span>
+<span class="arrow">→</span>
+</div>
+</div>
+<div style="background: #e8f5e8; padding: 15px; border-radius: 10px; margin-top: 20px;">
+<strong>Key Features:</strong><br/>
+                    • Data ONLY in leaf nodes<br/>
+                    • All searches go to leaf level<br/>
+                    • Leaves linked for sequential access<br/>
                     • Internal nodes are index-only
                 </div>
-            </div>
-        </div>
-
-        <div class="differences">
-            <h2>Key Differences Summary</h2>
-            <div class="diff-grid">
-                <div class="diff-header">Aspect</div>
-                <div class="diff-header">B-tree</div>
-                <div class="diff-header">B+ tree</div>
-                
-                <div class="diff-header">Data Storage</div>
-                <div class="diff-btree">All nodes contain data</div>
-                <div class="diff-bplus">Only leaf nodes contain data</div>
-                
-                <div class="diff-header">Search Path</div>
-                <div class="diff-btree">May end at any level</div>
-                <div class="diff-bplus">Always goes to leaf level</div>
-                
-                <div class="diff-header">Sequential Access</div>
-                <div class="diff-btree">Requires tree traversal</div>
-                <div class="diff-bplus">Direct via linked leaves</div>
-                
-                <div class="diff-header">Range Queries</div>
-                <div class="diff-btree">Less efficient</div>
-                <div class="diff-bplus">Highly efficient</div>
-                
-                <div class="diff-header">Memory Usage</div>
-                <div class="diff-btree">More compact</div>
-                <div class="diff-bplus">Higher due to duplicates</div>
-                
-                <div class="diff-header">Common Use</div>
-                <div class="diff-btree">General indexing</div>
-                <div class="diff-bplus">Database indexes</div>
-            </div>
-        </div>
-
-        <div class="highlight">
-            <h3>💡 Why B+ trees dominate in databases:</h3>
-            <p><strong>Range queries are king!</strong> In databases, you often need to find all records between two values (e.g., "all employees with salary between $50K-$80K"). B+ trees make this lightning-fast because once you find the first value in the linked leaf chain, you just follow the links until you reach the end value. No need to go back up and down the tree!</p>
-            
-            <p><strong>Sequential scans:</strong> When you need to read all data in order, B+ trees let you traverse the linked leaf nodes sequentially, while B-trees require an expensive in-order tree traversal.</p>
-        </div>
-    </div>
+</div>
+</div>
+<div class="differences">
+<h2>Key Differences Summary</h2>
+<div class="diff-grid">
+<div class="diff-header">Aspect</div>
+<div class="diff-header">B-tree</div>
+<div class="diff-header">B+ tree</div>
+<div class="diff-header">Data Storage</div>
+<div class="diff-btree">All nodes contain data</div>
+<div class="diff-bplus">Only leaf nodes contain data</div>
+<div class="diff-header">Search Path</div>
+<div class="diff-btree">May end at any level</div>
+<div class="diff-bplus">Always goes to leaf level</div>
+<div class="diff-header">Sequential Access</div>
+<div class="diff-btree">Requires tree traversal</div>
+<div class="diff-bplus">Direct via linked leaves</div>
+<div class="diff-header">Range Queries</div>
+<div class="diff-btree">Less efficient</div>
+<div class="diff-bplus">Highly efficient</div>
+<div class="diff-header">Memory Usage</div>
+<div class="diff-btree">More compact</div>
+<div class="diff-bplus">Higher due to duplicates</div>
+<div class="diff-header">Common Use</div>
+<div class="diff-btree">General indexing</div>
+<div class="diff-bplus">Database indexes</div>
+</div>
+</div>
+<div class="highlight">
+<h3>💡 Why B+ trees dominate in databases:</h3>
+<p><strong>Range queries are king!</strong> In databases, you often need to find all records between two values (e.g., "all employees with salary between $50K-$80K"). B+ trees make this lightning-fast because once you find the first value in the linked leaf chain, you just follow the links until you reach the end value. No need to go back up and down the tree!</p>
+<p><strong>Sequential scans:</strong> When you need to read all data in order, B+ trees let you traverse the linked leaf nodes sequentially, while B-trees require an expensive in-order tree traversal.</p>
+</div>
+</div>
 </body>
 </html>

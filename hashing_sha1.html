@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SHA-1 Algorithm | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SHA-1 Algorithm | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -657,344 +652,347 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Cryptographic Algorithms</a> >
+<meta content="SHA-1 Algorithm | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_sha1.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="SHA-1 Algorithm | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_sha1.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SHA-1 Algorithm | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_sha1.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Cryptographic Algorithms</a> &gt;
               <span>SHA-1</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>SHA-1 Algorithm</h1>
+<div class="category">
+<i class="fas fa-fingerprint"></i> Hash Function (Deprecated)
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>SHA-1 Algorithm</h1>
-        <div class="category">
-          <i class="fas fa-fingerprint"></i> Hash Function (Deprecated)
-        </div>
-        <div class="complexity-badge">Output: 160 bits (40 hex chars)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Output: 160 bits (40 hex chars)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               SHA-1 (Secure Hash Algorithm 1) is a cryptographic hash function
               that produces a 160-bit (20-byte) hash value. Designed by the NSA,
               it was widely used for security applications but is now considered
               cryptographically broken.
             </p>
-            <p>
+<p>
               The algorithm processes input in 512-bit blocks through 80 rounds
               of operations using four different logical functions, producing a
               fixed-size output that was once considered secure for digital
               signatures and certificates.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-fingerprint"></i> 160-bit Output</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-fingerprint"></i> 160-bit Output</h3>
+<p>
                   Produces a fixed 160-bit hash value, longer than MD5 but
                   shorter than modern alternatives like SHA-256
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-history"></i> Historical Importance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-history"></i> Historical Importance</h3>
+<p>
                   Widely used in TLS/SSL, Git version control, and digital
                   signatures before vulnerabilities were discovered
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-cogs"></i> 80 Rounds</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-cogs"></i> 80 Rounds</h3>
+<p>
                   Uses 80 processing steps across 4 rounds with different
                   logical functions and constants for each round
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exclamation-triangle"></i> Security Status</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exclamation-triangle"></i> Security Status</h3>
+<p>
                   Collision attacks demonstrated in 2017, making it unsuitable
                   for cryptographic security applications
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive SHA-1 Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive SHA-1 Visualization
             </h2>
-            <p>
+<p>
               Explore how SHA-1 processes input through its compression function.
               Watch the algorithm pad the message, initialize registers, and
               process data through 80 rounds of operations.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> SHA-1 Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> SHA-1 Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="startBtn">
-                    <i class="fas fa-play"></i> Start
+<div class="console-controls">
+<button class="console-btn" id="startBtn">
+<i class="fas fa-play"></i> Start
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-undo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-undo"></i> Reset
                   </button>
-                  <button class="console-btn" id="prevBtn">
-                    <i class="fas fa-step-backward"></i> Previous
+<button class="console-btn" id="prevBtn">
+<i class="fas fa-step-backward"></i> Previous
                   </button>
-                  <button class="console-btn" id="nextBtn">
-                    <i class="fas fa-step-forward"></i> Next
+<button class="console-btn" id="nextBtn">
+<i class="fas fa-step-forward"></i> Next
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="process-flow">
-                  <div class="flow-item" id="inputBlock">
-                    <i class="fas fa-keyboard"></i>
-                    <div>Input Message</div>
-                  </div>
-                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-                  <div class="flow-item" id="paddingBlock">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                    <div>Padding</div>
-                  </div>
-                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-                  <div class="flow-item" id="blocks">
-                    <i class="fas fa-cubes"></i>
-                    <div>512-bit Blocks</div>
-                  </div>
-                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-                  <div class="flow-item" id="compression">
-                    <i class="fas fa-cogs"></i>
-                    <div>Compression</div>
-                  </div>
-                  <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
-                  <div class="flow-item" id="output">
-                    <i class="fas fa-hashtag"></i>
-                    <div>160-bit Hash</div>
-                  </div>
-                </div>
-
-                <div class="registers">
-                  <div class="register register-a" id="regA">
-                    <div class="register-label">A</div>
-                    <div class="register-value" id="valA">0x67452301</div>
-                  </div>
-                  <div class="register register-b" id="regB">
-                    <div class="register-label">B</div>
-                    <div class="register-value" id="valB">0xEFCDAB89</div>
-                  </div>
-                  <div class="register register-c" id="regC">
-                    <div class="register-label">C</div>
-                    <div class="register-value" id="valC">0x98BADCFE</div>
-                  </div>
-                  <div class="register register-d" id="regD">
-                    <div class="register-label">D</div>
-                    <div class="register-value" id="valD">0x10325476</div>
-                  </div>
-                  <div class="register register-e" id="regE">
-                    <div class="register-label">E</div>
-                    <div class="register-value" id="valE">0xC3D2E1F0</div>
-                  </div>
-                </div>
-
-                <div class="function-grid">
-                  <div class="function-card">
-                    <h3 class="function-title">Logical Functions</h3>
-                    <div class="function-formula">Round 1: (B ∧ C) ∨ (¬B ∧ D)</div>
-                    <div class="function-formula">Round 2: B ⊕ C ⊕ D</div>
-                    <div class="function-formula">Round 3: (B ∧ C) ∨ (B ∧ D) ∨ (C ∧ D)</div>
-                    <div class="function-formula">Round 4: B ⊕ C ⊕ D</div>
-                  </div>
-
-                  <div class="function-card">
-                    <h3 class="function-title">Processing Step</h3>
-                    <div class="function-formula">TEMP = (A ≪ 5) + f(B,C,D) + E + K + W[i]</div>
-                    <div class="function-formula">E = D</div>
-                    <div class="function-formula">D = C</div>
-                    <div class="function-formula">C = B ≪ 30</div>
-                    <div class="function-formula">B = A</div>
-                    <div class="function-formula">A = TEMP</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Processing Rounds -->
-          <div class="section">
-            <h2><i class="fas fa-sync-alt"></i> Processing Rounds</h2>
-            <div class="rounds-container">
-              <div class="round-card">
-                <h3 class="round-title">Round 1 (0-19)</h3>
-                <ul class="step-list">
-                  <li class="step-item">
-                    <i class="fas fa-code"></i> Function: (B ∧ C) ∨ (¬B ∧ D)
+</div>
+</div>
+<div class="visualization-area">
+<div class="process-flow">
+<div class="flow-item" id="inputBlock">
+<i class="fas fa-keyboard"></i>
+<div>Input Message</div>
+</div>
+<div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="flow-item" id="paddingBlock">
+<i class="fas fa-expand-arrows-alt"></i>
+<div>Padding</div>
+</div>
+<div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="flow-item" id="blocks">
+<i class="fas fa-cubes"></i>
+<div>512-bit Blocks</div>
+</div>
+<div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="flow-item" id="compression">
+<i class="fas fa-cogs"></i>
+<div>Compression</div>
+</div>
+<div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+<div class="flow-item" id="output">
+<i class="fas fa-hashtag"></i>
+<div>160-bit Hash</div>
+</div>
+</div>
+<div class="registers">
+<div class="register register-a" id="regA">
+<div class="register-label">A</div>
+<div class="register-value" id="valA">0x67452301</div>
+</div>
+<div class="register register-b" id="regB">
+<div class="register-label">B</div>
+<div class="register-value" id="valB">0xEFCDAB89</div>
+</div>
+<div class="register register-c" id="regC">
+<div class="register-label">C</div>
+<div class="register-value" id="valC">0x98BADCFE</div>
+</div>
+<div class="register register-d" id="regD">
+<div class="register-label">D</div>
+<div class="register-value" id="valD">0x10325476</div>
+</div>
+<div class="register register-e" id="regE">
+<div class="register-label">E</div>
+<div class="register-value" id="valE">0xC3D2E1F0</div>
+</div>
+</div>
+<div class="function-grid">
+<div class="function-card">
+<h3 class="function-title">Logical Functions</h3>
+<div class="function-formula">Round 1: (B ∧ C) ∨ (¬B ∧ D)</div>
+<div class="function-formula">Round 2: B ⊕ C ⊕ D</div>
+<div class="function-formula">Round 3: (B ∧ C) ∨ (B ∧ D) ∨ (C ∧ D)</div>
+<div class="function-formula">Round 4: B ⊕ C ⊕ D</div>
+</div>
+<div class="function-card">
+<h3 class="function-title">Processing Step</h3>
+<div class="function-formula">TEMP = (A ≪ 5) + f(B,C,D) + E + K + W[i]</div>
+<div class="function-formula">E = D</div>
+<div class="function-formula">D = C</div>
+<div class="function-formula">C = B ≪ 30</div>
+<div class="function-formula">B = A</div>
+<div class="function-formula">A = TEMP</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Processing Rounds -->
+<div class="section">
+<h2><i class="fas fa-sync-alt"></i> Processing Rounds</h2>
+<div class="rounds-container">
+<div class="round-card">
+<h3 class="round-title">Round 1 (0-19)</h3>
+<ul class="step-list">
+<li class="step-item">
+<i class="fas fa-code"></i> Function: (B ∧ C) ∨ (¬B ∧ D)
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-key"></i> Constant: 0x5A827999
+<li class="step-item">
+<i class="fas fa-key"></i> Constant: 0x5A827999
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-list-ol"></i> Steps: 20 operations
+<li class="step-item">
+<i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words: W[0]-W[19]
+<li class="step-item">
+<i class="fas fa-exchange-alt"></i> Message words: W[0]-W[19]
                   </li>
-                </ul>
-              </div>
-
-              <div class="round-card">
-                <h3 class="round-title">Round 2 (20-39)</h3>
-                <ul class="step-list">
-                  <li class="step-item">
-                    <i class="fas fa-code"></i> Function: B ⊕ C ⊕ D
+</ul>
+</div>
+<div class="round-card">
+<h3 class="round-title">Round 2 (20-39)</h3>
+<ul class="step-list">
+<li class="step-item">
+<i class="fas fa-code"></i> Function: B ⊕ C ⊕ D
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-key"></i> Constant: 0x6ED9EBA1
+<li class="step-item">
+<i class="fas fa-key"></i> Constant: 0x6ED9EBA1
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-list-ol"></i> Steps: 20 operations
+<li class="step-item">
+<i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words: W[20]-W[39]
+<li class="step-item">
+<i class="fas fa-exchange-alt"></i> Message words: W[20]-W[39]
                   </li>
-                </ul>
-              </div>
-
-              <div class="round-card">
-                <h3 class="round-title">Round 3 (40-59)</h3>
-                <ul class="step-list">
-                  <li class="step-item">
-                    <i class="fas fa-code"></i> Function: (B ∧ C) ∨ (B ∧ D) ∨ (C ∧ D)
+</ul>
+</div>
+<div class="round-card">
+<h3 class="round-title">Round 3 (40-59)</h3>
+<ul class="step-list">
+<li class="step-item">
+<i class="fas fa-code"></i> Function: (B ∧ C) ∨ (B ∧ D) ∨ (C ∧ D)
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-key"></i> Constant: 0x8F1BBCDC
+<li class="step-item">
+<i class="fas fa-key"></i> Constant: 0x8F1BBCDC
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-list-ol"></i> Steps: 20 operations
+<li class="step-item">
+<i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words: W[40]-W[59]
+<li class="step-item">
+<i class="fas fa-exchange-alt"></i> Message words: W[40]-W[59]
                   </li>
-                </ul>
-              </div>
-
-              <div class="round-card">
-                <h3 class="round-title">Round 4 (60-79)</h3>
-                <ul class="step-list">
-                  <li class="step-item">
-                    <i class="fas fa-code"></i> Function: B ⊕ C ⊕ D
+</ul>
+</div>
+<div class="round-card">
+<h3 class="round-title">Round 4 (60-79)</h3>
+<ul class="step-list">
+<li class="step-item">
+<i class="fas fa-code"></i> Function: B ⊕ C ⊕ D
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-key"></i> Constant: 0xCA62C1D6
+<li class="step-item">
+<i class="fas fa-key"></i> Constant: 0xCA62C1D6
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-list-ol"></i> Steps: 20 operations
+<li class="step-item">
+<i class="fas fa-list-ol"></i> Steps: 20 operations
                   </li>
-                  <li class="step-item">
-                    <i class="fas fa-exchange-alt"></i> Message words: W[60]-W[79]
+<li class="step-item">
+<i class="fas fa-exchange-alt"></i> Message words: W[60]-W[79]
                   </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Hashing</div>
-              </div>
-              <div class="property-card">
-                <h4>Output Size</h4>
-                <div class="value">160 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Block Size</h4>
-                <div class="value">512 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Rounds</h4>
-                <div class="value">80</div>
-              </div>
-              <div class="property-card">
-                <h4>Functions</h4>
-                <div class="value">4</div>
-              </div>
-              <div class="property-card">
-                <h4>Security</h4>
-                <div class="value">Broken</div>
-              </div>
-              <div class="property-card">
-                <h4>Speed</h4>
-                <div class="value">Fast</div>
-              </div>
-              <div class="property-card">
-                <h4>Year</h4>
-                <div class="value">1995</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Historical Use -->
-          <div class="section">
-            <h2><i class="fas fa-history"></i> Historical Applications</h2>
-            <p>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Hashing</div>
+</div>
+<div class="property-card">
+<h4>Output Size</h4>
+<div class="value">160 bits</div>
+</div>
+<div class="property-card">
+<h4>Block Size</h4>
+<div class="value">512 bits</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">80</div>
+</div>
+<div class="property-card">
+<h4>Functions</h4>
+<div class="value">4</div>
+</div>
+<div class="property-card">
+<h4>Security</h4>
+<div class="value">Broken</div>
+</div>
+<div class="property-card">
+<h4>Speed</h4>
+<div class="value">Fast</div>
+</div>
+<div class="property-card">
+<h4>Year</h4>
+<div class="value">1995</div>
+</div>
+</div>
+</div>
+<!-- Historical Use -->
+<div class="section">
+<h2><i class="fas fa-history"></i> Historical Applications</h2>
+<p>
               SHA-1 was widely adopted before its vulnerabilities were discovered:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 TLS/SSL security certificates
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Digital signatures and PKI
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Git version control (commit hashes)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 File integrity verification
               </li>
-              <li>Legacy authentication systems</li>
-            </ul>
-          </div>
-
-          <!-- Security Status */
+<li>Legacy authentication systems</li>
+</ul>
+</div>
+<!-- Security Status */
           <div class="section">
             <h2><i class="fas fa-exclamation-triangle"></i> Security Status</h2>
             <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); border-radius: 10px; padding: 15px; margin: 15px 0; color: var(--danger);">
@@ -1018,18 +1016,17 @@
       </div>
 
       <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // Get DOM elements
         const startBtn = document.getElementById("startBtn");
@@ -1190,5 +1187,5 @@
         resetVisualization();
       });
     </script>
-  </body>
+</div></div></body>
 </html>

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ECDH Key Exchange | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ECDH Key Exchange | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -716,325 +711,286 @@
         font-family: "Roboto Mono", monospace;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Cryptography Algorithms</a> >
+<meta content="ECDH Key Exchange | AlgoViz Hub" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_ec_diffie_hellman.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="ECDH Key Exchange | AlgoViz Hub" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_ec_diffie_hellman.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "ECDH Key Exchange | AlgoViz Hub",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_ec_diffie_hellman.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Cryptography Algorithms</a> &gt;
               <span>Elliptic Curve Diffie-Hellman</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Elliptic Curve Diffie-Hellman</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Elliptic Curve Cryptography
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Elliptic Curve Diffie-Hellman</h1>
-        <div class="category">
-          <i class="fas fa-lock"></i> Elliptic Curve Cryptography
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Security: Elliptic Curve Discrete Logarithm
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Elliptic Curve Diffie-Hellman (ECDH) is a key agreement protocol
               that allows two parties to establish a shared secret over an
               insecure channel. It's based on the algebraic structure of
               elliptic curves over finite fields and provides the same security
               as traditional Diffie-Hellman but with smaller key sizes.
             </p>
-            <p>
+<p>
               ECDH is widely used in modern cryptographic protocols due to its
               efficiency and strong security. It's particularly valuable in
               resource-constrained environments like mobile devices and IoT
               systems.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> Key Generation</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> Key Generation</h3>
+<p>
                   Each party generates a private key and computes their public
                   key by multiplying the base point
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> Key Exchange</h3>
-                <p>Parties exchange public keys over an insecure channel</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Shared Secret</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> Key Exchange</h3>
+<p>Parties exchange public keys over an insecure channel</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Shared Secret</h3>
+<p>
                   Each party computes the shared secret by combining their
                   private key with the other party's public key
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Efficiency</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Efficiency</h3>
+<p>
                   Provides equivalent security to RSA with significantly smaller
                   key sizes (256-bit ECC ≈ 3072-bit RSA)
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console to visualize the Elliptic Curve
               Diffie-Hellman key exchange process. Step through each stage to
               see how two parties establish a shared secret using elliptic curve
               cryptography.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-exchange-alt"></i> ECDH Key Exchange
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-exchange-alt"></i> ECDH Key Exchange
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="prev-btn">
-                    <i class="fas fa-arrow-left"></i> Prev
+<div class="console-controls">
+<button class="console-btn secondary" id="prev-btn">
+<i class="fas fa-arrow-left"></i> Prev
                   </button>
-                  <button class="console-btn" id="next-btn">
+<button class="console-btn" id="next-btn">
                     Next <i class="fas fa-arrow-right"></i>
+</button>
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
-                  </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="ecdh-container">
-                  <!-- Curve Information -->
-                  <div class="curve-container">
-                    <div class="curve-info">
-                      <div>Elliptic Curve: y² = x³ + 2x + 2 mod 17</div>
-                      <div>Base Point G: (5,1)</div>
-                    </div>
+</div>
+</div>
+<div class="visualization-area">
+<div class="ecdh-container">
+<!-- Curve Information -->
+<div class="curve-container">
+<div class="curve-info">
+<div>Elliptic Curve: y² = x³ + 2x + 2 mod 17</div>
+<div>Base Point G: (5,1)</div>
+</div>
+</div>
+<!-- Alice's Side -->
+<div class="participant" id="alice">
+<h4><i class="fas fa-user"></i> Alice</h4>
+<div class="key-container">
+<div class="key-label">Private Key (a)</div>
+<div class="key-value" id="alice-private">3</div>
+</div>
+<div class="key-container">
+<div class="key-label">Public Key (a×G)</div>
+<div class="key-value" id="alice-public">(10,6)</div>
+</div>
+<div class="key-container" id="alice-secret">
+<div class="key-label">Shared Secret</div>
+<div class="key-value">-</div>
+</div>
+</div>
+<!-- Bob's Side -->
+<div class="participant" id="bob">
+<h4><i class="fas fa-user"></i> Bob</h4>
+<div class="key-container">
+<div class="key-label">Private Key (b)</div>
+<div class="key-value" id="bob-private">4</div>
+</div>
+<div class="key-container">
+<div class="key-label">Public Key (b×G)</div>
+<div class="key-value" id="bob-public">(3,1)</div>
+</div>
+<div class="key-container" id="bob-secret">
+<div class="key-label">Shared Secret</div>
+<div class="key-value">-</div>
+</div>
+</div>
+<!-- Messages -->
+<div class="message-container" id="msg-alice-key">
+<i class="fas fa-key"></i> Alice's Public Key<br/>(10,6)
                   </div>
-
-                  <!-- Alice's Side -->
-                  <div class="participant" id="alice">
-                    <h4><i class="fas fa-user"></i> Alice</h4>
-                    <div class="key-container">
-                      <div class="key-label">Private Key (a)</div>
-                      <div class="key-value" id="alice-private">3</div>
-                    </div>
-                    <div class="key-container">
-                      <div class="key-label">Public Key (a×G)</div>
-                      <div class="key-value" id="alice-public">(10,6)</div>
-                    </div>
-                    <div class="key-container" id="alice-secret">
-                      <div class="key-label">Shared Secret</div>
-                      <div class="key-value">-</div>
-                    </div>
+<div class="message-container" id="msg-bob-key">
+<i class="fas fa-key"></i> Bob's Public Key<br/>(3,1)
                   </div>
-
-                  <!-- Bob's Side -->
-                  <div class="participant" id="bob">
-                    <h4><i class="fas fa-user"></i> Bob</h4>
-                    <div class="key-container">
-                      <div class="key-label">Private Key (b)</div>
-                      <div class="key-value" id="bob-private">4</div>
-                    </div>
-                    <div class="key-container">
-                      <div class="key-label">Public Key (b×G)</div>
-                      <div class="key-value" id="bob-public">(3,1)</div>
-                    </div>
-                    <div class="key-container" id="bob-secret">
-                      <div class="key-label">Shared Secret</div>
-                      <div class="key-value">-</div>
-                    </div>
-                  </div>
-
-                  <!-- Messages -->
-                  <div class="message-container" id="msg-alice-key">
-                    <i class="fas fa-key"></i> Alice's Public Key<br />(10,6)
-                  </div>
-
-                  <div class="message-container" id="msg-bob-key">
-                    <i class="fas fa-key"></i> Bob's Public Key<br />(3,1)
-                  </div>
-
-                  <div class="arrow" id="arrow-alice"></div>
-                  <div class="arrow" id="arrow-bob"></div>
-
-                  <div class="step-indicator">
+<div class="arrow" id="arrow-alice"></div>
+<div class="arrow" id="arrow-bob"></div>
+<div class="step-indicator">
                     Step: <span id="step-num">1</span>/6
                   </div>
-                  <div class="calculation-steps" id="calc-steps"></div>
-
-                  <!-- Curve Visualization -->
-                  <div
-                    class="curve-point"
-                    id="point-g"
-                    style="top: 80px; left: 120px"
-                  ></div>
-                  <div class="curve-point-label" style="top: 65px; left: 120px">
+<div class="calculation-steps" id="calc-steps"></div>
+<!-- Curve Visualization -->
+<div class="curve-point" id="point-g" style="top: 80px; left: 120px"></div>
+<div class="curve-point-label" style="top: 65px; left: 120px">
                     G (5,1)
                   </div>
-
-                  <div
-                    class="curve-point"
-                    id="point-alice"
-                    style="top: 120px; left: 180px; opacity: 0"
-                  ></div>
-                  <div
-                    class="curve-point-label"
-                    id="label-alice"
-                    style="top: 105px; left: 180px; opacity: 0"
-                  >
+<div class="curve-point" id="point-alice" style="top: 120px; left: 180px; opacity: 0"></div>
+<div class="curve-point-label" id="label-alice" style="top: 105px; left: 180px; opacity: 0">
                     a×G (10,6)
                   </div>
-
-                  <div
-                    class="curve-point"
-                    id="point-bob"
-                    style="top: 140px; left: 90px; opacity: 0"
-                  ></div>
-                  <div
-                    class="curve-point-label"
-                    id="label-bob"
-                    style="top: 125px; left: 90px; opacity: 0"
-                  >
+<div class="curve-point" id="point-bob" style="top: 140px; left: 90px; opacity: 0"></div>
+<div class="curve-point-label" id="label-bob" style="top: 125px; left: 90px; opacity: 0">
                     b×G (3,1)
                   </div>
-
-                  <div
-                    class="curve-point"
-                    id="point-secret"
-                    style="top: 180px; left: 140px; opacity: 0"
-                  ></div>
-                  <div
-                    class="curve-point-label"
-                    id="label-secret"
-                    style="top: 165px; left: 140px; opacity: 0"
-                  >
+<div class="curve-point" id="point-secret" style="top: 180px; left: 140px; opacity: 0"></div>
+<div class="curve-point-label" id="label-secret" style="top: 165px; left: 140px; opacity: 0">
                     Shared (9,16)
                   </div>
-
-                  <div
-                    class="curve-line"
-                    id="line-alice"
-                    style="
+<div class="curve-line" id="line-alice" style="
                       top: 80px;
                       left: 120px;
                       width: 0;
                       transform: rotate(0deg);
-                    "
-                  ></div>
-                  <div
-                    class="curve-line"
-                    id="line-bob"
-                    style="
+                    "></div>
+<div class="curve-line" id="line-bob" style="
                       top: 80px;
                       left: 120px;
                       width: 0;
                       transform: rotate(0deg);
-                    "
-                  ></div>
-                  <div
-                    class="curve-line"
-                    id="line-secret"
-                    style="
+                    "></div>
+<div class="curve-line" id="line-secret" style="
                       top: 120px;
                       left: 180px;
                       width: 0;
                       transform: rotate(0deg);
-                    "
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+                    "></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               ECDH key exchange involves the following steps to establish a
               shared secret:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 1. Curve Selection</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 1. Curve Selection</h3>
+<p>
                   Both parties agree on an elliptic curve and a base point (G)
                   on that curve. In this example: y² = x³ + 2x + 2 mod 17 with
                   base point G=(5,1).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> 2. Alice's Key Generation</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 2. Alice's Key Generation</h3>
+<p>
                   Alice selects a private key (a=3) and computes her public key
                   (a×G) = 3×(5,1) = (10,6).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> 3. Bob's Key Generation</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 3. Bob's Key Generation</h3>
+<p>
                   Bob selects a private key (b=4) and computes his public key
                   (b×G) = 4×(5,1) = (3,1).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 4. Key Exchange</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 4. Key Exchange</h3>
+<p>
                   Alice and Bob exchange their public keys over an insecure
                   channel. Alice sends (10,6) to Bob, Bob sends (3,1) to Alice.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-user-lock"></i> 5. Alice Computes Secret
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-user-lock"></i> 5. Alice Computes Secret
                 </h3>
-                <p>
+<p>
                   Alice computes the shared secret: a×(b×G) = 3×(3,1) = (9,16).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-user-lock"></i> 6. Bob Computes Secret</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-user-lock"></i> 6. Bob Computes Secret</h3>
+<p>
                   Bob computes the shared secret: b×(a×G) = 4×(10,6) = (9,16).
                   Both parties now have the same shared secret.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code><span class="comment">// Both parties agree on curve parameters</span>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code><span class="comment">// Both parties agree on curve parameters</span>
 curve = EllipticCurve(a: 2, b: 2, p: 17)
 G = Point(5, 1)  <span class="comment">// Base point</span>
 
@@ -1058,96 +1014,90 @@ shared_secret_alice = curve.scalar_multiply(a, B)
 shared_secret_bob = curve.scalar_multiply(b, A)
 
 <span class="comment">// Both secrets should be equal: (a×b)×G</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Cryptography</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Key Agreement</div>
-              </div>
-              <div class="property-card">
-                <h4>Key Exchange</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Security Basis</h4>
-                <div class="value">ECDLP</div>
-              </div>
-              <div class="property-card">
-                <h4>Forward Secrecy</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Key Size</h4>
-                <div class="value">256-521 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Efficiency</h4>
-                <div class="value">High</div>
-              </div>
-              <div class="property-card">
-                <h4>Standard</h4>
-                <div class="value">NIST, SECG</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>ECDH is widely used in modern security protocols and systems:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptography</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Key Agreement</div>
+</div>
+<div class="property-card">
+<h4>Key Exchange</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Security Basis</h4>
+<div class="value">ECDLP</div>
+</div>
+<div class="property-card">
+<h4>Forward Secrecy</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Key Size</h4>
+<div class="value">256-521 bits</div>
+</div>
+<div class="property-card">
+<h4>Efficiency</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Standard</h4>
+<div class="value">NIST, SECG</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>ECDH is widely used in modern security protocols and systems:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 TLS/SSL for secure web browsing (ECDHE cipher suites)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Secure messaging apps (Signal, WhatsApp)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 VPN protocols (WireGuard, IKEv2)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Blockchain and cryptocurrency security
               </li>
-              <li>Secure shell (SSH) key exchange</li>
-              <li style="margin-top: 10px">
+<li>Secure shell (SSH) key exchange</li>
+<li style="margin-top: 10px">
                 Mobile device security (iOS, Android)
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // ECDH Visualization State
         let currentStep = 1;
@@ -1305,5 +1255,5 @@ shared_secret_bob = curve.scalar_multiply(b, A)
         }
       });
     </script>
-  </body>
+</body>
 </html>

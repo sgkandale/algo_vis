@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HyperLogLog Algorithm Visualization</title>
-    <style>
+<head><meta content="Discover probabilistic data structures for approximate computing and big data" name="description"/><meta content="probabilistic data structure, bloom filter, count-min sketch, hyperloglog, flajolet-martin" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HyperLogLog Algorithm Visualization</title>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -321,138 +322,135 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>📊 HyperLogLog Algorithm</h1>
-
-      <div class="intro">
-        <p>
-          <strong>HyperLogLog</strong> is a probabilistic algorithm that
+<meta content="HyperLogLog Algorithm Visualization" property="og:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/probabilistic_hyperloglog.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="HyperLogLog Algorithm Visualization" name="twitter:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/probabilistic_hyperloglog.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "HyperLogLog Algorithm Visualization",
+  "description": "Discover probabilistic data structures for approximate computing and big data",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/probabilistic_hyperloglog.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<h1>📊 HyperLogLog Algorithm</h1>
+<div class="intro">
+<p>
+<strong>HyperLogLog</strong> is a probabilistic algorithm that
           estimates the number of unique elements in a dataset using minimal
           memory. It can count billions of unique items using just kilobytes of
           space with ~2% accuracy!
         </p>
-      </div>
-
-      <div class="controls">
-        <button class="btn success" onclick="addElement()">
+</div>
+<div class="controls">
+<button class="btn success" onclick="addElement()">
           ➕ Add Element
         </button>
-        <button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
-        <button class="btn danger" onclick="reset()">🔄 Reset</button>
-        <button class="btn" onclick="showExplanation()">📚 How It Works</button>
-      </div>
-
-      <div class="dataset-examples">
-        <button
-          class="dataset-btn"
-          onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])"
-        >
+<button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
+<button class="btn danger" onclick="reset()">🔄 Reset</button>
+<button class="btn" onclick="showExplanation()">📚 How It Works</button>
+</div>
+<div class="dataset-examples">
+<button class="dataset-btn" onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])">
           🍎 Fruits
         </button>
-        <button
-          class="dataset-btn"
-          onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])"
-        >
+<button class="dataset-btn" onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])">
           👥 Users
         </button>
-        <button
-          class="dataset-btn"
-          onclick="loadDataset(['192.168.1.1', '10.0.0.1', '172.16.0.1', '8.8.8.8'])"
-        >
+<button class="dataset-btn" onclick="loadDataset(['192.168.1.1', '10.0.0.1', '172.16.0.1', '8.8.8.8'])">
           🌐 IPs
         </button>
-        <button class="dataset-btn" onclick="generateLargeDataset()">
+<button class="dataset-btn" onclick="generateLargeDataset()">
           📈 Large Dataset (1000 items)
         </button>
-      </div>
-
-      <div class="main-content">
-        <div class="input-section">
-          <h3>🔤 Add New Element</h3>
-          <input
-            type="text"
-            id="elementInput"
-            placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)"
-            onkeypress="handleKeyPress(event)"
-          />
-
-          <div id="currentElement" style="display: none">
-            <h4>Current Element Processing:</h4>
-            <div class="hash-display" id="elementHash"></div>
-            <div class="binary-display" id="binaryHash"></div>
-          </div>
-        </div>
-
-        <div class="buckets-section">
-          <h3>🪣 HyperLogLog Buckets (b=4, m=16)</h3>
-          <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
+</div>
+<div class="main-content">
+<div class="input-section">
+<h3>🔤 Add New Element</h3>
+<input id="elementInput" onkeypress="handleKeyPress(event)" placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)" type="text"/>
+<div id="currentElement" style="display: none">
+<h4>Current Element Processing:</h4>
+<div class="hash-display" id="elementHash"></div>
+<div class="binary-display" id="binaryHash"></div>
+</div>
+</div>
+<div class="buckets-section">
+<h3>🪣 HyperLogLog Buckets (b=4, m=16)</h3>
+<p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px">
             Each bucket stores the maximum number of leading zeros seen
           </p>
-          <div class="buckets-grid" id="bucketsGrid"></div>
-        </div>
-      </div>
-
-      <div class="step-by-step">
-        <h3>🔍 Step-by-Step Process</h3>
-        <div id="steps">
-          <div class="explanation">
-            <h4>How HyperLogLog Works:</h4>
-            <p>
-              <strong>1. Hash:</strong> Convert each element to a binary hash
+<div class="buckets-grid" id="bucketsGrid"></div>
+</div>
+</div>
+<div class="step-by-step">
+<h3>🔍 Step-by-Step Process</h3>
+<div id="steps">
+<div class="explanation">
+<h4>How HyperLogLog Works:</h4>
+<p>
+<strong>1. Hash:</strong> Convert each element to a binary hash
             </p>
-            <p>
-              <strong>2. Bucket:</strong> Use first b bits to determine which
+<p>
+<strong>2. Bucket:</strong> Use first b bits to determine which
               bucket (0-15 for b=4)
             </p>
-            <p>
-              <strong>3. Count Zeros:</strong> Count leading zeros in remaining
+<p>
+<strong>3. Count Zeros:</strong> Count leading zeros in remaining
               bits
             </p>
-            <p>
-              <strong>4. Update:</strong> Keep maximum zero count per bucket
+<p>
+<strong>4. Update:</strong> Keep maximum zero count per bucket
             </p>
-            <p>
-              <strong>5. Estimate:</strong> Use harmonic mean to estimate
+<p>
+<strong>5. Estimate:</strong> Use harmonic mean to estimate
               cardinality
             </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="stats">
-        <div class="stat-card">
-          <div class="stat-value" id="actualCount">0</div>
-          <div class="stat-label">Actual Unique Count</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="estimatedCount">0</div>
-          <div class="stat-label">HLL Estimated Count</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="errorRate">0%</div>
-          <div class="stat-label">Error Rate</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="memoryUsed">64</div>
-          <div class="stat-label">Bytes Used</div>
-        </div>
-      </div>
-
-      <div class="explanation">
-        <h4>🧮 Estimation Formula:</h4>
-        <div class="formula">
+</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat-card">
+<div class="stat-value" id="actualCount">0</div>
+<div class="stat-label">Actual Unique Count</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="estimatedCount">0</div>
+<div class="stat-label">HLL Estimated Count</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="errorRate">0%</div>
+<div class="stat-label">Error Rate</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="memoryUsed">64</div>
+<div class="stat-label">Bytes Used</div>
+</div>
+</div>
+<div class="explanation">
+<h4>🧮 Estimation Formula:</h4>
+<div class="formula">
           Cardinality ≈ α<sub>m</sub> × m² × (Σ 2<sup>-M[j]</sup>)<sup>-1</sup>
-        </div>
-        <p>
+</div>
+<p>
           Where m=16 buckets, α<sub>16</sub>=0.673, and M[j] is the max leading
           zeros in bucket j
         </p>
-      </div>
-    </div>
-
-    <script>
+</div>
+</div>
+<script>
       // HyperLogLog implementation
       const b = 4; // bucket bits
       const m = 16; // number of buckets (2^b)
@@ -728,5 +726,5 @@ Real-world uses:
       // Auto-focus input
       document.getElementById("elementInput").focus();
     </script>
-  </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tree Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tree Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -665,188 +660,192 @@
         transition: width 0.3s ease;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Tree Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_tree.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Tree Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_tree.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Tree Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_tree.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Tree Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Tree Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Tree-Based Sorting
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Tree Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Tree-Based Sorting
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Tree Sort is a sorting algorithm that builds a binary search tree
               (BST) from the elements to be sorted, and then performs an
               in-order traversal of the BST to obtain the elements in sorted
               order. This algorithm is efficient for sorting elements and
               leverages the properties of BSTs.
             </p>
-            <p>
+<p>
               The algorithm consists of two main phases: building the BST by
               inserting each element one by one, and then traversing the BST
               in-order to collect the elements in ascending order. Tree Sort is
               particularly useful when the data is being received one element at
               a time.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Uses binary search tree properties for efficient sorting</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Uses binary search tree properties for efficient sorting</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n log n) average case, O(n²) worst-case (unbalanced tree)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n) additional space for tree nodes</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>BST construction + in-order traversal</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n) additional space for tree nodes</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>BST construction + in-order traversal</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Tree Sort
               works. The visualization shows:
             </p>
-            <ul
-              style="
+<ul style="
                 color: var(--text-secondary);
                 margin: 15px 0;
                 padding-left: 20px;
-              "
-            >
-              <li>
+              ">
+<li>
                 Binary search tree construction (highlighted nodes during
                 insertion)
               </li>
-              <li>
+<li>
                 In-order traversal process (highlighted nodes during traversal)
               </li>
-              <li>Sorted output being built step by step</li>
-            </ul>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Tree Sort Visualization
+<li>Sorted output being built step by step</li>
+</ul>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Tree Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="stepBtn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="vizArea">
-                <!-- Visualization will be rendered here -->
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="arrayInput"
-                  value="8, 3, 2, 7, 4, 9, 1, 6, 5"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="vizArea">
+<!-- Visualization will be rendered here -->
+</div>
+<div class="console-input">
+<input id="arrayInput" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="8, 3, 2, 7, 4, 9, 1, 6, 5"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Tree Sort processes the array by building a BST and then
               traversing it:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tree"></i> 1. BST Construction</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tree"></i> 1. BST Construction</h3>
+<p>
                   Insert elements into a binary search tree: for each element,
                   start at root and recursively insert
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-code-branch"></i> 2. Insertion Logic</h3>
-                <p>
-                  If element < current node, go left; if > current node, go
+</div>
+<div class="point-card">
+<h3><i class="fas fa-code-branch"></i> 2. Insertion Logic</h3>
+<p>
+                  If element &lt; current node, go left; if &gt; current node, go
                   right; if null, insert
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sitemap"></i> 3. In-order Traversal</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sitemap"></i> 3. In-order Traversal</h3>
+<p>
                   Traverse left subtree, visit root, traverse right subtree
                   (recursive)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-sort-amount-down"></i> 4. Collect Elements
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sort-amount-down"></i> 4. Collect Elements
                 </h3>
-                <p>
+<p>
                   During in-order traversal, collect elements in sorted order
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>class TreeNode:
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>class TreeNode:
     value
     left
     right
@@ -854,7 +853,7 @@
 function insertNode(root, value):
     if root is null:
         return new TreeNode(value)
-    else if value < root.value:
+    else if value &lt; root.value:
         root.left = insertNode(root.left, value)
     else:
         root.right = insertNode(root.right, value)
@@ -873,26 +872,24 @@ function treeSort(array):
     result = []
     inOrderTraversal(root, result)
     return result</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Tree Sort algorithm. The
               implementation includes a TreeNode class and the treeSort
               function.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">class</span> <span class="function">TreeNode</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">TreeNode</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, value):
         <span class="keyword">self</span>.value = value
         <span class="keyword">self</span>.left = <span class="keyword">None</span>
@@ -902,7 +899,7 @@ function treeSort(array):
     <span class="keyword">if</span> root <span class="keyword">is</span> <span class="keyword">None</span>:
         <span class="keyword">return</span> TreeNode(value)
     
-    <span class="keyword">if</span> value < root.value:
+    <span class="keyword">if</span> value &lt; root.value:
         root.left = insert_node(root.left, value)
     <span class="keyword">else</span>:
         root.right = insert_node(root.right, value)
@@ -931,124 +928,116 @@ function treeSort(array):
 arr = [<span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>]
 sorted_arr = tree_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Tree Sort is particularly useful in specific scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Tree Sort is particularly useful in specific scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting streaming data as it arrives
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Situations where data is being continuously added
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Educational purposes to teach BST concepts
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 When maintaining a sorted data structure is needed
               </li>
-              <li>Database indexing and search operations</li>
-            </ul>
-          </div>
-
-          <!-- Advantages -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Advantages</h2>
-            <p>
-              <strong>Efficiency:</strong> Average-case O(n log n) performance
+<li>Database indexing and search operations</li>
+</ul>
+</div>
+<!-- Advantages -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Advantages</h2>
+<p>
+<strong>Efficiency:</strong> Average-case O(n log n) performance
               which is optimal for comparison sorts.
             </p>
-            <p>
-              <strong>Incremental Sorting:</strong> Can efficiently sort data as
+<p>
+<strong>Incremental Sorting:</strong> Can efficiently sort data as
               it arrives.
             </p>
-            <p>
-              <strong>Conceptual Simplicity:</strong> Based on fundamental BST
+<p>
+<strong>Conceptual Simplicity:</strong> Based on fundamental BST
               concepts, easy to understand.
             </p>
-          </div>
-
-          <!-- Limitations -->
-          <div class="section">
-            <h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
-            <p>
+</div>
+<!-- Limitations -->
+<div class="section">
+<h2><i class="fas fa-exclamation-triangle"></i> Limitations</h2>
+<p>
               Tree Sort has a worst-case time complexity of O(n²) when the input
               is already sorted or reverse sorted, as this creates a completely
               unbalanced tree (essentially a linked list).
             </p>
-            <p>
+<p>
               It requires O(n) additional space for the tree nodes, which may be
               a limitation in memory-constrained environments.
             </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Tree Sort Visualization Logic
       class TreeNode {
         constructor(value) {
@@ -1380,5 +1369,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
           }, 2000);
         });
     </script>
-  </body>
+</body>
 </html>

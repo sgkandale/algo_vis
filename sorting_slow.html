@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Slowsort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Slowsort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -679,194 +674,191 @@
         color: #79c0ff;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-snail"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Slowsort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_slow.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Slowsort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_slow.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Slowsort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_slow.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-snail"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Slowsort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Slowsort</h1>
+<div class="category">
+<i class="fas fa-tachometer-alt-slow"></i> Recursive Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Slowsort</h1>
-        <div class="category">
-          <i class="fas fa-tachometer-alt-slow"></i> Recursive Sorting Algorithm
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Time Complexity: O(n<sup>log n</sup>)
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Slowsort is a deliberately inefficient recursive sorting algorithm
               based on the principle of "multiply and surrender" - a parody of
               the efficient "divide and conquer" approach. It was designed to
               demonstrate how not to write a sorting algorithm, serving as a
               cautionary example of poor algorithmic design.
             </p>
-            <p>
+<p>
               Despite its inefficiency, Slowsort is guaranteed to eventually
               sort any array. Its time complexity is O(n<sup>log n</sup>),
               making it worse than polynomial time but not as bad as exponential
               time algorithms.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> Key Feature</h3>
-                <p>Recursively finds maximum and moves it to the end</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n<sup>log n</sup>) - worse than O(n²) algorithms</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n) due to recursion stack depth</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Multiply and surrender (parody of divide and conquer)</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-random"></i> Key Feature</h3>
+<p>Recursively finds maximum and moves it to the end</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n<sup>log n</sup>) - worse than O(n²) algorithms</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n) due to recursion stack depth</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Multiply and surrender (parody of divide and conquer)</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Slowsort works.
               Enter a comma-separated list of numbers, adjust the speed, and
               step through the algorithm to see each stage of the sorting
               process.
-              <strong
-                >Note: Due to the algorithm's inefficiency, keep arrays small (≤
-                6 elements).</strong
-              >
-            </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-sort-amount-down"></i> Slowsort Visualization
+              <strong>Note: Due to the algorithm's inefficiency, keep arrays small (≤
+                6 elements).</strong>
+</p>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-sort-amount-down"></i> Slowsort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="status-message" id="status-message">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="status-message" id="status-message">
                   Ready to sort!
                 </div>
-                <div class="array-container" id="array-container"></div>
-                <div class="recursion-counter">
+<div class="array-container" id="array-container"></div>
+<div class="recursion-counter">
                   Recursion Depth: <span id="depth-count">0</span>
-                </div>
-              </div>
-
-              <div class="speed-control">
-                <span>Slow</span>
-                <input
-                  type="range"
-                  id="speed-slider"
-                  min="50"
-                  max="500"
-                  value="200"
-                />
-                <span>Fast</span>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2)"
-                  value="5, 3, 8, 1, 2"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="speed-control">
+<span>Slow</span>
+<input id="speed-slider" max="500" min="50" type="range" value="200"/>
+<span>Fast</span>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2)" type="text" value="5, 3, 8, 1, 2"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Slowsort follows a recursive approach with these steps:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-list"></i> 1. Base Case</h3>
-                <p>If the list has 0 or 1 elements, it's already sorted</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-divide"></i> 2. Divide Array</h3>
-                <p>Split the list into two halves (not necessarily equal)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-left"></i> 3. Recursively Sort</h3>
-                <p>Recursively sort the first half and the second half</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-up"></i> 4. Find Maximum</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Slowsort follows a recursive approach with these steps:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-list"></i> 1. Base Case</h3>
+<p>If the list has 0 or 1 elements, it's already sorted</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-divide"></i> 2. Divide Array</h3>
+<p>Split the list into two halves (not necessarily equal)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-left"></i> 3. Recursively Sort</h3>
+<p>Recursively sort the first half and the second half</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-up"></i> 4. Find Maximum</h3>
+<p>
                   Compare the last elements of both sorted halves to find the
                   maximum
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> 5. Move Maximum</h3>
-                <p>Move the maximum element to the end of the current list</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 6. Recurse</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> 5. Move Maximum</h3>
+<p>Move the maximum element to the end of the current list</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 6. Recurse</h3>
+<p>
                   Recursively sort the remaining list (excluding the last
                   element)
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function slowsort(A, i, j)
-    if i >= j then
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function slowsort(A, i, j)
+    if i &gt;= j then
         return
     end if
     
@@ -875,42 +867,40 @@
     slowsort(A, i, m)     // Recursively sort left half
     slowsort(A, m+1, j)   // Recursively sort right half
     
-    if A[j] < A[m] then
+    if A[j] &lt; A[m] then
         swap A[j] and A[m]  // Move larger value to end
     end if
     
     slowsort(A, i, j-1)   // Recursively sort all but last</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Slowsort algorithm. The
               algorithm recursively sorts the array in a highly inefficient
               manner by repeatedly finding the maximum element through recursion
               and moving it to the end.
             </p>
-            <p>
-              <strong>Warning:</strong> This implementation should only be used
+<p>
+<strong>Warning:</strong> This implementation should only be used
               for educational purposes with very small arrays (n ≤ 6). For
               larger arrays, the execution time becomes impractical.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">slowsort</span>(arr, i=0, j=None):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">slowsort</span>(arr, i=0, j=None):
     <span class="keyword">if</span> j <span class="keyword">is</span> None:
         j = len(arr) - 1
         
     <span class="comment"># Base case: 0 or 1 elements</span>
-    <span class="keyword">if</span> i >= j:
+    <span class="keyword">if</span> i &gt;= j:
         <span class="keyword">return</span>
     
     <span class="comment"># Find midpoint</span>
@@ -921,7 +911,7 @@
     slowsort(arr, m+1, j)
     
     <span class="comment"># Compare last elements of both halves</span>
-    <span class="keyword">if</span> arr[j] < arr[m]:
+    <span class="keyword">if</span> arr[j] &lt; arr[m]:
         <span class="comment"># Swap the maximum to the end</span>
         arr[j], arr[m] = arr[m], arr[j]
     
@@ -935,162 +925,144 @@ arr = [5, 3, 8, 1, 2]
 sorted_arr = slowsort(arr.copy())
 print(<span class="string">"Original array:"</span>, arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value warning">O(n<sup>log n</sup>)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value warning">O(n<sup>log n</sup>)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value warning">O(n<sup>log n</sup>)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value warning">O(n<sup>log n</sup>)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value warning">O(n<sup>log n</sup>)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value warning">O(n<sup>log n</sup>)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               While Slowsort is not practical for real-world sorting, it serves
               important educational purposes:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Educational tool</strong> to illustrate inefficient
+              ">
+<li style="margin-bottom: 10px">
+<strong>Educational tool</strong> to illustrate inefficient
                 algorithms
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Algorithm analysis</strong> demonstrating poor recursion
+<li style="margin-bottom: 10px">
+<strong>Algorithm analysis</strong> demonstrating poor recursion
                 patterns
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Computational humor</strong> and programming jokes
+<li style="margin-bottom: 10px">
+<strong>Computational humor</strong> and programming jokes
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Teaching recursion limits</strong> with worst-case
+<li style="margin-bottom: 10px">
+<strong>Teaching recursion limits</strong> with worst-case
                 examples
               </li>
-              <li>
-                <strong>Algorithm comparison</strong> to show worst-case
+<li>
+<strong>Algorithm comparison</strong> to show worst-case
                 scenarios
               </li>
-            </ul>
-          </div>
-
-          <!-- Fun Facts Section -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Did You Know?</h2>
-            <p>Slowsort has some fascinating (and alarming) properties:</p>
-            <ul
-              style="
+</ul>
+</div>
+<!-- Fun Facts Section -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Did You Know?</h2>
+<p>Slowsort has some fascinating (and alarming) properties:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Slowsort was created to demonstrate how <strong>not</strong> to
                 write a sorting algorithm
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 The algorithm's time complexity is worse than any polynomial
                 time algorithm
               </li>
-              <li>
+<li>
                 For 10 elements, Slowsort requires about 100,000 operations -
                 compared to 100 for Bubble Sort!
               </li>
-            </ul>
-          </div>
-
-          <!-- Comparison Section -->
-          <div class="section">
-            <h2><i class="fas fa-balance-scale"></i> Algorithm Comparison</h2>
-            <p>
+</ul>
+</div>
+<!-- Comparison Section -->
+<div class="section">
+<h2><i class="fas fa-balance-scale"></i> Algorithm Comparison</h2>
+<p>
               How Slowsort compares to other inefficient sorting algorithms:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>vs Bogo Sort:</strong> Slowsort is deterministic while
+              ">
+<li style="margin-bottom: 10px">
+<strong>vs Bogo Sort:</strong> Slowsort is deterministic while
                 Bogo Sort is random
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>vs Stooge Sort:</strong> Both inefficient, but Slowsort
+<li style="margin-bottom: 10px">
+<strong>vs Stooge Sort:</strong> Both inefficient, but Slowsort
                 has a worse time complexity
               </li>
-              <li>
-                <strong>vs Bubble Sort:</strong> Bubble Sort is O(n²) vs
+<li>
+<strong>vs Bubble Sort:</strong> Bubble Sort is O(n²) vs
                 Slowsort's O(n<sup>log n</sup>)
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const runBtn = document.getElementById("run-btn");
       const stepBtn = document.getElementById("step-btn");
@@ -1366,5 +1338,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
           }, 2000);
         });
     </script>
-  </body>
+</body>
 </html>

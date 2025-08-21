@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cycle Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cycle Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -633,44 +628,63 @@
         gap: 5px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Cycle Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_cycle.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Cycle Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_cycle.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Cycle Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_cycle.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Cycle Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Cycle Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Cycle Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Cycle Sort is an in-place, unstable, comparison sorting algorithm
               that minimizes the number of writes to memory. It is optimal for
               situations where memory writes are expensive, such as with flash
@@ -678,177 +692,148 @@
               where each element is placed in its correct position by rotating
               the cycle.
             </p>
-            <p>
+<p>
               Unlike many sorting algorithms, Cycle Sort does not compare
               elements to sort them. Instead, it calculates the position of each
               element in the sorted array and rotates the elements until each
               element is in its correct position. This makes it particularly
               efficient in terms of the number of writes to memory.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Minimizes the number of memory writes (optimal for flash
                   memory)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n²) time complexity in all cases (best, average, worst)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Constant O(1) space complexity (in-place sorting)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n²) time complexity in all cases (best, average, worst)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Constant O(1) space complexity (in-place sorting)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>
                   Cycle detection and rotation to place elements in correct
                   positions
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive visualization to see how Cycle Sort works.
               Enter numbers to sort, adjust the speed, and step through the
               algorithm to see each stage of the sorting process. The
               visualization shows how elements are moved to their correct
               positions through cycles.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Cycle Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Cycle Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="viz-area">
-                <!-- Visualization will be rendered here -->
-                <div class="array-container" id="array-container"></div>
-                <div class="stats-bar" id="stats-bar">
-                  <div class="stats-item">
-                    <i
-                      class="fas fa-sync-alt"
-                      style="color: var(--accent-light)"
-                    ></i>
-                    <span>Cycles: <span id="cycle-count">0</span></span>
-                  </div>
-                  <div class="stats-item">
-                    <i
-                      class="fas fa-exchange-alt"
-                      style="color: var(--success)"
-                    ></i>
-                    <span>Writes: <span id="write-count">0</span></span>
-                  </div>
-                  <div class="stats-item">
-                    <i class="fas fa-check" style="color: var(--warning)"></i>
-                    <span>Sorted: <span id="sorted-count">0</span></span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  value="7, 2, 9, 5, 1, 4, 8, 3, 6"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="viz-area">
+<!-- Visualization will be rendered here -->
+<div class="array-container" id="array-container"></div>
+<div class="stats-bar" id="stats-bar">
+<div class="stats-item">
+<i class="fas fa-sync-alt" style="color: var(--accent-light)"></i>
+<span>Cycles: <span id="cycle-count">0</span></span>
+</div>
+<div class="stats-item">
+<i class="fas fa-exchange-alt" style="color: var(--success)"></i>
+<span>Writes: <span id="write-count">0</span></span>
+</div>
+<div class="stats-item">
+<i class="fas fa-check" style="color: var(--warning)"></i>
+<span>Sorted: <span id="sorted-count">0</span></span>
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 2, 9, 5, 1, 4, 8, 3, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div class="controls">
-                <div class="speed-control">
-                  <i
-                    class="fas fa-tachometer-alt"
-                    style="color: var(--accent-light)"
-                  ></i>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+<div class="controls">
+<div class="speed-control">
+<i class="fas fa-tachometer-alt" style="color: var(--accent-light)"></i>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Cycle Sort works by dividing the array into cycles and rotating
               elements until each is in its correct position:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-play"></i> 1. Initialize Cycle</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-play"></i> 1. Initialize Cycle</h3>
+<p>
                   Start with the first element as the start of a cycle. This
                   element will be placed in its correct position.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-calculator"></i> 2. Find Position</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-calculator"></i> 2. Find Position</h3>
+<p>
                   Count the number of elements smaller than the current element
                   to determine its correct position in the sorted array.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 3. Place Element</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 3. Place Element</h3>
+<p>
                   Swap the current element with the element at its calculated
                   position. The element that was displaced becomes the new
                   current element.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 4. Rotate Cycle</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 4. Rotate Cycle</h3>
+<p>
                   Continue rotating the cycle until the starting element of the
                   cycle is placed in its correct position.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> 5. Next Cycle</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> 5. Next Cycle</h3>
+<p>
                   Move to the next unsorted element and repeat the process until
                   the entire array is sorted.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function cycleSort(arr)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function cycleSort(arr)
     n = length(arr)
     writes = 0
     
@@ -858,7 +843,7 @@
         
         // Find position where we put the element
         for i from cycleStart+1 to n-1
-            if arr[i] < item
+            if arr[i] &lt; item
                 pos += 1
         
         // If the element is already in position, skip
@@ -879,7 +864,7 @@
             
             // Find position for current element
             for i from cycleStart+1 to n-1
-                if arr[i] < item
+                if arr[i] &lt; item
                     pos += 1
                     
             // Skip duplicates
@@ -891,26 +876,24 @@
             writes += 1
     
     return writes</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Cycle Sort algorithm. The
               algorithm minimizes the number of writes to memory by rotating
               elements to their correct positions in cycles.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">cycle_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">cycle_sort</span>(arr):
     <span class="comment"># Count the number of memory writes</span>
     writes = 0
     n = len(arr)
@@ -922,7 +905,7 @@
         <span class="comment"># Find where to put the item</span>
         pos = cycle_start
         <span class="keyword">for</span> i <span class="keyword">in</span> range(cycle_start + 1, n):
-            <span class="keyword">if</span> arr[i] < item:
+            <span class="keyword">if</span> arr[i] &lt; item:
                 pos += 1
                 
         <span class="comment"># If the item is already there, skip</span>
@@ -943,7 +926,7 @@
             
             <span class="comment"># Find position for current element</span>
             <span class="keyword">for</span> i <span class="keyword">in</span> range(cycle_start + 1, n):
-                <span class="keyword">if</span> arr[i] < item:
+                <span class="keyword">if</span> arr[i] &lt; item:
                     pos += 1
                     
             <span class="comment"># Skip duplicates</span>
@@ -961,146 +944,136 @@ arr = [3, 1, 5, 4, 2, 7, 6]
 writes = cycle_sort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)
 print(<span class="string">"Number of writes:"</span>, writes)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Cycle Sort is particularly useful in specific scenarios where
               memory writes are expensive:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting in memory-constrained environments
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Flash memory and EEPROM systems where write operations are
                 costly
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Systems where minimizing memory writes is critical
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Educational purposes to demonstrate cycle-based sorting
               </li>
-              <li>Embedded systems with limited write endurance</li>
-            </ul>
-          </div>
-
-          <!-- Advantages/Disadvantages Section -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-balance-scale"></i> Advantages & Disadvantages
+<li>Embedded systems with limited write endurance</li>
+</ul>
+</div>
+<!-- Advantages/Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Advantages &amp; Disadvantages
             </h2>
-            <div style="margin-top: 20px">
-              <h3 style="color: var(--success); margin-bottom: 10px">
-                <i class="fas fa-check-circle"></i> Advantages
+<div style="margin-top: 20px">
+<h3 style="color: var(--success); margin-bottom: 10px">
+<i class="fas fa-check-circle"></i> Advantages
               </h3>
-              <ul
-                style="
+<ul style="
                   padding-left: 20px;
                   margin-bottom: 20px;
                   color: var(--text-secondary);
-                "
-              >
-                <li style="margin-bottom: 8px">
+                ">
+<li style="margin-bottom: 8px">
                   Minimal number of memory writes
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   In-place sorting with O(1) space complexity
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Ideal for memory with limited write cycles
                 </li>
-                <li>
+<li>
                   More efficient than other O(n²) algorithms for write-sensitive
                   applications
                 </li>
-              </ul>
-
-              <h3 style="color: var(--danger); margin-bottom: 10px">
-                <i class="fas fa-exclamation-circle"></i> Disadvantages
+</ul>
+<h3 style="color: var(--danger); margin-bottom: 10px">
+<i class="fas fa-exclamation-circle"></i> Disadvantages
               </h3>
-              <ul style="padding-left: 20px; color: var(--text-secondary)">
-                <li style="margin-bottom: 8px">
+<ul style="padding-left: 20px; color: var(--text-secondary)">
+<li style="margin-bottom: 8px">
                   O(n²) time complexity makes it inefficient for large datasets
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Not a stable sorting algorithm
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Performance degrades with larger datasets
                 </li>
-                <li>More complex to implement than basic sorting algorithms</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>More complex to implement than basic sorting algorithms</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1386,5 +1359,5 @@ print(<span class="string">"Number of writes:"</span>, writes)</code></pre>
         speedSlider.dispatchEvent(new Event("input"));
       });
     </script>
-  </body>
+</body>
 </html>

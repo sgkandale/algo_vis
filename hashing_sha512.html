@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SHA-512 Algorithm | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SHA-512 Algorithm | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -631,218 +626,220 @@
         }
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Cryptographic Algorithms</a> >
+<meta content="SHA-512 Algorithm | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_sha512.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="SHA-512 Algorithm | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_sha512.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SHA-512 Algorithm | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_sha512.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Cryptographic Algorithms</a> &gt;
               <span>SHA-512</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>🔐 SHA-512 Algorithm</h1>
+<div class="category">
+<i class="fas fa-shield-alt"></i> Cryptographic Hash Function
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>🔐 SHA-512 Algorithm</h1>
-        <div class="category">
-          <i class="fas fa-shield-alt"></i> Cryptographic Hash Function
-        </div>
-        <div class="complexity-badge">Output: 512 bits (128 hex chars)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Output: 512 bits (128 hex chars)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               SHA-512 is a cryptographic hash function that produces a 512-bit
               (64-byte) hash value from any input data. It's part of the SHA-2
               family and provides enhanced security through its larger output
               size compared to SHA-256.
             </p>
-            <p>
+<p>
               Designed for applications requiring maximum security, SHA-512
               processes data in 1024-bit blocks through 80 rounds of operations,
               making it suitable for high-security environments and long-term
               data protection.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-expand-arrows-alt"></i> Large Output</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-expand-arrows-alt"></i> Large Output</h3>
+<p>
                   512-bit output provides enhanced security margin and collision
                   resistance compared to smaller hash functions
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> One-Way Function</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> One-Way Function</h3>
+<p>
                   Computationally infeasible to reverse the hash and recover
                   the original input data
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Avalanche Effect</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Avalanche Effect</h3>
+<p>
                   Small changes in input produce dramatically different outputs,
                   ensuring high sensitivity to modifications
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Collision Resistant</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Collision Resistant</h3>
+<p>
                   Extremely difficult to find two different inputs that produce
                   the same hash output
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive SHA-512 Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive SHA-512 Visualization
             </h2>
-            <p>
+<p>
               Enter a message to see how SHA-512 processes the input through each
               step of the algorithm. Watch the message padding, block processing,
               and hash computation in action.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-cogs"></i> SHA-512 Hash Generator
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-cogs"></i> SHA-512 Hash Generator
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" onclick="pauseVisualization()">
-                    <i class="fas fa-pause"></i> Pause
+<div class="console-controls">
+<button class="console-btn secondary" onclick="pauseVisualization()">
+<i class="fas fa-pause"></i> Pause
                   </button>
-                  <button class="console-btn secondary" onclick="resumeVisualization()">
-                    <i class="fas fa-play"></i> Resume
+<button class="console-btn secondary" onclick="resumeVisualization()">
+<i class="fas fa-play"></i> Resume
                   </button>
-                  <button class="console-btn secondary" onclick="resetVisualization()">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" onclick="resetVisualization()">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="console-input">
-                  <input
-                    type="text"
-                    id="messageInput"
-                    placeholder="Enter your message to hash..."
-                    value="Hello World"
-                  />
-                  <button class="console-btn" onclick="startVisualization()">
+</div>
+</div>
+<div class="visualization-area">
+<div class="console-input">
+<input id="messageInput" placeholder="Enter your message to hash..." type="text" value="Hello World"/>
+<button class="console-btn" onclick="startVisualization()">
                     🚀 Visualize SHA-512
                   </button>
-                </div>
-
-                <div class="progress-bar">
-                  <div class="progress-fill" id="progressBar"></div>
-                </div>
-
-                <div class="step-container" id="stepContainer">
-                  <!-- Steps will be dynamically generated -->
-                </div>
-
-                <div class="final-hash" id="finalHash" style="display: none">
-                  <!-- Final hash will appear here -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Hashing</div>
-              </div>
-              <div class="property-card">
-                <h4>Output Size</h4>
-                <div class="value">512 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Block Size</h4>
-                <div class="value">1024 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Rounds</h4>
-                <div class="value">80</div>
-              </div>
-              <div class="property-card">
-                <h4>Word Size</h4>
-                <div class="value">64 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Security</h4>
-                <div class="value">High</div>
-              </div>
-              <div class="property-card">
-                <h4>Family</h4>
-                <div class="value">SHA-2</div>
-              </div>
-              <div class="property-card">
-                <h4>Year</h4>
-                <div class="value">2001</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="progressBar"></div>
+</div>
+<div class="step-container" id="stepContainer">
+<!-- Steps will be dynamically generated -->
+</div>
+<div class="final-hash" id="finalHash" style="display: none">
+<!-- Final hash will appear here -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Hashing</div>
+</div>
+<div class="property-card">
+<h4>Output Size</h4>
+<div class="value">512 bits</div>
+</div>
+<div class="property-card">
+<h4>Block Size</h4>
+<div class="value">1024 bits</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">80</div>
+</div>
+<div class="property-card">
+<h4>Word Size</h4>
+<div class="value">64 bits</div>
+</div>
+<div class="property-card">
+<h4>Security</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Family</h4>
+<div class="value">SHA-2</div>
+</div>
+<div class="property-card">
+<h4>Year</h4>
+<div class="value">2001</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               SHA-512 is used in high-security applications requiring strong
               cryptographic guarantees:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 High-security digital signatures
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Long-term data integrity verification
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Cryptographic key derivation
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Secure random number generation
               </li>
-              <li>Government and military applications</li>
-            </ul>
-          </div>
-
-          <!-- Algorithm Steps */
+<li>Government and military applications</li>
+</ul>
+</div>
+<!-- Algorithm Steps */
           <div class="section">
             <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
             <div style="color: var(--text-secondary);">
@@ -870,47 +867,45 @@
           </div>
 
           <!-- Security Comparison -->
-          <div class="section">
-            <h2><i class="fas fa-shield-alt"></i> Security Comparison</h2>
-            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); border-radius: 10px; padding: 15px; margin: 15px 0; color: var(--success);">
-              <strong>✅ Enhanced Security:</strong> SHA-512 provides superior
+<div class="section">
+<h2><i class="fas fa-shield-alt"></i> Security Comparison</h2>
+<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); border-radius: 10px; padding: 15px; margin: 15px 0; color: var(--success);">
+<strong>✅ Enhanced Security:</strong> SHA-512 provides superior
               security compared to shorter hash functions.
             </div>
-            <div style="color: var(--text-secondary); font-size: 14px;">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
-                <div style="padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
-                  <strong style="color: var(--accent-light);">SHA-256</strong><br>
-                  256-bit output<br>
+<div style="color: var(--text-secondary); font-size: 14px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+<div style="padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+<strong style="color: var(--accent-light);">SHA-256</strong><br/>
+                  256-bit output<br/>
                   2^128 security level
                 </div>
-                <div style="padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
-                  <strong style="color: var(--accent-light);">SHA-512</strong><br>
-                  512-bit output<br>
+<div style="padding: 10px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+<strong style="color: var(--accent-light);">SHA-512</strong><br/>
+                  512-bit output<br/>
                   2^256 security level
                 </div>
-              </div>
-            </div>
-            <p style="font-size: 14px; margin-top: 15px;">
-              <strong>Recommended for:</strong> Applications requiring maximum
+</div>
+</div>
+<p style="font-size: 14px; margin-top: 15px;">
+<strong>Recommended for:</strong> Applications requiring maximum
               security and long-term protection.
             </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       let currentStep = 0;
       let isPaused = false;
       let visualizationTimeout;
@@ -1152,5 +1147,5 @@
         startVisualization();
       };
     </script>
-  </body>
+</body>
 </html>

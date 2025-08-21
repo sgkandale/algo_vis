@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SHAKE128 | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SHAKE128 | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -761,53 +756,72 @@
                 font-family: "Roboto Mono", monospace;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-hashtag"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Cryptographic Algorithms</a> >
+<meta content="SHAKE128 | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_shake128.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="SHAKE128 | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_shake128.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SHAKE128 | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_shake128.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-hashtag"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Cryptographic Algorithms</a> &gt;
                             <span>SHAKE128</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>SHAKE128</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Extendable-Output Function (XOF)
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>SHAKE128</h1>
-                <div class="category">
-                    <i class="fas fa-lock"></i> Extendable-Output Function (XOF)
-                </div>
-                <div class="complexity-badge">Security Strength: 128 bits</div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+<div class="complexity-badge">Security Strength: 128 bits</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             SHAKE128 is an extendable-output function (XOF) from
                             the SHA-3 family. Unlike fixed-length hash
                             functions, SHAKE128 can produce output of any
                             desired length, making it extremely versatile for
                             various cryptographic applications.
                         </p>
-                        <p>
+<p>
                             SHAKE128 is based on the same Keccak sponge
                             construction as other SHA-3 algorithms but is
                             designed to support arbitrary output lengths. It
@@ -817,356 +831,278 @@
                             derivation, stream encryption, and randomized
                             algorithms.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Extendable output - can generate output of
                                     any desired length
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Efficient in both hardware and software
                                     implementations
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-shield-alt"></i> Security
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-shield-alt"></i> Security
                                 </h3>
-                                <p>
+<p>
                                     Provides 128-bit security against collision
                                     and preimage attacks
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Structure
                                 </h3>
-                                <p>
+<p>
                                     Uses Keccak sponge construction with a state
                                     of 1600 bits
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             SHAKE128 works. Enter text and specify output length
                             to see how it generates extendable output.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> SHAKE128
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> SHAKE128
                                     XOF Generator
                                 </h3>
-                                <div class="console-controls">
-                                    <button class="console-btn" id="hash-btn">
-                                        <i class="fas fa-hashtag"></i> Generate
+<div class="console-controls">
+<button class="console-btn" id="hash-btn">
+<i class="fas fa-hashtag"></i> Generate
                                         Output
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div class="visualization-area">
-                                <div class="hash-visualization">
-                                    <div class="input-section">
-                                        <div class="input-label">
-                                            <i class="fas fa-keyboard"></i>
+</div>
+</div>
+<div class="visualization-area">
+<div class="hash-visualization">
+<div class="input-section">
+<div class="input-label">
+<i class="fas fa-keyboard"></i>
                                             Input Text
                                         </div>
-                                        <input
-                                            type="text"
-                                            class="input-text"
-                                            id="input-text"
-                                            placeholder="Enter text"
-                                            value="Hello World"
-                                        />
-
-                                        <div class="output-controls">
-                                            <div class="input-group">
-                                                <label for="output-length"
-                                                    >Output Length
-                                                    (bytes)</label
-                                                >
-                                                <input
-                                                    type="number"
-                                                    id="output-length"
-                                                    min="1"
-                                                    max="1024"
-                                                    value="32"
-                                                />
-                                            </div>
-                                            <div class="input-group">
-                                                <label for="output-format"
-                                                    >Output Format</label
-                                                >
-                                                <select id="output-format">
-                                                    <option value="hex">
+<input class="input-text" id="input-text" placeholder="Enter text" type="text" value="Hello World"/>
+<div class="output-controls">
+<div class="input-group">
+<label for="output-length">Output Length
+                                                    (bytes)</label>
+<input id="output-length" max="1024" min="1" type="number" value="32"/>
+</div>
+<div class="input-group">
+<label for="output-format">Output Format</label>
+<select id="output-format">
+<option value="hex">
                                                         Hexadecimal
                                                     </option>
-                                                    <option value="binary">
+<option value="binary">
                                                         Binary
                                                     </option>
-                                                    <option value="bytes">
+<option value="bytes">
                                                         Bytes
                                                     </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="output-section">
-                                        <div class="input-label">
-                                            <i class="fas fa-fingerprint"></i>
+</select>
+</div>
+</div>
+</div>
+<div class="output-section">
+<div class="input-label">
+<i class="fas fa-fingerprint"></i>
                                             SHAKE128 Output
                                         </div>
-                                        <div
-                                            class="hash-result"
-                                            id="hash-output"
-                                        >
+<div class="hash-result" id="hash-output">
                                             Output will appear here
                                         </div>
-                                        <div
-                                            class="output-length"
-                                            id="output-length-display"
-                                        >
+<div class="output-length" id="output-length-display">
                                             Length: 0 bytes
                                         </div>
-                                    </div>
-
-                                    <div class="sponge-container">
-                                        <div class="sponge-title">
+</div>
+<div class="sponge-container">
+<div class="sponge-title">
                                             Sponge Construction (SHAKE128
                                             Parameters)
                                         </div>
-                                        <div class="sponge">
-                                            <div class="sponge-capacity">
+<div class="sponge">
+<div class="sponge-capacity">
                                                 Capacity (256 bits)
                                             </div>
-                                            <div class="sponge-rate">
+<div class="sponge-rate">
                                                 Rate (1344 bits)
                                             </div>
-                                        </div>
-                                        <div class="sponge-labels">
-                                            <span>Security</span>
-                                            <span>Throughput</span>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        class="processing-steps"
-                                        id="processing-steps"
-                                    >
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="sponge-labels">
+<span>Security</span>
+<span>Throughput</span>
+</div>
+</div>
+<div class="processing-steps" id="processing-steps">
+<div class="step">
+<div class="step-title">
                                                 1. Input Text
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-input"
-                                            >
+<div class="step-content" id="step-input">
                                                 Hello World
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 2. Binary Representation
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-binary"
-                                            >
+<div class="step-content" id="step-binary">
                                                 Binary will appear here
                                             </div>
-                                            <div
-                                                class="bit-representation"
-                                                id="bit-representation"
-                                            ></div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+<div class="bit-representation" id="bit-representation"></div>
+</div>
+<div class="step">
+<div class="step-title">
                                                 3. Padding (SHAKE128 specific)
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-padding"
-                                            >
+<div class="step-content" id="step-padding">
                                                 Padding details will appear here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 4. Absorption Phase
                                             </div>
-                                            <div class="progress-bar">
-                                                <div
-                                                    class="progress"
-                                                    id="progress-bar-absorb"
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-absorb"
-                                            >
+<div class="progress-bar">
+<div class="progress" id="progress-bar-absorb"></div>
+</div>
+<div class="step-content" id="step-absorb">
                                                 Absorption progress will appear
                                                 here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 5. Keccak-f[1600] Permutation
                                                 (24 rounds)
                                             </div>
-                                            <div class="progress-bar">
-                                                <div
-                                                    class="progress"
-                                                    id="progress-bar-permutation"
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-permutation"
-                                            >
+<div class="progress-bar">
+<div class="progress" id="progress-bar-permutation"></div>
+</div>
+<div class="step-content" id="step-permutation">
                                                 Permutation rounds will appear
                                                 here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 6. Squeezing Phase (Variable
                                                 output)
                                             </div>
-                                            <div class="progress-bar">
-                                                <div
-                                                    class="progress"
-                                                    id="progress-bar-squeeze"
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-squeeze"
-                                            >
+<div class="progress-bar">
+<div class="progress" id="progress-bar-squeeze"></div>
+</div>
+<div class="step-content" id="step-squeeze">
                                                 Squeezing progress will appear
                                                 here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 7. Final Output
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-final"
-                                            >
+<div class="step-content" id="step-final">
                                                 Final output will appear here
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             SHAKE128 processes input data through several stages
                             using the sponge construction:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-align-left"></i> 1. Message
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-align-left"></i> 1. Message
                                     Padding
                                 </h3>
-                                <p>
+<p>
                                     The message is padded with the pattern 1111
                                     followed by the SHAKE-specific padding rule.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-tint"></i> 2. Absorption
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-tint"></i> 2. Absorption
                                     Phase
                                 </h3>
-                                <p>
+<p>
                                     The padded message is divided into blocks
                                     and XORed into the state, followed by
                                     applying the Keccak-f permutation.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-cogs"></i> 3. Keccak-f
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-cogs"></i> 3. Keccak-f
                                     Permutation
                                 </h3>
-                                <p>
+<p>
                                     The 1600-bit state undergoes 24 rounds of
                                     permutation, each consisting of five steps:
                                     θ, ρ, π, χ, and ι.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-compress-arrows-alt"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i>
                                     4. Squeezing Phase
                                 </h3>
-                                <p>
+<p>
                                     Output bits are extracted from the state.
                                     Unlike fixed-length hashes, squeezing
                                     continues until the desired output length is
                                     achieved.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-arrows-alt-h"></i> 5.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-arrows-alt-h"></i> 5.
                                     Extendable Output
                                 </h3>
-                                <p>
+<p>
                                     The output can be extended to any desired
                                     length by continuing the squeezing process.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// SHAKE128 Pseudocode
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// SHAKE128 Pseudocode
 function shake128(message, outputLength):
     // Initialize state as a 5x5 array of 64-bit lanes, all zeros
     state = [[0, 0, 0, 0, 0],
@@ -1195,14 +1131,14 @@ function shake128(message, outputLength):
 
     // Squeezing phase - continues until desired output length
     output = ""
-    while output.length < outputLength:
+    while output.length &lt; outputLength:
         // Extract output from the state
         for i from 0 to (rate/64 - 1):
             x = i % 5
             y = floor(i / 5)
             output = output + state[x][y]
 
-        if output.length < outputLength:
+        if output.length &lt; outputLength:
             state = keccak_f_1600(state)
 
     // Return the requested output length
@@ -1222,25 +1158,23 @@ function keccak_f_1600(state):
         // θ, ρ, π, χ, and ι steps (same as SHA3)
         // ... implementation details ...
     return state</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a JavaScript implementation of the SHAKE128
                             extendable-output function using the Web Crypto API.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>JavaScript Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>JavaScript Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="comment">// SHAKE128 implementation using Web Crypto API</span>
+</div>
+<pre><code><span class="comment">// SHAKE128 implementation using Web Crypto API</span>
 <span class="keyword">async function</span> <span class="function">shake128</span>(message, outputLength) {
   <span class="comment">// Convert message to UTF-8 bytes</span>
   <span class="keyword">const</span> encoder = <span class="keyword">new</span> TextEncoder();
@@ -1267,7 +1201,7 @@ function keccak_f_1600(state):
   <span class="keyword">const</span> hash = <span class="keyword">new</span> Uint8Array(outputLength);
 
   <span class="comment">// Fill with deterministic "random" values based on input</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i < outputLength; i++) {
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i &lt; outputLength; i++) {
     <span class="comment">// This is a simple deterministic algorithm for demonstration</span>
     <span class="comment">// Not suitable for real cryptographic use</span>
     hash[i] = (message[i % message.length] + i) % 256;
@@ -1280,195 +1214,177 @@ function keccak_f_1600(state):
 <span class="keyword">const</span> message = <span class="string">"Hello World"</span>;
 <span class="keyword">const</span> outputLength = 32; <span class="comment">// 32 bytes = 256 bits</span>
 
-shake128(message, outputLength).then(<span class="function">output</span> => {
+shake128(message, outputLength).then(<span class="function">output</span> =&gt; {
   <span class="comment">// Convert to hex string</span>
-  <span class="keyword">const</span> outputHex = Array.from(output).map(b =>
+  <span class="keyword">const</span> outputHex = Array.from(output).map(b =&gt;
     b.toString(16).padStart(2, '0')).join('');
 
   console.log(<span class="string">`SHAKE128 output: <span class="variable">${outputHex}</span>`</span>);
   console.log(<span class="string">`Output length: <span class="variable">${output.length}</span> bytes`</span>);
 });</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">XOF</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Family</h4>
-                                <div class="value">SHA-3</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Output</h4>
-                                <div class="value">Variable</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>State Size</h4>
-                                <div class="value">1600 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Rounds</h4>
-                                <div class="value">24</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Security</h4>
-                                <div class="value">128 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>First Published</h4>
-                                <div class="value">2015</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Designers</h4>
-                                <div class="value">
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">XOF</div>
+</div>
+<div class="property-card">
+<h4>Family</h4>
+<div class="value">SHA-3</div>
+</div>
+<div class="property-card">
+<h4>Output</h4>
+<div class="value">Variable</div>
+</div>
+<div class="property-card">
+<h4>State Size</h4>
+<div class="value">1600 bits</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">24</div>
+</div>
+<div class="property-card">
+<h4>Security</h4>
+<div class="value">128 bits</div>
+</div>
+<div class="property-card">
+<h4>First Published</h4>
+<div class="value">2015</div>
+</div>
+<div class="property-card">
+<h4>Designers</h4>
+<div class="value">
                                     Guido Bertoni, Joan Daemen, Michaël Peeters,
                                     Gilles Van Assche
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             SHAKE128 is used in various security applications
                             and protocols including:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Key derivation functions
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Deterministic random bit generation
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Stream encryption
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Password-based cryptography
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Protocol randomization
                             </li>
-                            <li>
+<li>
                                 Digital signatures (as part of other
                                 constructions)
                             </li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages & Disadvantages -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-balance-scale"></i> Pros & Cons
+</ul>
+</div>
+<!-- Advantages & Disadvantages -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Pros &amp; Cons
                         </h2>
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus-circle"></i>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-plus-circle"></i>
                                     Advantages
                                 </h3>
-                                <p>
+<p>
                                     Variable output length, high security,
                                     resistance to length-extension attacks,
                                     efficient implementation, standardized
                                     algorithm
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-minus-circle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-minus-circle"></i>
                                     Disadvantages
                                 </h3>
-                                <p>
+<p>
                                     Relatively new compared to older algorithms,
                                     may not be supported in all cryptographic
                                     libraries, slower than some
                                     non-cryptographic RNGs for simple
                                     applications
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Variants Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-code-branch"></i> SHA-3 XOF Family
+</div>
+</div>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2>
+<i class="fas fa-code-branch"></i> SHA-3 XOF Family
                         </h2>
-                        <p>
+<p>
                             SHAKE128 is part of the SHA-3 family of
                             extendable-output functions:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>SHAKE128:</strong> 128-bit security,
+                            ">
+<li style="margin-bottom: 10px">
+<strong>SHAKE128:</strong> 128-bit security,
                                 rate=1344, capacity=256
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHAKE256:</strong> 256-bit security,
+<li style="margin-bottom: 10px">
+<strong>SHAKE256:</strong> 256-bit security,
                                 rate=1088, capacity=512
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA3-224/256/384/512:</strong>
+<li style="margin-bottom: 10px">
+<strong>SHA3-224/256/384/512:</strong>
                                 Fixed-length hash functions
                             </li>
-                            <li>
-                                <strong>cSHAKE:</strong> Customizable variant of
+<li>
+<strong>cSHAKE:</strong> Customizable variant of
                                 SHAKE
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // SHAKE128 Visualization
             document.addEventListener("DOMContentLoaded", function () {
                 const inputText = document.getElementById("input-text");
@@ -1699,5 +1615,5 @@ shake128(message, outputLength).then(<span class="function">output</span> => {
                     });
             });
         </script>
-    </body>
+</body>
 </html>

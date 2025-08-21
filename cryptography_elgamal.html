@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ElGamal Key Exchange | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about cryptographic algorithms and their applications in security" name="description"/><meta content="cryptography, encryption, rsa, diffie-hellman, elgamal, merkle tree, homomorphic encryption" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElGamal Key Exchange | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -672,229 +667,236 @@
         font-family: "Roboto Mono", monospace;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Cryptography Algorithms</a> >
+<meta content="ElGamal Key Exchange | AlgoViz Hub" property="og:title"/><meta content="Learn about cryptographic algorithms and their applications in security" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_elgamal.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="ElGamal Key Exchange | AlgoViz Hub" name="twitter:title"/><meta content="Learn about cryptographic algorithms and their applications in security" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_elgamal.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "ElGamal Key Exchange | AlgoViz Hub",
+  "description": "Learn about cryptographic algorithms and their applications in security",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_elgamal.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Cryptography Algorithms</a> &gt;
               <span>ElGamal Key Exchange</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>ElGamal Key Exchange</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Public-Key Cryptography
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>ElGamal Key Exchange</h1>
-        <div class="category">
-          <i class="fas fa-lock"></i> Public-Key Cryptography
-        </div>
-        <div class="complexity-badge">Security: Discrete Logarithm Problem</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Security: Discrete Logarithm Problem</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               ElGamal encryption is a public-key cryptosystem based on the
               discrete logarithm problem. It consists of three components: key
               generation, encryption, and decryption. The system provides an
               alternative to RSA and is widely used in cryptographic protocols.
             </p>
-            <p>
+<p>
               In key exchange scenarios, ElGamal allows two parties to establish
               a shared secret over an insecure channel. The algorithm is
               particularly valued for its security properties and its basis in
               the difficulty of computing discrete logarithms in a finite field.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> Key Generation</h3>
-                <p>Select large prime, generator, and private/public keys</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-lock"></i> Encryption</h3>
-                <p>Encrypt using public key and random ephemeral key</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> Decryption</h3>
-                <p>Decrypt using private key and shared parameters</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Security</h3>
-                <p>Based on difficulty of discrete logarithm problem</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> Key Generation</h3>
+<p>Select large prime, generator, and private/public keys</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> Encryption</h3>
+<p>Encrypt using public key and random ephemeral key</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> Decryption</h3>
+<p>Decrypt using private key and shared parameters</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Security</h3>
+<p>Based on difficulty of discrete logarithm problem</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console to visualize the ElGamal key exchange
               process. Step through each stage to see how symmetric keys are
               securely exchanged using public-key cryptography.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-exchange-alt"></i> ElGamal Key Exchange
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-exchange-alt"></i> ElGamal Key Exchange
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="prev-btn">
-                    <i class="fas fa-arrow-left"></i> Prev
+<div class="console-controls">
+<button class="console-btn secondary" id="prev-btn">
+<i class="fas fa-arrow-left"></i> Prev
                   </button>
-                  <button class="console-btn" id="next-btn">
+<button class="console-btn" id="next-btn">
                     Next <i class="fas fa-arrow-right"></i>
+</button>
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
-                  </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="elgamal-container">
-                  <!-- Alice's Side -->
-                  <div class="participant" id="alice">
-                    <h4><i class="fas fa-user"></i> Alice</h4>
-                    <div class="key-container">
-                      <div class="key-label">Private Key (x)</div>
-                      <div class="key-value" id="alice-private">6</div>
-                    </div>
-                    <div class="key-container">
-                      <div class="key-label">Public Key (p, g, h)</div>
-                      <div class="key-value" id="alice-public">
-                        p: 23<br />g: 11<br />h: 9
+</div>
+</div>
+<div class="visualization-area">
+<div class="elgamal-container">
+<!-- Alice's Side -->
+<div class="participant" id="alice">
+<h4><i class="fas fa-user"></i> Alice</h4>
+<div class="key-container">
+<div class="key-label">Private Key (x)</div>
+<div class="key-value" id="alice-private">6</div>
+</div>
+<div class="key-container">
+<div class="key-label">Public Key (p, g, h)</div>
+<div class="key-value" id="alice-public">
+                        p: 23<br/>g: 11<br/>h: 9
                       </div>
-                    </div>
-                    <div class="key-container" id="alice-secret">
-                      <div class="key-label">Shared Secret</div>
-                      <div class="key-value">-</div>
-                    </div>
+</div>
+<div class="key-container" id="alice-secret">
+<div class="key-label">Shared Secret</div>
+<div class="key-value">-</div>
+</div>
+</div>
+<!-- Bob's Side -->
+<div class="participant" id="bob">
+<h4><i class="fas fa-user"></i> Bob</h4>
+<div class="key-container">
+<div class="key-label">Symmetric Key (K)</div>
+<div class="key-value" id="bob-secret">12</div>
+</div>
+<div class="key-container">
+<div class="key-label">Encrypted Pair (c1, c2)</div>
+<div class="key-value" id="bob-encrypted">-</div>
+</div>
+<div class="key-container" id="bob-shared">
+<div class="key-label">Ephemeral Key (y)</div>
+<div class="key-value">3</div>
+</div>
+</div>
+<!-- Messages -->
+<div class="message-container" id="msg-public-key">
+<i class="fas fa-key"></i> Public Key<br/>(p, g, h)
                   </div>
-
-                  <!-- Bob's Side -->
-                  <div class="participant" id="bob">
-                    <h4><i class="fas fa-user"></i> Bob</h4>
-                    <div class="key-container">
-                      <div class="key-label">Symmetric Key (K)</div>
-                      <div class="key-value" id="bob-secret">12</div>
-                    </div>
-                    <div class="key-container">
-                      <div class="key-label">Encrypted Pair (c1, c2)</div>
-                      <div class="key-value" id="bob-encrypted">-</div>
-                    </div>
-                    <div class="key-container" id="bob-shared">
-                      <div class="key-label">Ephemeral Key (y)</div>
-                      <div class="key-value">3</div>
-                    </div>
+<div class="message-container" id="msg-encrypted">
+<i class="fas fa-lock"></i> Encrypted Pair<br/>(c1, c2)
                   </div>
-
-                  <!-- Messages -->
-                  <div class="message-container" id="msg-public-key">
-                    <i class="fas fa-key"></i> Public Key<br />(p, g, h)
-                  </div>
-
-                  <div class="message-container" id="msg-encrypted">
-                    <i class="fas fa-lock"></i> Encrypted Pair<br />(c1, c2)
-                  </div>
-
-                  <div class="arrow" id="arrow-1"></div>
-                  <div class="arrow" id="arrow-2"></div>
-
-                  <div class="step-indicator">
+<div class="arrow" id="arrow-1"></div>
+<div class="arrow" id="arrow-2"></div>
+<div class="step-indicator">
                     Step: <span id="step-num">1</span>/6
                   </div>
-                  <div class="calculation-steps" id="calc-steps"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+<div class="calculation-steps" id="calc-steps"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               ElGamal key exchange involves the following steps to securely
               share a symmetric key:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> 1. Key Generation</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Key Generation</h3>
+<p>
                   Alice selects a large prime (p=23), a generator (g=11), and a
                   private key (x=6). She computes her public key h = g^x mod p =
                   11^6 mod 23 = 9.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
+<p>
                   Alice shares her public key (p, g, h) with Bob. This key can
                   be safely transmitted over insecure channels.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-random"></i> 3. Generate Ephemeral Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-random"></i> 3. Generate Ephemeral Key</h3>
+<p>
                   Bob generates a random ephemeral key (y=3) that will be used
                   only for this key exchange session.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-lock"></i> 4. Encrypt Symmetric Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> 4. Encrypt Symmetric Key</h3>
+<p>
                   Bob encrypts the symmetric key (K=12) using Alice's public
                   key: c1 = g^y mod p = 11^3 mod 23 = 20, s = h^y mod p = 9^3
                   mod 23 = 16, c2 = K·s mod p = 12·16 mod 23 = 8.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-paper-plane"></i> 5. Send Encrypted Pair
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-paper-plane"></i> 5. Send Encrypted Pair
                 </h3>
-                <p>
+<p>
                   Bob sends the encrypted pair (c1, c2) = (20, 8) to Alice. This
                   value cannot be decrypted without the private key.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> 6. Decrypt Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> 6. Decrypt Key</h3>
+<p>
                   Alice decrypts the symmetric key using her private key: s =
                   c1^x mod p = 20^6 mod 23 = 16, K = c2·s^{-1} mod p = 8·13 mod
                   23 = 12.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code><span class="comment">// Key Generation</span>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code><span class="comment">// Key Generation</span>
 p = large_prime()
 g = generator_mod_p()
 x = random_int(1, p-2)  <span class="comment">// Private key</span>
@@ -915,91 +917,85 @@ c2 = (K * s) mod p      <span class="comment">// K is symmetric key</span>
 s = c1^x mod p
 s_inv = modular_inverse(s, p)
 K = (c2 * s_inv) mod p</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Cryptography</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Asymmetric</div>
-              </div>
-              <div class="property-card">
-                <h4>Key Exchange</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Encryption</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Digital Signatures</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Security</h4>
-                <div class="value">Discrete Logarithm</div>
-              </div>
-              <div class="property-card">
-                <h4>Key Size</h4>
-                <div class="value">2048-4096 bits</div>
-              </div>
-              <div class="property-card">
-                <h4>Year</h4>
-                <div class="value">1985</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptography</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Asymmetric</div>
+</div>
+<div class="property-card">
+<h4>Key Exchange</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Encryption</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Digital Signatures</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Security</h4>
+<div class="value">Discrete Logarithm</div>
+</div>
+<div class="property-card">
+<h4>Key Size</h4>
+<div class="value">2048-4096 bits</div>
+</div>
+<div class="property-card">
+<h4>Year</h4>
+<div class="value">1985</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               ElGamal is used in various security applications and protocols:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Secure key exchange in cryptographic protocols
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Digital signatures (DSA is based on ElGamal)
               </li>
-              <li style="margin-bottom: 10px">Encrypted messaging systems</li>
-              <li style="margin-bottom: 10px">Secure email communications</li>
-              <li>Anonymous communication protocols</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li style="margin-bottom: 10px">Encrypted messaging systems</li>
+<li style="margin-bottom: 10px">Secure email communications</li>
+<li>Anonymous communication protocols</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // ElGamal Visualization State
         let currentStep = 1;
@@ -1119,5 +1115,5 @@ K = (c2 * s_inv) mod p</code></pre>
         }
       });
     </script>
-  </body>
+</body>
 </html>

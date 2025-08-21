@@ -1,14 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZAB Protocol | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ZAB Protocol | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -502,165 +500,173 @@
         background: rgba(15, 23, 42, 0.5);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-network-wired"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ZAB Protocol (ZooKeeper Atomic Broadcast)</p>
-          </div>
-        </div>
-      </header>
-
-      <div class="algorithm-header">
-        <h1>ZAB Protocol</h1>
-        <p class="description">
+<meta content="ZAB Protocol | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_zab.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="ZAB Protocol | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_zab.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "ZAB Protocol | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_zab.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-network-wired"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ZAB Protocol (ZooKeeper Atomic Broadcast)</p>
+</div>
+</div>
+</header>
+<div class="algorithm-header">
+<h1>ZAB Protocol</h1>
+<p class="description">
           ZAB (ZooKeeper Atomic Broadcast) is the core protocol behind Apache
           ZooKeeper. It guarantees total order delivery of messages and provides
           crash-recovery consistency.
         </p>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Leader-Based • Atomic Broadcast • Crash Recovery
         </div>
-      </div>
-
-      <div class="main-content">
-        <div class="visualization-section">
-          <h2 class="section-title">
-            <i class="fas fa-project-diagram"></i> Interactive Visualization
+</div>
+<div class="main-content">
+<div class="visualization-section">
+<h2 class="section-title">
+<i class="fas fa-project-diagram"></i> Interactive Visualization
           </h2>
-
-          <div class="visualization-area">
-            <div class="cluster-container" id="cluster-container">
-              <!-- Nodes will be dynamically added here -->
-            </div>
-          </div>
-
-          <div class="log-container" id="log-container">
-            <div class="log-entry">
+<div class="visualization-area">
+<div class="cluster-container" id="cluster-container">
+<!-- Nodes will be dynamically added here -->
+</div>
+</div>
+<div class="log-container" id="log-container">
+<div class="log-entry">
               System: Initializing ZAB cluster with 5 nodes
             </div>
-            <div class="log-entry">System: Electing node 3 as leader</div>
-            <div class="log-entry">
+<div class="log-entry">System: Electing node 3 as leader</div>
+<div class="log-entry">
               System: Leader 3 established. Ready for broadcast.
             </div>
-          </div>
-
-          <div class="controls">
-            <button class="control-btn" id="broadcast-btn">
-              <i class="fas fa-bullhorn"></i> Broadcast Message
+</div>
+<div class="controls">
+<button class="control-btn" id="broadcast-btn">
+<i class="fas fa-bullhorn"></i> Broadcast Message
             </button>
-            <button class="control-btn secondary" id="crash-leader-btn">
-              <i class="fas fa-skull"></i> Crash Leader
+<button class="control-btn secondary" id="crash-leader-btn">
+<i class="fas fa-skull"></i> Crash Leader
             </button>
-            <button class="control-btn secondary" id="recover-btn">
-              <i class="fas fa-heartbeat"></i> Recover Node
+<button class="control-btn secondary" id="recover-btn">
+<i class="fas fa-heartbeat"></i> Recover Node
             </button>
-            <button class="control-btn secondary" id="reset-btn">
-              <i class="fas fa-redo"></i> Reset Simulation
+<button class="control-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset Simulation
             </button>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <h2 class="section-title">
-            <i class="fas fa-info-circle"></i> Protocol Details
+</div>
+</div>
+<div class="info-section">
+<h2 class="section-title">
+<i class="fas fa-info-circle"></i> Protocol Details
           </h2>
-
-          <div class="key-points">
-            <div class="point-card">
-              <h3><i class="fas fa-crown"></i> Leader-Based</h3>
-              <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-crown"></i> Leader-Based</h3>
+<p>
                 ZAB uses a leader to sequence all transactions. Followers only
                 accept proposals from the current leader.
               </p>
-            </div>
-
-            <div class="point-card">
-              <h3><i class="fas fa-exchange-alt"></i> Two-Phase Protocol</h3>
-              <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> Two-Phase Protocol</h3>
+<p>
                 All transactions go through a proposal phase followed by a
                 commit phase to ensure atomic broadcast.
               </p>
-            </div>
-
-            <div class="point-card">
-              <h3><i class="fas fa-sync-alt"></i> Crash Recovery</h3>
-              <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> Crash Recovery</h3>
+<p>
                 ZAB provides a fast leader election algorithm and state
                 synchronization for crash recovery.
               </p>
-            </div>
-          </div>
-
-          <h3 class="section-title">
-            <i class="fas fa-list-ol"></i> Protocol Phases
+</div>
+</div>
+<h3 class="section-title">
+<i class="fas fa-list-ol"></i> Protocol Phases
           </h3>
-          <div class="zab-sequence">
-            <div>
-              <strong>1. Discovery:</strong> Followers connect to leader, sync
+<div class="zab-sequence">
+<div>
+<strong>1. Discovery:</strong> Followers connect to leader, sync
               last transaction
             </div>
-            <div>
-              <strong>2. Synchronization:</strong> Leader brings followers
+<div>
+<strong>2. Synchronization:</strong> Leader brings followers
               up-to-date
             </div>
-            <div>
-              <strong>3. Broadcast:</strong> Leader proposes transactions →
+<div>
+<strong>3. Broadcast:</strong> Leader proposes transactions →
               followers ack → leader commits
             </div>
-          </div>
-
-          <h3 class="section-title"><i class="fas fa-cogs"></i> Properties</h3>
-          <div class="properties-grid">
-            <div class="property-card">
-              <h4>Leader Required</h4>
-              <div class="value">Yes</div>
-            </div>
-            <div class="property-card">
-              <h4>Fault Tolerance</h4>
-              <div class="value">F < N/2</div>
-            </div>
-            <div class="property-card">
-              <h4>Message Order</h4>
-              <div class="value">Total</div>
-            </div>
-            <div class="property-card">
-              <h4>Recovery</h4>
-              <div class="value">Crash-Recovery</div>
-            </div>
-            <div class="property-card">
-              <h4>Consistency</h4>
-              <div class="value">Linearizable</div>
-            </div>
-            <div class="property-card">
-              <h4>Latency</h4>
-              <div class="value">2 RTT</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <footer>
-        <div class="footer-links">
-          <a href="#"><i class="fab fa-github"></i> GitHub</a>
-          <a href="#"><i class="fas fa-book"></i> Documentation</a>
-          <a href="#"><i class="fas fa-file-alt"></i> Research Paper</a>
-          <a href="#"><i class="fas fa-question-circle"></i> About ZAB</a>
-        </div>
-        <p>ZAB Protocol Visualization | Understanding ZooKeeper's Core</p>
-        <p>
-          &copy; 2023 Algorithm Visualization Hub | Educational Purpose Only
+</div>
+<h3 class="section-title"><i class="fas fa-cogs"></i> Properties</h3>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Leader Required</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">F &lt; N/2</div>
+</div>
+<div class="property-card">
+<h4>Message Order</h4>
+<div class="value">Total</div>
+</div>
+<div class="property-card">
+<h4>Recovery</h4>
+<div class="value">Crash-Recovery</div>
+</div>
+<div class="property-card">
+<h4>Consistency</h4>
+<div class="value">Linearizable</div>
+</div>
+<div class="property-card">
+<h4>Latency</h4>
+<div class="value">2 RTT</div>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fab fa-github"></i> GitHub</a>
+<a href="#"><i class="fas fa-book"></i> Documentation</a>
+<a href="#"><i class="fas fa-file-alt"></i> Research Paper</a>
+<a href="#"><i class="fas fa-question-circle"></i> About ZAB</a>
+</div>
+<p>ZAB Protocol Visualization | Understanding ZooKeeper's Core</p>
+<p>
+          © 2023 Algorithm Visualization Hub | Educational Purpose Only
         </p>
-      </footer>
-    </div>
-
-    <script>
+</footer>
+</div>
+<script>
       // ZAB Protocol simulation
       const clusterContainer = document.getElementById("cluster-container");
       const logContainer = document.getElementById("log-container");
@@ -922,5 +928,5 @@
       // Initialize simulation
       window.addEventListener("load", initCluster);
     </script>
-  </body>
+</body>
 </html>

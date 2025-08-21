@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inverted Index Visual Guide</title>
-    <style>
+<head><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="description"/><meta content="algorithm, data structure, computer science, visualization, interactive" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inverted Index Visual Guide</title>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -315,217 +316,230 @@
             }
         }
     </style>
-</head>
+<meta content="Inverted Index Visual Guide" property="og:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/inverted_index.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Inverted Index Visual Guide" name="twitter:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/inverted_index.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Inverted Index Visual Guide",
+  "description": "Interactive algorithm visualization platform for learning computer science concepts",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/inverted_index.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>🔍 Inverted Index in Search Engines</h1>
-        <p class="subtitle">How search engines quickly find relevant documents from billions of pages</p>
-
-        <!-- Step 1: Documents -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">1</div>
-                <span>Original Documents Collection</span>
-            </div>
-            <div class="documents-grid">
-                <div class="document">
-                    <div class="doc-id">Document 1</div>
-                    <div class="doc-content">The quick brown fox jumps over the lazy dog</div>
-                </div>
-                <div class="document">
-                    <div class="doc-id">Document 2</div>
-                    <div class="doc-content">A quick brown cat runs fast</div>
-                </div>
-                <div class="document">
-                    <div class="doc-id">Document 3</div>
-                    <div class="doc-content">The lazy cat sleeps all day long</div>
-                </div>
-                <div class="document">
-                    <div class="doc-id">Document 4</div>
-                    <div class="doc-content">Brown dogs and cats are cute pets</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 2: Processing -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">2</div>
-                <span>Text Processing Pipeline</span>
-            </div>
-            <div class="processing-flow">
-                <div class="process-box tokenize">
-                    <h3>Tokenization</h3>
-                    <p>Split text into individual words</p>
-                    <div class="tokens">
-                        <span class="token">the</span>
-                        <span class="token">quick</span>
-                        <span class="token">brown</span>
-                        <span class="token">fox</span>
-                    </div>
-                </div>
-                <div class="arrow">→</div>
-                <div class="process-box normalize">
-                    <h3>Normalization</h3>
-                    <p>Convert to lowercase, remove punctuation, stem words</p>
-                    <div class="tokens">
-                        <span class="token">the</span>
-                        <span class="token">quick</span>
-                        <span class="token">brown</span>
-                        <span class="token">fox</span>
-                    </div>
-                </div>
-                <div class="arrow">→</div>
-                <div class="process-box index">
-                    <h3>Index Building</h3>
-                    <p>Create term → document mappings</p>
-                    <div class="tokens">
-                        <span class="token">quick: [1,2]</span>
-                        <span class="token">brown: [1,2,4]</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 3: Inverted Index -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">3</div>
-                <span>The Inverted Index Structure</span>
-            </div>
-            <p>Instead of "Document → Words", we create "Word → Documents" mapping:</p>
-            <div class="inverted-index">
-                <div class="index-entry">
-                    <div class="term">brown</div>
-                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
-                    <div class="postings-list">
-                        <div class="posting">Doc 1</div>
-                        <div class="posting">Doc 2</div>
-                        <div class="posting">Doc 4</div>
-                    </div>
-                </div>
-                <div class="index-entry">
-                    <div class="term">cat</div>
-                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
-                    <div class="postings-list">
-                        <div class="posting">Doc 2</div>
-                        <div class="posting">Doc 3</div>
-                        <div class="posting">Doc 4</div>
-                    </div>
-                </div>
-                <div class="index-entry">
-                    <div class="term">dog</div>
-                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
-                    <div class="postings-list">
-                        <div class="posting">Doc 1</div>
-                        <div class="posting">Doc 4</div>
-                    </div>
-                </div>
-                <div class="index-entry">
-                    <div class="term">fox</div>
-                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
-                    <div class="postings-list">
-                        <div class="posting">Doc 1</div>
-                    </div>
-                </div>
-                <div class="index-entry">
-                    <div class="term">lazy</div>
-                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
-                    <div class="postings-list">
-                        <div class="posting">Doc 1</div>
-                        <div class="posting">Doc 3</div>
-                    </div>
-                </div>
-                <div class="index-entry">
-                    <div class="term">quick</div>
-                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
-                    <div class="postings-list">
-                        <div class="posting">Doc 1</div>
-                        <div class="posting">Doc 2</div>
-                    </div>
-                </div>
-                <div class="index-entry">
-                    <div class="term">the</div>
-                    <div style="margin: 0 20px; color: #7f8c8d;">→</div>
-                    <div class="postings-list">
-                        <div class="posting">Doc 1</div>
-                        <div class="posting">Doc 3</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 4: Search Process -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">4</div>
-                <span>Search Query Processing</span>
-            </div>
-            <div class="search-demo">
-                <h3>Search Query: "brown cat"</h3>
-                <div class="search-box">
-                    Step 1: Look up "brown" → [Doc 1, Doc 2, Doc 4]<br>
-                    Step 2: Look up "cat" → [Doc 2, Doc 3, Doc 4]<br>
+<div class="container">
+<h1>🔍 Inverted Index in Search Engines</h1>
+<p class="subtitle">How search engines quickly find relevant documents from billions of pages</p>
+<!-- Step 1: Documents -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">1</div>
+<span>Original Documents Collection</span>
+</div>
+<div class="documents-grid">
+<div class="document">
+<div class="doc-id">Document 1</div>
+<div class="doc-content">The quick brown fox jumps over the lazy dog</div>
+</div>
+<div class="document">
+<div class="doc-id">Document 2</div>
+<div class="doc-content">A quick brown cat runs fast</div>
+</div>
+<div class="document">
+<div class="doc-id">Document 3</div>
+<div class="doc-content">The lazy cat sleeps all day long</div>
+</div>
+<div class="document">
+<div class="doc-id">Document 4</div>
+<div class="doc-content">Brown dogs and cats are cute pets</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Processing -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">2</div>
+<span>Text Processing Pipeline</span>
+</div>
+<div class="processing-flow">
+<div class="process-box tokenize">
+<h3>Tokenization</h3>
+<p>Split text into individual words</p>
+<div class="tokens">
+<span class="token">the</span>
+<span class="token">quick</span>
+<span class="token">brown</span>
+<span class="token">fox</span>
+</div>
+</div>
+<div class="arrow">→</div>
+<div class="process-box normalize">
+<h3>Normalization</h3>
+<p>Convert to lowercase, remove punctuation, stem words</p>
+<div class="tokens">
+<span class="token">the</span>
+<span class="token">quick</span>
+<span class="token">brown</span>
+<span class="token">fox</span>
+</div>
+</div>
+<div class="arrow">→</div>
+<div class="process-box index">
+<h3>Index Building</h3>
+<p>Create term → document mappings</p>
+<div class="tokens">
+<span class="token">quick: [1,2]</span>
+<span class="token">brown: [1,2,4]</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Inverted Index -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">3</div>
+<span>The Inverted Index Structure</span>
+</div>
+<p>Instead of "Document → Words", we create "Word → Documents" mapping:</p>
+<div class="inverted-index">
+<div class="index-entry">
+<div class="term">brown</div>
+<div style="margin: 0 20px; color: #7f8c8d;">→</div>
+<div class="postings-list">
+<div class="posting">Doc 1</div>
+<div class="posting">Doc 2</div>
+<div class="posting">Doc 4</div>
+</div>
+</div>
+<div class="index-entry">
+<div class="term">cat</div>
+<div style="margin: 0 20px; color: #7f8c8d;">→</div>
+<div class="postings-list">
+<div class="posting">Doc 2</div>
+<div class="posting">Doc 3</div>
+<div class="posting">Doc 4</div>
+</div>
+</div>
+<div class="index-entry">
+<div class="term">dog</div>
+<div style="margin: 0 20px; color: #7f8c8d;">→</div>
+<div class="postings-list">
+<div class="posting">Doc 1</div>
+<div class="posting">Doc 4</div>
+</div>
+</div>
+<div class="index-entry">
+<div class="term">fox</div>
+<div style="margin: 0 20px; color: #7f8c8d;">→</div>
+<div class="postings-list">
+<div class="posting">Doc 1</div>
+</div>
+</div>
+<div class="index-entry">
+<div class="term">lazy</div>
+<div style="margin: 0 20px; color: #7f8c8d;">→</div>
+<div class="postings-list">
+<div class="posting">Doc 1</div>
+<div class="posting">Doc 3</div>
+</div>
+</div>
+<div class="index-entry">
+<div class="term">quick</div>
+<div style="margin: 0 20px; color: #7f8c8d;">→</div>
+<div class="postings-list">
+<div class="posting">Doc 1</div>
+<div class="posting">Doc 2</div>
+</div>
+</div>
+<div class="index-entry">
+<div class="term">the</div>
+<div style="margin: 0 20px; color: #7f8c8d;">→</div>
+<div class="postings-list">
+<div class="posting">Doc 1</div>
+<div class="posting">Doc 3</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 4: Search Process -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">4</div>
+<span>Search Query Processing</span>
+</div>
+<div class="search-demo">
+<h3>Search Query: "brown cat"</h3>
+<div class="search-box">
+                    Step 1: Look up "brown" → [Doc 1, Doc 2, Doc 4]<br/>
+                    Step 2: Look up "cat" → [Doc 2, Doc 3, Doc 4]<br/>
                     Step 3: Find intersection → [Doc 2, Doc 4]
                 </div>
-                <h4>Search Results:</h4>
-                <div class="search-results">
-                    <div class="result-item">
-                        <strong>Document 2</strong><br>
+<h4>Search Results:</h4>
+<div class="search-results">
+<div class="result-item">
+<strong>Document 2</strong><br/>
                         A quick <mark>brown</mark> <mark>cat</mark> runs fast
                     </div>
-                    <div class="result-item">
-                        <strong>Document 4</strong><br>
-                        <mark>Brown</mark> dogs and <mark>cats</mark> are cute pets
+<div class="result-item">
+<strong>Document 4</strong><br/>
+<mark>Brown</mark> dogs and <mark>cats</mark> are cute pets
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Real-world Enhancements -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">5</div>
-                <span>Real-World Enhancements</span>
-            </div>
-            <p>Modern search engines add sophisticated features to the basic inverted index:</p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">📊</div>
-                    <h4>Term Frequency (TF)</h4>
-                    <p>How often a term appears in a document. More occurrences = higher relevance.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📈</div>
-                    <h4>Inverse Document Frequency (IDF)</h4>
-                    <p>Rare terms get higher weight. "The" is common, "quantum" is rare and more meaningful.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📍</div>
-                    <h4>Position Information</h4>
-                    <p>Store where terms appear for phrase queries like "New York" (must be adjacent).</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔗</div>
-                    <h4>PageRank Integration</h4>
-                    <p>Combine text relevance with link authority for better rankings.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="highlight">
-            <h3>🚀 Why Inverted Indexes are Lightning Fast</h3>
-            <p><strong>The Magic of Reverse Mapping:</strong> Instead of scanning every document for your search terms (which would take forever with billions of pages), the inverted index lets us instantly jump to the exact list of documents containing each term. It's like having a perfect table of contents for every word on the internet!</p>
-            
-            <p><strong>Boolean Operations:</strong> Complex queries become simple set operations:</p>
-            <ul style="margin: 10px 0; padding-left: 20px;">
-                <li><strong>"cat AND dog"</strong> → Intersection of two posting lists</li>
-                <li><strong>"cat OR dog"</strong> → Union of two posting lists</li>
-                <li><strong>"cat NOT dog"</strong> → Subtraction of posting lists</li>
-            </ul>
-
-            <p><strong>Scale:</strong> Google's index contains hundreds of billions of web pages, but thanks to inverted indexes, your search completes in milliseconds!</p>
-        </div>
-    </div>
+</div>
+</div>
+</div>
+<!-- Real-world Enhancements -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">5</div>
+<span>Real-World Enhancements</span>
+</div>
+<p>Modern search engines add sophisticated features to the basic inverted index:</p>
+<div class="benefits-grid">
+<div class="benefit-card">
+<div class="benefit-icon">📊</div>
+<h4>Term Frequency (TF)</h4>
+<p>How often a term appears in a document. More occurrences = higher relevance.</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">📈</div>
+<h4>Inverse Document Frequency (IDF)</h4>
+<p>Rare terms get higher weight. "The" is common, "quantum" is rare and more meaningful.</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">📍</div>
+<h4>Position Information</h4>
+<p>Store where terms appear for phrase queries like "New York" (must be adjacent).</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🔗</div>
+<h4>PageRank Integration</h4>
+<p>Combine text relevance with link authority for better rankings.</p>
+</div>
+</div>
+</div>
+<div class="highlight">
+<h3>🚀 Why Inverted Indexes are Lightning Fast</h3>
+<p><strong>The Magic of Reverse Mapping:</strong> Instead of scanning every document for your search terms (which would take forever with billions of pages), the inverted index lets us instantly jump to the exact list of documents containing each term. It's like having a perfect table of contents for every word on the internet!</p>
+<p><strong>Boolean Operations:</strong> Complex queries become simple set operations:</p>
+<ul style="margin: 10px 0; padding-left: 20px;">
+<li><strong>"cat AND dog"</strong> → Intersection of two posting lists</li>
+<li><strong>"cat OR dog"</strong> → Union of two posting lists</li>
+<li><strong>"cat NOT dog"</strong> → Subtraction of posting lists</li>
+</ul>
+<p><strong>Scale:</strong> Google's index contains hundreds of billions of web pages, but thanks to inverted indexes, your search completes in milliseconds!</p>
+</div>
+</div>
 </body>
 </html>

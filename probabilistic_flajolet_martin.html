@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flajolet-Martin Algorithm Visualization</title>
-    <style>
+<head><meta content="Discover probabilistic data structures for approximate computing and big data" name="description"/><meta content="probabilistic data structure, bloom filter, count-min sketch, hyperloglog, flajolet-martin" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Flajolet-Martin Algorithm Visualization</title>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -430,361 +431,154 @@
             }
         }
     </style>
-</head>
+<meta content="Flajolet-Martin Algorithm Visualization" property="og:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/probabilistic_flajolet_martin.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Flajolet-Martin Algorithm Visualization" name="twitter:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/probabilistic_flajolet_martin.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Flajolet-Martin Algorithm Visualization",
+  "description": "Discover probabilistic data structures for approximate computing and big data",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/probabilistic_flajolet_martin.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>🔬 Flajolet-Martin Algorithm</h1>
-        
-        <div class="intro">
-            <p><strong>Flajolet-Martin (1985)</strong> was the groundbreaking algorithm that started the field of probabilistic cardinality estimation. It introduced the brilliant insight that the position of the first '1' bit in random hash values can estimate the number of distinct elements in a stream!</p>
-        </div>
-
-        <div class="algorithm-history">
-            <div class="history-card flajolet">
-                <h3>🔴 Flajolet-Martin (1985)</h3>
-                <p><strong>Innovation:</strong> First probabilistic cardinality estimator</p>
-                <p><strong>Method:</strong> Track max position of first '1' bit</p>
-                <p><strong>Space:</strong> O(log log n) bits</p>
-                <p><strong>Accuracy:</strong> High variance, needs averaging</p>
-            </div>
-            <div class="history-card loglog">
-                <h3>🟡 LogLog (2003)</h3>
-                <p><strong>Improvement:</strong> Use leading zeros instead</p>
-                <p><strong>Method:</strong> Multiple buckets + averaging</p>
-                <p><strong>Space:</strong> Better constants</p>
-                <p><strong>Accuracy:</strong> Reduced variance (~20% error)</p>
-            </div>
-            <div class="history-card hyperloglog">
-                <h3>🟢 HyperLogLog (2007)</h3>
-                <p><strong>Perfection:</strong> Harmonic mean</p>
-                <p><strong>Method:</strong> Advanced bias correction</p>
-                <p><strong>Space:</strong> Optimal constants</p>
-                <p><strong>Accuracy:</strong> ~2% error (industry standard)</p>
-            </div>
-        </div>
-
-        <div class="controls">
-            <button class="btn success" onclick="addElement()">➕ Add Element</button>
-            <button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
-            <button class="btn danger" onclick="reset()">🔄 Reset</button>
-            <button class="btn" onclick="showEvolution()">📈 Algorithm Evolution</button>
-        </div>
-
-        <div class="dataset-examples">
-            <button class="dataset-btn" onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])">🍎 Fruits</button>
-            <button class="dataset-btn" onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])">👥 Users</button>
-            <button class="dataset-btn" onclick="loadDataset(['tcp:80', 'udp:53', 'tcp:443', 'tcp:22'])">🌐 Network Ports</button>
-            <button class="dataset-btn" onclick="generateLargeDataset()">📈 Large Dataset (500 items)</button>
-        </div>
-
-        <div class="max-tracker">
-            <h3>🎯 Maximum First-1 Position Found</h3>
-            <div class="max-value" id="maxPosition">0</div>
-            <p>The key value Flajolet-Martin uses for estimation!</p>
-        </div>
-
-        <div class="main-content">
-            <div class="input-section">
-                <h3>🔤 Add New Element</h3>
-                <input type="text" id="elementInput" placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)" onkeypress="handleKeyPress(event)">
-                
-                <div id="currentElement" style="display: none;">
-                    <h4>Current Element Processing:</h4>
-                    <div class="hash-display" id="elementHash"></div>
-                    <div class="binary-display" id="binaryHash"></div>
-                </div>
-
-                <div class="elements-list">
-                    <h4>Elements Processed:</h4>
-                    <div id="elementsList"></div>
-                </div>
-            </div>
-
-            <div class="bitmap-section">
-                <h3>📊 Flajolet-Martin Bitmap</h3>
-                <p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px;">
+<div class="container">
+<h1>🔬 Flajolet-Martin Algorithm</h1>
+<div class="intro">
+<p><strong>Flajolet-Martin (1985)</strong> was the groundbreaking algorithm that started the field of probabilistic cardinality estimation. It introduced the brilliant insight that the position of the first '1' bit in random hash values can estimate the number of distinct elements in a stream!</p>
+</div>
+<div class="algorithm-history">
+<div class="history-card flajolet">
+<h3>🔴 Flajolet-Martin (1985)</h3>
+<p><strong>Innovation:</strong> First probabilistic cardinality estimator</p>
+<p><strong>Method:</strong> Track max position of first '1' bit</p>
+<p><strong>Space:</strong> O(log log n) bits</p>
+<p><strong>Accuracy:</strong> High variance, needs averaging</p>
+</div>
+<div class="history-card loglog">
+<h3>🟡 LogLog (2003)</h3>
+<p><strong>Improvement:</strong> Use leading zeros instead</p>
+<p><strong>Method:</strong> Multiple buckets + averaging</p>
+<p><strong>Space:</strong> Better constants</p>
+<p><strong>Accuracy:</strong> Reduced variance (~20% error)</p>
+</div>
+<div class="history-card hyperloglog">
+<h3>🟢 HyperLogLog (2007)</h3>
+<p><strong>Perfection:</strong> Harmonic mean</p>
+<p><strong>Method:</strong> Advanced bias correction</p>
+<p><strong>Space:</strong> Optimal constants</p>
+<p><strong>Accuracy:</strong> ~2% error (industry standard)</p>
+</div>
+</div>
+<div class="controls">
+<button class="btn success" onclick="addElement()">➕ Add Element</button>
+<button class="btn" onclick="addRandomElement()">🎲 Add Random</button>
+<button class="btn danger" onclick="reset()">🔄 Reset</button>
+<button class="btn" onclick="showEvolution()">📈 Algorithm Evolution</button>
+</div>
+<div class="dataset-examples">
+<button class="dataset-btn" onclick="loadDataset(['apple', 'banana', 'cherry', 'date', 'elderberry'])">🍎 Fruits</button>
+<button class="dataset-btn" onclick="loadDataset(['user123', 'user456', 'user789', 'user101', 'user202'])">👥 Users</button>
+<button class="dataset-btn" onclick="loadDataset(['tcp:80', 'udp:53', 'tcp:443', 'tcp:22'])">🌐 Network Ports</button>
+<button class="dataset-btn" onclick="generateLargeDataset()">📈 Large Dataset (500 items)</button>
+</div>
+<div class="max-tracker">
+<h3>🎯 Maximum First-1 Position Found</h3>
+<div class="max-value" id="maxPosition">0</div>
+<p>The key value Flajolet-Martin uses for estimation!</p>
+</div>
+<div class="main-content">
+<div class="input-section">
+<h3>🔤 Add New Element</h3>
+<input id="elementInput" onkeypress="handleKeyPress(event)" placeholder="Enter any string (e.g., user123, apple, 192.168.1.1)" type="text"/>
+<div id="currentElement" style="display: none;">
+<h4>Current Element Processing:</h4>
+<div class="hash-display" id="elementHash"></div>
+<div class="binary-display" id="binaryHash"></div>
+</div>
+<div class="elements-list">
+<h4>Elements Processed:</h4>
+<div id="elementsList"></div>
+</div>
+</div>
+<div class="bitmap-section">
+<h3>📊 Flajolet-Martin Bitmap</h3>
+<p style="font-size: 0.9rem; color: #7f8c8d; margin-bottom: 15px;">
                     Each bit represents if we've seen a first-1 at that position
                 </p>
-                <div class="bitmap-display" id="bitmapDisplay"></div>
-                <div style="display: grid; grid-template-columns: repeat(16, 1fr); gap: 5px; margin-top: 5px;">
-                    <div class="bit-label">0</div><div class="bit-label">1</div><div class="bit-label">2</div><div class="bit-label">3</div>
-                    <div class="bit-label">4</div><div class="bit-label">5</div><div class="bit-label">6</div><div class="bit-label">7</div>
-                    <div class="bit-label">8</div><div class="bit-label">9</div><div class="bit-label">10</div><div class="bit-label">11</div>
-                    <div class="bit-label">12</div><div class="bit-label">13</div><div class="bit-label">14</div><div class="bit-label">15</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="processing-section">
-            <h3>🔍 Step-by-Step Flajolet-Martin Process</h3>
-            <div id="steps">
-                <div class="explanation">
-                    <h4>How Flajolet-Martin Works:</h4>
-                    <p><strong>1. Hash:</strong> Convert each element to a binary hash</p>
-                    <p><strong>2. Find First-1:</strong> Find position of first '1' bit (rightmost)</p>
-                    <p><strong>3. Set Bitmap:</strong> Set bit at that position in our bitmap</p>
-                    <p><strong>4. Track Maximum:</strong> Keep track of highest position seen</p>
-                    <p><strong>5. Estimate:</strong> Cardinality ≈ 2^(R) where R is rightmost 0 in bitmap</p>
-                    <br>
-                    <p><em>Key insight: If we see first-1 at position k, we likely processed ~2^k unique elements!</em></p>
-                </div>
-            </div>
-        </div>
-
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="actualCount">0</div>
-                <div class="stat-label">Actual Unique Count</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="estimatedCount">0</div>
-                <div class="stat-label">FM Estimated Count</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="errorRate">0%</div>
-                <div class="stat-label">Error Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="bitsUsed">16</div>
-                <div class="stat-label">Bits Used (Demo)</div>
-            </div>
-        </div>
-
-        <div class="variance-warning">
+<div class="bitmap-display" id="bitmapDisplay"></div>
+<div style="display: grid; grid-template-columns: repeat(16, 1fr); gap: 5px; margin-top: 5px;">
+<div class="bit-label">0</div><div class="bit-label">1</div><div class="bit-label">2</div><div class="bit-label">3</div>
+<div class="bit-label">4</div><div class="bit-label">5</div><div class="bit-label">6</div><div class="bit-label">7</div>
+<div class="bit-label">8</div><div class="bit-label">9</div><div class="bit-label">10</div><div class="bit-label">11</div>
+<div class="bit-label">12</div><div class="bit-label">13</div><div class="bit-label">14</div><div class="bit-label">15</div>
+</div>
+</div>
+</div>
+<div class="processing-section">
+<h3>🔍 Step-by-Step Flajolet-Martin Process</h3>
+<div id="steps">
+<div class="explanation">
+<h4>How Flajolet-Martin Works:</h4>
+<p><strong>1. Hash:</strong> Convert each element to a binary hash</p>
+<p><strong>2. Find First-1:</strong> Find position of first '1' bit (rightmost)</p>
+<p><strong>3. Set Bitmap:</strong> Set bit at that position in our bitmap</p>
+<p><strong>4. Track Maximum:</strong> Keep track of highest position seen</p>
+<p><strong>5. Estimate:</strong> Cardinality ≈ 2^(R) where R is rightmost 0 in bitmap</p>
+<br/>
+<p><em>Key insight: If we see first-1 at position k, we likely processed ~2^k unique elements!</em></p>
+</div>
+</div>
+</div>
+<div class="stats">
+<div class="stat-card">
+<div class="stat-value" id="actualCount">0</div>
+<div class="stat-label">Actual Unique Count</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="estimatedCount">0</div>
+<div class="stat-label">FM Estimated Count</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="errorRate">0%</div>
+<div class="stat-label">Error Rate</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="bitsUsed">16</div>
+<div class="stat-label">Bits Used (Demo)</div>
+</div>
+</div>
+<div class="variance-warning">
             ⚠️ <strong>High Variance Issue:</strong> Flajolet-Martin has high variance! In practice, you'd use multiple independent hash functions and take the median of estimates to improve accuracy.
         </div>
-
-        <div class="improvement-note">
+<div class="improvement-note">
             ✅ <strong>Historical Impact:</strong> This algorithm revolutionized big data processing by showing that approximate counting with probabilistic methods could use logarithmic space instead of linear space!
         </div>
-
-        <div class="explanation">
-            <h4>🧮 Flajolet-Martin Estimation:</h4>
-            <div class="formula">
+<div class="explanation">
+<h4>🧮 Flajolet-Martin Estimation:</h4>
+<div class="formula">
                 Let R = position of rightmost 0 bit in bitmap
-                <br>Cardinality ≈ 2^R / φ
-                <br><small>where φ ≈ 0.77351 (bias correction factor)</small>
-            </div>
-        </div>
-
-        <div class="explanation">
-            <h4>🎯 Why This Works (Probabilistic Magic!):</h4>
-            <p><strong>Intuition:</strong> If you flip a fair coin and get heads k times before the first tails, you probably flipped about 2^k times total.</p>
-            <p><strong>Hash Analogy:</strong> Hash values are like coin flips. If the rightmost '1' bit is at position k, you likely hashed about 2^k distinct elements.</p>
-            <p><strong>Bitmap Role:</strong> Tracks all positions we've seen, giving us the "profile" of our distinct elements.</p>
-        </div>
-    </div>
-
-    <script>
-        // Flajolet-Martin implementation
-        const bitmapSize = 16; // Using 16 bits for demo (real implementation uses 32-64)
-        const phi = 0.77351; // Bias correction constant
-        
-        let bitmap = new Array(bitmapSize).fill(false);
-        let uniqueElements = new Set();
-        let processedElements = [];
-        let maxPositionSeen = 0;
-
-        // Simple hash function (for demonstration)
-        function simpleHash(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // Convert to 32-bit integer
-            }
-            return Math.abs(hash);
-        }
-
-        function toBinary(num, bits = bitmapSize) {
-            return num.toString(2).padStart(bits, '0');
-        }
-
-        function findFirstOnePosition(binaryStr) {
-            // Find position of first '1' bit from the right (0-indexed)
-            for (let i = binaryStr.length - 1; i >= 0; i--) {
-                if (binaryStr[i] === '1') {
-                    return binaryStr.length - 1 - i;
-                }
-            }
-            return binaryStr.length; // All zeros case
-        }
-
-        function findRightmostZero(bitmap) {
-            // Find the position of the rightmost 0 bit
-            for (let i = 0; i < bitmap.length; i++) {
-                if (!bitmap[i]) {
-                    return i;
-                }
-            }
-            return bitmap.length; // All bits are set
-        }
-
-        function addElementToFM(element) {
-            // Hash the element
-            const hash = simpleHash(element);
-            const binaryHash = toBinary(hash, bitmapSize);
-            
-            // Find position of first '1' bit from right
-            const firstOnePos = findFirstOnePosition(binaryHash);
-            
-            // Set the bit in our bitmap
-            if (firstOnePos < bitmapSize) {
-                bitmap[firstOnePos] = true;
-                maxPositionSeen = Math.max(maxPositionSeen, firstOnePos);
-            }
-            
-            // Track for comparison
-            uniqueElements.add(element);
-            processedElements.push({
-                element: element,
-                hash: hash,
-                firstOnePos: firstOnePos
-            });
-
-            // Show the process
-            showProcessing(element, hash, binaryHash, firstOnePos);
-            
-            // Update display
-            updateDisplay();
-        }
-
-        function showProcessing(element, hash, binaryHash, firstOnePos) {
-            const elementHashDiv = document.getElementById('elementHash');
-            const binaryHashDiv = document.getElementById('binaryHash');
-            const currentElementDiv = document.getElementById('currentElement');
-            
-            elementHashDiv.innerHTML = `"${element}" → Hash: ${hash}`;
-            
-            // Highlight the first '1' bit and leading zeros
-            let highlightedBinary = '';
-            let foundFirst = false;
-            
-            for (let i = 0; i < binaryHash.length; i++) {
-                const bitIndex = binaryHash.length - 1 - i;
-                if (!foundFirst && binaryHash[bitIndex] === '1') {
-                    highlightedBinary = `<span class="first-one">${binaryHash[bitIndex]}</span>` + highlightedBinary;
-                    foundFirst = true;
-                } else if (!foundFirst && binaryHash[bitIndex] === '0') {
-                    highlightedBinary = `<span class="leading-zeros">${binaryHash[bitIndex]}</span>` + highlightedBinary;
-                } else {
-                    highlightedBinary = binaryHash[bitIndex] + highlightedBinary;
-                }
-            }
-            
-            binaryHashDiv.innerHTML = `
-                ${highlightedBinary}
-                <br><small>First '1' at position: ${firstOnePos} (from right, 0-indexed)</small>
-            `;
-            
-            currentElementDiv.style.display = 'block';
-            
-            // Highlight the bitmap bit that gets set
-            highlightBitmapBit(firstOnePos);
-            
-            // Show step-by-step
-            showSteps(element, firstOnePos);
-        }
-
-        function highlightBitmapBit(position) {
-            const bits = document.querySelectorAll('.bit');
-            
-            // Clear previous highlights
-            bits.forEach(bit => bit.classList.remove('highlight'));
-            
-            if (position < bitmapSize && bits[position]) {
-                bits[position].classList.add('highlight');
-                setTimeout(() => {
-                    bits[position].classList.remove('highlight');
-                    updateBitmapDisplay(); // This will show the bit as permanently set
-                }, 1000);
-            }
-        }
-
-        function showSteps(element, firstOnePos) {
-            const stepsDiv = document.getElementById('steps');
-            const bitmapChanged = firstOnePos < bitmapSize && !bitmap[firstOnePos];
-            
-            stepsDiv.innerHTML = `
-                <div class="step highlight">
-                    <strong>Step 1:</strong> Hash "${element}" → ${simpleHash(element)}
-                </div>
-                <div class="step highlight">
-                    <strong>Step 2:</strong> Find first '1' bit at position ${firstOnePos}
-                </div>
-                <div class="step ${bitmapChanged ? 'highlight' : ''}">
-                    <strong>Step 3:</strong> Set bitmap[${firstOnePos}] = 1 ${bitmapChanged ? '(NEW!)' : '(already set)'}
-                </div>
-                <div class="step highlight">
-                    <strong>Step 4:</strong> Current estimate: ~${estimateFM()} unique elements
-                </div>
-            `;
-        }
-
-        function estimateFM() {
-            const rightmostZero = findRightmostZero(bitmap);
-            return Math.round(Math.pow(2, rightmostZero) / phi);
-        }
-
-        function updateBitmapDisplay() {
-            const bitmapDiv = document.getElementById('bitmapDisplay');
-            bitmapDiv.innerHTML = '';
-            
-            for (let i = 0; i < bitmapSize; i++) {
-                const bit = document.createElement('div');
-                bit.className = `bit ${bitmap[i] ? 'set' : ''}`;
-                bit.textContent = bitmap[i] ? '1' : '0';
-                bitmapDiv.appendChild(bit);
-            }
-        }
-
-        function updateElementsList() {
-            const elementsList = document.getElementById('elementsList');
-            const recentElements = processedElements.slice(-8).reverse();
-            
-            elementsList.innerHTML = recentElements.map((item, index) => `
-                <div class="element-entry ${index === 0 ? 'recent' : ''}">
-                    <span>${item.element}</span>
-                    <span>First-1 @ ${item.firstOnePos}</span>
-                </div>
-            `).join('');
-        }
-
-        function updateDisplay() {
-            updateBitmapDisplay();
-            updateElementsList();
-            
-            // Update statistics
-            const actualCount = uniqueElements.size;
-            const estimatedCount = estimateFM();
-            const errorRate = actualCount > 0 ? Math.abs((estimatedCount - actualCount) / actualCount * 100).toFixed(1) : 0;
-            
-            document.getElementById('actualCount').textContent = actualCount;
-            document.getElementById('estimatedCount').textContent = estimatedCount;
-            document.getElementById('errorRate').textContent = errorRate + '%';
-            document.getElementById('maxPosition').textContent = maxPositionSeen;
-            
-            // Update rightmost zero position for estimation
-            document.getElementById('bitsUsed').textContent = findRightmostZero(bitmap);
-        }
-
-        function addElement() {
-            const input = document.getElementById('elementInput');
-            const element = input.value.trim();
-            
-            if (element) {
-                addElementToFM(element);
-                input.value = '';
-            }
-        }
-
-        function addRandomElement() {
-            const randomElements = [
-                'user' + Math.floor(Math.random() * 1000),
-                'item' + Math.floor(Math.random() * 1000),
-                'session' + Math.floor(Math.random() * 1000),
-                'page' + Math.floor(Math.random() * 100),
-                'product' + Math.floor(Math.random() * 500)
-            ];
-            
-            const element = randomElements[Math
+                <br/>Cardinality ≈ 2^R / φ
+                <br/><small>where φ ≈ 0.77351 (bias correction factor)</small>
+</div>
+</div>
+<div class="explanation">
+<h4>🎯 Why This Works (Probabilistic Magic!):</h4>
+<p><strong>Intuition:</strong> If you flip a fair coin and get heads k times before the first tails, you probably flipped about 2^k times total.</p>
+<p><strong>Hash Analogy:</strong> Hash values are like coin flips. If the rightmost '1' bit is at position k, you likely hashed about 2^k distinct elements.</p>
+<p><strong>Bitmap Role:</strong> Tracks all positions we've seen, giving us the "profile" of our distinct elements.</p>
+</div>
+</div>
+<script></script></body></html>

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tournament Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tournament Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -646,44 +641,63 @@
         transition: width 0.3s ease;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Tournament Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_tournament.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Tournament Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_tournament.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Tournament Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_tournament.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Tournament Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Tournament Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Selection-Based Sorting
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Tournament Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Selection-Based Sorting
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Tournament Sort (also known as Tree Selection Sort) is a sorting
               algorithm that works by creating a tournament (a binary tree)
               where each leaf is an element. The tournament is played by
@@ -692,131 +706,118 @@
               This winner is then moved to the sorted list, and the process is
               repeated with the remaining elements.
             </p>
-            <p>
+<p>
               This algorithm is particularly useful for sorting elements when
               you need to find the largest (or smallest) elements in sequence.
               It's efficient and has a consistent time complexity, making it
               suitable for various applications.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Uses a tournament tree structure to find the maximum element
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n log n) time complexity in all cases (best, average, worst)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>Requires O(n) additional space for the tournament tree</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Tree-based selection with repeated tournament comparisons</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>Requires O(n) additional space for the tournament tree</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Tree-based selection with repeated tournament comparisons</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Tournament Sort
               works. The visualization shows the tournament tree being built,
               the winner being selected, and the sorted output being constructed
               step by step.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Tournament Sort
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Tournament Sort
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="stepBtn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="vizArea">
-                <!-- Visualization will be rendered here -->
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="arrayInput"
-                  value="8, 3, 2, 7, 4, 9, 1, 6, 5"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area" id="vizArea">
+<!-- Visualization will be rendered here -->
+</div>
+<div class="console-input">
+<input id="arrayInput" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="8, 3, 2, 7, 4, 9, 1, 6, 5"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Tournament Sort processes the array by building a tournament tree
               and repeatedly selecting winners:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tree"></i> 1. Build Tournament Tree</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tree"></i> 1. Build Tournament Tree</h3>
+<p>
                   Create a binary tree with array elements as leaves. Compare
                   pairs to determine winners at each level
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-trophy"></i> 2. Select Winner</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-trophy"></i> 2. Select Winner</h3>
+<p>
                   The root of the tree is the maximum element. Move this winner
                   to the sorted output array
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 3. Rebuild Tree</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 3. Rebuild Tree</h3>
+<p>
                   Replace the winner's position with a placeholder and replay
                   the tournament from that position
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-repeat"></i> 4. Repeat Process</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-repeat"></i> 4. Repeat Process</h3>
+<p>
                   Continue selecting winners and rebuilding the tree until all
                   elements are sorted
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function tournamentSort(arr)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function tournamentSort(arr)
     n = length(arr)
     // Create a tournament tree with size = 2 * nextPowerOfTwo(n) - 1
     tree = new Array(2 * nextPowerOfTwo(n) - 1)
@@ -839,7 +840,7 @@
         
         // Find the leaf index that has the winner
         index = 0
-        while index < tree.length/2
+        while index &lt; tree.length/2
             left = 2*index + 1
             right = left + 1
             if tree[left] == winner
@@ -849,33 +850,31 @@
         
         // Replace winner with -∞ and replay tournament
         tree[index] = -∞
-        while index > 0
+        while index &gt; 0
             parent = (index - 1) / 2
             sibling = index % 2 == 0 ? index - 1 : index + 1
             tree[parent] = max(tree[index], tree[sibling])
             index = parent
     
     return sorted</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Tournament Sort algorithm.
               The algorithm builds a tournament tree, repeatedly selects the
               winner, and rebuilds the tree with the remaining elements.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> math
+</div>
+<pre><code><span class="keyword">import</span> math
 
 <span class="keyword">def</span> <span class="function">tournament_sort</span>(arr):
     n = len(arr)
@@ -884,7 +883,7 @@
         
     <span class="comment"># Calculate tree size (next power of two)</span>
     tree_size = 1
-    <span class="keyword">while</span> tree_size < n:
+    <span class="keyword">while</span> tree_size &lt; n:
         tree_size *= 2
     tree_size = 2 * tree_size - 1
     
@@ -909,7 +908,7 @@
         
         <span class="comment"># Find the leaf index that has the winner</span>
         index = 0
-        <span class="keyword">while</span> index < start_index:
+        <span class="keyword">while</span> index &lt; start_index:
             left = 2 * index + 1
             right = left + 1
             <span class="keyword">if</span> tree[left] == winner:
@@ -919,7 +918,7 @@
                 
         <span class="comment"># Replace winner with -infinity and replay tournament</span>
         tree[index] = float(<span class="string">'-inf'</span>)
-        <span class="keyword">while</span> index > 0:
+        <span class="keyword">while</span> index &gt; 0:
             parent = (index - 1) // 2
             left = 2 * parent + 1
             right = left + 1
@@ -932,129 +931,121 @@
 arr = [<span class="number">8</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>]
 sorted_arr = tournament_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Selection</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Selection</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Tournament Sort is useful in scenarios where you need to find the
               largest elements in sequence:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Finding top-k elements in a dataset
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 External sorting for large datasets
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Priority queue implementations
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sports tournament scheduling algorithms
               </li>
-              <li>Leaderboard ranking systems</li>
-            </ul>
-          </div>
-
-          <!-- Advantages -->
-          <div class="section">
-            <h2><i class="fas fa-star"></i> Advantages</h2>
-            <p>
-              <strong>Consistent Performance:</strong> Guarantees O(n log n)
+<li>Leaderboard ranking systems</li>
+</ul>
+</div>
+<!-- Advantages -->
+<div class="section">
+<h2><i class="fas fa-star"></i> Advantages</h2>
+<p>
+<strong>Consistent Performance:</strong> Guarantees O(n log n)
               time complexity in all cases.
             </p>
-            <p>
-              <strong>Parallelizable:</strong> The tournament structure allows
+<p>
+<strong>Parallelizable:</strong> The tournament structure allows
               for parallel comparisons.
             </p>
-            <p>
-              <strong>Intuitive Concept:</strong> The tournament metaphor makes
+<p>
+<strong>Intuitive Concept:</strong> The tournament metaphor makes
               the algorithm easy to understand.
             </p>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>
               Tournament Sort has a time complexity of O(n log n) for all cases
               (best, average, worst). This is because building the initial
               tournament tree takes O(n) time, and each of the n winners
               requires O(log n) time to find and replace.
             </p>
-            <p>
+<p>
               The space complexity is O(n) due to the tournament tree structure.
               This makes it less memory-efficient than in-place algorithms but
               still practical for many applications.
             </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Tournament Sort Visualization Logic
       let array = [8, 3, 2, 7, 4, 9, 1, 6, 5];
       let originalArray = [...array];
@@ -1337,5 +1328,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
           }, 2000);
         });
     </script>
-  </body>
+</body>
 </html>

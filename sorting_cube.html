@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cubesort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cubesort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -649,177 +644,179 @@
         background: var(--warning);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-cube"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Cubesort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_cube.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Cubesort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_cube.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Cubesort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_cube.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-cube"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Cubesort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Cubesort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Parallel Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Cubesort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Parallel Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Cubesort is a parallel sorting algorithm that divides the input
               data into smaller "cubes" (sub-arrays), sorts each cube
               independently (often in parallel), and then merges the sorted
               cubes into a final sorted array. It's particularly efficient in
               distributed systems and parallel computing environments.
             </p>
-            <p>
+<p>
               The algorithm leverages the divide-and-conquer paradigm and is
               well-suited for modern multi-core processors. By sorting cubes in
               parallel and then merging the results, Cubesort can achieve
               significant performance improvements over traditional sequential
               algorithms.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-cube"></i> Key Feature</h3>
-                <p>Parallel processing of data cubes for efficient sorting</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n log n) worst-case, efficient in parallel environments</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n) - requires space for cubes and merging</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Applications</h3>
-                <p>Distributed systems, GPU computing, big data processing</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-cube"></i> Key Feature</h3>
+<p>Parallel processing of data cubes for efficient sorting</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n log n) worst-case, efficient in parallel environments</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n) - requires space for cubes and merging</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Applications</h3>
+<p>Distributed systems, GPU computing, big data processing</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Cubesort works.
               Enter comma-separated numbers and step through the algorithm to
               see how elements are divided into cubes, sorted, and then merged.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Cubesort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Cubesort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div
-                  class="visualization-container"
-                  id="visualization-container"
-                >
-                  <div class="cubes-container" id="cubes-container">
-                    <!-- Cubes will be generated here -->
-                  </div>
-                  <div class="sorted-list" id="sorted-list">
-                    <span>Sorted Array: </span>
-                    <!-- Sorted items will appear here -->
-                  </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  id="array-input"
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area">
+<div class="visualization-container" id="visualization-container">
+<div class="cubes-container" id="cubes-container">
+<!-- Cubes will be generated here -->
+</div>
+<div class="sorted-list" id="sorted-list">
+<span>Sorted Array: </span>
+<!-- Sorted items will appear here -->
+</div>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 3, 5, 1, 9, 4, 8, 2, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div id="status" class="status-bar">
+</div>
+<div class="status-bar" id="status">
                 Enter numbers and click Run or Step
               </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Cubesort processes the array in three distinct phases:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-dice"></i> 1. Cube Creation</h3>
-                <p>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Cubesort processes the array in three distinct phases:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-dice"></i> 1. Cube Creation</h3>
+<p>
                   Divide the input array into smaller cubes (sub-arrays) based
                   on cube size
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort"></i> 2. Cube Sorting</h3>
-                <p>Sort each cube independently (can be done in parallel)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-merge"></i> 3. Cube Merging</h3>
-                <p>Merge the sorted cubes using a k-way merge algorithm</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 4. Parallel Processing</h3>
-                <p>In parallel systems, cubes are sorted simultaneously</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> 5. Final Output</h3>
-                <p>The merged result forms the final sorted array</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function cubesort(arr, cube_size):
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort"></i> 2. Cube Sorting</h3>
+<p>Sort each cube independently (can be done in parallel)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-merge"></i> 3. Cube Merging</h3>
+<p>Merge the sorted cubes using a k-way merge algorithm</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 4. Parallel Processing</h3>
+<p>In parallel systems, cubes are sorted simultaneously</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> 5. Final Output</h3>
+<p>The merged result forms the final sorted array</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function cubesort(arr, cube_size):
     n = length(arr)
     cubes = []
     
@@ -833,10 +830,10 @@
         sort(cube)  // Using any sorting algorithm
     
     // Phase 3: Merge cubes
-    while number of cubes > 1:
+    while number of cubes &gt; 1:
         new_cubes = []
         for i from 0 to len(cubes)-1 step 2:
-            if i+1 < len(cubes):
+            if i+1 &lt; len(cubes):
                 merged = merge(cubes[i], cubes[i+1])
                 new_cubes.append(merged)
             else:
@@ -848,8 +845,8 @@
 function merge(cube1, cube2):
     result = []
     i = 0, j = 0
-    while i < len(cube1) and j < len(cube2):
-        if cube1[i] <= cube2[j]:
+    while i &lt; len(cube1) and j &lt; len(cube2):
+        if cube1[i] &lt;= cube2[j]:
             result.append(cube1[i])
             i += 1
         else:
@@ -860,30 +857,28 @@ function merge(cube1, cube2):
     result.extend(cube1[i:])
     result.extend(cube2[j:])
     return result</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Cubesort. The algorithm uses
               parallel processing capabilities when available:
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> math
+</div>
+<pre><code><span class="keyword">import</span> math
 <span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor
 
 <span class="keyword">def</span> <span class="function">cubesort</span>(arr, cube_size=None):
     n = len(arr)
-    <span class="keyword">if</span> n <= 1:
+    <span class="keyword">if</span> n &lt;= 1:
         <span class="keyword">return</span> arr
         
     <span class="comment"># Determine cube size if not provided</span>
@@ -901,10 +896,10 @@ function merge(cube1, cube2):
         cubes = list(executor.map(sorted, cubes))
     
     <span class="comment"># Merge cubes</span>
-    <span class="keyword">while</span> len(cubes) > 1:
+    <span class="keyword">while</span> len(cubes) &gt; 1:
         new_cubes = []
         <span class="keyword">for</span> i <span class="keyword">in</span> range(0, len(cubes), 2):
-            <span class="keyword">if</span> i + 1 < len(cubes):
+            <span class="keyword">if</span> i + 1 &lt; len(cubes):
                 merged = merge(cubes[i], cubes[i + 1])
                 new_cubes.append(merged)
             <span class="keyword">else</span>:
@@ -916,8 +911,8 @@ function merge(cube1, cube2):
 <span class="keyword">def</span> <span class="function">merge</span>(left, right):
     result = []
     i = j = 0
-    <span class="keyword">while</span> i < len(left) <span class="keyword">and</span> j < len(right):
-        <span class="keyword">if</span> left[i] <= right[j]:
+    <span class="keyword">while</span> i &lt; len(left) <span class="keyword">and</span> j &lt; len(right):
+        <span class="keyword">if</span> left[i] &lt;= right[j]:
             result.append(left[i])
             i += 1
         <span class="keyword">else</span>:
@@ -932,191 +927,168 @@ arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
 sorted_arr = cubesort(arr.copy())
 print(<span class="string">"Original array:"</span>, arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Parallel</h4>
-                <div class="value">Yes</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Cubesort is particularly useful in these scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Parallel</h4>
+<div class="value">Yes</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Cubesort is particularly useful in these scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">Distributed computing systems</li>
-              <li style="margin-bottom: 10px">GPU-accelerated sorting</li>
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">Distributed computing systems</li>
+<li style="margin-bottom: 10px">GPU-accelerated sorting</li>
+<li style="margin-bottom: 10px">
                 Big data processing frameworks
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Multi-core processor environments
               </li>
-              <li>Database management systems</li>
-            </ul>
-          </div>
-
-          <!-- Performance Section -->
-          <div class="section">
-            <h2><i class="fas fa-tachometer-alt"></i> Performance</h2>
-            <p>
+<li>Database management systems</li>
+</ul>
+</div>
+<!-- Performance Section -->
+<div class="section">
+<h2><i class="fas fa-tachometer-alt"></i> Performance</h2>
+<p>
               Cubesort offers significant advantages in parallel environments:
             </p>
-            <div style="margin: 15px 0; color: var(--text-secondary)">
-              <p><strong>Sequential Time:</strong> O(n log n)</p>
-              <p>
-                <strong>Parallel Time:</strong> O((n log n)/p) with p processors
+<div style="margin: 15px 0; color: var(--text-secondary)">
+<p><strong>Sequential Time:</strong> O(n log n)</p>
+<p>
+<strong>Parallel Time:</strong> O((n log n)/p) with p processors
               </p>
-              <p><strong>Space Complexity:</strong> O(n)</p>
-            </div>
-            <div
-              style="
+<p><strong>Space Complexity:</strong> O(n)</p>
+</div>
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: 8px;
                 padding: 15px;
-              "
-            >
-              <h4
-                style="
+              ">
+<h4 style="
                   color: var(--accent-light);
                   text-align: center;
                   margin-bottom: 10px;
-                "
-              >
+                ">
                 Parallel Speedup
               </h4>
-              <div
-                style="display: flex; justify-content: center; margin-top: 10px"
-              >
-                <div style="width: 100%; height: 150px; position: relative">
-                  <div
-                    style="
+<div style="display: flex; justify-content: center; margin-top: 10px">
+<div style="width: 100%; height: 150px; position: relative">
+<div style="
                       position: absolute;
                       bottom: 0;
                       width: 30px;
                       height: 30%;
                       background: var(--accent);
                       left: 10%;
-                    "
-                  >
+                    ">
                     1x
                   </div>
-                  <div
-                    style="
+<div style="
                       position: absolute;
                       bottom: 0;
                       width: 30px;
                       height: 50%;
                       background: var(--accent-light);
                       left: 30%;
-                    "
-                  >
+                    ">
                     2x
                   </div>
-                  <div
-                    style="
+<div style="
                       position: absolute;
                       bottom: 0;
                       width: 30px;
                       height: 70%;
                       background: var(--success);
                       left: 50%;
-                    "
-                  >
+                    ">
                     4x
                   </div>
-                  <div
-                    style="
+<div style="
                       position: absolute;
                       bottom: 0;
                       width: 30px;
                       height: 90%;
                       background: var(--warning);
                       left: 70%;
-                    "
-                  >
+                    ">
                     8x
                   </div>
-                  <div
-                    style="
+<div style="
                       position: absolute;
                       bottom: -25px;
                       width: 100%;
                       text-align: center;
-                    "
-                  >
+                    ">
                     Number of Processors
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="#"><i class="fas fa-book"></i> Documentation</a>
-          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
-          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
-          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
-          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fas fa-book"></i> Documentation</a>
+<a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+<a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+<a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+<a href="#"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Cubesort Visualization
       let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
       let cubes = [];
@@ -1364,5 +1336,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
       // Initialize
       initVisualization();
     </script>
-  </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fluxsort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fluxsort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -625,180 +620,185 @@
         border-radius: 5px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-wind"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Fluxsort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_flux.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Fluxsort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_flux.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Fluxsort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_flux.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-wind"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Fluxsort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Fluxsort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Fluxsort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Fluxsort is a high-performance hybrid sorting algorithm that
               combines the strengths of Quicksort, Mergesort, and Insertion
               Sort. It uses a partitioning scheme similar to Quicksort but
               optimizes for worst-case scenarios by switching to a stable
               in-place merge sort when partitions become unbalanced.
             </p>
-            <p>
+<p>
               The algorithm is designed to be adaptive and efficient for various
               data distributions. It minimizes comparisons and swaps while
               maintaining stability. Fluxsort is particularly effective for
               large datasets and performs well on both random and partially
               ordered data.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
-                <p>O(n log n) worst-case, O(n) best-case for ordered data</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space Efficiency</h3>
-                <p>O(log n) stack space, O(1) auxiliary space</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-layer-group"></i> Hybrid Approach</h3>
-                <p>Combines Quicksort, Mergesort, and Insertion Sort</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Stability</h3>
-                <p>Maintains relative order of equal elements</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+<p>O(n log n) worst-case, O(n) best-case for ordered data</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space Efficiency</h3>
+<p>O(log n) stack space, O(1) auxiliary space</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-layer-group"></i> Hybrid Approach</h3>
+<p>Combines Quicksort, Mergesort, and Insertion Sort</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Stability</h3>
+<p>Maintains relative order of equal elements</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Fluxsort works.
               Enter comma-separated numbers and step through the algorithm to
               see how it partitions, sorts, and merges the array.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Fluxsort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Fluxsort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button id="speed-btn" class="console-btn secondary">
-                    <i class="fas fa-running"></i> Speed: Medium
+<button class="console-btn secondary" id="speed-btn">
+<i class="fas fa-running"></i> Speed: Medium
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="array-container" id="array-container">
-                  <!-- Array elements will be generated here -->
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  id="array-input"
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area">
+<div class="array-container" id="array-container">
+<!-- Array elements will be generated here -->
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 3, 5, 1, 9, 4, 8, 2, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div id="status" class="status-bar">
+</div>
+<div class="status-bar" id="status">
                 Enter numbers and click Run or Step
               </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Fluxsort processes the array through a series of optimized steps:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-th-large"></i> 1. Small Partition Handling
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-th-large"></i> 1. Small Partition Handling
                 </h3>
-                <p>For small partitions (≤ 32 elements), use Insertion Sort</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-balance-scale"></i> 2. Pivot Selection</h3>
-                <p>Select a pivot using median-of-three or random sampling</p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-code-branch"></i> 3. Three-way Partitioning
+<p>For small partitions (≤ 32 elements), use Insertion Sort</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-balance-scale"></i> 2. Pivot Selection</h3>
+<p>Select a pivot using median-of-three or random sampling</p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-code-branch"></i> 3. Three-way Partitioning
                 </h3>
-                <p>
+<p>
                   Partition array into elements less, equal, and greater than
                   pivot
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-merge"></i> 4. Recursive Sorting</h3>
-                <p>Recursively sort left and right partitions</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 5. Adaptive Merge</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-merge"></i> 4. Recursive Sorting</h3>
+<p>Recursively sort left and right partitions</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 5. Adaptive Merge</h3>
+<p>
                   For unbalanced partitions, switch to stable in-place merge
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function fluxsort(arr, low, high):
-    if high - low <= 32:
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function fluxsort(arr, low, high):
+    if high - low &lt;= 32:
         insertion_sort(arr, low, high)
         return
     
@@ -810,19 +810,19 @@
     i = low
     j = low
     k = high
-    while j <= k:
-        if arr[j] < pivot:
+    while j &lt;= k:
+        if arr[j] &lt; pivot:
             swap arr[i] and arr[j]
             i++ 
             j++
-        else if arr[j] > pivot:
+        else if arr[j] &gt; pivot:
             swap arr[j] and arr[k]
             k--
         else:
             j++
     
     // Recursively sort partitions
-    if (i - low) < (high - k):
+    if (i - low) &lt; (high - k):
         fluxsort(arr, low, i - 1)
         fluxsort(arr, k + 1, high)
     else:
@@ -830,44 +830,42 @@
         fluxsort(arr, low, i - 1)
     
     // If partition is unbalanced, use in-place merge
-    if min(i - low, high - k) < (high - low) / 8:
+    if min(i - low, high - k) &lt; (high - low) / 8:
         in_place_merge(arr, low, i - 1, k + 1, high)
 
 function insertion_sort(arr, low, high):
     for i from low+1 to high:
         key = arr[i]
         j = i - 1
-        while j >= low and arr[j] > key:
+        while j &gt;= low and arr[j] &gt; key:
             arr[j+1] = arr[j]
             j--
         arr[j+1] = key</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Fluxsort. The algorithm adapts
               its strategy based on partition size and balance to optimize
               performance:
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">fluxsort</span>(arr, low=None, high=None):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">fluxsort</span>(arr, low=None, high=None):
     <span class="keyword">if</span> low <span class="keyword">is</span> None:
         low = 0
     <span class="keyword">if</span> high <span class="keyword">is</span> None:
         high = len(arr) - 1
         
     <span class="comment"># Use insertion sort for small partitions</span>
-    <span class="keyword">if</span> high - low <= 32:
+    <span class="keyword">if</span> high - low &lt;= 32:
         insertion_sort(arr, low, high)
         <span class="keyword">return</span>
         
@@ -879,19 +877,19 @@ function insertion_sort(arr, low, high):
     i = low
     j = low
     k = high
-    <span class="keyword">while</span> j <= k:
-        <span class="keyword">if</span> arr[j] < pivot:
+    <span class="keyword">while</span> j &lt;= k:
+        <span class="keyword">if</span> arr[j] &lt; pivot:
             arr[i], arr[j] = arr[j], arr[i]
             i += 1
             j += 1
-        <span class="keyword">elif</span> arr[j] > pivot:
+        <span class="keyword">elif</span> arr[j] &gt; pivot:
             arr[j], arr[k] = arr[k], arr[j]
             k -= 1
         <span class="keyword">else</span>:
             j += 1
             
     <span class="comment"># Recursively sort partitions</span>
-    <span class="keyword">if</span> (i - low) < (high - k):
+    <span class="keyword">if</span> (i - low) &lt; (high - k):
         fluxsort(arr, low, i - 1)
         fluxsort(arr, k + 1, high)
     <span class="keyword">else</span>:
@@ -899,22 +897,22 @@ function insertion_sort(arr, low, high):
         fluxsort(arr, low, i - 1)
         
     <span class="comment"># Use in-place merge for unbalanced partitions</span>
-    <span class="keyword">if</span> min(i - low, high - k) < (high - low) // 8:
+    <span class="keyword">if</span> min(i - low, high - k) &lt; (high - low) // 8:
         in_place_merge(arr, low, i - 1, k + 1, high)
 
 <span class="keyword">def</span> <span class="function">insertion_sort</span>(arr, low, high):
     <span class="keyword">for</span> i <span class="keyword">in</span> range(low + 1, high + 1):
         key = arr[i]
         j = i - 1
-        <span class="keyword">while</span> j >= low <span class="keyword">and</span> arr[j] > key:
+        <span class="keyword">while</span> j &gt;= low <span class="keyword">and</span> arr[j] &gt; key:
             arr[j + 1] = arr[j]
             j -= 1
         arr[j + 1] = key
 
 <span class="keyword">def</span> <span class="function">median_of_three</span>(a, b, c):
-    <span class="keyword">if</span> (a > b) != (a > c):
+    <span class="keyword">if</span> (a &gt; b) != (a &gt; c):
         <span class="keyword">return</span> a
-    <span class="keyword">elif</span> (b > a) != (b > c):
+    <span class="keyword">elif</span> (b &gt; a) != (b &gt; c):
         <span class="keyword">return</span> b
     <span class="keyword">else</span>:
         <span class="keyword">return</span> c
@@ -923,145 +921,129 @@ function insertion_sort(arr, low, high):
 arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
 fluxsort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Hybrid</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Mostly</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Adaptive</h4>
-                <div class="value">Yes</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Fluxsort is particularly useful in these scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Hybrid</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Mostly</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(log n)</div>
+</div>
+<div class="property-card">
+<h4>Adaptive</h4>
+<div class="value">Yes</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Fluxsort is particularly useful in these scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting large datasets in memory-constrained environments
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Systems requiring stable sorting with good worst-case
                 performance
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Real-time systems with varying data distributions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Database indexing and query optimization
               </li>
-              <li>Scientific computing and data analysis</li>
-            </ul>
-          </div>
-
-          <!-- Performance Comparison Section -->
-          <div class="section">
-            <h2><i class="fas fa-chart-bar"></i> Performance Comparison</h2>
-            <p>
+<li>Scientific computing and data analysis</li>
+</ul>
+</div>
+<!-- Performance Comparison Section -->
+<div class="section">
+<h2><i class="fas fa-chart-bar"></i> Performance Comparison</h2>
+<p>
               Fluxsort outperforms many traditional algorithms in various
               scenarios:
             </p>
-            <div style="margin: 15px 0; color: var(--text-secondary)">
-              <div
-                style="
+<div style="margin: 15px 0; color: var(--text-secondary)">
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 5px;
-                "
-              >
-                <span>Random Data:</span>
-                <span>Fluxsort ≈ Quicksort</span>
-              </div>
-              <div
-                style="
+                ">
+<span>Random Data:</span>
+<span>Fluxsort ≈ Quicksort</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 5px;
-                "
-              >
-                <span>Partially Sorted:</span>
-                <span>Fluxsort > Mergesort</span>
-              </div>
-              <div
-                style="
+                ">
+<span>Partially Sorted:</span>
+<span>Fluxsort &gt; Mergesort</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 5px;
-                "
-              >
-                <span>Worst-case:</span>
-                <span>Fluxsort > Quicksort</span>
-              </div>
-              <div style="display: flex; justify-content: space-between">
-                <span>Stability:</span>
-                <span>Fluxsort > Heapsort</span>
-              </div>
-            </div>
-            <div
-              style="
+                ">
+<span>Worst-case:</span>
+<span>Fluxsort &gt; Quicksort</span>
+</div>
+<div style="display: flex; justify-content: space-between">
+<span>Stability:</span>
+<span>Fluxsort &gt; Heapsort</span>
+</div>
+</div>
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: 8px;
                 padding: 15px;
                 margin-top: 15px;
-              "
-            >
-              <h4
-                style="
+              ">
+<h4 style="
                   color: var(--accent-light);
                   text-align: center;
                   margin-bottom: 10px;
-                "
-              >
+                ">
                 Relative Performance (Higher is better)
               </h4>
-              <div
-                style="
+<div style="
                   display: flex;
                   align-items: flex-end;
                   height: 120px;
@@ -1069,89 +1051,70 @@ print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
                   justify-content: center;
                   border-bottom: 1px solid var(--text-secondary);
                   padding-bottom: 5px;
-                "
-              >
-                <div
-                  style="
+                ">
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="width: 30px; height: 80px; background: var(--accent)"
-                  ></div>
-                  <div>Fluxsort</div>
-                </div>
-                <div
-                  style="
+                  ">
+<div style="width: 30px; height: 80px; background: var(--accent)"></div>
+<div>Fluxsort</div>
+</div>
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="
+                  ">
+<div style="
                       width: 30px;
                       height: 70px;
                       background: var(--accent-light);
-                    "
-                  ></div>
-                  <div>Mergesort</div>
-                </div>
-                <div
-                  style="
+                    "></div>
+<div>Mergesort</div>
+</div>
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="
+                  ">
+<div style="
                       width: 30px;
                       height: 75px;
                       background: var(--success);
-                    "
-                  ></div>
-                  <div>Quicksort</div>
-                </div>
-                <div
-                  style="
+                    "></div>
+<div>Quicksort</div>
+</div>
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="
+                  ">
+<div style="
                       width: 30px;
                       height: 60px;
                       background: var(--warning);
-                    "
-                  ></div>
-                  <div>Heapsort</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="#"><i class="fas fa-book"></i> Documentation</a>
-          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
-          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
-          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
-          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+                    "></div>
+<div>Heapsort</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fas fa-book"></i> Documentation</a>
+<a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+<a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+<a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+<a href="#"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Fluxsort Visualization
       let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
       let stack = [];
@@ -1470,5 +1433,5 @@ print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
       // Initialize
       initVisualization();
     </script>
-  </body>
+</body>
 </html>

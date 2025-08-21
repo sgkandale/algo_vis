@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Burst Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Burst Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -649,197 +644,203 @@
         font-size: 14px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Burst Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_burst.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Burst Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_burst.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Burst Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_burst.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Burst Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Burst Sort</h1>
+<div class="category">
+<i class="fas fa-font"></i> String Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Burst Sort</h1>
-        <div class="category">
-          <i class="fas fa-font"></i> String Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n) to O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n) to O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Burst Sort is an efficient string sorting algorithm that combines
               the advantages of trie data structures and traditional sorting
               methods. It works by distributing strings into buckets based on
               their prefixes, then recursively "bursting" these buckets into
               smaller sub-buckets when they exceed a certain threshold.
             </p>
-            <p>
+<p>
               This approach is particularly effective for sorting large
               collections of strings, as it exploits common prefixes to minimize
               comparisons. Burst Sort adapts to the distribution of the input
               data, making it faster than comparison-based sorts for many
               real-world string datasets.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Uses a trie structure to distribute strings by their prefixes
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Highly efficient for large string datasets with common
                   prefixes
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n) space complexity with efficient memory management</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Adaptive trie-based distribution with bucket bursting</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n) space complexity with efficient memory management</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Adaptive trie-based distribution with bucket bursting</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Burst Sort
               works. Enter comma-separated strings, adjust the simulation speed,
               and step through the algorithm to see the trie construction and
               bursting process.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Burst Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Burst Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="settingsBtn">
-                    <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settingsBtn">
+<i class="fas fa-cog"></i> Settings
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="stepBtn">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="burstViz">
-                <div class="trie-container" id="trieContainer">
-                  <div class="action-label" id="actionLabel">
+</div>
+</div>
+<div class="visualization-area" id="burstViz">
+<div class="trie-container" id="trieContainer">
+<div class="action-label" id="actionLabel">
                     Initializing...
                   </div>
-                  <div class="trie-node">
-                    <div class="node-content">
-                      <div class="node-character">Root</div>
-                      <div class="node-bucket">0 strings</div>
-                    </div>
-                    <div class="children-container" id="childrenRoot"></div>
-                  </div>
-                </div>
-                <div class="step-info" id="stepInfo">Step 0: Initial state</div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="inputStrings"
-                  placeholder="Enter strings (e.g., apple, banana, cherry, date, fig)"
-                  value="algorithm, burst, sort, trie, node, bucket, string, prefix, character, leaf"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+<div class="trie-node">
+<div class="node-content">
+<div class="node-character">Root</div>
+<div class="node-bucket">0 strings</div>
+</div>
+<div class="children-container" id="childrenRoot"></div>
+</div>
+</div>
+<div class="step-info" id="stepInfo">Step 0: Initial state</div>
+</div>
+<div class="console-input">
+<input id="inputStrings" placeholder="Enter strings (e.g., apple, banana, cherry, date, fig)" type="text" value="algorithm, burst, sort, trie, node, bucket, string, prefix, character, leaf"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Burst Sort processes strings using a trie structure with adaptive
               bucket bursting:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-layer-group"></i> 1. Trie Initialization
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-layer-group"></i> 1. Trie Initialization
                 </h3>
-                <p>
+<p>
                   Start with an empty trie structure. The root node represents
                   the starting point for all strings.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sign-in-alt"></i> 2. String Insertion</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sign-in-alt"></i> 2. String Insertion</h3>
+<p>
                   Insert strings into the trie character by character. Each node
                   represents a character in the prefix.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-box-open"></i> 3. Bucket Management</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-box-open"></i> 3. Bucket Management</h3>
+<p>
                   When a node's bucket exceeds the burst threshold (e.g., 5
                   strings), it bursts into child nodes for the next character
                   position.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-sort-alpha-down"></i> 4. Sorting & Collection
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sort-alpha-down"></i> 4. Sorting &amp; Collection
                 </h3>
-                <p>
+<p>
                   Once all strings are inserted, traverse the trie in order to
                   collect sorted strings. Small buckets are sorted using an
                   auxiliary algorithm.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function burstSort(strings, threshold)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function burstSort(strings, threshold)
     root = new TrieNode()
     
     for each string in strings:
@@ -861,7 +862,7 @@ function insertIntoTrie(node, string)
     insertIntoTrie(node.children[firstChar], string[1:])
 
 function traverseTrie(node, sortedList, threshold)
-    if node.bucket.size > threshold:
+    if node.bucket.size &gt; threshold:
         burstNode(node, threshold)
     
     for each child in node.children (in order):
@@ -880,28 +881,26 @@ function burstNode(node, threshold)
         else:
             keep in current node's bucket
     node.bucket = remaining strings</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Burst Sort algorithm. The
               algorithm uses a trie structure where each node contains a bucket
               of strings and child nodes. When a bucket exceeds the burst
               threshold, it distributes its strings to child nodes based on
               their next character.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">class</span> <span class="function">TrieNode</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">TrieNode</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>):
         <span class="keyword">self</span>.bucket = []
         <span class="keyword">self</span>.children = {}
@@ -935,7 +934,7 @@ function burstNode(node, threshold)
 
 <span class="keyword">def</span> <span class="function">traverse_trie</span>(node, result, threshold):
     <span class="comment"># Burst the node if bucket exceeds threshold</span>
-    <span class="keyword">if</span> len(node.bucket) > threshold:
+    <span class="keyword">if</span> len(node.bucket) &gt; threshold:
         burst_node(node, threshold)
     
     <span class="comment"># Recursively traverse children in sorted order</span>
@@ -966,102 +965,90 @@ function burstNode(node, threshold)
 strings = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>, <span class="string">"date"</span>, <span class="string">"fig"</span>]
 sorted_strings = burst_sort(strings)
 print(<span class="string">"Sorted strings:"</span>, sorted_strings)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">String Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Distribution</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">String Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Distribution</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Burst Sort is particularly effective in scenarios involving large
               collections of strings:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting large dictionaries and lexicons
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Database indexing for text columns
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Bioinformatics for DNA sequence sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Autocomplete systems and search engines
               </li>
-              <li>Natural language processing pipelines</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Natural language processing pipelines</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Burst Sort Visualization Logic
       class TrieNode {
         constructor(char = "") {
@@ -1356,5 +1343,5 @@ print(<span class="string">"Sorted strings:"</span>, sorted_strings)</code></pre
           });
       });
     </script>
-  </body>
+</body>
 </html>

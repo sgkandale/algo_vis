@@ -1,14 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EPaxos Consensus | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EPaxos Consensus | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
       * {
         margin: 0;
         padding: 0;
@@ -480,179 +478,186 @@
         border-bottom: 1px solid rgba(148, 163, 184, 0.2);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-network-wired"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>EPaxos Consensus Algorithm Visualization</p>
-          </div>
-        </div>
-      </header>
-
-      <div class="algorithm-header">
-        <h1>EPaxos Consensus</h1>
-        <p class="description">
+<meta content="EPaxos Consensus | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_epaxos.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="EPaxos Consensus | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_epaxos.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "EPaxos Consensus | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_epaxos.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-network-wired"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>EPaxos Consensus Algorithm Visualization</p>
+</div>
+</div>
+</header>
+<div class="algorithm-header">
+<h1>EPaxos Consensus</h1>
+<p class="description">
           EPaxos (Egalitarian Paxos) is a leaderless consensus protocol
           optimized for wide-area networks. It achieves consensus without a
           fixed leader by using dependency graphs and conflict resolution.
         </p>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Leaderless • Dependency Graphs • Fast/Slow Path
         </div>
-      </div>
-
-      <div class="main-content">
-        <div class="visualization-section">
-          <h2 class="section-title">
-            <i class="fas fa-project-diagram"></i> Interactive Visualization
+</div>
+<div class="main-content">
+<div class="visualization-section">
+<h2 class="section-title">
+<i class="fas fa-project-diagram"></i> Interactive Visualization
           </h2>
-
-          <div class="visualization-area">
-            <div class="cluster-container" id="cluster-container">
-              <!-- Nodes will be dynamically added here -->
-            </div>
-          </div>
-
-          <div class="dependency-graph" id="dependency-graph">
-            <h3>Dependency Graph:</h3>
-            <div id="graph-content">No dependencies yet</div>
-          </div>
-
-          <div class="log-container" id="log-container">
-            <div class="log-entry">
+<div class="visualization-area">
+<div class="cluster-container" id="cluster-container">
+<!-- Nodes will be dynamically added here -->
+</div>
+</div>
+<div class="dependency-graph" id="dependency-graph">
+<h3>Dependency Graph:</h3>
+<div id="graph-content">No dependencies yet</div>
+</div>
+<div class="log-container" id="log-container">
+<div class="log-entry">
               System: EPaxos cluster initialized with 5 replicas
             </div>
-            <div class="log-entry">System: Ready to process commands</div>
-          </div>
-
-          <div class="controls">
-            <button class="control-btn" id="propose-btn">
-              <i class="fas fa-paper-plane"></i> Propose Command
+<div class="log-entry">System: Ready to process commands</div>
+</div>
+<div class="controls">
+<button class="control-btn" id="propose-btn">
+<i class="fas fa-paper-plane"></i> Propose Command
             </button>
-            <button class="control-btn secondary" id="fast-path-btn">
-              <i class="fas fa-bolt"></i> Trigger Fast Path
+<button class="control-btn secondary" id="fast-path-btn">
+<i class="fas fa-bolt"></i> Trigger Fast Path
             </button>
-            <button class="control-btn secondary" id="slow-path-btn">
-              <i class="fas fa-tachometer-alt-slow"></i> Trigger Slow Path
+<button class="control-btn secondary" id="slow-path-btn">
+<i class="fas fa-tachometer-alt-slow"></i> Trigger Slow Path
             </button>
-            <button class="control-btn secondary" id="fail-btn">
-              <i class="fas fa-skull"></i> Fail Random Node
+<button class="control-btn secondary" id="fail-btn">
+<i class="fas fa-skull"></i> Fail Random Node
             </button>
-            <button class="control-btn secondary" id="reset-btn">
-              <i class="fas fa-redo"></i> Reset Simulation
+<button class="control-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset Simulation
             </button>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <h2 class="section-title">
-            <i class="fas fa-info-circle"></i> Algorithm Details
+</div>
+</div>
+<div class="info-section">
+<h2 class="section-title">
+<i class="fas fa-info-circle"></i> Algorithm Details
           </h2>
-
-          <div class="key-points">
-            <div class="point-card">
-              <h3><i class="fas fa-crown"></i> Leaderless Design</h3>
-              <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-crown"></i> Leaderless Design</h3>
+<p>
                 Any replica can propose commands without a fixed leader,
                 reducing bottlenecks and improving performance in wide-area
                 networks.
               </p>
-            </div>
-
-            <div class="point-card">
-              <h3><i class="fas fa-project-diagram"></i> Dependency Graphs</h3>
-              <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Dependency Graphs</h3>
+<p>
                 EPaxos maintains dependency graphs to track conflicts and
                 determine execution order without global coordination.
               </p>
-            </div>
-
-            <div class="point-card">
-              <h3><i class="fas fa-bolt"></i> Fast Path & Slow Path</h3>
-              <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Fast Path &amp; Slow Path</h3>
+<p>
                 Commands commit in one round trip (fast path) when
                 conflict-free, falling back to two rounds (slow path) when
                 conflicts occur.
               </p>
-            </div>
-          </div>
-
-          <h3 class="section-title">
-            <i class="fas fa-list-ol"></i> Algorithm Steps
+</div>
+</div>
+<h3 class="section-title">
+<i class="fas fa-list-ol"></i> Algorithm Steps
           </h3>
-          <div class="point-card">
-            <ol style="padding-left: 20px; color: var(--text-secondary)">
-              <li style="margin-bottom: 10px">
+<div class="point-card">
+<ol style="padding-left: 20px; color: var(--text-secondary)">
+<li style="margin-bottom: 10px">
                 A replica receives a command from a client
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sends PreAccept messages to a fast quorum (F + ⌊(F+1)/2⌋
                 replicas)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 If no conflicts and replies match, commits via fast path
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 If conflicts detected, switches to slow path (Accept phase)
               </li>
-              <li>
+<li>
                 Once committed, executes commands respecting dependency graph
                 order
               </li>
-            </ol>
-          </div>
-
-          <h3 class="section-title"><i class="fas fa-cogs"></i> Properties</h3>
-          <div class="properties-grid">
-            <div class="property-card">
-              <h4>Leader</h4>
-              <div class="value">None</div>
-            </div>
-            <div class="property-card">
-              <h4>Fault Tolerance</h4>
-              <div class="value">F < N/2</div>
-            </div>
-            <div class="property-card">
-              <h4>Fast Path</h4>
-              <div class="value">1 RTT</div>
-            </div>
-            <div class="property-card">
-              <h4>Slow Path</h4>
-              <div class="value">2 RTT</div>
-            </div>
-            <div class="property-card">
-              <h4>Quorum Size</h4>
-              <div class="value">F + ⌊(F+1)/2⌋</div>
-            </div>
-            <div class="property-card">
-              <h4>Consistency</h4>
-              <div class="value">Strong</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <footer>
-        <div class="footer-links">
-          <a href="#"><i class="fab fa-github"></i> GitHub</a>
-          <a href="#"><i class="fas fa-book"></i> Documentation</a>
-          <a href="#"><i class="fas fa-file-alt"></i> Research Paper</a>
-          <a href="#"><i class="fas fa-question-circle"></i> About EPaxos</a>
-        </div>
-        <p>EPaxos Visualization | Understanding Distributed Consensus</p>
-        <p>
-          &copy; 2023 Algorithm Visualization Hub | Educational Purpose Only
+</ol>
+</div>
+<h3 class="section-title"><i class="fas fa-cogs"></i> Properties</h3>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Leader</h4>
+<div class="value">None</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">F &lt; N/2</div>
+</div>
+<div class="property-card">
+<h4>Fast Path</h4>
+<div class="value">1 RTT</div>
+</div>
+<div class="property-card">
+<h4>Slow Path</h4>
+<div class="value">2 RTT</div>
+</div>
+<div class="property-card">
+<h4>Quorum Size</h4>
+<div class="value">F + ⌊(F+1)/2⌋</div>
+</div>
+<div class="property-card">
+<h4>Consistency</h4>
+<div class="value">Strong</div>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fab fa-github"></i> GitHub</a>
+<a href="#"><i class="fas fa-book"></i> Documentation</a>
+<a href="#"><i class="fas fa-file-alt"></i> Research Paper</a>
+<a href="#"><i class="fas fa-question-circle"></i> About EPaxos</a>
+</div>
+<p>EPaxos Visualization | Understanding Distributed Consensus</p>
+<p>
+          © 2023 Algorithm Visualization Hub | Educational Purpose Only
         </p>
-      </footer>
-    </div>
-
-    <script>
+</footer>
+</div>
+<script>
       // EPaxos simulation
       const clusterContainer = document.getElementById("cluster-container");
       const logContainer = document.getElementById("log-container");
@@ -845,5 +850,5 @@
       // Initialize simulation
       window.addEventListener("load", initCluster);
     </script>
-  </body>
+</body>
 </html>

@@ -1,19 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Logistic Regression | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+<head><meta content="Study machine learning algorithms and their practical applications" name="description"/><meta content="machine learning algorithm, linear regression, logistic regression, decision tree, random forest, svm, knn, naive bayes, clustering, pca" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logistic Regression | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -680,291 +675,281 @@
         opacity: 0.5;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Machine Learning</a> >
+<meta content="Logistic Regression | AlgoViz Hub" property="og:title"/><meta content="Study machine learning algorithms and their practical applications" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_logistic_regression.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Logistic Regression | AlgoViz Hub" name="twitter:title"/><meta content="Study machine learning algorithms and their practical applications" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_logistic_regression.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Logistic Regression | AlgoViz Hub",
+  "description": "Study machine learning algorithms and their practical applications",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_logistic_regression.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Machine Learning</a> &gt;
               <span>Logistic Regression</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Logistic Regression</h1>
+<div class="category">
+<i class="fas fa-project-diagram"></i> Classification Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Logistic Regression</h1>
-        <div class="category">
-          <i class="fas fa-project-diagram"></i> Classification Algorithm
-        </div>
-        <div class="complexity-badge">Type: Binary Classification</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Type: Binary Classification</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Logistic Regression is a fundamental classification algorithm used
               for predicting binary outcomes (0 or 1) based on input features.
               Despite its name, it's a classification algorithm that models the
               probability of a binary outcome using a logistic function.
             </p>
-            <p>
+<p>
               The algorithm works by fitting a sigmoid curve to the data that
               maps any real-valued number to a value between 0 and 1, which can
               be interpreted as a probability. This probability is then
               thresholded to make class predictions.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-bullseye"></i> Objective</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-bullseye"></i> Objective</h3>
+<p>
                   Model the probability of class membership using a logistic
                   function
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sigma"></i> Sigmoid Function</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sigma"></i> Sigmoid Function</h3>
+<p>
                   σ(z) = 1 / (1 + e⁻ᶻ) transforms linear output to probability
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-calculator"></i> Decision Boundary</h3>
-                <p>Defined by θ₀ + θ₁x₁ + θ₂x₂ = 0, separating classes</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-rocket"></i> Applications</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-calculator"></i> Decision Boundary</h3>
+<p>Defined by θ₀ + θ₁x₁ + θ₂x₂ = 0, separating classes</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-rocket"></i> Applications</h3>
+<p>
                   Medical diagnosis, spam detection, credit scoring, and more
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive visualization below to understand how logistic
               regression works. Add data points for two classes, adjust the
               decision boundary, and see how the model classifies new points
               based on their position relative to the boundary.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-project-diagram"></i> Logistic Regression
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-project-diagram"></i> Logistic Regression
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="add-points-btn">
-                    <i class="fas fa-plus-circle"></i> Add Points
+<div class="console-controls">
+<button class="console-btn" id="add-points-btn">
+<i class="fas fa-plus-circle"></i> Add Points
                   </button>
-                  <button class="console-btn" id="train-btn">
-                    <i class="fas fa-bolt"></i> Train Model
+<button class="console-btn" id="train-btn">
+<i class="fas fa-bolt"></i> Train Model
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="chart-container">
-                  <canvas id="regression-chart"></canvas>
-                  <div class="equation-display" id="equation-display">
+</div>
+</div>
+<div class="visualization-area">
+<div class="chart-container">
+<canvas id="regression-chart"></canvas>
+<div class="equation-display" id="equation-display">
                     Decision Boundary: 0.00x₁ + 0.00x₂ + 0.00 = 0
                   </div>
-                  <div class="cost-display" id="cost-display">Cost: 0.00</div>
-                  <div class="probability-display" id="probability-display">
+<div class="cost-display" id="cost-display">Cost: 0.00</div>
+<div class="probability-display" id="probability-display">
                     Probability: 0.50
                   </div>
-                  <div class="decision-boundary" id="decision-boundary"></div>
-                  <div class="sigmoid-container">
-                    <canvas id="sigmoid-chart"></canvas>
-                    <div class="sigmoid-label">Sigmoid Function</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="slider-container">
-                <div class="slider-label">
-                  <span>Threshold:</span>
-                  <span id="threshold-value">0.50</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value="0.5"
-                  class="slider"
-                  id="threshold-slider"
-                />
-
-                <div class="slider-label">
-                  <span>Learning Rate:</span>
-                  <span id="learning-rate-value">0.10</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.01"
-                  max="0.5"
-                  step="0.01"
-                  value="0.1"
-                  class="slider"
-                  id="learning-rate-slider"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+<div class="decision-boundary" id="decision-boundary"></div>
+<div class="sigmoid-container">
+<canvas id="sigmoid-chart"></canvas>
+<div class="sigmoid-label">Sigmoid Function</div>
+</div>
+</div>
+</div>
+<div class="slider-container">
+<div class="slider-label">
+<span>Threshold:</span>
+<span id="threshold-value">0.50</span>
+</div>
+<input class="slider" id="threshold-slider" max="1" min="0" step="0.01" type="range" value="0.5"/>
+<div class="slider-label">
+<span>Learning Rate:</span>
+<span id="learning-rate-value">0.10</span>
+</div>
+<input class="slider" id="learning-rate-slider" max="0.5" min="0.01" step="0.01" type="range" value="0.1"/>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Logistic Regression involves the following steps to create a
               classification model:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-database"></i> 1. Data Preparation</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-database"></i> 1. Data Preparation</h3>
+<p>
                   Prepare labeled dataset with features and binary target
                   variable
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sigma"></i> 2. Hypothesis Function</h3>
-                <p>Define h(x) = σ(θᵀx) where σ is the sigmoid function</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-calculator"></i> 3. Cost Function</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sigma"></i> 2. Hypothesis Function</h3>
+<p>Define h(x) = σ(θᵀx) where σ is the sigmoid function</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-calculator"></i> 3. Cost Function</h3>
+<p>
                   Define log loss: J(θ) = -1/m Σ [yⁱ log(h(xⁱ)) + (1-yⁱ)
                   log(1-h(xⁱ))]
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-down"></i> 4. Optimization</h3>
-                <p>Minimize cost using gradient descent to find optimal θ</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-chart-line"></i> 5. Decision Boundary</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-down"></i> 4. Optimization</h3>
+<p>Minimize cost using gradient descent to find optimal θ</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-chart-line"></i> 5. Decision Boundary</h3>
+<p>
                   Set threshold (usually 0.5) to classify points based on
                   probability
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-crystal-ball"></i> 6. Prediction</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-crystal-ball"></i> 6. Prediction</h3>
+<p>
                   Use trained model to predict class probabilities for new data
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Supervised</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Classification</div>
-              </div>
-              <div class="property-card">
-                <h4>Output</h4>
-                <div class="value">Probability</div>
-              </div>
-              <div class="property-card">
-                <h4>Interpretability</h4>
-                <div class="value">High</div>
-              </div>
-              <div class="property-card">
-                <h4>Regularization</h4>
-                <div class="value">L1/L2</div>
-              </div>
-              <div class="property-card">
-                <h4>Training Speed</h4>
-                <div class="value">Fast</div>
-              </div>
-              <div class="property-card">
-                <h4>Assumptions</h4>
-                <div class="value">Linearity</div>
-              </div>
-              <div class="property-card">
-                <h4>Extensions</h4>
-                <div class="value">Multinomial</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Supervised</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Classification</div>
+</div>
+<div class="property-card">
+<h4>Output</h4>
+<div class="value">Probability</div>
+</div>
+<div class="property-card">
+<h4>Interpretability</h4>
+<div class="value">High</div>
+</div>
+<div class="property-card">
+<h4>Regularization</h4>
+<div class="value">L1/L2</div>
+</div>
+<div class="property-card">
+<h4>Training Speed</h4>
+<div class="value">Fast</div>
+</div>
+<div class="property-card">
+<h4>Assumptions</h4>
+<div class="value">Linearity</div>
+</div>
+<div class="property-card">
+<h4>Extensions</h4>
+<div class="value">Multinomial</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Logistic Regression is widely used across various domains for
               classification tasks:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Healthcare: Disease diagnosis based on symptoms
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Finance: Credit risk assessment and fraud detection
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Marketing: Customer churn prediction
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Natural Language Processing: Sentiment analysis
               </li>
-              <li>Computer Vision: Image classification tasks</li>
-              <li style="margin-top: 10px">
+<li>Computer Vision: Image classification tasks</li>
+<li style="margin-top: 10px">
                 Biometrics: Authentication systems
               </li>
-            </ul>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code><span class="comment"># Sigmoid function</span>
+</ul>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code><span class="comment"># Sigmoid function</span>
 <span class="keyword">def</span> <span class="function">sigmoid</span>(z):
     <span class="keyword">return</span> 1 / (1 + exp(-z))
 
@@ -993,57 +978,52 @@
 <span class="comment"># Predict function</span>
 <span class="keyword">def</span> <span class="function">predict</span>(X, θ, threshold=0.5):
     probabilities = sigmoid(dot(X, θ))
-    <span class="keyword">return</span> (probabilities >= threshold).astype(int)</code></pre>
-            </div>
-          </div>
-
-          <!-- Evaluation Metrics -->
-          <div class="section">
-            <h2><i class="fas fa-ruler"></i> Evaluation Metrics</h2>
-            <p>Key metrics for evaluating logistic regression models:</p>
-            <ul
-              style="
+    <span class="keyword">return</span> (probabilities &gt;= threshold).astype(int)</code></pre>
+</div>
+</div>
+<!-- Evaluation Metrics -->
+<div class="section">
+<h2><i class="fas fa-ruler"></i> Evaluation Metrics</h2>
+<p>Key metrics for evaluating logistic regression models:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Accuracy</strong>: Proportion of correct predictions
+              ">
+<li style="margin-bottom: 10px">
+<strong>Accuracy</strong>: Proportion of correct predictions
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Precision</strong>: Proportion of true positives among
+<li style="margin-bottom: 10px">
+<strong>Precision</strong>: Proportion of true positives among
                 positive predictions
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Recall</strong>: Proportion of positives correctly
+<li style="margin-bottom: 10px">
+<strong>Recall</strong>: Proportion of positives correctly
                 identified
               </li>
-              <li>
-                <strong>F1 Score</strong>: Harmonic mean of precision and recall
+<li>
+<strong>F1 Score</strong>: Harmonic mean of precision and recall
               </li>
-              <li style="margin-top: 10px">
-                <strong>ROC-AUC</strong>: Area under the Receiver Operating
+<li style="margin-top: 10px">
+<strong>ROC-AUC</strong>: Area under the Receiver Operating
                 Characteristic curve
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       document.addEventListener("DOMContentLoaded", function () {
         // Initialize Charts
         const ctx = document
@@ -1413,5 +1393,5 @@
         initCharts();
       });
     </script>
-  </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SHA3-512 Hash Algorithm | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SHA3-512 Hash Algorithm | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -735,49 +730,68 @@
                 color: var(--text-secondary);
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-hashtag"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Cryptographic Algorithms</a> >
+<meta content="SHA3-512 Hash Algorithm | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_sha3-512.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="SHA3-512 Hash Algorithm | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_sha3-512.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SHA3-512 Hash Algorithm | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_sha3-512.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-hashtag"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Cryptographic Algorithms</a> &gt;
                             <span>SHA3-512</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>SHA3-512</h1>
-                <div class="category">
-                    <i class="fas fa-lock"></i> Cryptographic Hash Algorithm
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>SHA3-512</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Cryptographic Hash Algorithm
                     (SHA-3 Family)
                 </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Output: 512 bits (128 characters)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             SHA3-512 is the 512-bit variant of the SHA-3 (Secure
                             Hash Algorithm 3) family, which was developed by
                             Guido Bertoni, Joan Daemen, Michaël Peeters, and
@@ -785,7 +799,7 @@
                             2015 as the latest member of the Secure Hash
                             Algorithm family.
                         </p>
-                        <p>
+<p>
                             SHA3-512 produces a 512-bit (64-byte) hash value,
                             typically rendered as a 128-digit hexadecimal
                             number. It uses the sponge construction, which
@@ -794,344 +808,265 @@
                             hashing compared to the Merkle-Damgård construction
                             used in SHA-2.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Based on the Keccak sponge function with a
                                     1600-bit state
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Efficient in hardware implementations, with
                                     good software performance
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-shield-alt"></i> Security
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-shield-alt"></i> Security
                                 </h3>
-                                <p>
+<p>
                                     Provides 256-bit security against collision
                                     and preimage attacks
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Structure
                                 </h3>
-                                <p>
+<p>
                                     Uses sponge construction with rate of 576
                                     bits and capacity of 1024 bits
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             SHA3-512 works. Enter text to see how it gets
                             transformed through the various stages of the
                             hashing algorithm, from absorption to squeezing.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> SHA3-512
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> SHA3-512
                                     Hash Calculator
                                 </h3>
-                                <div class="console-controls">
-                                    <button class="console-btn" id="hash-btn">
-                                        <i class="fas fa-hashtag"></i> Compute
+<div class="console-controls">
+<button class="console-btn" id="hash-btn">
+<i class="fas fa-hashtag"></i> Compute
                                         Hash
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div class="visualization-area">
-                                <div class="hash-visualization">
-                                    <div class="input-section">
-                                        <div class="input-label">
-                                            <i class="fas fa-keyboard"></i>
+</div>
+</div>
+<div class="visualization-area">
+<div class="hash-visualization">
+<div class="input-section">
+<div class="input-label">
+<i class="fas fa-keyboard"></i>
                                             Input Text
                                         </div>
-                                        <input
-                                            type="text"
-                                            class="input-text"
-                                            id="input-text"
-                                            placeholder="Enter text to hash"
-                                            value="Hello World"
-                                        />
-                                    </div>
-
-                                    <div class="output-section">
-                                        <div class="input-label">
-                                            <i class="fas fa-fingerprint"></i>
+<input class="input-text" id="input-text" placeholder="Enter text to hash" type="text" value="Hello World"/>
+</div>
+<div class="output-section">
+<div class="input-label">
+<i class="fas fa-fingerprint"></i>
                                             SHA3-512 Hash
                                         </div>
-                                        <div
-                                            class="hash-result"
-                                            id="hash-output"
-                                        >
+<div class="hash-result" id="hash-output">
                                             Hash will appear here
                                         </div>
-                                    </div>
-
-                                    <div class="sponge-container">
-                                        <div class="sponge-title">
+</div>
+<div class="sponge-container">
+<div class="sponge-title">
                                             Sponge Construction (SHA3-512
                                             Parameters)
                                         </div>
-                                        <div class="sponge">
-                                            <div class="sponge-capacity">
+<div class="sponge">
+<div class="sponge-capacity">
                                                 Capacity (1024 bits)
                                             </div>
-                                            <div class="sponge-rate">
+<div class="sponge-rate">
                                                 Rate (576 bits)
                                             </div>
-                                        </div>
-                                        <div class="sponge-labels">
-                                            <span
-                                                >Security against attacks</span
-                                            >
-                                            <span>Message processing</span>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        class="processing-steps"
-                                        id="processing-steps"
-                                    >
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="sponge-labels">
+<span>Security against attacks</span>
+<span>Message processing</span>
+</div>
+</div>
+<div class="processing-steps" id="processing-steps">
+<div class="step">
+<div class="step-title">
                                                 1. Input Text
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-input"
-                                            >
+<div class="step-content" id="step-input">
                                                 Hello World
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 2. Binary Representation
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-binary"
-                                            >
+<div class="step-content" id="step-binary">
                                                 Binary will appear here
                                             </div>
-                                            <div
-                                                class="bit-representation"
-                                                id="bit-representation"
-                                            ></div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+<div class="bit-representation" id="bit-representation"></div>
+</div>
+<div class="step">
+<div class="step-title">
                                                 3. Padding (SHA3-512 specific)
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-padding"
-                                            >
+<div class="step-content" id="step-padding">
                                                 Padding details will appear here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 4. Absorption Phase
                                             </div>
-                                            <div class="progress-bar">
-                                                <div
-                                                    class="progress"
-                                                    id="progress-bar-absorb"
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-absorb"
-                                            >
+<div class="progress-bar">
+<div class="progress" id="progress-bar-absorb"></div>
+</div>
+<div class="step-content" id="step-absorb">
                                                 Absorption progress will appear
                                                 here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 5. Keccak-f[1600] Permutation
                                                 (24 rounds)
                                             </div>
-                                            <div class="progress-bar">
-                                                <div
-                                                    class="progress"
-                                                    id="progress-bar-permutation"
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-permutation"
-                                            >
+<div class="progress-bar">
+<div class="progress" id="progress-bar-permutation"></div>
+</div>
+<div class="step-content" id="step-permutation">
                                                 Permutation rounds will appear
                                                 here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 6. Squeezing Phase
                                             </div>
-                                            <div class="progress-bar">
-                                                <div
-                                                    class="progress"
-                                                    id="progress-bar-squeeze"
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-squeeze"
-                                            >
+<div class="progress-bar">
+<div class="progress" id="progress-bar-squeeze"></div>
+</div>
+<div class="step-content" id="step-squeeze">
                                                 Squeezing progress will appear
                                                 here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 7. Final Hash (512 bits)
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-final"
-                                            >
+<div class="step-content" id="step-final">
                                                 Final hash will appear here
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="hash-comparison">
-                                        <div class="comparison-row">
-                                            <span class="comparison-algo"
-                                                >Input length:</span
-                                            >
-                                            <span
-                                                class="comparison-value"
-                                                id="input-length"
-                                                >0 bytes</span
-                                            >
-                                        </div>
-                                        <div class="comparison-row">
-                                            <span class="comparison-algo"
-                                                >SHA3-512 output:</span
-                                            >
-                                            <span
-                                                class="comparison-value"
-                                                id="output-length"
-                                                >0 bytes (512 bits)</span
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+<div class="hash-comparison">
+<div class="comparison-row">
+<span class="comparison-algo">Input length:</span>
+<span class="comparison-value" id="input-length">0 bytes</span>
+</div>
+<div class="comparison-row">
+<span class="comparison-algo">SHA3-512 output:</span>
+<span class="comparison-value" id="output-length">0 bytes (512 bits)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             SHA3-512 processes input data through several stages
                             using the sponge construction:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-align-left"></i> 1. Message
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-align-left"></i> 1. Message
                                     Padding
                                 </h3>
-                                <p>
+<p>
                                     The message is padded with the pattern 10*1
                                     to ensure its length is a multiple of the
                                     rate (576 bits for SHA3-512).
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-tint"></i> 2. Absorption
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-tint"></i> 2. Absorption
                                     Phase
                                 </h3>
-                                <p>
+<p>
                                     The padded message is divided into blocks
                                     and XORed into the state, followed by
                                     applying the Keccak-f permutation.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-cogs"></i> 3. Keccak-f
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-cogs"></i> 3. Keccak-f
                                     Permutation
                                 </h3>
-                                <p>
+<p>
                                     The 1600-bit state undergoes 24 rounds of
                                     permutation, each consisting of five steps:
                                     θ, ρ, π, χ, and ι.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-compress-arrows-alt"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i>
                                     4. Squeezing Phase
                                 </h3>
-                                <p>
+<p>
                                     Output bits are extracted from the state
                                     until the desired hash length (512 bits) is
                                     achieved.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-code"></i> 5. Output
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-code"></i> 5. Output
                                     Truncation
                                 </h3>
-                                <p>
+<p>
                                     For SHA3-512, the first 512 bits of the
                                     state after squeezing form the final hash
                                     output.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// SHA3-512 Pseudocode
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// SHA3-512 Pseudocode
 function sha3_512(message):
     // Initialize state as a 5x5 array of 64-bit lanes, all zeros
     state = [[0, 0, 0, 0, 0],
@@ -1161,14 +1096,14 @@ function sha3_512(message):
 
     // Squeezing phase
     hash = ""
-    while hash.length < output_length:
+    while hash.length &lt; output_length:
         // Extract output from the state
         for i from 0 to (rate/64 - 1):
             x = i % 5
             y = floor(i / 5)
             hash = hash + state[x][y]
 
-        if hash.length < output_length:
+        if hash.length &lt; output_length:
             state = keccak_f_1600(state)
 
     // Return first output_length bits
@@ -1219,27 +1154,25 @@ function keccak_f_1600(state):
         state[0][0] = state[0][0] XOR RC[round]
 
     return state</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a JavaScript implementation of the SHA3-512
                             hash algorithm using the Web Crypto API. For
                             demonstration purposes, we're using the browser's
                             built-in implementation.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>JavaScript Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>JavaScript Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="comment">// SHA3-512 implementation using Web Crypto API</span>
+</div>
+<pre><code><span class="comment">// SHA3-512 implementation using Web Crypto API</span>
 <span class="keyword">async function</span> <span class="function">sha3_512</span>(message) {
   <span class="comment">// Convert message to UTF-8 bytes</span>
   <span class="keyword">const</span> encoder = <span class="keyword">new</span> TextEncoder();
@@ -1250,13 +1183,13 @@ function keccak_f_1600(state):
 
   <span class="comment">// Convert ArrayBuffer to hex string</span>
   <span class="keyword">const</span> hashArray = Array.from(<span class="keyword">new</span> Uint8Array(hashBuffer));
-  <span class="keyword">const</span> hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  <span class="keyword">const</span> hashHex = hashArray.map(b =&gt; b.toString(16).padStart(2, '0')).join('');
 
   <span class="keyword">return</span> hashHex;
 }
 
 <span class="comment">// Example usage</span>
-sha3_512(<span class="string">"Hello World"</span>).then(<span class="function">hash</span> => {
+sha3_512(<span class="string">"Hello World"</span>).then(<span class="function">hash</span> =&gt; {
   console.log(<span class="string">`SHA3-512 hash: <span class="variable">${hash}</span>`</span>);
   console.log(<span class="string">`Hash length: <span class="variable">${hash.length}</span> characters (512 bits)`</span>);
 });
@@ -1266,186 +1199,168 @@ sha3_512(<span class="string">"Hello World"</span>).then(<span class="function">
 <span class="comment">// 2. Keccak-f[1600] permutation with 24 rounds</span>
 <span class="comment">// 3. θ, ρ, π, χ, and ι functions for state manipulation</span>
 <span class="comment">// 4. Absorption and squeezing logic with rate=576, capacity=1024</span></code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Cryptographic Hash</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Family</h4>
-                                <div class="value">SHA-3</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Output Size</h4>
-                                <div class="value">512 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>State Size</h4>
-                                <div class="value">1600 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Rounds</h4>
-                                <div class="value">24</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Security</h4>
-                                <div class="value">256 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>First Published</h4>
-                                <div class="value">2015</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Designers</h4>
-                                <div class="value">
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptographic Hash</div>
+</div>
+<div class="property-card">
+<h4>Family</h4>
+<div class="value">SHA-3</div>
+</div>
+<div class="property-card">
+<h4>Output Size</h4>
+<div class="value">512 bits</div>
+</div>
+<div class="property-card">
+<h4>State Size</h4>
+<div class="value">1600 bits</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">24</div>
+</div>
+<div class="property-card">
+<h4>Security</h4>
+<div class="value">256 bits</div>
+</div>
+<div class="property-card">
+<h4>First Published</h4>
+<div class="value">2015</div>
+</div>
+<div class="property-card">
+<h4>Designers</h4>
+<div class="value">
                                     Guido Bertoni, Joan Daemen, Michaël Peeters,
                                     Gilles Van Assche
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             SHA3-512 is used in various security applications
                             and protocols including:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Digital signatures and certificate verification
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Blockchain and cryptocurrency technologies
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Secure messaging protocols
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Password hashing (with appropriate salt)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Data integrity verification for large files
                             </li>
-                            <li>Key derivation functions</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages & Disadvantages -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-balance-scale"></i> Pros & Cons
+<li>Key derivation functions</li>
+</ul>
+</div>
+<!-- Advantages & Disadvantages -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Pros &amp; Cons
                         </h2>
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus-circle"></i>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-plus-circle"></i>
                                     Advantages
                                 </h3>
-                                <p>
+<p>
                                     High security level (256-bit), resistance to
                                     length-extension attacks, completely
                                     different structure from SHA-2 provides
                                     diversity, efficient in hardware
                                     implementations
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-minus-circle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-minus-circle"></i>
                                     Disadvantages
                                 </h3>
-                                <p>
+<p>
                                     Slower in software compared to SHA-512 on
                                     some platforms, relatively new compared to
                                     SHA-2, less widely adopted in existing
                                     systems
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Variants Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code-branch"></i> SHA-3 Family</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2><i class="fas fa-code-branch"></i> SHA-3 Family</h2>
+<p>
                             SHA3-512 is part of the SHA-3 family of
                             cryptographic hash functions:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA3-224:</strong> 224-bit output,
+                            ">
+<li style="margin-bottom: 10px">
+<strong>SHA3-224:</strong> 224-bit output,
                                 rate=1152, capacity=448
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA3-256:</strong> 256-bit output,
+<li style="margin-bottom: 10px">
+<strong>SHA3-256:</strong> 256-bit output,
                                 rate=1088, capacity=512
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA3-384:</strong> 384-bit output,
+<li style="margin-bottom: 10px">
+<strong>SHA3-384:</strong> 384-bit output,
                                 rate=832, capacity=768
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA3-512:</strong> 512-bit output,
+<li style="margin-bottom: 10px">
+<strong>SHA3-512:</strong> 512-bit output,
                                 rate=576, capacity=1024
                             </li>
-                            <li>
-                                <strong>SHAKE128, SHAKE256:</strong>
+<li>
+<strong>SHAKE128, SHAKE256:</strong>
                                 Extendable-output functions (XOFs)
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // SHA3-512 Visualization
             document.addEventListener("DOMContentLoaded", function () {
                 const inputText = document.getElementById("input-text");
@@ -1653,5 +1568,5 @@ sha3_512(<span class="string">"Hello World"</span>).then(<span class="function">
                     });
             });
         </script>
-    </body>
+</body>
 </html>

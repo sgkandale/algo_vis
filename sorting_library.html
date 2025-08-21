@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Library Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Library Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -639,175 +634,180 @@
         font-weight: bold;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-book"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Library Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_library.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Library Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_library.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Library Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_library.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-book"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Library Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Library Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Gapped Insertion Sort
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Library Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Gapped Insertion Sort
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Library Sort (also known as Gapped Insertion Sort) is a variation
               of insertion sort that improves performance by leaving gaps
               between elements. These gaps allow for faster insertion of new
               elements without the need to shift all subsequent elements.
             </p>
-            <p>
+<p>
               The algorithm works by creating an array with gaps (typically with
               a size factor of 2), then inserting elements using binary search
               to find the appropriate position. When gaps become too small, the
               array is rebalanced by redistributing elements with new gaps.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
-                <p>O(n log n) worst-case, improves on insertion sort's O(n²)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-grip-lines"></i> Gap Strategy</h3>
-                <p>Uses gaps to reduce element shifting during insertion</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-search"></i> Binary Search</h3>
-                <p>Finds insertion position efficiently with binary search</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> Rebalancing</h3>
-                <p>Periodically rebalances gaps to maintain efficiency</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+<p>O(n log n) worst-case, improves on insertion sort's O(n²)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-grip-lines"></i> Gap Strategy</h3>
+<p>Uses gaps to reduce element shifting during insertion</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-search"></i> Binary Search</h3>
+<p>Finds insertion position efficiently with binary search</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> Rebalancing</h3>
+<p>Periodically rebalances gaps to maintain efficiency</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Library Sort
               works. Enter comma-separated numbers and step through the
               algorithm to see how elements are inserted into gaps and how
               rebalancing occurs.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Library Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Library Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button id="speed-btn" class="console-btn secondary">
-                    <i class="fas fa-running"></i> Speed: Medium
+<button class="console-btn secondary" id="speed-btn">
+<i class="fas fa-running"></i> Speed: Medium
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="array-container" id="array-container">
-                  <!-- Array elements will be generated here -->
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  id="array-input"
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area">
+<div class="array-container" id="array-container">
+<!-- Array elements will be generated here -->
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 3, 5, 1, 9, 4, 8, 2, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div id="status" class="status-bar">
+</div>
+<div class="status-bar" id="status">
                 Enter numbers and click Run or Step
               </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Library Sort processes the array through these key steps:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-expand-arrows-alt"></i> 1. Array Expansion
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Library Sort processes the array through these key steps:</p>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-expand-arrows-alt"></i> 1. Array Expansion
                 </h3>
-                <p>
+<p>
                   Create an expanded array with gaps (size = n * gap_factor)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-search"></i> 2. Binary Search</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-search"></i> 2. Binary Search</h3>
+<p>
                   For each element, find insertion position using binary search
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> 3. Insert with Gap</h3>
-                <p>Insert element into the nearest available gap</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-balance-scale"></i> 4. Gap Rebalancing</h3>
-                <p>When gaps become too small, rebalance the entire array</p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-compress-arrows-alt"></i> 5. Final Compaction
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> 3. Insert with Gap</h3>
+<p>Insert element into the nearest available gap</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-balance-scale"></i> 4. Gap Rebalancing</h3>
+<p>When gaps become too small, rebalance the entire array</p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-compress-arrows-alt"></i> 5. Final Compaction
                 </h3>
-                <p>After all insertions, compact the array by removing gaps</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function library_sort(arr):
+<p>After all insertions, compact the array by removing gaps</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function library_sort(arr):
     n = length(arr)
     gap_factor = 2  // Typically between 1.5 and 2
     expanded_size = ceil(n * gap_factor)
@@ -841,24 +841,24 @@
 function binary_search(arr, value):
     low = 0
     high = length(arr) - 1
-    while low <= high:
+    while low &lt;= high:
         mid = (low + high) // 2
         if arr[mid] is null:
             // Find nearest non-null element
             left = mid - 1
             right = mid + 1
-            while left >= 0 or right < length(arr):
-                if left >= 0 and arr[left] != null:
+            while left &gt;= 0 or right &lt; length(arr):
+                if left &gt;= 0 and arr[left] != null:
                     mid = left
                     break
-                if right < length(arr) and arr[right] != null:
+                if right &lt; length(arr) and arr[right] != null:
                     mid = right
                     break
                 left--
                 right++
         if arr[mid] == value:
             return mid
-        else if arr[mid] < value:
+        else if arr[mid] &lt; value:
             low = mid + 1
         else:
             high = mid - 1
@@ -868,10 +868,10 @@ function find_nearest_gap(arr, pos):
     // Search left then right for nearest gap
     left = pos - 1
     right = pos + 1
-    while left >= 0 or right < length(arr):
-        if left >= 0 and arr[left] == null:
+    while left &gt;= 0 or right &lt; length(arr):
+        if left &gt;= 0 and arr[left] == null:
             return left
-        if right < length(arr) and arr[right] == null:
+        if right &lt; length(arr) and arr[right] == null:
             return right
         left--
         right++
@@ -896,25 +896,23 @@ function rebalance(arr, gap_factor):
 
 function compact(arr):
     return [x for x in arr if x != null]</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Library Sort. The algorithm
               uses gap-based insertion and periodic rebalancing:
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">import</span> math
+</div>
+<pre><code><span class="keyword">import</span> math
 
 <span class="keyword">def</span> <span class="function">library_sort</span>(arr):
     <span class="keyword">if</span> <span class="keyword">not</span> arr:
@@ -954,18 +952,18 @@ function compact(arr):
     low = 0
     high = len(arr) - 1
     
-    <span class="keyword">while</span> low <= high:
+    <span class="keyword">while</span> low &lt;= high:
         mid = (low + high) // 2
         
         <span class="comment"># Skip gaps</span>
         <span class="keyword">if</span> arr[mid] <span class="keyword">is</span> <span class="keyword">None</span>:
             left = mid - 1
             right = mid + 1
-            <span class="keyword">while</span> left >= 0 <span class="keyword">or</span> right < len(arr):
-                <span class="keyword">if</span> left >= 0 <span class="keyword">and</span> arr[left] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+            <span class="keyword">while</span> left &gt;= 0 <span class="keyword">or</span> right &lt; len(arr):
+                <span class="keyword">if</span> left &gt;= 0 <span class="keyword">and</span> arr[left] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
                     mid = left
                     <span class="keyword">break</span>
-                <span class="keyword">if</span> right < len(arr) <span class="keyword">and</span> arr[right] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
+                <span class="keyword">if</span> right &lt; len(arr) <span class="keyword">and</span> arr[right] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:
                     mid = right
                     <span class="keyword">break</span>
                 left -= 1
@@ -973,7 +971,7 @@ function compact(arr):
         
         <span class="keyword">if</span> arr[mid] == value:
             <span class="keyword">return</span> mid
-        <span class="keyword">elif</span> arr[mid] < value:
+        <span class="keyword">elif</span> arr[mid] &lt; value:
             low = mid + 1
         <span class="keyword">else</span>:
             high = mid - 1
@@ -984,10 +982,10 @@ function compact(arr):
     left = pos - 1
     right = pos + 1
     
-    <span class="keyword">while</span> left >= 0 <span class="keyword">or</span> right < len(arr):
-        <span class="keyword">if</span> left >= 0 <span class="keyword">and</span> arr[left] <span class="keyword">is</span> <span class="keyword">None</span>:
+    <span class="keyword">while</span> left &gt;= 0 <span class="keyword">or</span> right &lt; len(arr):
+        <span class="keyword">if</span> left &gt;= 0 <span class="keyword">and</span> arr[left] <span class="keyword">is</span> <span class="keyword">None</span>:
             <span class="keyword">return</span> left
-        <span class="keyword">if</span> right < len(arr) <span class="keyword">and</span> arr[right] <span class="keyword">is</span> <span class="keyword">None</span>:
+        <span class="keyword">if</span> right &lt; len(arr) <span class="keyword">and</span> arr[right] <span class="keyword">is</span> <span class="keyword">None</span>:
             <span class="keyword">return</span> right
         left -= 1
         right += 1
@@ -1014,149 +1012,136 @@ arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
 sorted_arr = library_sort(arr)
 print(<span class="string">"Original array:"</span>, arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Gap Factor</h4>
-                <div class="value">1.5-2.0</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Library Sort is particularly useful in these scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Gap Factor</h4>
+<div class="value">1.5-2.0</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Library Sort is particularly useful in these scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Online algorithms where elements arrive one by one
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Systems with frequent insertions into sorted lists
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Database indexing for efficient insertions
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Maintaining sorted data structures with dynamic inputs
               </li>
-              <li>Educational examples of improved insertion sort</li>
-            </ul>
-          </div>
-
-          <!-- Gap Factor Section -->
-          <div class="section">
-            <h2><i class="fas fa-ruler-combined"></i> Gap Factor</h2>
-            <p>The gap factor determines the size of the expanded array:</p>
-            <div style="margin: 15px 0; color: var(--text-secondary)">
-              <p>• Expanded Size = n × gap_factor</p>
-              <p>• Gap Factor typically between 1.5 and 2.0</p>
-              <p>• Higher values reduce rebalancing but use more memory</p>
-            </div>
-            <div
-              style="
+<li>Educational examples of improved insertion sort</li>
+</ul>
+</div>
+<!-- Gap Factor Section -->
+<div class="section">
+<h2><i class="fas fa-ruler-combined"></i> Gap Factor</h2>
+<p>The gap factor determines the size of the expanded array:</p>
+<div style="margin: 15px 0; color: var(--text-secondary)">
+<p>• Expanded Size = n × gap_factor</p>
+<p>• Gap Factor typically between 1.5 and 2.0</p>
+<p>• Higher values reduce rebalancing but use more memory</p>
+</div>
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: 8px;
                 padding: 15px;
-              "
-            >
-              <h4
-                style="
+              ">
+<h4 style="
                   color: var(--accent-light);
                   text-align: center;
                   margin-bottom: 10px;
-                "
-              >
+                ">
                 Rebalancing Frequency
               </h4>
-              <div
-                style="
+<div style="
                   display: flex;
                   justify-content: space-around;
                   margin-top: 10px;
-                "
-              >
-                <div style="text-align: center">
-                  <div style="font-size: 24px; color: var(--accent)">1.5×</div>
-                  <div>More Rebalancing</div>
-                </div>
-                <div style="text-align: center">
-                  <div style="font-size: 24px; color: var(--accent-light)">
+                ">
+<div style="text-align: center">
+<div style="font-size: 24px; color: var(--accent)">1.5×</div>
+<div>More Rebalancing</div>
+</div>
+<div style="text-align: center">
+<div style="font-size: 24px; color: var(--accent-light)">
                     1.75×
                   </div>
-                  <div>Balanced</div>
-                </div>
-                <div style="text-align: center">
-                  <div style="font-size: 24px; color: var(--success)">2.0×</div>
-                  <div>Less Rebalancing</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="#"><i class="fas fa-book"></i> Documentation</a>
-          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
-          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
-          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
-          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<div>Balanced</div>
+</div>
+<div style="text-align: center">
+<div style="font-size: 24px; color: var(--success)">2.0×</div>
+<div>Less Rebalancing</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fas fa-book"></i> Documentation</a>
+<a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+<a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+<a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+<a href="#"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Library Sort Visualization
       let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
       let expanded = [];
@@ -1464,5 +1449,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
       // Initialize
       initVisualization();
     </script>
-  </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Tracing Garbage Collector | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="description"/><meta content="garbage collection, gc algorithm, mark and sweep, generational gc, reference counting" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tracing Garbage Collector | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -649,48 +644,67 @@
                 color: white;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Memory Management</a> >
+<meta content="Tracing Garbage Collector | AlgoViz Hub" property="og:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/garbage_collection_tgc.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Tracing Garbage Collector | AlgoViz Hub" name="twitter:title"/><meta content="Learn about garbage collection algorithms used in programming language runtimes" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/garbage_collection_tgc.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Tracing Garbage Collector | AlgoViz Hub",
+  "description": "Learn about garbage collection algorithms used in programming language runtimes",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/garbage_collection_tgc.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Memory Management</a> &gt;
                             <span>Tracing Garbage Collector</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Tracing Garbage Collector</h1>
+<div class="category">
+<i class="fas fa-memory"></i> Memory Management Algorithm
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>Tracing Garbage Collector</h1>
-                <div class="category">
-                    <i class="fas fa-memory"></i> Memory Management Algorithm
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Time Complexity: O(Live Data + Heap Size)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             The Tracing Garbage Collector is a memory management
                             algorithm that identifies and reclaims memory that
                             is no longer in use by the program. It works by
@@ -700,7 +714,7 @@
                             not reached during this tracing phase are considered
                             garbage and are reclaimed.
                         </p>
-                        <p>
+<p>
                             The most common implementation is the Mark-and-Sweep
                             algorithm, which consists of two phases: the Mark
                             phase where live objects are identified, and the
@@ -709,200 +723,175 @@
                             memory, making it suitable for environments where
                             object relocation is problematic.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Identifies unreachable objects by tracing
                                     references from root objects
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Time proportional to live data (marking)
                                     plus heap size (sweeping)
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-memory"></i> Space</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>
                                     Requires additional space for mark bits and
                                     traversal stacks
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Approach
                                 </h3>
-                                <p>
+<p>
                                     Stop-the-world collection with mark and
                                     sweep phases
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             the Tracing Garbage Collector works. The
                             visualization shows a heap with allocated objects
                             and demonstrates the mark and sweep phases of the
                             algorithm.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> Tracing
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Tracing
                                     GC Visualization
                                 </h3>
-                                <div class="console-controls">
-                                    <button class="console-btn" id="step-btn">
-                                        <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                                     </button>
-                                    <button class="console-btn" id="run-btn">
-                                        <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div
-                                class="visualization-area"
-                                id="gc-visualization"
-                            >
-                                <!-- GC Visualization will be rendered here -->
-                                <div class="phase-indicator">
-                                    <div class="phase" id="phase-mark">
+</div>
+</div>
+<div class="visualization-area" id="gc-visualization">
+<!-- GC Visualization will be rendered here -->
+<div class="phase-indicator">
+<div class="phase" id="phase-mark">
                                         Mark
                                     </div>
-                                    <div class="phase" id="phase-sweep">
+<div class="phase" id="phase-sweep">
                                         Sweep
                                     </div>
-                                </div>
-                                <div
-                                    class="roots-panel"
-                                    id="roots-container"
-                                ></div>
-                                <div class="heap-container">
-                                    <div class="heap">
-                                        <div class="heap-title">
+</div>
+<div class="roots-panel" id="roots-container"></div>
+<div class="heap-container">
+<div class="heap">
+<div class="heap-title">
                                             Heap Memory
                                         </div>
-                                        <div
-                                            class="memory-blocks"
-                                            id="heap-blocks"
-                                        ></div>
-                                    </div>
-                                </div>
-                                <div class="info-panel" id="info-panel">
+<div class="memory-blocks" id="heap-blocks"></div>
+</div>
+</div>
+<div class="info-panel" id="info-panel">
                                     Ready to start garbage collection
                                 </div>
-                            </div>
-
-                            <div class="console-input">
-                                <input
-                                    type="text"
-                                    id="object-input"
-                                    placeholder="Enter object structure (e.g., A->B, B->C, C->A)"
-                                    value="A->B, B->C, C->A, D->E, E->D, F"
-                                />
-                                <button class="console-btn" id="random-btn">
-                                    <i class="fas fa-random"></i> Random
+</div>
+<div class="console-input">
+<input id="object-input" placeholder="Enter object structure (e.g., A-&gt;B, B-&gt;C, C-&gt;A)" type="text" value="A-&gt;B, B-&gt;C, C-&gt;A, D-&gt;E, E-&gt;D, F"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             The Tracing Garbage Collector (Mark-and-Sweep)
                             operates in the following steps:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-pause-circle"></i> 1. Stop
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-pause-circle"></i> 1. Stop
                                     Execution
                                 </h3>
-                                <p>
+<p>
                                     The algorithm pauses program execution to
                                     ensure memory consistency during the garbage
                                     collection process (stop-the-world).
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-search"></i> 2. Mark Phase
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-search"></i> 2. Mark Phase
                                     - Root Identification
                                 </h3>
-                                <p>
+<p>
                                     The collector identifies all root references
                                     (global variables, stack variables,
                                     registers) that point to objects in the
                                     heap.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-pen"></i> 3. Mark Phase -
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-pen"></i> 3. Mark Phase -
                                     Object Tracing
                                 </h3>
-                                <p>
+<p>
                                     Starting from the roots, the collector
                                     traverses all object references recursively,
                                     marking each reachable object as live.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-broom"></i> 4. Sweep Phase
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-broom"></i> 4. Sweep Phase
                                 </h3>
-                                <p>
+<p>
                                     The collector scans through the entire heap,
                                     reclaiming memory from objects that were not
                                     marked as live during the mark phase.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> 5. Resume
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-play-circle"></i> 5. Resume
                                     Execution
                                 </h3>
-                                <p>
+<p>
                                     After garbage collection is complete,
                                     program execution resumes with freed memory
                                     available for new allocations.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// Mark-and-Sweep Garbage Collection
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Mark-and-Sweep Garbage Collection
 function collectGarbage():
     stopProgramExecution()  // Stop-the-world pause
 
@@ -935,28 +924,26 @@ function sweepPhase():
             object.marked = false  // Reset for next GC cycle
         else:
             reclaimMemory(object)  // Free the memory</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a simplified Python implementation of the
                             Mark-and-Sweep garbage collection algorithm. This
                             implementation demonstrates the core concepts of the
                             algorithm including object marking and memory
                             reclamation.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>Python Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">class</span> <span class="function">Object</span>:
+</div>
+<pre><code><span class="keyword">class</span> <span class="function">Object</span>:
     <span class="keyword">def</span> <span class="function">__init__</span>(self, obj_id):
         self.id = obj_id
         self.marked = False
@@ -972,9 +959,9 @@ function sweepPhase():
         self.heap_size = heap_size
 
     <span class="keyword">def</span> <span class="function">allocate</span>(self, obj_id):
-        <span class="keyword">if</span> len(self.heap) >= self.heap_size:
+        <span class="keyword">if</span> len(self.heap) &gt;= self.heap_size:
             self.collect()  <span class="comment"># Trigger garbage collection</span>
-            <span class="keyword">if</span> len(self.heap) >= self.heap_size:
+            <span class="keyword">if</span> len(self.heap) &gt;= self.heap_size:
                 <span class="keyword">raise</span> MemoryError(<span class="string">"Out of memory"</span>)
 
         obj = Object(obj_id)
@@ -1035,182 +1022,164 @@ gc.add_root(a)  <span class="comment"># Make 'A' a root object</span>
 
 <span class="comment"># Force garbage collection</span>
 gc.collect()</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Tracing</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Type</h4>
-                                <div class="value">Mark-and-Sweep</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Stop-the-world</h4>
-                                <div class="value">Yes</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Compacting</h4>
-                                <div class="value">No</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Fragmentation</h4>
-                                <div class="value">Possible</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Time Complexity</h4>
-                                <div class="value">O(L + H)</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Space Overhead</h4>
-                                <div class="value">Mark bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Throughput</h4>
-                                <div class="value">Medium</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Tracing</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Mark-and-Sweep</div>
+</div>
+<div class="property-card">
+<h4>Stop-the-world</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Compacting</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Fragmentation</h4>
+<div class="value">Possible</div>
+</div>
+<div class="property-card">
+<h4>Time Complexity</h4>
+<div class="value">O(L + H)</div>
+</div>
+<div class="property-card">
+<h4>Space Overhead</h4>
+<div class="value">Mark bits</div>
+</div>
+<div class="property-card">
+<h4>Throughput</h4>
+<div class="value">Medium</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             Tracing Garbage Collection is widely used in various
                             programming languages and systems:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Java Virtual Machine (JVM) - for managing heap
                                 memory
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 .NET Common Language Runtime (CLR)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 JavaScript engines (V8, SpiderMonkey)
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Python interpreter (CPython uses reference
                                 counting with tracing GC for cycle detection)
                             </li>
-                            <li>Ruby, PHP, and other managed languages</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages & Disadvantages -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-balance-scale"></i> Pros & Cons
+<li>Ruby, PHP, and other managed languages</li>
+</ul>
+</div>
+<!-- Advantages & Disadvantages -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Pros &amp; Cons
                         </h2>
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus-circle"></i>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-plus-circle"></i>
                                     Advantages
                                 </h3>
-                                <p>
+<p>
                                     Handles cyclic references, no moving of
                                     objects, predictable memory reclamation,
                                     works well with complex object graphs
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-minus-circle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-minus-circle"></i>
                                     Disadvantages
                                 </h3>
-                                <p>
+<p>
                                     Requires stop-the-world pauses, can cause
                                     memory fragmentation, not real-time
                                     friendly, overhead of mark bits
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Variants Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-code-branch"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2>
+<i class="fas fa-code-branch"></i> Algorithm
                             Variants
                         </h2>
-                        <p>
+<p>
                             Several improvements have been made to the basic
                             Mark-and-Sweep algorithm:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>Tri-color Marking:</strong> Uses grey,
+                            ">
+<li style="margin-bottom: 10px">
+<strong>Tri-color Marking:</strong> Uses grey,
                                 white, and black sets to enable incremental
                                 marking
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Generational GC:</strong> Divides
+<li style="margin-bottom: 10px">
+<strong>Generational GC:</strong> Divides
                                 objects by age and collects younger generations
                                 more frequently
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>Incremental GC:</strong> Interleaves
+<li style="margin-bottom: 10px">
+<strong>Incremental GC:</strong> Interleaves
                                 garbage collection with program execution to
                                 reduce pause times
                             </li>
-                            <li>
-                                <strong>Concurrent GC:</strong> Performs most
+<li>
+<strong>Concurrent GC:</strong> Performs most
                                 garbage collection work concurrently with
                                 program execution
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // Tracing Garbage Collector Visualization
             class TracingGCVisualization {
                 constructor() {
@@ -1543,5 +1512,5 @@ gc.collect()</code></pre>
                     });
             });
         </script>
-    </body>
+</body>
 </html>

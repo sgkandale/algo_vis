@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Heap Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heap Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -750,214 +745,207 @@
         width: 30px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Heap Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_heap.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Heap Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_heap.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Heap Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_heap.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Heap Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Heap Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Heap Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Heap Sort is a comparison-based sorting algorithm that uses a
               binary heap data structure. It works by first building a max-heap
               from the input data, then repeatedly extracting the maximum
               element from the heap and rebuilding the heap until all elements
               are sorted.
             </p>
-            <p>
+<p>
               Heap Sort is an in-place algorithm with O(n log n) time complexity
               in all cases, making it efficient for large datasets. It's not
               stable but has the advantage of a constant space complexity,
               making it useful in memory-constrained environments.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n log n) time complexity in all cases (best, average, worst)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(1) additional space (in-place sorting)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sitemap"></i> Data Structure</h3>
-                <p>Uses a binary heap to manage elements</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-star"></i> Advantage</h3>
-                <p>Guaranteed O(n log n) performance with minimal space</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(1) additional space (in-place sorting)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sitemap"></i> Data Structure</h3>
+<p>Uses a binary heap to manage elements</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-star"></i> Advantage</h3>
+<p>Guaranteed O(n log n) performance with minimal space</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Heap Sort
               works. The algorithm works in two main phases: building the heap
               (heapify), and repeatedly extracting the maximum element. Watch as
               the binary heap is constructed and elements are sorted.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Heap Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Heap Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                </div>
-              </div>
-
-              <div class="view-toggle">
-                <button id="heap-view-btn" class="view-btn active">
+</div>
+</div>
+<div class="view-toggle">
+<button class="view-btn active" id="heap-view-btn">
                   Heap View
                 </button>
-                <button id="array-view-btn" class="view-btn">Array View</button>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="step-indicator" id="step-indicator">Step: 0</div>
-                <div class="heap-container" id="heap-container"></div>
-                <div
-                  class="array-container array-view"
-                  id="array-container"
-                  style="display: none"
-                ></div>
-                <div class="status-bar" id="status-bar">Ready to visualize</div>
-              </div>
-
-              <div class="legend">
-                <div class="legend-item">
-                  <div class="legend-color current-color"></div>
-                  <span>Current Node</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color swapping-color"></div>
-                  <span>Swapping</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color heapified-color"></div>
-                  <span>Heapified</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-color sorted-color"></div>
-                  <span>Sorted</span>
-                </div>
-              </div>
-
-              <div class="controls">
-                <div class="slider-container">
-                  <span>Speed:</span>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="8, 3, 5, 1, 9, 4, 7, 2"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+<button class="view-btn" id="array-view-btn">Array View</button>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="step-indicator" id="step-indicator">Step: 0</div>
+<div class="heap-container" id="heap-container"></div>
+<div class="array-container array-view" id="array-container" style="display: none"></div>
+<div class="status-bar" id="status-bar">Ready to visualize</div>
+</div>
+<div class="legend">
+<div class="legend-item">
+<div class="legend-color current-color"></div>
+<span>Current Node</span>
+</div>
+<div class="legend-item">
+<div class="legend-color swapping-color"></div>
+<span>Swapping</span>
+</div>
+<div class="legend-item">
+<div class="legend-color heapified-color"></div>
+<span>Heapified</span>
+</div>
+<div class="legend-item">
+<div class="legend-color sorted-color"></div>
+<span>Sorted</span>
+</div>
+</div>
+<div class="controls">
+<div class="slider-container">
+<span>Speed:</span>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="8, 3, 5, 1, 9, 4, 7, 2"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Heap Sort involves the following steps to sort an array:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tree"></i> 1. Build Max Heap</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Heap Sort involves the following steps to sort an array:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tree"></i> 1. Build Max Heap</h3>
+<p>
                   Transform the array into a max-heap where parent nodes are
                   always greater than children
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 2. Swap Root</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 2. Swap Root</h3>
+<p>
                   Swap the root (largest element) with the last element of the
                   heap
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-minus-circle"></i> 3. Reduce Heap</h3>
-                <p>Reduce heap size by one (excluding the sorted elements)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 4. Heapify</h3>
-                <p>Heapify the root to maintain the max-heap property</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-repeat"></i> 5. Repeat</h3>
-                <p>Repeat steps 2-4 until the heap is empty</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure heapSort(array)
+</div>
+<div class="point-card">
+<h3><i class="fas fa-minus-circle"></i> 3. Reduce Heap</h3>
+<p>Reduce heap size by one (excluding the sorted elements)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 4. Heapify</h3>
+<p>Heapify the root to maintain the max-heap property</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-repeat"></i> 5. Repeat</h3>
+<p>Repeat steps 2-4 until the heap is empty</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure heapSort(array)
     n = length(array)
     
     // Build max heap
@@ -975,38 +963,36 @@ procedure heapify(array, n, i)
     right = 2*i + 2
     
     // If left child is larger than root
-    if left < n and array[left] > array[largest]
+    if left &lt; n and array[left] &gt; array[largest]
         largest = left
     
     // If right child is larger than largest
-    if right < n and array[right] > array[largest]
+    if right &lt; n and array[right] &gt; array[largest]
         largest = right
     
     // If largest is not root
     if largest != i
         swap array[i] and array[largest]
         heapify(array, n, largest)  // Recursively heapify affected subtree</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Heap Sort algorithm. The
               algorithm consists of the main <code>heap_sort()</code> function
               and a <code>heapify()</code> function that maintains the heap
               property.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">heap_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">heap_sort</span>(arr):
     n = len(arr)
     
     <span class="comment"># Build max heap</span>
@@ -1026,11 +1012,11 @@ procedure heapify(array, n, i)
     right = <span class="number">2</span> * i + <span class="number">2</span>
     
     <span class="comment"># Check if left child exists and is greater than root</span>
-    <span class="keyword">if</span> left < n <span class="keyword">and</span> arr[left] > arr[largest]:
+    <span class="keyword">if</span> left &lt; n <span class="keyword">and</span> arr[left] &gt; arr[largest]:
         largest = left
     
     <span class="comment"># Check if right child exists and is greater than largest</span>
-    <span class="keyword">if</span> right < n <span class="keyword">and</span> arr[right] > arr[largest]:
+    <span class="keyword">if</span> right &lt; n <span class="keyword">and</span> arr[right] &gt; arr[largest]:
         largest = right
     
     <span class="comment"># Change root if needed</span>
@@ -1044,129 +1030,121 @@ procedure heapify(array, n, i)
 arr = [<span class="number">12</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]
 heap_sort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Heap Sort is used in various scenarios where guaranteed
               performance is required:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Systems requiring predictable performance (real-time systems)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Memory-constrained environments (in-place sorting)
               </li>
-              <li style="margin-bottom: 10px">Implementing priority queues</li>
-              <li style="margin-bottom: 10px">External sorting algorithms</li>
-              <li>K-way merge algorithms</li>
-            </ul>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>Heap Sort has consistent time complexity in all cases:</p>
-            <div class="point-card" style="margin-top: 20px">
-              <h3><i class="fas fa-tree"></i> Building Heap</h3>
-              <p>O(n) time to build the initial heap</p>
-            </div>
-            <div class="point-card">
-              <h3><i class="fas fa-sync"></i> Heapify Process</h3>
-              <p>O(log n) per extraction for n elements</p>
-            </div>
-            <div class="point-card">
-              <h3><i class="fas fa-calculator"></i> Total Time</h3>
-              <p>O(n log n) for all cases</p>
-            </div>
-          </div>
-
-          <!-- Advantages Section -->
-          <div class="section">
-            <h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Consistent Performance</h3>
-                <p>O(n log n) time in all cases</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space Efficient</h3>
-                <p>Only requires O(1) additional space</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Predictable</h3>
-                <p>No worst-case scenarios like Quick Sort</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li style="margin-bottom: 10px">Implementing priority queues</li>
+<li style="margin-bottom: 10px">External sorting algorithms</li>
+<li>K-way merge algorithms</li>
+</ul>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>Heap Sort has consistent time complexity in all cases:</p>
+<div class="point-card" style="margin-top: 20px">
+<h3><i class="fas fa-tree"></i> Building Heap</h3>
+<p>O(n) time to build the initial heap</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync"></i> Heapify Process</h3>
+<p>O(log n) per extraction for n elements</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-calculator"></i> Total Time</h3>
+<p>O(n log n) for all cases</p>
+</div>
+</div>
+<!-- Advantages Section -->
+<div class="section">
+<h2><i class="fas fa-thumbs-up"></i> Advantages</h2>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Consistent Performance</h3>
+<p>O(n log n) time in all cases</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space Efficient</h3>
+<p>Only requires O(1) additional space</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Predictable</h3>
+<p>No worst-case scenarios like Quick Sort</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const arrayInput = document.getElementById("array-input");
       const randomBtn = document.getElementById("random-btn");
@@ -1545,5 +1523,5 @@ print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
         });
       });
     </script>
-  </body>
+</body>
 </html>

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bead Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bead Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -666,178 +661,184 @@
         animation: fall 1s ease-in-out forwards;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Bead Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_bead.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Bead Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_bead.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bead Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_bead.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Bead Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Bead Sort</h1>
+<div class="category">
+<i class="fas fa-grip-lines-vertical"></i> Gravity Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Bead Sort</h1>
-        <div class="category">
-          <i class="fas fa-grip-lines-vertical"></i> Gravity Sorting Algorithm
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Time Complexity: O(S) where S is sum of input
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Bead Sort (also known as Gravity Sort) is a natural sorting
               algorithm that mimics beads falling under gravity. It works by
               representing positive integers as beads on vertical rods. When the
               beads are allowed to fall, they arrange themselves in sorted order
               due to gravity.
             </p>
-            <p>
+<p>
               This algorithm is unique because it doesn't compare elements.
               Instead, it leverages the physical properties of gravity to sort
               numbers. Bead sort is efficient for sorting lists of positive
               integers, especially when the integers are small, but becomes
               impractical for large numbers.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Non-comparison based algorithm that uses gravity</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(S) where S is the sum of the input integers</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n * max) where n is count, max is largest number</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Physical simulation of beads falling on vertical rods</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Non-comparison based algorithm that uses gravity</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(S) where S is the sum of the input integers</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n * max) where n is count, max is largest number</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Physical simulation of beads falling on vertical rods</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Bead Sort
               works. Enter comma-separated positive integers, then run the
               simulation to see beads fall under gravity and arrange into sorted
               order.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Bead Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Bead Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="settingsBtn">
-                    <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settingsBtn">
+<i class="fas fa-cog"></i> Settings
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="beadViz">
-                <div class="bead-container">
-                  <div class="action-label" id="actionLabel">
+</div>
+</div>
+<div class="visualization-area" id="beadViz">
+<div class="bead-container">
+<div class="action-label" id="actionLabel">
                     Initializing beads...
                   </div>
-                  <div class="frame" id="frame"></div>
-                  <div class="step-info" id="stepInfo">
+<div class="frame" id="frame"></div>
+<div class="step-info" id="stepInfo">
                     Step 0: Initial setup
                   </div>
-                  <div class="sorted-array" id="sortedArray"></div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="inputArray"
-                  placeholder="Enter positive integers (e.g., 3, 1, 4, 2)"
-                  value="3, 1, 4, 2"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+<div class="sorted-array" id="sortedArray"></div>
+</div>
+</div>
+<div class="console-input">
+<input id="inputArray" placeholder="Enter positive integers (e.g., 3, 1, 4, 2)" type="text" value="3, 1, 4, 2"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Bead Sort processes data through these physical simulation steps:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-columns"></i> 1. Setup Rods</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-columns"></i> 1. Setup Rods</h3>
+<p>
                   Create vertical rods representing each number in the array.
                   Place beads on each rod according to the number value.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrows-alt-v"></i> 2. Release Beads</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrows-alt-v"></i> 2. Release Beads</h3>
+<p>
                   Release the beads and let them fall under gravity. Beads fall
                   to the lowest available position on their rod.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-sort-amount-down"></i> 3. Collect Results
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sort-amount-down"></i> 3. Collect Results
                 </h3>
-                <p>
+<p>
                   After all beads settle, count the beads on each rod from
                   bottom to top to get the sorted array.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function beadSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function beadSort(arr):
     n = length(arr)
-    if n <= 1: return arr
+    if n &lt;= 1: return arr
     
     max_val = max(arr)
     
@@ -858,7 +859,7 @@
                 beads_in_col += 1
         # Drop beads to bottom
         for row from max_val-1 downto 0:
-            if beads_in_col > 0:
+            if beads_in_col &gt; 0:
                 beads[row][col] = 1
                 beads_in_col -= 1
             else:
@@ -874,27 +875,25 @@
         sorted_arr.append(count)
     
     return sorted_arr</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Bead Sort algorithm. The
               algorithm creates a matrix representation of beads, then simulates
               the falling process before converting the settled beads back into
               sorted numbers.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">bead_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">bead_sort</span>(arr):
     <span class="keyword">if</span> <span class="keyword">not</span> arr:
         <span class="keyword">return</span> []
     
@@ -918,7 +917,7 @@
         
         <span class="comment"># Reset column and drop beads to bottom</span>
         <span class="keyword">for</span> row <span class="keyword">in</span> range(max_val):
-            <span class="keyword">if</span> max_val - row <= beads_in_col:
+            <span class="keyword">if</span> max_val - row &lt;= beads_in_col:
                 beads[row][col] = 1
             <span class="keyword">else</span>:
                 beads[row][col] = 0
@@ -939,102 +938,90 @@ arr = [3, 1, 4, 2]
 sorted_arr = bead_sort(arr)
 print(<span class="string">"Original:"</span>, arr)
 print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Non-comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Gravity-based</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(S)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(S)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n * max)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Non-comparison</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Gravity-based</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(S)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(S)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n * max)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Bead Sort has niche applications where its unique properties are
               advantageous:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Educational demonstrations of non-comparison sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Sorting positive integers in hardware implementations
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Physical computing and mechanical sorting devices
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Situations with small integers and parallel processing
               </li>
-              <li>Visual sorting demonstrations and algorithm education</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Visual sorting demonstrations and algorithm education</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Bead Sort Visualization Logic
       class BeadSortVisualizer {
         constructor(container) {
@@ -1270,5 +1257,5 @@ print(<span class="string">"Sorted:"</span>, sorted_arr)</code></pre>
           });
       });
     </script>
-  </body>
+</body>
 </html>

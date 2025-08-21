@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gnome Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gnome Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -618,189 +613,195 @@
         border-left: 3px solid var(--accent);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Gnome Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_gnome.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Gnome Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_gnome.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Gnome Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_gnome.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Gnome Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Gnome Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Gnome Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n) to O(n²)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Gnome Sort is a simple sorting algorithm that works by repeatedly
               stepping through the list, comparing adjacent elements and
               swapping them if they are in the wrong order. The algorithm gets
               its name from the supposed behavior of a garden gnome sorting
               flower pots.
             </p>
-            <p>
+<p>
               What makes Gnome Sort unique is that after swapping, it steps back
               to check the previous element, similar to how a gnome might check
               the pot behind him. This simple approach requires no nested loops
               and is conceptually similar to insertion sort.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Simple implementation with a single loop</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Simple implementation with a single loop</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   O(n) in best case (already sorted), O(n²) average and worst
                   case
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(1) additional space (in-place algorithm)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Similar to insertion sort but with backward steps</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(1) additional space (in-place algorithm)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Similar to insertion sort but with backward steps</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize Gnome Sort in action. Enter a comma-separated list of
               numbers, adjust the speed, and step through the algorithm to see
               each stage of the sorting process. The garden gnome will show you
               the current position being examined.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Gnome Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Gnome Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="step-btn">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div id="gnome-container"></div>
-                <div class="stats-container">
-                  <div class="stat-item">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div id="gnome-container"></div>
+<div class="stats-container">
+<div class="stat-item">
                     Comparisons: <span id="comparison-count">0</span>
-                  </div>
-                  <div class="stat-item">
+</div>
+<div class="stat-item">
                     Swaps: <span id="swap-count">0</span>
-                  </div>
-                  <div class="stat-item">
+</div>
+<div class="stat-item">
                     Position: <span id="position">0</span>
-                  </div>
-                </div>
-                <div id="explanation" class="explanation"></div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="38, 27, 43, 3, 9, 82, 10, 15"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="explanation" id="explanation"></div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="38, 27, 43, 3, 9, 82, 10, 15"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Gnome Sort works by moving a "gnome" through the array to sort
               flower pots:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-walking"></i> 1. Start at Index 0</h3>
-                <p>The gnome starts at the first position (index 0)</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-right"></i> 2. Move Forward</h3>
-                <p>If the current pot is in order, move to the next position</p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-exchange-alt"></i> 3. Swap and Step Back
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-walking"></i> 1. Start at Index 0</h3>
+<p>The gnome starts at the first position (index 0)</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-right"></i> 2. Move Forward</h3>
+<p>If the current pot is in order, move to the next position</p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 3. Swap and Step Back
                 </h3>
-                <p>
+<p>
                   If the current pot is out of order, swap it with the previous
                   pot and step back one position
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-home"></i> 4. Beginning Check</h3>
-                <p>If at the beginning (index 0), move forward after swap</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-home"></i> 4. Beginning Check</h3>
+<p>If at the beginning (index 0), move forward after swap</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-flag-checkered"></i> 5. Completion</h3>
+<p>
                   When the gnome reaches the end of the array, sorting is
                   complete
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure gnomeSort(A: list of sortable items)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure gnomeSort(A: list of sortable items)
     pos = 0  // Current position of the gnome
     
-    while pos < length(A)
-        if pos == 0 or A[pos] >= A[pos-1]
+    while pos &lt; length(A)
+        if pos == 0 or A[pos] &gt;= A[pos-1]
             // Pot is in order, move forward
             pos = pos + 1
         else
@@ -808,35 +809,33 @@
             swap(A[pos], A[pos-1])
             // Step back to check the previous pot
             pos = pos - 1</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Gnome Sort. The algorithm uses
               a single loop and moves either forward or backward depending on
               the comparison result.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">gnome_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">gnome_sort</span>(arr):
     <span class="comment"># Start at the first position</span>
     pos = 0
     n = len(arr)
     
-    <span class="keyword">while</span> pos < n:
+    <span class="keyword">while</span> pos &lt; n:
         <span class="keyword">if</span> pos == 0:
             <span class="comment"># At the beginning, move forward</span>
             pos += 1
-        <span class="keyword">elif</span> arr[pos] >= arr[pos - 1]:
+        <span class="keyword">elif</span> arr[pos] &gt;= arr[pos - 1]:
             <span class="comment"># Elements in order, move forward</span>
             pos += 1
         <span class="keyword">else</span>:
@@ -851,126 +850,111 @@ arr = [38, 27, 43, 3, 9, 82, 10, 15]
 sorted_arr = gnome_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)
 <span class="comment"># Output: Sorted array: [3, 9, 10, 15, 27, 38, 43, 82]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n²)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Gnome Sort is useful in specific scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Gnome Sort is useful in specific scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Educational purposes due to its simplicity
               </li>
-              <li style="margin-bottom: 10px">Sorting small datasets</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Sorting small datasets</li>
+<li style="margin-bottom: 10px">
                 Embedded systems with limited resources
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Situations where code simplicity is prioritized
               </li>
-              <li>As a teaching tool for sorting algorithms</li>
-            </ul>
-          </div>
-
-          <!-- Analogy Section -->
-          <div class="section">
-            <h2><i class="fas fa-seedling"></i> Garden Gnome Analogy</h2>
-            <p>
+<li>As a teaching tool for sorting algorithms</li>
+</ul>
+</div>
+<!-- Analogy Section -->
+<div class="section">
+<h2><i class="fas fa-seedling"></i> Garden Gnome Analogy</h2>
+<p>
               The algorithm is named after the supposed method a garden gnome
               would use to sort a line of flower pots:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 The gnome stands in front of the first pot
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 If the current pot is in order, he steps to the next
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 If pots are out of order, he swaps them and steps back
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 When he reaches the end, the pots are sorted
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Gnome Sort Visualization
       class GnomeSortVisualizer {
         constructor(container, stats, explanation) {
@@ -1228,5 +1212,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)
           });
       });
     </script>
-  </body>
+</body>
 </html>

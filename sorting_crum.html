@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crumsort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crumsort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -630,189 +625,194 @@
         border: 1px dashed var(--accent-light);
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-bolt"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Crumsort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_crum.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Crumsort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_crum.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Crumsort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_crum.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-bolt"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Crumsort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Crumsort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Cache-Optimized Sorting
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Crumsort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Cache-Optimized Sorting
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Crumsort is a state-of-the-art hybrid sorting algorithm developed
               by Andrey Astrelin. It combines the best features of Quicksort,
               Mergesort, and Insertion Sort while optimizing for modern CPU
               cache architectures. Crumsort achieves high performance through
               cache-aware partitioning and efficient memory access patterns.
             </p>
-            <p>
+<p>
               The algorithm is designed to minimize cache misses and branch
               mispredictions, making it one of the fastest comparison sorts for
               real-world data. Crumsort is particularly effective on large
               datasets and performs well on both random and partially ordered
               data.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+<p>
                   O(n log n) worst-case, outperforms std::sort and other
                   standard sorts
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-microchip"></i> Cache Optimization</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-microchip"></i> Cache Optimization</h3>
+<p>
                   Designed to minimize cache misses and maximize cache
                   utilization
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-layer-group"></i> Hybrid Approach</h3>
-                <p>Combines Quicksort, Mergesort, and Insertion Sort</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Memory Efficiency</h3>
-                <p>O(1) auxiliary space with O(log n) stack space</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-layer-group"></i> Hybrid Approach</h3>
+<p>Combines Quicksort, Mergesort, and Insertion Sort</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Memory Efficiency</h3>
+<p>O(1) auxiliary space with O(log n) stack space</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Crumsort works.
               Enter comma-separated numbers and step through the algorithm to
               see its cache-optimized partitioning and sorting process.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Crumsort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Crumsort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button id="step-btn" class="console-btn secondary">
-                    <i class="fas fa-step-forward"></i> Step
+<div class="console-controls">
+<button class="console-btn secondary" id="step-btn">
+<i class="fas fa-step-forward"></i> Step
                   </button>
-                  <button id="run-btn" class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button id="reset-btn" class="console-btn secondary">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button id="speed-btn" class="console-btn secondary">
-                    <i class="fas fa-running"></i> Speed: Medium
+<button class="console-btn secondary" id="speed-btn">
+<i class="fas fa-running"></i> Speed: Medium
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="array-container" id="array-container">
-                  <!-- Array elements will be generated here -->
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  id="array-input"
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                  value="7, 3, 5, 1, 9, 4, 8, 2, 6"
-                />
-                <button id="random-btn" class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area">
+<div class="array-container" id="array-container">
+<!-- Array elements will be generated here -->
+</div>
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text" value="7, 3, 5, 1, 9, 4, 8, 2, 6"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div id="status" class="status-bar">
+</div>
+<div class="status-bar" id="status">
                 Enter numbers and click Run or Step
               </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Crumsort processes the array through a series of cache-optimized
               steps:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-th-large"></i> 1. Small Block Handling</h3>
-                <p>For small blocks (≤ 64 elements), use Insertion Sort</p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-boxes"></i> 2. Cache Block Partitioning
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-th-large"></i> 1. Small Block Handling</h3>
+<p>For small blocks (≤ 64 elements), use Insertion Sort</p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-boxes"></i> 2. Cache Block Partitioning
                 </h3>
-                <p>
+<p>
                   Partition array into cache-friendly blocks (typically 256-1024
                   elements)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-code-branch"></i> 3. Quad Partitioning</h3>
-                <p>Partition each block into four segments using two pivots</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-merge"></i> 4. Recursive Sorting</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-code-branch"></i> 3. Quad Partitioning</h3>
+<p>Partition each block into four segments using two pivots</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-merge"></i> 4. Recursive Sorting</h3>
+<p>
                   Recursively sort partitions, switching to Insertion Sort for
                   small segments
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-exchange-alt"></i> 5. Efficient Merging
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 5. Efficient Merging
                 </h3>
-                <p>Merge sorted segments using cache-friendly operations</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function crumsort(arr, low, high):
+<p>Merge sorted segments using cache-friendly operations</p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function crumsort(arr, low, high):
     // Use insertion sort for small arrays
-    if high - low <= 64:
+    if high - low &lt;= 64:
         insertion_sort(arr, low, high)
         return
     
@@ -825,22 +825,22 @@
     c = high
     d = high
     
-    while b <= c:
-        if arr[b] < pivot1:
+    while b &lt;= c:
+        if arr[b] &lt; pivot1:
             swap arr[a] and arr[b]
             a++
             b++
-        else if arr[b] < pivot2:
+        else if arr[b] &lt; pivot2:
             b++
         else:
             swap arr[b] and arr[c]
             c--
         
-        if arr[c] > pivot2:
+        if arr[c] &gt; pivot2:
             swap arr[c] and arr[d]
             d--
             c--
-        else if arr[c] < pivot1:
+        else if arr[c] &lt; pivot1:
             swap arr[c] and arr[b]
             b++
     
@@ -854,29 +854,27 @@ function insertion_sort(arr, low, high):
     for i from low+1 to high:
         key = arr[i]
         j = i - 1
-        while j >= low and arr[j] > key:
+        while j &gt;= low and arr[j] &gt; key:
             arr[j+1] = arr[j]
             j--
         arr[j+1] = key</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of Crumsort. The algorithm uses
               cache-friendly partitioning and efficient pivot selection:
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">crumsort</span>(arr, low=None, high=None):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">crumsort</span>(arr, low=None, high=None):
     <span class="keyword">if</span> low <span class="keyword">is</span> None:
         low = 0
     <span class="keyword">if</span> high <span class="keyword">is</span> None:
@@ -885,35 +883,35 @@ function insertion_sort(arr, low, high):
     size = high - low + 1
     
     <span class="comment"># Use insertion sort for small arrays</span>
-    <span class="keyword">if</span> size <= 64:
+    <span class="keyword">if</span> size &lt;= 64:
         insertion_sort(arr, low, high)
         <span class="keyword">return</span>
     
     <span class="comment"># Select pivots using Tukey's ninther method</span>
     pivot1, pivot2 = select_pivots(arr, low, high)
     
-    <span class="comment"># Quad partition: [ < p1 | p1 <= x < p2 | p2 <= x | > p2 ]</span>
+    <span class="comment"># Quad partition: [ &lt; p1 | p1 &lt;= x &lt; p2 | p2 &lt;= x | &gt; p2 ]</span>
     a = low
     b = low
     c = high
     d = high
     
-    <span class="keyword">while</span> b <= c:
-        <span class="keyword">if</span> arr[b] < pivot1:
+    <span class="keyword">while</span> b &lt;= c:
+        <span class="keyword">if</span> arr[b] &lt; pivot1:
             arr[a], arr[b] = arr[b], arr[a]
             a += 1
             b += 1
-        <span class="keyword">elif</span> arr[b] < pivot2:
+        <span class="keyword">elif</span> arr[b] &lt; pivot2:
             b += 1
         <span class="keyword">else</span>:
             arr[b], arr[c] = arr[c], arr[b]
             c -= 1
         
-        <span class="keyword">if</span> c >= b <span class="keyword">and</span> arr[c] > pivot2:
+        <span class="keyword">if</span> c &gt;= b <span class="keyword">and</span> arr[c] &gt; pivot2:
             arr[c], arr[d] = arr[d], arr[c]
             d -= 1
             c -= 1
-        <span class="keyword">elif</span> c >= b <span class="keyword">and</span> arr[c] < pivot1:
+        <span class="keyword">elif</span> c &gt;= b <span class="keyword">and</span> arr[c] &lt; pivot1:
             arr[c], arr[b] = arr[b], arr[c]
             b += 1
     
@@ -927,7 +925,7 @@ function insertion_sort(arr, low, high):
     <span class="keyword">for</span> i <span class="keyword">in</span> range(low + 1, high + 1):
         key = arr[i]
         j = i - 1
-        <span class="keyword">while</span> j >= low <span class="keyword">and</span> arr[j] > key:
+        <span class="keyword">while</span> j &gt;= low <span class="keyword">and</span> arr[j] &gt; key:
             arr[j + 1] = arr[j]
             j -= 1
         arr[j + 1] = key
@@ -952,137 +950,121 @@ function insertion_sort(arr, low, high):
 arr = [7, 3, 5, 1, 9, 4, 8, 2, 6]
 crumsort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Hybrid</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(1)</div>
-              </div>
-              <div class="property-card">
-                <h4>Cache-Optimized</h4>
-                <div class="value">Yes</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>Crumsort is particularly useful in these scenarios:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Hybrid</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(1)</div>
+</div>
+<div class="property-card">
+<h4>Cache-Optimized</h4>
+<div class="value">Yes</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>Crumsort is particularly useful in these scenarios:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 High-performance computing systems
               </li>
-              <li style="margin-bottom: 10px">Database management systems</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Database management systems</li>
+<li style="margin-bottom: 10px">
                 Big data processing frameworks
               </li>
-              <li style="margin-bottom: 10px">Real-time data processing</li>
-              <li>Scientific computing applications</li>
-            </ul>
-          </div>
-
-          <!-- Performance Comparison Section -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Performance Benchmarks</h2>
-            <p>Crumsort consistently outperforms traditional algorithms:</p>
-            <div style="margin: 15px 0; color: var(--text-secondary)">
-              <div
-                style="
+<li style="margin-bottom: 10px">Real-time data processing</li>
+<li>Scientific computing applications</li>
+</ul>
+</div>
+<!-- Performance Comparison Section -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Performance Benchmarks</h2>
+<p>Crumsort consistently outperforms traditional algorithms:</p>
+<div style="margin: 15px 0; color: var(--text-secondary)">
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 5px;
-                "
-              >
-                <span>Random Data:</span>
-                <span>~2.5x faster than Quicksort</span>
-              </div>
-              <div
-                style="
+                ">
+<span>Random Data:</span>
+<span>~2.5x faster than Quicksort</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 5px;
-                "
-              >
-                <span>Partially Sorted:</span>
-                <span>~3x faster than Mergesort</span>
-              </div>
-              <div
-                style="
+                ">
+<span>Partially Sorted:</span>
+<span>~3x faster than Mergesort</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 5px;
-                "
-              >
-                <span>Worst-case:</span>
-                <span>~4x faster than Heapsort</span>
-              </div>
-              <div style="display: flex; justify-content: space-between">
-                <span>Cache Efficiency:</span>
-                <span>~60% fewer cache misses</span>
-              </div>
-            </div>
-            <div
-              style="
+                ">
+<span>Worst-case:</span>
+<span>~4x faster than Heapsort</span>
+</div>
+<div style="display: flex; justify-content: space-between">
+<span>Cache Efficiency:</span>
+<span>~60% fewer cache misses</span>
+</div>
+</div>
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: 8px;
                 padding: 15px;
                 margin-top: 15px;
-              "
-            >
-              <h4
-                style="
+              ">
+<h4 style="
                   color: var(--accent-light);
                   text-align: center;
                   margin-bottom: 10px;
-                "
-              >
+                ">
                 Relative Speed (Higher is better)
               </h4>
-              <div
-                style="
+<div style="
                   display: flex;
                   align-items: flex-end;
                   height: 120px;
@@ -1090,93 +1072,74 @@ print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
                   justify-content: center;
                   border-bottom: 1px solid var(--text-secondary);
                   padding-bottom: 5px;
-                "
-              >
-                <div
-                  style="
+                ">
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="
+                  ">
+<div style="
                       width: 30px;
                       height: 100px;
                       background: var(--accent);
-                    "
-                  ></div>
-                  <div>Crumsort</div>
-                </div>
-                <div
-                  style="
+                    "></div>
+<div>Crumsort</div>
+</div>
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="
+                  ">
+<div style="
                       width: 30px;
                       height: 65px;
                       background: var(--accent-light);
-                    "
-                  ></div>
-                  <div>Quicksort</div>
-                </div>
-                <div
-                  style="
+                    "></div>
+<div>Quicksort</div>
+</div>
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="
+                  ">
+<div style="
                       width: 30px;
                       height: 60px;
                       background: var(--success);
-                    "
-                  ></div>
-                  <div>Mergesort</div>
-                </div>
-                <div
-                  style="
+                    "></div>
+<div>Mergesort</div>
+</div>
+<div style="
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                  "
-                >
-                  <div
-                    style="
+                  ">
+<div style="
                       width: 30px;
                       height: 40px;
                       background: var(--warning);
-                    "
-                  ></div>
-                  <div>Heapsort</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="#"><i class="fas fa-book"></i> Documentation</a>
-          <a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
-          <a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
-          <a href="#"><i class="fas fa-bug"></i> Report Issue</a>
-          <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+                    "></div>
+<div>Heapsort</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="#"><i class="fas fa-book"></i> Documentation</a>
+<a href="#"><i class="fas fa-code-branch"></i> Contribute</a>
+<a href="#"><i class="fas fa-chalkboard-teacher"></i> Tutorials</a>
+<a href="#"><i class="fas fa-bug"></i> Report Issue</a>
+<a href="#"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Crumsort Visualization
       let array = [7, 3, 5, 1, 9, 4, 8, 2, 6];
       let stack = [];
@@ -1530,5 +1493,5 @@ print(<span class="string">"Sorted array:"</span>, arr)</code></pre>
       // Initialize
       initVisualization();
     </script>
-  </body>
+</body>
 </html>

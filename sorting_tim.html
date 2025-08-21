@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TimSort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TimSort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -675,213 +670,200 @@
         border-radius: 5px;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="TimSort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_tim.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="TimSort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_tim.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "TimSort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_tim.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>TimSort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>TimSort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>TimSort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Hybrid Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               TimSort is a hybrid stable sorting algorithm derived from Merge
               Sort and Insertion Sort. Designed to perform well on real-world
               data, it is the default sorting algorithm in Python, Java, and
               Android.
             </p>
-            <p>
+<p>
               TimSort works by identifying "runs" (either strictly
               non-decreasing or strictly decreasing sequences), sorting small
               runs with Insertion Sort, and then merging runs efficiently using
               a method similar to Merge Sort. It's optimized to take advantage
               of partially ordered data.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Optimized for real-world data with existing ordering</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n) best case (already sorted), O(n log n) worst case</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>O(n) worst-case space complexity</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>Hybrid of Insertion Sort and optimized Merge Sort</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Optimized for real-world data with existing ordering</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n) best case (already sorted), O(n log n) worst case</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>O(n) worst-case space complexity</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>Hybrid of Insertion Sort and optimized Merge Sort</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Visualize TimSort in action! The visualization shows how TimSort
               identifies runs, sorts them with Insertion Sort, and then merges
               them efficiently. Enter numbers or generate a random array to see
               the algorithm work.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> TimSort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> TimSort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="viz-area">
-                <div class="array-container" id="array-container"></div>
-
-                <div class="stats-bar" id="stats-bar">
-                  <div class="stats-item">
-                    <i
-                      class="fas fa-layer-group"
-                      style="color: var(--accent-light)"
-                    ></i>
-                    <span>Runs: <span id="run-count">0</span></span>
-                  </div>
-                  <div class="stats-item">
-                    <i
-                      class="fas fa-exchange-alt"
-                      style="color: var(--success)"
-                    ></i>
-                    <span>Merges: <span id="merge-count">0</span></span>
-                  </div>
-                </div>
-
-                <div class="run-info">Min Run: <span id="min-run">4</span></div>
-
-                <div class="step-info" id="step-info">
+</div>
+</div>
+<div class="visualization-area" id="viz-area">
+<div class="array-container" id="array-container"></div>
+<div class="stats-bar" id="stats-bar">
+<div class="stats-item">
+<i class="fas fa-layer-group" style="color: var(--accent-light)"></i>
+<span>Runs: <span id="run-count">0</span></span>
+</div>
+<div class="stats-item">
+<i class="fas fa-exchange-alt" style="color: var(--success)"></i>
+<span>Merges: <span id="merge-count">0</span></span>
+</div>
+</div>
+<div class="run-info">Min Run: <span id="min-run">4</span></div>
+<div class="step-info" id="step-info">
                   Ready to visualize TimSort!
                 </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="array-input"
-                  value="5, 2, 8, 3, 9, 1, 6, 4, 7, 10, 15, 12, 18, 11, 14, 13, 17, 16, 19, 20"
-                  placeholder="Enter numbers (e.g., 5, 2, 8, 3, 9, 1, 6, 4, 7)"
-                />
-                <button class="console-btn" id="random-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+<div class="console-input">
+<input id="array-input" placeholder="Enter numbers (e.g., 5, 2, 8, 3, 9, 1, 6, 4, 7)" type="text" value="5, 2, 8, 3, 9, 1, 6, 4, 7, 10, 15, 12, 18, 11, 14, 13, 17, 16, 19, 20"/>
+<button class="console-btn" id="random-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-
-              <div class="controls">
-                <div class="speed-control">
-                  <i
-                    class="fas fa-tachometer-alt"
-                    style="color: var(--accent-light)"
-                  ></i>
-                  <input
-                    type="range"
-                    id="speed-slider"
-                    min="1"
-                    max="10"
-                    value="5"
-                  />
-                  <span id="speed-value">Medium</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+<div class="controls">
+<div class="speed-control">
+<i class="fas fa-tachometer-alt" style="color: var(--accent-light)"></i>
+<input id="speed-slider" max="10" min="1" type="range" value="5"/>
+<span id="speed-value">Medium</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               TimSort combines the efficiency of Insertion Sort for small runs
               with the power of Merge Sort for larger sequences:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-search"></i> 1. Identify Runs</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-search"></i> 1. Identify Runs</h3>
+<p>
                   Traverse the array to find natural runs (ascending or strictly
                   descending sequences).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-expand"></i> 2. Extend Runs</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-expand"></i> 2. Extend Runs</h3>
+<p>
                   Extend short runs to minrun length using Insertion Sort
                   (default minrun is 32-64).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sort"></i> 3. Sort Small Runs</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sort"></i> 3. Sort Small Runs</h3>
+<p>
                   Use Insertion Sort to sort runs that are shorter than minrun.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-code-branch"></i> 4. Merge Runs</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-code-branch"></i> 4. Merge Runs</h3>
+<p>
                   Merge runs using a stack-based approach, favoring runs of
                   similar size.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 5. Galloping Mode</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 5. Galloping Mode</h3>
+<p>
                   Use "galloping" optimization during merges for long stretches
                   of elements.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function timSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function timSort(arr):
     minrun = calculateMinRun(len(arr))
     
     // Sort individual runs of size minrun
@@ -891,7 +873,7 @@
     
     // Merge runs
     size = minrun
-    while size < len(arr):
+    while size &lt; len(arr):
         for left from 0 to len(arr) by 2*size:
             mid = min(len(arr)-1, left + size - 1)
             right = min(len(arr)-1, left + 2*size - 1)
@@ -901,7 +883,7 @@
 function insertionSort(arr, left, right):
     for i from left+1 to right:
         j = i
-        while j > left and arr[j] < arr[j-1]:
+        while j &gt; left and arr[j] &lt; arr[j-1]:
             swap arr[j] and arr[j-1]
             j -= 1
 
@@ -912,8 +894,8 @@ function merge(arr, l, m, r):
     right = arr[m+1..r]
     
     i = 0, j = 0, k = l
-    while i < len1 and j < len2:
-        if left[i] <= right[j]:
+    while i &lt; len1 and j &lt; len2:
+        if left[i] &lt;= right[j]:
             arr[k] = left[i]
             i += 1
         else:
@@ -922,34 +904,32 @@ function merge(arr, l, m, r):
         k += 1
     
     // Copy remaining elements
-    while i < len1:
+    while i &lt; len1:
         arr[k] = left[i]
         i += 1
         k += 1
-    while j < len2:
+    while j &lt; len2:
         arr[k] = right[j]
         j += 1
         k += 1</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a simplified Python implementation of TimSort. Note that
               the actual implementation includes optimizations like galloping
               mode and run-length adjustment.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">tim_sort</span>(arr):
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">tim_sort</span>(arr):
     minrun = 32
     n = len(arr)
     
@@ -960,18 +940,18 @@ function merge(arr, l, m, r):
     
     <span class="comment"># Merge runs</span>
     size = minrun
-    <span class="keyword">while</span> size < n:
+    <span class="keyword">while</span> size &lt; n:
         <span class="keyword">for</span> left <span class="keyword">in</span> range(0, n, 2 * size):
             mid = min(n - 1, left + size - 1)
             right = min(n - 1, left + 2 * size - 1)
-            <span class="keyword">if</span> mid < right:
+            <span class="keyword">if</span> mid &lt; right:
                 merge(arr, left, mid, right)
         size = 2 * size
 
 <span class="keyword">def</span> <span class="function">insertion_sort</span>(arr, left, right):
     <span class="keyword">for</span> i <span class="keyword">in</span> range(left + 1, right + 1):
         j = i
-        <span class="keyword">while</span> j > left <span class="keyword">and</span> arr[j] < arr[j - 1]:
+        <span class="keyword">while</span> j &gt; left <span class="keyword">and</span> arr[j] &lt; arr[j - 1]:
             arr[j], arr[j - 1] = arr[j - 1], arr[j]
             j -= 1
 
@@ -984,8 +964,8 @@ function merge(arr, l, m, r):
     i = j = 0
     k = l
     
-    <span class="keyword">while</span> i < len1 <span class="keyword">and</span> j < len2:
-        <span class="keyword">if</span> left[i] <= right[j]:
+    <span class="keyword">while</span> i &lt; len1 <span class="keyword">and</span> j &lt; len2:
+        <span class="keyword">if</span> left[i] &lt;= right[j]:
             arr[k] = left[i]
             i += 1
         <span class="keyword">else</span>:
@@ -993,12 +973,12 @@ function merge(arr, l, m, r):
             j += 1
         k += 1
     
-    <span class="keyword">while</span> i < len1:
+    <span class="keyword">while</span> i &lt; len1:
         arr[k] = left[i]
         i += 1
         k += 1
     
-    <span class="keyword">while</span> j < len2:
+    <span class="keyword">while</span> j &lt; len2:
         arr[k] = right[j]
         j += 1
         k += 1
@@ -1007,208 +987,180 @@ function merge(arr, l, m, r):
 arr = [5, 2, 8, 3, 9, 1, 6, 4, 7]
 tim_sort(arr)
 print(<span class="string">"Sorted array:"</span>, arr)  <span class="comment"># Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Hybrid</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>TimSort is widely used in programming languages and systems:</p>
-            <ul
-              style="
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Hybrid</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>TimSort is widely used in programming languages and systems:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Default sorting algorithm in Python (since 2.3)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Used in Java for non-primitive arrays (Arrays.sort())
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Android platform for Java API sorting
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 V8 JavaScript engine (used in Chrome and Node.js)
               </li>
-              <li>Sorting large datasets with partial ordering</li>
-            </ul>
-          </div>
-
-          <!-- Advantages/Disadvantages Section -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-balance-scale"></i> Advantages & Disadvantages
+<li>Sorting large datasets with partial ordering</li>
+</ul>
+</div>
+<!-- Advantages/Disadvantages Section -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Advantages &amp; Disadvantages
             </h2>
-            <div style="margin-top: 20px">
-              <h3 style="color: var(--success); margin-bottom: 10px">
-                <i class="fas fa-check-circle"></i> Advantages
+<div style="margin-top: 20px">
+<h3 style="color: var(--success); margin-bottom: 10px">
+<i class="fas fa-check-circle"></i> Advantages
               </h3>
-              <ul
-                style="
+<ul style="
                   padding-left: 20px;
                   margin-bottom: 20px;
                   color: var(--text-secondary);
-                "
-              >
-                <li style="margin-bottom: 8px">
+                ">
+<li style="margin-bottom: 8px">
                   Highly efficient for real-world data
                 </li>
-                <li style="margin-bottom: 8px">Stable sorting algorithm</li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">Stable sorting algorithm</li>
+<li style="margin-bottom: 8px">
                   Optimized for partially ordered data
                 </li>
-                <li>Linear time complexity for already sorted data</li>
-              </ul>
-
-              <h3 style="color: var(--danger); margin-bottom: 10px">
-                <i class="fas fa-exclamation-circle"></i> Disadvantages
+<li>Linear time complexity for already sorted data</li>
+</ul>
+<h3 style="color: var(--danger); margin-bottom: 10px">
+<i class="fas fa-exclamation-circle"></i> Disadvantages
               </h3>
-              <ul style="padding-left: 20px; color: var(--text-secondary)">
-                <li style="margin-bottom: 8px">
+<ul style="padding-left: 20px; color: var(--text-secondary)">
+<li style="margin-bottom: 8px">
                   More complex to implement than basic algorithms
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Requires O(n) additional space
                 </li>
-                <li style="margin-bottom: 8px">
+<li style="margin-bottom: 8px">
                   Not a strictly in-place algorithm
                 </li>
-                <li>Constant factors are higher than simpler algorithms</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- Complexity Analysis -->
-          <div class="section">
-            <h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
-            <p style="margin-bottom: 15px">
+<li>Constant factors are higher than simpler algorithms</li>
+</ul>
+</div>
+</div>
+<!-- Complexity Analysis -->
+<div class="section">
+<h2><i class="fas fa-chart-bar"></i> Complexity Analysis</h2>
+<p style="margin-bottom: 15px">
               TimSort's performance adapts to the input data characteristics:
             </p>
-            <div
-              style="
+<div style="
                 background: rgba(15, 23, 42, 0.5);
                 border-radius: var(--radius);
                 padding: 15px;
-              "
-            >
-              <div
-                style="
+              ">
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Best Case:</span>
-                <span
-                  style="
+                ">
+<span>Best Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n)</span
-                >
-              </div>
-              <div
-                style="
+                  ">O(n)</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Average Case:</span>
-                <span
-                  style="
+                ">
+<span>Average Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n log n)</span
-                >
-              </div>
-              <div
-                style="
+                  ">O(n log n)</span>
+</div>
+<div style="
                   display: flex;
                   justify-content: space-between;
                   margin-bottom: 10px;
-                "
-              >
-                <span>Worst Case:</span>
-                <span
-                  style="
+                ">
+<span>Worst Case:</span>
+<span style="
                     font-family: 'Roboto Mono', monospace;
                     color: var(--accent-light);
-                  "
-                  >O(n log n)</span
-                >
-              </div>
-              <div style="margin-top: 15px">
-                <p style="color: var(--text-secondary); font-size: 15px">
+                  ">O(n log n)</span>
+</div>
+<div style="margin-top: 15px">
+<p style="color: var(--text-secondary); font-size: 15px">
                   The algorithm performs exceptionally well on partially sorted
                   data, with performance approaching O(n) when the data has
                   significant existing order.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1566,5 +1518,5 @@ print(<span class="string">"Sorted array:"</span>, arr)  <span class="comment">#
         speedSlider.dispatchEvent(new Event("input"));
       });
     </script>
-  </body>
+</body>
 </html>

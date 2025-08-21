@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Raft Consensus | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="description"/><meta content="distributed consensus, consensus algorithm, raft, paxos, epaxos, zab, 2pc, 3pc, bft, vsr" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Raft Consensus | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -762,218 +757,222 @@
         color: #79c0ff;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-network-wired"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Distributed Algorithms</a> >
+<meta content="Raft Consensus | AlgoViz Hub" property="og:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/distributed_consensus_raft.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Raft Consensus | AlgoViz Hub" name="twitter:title"/><meta content="Understand distributed consensus algorithms used in distributed systems and databases" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/distributed_consensus_raft.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Raft Consensus | AlgoViz Hub",
+  "description": "Understand distributed consensus algorithms used in distributed systems and databases",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/distributed_consensus_raft.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-network-wired"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Distributed Algorithms</a> &gt;
               <span>Raft Consensus</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Raft Consensus</h1>
+<div class="category">
+<i class="fas fa-server"></i> Distributed Consensus Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Raft Consensus</h1>
-        <div class="category">
-          <i class="fas fa-server"></i> Distributed Consensus Algorithm
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Fault-tolerant • Leader-based • Log Replication
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Raft is a consensus algorithm designed to manage a replicated log
               across multiple servers in a distributed system. It ensures that
               all machines agree on the same sequence of state machine commands,
               even in the presence of failures.
             </p>
-            <p>
+<p>
               Raft separates consensus into three key subproblems:
               <strong>Leader election</strong> (choosing a leader for each
               term), <strong>Log replication</strong> (propagating commands to
               followers), and <strong>Safety</strong> (ensuring consistency
               across the cluster).
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-crown"></i> Leader Election</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-crown"></i> Leader Election</h3>
+<p>
                   Nodes elect a leader who manages log replication. If no leader
                   exists, an election starts.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-copy"></i> Log Replication</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-copy"></i> Log Replication</h3>
+<p>
                   Leader appends commands to its log, then replicates to
                   followers.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-shield-alt"></i> Safety</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-shield-alt"></i> Safety</h3>
+<p>
                   Ensures logs are consistent across nodes and only committed
                   entries are applied.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-heartbeat"></i> Heartbeats</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-heartbeat"></i> Heartbeats</h3>
+<p>
                   Leader sends periodic heartbeats to maintain authority and
                   prevent new elections.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Raft consensus
               works in a distributed system. The simulation shows a cluster of 5
               nodes with their current state (leader, follower, candidate). You
               can add commands, trigger failures, and observe how the cluster
               maintains consistency.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-network-wired"></i> Raft Cluster
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-network-wired"></i> Raft Cluster
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn" id="reset-btn">
-                    <i class="fas fa-redo"></i> Reset
+<div class="console-controls">
+<button class="console-btn" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                  <button class="console-btn" id="run-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="run-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area" id="visualization-area">
-                <div class="status-message" id="status-message">
+</div>
+</div>
+<div class="visualization-area" id="visualization-area">
+<div class="status-message" id="status-message">
                   Cluster starting up...
                 </div>
-                <div class="cluster-container" id="cluster-container">
-                  <!-- Nodes will be dynamically added here -->
-                </div>
-              </div>
-
-              <div class="controls-row">
-                <button class="console-btn secondary" id="add-cmd-btn">
-                  <i class="fas fa-plus"></i> Add Command
+<div class="cluster-container" id="cluster-container">
+<!-- Nodes will be dynamically added here -->
+</div>
+</div>
+<div class="controls-row">
+<button class="console-btn secondary" id="add-cmd-btn">
+<i class="fas fa-plus"></i> Add Command
                 </button>
-                <button class="console-btn secondary" id="fail-node-btn">
-                  <i class="fas fa-skull"></i> Fail Random Node
+<button class="console-btn secondary" id="fail-node-btn">
+<i class="fas fa-skull"></i> Fail Random Node
                 </button>
-                <button class="console-btn secondary" id="recover-node-btn">
-                  <i class="fas fa-heartbeat"></i> Recover All Nodes
+<button class="console-btn secondary" id="recover-node-btn">
+<i class="fas fa-heartbeat"></i> Recover All Nodes
                 </button>
-              </div>
-
-              <div class="simulation-controls">
-                <span>Slow</span>
-                <input
-                  type="range"
-                  id="speed-slider"
-                  min="50"
-                  max="500"
-                  value="200"
-                />
-                <span>Fast</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+<div class="simulation-controls">
+<span>Slow</span>
+<input id="speed-slider" max="500" min="50" type="range" value="200"/>
+<span>Fast</span>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               Raft operates through a series of well-defined phases to maintain
               consensus:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-vote-yea"></i> 1. Leader Election</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-vote-yea"></i> 1. Leader Election</h3>
+<p>
                   When a follower doesn't receive heartbeats, it becomes a
                   candidate and starts an election. If it receives votes from a
                   majority, it becomes leader.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-heartbeat"></i> 2. Heartbeats</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-heartbeat"></i> 2. Heartbeats</h3>
+<p>
                   The leader sends periodic AppendEntries RPCs (heartbeats) to
                   maintain authority and prevent new elections.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-exchange-alt"></i> 3. Log Replication</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-exchange-alt"></i> 3. Log Replication</h3>
+<p>
                   Leader receives client commands, appends to its log, and sends
                   to followers. When replicated to majority, entry is committed.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-sync-alt"></i> 4. Commit Propagation</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-sync-alt"></i> 4. Commit Propagation</h3>
+<p>
                   Leader informs followers of committed entries in subsequent
                   AppendEntries RPCs. Followers apply committed entries to their
                   state machines.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-user-shield"></i> 5. Safety Mechanisms</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-user-shield"></i> 5. Safety Mechanisms</h3>
+<p>
                   Election safety: Only one leader per term. Leader append-only:
                   Leaders never overwrite or delete entries. Log matching: If
                   two logs contain an entry with same index/term, all preceding
                   entries are identical.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>// Leader election
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// Leader election
 while true:
     if follower and electionTimeout elapses:
         become candidate
         currentTerm += 1
         voteFor = self
         requestVotes from others
-        if votesReceived > n/2:
+        if votesReceived &gt; n/2:
             become leader
             send heartbeats
             
@@ -996,169 +995,151 @@ on client command:
             
 // Safety
 AppendEntries RPC:
-    if term < currentTerm: return false
+    if term &lt; currentTerm: return false
     if log doesn't contain entry at prevLogIndex with prevLogTerm: return false
     append new entries (delete conflicting entries if any)
-    if leaderCommit > commitIndex:
+    if leaderCommit &gt; commitIndex:
         commitIndex = min(leaderCommit, lastLogIndex)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Consensus</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Leader-based</div>
-              </div>
-              <div class="property-card">
-                <h4>Fault Tolerance</h4>
-                <div class="value">(N/2)-1 failures</div>
-              </div>
-              <div class="property-card">
-                <h4>Complexity</h4>
-                <div class="value">O(n) per operation</div>
-              </div>
-              <div class="property-card">
-                <h4>Leader Election</h4>
-                <div class="value">Randomized timeouts</div>
-              </div>
-              <div class="property-card">
-                <h4>Log Replication</h4>
-                <div class="value">Majority commit</div>
-              </div>
-              <div class="property-card">
-                <h4>Safety</h4>
-                <div class="value">Strong consistency</div>
-              </div>
-              <div class="property-card">
-                <h4>Guarantees</h4>
-                <div class="value">Linearizability</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Consensus</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Leader-based</div>
+</div>
+<div class="property-card">
+<h4>Fault Tolerance</h4>
+<div class="value">(N/2)-1 failures</div>
+</div>
+<div class="property-card">
+<h4>Complexity</h4>
+<div class="value">O(n) per operation</div>
+</div>
+<div class="property-card">
+<h4>Leader Election</h4>
+<div class="value">Randomized timeouts</div>
+</div>
+<div class="property-card">
+<h4>Log Replication</h4>
+<div class="value">Majority commit</div>
+</div>
+<div class="property-card">
+<h4>Safety</h4>
+<div class="value">Strong consistency</div>
+</div>
+<div class="property-card">
+<h4>Guarantees</h4>
+<div class="value">Linearizability</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Raft is widely used in distributed systems that require strong
               consistency:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Distributed Databases:</strong> etcd, CockroachDB, TiDB
+              ">
+<li style="margin-bottom: 10px">
+<strong>Distributed Databases:</strong> etcd, CockroachDB, TiDB
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Service Discovery:</strong> Consul
+<li style="margin-bottom: 10px">
+<strong>Service Discovery:</strong> Consul
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Configuration Management:</strong> Kubernetes
+<li style="margin-bottom: 10px">
+<strong>Configuration Management:</strong> Kubernetes
                 configuration stores
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Blockchain Systems:</strong> Private blockchain
+<li style="margin-bottom: 10px">
+<strong>Blockchain Systems:</strong> Private blockchain
                 consensus
               </li>
-              <li>
-                <strong>Distributed File Systems:</strong> Replicated metadata
+<li>
+<strong>Distributed File Systems:</strong> Replicated metadata
                 management
               </li>
-            </ul>
-          </div>
-
-          <!-- Key Concepts Section -->
-          <div class="section">
-            <h2><i class="fas fa-key"></i> Key Concepts</h2>
-            <p>Understanding these terms is crucial for working with Raft:</p>
-            <ul
-              style="
+</ul>
+</div>
+<!-- Key Concepts Section -->
+<div class="section">
+<h2><i class="fas fa-key"></i> Key Concepts</h2>
+<p>Understanding these terms is crucial for working with Raft:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Term:</strong> Logical clock that increases with each
+              ">
+<li style="margin-bottom: 10px">
+<strong>Term:</strong> Logical clock that increases with each
                 election
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Log Entry:</strong> Command with term number when
+<li style="margin-bottom: 10px">
+<strong>Log Entry:</strong> Command with term number when
                 created
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Commit Index:</strong> Highest log entry known to be
+<li style="margin-bottom: 10px">
+<strong>Commit Index:</strong> Highest log entry known to be
                 replicated
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>AppendEntries RPC:</strong> How leaders replicate log
+<li style="margin-bottom: 10px">
+<strong>AppendEntries RPC:</strong> How leaders replicate log
                 entries
               </li>
-              <li><strong>Quorum:</strong> Majority of servers (N/2 + 1)</li>
-            </ul>
-          </div>
-
-          <!-- Comparison Section -->
-          <div class="section">
-            <h2><i class="fas fa-balance-scale"></i> Raft vs Paxos</h2>
-            <p>How Raft compares to the Paxos consensus algorithm:</p>
-            <ul
-              style="
+<li><strong>Quorum:</strong> Majority of servers (N/2 + 1)</li>
+</ul>
+</div>
+<!-- Comparison Section -->
+<div class="section">
+<h2><i class="fas fa-balance-scale"></i> Raft vs Paxos</h2>
+<p>How Raft compares to the Paxos consensus algorithm:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Understandability:</strong> Raft was designed to be
+              ">
+<li style="margin-bottom: 10px">
+<strong>Understandability:</strong> Raft was designed to be
                 easier to understand than Paxos
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Leader Role:</strong> Raft has a strong leader while
+<li style="margin-bottom: 10px">
+<strong>Leader Role:</strong> Raft has a strong leader while
                 Paxos has multiple proposers
               </li>
-              <li>
-                <strong>Membership Changes:</strong> Raft has a defined approach
+<li>
+<strong>Membership Changes:</strong> Raft has a defined approach
                 for cluster configuration changes
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // DOM Elements
       const runBtn = document.getElementById("run-btn");
       const resetBtn = document.getElementById("reset-btn");
@@ -1491,5 +1472,5 @@ AppendEntries RPC:
       // Initialize on load
       window.addEventListener("load", initSimulation);
     </script>
-  </body>
+</body>
 </html>

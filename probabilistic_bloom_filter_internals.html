@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloom Filter Internals Visual Guide</title>
-    <style>
+<head><meta content="Discover probabilistic data structures for approximate computing and big data" name="description"/><meta content="probabilistic data structure, bloom filter, count-min sketch, hyperloglog, flajolet-martin" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bloom Filter Internals Visual Guide</title>
+<style>
         /* ...existing code from homomorphic_encryption.html... */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -215,125 +216,142 @@
         }
         .benefit-icon { font-size: 2.5em; margin-bottom: 10px; }
     </style>
-</head>
+<meta content="Bloom Filter Internals Visual Guide" property="og:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/probabilistic_bloom_filter_internals.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Bloom Filter Internals Visual Guide" name="twitter:title"/><meta content="Discover probabilistic data structures for approximate computing and big data" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/probabilistic_bloom_filter_internals.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bloom Filter Internals Visual Guide",
+  "description": "Discover probabilistic data structures for approximate computing and big data",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/probabilistic_bloom_filter_internals.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>Bloom Filter Internals</h1>
-        <p class="intro">A Bloom Filter is a <span class="magic-box">space-efficient</span> data structure for checking if something <em>might</em> be in a set! 🚦</p>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>What is a Bloom Filter?</h2>
-                <p>
+<div class="container">
+<h1>Bloom Filter Internals</h1>
+<p class="intro">A Bloom Filter is a <span class="magic-box">space-efficient</span> data structure for checking if something <em>might</em> be in a set! 🚦</p>
+<section class="section">
+<div class="visual-box">
+<h2>What is a Bloom Filter?</h2>
+<p>
                     Imagine a super-fast checklist that uses a bit array and multiple hash functions to tell you if an item is <span class="highlight">possibly present</span> or <span class="highlight">definitely absent</span>—all with minimal memory!
                 </p>
-                <div class="demo-container">
-                    <div class="step">
-                        <div class="icon">🗃️</div>
-                        <h3>Bit Array</h3>
-                        <p>A row of bits, all start at 0</p>
-                    </div>
-                    <div class="arrow">→</div>
-                    <div class="step">
-                        <div class="icon">🔢</div>
-                        <h3>Hash Functions</h3>
-                        <p>Each item is hashed several ways</p>
-                    </div>
-                    <div class="arrow">→</div>
-                    <div class="step">
-                        <div class="icon">🔦</div>
-                        <h3>Set Bits</h3>
-                        <p>Hashes set bits in the array</p>
-                    </div>
-                    <div class="arrow">→</div>
-                    <div class="step">
-                        <div class="icon">❓</div>
-                        <h3>Query</h3>
-                        <p>Check bits to answer: "Is it in the set?"</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>🎮 Interactive Demo</h2>
-                <p>Type a word to add it to the Bloom Filter and see how the bits change!</p>
-                <div class="interactive-demo">
-                    <div class="demo-input">
-                        <input type="text" id="bf-input" placeholder="Add item (e.g. apple)">
-                        <button class="demo-button" onclick="addToBloom()">Add</button>
-                        <input type="text" id="bf-query" placeholder="Query item">
-                        <button class="demo-button" onclick="queryBloom()">Query</button>
-                    </div>
-                    <div class="result-display" id="bf-result">
+<div class="demo-container">
+<div class="step">
+<div class="icon">🗃️</div>
+<h3>Bit Array</h3>
+<p>A row of bits, all start at 0</p>
+</div>
+<div class="arrow">→</div>
+<div class="step">
+<div class="icon">🔢</div>
+<h3>Hash Functions</h3>
+<p>Each item is hashed several ways</p>
+</div>
+<div class="arrow">→</div>
+<div class="step">
+<div class="icon">🔦</div>
+<h3>Set Bits</h3>
+<p>Hashes set bits in the array</p>
+</div>
+<div class="arrow">→</div>
+<div class="step">
+<div class="icon">❓</div>
+<h3>Query</h3>
+<p>Check bits to answer: "Is it in the set?"</p>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="visual-box">
+<h2>🎮 Interactive Demo</h2>
+<p>Type a word to add it to the Bloom Filter and see how the bits change!</p>
+<div class="interactive-demo">
+<div class="demo-input">
+<input id="bf-input" placeholder="Add item (e.g. apple)" type="text"/>
+<button class="demo-button" onclick="addToBloom()">Add</button>
+<input id="bf-query" placeholder="Query item" type="text"/>
+<button class="demo-button" onclick="queryBloom()">Query</button>
+</div>
+<div class="result-display" id="bf-result">
                         Add or query an item to see the Bloom Filter in action!
                     </div>
-                    <div class="bit-array" id="bf-bits"></div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>Real-World Example: Web Caching</h2>
-                <div class="example-box">
-                    <p><span class="highlight">Scenario:</span> A browser uses a Bloom Filter to quickly check if a URL is cached.</p>
-                    <div class="demo-container" style="margin-top: 20px;">
-                        <div class="step">
-                            <div class="icon">🌐</div>
-                            <h3>URL</h3>
-                            <p>www.example.com</p>
-                        </div>
-                        <div class="step">
-                            <div class="icon">🔢</div>
-                            <h3>Hash</h3>
-                            <p>Hashes: <span class="highlight">3, 7, 12</span></p>
-                        </div>
-                        <div class="step">
-                            <div class="icon">🗃️</div>
-                            <h3>Set Bits</h3>
-                            <p>Bits 3, 7, 12 set to 1</p>
-                        </div>
-                        <div class="step">
-                            <div class="icon">⚡</div>
-                            <h3>Fast Lookup</h3>
-                            <p>Check bits to see if URL <span class="highlight">might</span> be cached</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section class="section">
-            <div class="visual-box">
-                <h2>Key Benefits</h2>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <div class="benefit-icon">⚡</div>
-                        <h3>Speed</h3>
-                        <p>Super-fast membership checks</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon">💾</div>
-                        <h3>Space Efficiency</h3>
-                        <p>Uses much less memory than storing all items</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon">🚫</div>
-                        <h3>No False Negatives</h3>
-                        <p>If it says "not present", it's definitely not!</p>
-                    </div>
-                    <div class="benefit-card">
-                        <div class="benefit-icon">🔄</div>
-                        <h3>Scalable</h3>
-                        <p>Works for huge sets and streams</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    <script>
+<div class="bit-array" id="bf-bits"></div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="visual-box">
+<h2>Real-World Example: Web Caching</h2>
+<div class="example-box">
+<p><span class="highlight">Scenario:</span> A browser uses a Bloom Filter to quickly check if a URL is cached.</p>
+<div class="demo-container" style="margin-top: 20px;">
+<div class="step">
+<div class="icon">🌐</div>
+<h3>URL</h3>
+<p>www.example.com</p>
+</div>
+<div class="step">
+<div class="icon">🔢</div>
+<h3>Hash</h3>
+<p>Hashes: <span class="highlight">3, 7, 12</span></p>
+</div>
+<div class="step">
+<div class="icon">🗃️</div>
+<h3>Set Bits</h3>
+<p>Bits 3, 7, 12 set to 1</p>
+</div>
+<div class="step">
+<div class="icon">⚡</div>
+<h3>Fast Lookup</h3>
+<p>Check bits to see if URL <span class="highlight">might</span> be cached</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="visual-box">
+<h2>Key Benefits</h2>
+<div class="benefits-grid">
+<div class="benefit-card">
+<div class="benefit-icon">⚡</div>
+<h3>Speed</h3>
+<p>Super-fast membership checks</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">💾</div>
+<h3>Space Efficiency</h3>
+<p>Uses much less memory than storing all items</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🚫</div>
+<h3>No False Negatives</h3>
+<p>If it says "not present", it's definitely not!</p>
+</div>
+<div class="benefit-card">
+<div class="benefit-icon">🔄</div>
+<h3>Scalable</h3>
+<p>Works for huge sets and streams</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<script>
         // Simple Bloom Filter demo (not cryptographically strong)
         const BIT_SIZE = 16;
         let bits = Array(BIT_SIZE).fill(0);

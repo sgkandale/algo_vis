@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HashMap Internal Working</title>
-    <style>
+<head><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="description"/><meta content="algorithm, data structure, computer science, visualization, interactive" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HashMap Internal Working</title>
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -408,290 +409,296 @@
             }
         }
     </style>
-</head>
+<meta content="HashMap Internal Working" property="og:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashmap_internal.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="HashMap Internal Working" name="twitter:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashmap_internal.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "HashMap Internal Working",
+  "description": "Interactive algorithm visualization platform for learning computer science concepts",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashmap_internal.html"
+  }
+}</script></head>
 <body>
-    <div class="container">
-        <h1>🗂️ HashMap Internal Working</h1>
-        <p class="subtitle">How hashmaps achieve O(1) average time complexity for key-value operations</p>
-
-        <!-- Step 1: Hash Function -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">1</div>
-                <span>Hash Function - The Magic Converter</span>
-            </div>
-            <p>The hash function converts any key into an array index. Here's how it works:</p>
-            <div class="hash-demo">
-                <div class="input-box">"apple"</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">
-                    <div>Hash Function</div>
-                    <div style="font-size: 0.9rem; margin-top: 8px;">hash("apple") = 97+112+112+108+101 = 530</div>
-                    <div style="font-size: 0.9rem; margin-top: 5px;">530 % 8 = 2</div>
-                </div>
-                <div class="arrow">→</div>
-                <div class="input-box">Index: 2</div>
-            </div>
-            
-            <div class="hash-demo">
-                <div class="input-box">"banana"</div>
-                <div class="arrow">→</div>
-                <div class="hash-function">
-                    <div>Hash Function</div>
-                    <div style="font-size: 0.9rem; margin-top: 8px;">hash("banana") = 98+97+110+97+110+97 = 609</div>
-                    <div style="font-size: 0.9rem; margin-top: 5px;">609 % 8 = 1</div>
-                </div>
-                <div class="arrow">→</div>
-                <div class="input-box">Index: 1</div>
-            </div>
-        </div>
-
-        <!-- Step 2: Bucket Array -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">2</div>
-                <span>Bucket Array - The Storage Structure</span>
-            </div>
-            <p>The hash function maps keys to indices in an array of "buckets":</p>
-            <div class="bucket-array">
-                <div class="indices">
-                    <div class="index">0</div>
-                    <div class="index">1</div>
-                    <div class="index">2</div>
-                    <div class="index">3</div>
-                    <div class="index">4</div>
-                    <div class="index">5</div>
-                    <div class="index">6</div>
-                    <div class="index">7</div>
-                </div>
-                <div class="buckets">
-                    <div class="bucket"></div>
-                    <div class="bucket occupied">
-                        <div class="key-value-pair">
-                            <div class="key">banana</div>
-                            <div class="value">yellow</div>
-                        </div>
-                    </div>
-                    <div class="bucket occupied">
-                        <div class="key-value-pair">
-                            <div class="key">apple</div>
-                            <div class="value">red</div>
-                        </div>
-                    </div>
-                    <div class="bucket"></div>
-                    <div class="bucket"></div>
-                    <div class="bucket"></div>
-                    <div class="bucket"></div>
-                    <div class="bucket"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 3: Collision Handling -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">3</div>
-                <span>Collision Handling - When Hash Values Clash</span>
-            </div>
-            <div class="collision-demo">
-                <h3>🚨 Problem: Two keys hash to the same index!</h3>
-                <div class="hash-demo" style="justify-content: center; margin: 20px 0;">
-                    <div class="input-box">"orange"</div>
-                    <div class="arrow">→</div>
-                    <div class="hash-function">hash("orange") % 8 = 2</div>
-                    <div class="arrow">→</div>
-                    <div class="input-box">Index: 2 ⚠️</div>
-                </div>
-                <p style="text-align: center; margin: 20px 0;">Index 2 is already occupied by "apple"!</p>
-                
-                <div class="collision-methods">
-                    <div class="method-card">
-                        <div class="method-title">1. Chaining (Linked Lists)</div>
-                        <p>Store multiple key-value pairs in the same bucket using a linked list.</p>
-                        <div class="bucket collision" style="margin: 10px 0;">
-                            <div class="chain">
-                                <div class="key-value-pair">
-                                    <div class="key">apple</div>
-                                    <div class="value">red</div>
-                                </div>
-                                <div class="chain-arrow">→</div>
-                                <div class="key-value-pair">
-                                    <div class="key">orange</div>
-                                    <div class="value">orange</div>
-                                </div>
-                            </div>
-                        </div>
-                        <p style="font-size: 0.9rem; margin-top: 10px;"><strong>Pros:</strong> Simple, no clustering<br><strong>Cons:</strong> Extra memory for pointers</p>
-                    </div>
-                    
-                    <div class="method-card">
-                        <div class="method-title">2. Open Addressing (Linear Probing)</div>
-                        <p>Find the next available slot in the array.</p>
-                        <div style="margin: 10px 0;">
-                            <div class="bucket occupied" style="margin: 2px 0;">
-                                <div class="key-value-pair">
-                                    <div class="key">apple</div>
-                                    <div class="value">red</div>
-                                </div>
-                                <span style="margin-left: auto; font-size: 0.8rem;">Index 2</span>
-                            </div>
-                            <div class="bucket occupied" style="margin: 2px 0;">
-                                <div class="key-value-pair">
-                                    <div class="key">orange</div>
-                                    <div class="value">orange</div>
-                                </div>
-                                <span style="margin-left: auto; font-size: 0.8rem;">Index 3</span>
-                            </div>
-                        </div>
-                        <p style="font-size: 0.9rem; margin-top: 10px;"><strong>Pros:</strong> Better cache performance<br><strong>Cons:</strong> Clustering issues</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 4: Load Factor -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">4</div>
-                <span>Load Factor - Maintaining Performance</span>
-            </div>
-            <div class="load-factor-demo">
-                <h3>Load Factor = Number of Elements / Array Size</h3>
-                <p>As load factor increases, collision probability increases. Most hashmaps resize when load factor exceeds 0.75.</p>
-                
-                <div class="load-factor-visual">
-                    <div class="load-example">
-                        <h4>Load Factor: 0.25</h4>
-                        <div class="mini-buckets">
-                            <div class="mini-bucket filled">A</div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket"></div>
-                        </div>
-                        <p>1/8 = 0.25<br>✅ Fast, few collisions</p>
-                    </div>
-                    
-                    <div class="load-example">
-                        <h4>Load Factor: 0.75</h4>
-                        <div class="mini-buckets">
-                            <div class="mini-bucket filled">A</div>
-                            <div class="mini-bucket filled">B</div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket filled">C</div>
-                            <div class="mini-bucket filled">D</div>
-                            <div class="mini-bucket"></div>
-                            <div class="mini-bucket filled">E</div>
-                            <div class="mini-bucket filled">F</div>
-                        </div>
-                        <p>6/8 = 0.75<br>⚠️ Threshold reached</p>
-                    </div>
-                    
-                    <div class="load-example">
-                        <h4>Load Factor: 1.0</h4>
-                        <div class="mini-buckets">
-                            <div class="mini-bucket filled">A</div>
-                            <div class="mini-bucket filled">B</div>
-                            <div class="mini-bucket filled">G</div>
-                            <div class="mini-bucket filled">C</div>
-                            <div class="mini-bucket filled">D</div>
-                            <div class="mini-bucket filled">H</div>
-                            <div class="mini-bucket filled">E</div>
-                            <div class="mini-bucket filled">F</div>
-                        </div>
-                        <p>8/8 = 1.0<br>🔴 High collision rate</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 5: Dynamic Resizing -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">5</div>
-                <span>Dynamic Resizing - Growing with Data</span>
-            </div>
-            <div class="resize-demo">
-                <h3>When load factor exceeds threshold (usually 0.75):</h3>
-                <div class="resize-steps">
-                    <div class="resize-step">
-                        <strong>1. Create New Array</strong><br>
-                        Double the size<br>
+<div class="container">
+<h1>🗂️ HashMap Internal Working</h1>
+<p class="subtitle">How hashmaps achieve O(1) average time complexity for key-value operations</p>
+<!-- Step 1: Hash Function -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">1</div>
+<span>Hash Function - The Magic Converter</span>
+</div>
+<p>The hash function converts any key into an array index. Here's how it works:</p>
+<div class="hash-demo">
+<div class="input-box">"apple"</div>
+<div class="arrow">→</div>
+<div class="hash-function">
+<div>Hash Function</div>
+<div style="font-size: 0.9rem; margin-top: 8px;">hash("apple") = 97+112+112+108+101 = 530</div>
+<div style="font-size: 0.9rem; margin-top: 5px;">530 % 8 = 2</div>
+</div>
+<div class="arrow">→</div>
+<div class="input-box">Index: 2</div>
+</div>
+<div class="hash-demo">
+<div class="input-box">"banana"</div>
+<div class="arrow">→</div>
+<div class="hash-function">
+<div>Hash Function</div>
+<div style="font-size: 0.9rem; margin-top: 8px;">hash("banana") = 98+97+110+97+110+97 = 609</div>
+<div style="font-size: 0.9rem; margin-top: 5px;">609 % 8 = 1</div>
+</div>
+<div class="arrow">→</div>
+<div class="input-box">Index: 1</div>
+</div>
+</div>
+<!-- Step 2: Bucket Array -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">2</div>
+<span>Bucket Array - The Storage Structure</span>
+</div>
+<p>The hash function maps keys to indices in an array of "buckets":</p>
+<div class="bucket-array">
+<div class="indices">
+<div class="index">0</div>
+<div class="index">1</div>
+<div class="index">2</div>
+<div class="index">3</div>
+<div class="index">4</div>
+<div class="index">5</div>
+<div class="index">6</div>
+<div class="index">7</div>
+</div>
+<div class="buckets">
+<div class="bucket"></div>
+<div class="bucket occupied">
+<div class="key-value-pair">
+<div class="key">banana</div>
+<div class="value">yellow</div>
+</div>
+</div>
+<div class="bucket occupied">
+<div class="key-value-pair">
+<div class="key">apple</div>
+<div class="value">red</div>
+</div>
+</div>
+<div class="bucket"></div>
+<div class="bucket"></div>
+<div class="bucket"></div>
+<div class="bucket"></div>
+<div class="bucket"></div>
+</div>
+</div>
+</div>
+<!-- Step 3: Collision Handling -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">3</div>
+<span>Collision Handling - When Hash Values Clash</span>
+</div>
+<div class="collision-demo">
+<h3>🚨 Problem: Two keys hash to the same index!</h3>
+<div class="hash-demo" style="justify-content: center; margin: 20px 0;">
+<div class="input-box">"orange"</div>
+<div class="arrow">→</div>
+<div class="hash-function">hash("orange") % 8 = 2</div>
+<div class="arrow">→</div>
+<div class="input-box">Index: 2 ⚠️</div>
+</div>
+<p style="text-align: center; margin: 20px 0;">Index 2 is already occupied by "apple"!</p>
+<div class="collision-methods">
+<div class="method-card">
+<div class="method-title">1. Chaining (Linked Lists)</div>
+<p>Store multiple key-value pairs in the same bucket using a linked list.</p>
+<div class="bucket collision" style="margin: 10px 0;">
+<div class="chain">
+<div class="key-value-pair">
+<div class="key">apple</div>
+<div class="value">red</div>
+</div>
+<div class="chain-arrow">→</div>
+<div class="key-value-pair">
+<div class="key">orange</div>
+<div class="value">orange</div>
+</div>
+</div>
+</div>
+<p style="font-size: 0.9rem; margin-top: 10px;"><strong>Pros:</strong> Simple, no clustering<br/><strong>Cons:</strong> Extra memory for pointers</p>
+</div>
+<div class="method-card">
+<div class="method-title">2. Open Addressing (Linear Probing)</div>
+<p>Find the next available slot in the array.</p>
+<div style="margin: 10px 0;">
+<div class="bucket occupied" style="margin: 2px 0;">
+<div class="key-value-pair">
+<div class="key">apple</div>
+<div class="value">red</div>
+</div>
+<span style="margin-left: auto; font-size: 0.8rem;">Index 2</span>
+</div>
+<div class="bucket occupied" style="margin: 2px 0;">
+<div class="key-value-pair">
+<div class="key">orange</div>
+<div class="value">orange</div>
+</div>
+<span style="margin-left: auto; font-size: 0.8rem;">Index 3</span>
+</div>
+</div>
+<p style="font-size: 0.9rem; margin-top: 10px;"><strong>Pros:</strong> Better cache performance<br/><strong>Cons:</strong> Clustering issues</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 4: Load Factor -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">4</div>
+<span>Load Factor - Maintaining Performance</span>
+</div>
+<div class="load-factor-demo">
+<h3>Load Factor = Number of Elements / Array Size</h3>
+<p>As load factor increases, collision probability increases. Most hashmaps resize when load factor exceeds 0.75.</p>
+<div class="load-factor-visual">
+<div class="load-example">
+<h4>Load Factor: 0.25</h4>
+<div class="mini-buckets">
+<div class="mini-bucket filled">A</div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket"></div>
+</div>
+<p>1/8 = 0.25<br/>✅ Fast, few collisions</p>
+</div>
+<div class="load-example">
+<h4>Load Factor: 0.75</h4>
+<div class="mini-buckets">
+<div class="mini-bucket filled">A</div>
+<div class="mini-bucket filled">B</div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket filled">C</div>
+<div class="mini-bucket filled">D</div>
+<div class="mini-bucket"></div>
+<div class="mini-bucket filled">E</div>
+<div class="mini-bucket filled">F</div>
+</div>
+<p>6/8 = 0.75<br/>⚠️ Threshold reached</p>
+</div>
+<div class="load-example">
+<h4>Load Factor: 1.0</h4>
+<div class="mini-buckets">
+<div class="mini-bucket filled">A</div>
+<div class="mini-bucket filled">B</div>
+<div class="mini-bucket filled">G</div>
+<div class="mini-bucket filled">C</div>
+<div class="mini-bucket filled">D</div>
+<div class="mini-bucket filled">H</div>
+<div class="mini-bucket filled">E</div>
+<div class="mini-bucket filled">F</div>
+</div>
+<p>8/8 = 1.0<br/>🔴 High collision rate</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 5: Dynamic Resizing -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">5</div>
+<span>Dynamic Resizing - Growing with Data</span>
+</div>
+<div class="resize-demo">
+<h3>When load factor exceeds threshold (usually 0.75):</h3>
+<div class="resize-steps">
+<div class="resize-step">
+<strong>1. Create New Array</strong><br/>
+                        Double the size<br/>
                         (8 → 16 buckets)
                     </div>
-                    <div class="arrow">→</div>
-                    <div class="resize-step">
-                        <strong>2. Rehash All Keys</strong><br>
-                        Recalculate indices<br>
+<div class="arrow">→</div>
+<div class="resize-step">
+<strong>2. Rehash All Keys</strong><br/>
+                        Recalculate indices<br/>
                         with new array size
                     </div>
-                    <div class="arrow">→</div>
-                    <div class="resize-step">
-                        <strong>3. Copy Elements</strong><br>
-                        Move to new positions<br>
+<div class="arrow">→</div>
+<div class="resize-step">
+<strong>3. Copy Elements</strong><br/>
+                        Move to new positions<br/>
                         in larger array
                     </div>
-                    <div class="arrow">→</div>
-                    <div class="resize-step">
-                        <strong>4. Update Reference</strong><br>
-                        Replace old array<br>
+<div class="arrow">→</div>
+<div class="resize-step">
+<strong>4. Update Reference</strong><br/>
+                        Replace old array<br/>
                         with new one
                     </div>
-                </div>
-                <p style="text-align: center; margin-top: 20px;">
-                    <strong>Cost:</strong> O(n) operation but amortized to O(1) per insertion over time
+</div>
+<p style="text-align: center; margin-top: 20px;">
+<strong>Cost:</strong> O(n) operation but amortized to O(1) per insertion over time
                 </p>
-            </div>
-        </div>
-
-        <!-- Performance Analysis -->
-        <div class="step-section">
-            <div class="step-title">
-                <div class="step-number">6</div>
-                <span>Time Complexity Analysis</span>
-            </div>
-            <div class="performance-table">
-                <div class="table-header">
-                    <div>Operation</div>
-                    <div>Average Case</div>
-                    <div>Worst Case</div>
-                </div>
-                <div class="table-row">
-                    <div><strong>Search (get)</strong></div>
-                    <div><span class="complexity o1">O(1)</span></div>
-                    <div><span class="complexity on">O(n)</span></div>
-                </div>
-                <div class="table-row">
-                    <div><strong>Insert (put)</strong></div>
-                    <div><span class="complexity o1">O(1)</span></div>
-                    <div><span class="complexity on">O(n)</span></div>
-                </div>
-                <div class="table-row">
-                    <div><strong>Delete (remove)</strong></div>
-                    <div><span class="complexity o1">O(1)</span></div>
-                    <div><span class="complexity on">O(n)</span></div>
-                </div>
-            </div>
-            <p><strong>Average Case:</strong> Direct index access with minimal collisions</p>
-            <p><strong>Worst Case:</strong> All keys hash to same bucket (poor hash function or adversarial input)</p>
-        </div>
-
-        <div class="highlight">
-            <h3>🎯 The HashMap Magic Formula</h3>
-            <p><strong>O(1) Access Time = Hash Function + Array Indexing + Collision Handling</strong></p>
-            
-            <ol style="margin: 15px 0; padding-left: 20px;">
-                <li><strong>Hash Function:</strong> Converts key to array index in constant time</li>
-                <li><strong>Direct Access:</strong> Arrays provide O(1) access by index</li>
-                <li><strong>Smart Resizing:</strong> Keeps load factor low to minimize collisions</li>
-                <li><strong>Amortized Cost:</strong> Occasional O(n) resize operations are spread across many O(1) operations</li>
-            </ol>
-
-            <p><strong>Real-world Performance:</strong> With a good hash function and proper load factor management, hashmaps consistently achieve near-constant time performance, making them the go-to choice for key-value storage in almost every programming language!</p>
-        </div>
-    </div>
+</div>
+</div>
+<!-- Performance Analysis -->
+<div class="step-section">
+<div class="step-title">
+<div class="step-number">6</div>
+<span>Time Complexity Analysis</span>
+</div>
+<div class="performance-table">
+<div class="table-header">
+<div>Operation</div>
+<div>Average Case</div>
+<div>Worst Case</div>
+</div>
+<div class="table-row">
+<div><strong>Search (get)</strong></div>
+<div><span class="complexity o1">O(1)</span></div>
+<div><span class="complexity on">O(n)</span></div>
+</div>
+<div class="table-row">
+<div><strong>Insert (put)</strong></div>
+<div><span class="complexity o1">O(1)</span></div>
+<div><span class="complexity on">O(n)</span></div>
+</div>
+<div class="table-row">
+<div><strong>Delete (remove)</strong></div>
+<div><span class="complexity o1">O(1)</span></div>
+<div><span class="complexity on">O(n)</span></div>
+</div>
+</div>
+<p><strong>Average Case:</strong> Direct index access with minimal collisions</p>
+<p><strong>Worst Case:</strong> All keys hash to same bucket (poor hash function or adversarial input)</p>
+</div>
+<div class="highlight">
+<h3>🎯 The HashMap Magic Formula</h3>
+<p><strong>O(1) Access Time = Hash Function + Array Indexing + Collision Handling</strong></p>
+<ol style="margin: 15px 0; padding-left: 20px;">
+<li><strong>Hash Function:</strong> Converts key to array index in constant time</li>
+<li><strong>Direct Access:</strong> Arrays provide O(1) access by index</li>
+<li><strong>Smart Resizing:</strong> Keeps load factor low to minimize collisions</li>
+<li><strong>Amortized Cost:</strong> Occasional O(n) resize operations are spread across many O(1) operations</li>
+</ol>
+<p><strong>Real-world Performance:</strong> With a good hash function and proper load factor management, hashmaps consistently achieve near-constant time performance, making them the go-to choice for key-value storage in almost every programming language!</p>
+</div>
+</div>
 </body>
 </html>

@@ -1,18 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SHA-224 Hash Algorithm | AlgoViz Hub</title>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
+<head><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="description"/><meta content="hashing algorithm, hash function, cryptographic hash, md5, sha, bcrypt, ripemd, blake" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SHA-224 Hash Algorithm | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
             :root {
                 --primary: #0f172a;
                 --secondary: #1e293b;
@@ -653,48 +648,67 @@
                 transition: width 0.5s ease;
             }
         </style>
-    </head>
-    <body>
-        <div class="container">
-            <!-- Header -->
-            <header>
-                <div class="logo">
-                    <div class="logo-icon floating">
-                        <i class="fas fa-hashtag"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>AlgoViz Hub</h1>
-                        <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-                        <div class="breadcrumb">
-                            <a href="#"><i class="fas fa-home"></i> Home</a> >
-                            <a href="#">Cryptographic Algorithms</a> >
+<meta content="SHA-224 Hash Algorithm | AlgoViz Hub" property="og:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/hashing_sha224.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="SHA-224 Hash Algorithm | AlgoViz Hub" name="twitter:title"/><meta content="Explore hashing algorithms and their applications in cryptography and data structures" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/hashing_sha224.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SHA-224 Hash Algorithm | AlgoViz Hub",
+  "description": "Explore hashing algorithms and their applications in cryptography and data structures",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/hashing_sha224.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-hashtag"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+                            <a href="#">Cryptographic Algorithms</a> &gt;
                             <span>SHA-224</span>
-                        </div>
-                    </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>SHA-224</h1>
+<div class="category">
+<i class="fas fa-lock"></i> Cryptographic Hash Algorithm
                 </div>
-            </header>
-
-            <!-- Algorithm Header -->
-            <div class="algorithm-header">
-                <h1>SHA-224</h1>
-                <div class="category">
-                    <i class="fas fa-lock"></i> Cryptographic Hash Algorithm
-                </div>
-                <div class="complexity-badge">
+<div class="complexity-badge">
                     Output: 224 bits (56 characters)
                 </div>
-            </div>
-
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Column: Algorithm Details -->
-                <div class="left-column">
-                    <!-- Description Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-file-alt"></i> Algorithm Overview
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2>
+<i class="fas fa-file-alt"></i> Algorithm Overview
                         </h2>
-                        <p>
+<p>
                             SHA-224 (Secure Hash Algorithm 224) is a
                             cryptographic hash function that is part of the
                             SHA-2 family. It produces a 224-bit (28-byte) hash
@@ -702,7 +716,7 @@
                             number. SHA-224 is identical to SHA-256, except with
                             different initial hash values and truncated output.
                         </p>
-                        <p>
+<p>
                             SHA-224 is commonly used in security protocols and
                             applications, including TLS and SSL, PGP, SSH, and
                             IPsec. It provides a high level of security and is
@@ -710,257 +724,208 @@
                             it's being gradually replaced by SHA-3 in newer
                             applications.
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-check-circle"></i> Key
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-check-circle"></i> Key
                                     Feature
                                 </h3>
-                                <p>
+<p>
                                     Produces a fixed-size 224-bit output from
                                     variable-size input
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                                     Efficient implementation with good
                                     performance on most platforms
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-shield-alt"></i> Security
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-shield-alt"></i> Security
                                 </h3>
-                                <p>
+<p>
                                     Resistant to collision attacks, preimage
                                     attacks, and second preimage attacks
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-project-diagram"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-project-diagram"></i>
                                     Structure
                                 </h3>
-                                <p>
+<p>
                                     Merkle-Damgård construction with
                                     Davies-Meyer compression function
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Visualization Console -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-laptop-code"></i> Interactive
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive
                             Visualization
                         </h2>
-                        <p>
+<p>
                             Use the interactive console below to visualize how
                             SHA-224 works. Enter text to see how it gets
                             transformed through the various stages of the
                             hashing algorithm, from padding to the final hash
                             output.
                         </p>
-
-                        <div class="visualization-console">
-                            <div class="console-header">
-                                <h3>
-                                    <i class="fas fa-play-circle"></i> SHA-224
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> SHA-224
                                     Hash Calculator
                                 </h3>
-                                <div class="console-controls">
-                                    <button class="console-btn" id="hash-btn">
-                                        <i class="fas fa-hashtag"></i> Compute
+<div class="console-controls">
+<button class="console-btn" id="hash-btn">
+<i class="fas fa-hashtag"></i> Compute
                                         Hash
                                     </button>
-                                    <button
-                                        class="console-btn secondary"
-                                        id="reset-btn"
-                                    >
-                                        <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="reset-btn">
+<i class="fas fa-redo"></i> Reset
                                     </button>
-                                </div>
-                            </div>
-
-                            <div class="visualization-area">
-                                <div class="hash-visualization">
-                                    <div class="input-section">
-                                        <div class="input-label">
-                                            <i class="fas fa-keyboard"></i>
+</div>
+</div>
+<div class="visualization-area">
+<div class="hash-visualization">
+<div class="input-section">
+<div class="input-label">
+<i class="fas fa-keyboard"></i>
                                             Input Text
                                         </div>
-                                        <input
-                                            type="text"
-                                            class="input-text"
-                                            id="input-text"
-                                            placeholder="Enter text to hash"
-                                            value="Hello World"
-                                        />
-                                    </div>
-
-                                    <div class="output-section">
-                                        <div class="input-label">
-                                            <i class="fas fa-fingerprint"></i>
+<input class="input-text" id="input-text" placeholder="Enter text to hash" type="text" value="Hello World"/>
+</div>
+<div class="output-section">
+<div class="input-label">
+<i class="fas fa-fingerprint"></i>
                                             SHA-224 Hash
                                         </div>
-                                        <div
-                                            class="hash-result"
-                                            id="hash-output"
-                                        >
+<div class="hash-result" id="hash-output">
                                             Hash will appear here
                                         </div>
-                                    </div>
-
-                                    <div
-                                        class="processing-steps"
-                                        id="processing-steps"
-                                    >
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="processing-steps" id="processing-steps">
+<div class="step">
+<div class="step-title">
                                                 1. Input Text
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-input"
-                                            >
+<div class="step-content" id="step-input">
                                                 Hello World
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 2. Binary Representation
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-binary"
-                                            >
+<div class="step-content" id="step-binary">
                                                 Binary will appear here
                                             </div>
-                                            <div
-                                                class="bit-representation"
-                                                id="bit-representation"
-                                            ></div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+<div class="bit-representation" id="bit-representation"></div>
+</div>
+<div class="step">
+<div class="step-title">
                                                 3. Padding
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-padding"
-                                            >
+<div class="step-content" id="step-padding">
                                                 Padding details will appear here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 4. Processing Rounds
                                             </div>
-                                            <div class="progress-bar">
-                                                <div
-                                                    class="progress"
-                                                    id="progress-bar"
-                                                ></div>
-                                            </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-rounds"
-                                            >
+<div class="progress-bar">
+<div class="progress" id="progress-bar"></div>
+</div>
+<div class="step-content" id="step-rounds">
                                                 Hash computation progress will
                                                 appear here
                                             </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-title">
+</div>
+<div class="step">
+<div class="step-title">
                                                 5. Final Hash
                                             </div>
-                                            <div
-                                                class="step-content"
-                                                id="step-final"
-                                            >
+<div class="step-content" id="step-final">
                                                 Final hash will appear here
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Algorithm Steps -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-                        <p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
                             SHA-224 processes input data through several stages
                             to produce a fixed-size hash:
                         </p>
-
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-align-left"></i> 1.
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-align-left"></i> 1.
                                     Pre-processing
                                 </h3>
-                                <p>
+<p>
                                     Pad the message to ensure its length is
                                     congruent to 448 modulo 512. Append the
                                     original message length as a 64-bit
                                     big-endian integer.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3><i class="fas fa-cube"></i> 2. Parsing</h3>
-                                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-cube"></i> 2. Parsing</h3>
+<p>
                                     Break the padded message into 512-bit blocks
                                     that will be processed sequentially.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-cogs"></i> 3. Hash
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-cogs"></i> 3. Hash
                                     Computation
                                 </h3>
-                                <p>
+<p>
                                     Initialize hash values with specific
                                     constants. Process each 512-bit block
                                     through 64 rounds of compression functions.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-exchange-alt"></i> 4.
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-exchange-alt"></i> 4.
                                     Compression
                                 </h3>
-                                <p>
+<p>
                                     Each round uses logical functions and
                                     constant values to mix the bits thoroughly.
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-code"></i> 5. Finalization
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-code"></i> 5. Finalization
                                 </h3>
-                                <p>
+<p>
                                     After processing all blocks, the final hash
                                     value is produced by truncating the 256-bit
                                     output to 224 bits.
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pseudocode Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-                        <div class="code-block">
-                            <pre><code>// SHA-224 Pseudocode
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>// SHA-224 Pseudocode
 function sha224(message):
     // Initialize variables with SHA-224 specific initial hash values
     h0 = 0xc1059ed8
@@ -1037,27 +1002,25 @@ function create_message_schedule(chunk):
         s0 = (w[i-15] rightrotate 7) XOR (w[i-15] rightrotate 18) XOR (w[i-15] rightshift 3)
         s1 = (w[i-2] rightrotate 17) XOR (w[i-2] rightrotate 19) XOR (w[i-2] rightshift 10)
         w[i] = w[i-16] + s0 + w[i-7] + s1</code></pre>
-                        </div>
-                    </div>
-
-                    <!-- Implementation Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code"></i> Implementation</h2>
-                        <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
                             Below is a JavaScript implementation of the SHA-224
                             hash algorithm. This implementation follows the
                             official specification and produces correct SHA-224
                             hashes.
                         </p>
-
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>JavaScript Implementation</span>
-                                <button class="copy-btn">
-                                    <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>JavaScript Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                                 </button>
-                            </div>
-                            <pre><code><span class="keyword">function</span> <span class="function">sha224</span>(message) {
+</div>
+<pre><code><span class="keyword">function</span> <span class="function">sha224</span>(message) {
   <span class="comment">// Convert message to UTF-8 bytes</span>
   <span class="keyword">const</span> msgBuffer = <span class="keyword">new</span> TextEncoder().encode(message);
 
@@ -1068,49 +1031,49 @@ function create_message_schedule(chunk):
 
   <span class="comment">// Pre-processing: padding</span>
   <span class="keyword">const</span> bitLen = msgBuffer.length * <span class="number">8</span>;
-  <span class="keyword">const</span> padLen = (((bitLen + <span class="number">64</span>) >> <span class="number">9</span>) << <span class="number">6</span>) + <span class="number">448</span> - (bitLen % <span class="number">512</span>);
+  <span class="keyword">const</span> padLen = (((bitLen + <span class="number">64</span>) &gt;&gt; <span class="number">9</span>) &lt;&lt; <span class="number">6</span>) + <span class="number">448</span> - (bitLen % <span class="number">512</span>);
   <span class="keyword">const</span> totalLen = bitLen + padLen + <span class="number">64</span>;
 
   <span class="comment">// Create a buffer for the padded message</span>
-  <span class="keyword">const</span> totalBytes = totalLen >> <span class="number">3</span>;
+  <span class="keyword">const</span> totalBytes = totalLen &gt;&gt; <span class="number">3</span>;
   <span class="keyword">const</span> padded = <span class="keyword">new</span> Uint8Array(totalBytes);
   padded.set(msgBuffer, <span class="number">0</span>);
   padded[msgBuffer.length] = <span class="number">0x80</span>; <span class="comment">// Append 1 bit (and the rest zeros)</span>
 
   <span class="comment">// Append length as 64-bit big-endian integer</span>
   <span class="keyword">const</span> lenPos = totalBytes - <span class="number">8</span>;
-  <span class="keyword">const</span> bitLenHi = (bitLen / <span class="number">0x100000000</span>) >>> <span class="number">0</span>;
-  <span class="keyword">const</span> bitLenLo = bitLen >>> <span class="number">0</span>;
-  padded[lenPos] = (bitLenHi >> <span class="number">24</span>) & <span class="number">0xff</span>;
-  padded[lenPos + <span class="number">1</span>] = (bitLenHi >> <span class="number">16</span>) & <span class="number">0xff</span>;
-  padded[lenPos + <span class="number">2</span>] = (bitLenHi >> <span class="number">8</span>) & <span class="number">0xff</span>;
-  padded[lenPos + <span class="number">3</span>] = bitLenHi & <span class="number">0xff</span>;
-  padded[lenPos + <span class="number">4</span>] = (bitLenLo >> <span class="number">24</span>) & <span class="number">0xff</span>;
-  padded[lenPos + <span class="number">5</span>] = (bitLenLo >> <span class="number">16</span>) & <span class="number">0xff</span>;
-  padded[lenPos + <span class="number">6</span>] = (bitLenLo >> <span class="number">8</span>) & <span class="number">0xff</span>;
-  padded[lenPos + <span class="number">7</span>] = bitLenLo & <span class="number">0xff</span>;
+  <span class="keyword">const</span> bitLenHi = (bitLen / <span class="number">0x100000000</span>) &gt;&gt;&gt; <span class="number">0</span>;
+  <span class="keyword">const</span> bitLenLo = bitLen &gt;&gt;&gt; <span class="number">0</span>;
+  padded[lenPos] = (bitLenHi &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>;
+  padded[lenPos + <span class="number">1</span>] = (bitLenHi &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xff</span>;
+  padded[lenPos + <span class="number">2</span>] = (bitLenHi &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;
+  padded[lenPos + <span class="number">3</span>] = bitLenHi &amp; <span class="number">0xff</span>;
+  padded[lenPos + <span class="number">4</span>] = (bitLenLo &gt;&gt; <span class="number">24</span>) &amp; <span class="number">0xff</span>;
+  padded[lenPos + <span class="number">5</span>] = (bitLenLo &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xff</span>;
+  padded[lenPos + <span class="number">6</span>] = (bitLenLo &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xff</span>;
+  padded[lenPos + <span class="number">7</span>] = bitLenLo &amp; <span class="number">0xff</span>;
 
   <span class="comment">// Process each 512-bit chunk</span>
-  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < totalBytes; i += <span class="number">64</span>) {
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; totalBytes; i += <span class="number">64</span>) {
     <span class="comment">// Create message schedule array</span>
     <span class="keyword">const</span> w = <span class="keyword">new</span> Array(<span class="number">64</span>);
 
     <span class="comment">// Copy chunk into first 16 words</span>
-    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j < <span class="number">16</span>; j++) {
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">16</span>; j++) {
       <span class="keyword">const</span> offset = i + j * <span class="number">4</span>;
-      w[j] = (padded[offset] << <span class="number">24</span>) | (padded[offset + <span class="number">1</span>] << <span class="number">16</span>) |
-             (padded[offset + <span class="number">2</span>] << <span class="number">8</span>) | padded[offset + <span class="number">3</span>];
+      w[j] = (padded[offset] &lt;&lt; <span class="number">24</span>) | (padded[offset + <span class="number">1</span>] &lt;&lt; <span class="number">16</span>) |
+             (padded[offset + <span class="number">2</span>] &lt;&lt; <span class="number">8</span>) | padded[offset + <span class="number">3</span>];
     }
 
     <span class="comment">// Extend the first 16 words into the remaining 48 words</span>
-    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">16</span>; j < <span class="number">64</span>; j++) {
-      <span class="keyword">const</span> s0 = ((w[j-<span class="number">15</span>] >>> <span class="number">7</span>) | (w[j-<span class="number">15</span>] << (<span class="number">32</span> - <span class="number">7</span>))) ^
-                 ((w[j-<span class="number">15</span>] >>> <span class="number">18</span>) | (w[j-<span class="number">15</span>] << (<span class="number">32</span> - <span class="number">18</span>))) ^
-                 (w[j-<span class="number">15</span>] >>> <span class="number">3</span>);
-      <span class="keyword">const</span> s1 = ((w[j-<span class="number">2</span>] >>> <span class="number">17</span>) | (w[j-<span class="number">2</span>] << (<span class="number">32</span> - <span class="number">17</span>))) ^
-                 ((w[j-<span class="number">2</span>] >>> <span class="number">19</span>) | (w[j-<span class="number">2</span>] << (<span class="number">32</span> - <span class="number">19</span>))) ^
-                 (w[j-<span class="number">2</span>] >>> <span class="number">10</span>);
-      w[j] = (w[j-<span class="number">16</span>] + s0 + w[j-<span class="number">7</span>] + s1) >>> <span class="number">0</span>;
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">16</span>; j &lt; <span class="number">64</span>; j++) {
+      <span class="keyword">const</span> s0 = ((w[j-<span class="number">15</span>] &gt;&gt;&gt; <span class="number">7</span>) | (w[j-<span class="number">15</span>] &lt;&lt; (<span class="number">32</span> - <span class="number">7</span>))) ^
+                 ((w[j-<span class="number">15</span>] &gt;&gt;&gt; <span class="number">18</span>) | (w[j-<span class="number">15</span>] &lt;&lt; (<span class="number">32</span> - <span class="number">18</span>))) ^
+                 (w[j-<span class="number">15</span>] &gt;&gt;&gt; <span class="number">3</span>);
+      <span class="keyword">const</span> s1 = ((w[j-<span class="number">2</span>] &gt;&gt;&gt; <span class="number">17</span>) | (w[j-<span class="number">2</span>] &lt;&lt; (<span class="number">32</span> - <span class="number">17</span>))) ^
+                 ((w[j-<span class="number">2</span>] &gt;&gt;&gt; <span class="number">19</span>) | (w[j-<span class="number">2</span>] &lt;&lt; (<span class="number">32</span> - <span class="number">19</span>))) ^
+                 (w[j-<span class="number">2</span>] &gt;&gt;&gt; <span class="number">10</span>);
+      w[j] = (w[j-<span class="number">16</span>] + s0 + w[j-<span class="number">7</span>] + s1) &gt;&gt;&gt; <span class="number">0</span>;
     }
 
     <span class="comment">// Initialize working variables</span>
@@ -1118,52 +1081,52 @@ function create_message_schedule(chunk):
     <span class="keyword">let</span> e = h4, f = h5, g = h6, hVal = h7;
 
     <span class="comment">// Compression function main loop</span>
-    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j < <span class="number">64</span>; j++) {
-      <span class="keyword">const</span> S1 = ((e >>> <span class="number">6</span>) | (e << (<span class="number">32</span> - <span class="number">6</span>))) ^
-                 ((e >>> <span class="number">11</span>) | (e << (<span class="number">32</span> - <span class="number">11</span>))) ^
-                 ((e >>> <span class="number">25</span>) | (e << (<span class="number">32</span> - <span class="number">25</span>)));
-      <span class="keyword">const</span> ch = (e & f) ^ ((~e) & g);
-      <span class="keyword">const</span> temp1 = (hVal + S1 + ch + K[j] + w[j]) >>> <span class="number">0</span>;
-      <span class="keyword">const</span> S0 = ((a >>> <span class="number">2</span>) | (a << (<span class="number">32</span> - <span class="number">2</span>))) ^
-                 ((a >>> <span class="number">13</span>) | (a << (<span class="number">32</span> - <span class="number">13</span>))) ^
-                 ((a >>> <span class="number">22</span>) | (a << (<span class="number">32</span> - <span class="number">22</span>)));
-      <span class="keyword">const</span> maj = (a & b) ^ (a & c) ^ (b & c);
-      <span class="keyword">const</span> temp2 = (S0 + maj) >>> <span class="number">0</span>;
+    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">64</span>; j++) {
+      <span class="keyword">const</span> S1 = ((e &gt;&gt;&gt; <span class="number">6</span>) | (e &lt;&lt; (<span class="number">32</span> - <span class="number">6</span>))) ^
+                 ((e &gt;&gt;&gt; <span class="number">11</span>) | (e &lt;&lt; (<span class="number">32</span> - <span class="number">11</span>))) ^
+                 ((e &gt;&gt;&gt; <span class="number">25</span>) | (e &lt;&lt; (<span class="number">32</span> - <span class="number">25</span>)));
+      <span class="keyword">const</span> ch = (e &amp; f) ^ ((~e) &amp; g);
+      <span class="keyword">const</span> temp1 = (hVal + S1 + ch + K[j] + w[j]) &gt;&gt;&gt; <span class="number">0</span>;
+      <span class="keyword">const</span> S0 = ((a &gt;&gt;&gt; <span class="number">2</span>) | (a &lt;&lt; (<span class="number">32</span> - <span class="number">2</span>))) ^
+                 ((a &gt;&gt;&gt; <span class="number">13</span>) | (a &lt;&lt; (<span class="number">32</span> - <span class="number">13</span>))) ^
+                 ((a &gt;&gt;&gt; <span class="number">22</span>) | (a &lt;&lt; (<span class="number">32</span> - <span class="number">22</span>)));
+      <span class="keyword">const</span> maj = (a &amp; b) ^ (a &amp; c) ^ (b &amp; c);
+      <span class="keyword">const</span> temp2 = (S0 + maj) &gt;&gt;&gt; <span class="number">0</span>;
 
       hVal = g;
       g = f;
       f = e;
-      e = (d + temp1) >>> <span class="number">0</span>;
+      e = (d + temp1) &gt;&gt;&gt; <span class="number">0</span>;
       d = c;
       c = b;
       b = a;
-      a = (temp1 + temp2) >>> <span class="number">0</span>;
+      a = (temp1 + temp2) &gt;&gt;&gt; <span class="number">0</span>;
     }
 
     <span class="comment">// Add the compressed chunk to the current hash value</span>
-    h0 = (h0 + a) >>> <span class="number">0</span>;
-    h1 = (h1 + b) >>> <span class="number">0</span>;
-    h2 = (h2 + c) >>> <span class="number">0</span>;
-    h3 = (h3 + d) >>> <span class="number">0</span>;
-    h4 = (h4 + e) >>> <span class="number">0</span>;
-    h5 = (h5 + f) >>> <span class="number">0</span>;
-    h6 = (h6 + g) >>> <span class="number">0</span>;
-    h7 = (h7 + hVal) >>> <span class="number">0</span>;
+    h0 = (h0 + a) &gt;&gt;&gt; <span class="number">0</span>;
+    h1 = (h1 + b) &gt;&gt;&gt; <span class="number">0</span>;
+    h2 = (h2 + c) &gt;&gt;&gt; <span class="number">0</span>;
+    h3 = (h3 + d) &gt;&gt;&gt; <span class="number">0</span>;
+    h4 = (h4 + e) &gt;&gt;&gt; <span class="number">0</span>;
+    h5 = (h5 + f) &gt;&gt;&gt; <span class="number">0</span>;
+    h6 = (h6 + g) &gt;&gt;&gt; <span class="number">0</span>;
+    h7 = (h7 + hVal) &gt;&gt;&gt; <span class="number">0</span>;
   }
 
   <span class="comment">// Produce the final hash value (224 bits)</span>
   <span class="keyword">const</span> hashArray = [
-    h0 >> <span class="number">24</span> & <span class="number">0xff</span>, h0 >> <span class="number">16</span> & <span class="number">0xff</span>, h0 >> <span class="number">8</span> & <span class="number">0xff</span>, h0 & <span class="number">0xff</span>,
-    h1 >> <span class="number">24</span> & <span class="number">0xff</span>, h1 >> <span class="number">16</span> & <span class="number">0xff</span>, h1 >> <span class="number">8</span> & <span class="number">0xff</span>, h1 & <span class="number">0xff</span>,
-    h2 >> <span class="number">24</span> & <span class="number">0xff</span>, h2 >> <span class="number">16</span> & <span class="number">0xff</span>, h2 >> <span class="number">8</span> & <span class="number">0xff</span>, h2 & <span class="number">0xff</span>,
-    h3 >> <span class="number">24</span> & <span class="number">0xff</span>, h3 >> <span class="number">16</span> & <span class="number">0xff</span>, h3 >> <span class="number">8</span> & <span class="number">0xff</span>, h3 & <span class="number">0xff</span>,
-    h4 >> <span class="number">24</span> & <span class="number">0xff</span>, h4 >> <span class="number">16</span> & <span class="number">0xff</span>, h4 >> <span class="number">8</span> & <span class="number">0xff</span>, h4 & <span class="number">0xff</span>,
-    h5 >> <span class="number">24</span> & <span class="number">0xff</span>, h5 >> <span class="number">16</span> & <span class="number">0xff</span>, h5 >> <span class="number">8</span> & <span class="number">0xff</span>, h5 & <span class="number">0xff</span>,
-    h6 >> <span class="number">24</span> & <span class="number">0xff</span>, h6 >> <span class="number">16</span> & <span class="number">0xff</span>, h6 >> <span class="number">8</span> & <span class="number">0xff</span>, h6 & <span class="number">0xff</span>
+    h0 &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>, h0 &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, h0 &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, h0 &amp; <span class="number">0xff</span>,
+    h1 &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>, h1 &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, h1 &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, h1 &amp; <span class="number">0xff</span>,
+    h2 &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>, h2 &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, h2 &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, h2 &amp; <span class="number">0xff</span>,
+    h3 &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>, h3 &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, h3 &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, h3 &amp; <span class="number">0xff</span>,
+    h4 &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>, h4 &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, h4 &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, h4 &amp; <span class="number">0xff</span>,
+    h5 &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>, h5 &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, h5 &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, h5 &amp; <span class="number">0xff</span>,
+    h6 &gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>, h6 &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, h6 &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, h6 &amp; <span class="number">0xff</span>
   ];
 
   <span class="comment">// Convert to hex string</span>
-  <span class="keyword">return</span> hashArray.map(b => b.toString(<span class="number">16</span>).padStart(<span class="number">2</span>, <span class="string">'0'</span>)).join(<span class="string">''</span>);
+  <span class="keyword">return</span> hashArray.map(b =&gt; b.toString(<span class="number">16</span>).padStart(<span class="number">2</span>, <span class="string">'0'</span>)).join(<span class="string">''</span>);
 }
 
 <span class="comment">// SHA-224 constants</span>
@@ -1177,181 +1140,163 @@ function create_message_schedule(chunk):
   <span class="number">0x19a4c116</span>, <span class="number">0x1e376c08</span>, <span class="number">0x2748774c</span>, <span class="number">0x34b0bcb5</span>, <span class="number">0x391c0cb3</span>, <span class="number">0x4ed8aa4a</span>, <span class="number">0x5b9cca4f</span>, <span class="number">0x682e6ff3</span>,
   <span class="number">0x748f82ee</span>, <span class="number">0x78a5636f</span>, <span class="number">0x84c87814</span>, <span class="number">0x8cc70208</span>, <span class="number">0x90befffa</span>, <span class="number">0xa4506ceb</span>, <span class="number">0xbef9a3f7</span>, <span class="number">0xc67178f2</span>
 ];</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Additional Info -->
-                <div class="right-column">
-                    <!-- Properties Section -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-info-circle"></i> Algorithm
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2>
+<i class="fas fa-info-circle"></i> Algorithm
                             Properties
                         </h2>
-                        <div class="properties-grid">
-                            <div class="property-card">
-                                <h4>Category</h4>
-                                <div class="value">Cryptographic Hash</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Family</h4>
-                                <div class="value">SHA-2</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Output Size</h4>
-                                <div class="value">224 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Block Size</h4>
-                                <div class="value">512 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Rounds</h4>
-                                <div class="value">64</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Security</h4>
-                                <div class="value">112 bits</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>First Published</h4>
-                                <div class="value">2004</div>
-                            </div>
-                            <div class="property-card">
-                                <h4>Designers</h4>
-                                <div class="value">NSA</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Applications Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-                        <p>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Cryptographic Hash</div>
+</div>
+<div class="property-card">
+<h4>Family</h4>
+<div class="value">SHA-2</div>
+</div>
+<div class="property-card">
+<h4>Output Size</h4>
+<div class="value">224 bits</div>
+</div>
+<div class="property-card">
+<h4>Block Size</h4>
+<div class="value">512 bits</div>
+</div>
+<div class="property-card">
+<h4>Rounds</h4>
+<div class="value">64</div>
+</div>
+<div class="property-card">
+<h4>Security</h4>
+<div class="value">112 bits</div>
+</div>
+<div class="property-card">
+<h4>First Published</h4>
+<div class="value">2004</div>
+</div>
+<div class="property-card">
+<h4>Designers</h4>
+<div class="value">NSA</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
                             SHA-224 is used in various security applications and
                             protocols including:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
+                            ">
+<li style="margin-bottom: 10px">
                                 Digital signatures and certificate authorities
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 TLS and SSL security protocols
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 SSH (Secure Shell) protocol
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 IPsec and VPN technologies
                             </li>
-                            <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                                 Blockchain and cryptocurrency technologies
                             </li>
-                            <li>Password hashing (with salt)</li>
-                        </ul>
-                    </div>
-
-                    <!-- Advantages & Disadvantages -->
-                    <div class="section">
-                        <h2>
-                            <i class="fas fa-balance-scale"></i> Pros & Cons
+<li>Password hashing (with salt)</li>
+</ul>
+</div>
+<!-- Advantages & Disadvantages -->
+<div class="section">
+<h2>
+<i class="fas fa-balance-scale"></i> Pros &amp; Cons
                         </h2>
-                        <div class="key-points">
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-plus-circle"></i>
+<div class="key-points">
+<div class="point-card">
+<h3>
+<i class="fas fa-plus-circle"></i>
                                     Advantages
                                 </h3>
-                                <p>
+<p>
                                     High security level, standardized algorithm,
                                     fast computation, resistance to known
                                     cryptographic attacks, widely supported
                                 </p>
-                            </div>
-                            <div class="point-card">
-                                <h3>
-                                    <i class="fas fa-minus-circle"></i>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-minus-circle"></i>
                                     Disadvantages
                                 </h3>
-                                <p>
+<p>
                                     Vulnerable to length-extension attacks,
                                     being gradually replaced by SHA-3, not as
                                     fast as some non-cryptographic hashes for
                                     non-security purposes
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Variants Section -->
-                    <div class="section">
-                        <h2><i class="fas fa-code-branch"></i> SHA Family</h2>
-                        <p>
+</div>
+</div>
+</div>
+<!-- Variants Section -->
+<div class="section">
+<h2><i class="fas fa-code-branch"></i> SHA Family</h2>
+<p>
                             SHA-224 is part of the SHA-2 family of cryptographic
                             hash functions:
                         </p>
-                        <ul
-                            style="
+<ul style="
                                 padding-left: 20px;
                                 margin: 15px 0;
                                 color: var(--text-secondary);
-                            "
-                        >
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA-224:</strong> 224-bit output,
+                            ">
+<li style="margin-bottom: 10px">
+<strong>SHA-224:</strong> 224-bit output,
                                 truncated version of SHA-256
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA-256:</strong> 256-bit output, most
+<li style="margin-bottom: 10px">
+<strong>SHA-256:</strong> 256-bit output, most
                                 widely used SHA-2 variant
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA-384:</strong> 384-bit output,
+<li style="margin-bottom: 10px">
+<strong>SHA-384:</strong> 384-bit output,
                                 truncated version of SHA-512
                             </li>
-                            <li style="margin-bottom: 10px">
-                                <strong>SHA-512:</strong> 512-bit output,
+<li style="margin-bottom: 10px">
+<strong>SHA-512:</strong> 512-bit output,
                                 designed for 64-bit platforms
                             </li>
-                            <li>
-                                <strong>SHA-512/224, SHA-512/256:</strong>
+<li>
+<strong>SHA-512/224, SHA-512/256:</strong>
                                 Truncated versions of SHA-512
                             </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer>
-                <div class="footer-links">
-                    <a
-                        href="https://www.linkedin.com/in/sgkandale/"
-                        target="_blank"
-                        ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-                    >
-                    <a href="mailto:me@sgkandale.com"
-                        ><i class="fa-solid fa-at"></i> E-Mail</a
-                    >
-                    <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-                        ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-                    >
-                </div>
-                <p>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>
                     AlgoViz Hub - Interactive Algorithm Visualization Platform
                 </p>
-                <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-            </footer>
-        </div>
-
-        <script>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
             // SHA-224 Visualization
             document.addEventListener("DOMContentLoaded", function () {
                 const inputText = document.getElementById("input-text");
@@ -1504,5 +1449,5 @@ function create_message_schedule(chunk):
                     });
             });
         </script>
-    </body>
+</body>
 </html>

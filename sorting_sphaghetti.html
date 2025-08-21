@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spaghetti Sort | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="description"/><meta content="sorting algorithm, sort, bubble sort, merge sort, quick sort, heap sort, insertion sort, selection sort, radix sort, counting sort" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Spaghetti Sort | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -729,46 +724,65 @@
         transform-origin: bottom;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Spaghetti Sort | AlgoViz Hub" property="og:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/sorting_sphaghetti.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Spaghetti Sort | AlgoViz Hub" name="twitter:title"/><meta content="Learn about sorting algorithms and their implementations with interactive visualizations" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/sorting_sphaghetti.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Spaghetti Sort | AlgoViz Hub",
+  "description": "Learn about sorting algorithms and their implementations with interactive visualizations",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/sorting_sphaghetti.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Spaghetti Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Spaghetti Sort</h1>
+<div class="category">
+<i class="fas fa-utensils"></i> Physical Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Spaghetti Sort</h1>
-        <div class="category">
-          <i class="fas fa-utensils"></i> Physical Sorting Algorithm
-        </div>
-        <div class="complexity-badge">
+<div class="complexity-badge">
           Time Complexity: O(n) with physical constraints
         </div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Spaghetti Sort is a unique linear-time sorting algorithm for
               positive integers that uses physical properties of spaghetti
               strands. Each number is represented by a strand of spaghetti cut
@@ -776,151 +790,138 @@
               allowed to rest on a table - the longest strands will stand the
               tallest and can be easily identified.
             </p>
-            <p>
+<p>
               This algorithm demonstrates how physical processes can solve
               computational problems. While not practical for digital
               implementation, it provides an interesting perspective on sorting.
               The name comes from the physical medium used - spaghetti noodles -
               which are ideal for their straight, rigid properties when dry.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>Uses physical properties of spaghetti to sort numbers</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>O(n) complexity in physical implementation</p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-ruler"></i> Process</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>Uses physical properties of spaghetti to sort numbers</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>O(n) complexity in physical implementation</p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-ruler"></i> Process</h3>
+<p>
                   Measure numbers as strand lengths, then select the tallest
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Use Case</h3>
-                <p>Theoretical and educational demonstration</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Use Case</h3>
+<p>Theoretical and educational demonstration</p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Watch the Spaghetti Sort algorithm in action! Enter positive
               integers to represent spaghetti lengths. The simulation will show
               how holding spaghetti strands vertically allows us to easily
               identify and select the longest strands first.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Spaghetti Sort
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Spaghetti Sort
                   Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary" id="settingsBtn">
-                    <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary" id="settingsBtn">
+<i class="fas fa-cog"></i> Settings
                   </button>
-                  <button class="console-btn" id="runBtn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
                   </button>
-                  <button class="console-btn secondary" id="resetBtn">
-                    <i class="fas fa-redo"></i> Reset
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <div class="spaghetti-container">
-                  <div class="action-label" id="actionLabel">
+</div>
+</div>
+<div class="visualization-area">
+<div class="spaghetti-container">
+<div class="action-label" id="actionLabel">
                     Preparing spaghetti strands...
                   </div>
-                  <div class="table-surface"></div>
-                  <div class="hand" id="hand">
-                    <div class="hand-grab"></div>
-                  </div>
-                  <div class="strand-container" id="strandContainer"></div>
-                  <div class="sorted-area" id="sortedArea">
-                    <div class="sorted-title">Sorted Strands</div>
-                  </div>
-                  <div class="step-info" id="stepInfo">
+<div class="table-surface"></div>
+<div class="hand" id="hand">
+<div class="hand-grab"></div>
+</div>
+<div class="strand-container" id="strandContainer"></div>
+<div class="sorted-area" id="sortedArea">
+<div class="sorted-title">Sorted Strands</div>
+</div>
+<div class="step-info" id="stepInfo">
                     Step 0: Initial setup
                   </div>
-                </div>
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  id="inputArray"
-                  placeholder="Enter positive integers (e.g., 3, 5, 2, 4, 1)"
-                  value="3, 5, 2, 4, 1"
-                />
-                <button class="console-btn" id="randomBtn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="console-input">
+<input id="inputArray" placeholder="Enter positive integers (e.g., 3, 5, 2, 4, 1)" type="text" value="3, 5, 2, 4, 1"/>
+<button class="console-btn" id="randomBtn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>Spaghetti Sort processes data through these physical steps:</p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-ruler"></i> 1. Cut Strands</h3>
-                <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>Spaghetti Sort processes data through these physical steps:</p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-ruler"></i> 1. Cut Strands</h3>
+<p>
                   For each number, cut a spaghetti strand to a length
                   proportional to the number
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-hand-holding"></i> 2. Hold Vertically</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-hand-holding"></i> 2. Hold Vertically</h3>
+<p>
                   Hold all spaghetti strands in your hand, vertically aligned at
                   the bottom
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-arrow-down"></i> 3. Lower to Surface</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-arrow-down"></i> 3. Lower to Surface</h3>
+<p>
                   Lower your hand to a flat surface, allowing strands to rest
                   vertically
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-sort-amount-down"></i> 4. Remove Longest
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-sort-amount-down"></i> 4. Remove Longest
                 </h3>
-                <p>
+<p>
                   Identify and remove the longest strand (tallest standing
                   spaghetti)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-redo"></i> 5. Repeat</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-redo"></i> 5. Repeat</h3>
+<p>
                   Repeat the process until all strands are removed in descending
                   order
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>procedure spaghettiSort(arr):
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>procedure spaghettiSort(arr):
     // Step 1: Prepare spaghetti strands
     strands = []
     for each num in arr:
@@ -941,22 +942,20 @@
         sorted.append(longest)
     
     return sorted</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Physical Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Physical Implementation</h2>
+<p>
               While Spaghetti Sort can't be implemented in traditional
               programming languages, here's how you would perform it physically:
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Physical Implementation Steps</span>
-              </div>
-              <pre><code>1. Preparation:
+<div class="code-block">
+<div class="code-header">
+<span>Physical Implementation Steps</span>
+</div>
+<pre><code>1. Preparation:
    - For each number in your list, cut a dry spaghetti strand to a length proportional to the number
    - Use a consistent scale (e.g., 1cm per unit)
 
@@ -970,138 +969,123 @@
 3. Final Result:
    - The strands are now sorted in descending order (longest to shortest)
    - For ascending order, simply reverse the order of removal</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Physical</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Non-comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Practical Use</h4>
-                <div class="value">Theoretical</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Why It's Interesting</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Physical</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Non-comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Practical Use</h4>
+<div class="value">Theoretical</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Why It's Interesting</h2>
+<p>
               Spaghetti Sort provides valuable insights despite its
               impracticality:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Demonstrates how physical processes can solve computational
                 problems
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Achieves O(n) time complexity in physical implementation
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Highlights differences between computational and physical models
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 Excellent educational tool for understanding non-digital
                 algorithms
               </li>
-              <li>
+<li>
                 Inspires creative thinking about problem-solving approaches
               </li>
-            </ul>
-          </div>
-
-          <!-- Complexity Section -->
-          <div class="section">
-            <h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
-            <p>Spaghetti Sort has unique complexity characteristics:</p>
-            <ul
-              style="
+</ul>
+</div>
+<!-- Complexity Section -->
+<div class="section">
+<h2><i class="fas fa-chart-line"></i> Complexity Analysis</h2>
+<p>Spaghetti Sort has unique complexity characteristics:</p>
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
-                <strong>Time Complexity:</strong> O(n) - The process of lowering
+              ">
+<li style="margin-bottom: 10px">
+<strong>Time Complexity:</strong> O(n) - The process of lowering
                 the hand and identifying the tallest strand is constant time per
                 strand
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Space Complexity:</strong> O(n) - Requires physical
+<li style="margin-bottom: 10px">
+<strong>Space Complexity:</strong> O(n) - Requires physical
                 space proportional to the largest number
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Practical Limitations:</strong> Physical constraints
+<li style="margin-bottom: 10px">
+<strong>Practical Limitations:</strong> Physical constraints
                 limit the size of sortable numbers
               </li>
-              <li style="margin-bottom: 10px">
-                <strong>Real-world Factors:</strong> Strand fragility,
+<li style="margin-bottom: 10px">
+<strong>Real-world Factors:</strong> Strand fragility,
                 measurement precision, and human error affect practical
                 implementation
               </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"
-            ><i class="fa-brands fa-linkedin"></i> LinkedIN</a
-          >
-          <a href="mailto:me@sgkandale.com"
-            ><i class="fa-solid fa-at"></i> E-Mail</a
-          >
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"
-            ><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a
-          >
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Spaghetti Sort Visualization Logic
       class SpaghettiSortVisualizer {
         constructor() {
@@ -1308,5 +1292,5 @@
         });
       });
     </script>
-  </body>
+</body>
 </html>
