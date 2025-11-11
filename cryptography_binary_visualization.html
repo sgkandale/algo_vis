@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head><meta content="Interactive binary visualization platform for learning computer science concepts" name="description"/><meta content="binary, data type, visualization, computer science, interactive, bits" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Binary Visualization | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--accent-light);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        min-height: 350px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .visualization-area {
+        min-height: 350px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .console-input input, .console-input select {
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        margin-bottom: 10px;
+      }
+
+      .console-input input:focus, .console-input select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .console-input input {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .console-input select {
+        min-width: 150px;
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+      
+      /* Binary Visualization Specific Styles */
+      .binary-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        padding: 20px;
+        width: 100%;
+        max-width: 900px;
+      }
+      
+      .binary-bit {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        font-family: "Roboto Mono", monospace;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+        background-color: rgba(148, 163, 184, 0.2);
+        user-select: none;
+      }
+      
+      .binary-bit:hover {
+        transform: scale(1.1);
+        background-color: rgba(148, 163, 184, 0.4);
+        border-color: var(--accent);
+      }
+      
+      .binary-bit.active {
+        background-color: var(--accent);
+        color: white;
+        box-shadow: 0 0 10px var(--accent-glow);
+      }
+      
+      .binary-position {
+        text-align: center;
+        font-size: 10px;
+        color: var(--text-secondary);
+        margin-top: 2px;
+      }
+      
+      .bit-group {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 10px 0;
+        width: 100%;
+      }
+      
+      .group-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+      }
+      
+      .group-label {
+        font-size: 12px;
+        color: var(--accent-light);
+        margin-bottom: 5px;
+        text-align: center;
+        font-weight: bold;
+      }
+      
+      .decimal-display {
+        font-size: 28px;
+        margin: 15px 0;
+        text-align: center;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        padding: 10px 20px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      
+      .binary-display {
+        font-size: 20px;
+        margin: 10px 0;
+        text-align: center;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        word-break: break-all;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .bit-label {
+        font-size: 10px;
+        color: var(--text-secondary);
+        margin-top: 3px;
+        line-height: 1.2;
+      }
+      
+      .bit-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 1px;
+      }
+      
+      .instructions {
+        text-align: center;
+        color: var(--text-secondary);
+        font-style: italic;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+      
+      .bit-controls {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        justify-content: center;
+      }
+      
+      .bit-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+        font-size: 14px;
+      }
+      
+      .bit-btn:hover {
+        background: var(--accent-light);
+      }
+</style>
+<meta content="Binary Visualization | AlgoViz Hub" property="og:title"/><meta content="Interactive binary visualization platform for learning computer science concepts" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/cryptography_binary_visualization.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Binary Visualization | AlgoViz Hub" name="twitter:title"/><meta content="Interactive binary visualization platform for learning computer science concepts" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/cryptography_binary_visualization.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Binary Visualization | AlgoViz Hub",
+  "description": "Interactive binary visualization platform for learning computer science concepts",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/cryptography_binary_visualization.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="index.html"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Cryptography</a> &gt;
+              <span>Binary Visualization</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Binary Visualization</h1>
+<div class="category">
+<i class="fas fa-binary"></i> Cryptography
+</div>
+<div class="complexity-badge">Data Type: Int64</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Binary Representation Overview</h2>
+<p>
+              Binary visualization represents numerical values in binary format, showing how data is stored in computer memory. Each bit (binary digit) can be either 0 or 1, and the position of each bit determines its value. Different data types have different bit lengths - for example, int64 has 64 bits while int32 has 32 bits.
+            </p>
+<p>
+              Understanding binary representation is crucial for computer science concepts like bitwise operations, data storage, and hardware-level programming. This visualization shows how different values are represented in binary form and how they map to different data types.
+            </p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
+                  Visual representation of how numbers are stored in computer memory as binary
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Insight</h3>
+<p>
+                  Understand how different data types affect the range of representable values
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Storage</h3>
+<p>
+                  See how much space different data types require in memory
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-calculator"></i> Conversion</h3>
+<p>
+                  Convert between decimal and binary representations instantly
+                </p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Binary Visualization
+</h2>
+<p>
+              Use the interactive console below to visualize how different values are represented in binary format. Enter a decimal value, select a data type (int8, int16, int32, int64, etc.), and see how the binary representation changes. The visualization will show each bit with its position and status. You can also click on individual bits to toggle their values, which will update the decimal representation.
+            </p>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Binary Representation Viewer
+</h3>
+</div>
+<div class="visualization-area">
+  <div class="decimal-display" id="decimalDisplay">Value: 3 (int64)</div>
+  <div class="binary-display" id="binaryDisplay">0000000000000000000000000000000000000000000000000000000000000011</div>
+  <div class="binary-grid" id="binaryGrid">
+    <!-- Binary bits will be populated here -->
+  </div>
+  <div class="instructions">
+    Click on individual bits to toggle their values (0 &lt;&gt; 1)
+  </div>
+  <div class="bit-controls">
+    <button class="bit-btn" id="resetBtn">Reset to 0</button>
+    <button class="bit-btn" id="invertBtn">Invert All</button>
+  </div>
+</div>
+<div class="console-input">
+<input id="valueInput" placeholder="Enter a decimal value (e.g., 3)" type="number" value="3"/>
+<select id="dataTypeSelect">
+  <option value="int8">int8 (8 bits)</option>
+  <option value="int16">int16 (16 bits)</option>
+  <option value="int32">int32 (32 bits)</option>
+  <option value="int64" selected>int64 (64 bits)</option>
+  <option value="uint8">uint8 (8 bits unsigned)</option>
+  <option value="uint16">uint16 (16 bits unsigned)</option>
+  <option value="uint32">uint32 (32 bits unsigned)</option>
+  <option value="uint64">uint64 (64 bits unsigned)</option>
+</select>
+<button class="console-btn" id="visualizeBtn">
+<i class="fas fa-binoculars"></i> Visualize
+</button>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Understanding Binary Representation</h2>
+<p>
+              Binary representation works by assigning each bit a power of 2 based on its position. The rightmost bit is 2^0 (1), the next is 2^1 (2), then 2^2 (4), and so on. For signed integers, the leftmost bit represents the sign (0 for positive, 1 for negative) when using two's complement representation.
+            </p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Positional Values</h3>
+<p>
+                  Each bit position represents a power of 2: 1, 2, 4, 8, 16, 32, etc.
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-share-alt"></i> 2. Bit Significance</h3>
+<p>
+                  The rightmost bits represent less significant values (lower numbers), while leftmost bits represent more significant values.
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> 3. Sign Representation</h3>
+<p>
+                  In signed integers, the most significant bit indicates positive (0) or negative (1) numbers.
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-paper-plane"></i> 4. Range Limits</h3>
+<p>
+                  Different data types have different ranges: int8 is -128 to 127, int16 is -32,768 to 32,767, etc.
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> 5. Two's Complement</h3>
+<p>
+                  Negative numbers are represented using two's complement, which simplifies arithmetic operations.
+                </p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Binary Conversion Process</h2>
+<div class="code-block">
+<pre><code>function convertToBinary(value, dataType)
+    if dataType is signed and value is negative
+        convert to two's complement representation
+    else
+        convert to binary using division by 2 method
+    
+    pad with zeros to match required bit length
+    return binary string with bit positions</code></pre>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Binary Conversion Logic</h2>
+<p>
+              The binary conversion process involves converting a decimal number to its binary representation. For positive numbers, this is done by repeatedly dividing by 2 and keeping track of the remainders. For negative numbers in signed data types, the two's complement representation is used, which involves inverting all bits and adding 1 to the result.
+            </p>
+<div class="code-block">
+<div class="code-header">
+<span>JavaScript Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
+</button>
+</div>
+<pre><code><span class="comment">// Function to convert decimal to binary with specified bit length</span>
+<span class="keyword">function</span> <span class="function">decimalToBinary</span>(value, bits) {
+    <span class="comment">// Handle negative numbers with two's complement</span>
+    <span class="keyword">if</span> (value &lt; 0) {
+        <span class="comment">// Convert to two's complement</span>
+        value = Math.pow(2, bits) + value;
+    }
+    
+    <span class="comment">// Convert to binary string</span>
+    <span class="keyword">let</span> binary = value.toString(2);
+    
+    <span class="comment">// Pad with leading zeros to match the required bit length</span>
+    <span class="keyword">while</span> (binary.length &lt; bits) {
+        binary = <span class="string">"0"</span> + binary;
+    }
+    
+    <span class="keyword">return</span> binary;
+}
+
+<span class="comment">// Function to get bit information</span>
+<span class="keyword">function</span> <span class="function">getBitInfo</span>(binaryString) {
+    <span class="keyword">const</span> bits = [];
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i &lt; binaryString.length; i++) {
+        bits.push({
+            position: binaryString.length - 1 - i, <span class="comment">// MSB at position 0</span>
+            value: <span class="function">parseInt</span>(binaryString[i])
+        });
+    }
+    <span class="keyword">return</span> bits;
+}</code></pre>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Data Type Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>int8</h4>
+<div class="value">8 bits</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Signed</div>
+</div>
+<div class="property-card">
+<h4>Min Value</h4>
+<div class="value">-128</div>
+</div>
+<div class="property-card">
+<h4>Max Value</h4>
+<div class="value">127</div>
+</div>
+<div class="property-card">
+<h4>int16</h4>
+<div class="value">16 bits</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Signed</div>
+</div>
+<div class="property-card">
+<h4>Min Value</h4>
+<div class="value">-32,768</div>
+</div>
+<div class="property-card">
+<h4>Max Value</h4>
+<div class="value">32,767</div>
+</div>
+<div class="property-card">
+<h4>int32</h4>
+<div class="value">32 bits</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Signed</div>
+</div>
+<div class="property-card">
+<h4>Min Value</h4>
+<div class="value">-2^31</div>
+</div>
+<div class="property-card">
+<h4>Max Value</h4>
+<div class="value">2^31-1</div>
+</div>
+<div class="property-card">
+<h4>int64</h4>
+<div class="value">64 bits</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Signed</div>
+</div>
+<div class="property-card">
+<h4>Min Value</h4>
+<div class="value">-2^63</div>
+</div>
+<div class="property-card">
+<h4>Max Value</h4>
+<div class="value">2^63-1</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Binary Applications</h2>
+<p>
+              Binary representation is fundamental to computer systems and has many applications:
+            </p>
+<ul style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              ">
+<li style="margin-bottom: 10px">
+                Computer memory storage and addressing
+              </li>
+<li style="margin-bottom: 10px">
+                Bitwise operations and masks
+              </li>
+<li style="margin-bottom: 10px">Data compression algorithms</li>
+<li style="margin-bottom: 10px">
+                Error detection and correction codes
+              </li>
+<li style="margin-bottom: 10px">Cryptography and encryption</li>
+<li style="margin-bottom: 10px">Digital signal processing</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
+      // Simple copy button functionality
+      document
+        .querySelector(".copy-btn")
+        .addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          // Show feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+
+      // Initialize with default value
+      document.addEventListener("DOMContentLoaded", function() {
+        visualizeBinary();
+        
+        // Add event listener to the visualize button
+        document.getElementById("visualizeBtn").addEventListener("click", visualizeBinary);
+        
+        // Add event listener for Enter key in input field
+        document.getElementById("valueInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                visualizeBinary();
+            }
+        });
+        
+        // Add event listener for data type change
+        document.getElementById("dataTypeSelect").addEventListener("change", visualizeBinary);
+        
+        // Add event listeners for additional controls
+        document.getElementById("resetBtn").addEventListener("click", function() {
+          document.getElementById("valueInput").value = 0;
+          visualizeBinary();
+        });
+        
+        document.getElementById("invertBtn").addEventListener("click", function() {
+          invertAllBits();
+        });
+      });
+
+      function visualizeBinary() {
+        const valueInput = document.getElementById("valueInput");
+        const dataTypeSelect = document.getElementById("dataTypeSelect");
+        const decimalDisplay = document.getElementById("decimalDisplay");
+        const binaryDisplay = document.getElementById("binaryDisplay");
+        const binaryGrid = document.getElementById("binaryGrid");
+        
+        let value = parseInt(valueInput.value) || 0;
+        const dataType = dataTypeSelect.value;
+        
+        // Determine the number of bits based on data type
+        let bitCount;
+        let minVal, maxVal;
+        
+        switch(dataType) {
+          case "int8":
+            bitCount = 8;
+            minVal = -128;
+            maxVal = 127;
+            break;
+          case "int16":
+            bitCount = 16;
+            minVal = -32768;
+            maxVal = 32767;
+            break;
+          case "int32":
+            bitCount = 32;
+            minVal = Math.pow(-2, 31);
+            maxVal = Math.pow(2, 31) - 1;
+            break;
+          case "int64":
+            bitCount = 64;
+            minVal = Math.pow(-2, 63);
+            maxVal = Math.pow(2, 63) - 1;
+            break;
+          case "uint8":
+            bitCount = 8;
+            minVal = 0;
+            maxVal = 255;
+            break;
+          case "uint16":
+            bitCount = 16;
+            minVal = 0;
+            maxVal = 65535;
+            break;
+          case "uint32":
+            bitCount = 32;
+            minVal = 0;
+            maxVal = Math.pow(2, 32) - 1;
+            break;
+          case "uint64":
+            bitCount = 64;
+            minVal = 0;
+            maxVal = Math.pow(2, 64) - 1;
+            break;
+          default:
+            bitCount = 8;
+            minVal = -128;
+            maxVal = 127;
+        }
+        
+        // Clamp value to valid range
+        if (value < minVal) value = minVal;
+        if (value > maxVal) value = maxVal;
+        
+        // Update the input value if it was clamped
+        valueInput.value = value;
+        
+        // Calculate binary representation
+        let binaryStr;
+        if (value < 0 && !dataType.startsWith('u')) { // signed negative
+          // Calculate two's complement
+          binaryStr = (Math.pow(2, bitCount) + value).toString(2);
+        } else {
+          // Positive or unsigned
+          binaryStr = value.toString(2);
+        }
+        
+        // Pad with leading zeros to match the required bit length
+        while (binaryStr.length < bitCount) {
+          binaryStr = "0" + binaryStr;
+        }
+        
+        // Ensure the string is exactly the right length (truncate if necessary)
+        binaryStr = binaryStr.slice(-bitCount);
+        
+        // Update displays
+        decimalDisplay.textContent = `Value: ${value} (${dataType})`;
+        binaryDisplay.textContent = binaryStr;
+        
+        // Clear the binary grid
+        binaryGrid.innerHTML = "";
+        
+        // Create binary visualization with clickable bit elements
+        const bitsPerGroup = 8; // Group by 8 bits always
+        const groups = Math.ceil(bitCount / bitsPerGroup);
+        
+        // Create groups starting from the most significant bits (top row has highest bit positions)
+        for (let g = 0; g < groups; g++) {
+          const groupContainer = document.createElement("div");
+          groupContainer.className = "group-container";
+          
+          const groupDiv = document.createElement("div");
+          groupDiv.className = "bit-group";
+          
+          // Calculate the bit positions for this group
+          const startBitPosition = bitCount - 1 - (g * bitsPerGroup); // Highest bit position in this group
+          const endBitPosition = Math.max(startBitPosition - bitsPerGroup + 1, 0); // Lowest bit position in this group
+          
+          const groupLabel = document.createElement("div");
+          groupLabel.className = "group-label";
+          groupLabel.textContent = `Bits ${startBitPosition}-${endBitPosition}`;
+          groupContainer.appendChild(groupLabel);
+          
+          // Add bits to this group in order from left to right (highest to lowest position in this group)
+          for (let i = 0; i < bitsPerGroup && (g * bitsPerGroup + i) < bitCount; i++) {
+            const bitIndexInBinaryStr = g * bitsPerGroup + i; // Index in the binary string (left to right)
+            const bitValue = binaryStr[bitIndexInBinaryStr];
+            
+            // Calculate the actual bit position in the data type (0 to bitCount-1)
+            const position = bitCount - 1 - bitIndexInBinaryStr;
+            
+            const bitContainer = document.createElement("div");
+            bitContainer.className = "bit-container";
+            
+            const bitElement = document.createElement("div");
+            bitElement.className = "binary-bit";
+            if (bitValue === "1") {
+              bitElement.classList.add("active");
+            }
+            bitElement.textContent = bitValue;
+            
+            bitElement.title = `Bit ${position} (2^${position})`;
+            
+            // Add click event to toggle the bit value - using the bit index in the binary string
+            bitElement.addEventListener("click", function() {
+              toggleBit(bitIndexInBinaryStr, dataType);
+            });
+            
+            const bitLabel = document.createElement("div");
+            bitLabel.className = "bit-label";
+            bitLabel.textContent = position;
+            
+            bitContainer.appendChild(bitElement);
+            bitContainer.appendChild(bitLabel);
+            groupDiv.appendChild(bitContainer);
+          }
+          
+          groupContainer.appendChild(groupDiv);
+          binaryGrid.appendChild(groupContainer);
+        }
+      }
+      
+      function toggleBit(bitIndexInBinaryStr, dataType) {
+        const valueInput = document.getElementById("valueInput");
+        let currentValue = parseInt(valueInput.value) || 0;
+        
+        // Determine the number of bits based on data type
+        let bitCount;
+        switch(dataType) {
+          case "int8": bitCount = 8; break;
+          case "int16": bitCount = 16; break;
+          case "int32": bitCount = 32; break;
+          case "int64": bitCount = 64; break;
+          case "uint8": bitCount = 8; break;
+          case "uint16": bitCount = 16; break;
+          case "uint32": bitCount = 32; break;
+          case "uint64": bitCount = 64; break;
+          default: bitCount = 8;
+        }
+        
+        // Calculate the actual bit position in the data type (0 is LSB, bitCount-1 is MSB)
+        const position = bitCount - 1 - bitIndexInBinaryStr;
+        
+        // Calculate the bit's power of 2 value
+        const bitValue = Math.pow(2, position);
+        
+        // Toggle the bit
+        if (dataType.startsWith('u')) {
+          // For unsigned types, simply toggle the bit
+          currentValue = currentValue ^ (1 << position);
+        } else {
+          // For signed types, we need to handle two's complement
+          // Get current binary string to see the current bit value
+          let currentBinary;
+          if (currentValue < 0) {
+            currentBinary = (Math.pow(2, bitCount) + currentValue).toString(2);
+          } else {
+            currentBinary = currentValue.toString(2);
+          }
+          
+          // Pad with leading zeros
+          while (currentBinary.length < bitCount) {
+            currentBinary = "0" + currentBinary;
+          }
+          
+          // Toggle the bit in the binary string
+          const bitValueToToggle = currentBinary[bitIndexInBinaryStr];
+          let newBinary;
+          if (bitValueToToggle === "0") {
+            // Set to 1
+            newBinary = currentBinary.substring(0, bitIndexInBinaryStr) + "1" + currentBinary.substring(bitIndexInBinaryStr + 1);
+          } else {
+            // Set to 0
+            newBinary = currentBinary.substring(0, bitIndexInBinaryStr) + "0" + currentBinary.substring(bitIndexInBinaryStr + 1);
+          }
+          
+          // Convert back to decimal
+          let newValue = parseInt(newBinary, 2);
+          
+          // If the MSB (sign bit) is 1, this is a negative number in two's complement
+          const msb = newBinary[0];
+          if (msb === "1" && !dataType.startsWith('u')) {
+            // Convert from two's complement to signed value
+            newValue = newValue - Math.pow(2, bitCount);
+          }
+          
+          currentValue = newValue;
+        }
+        
+        // Update the input value and visualize again
+        valueInput.value = currentValue;
+        visualizeBinary();
+      }
+      
+      function invertAllBits() {
+        const valueInput = document.getElementById("valueInput");
+        const dataTypeSelect = document.getElementById("dataTypeSelect");
+        let currentValue = parseInt(valueInput.value) || 0;
+        const dataType = dataTypeSelect.value;
+        
+        // Determine the number of bits based on data type
+        let bitCount;
+        switch(dataType) {
+          case "int8": bitCount = 8; break;
+          case "int16": bitCount = 16; break;
+          case "int32": bitCount = 32; break;
+          case "int64": bitCount = 64; break;
+          case "uint8": bitCount = 8; break;
+          case "uint16": bitCount = 16; break;
+          case "uint32": bitCount = 32; break;
+          case "uint64": bitCount = 64; break;
+          default: bitCount = 8;
+        }
+        
+        // For unsigned types, use bitwise NOT and mask
+        if (dataType.startsWith('u')) {
+          currentValue = ~currentValue & ((1 << bitCount) - 1);
+        } else {
+          // For signed types, we need to handle two's complement properly
+          // Get current binary string
+          let currentBinary;
+          if (currentValue < 0) {
+            currentBinary = (Math.pow(2, bitCount) + currentValue).toString(2);
+          } else {
+            currentBinary = currentValue.toString(2);
+          }
+          
+          // Pad with leading zeros
+          while (currentBinary.length < bitCount) {
+            currentBinary = "0" + currentBinary;
+          }
+          
+          // Invert each bit
+          let invertedBinary = "";
+          for (let i = 0; i < currentBinary.length; i++) {
+            invertedBinary += currentBinary[i] === "0" ? "1" : "0";
+          }
+          
+          // Convert back to decimal (handling two's complement)
+          let invertedValue = parseInt(invertedBinary, 2);
+          
+          // If the MSB (sign bit) is 1, this is a negative number in two's complement
+          const msb = invertedBinary[0];
+          if (msb === "1" && !dataType.startsWith('u')) {
+            invertedValue = invertedValue - Math.pow(2, bitCount);
+          }
+          
+          currentValue = invertedValue;
+        }
+        
+        // Update the input value and visualize again
+        valueInput.value = currentValue;
+        visualizeBinary();
+      }
+    </script>
+</body>
+</html>
