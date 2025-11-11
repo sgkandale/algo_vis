@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Algorithm Detail | AlgoViz Hub</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
+<head><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="description"/><meta content="algorithm, data structure, computer science, visualization, interactive" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Algorithm Detail | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
       :root {
         --primary: #0f172a;
         --secondary: #1e293b;
@@ -547,44 +542,63 @@
         color: #79c0ff;
       }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <header>
-        <div class="logo">
-          <div class="logo-icon floating">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <div class="logo-text">
-            <h1>AlgoViz Hub</h1>
-            <p>ALGORITHM VISUALIZATION REPOSITORY</p>
-            <div class="breadcrumb">
-              <a href="#"><i class="fas fa-home"></i> Home</a> >
-              <a href="#">Sorting Algorithms</a> >
+<meta content="Algorithm Detail | AlgoViz Hub" property="og:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/template.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Algorithm Detail | AlgoViz Hub" name="twitter:title"/><meta content="Interactive algorithm visualization platform for learning computer science concepts" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/template.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Algorithm Detail | AlgoViz Hub",
+  "description": "Interactive algorithm visualization platform for learning computer science concepts",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/template.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="#"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Sorting Algorithms</a> &gt;
               <span>Merge Sort</span>
-            </div>
-          </div>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Merge Sort</h1>
+<div class="category">
+<i class="fas fa-sort-amount-down"></i> Sorting Algorithm
         </div>
-      </header>
-
-      <!-- Algorithm Header -->
-      <div class="algorithm-header">
-        <h1>Merge Sort</h1>
-        <div class="category">
-          <i class="fas fa-sort-amount-down"></i> Sorting Algorithm
-        </div>
-        <div class="complexity-badge">Time Complexity: O(n log n)</div>
-      </div>
-
-      <!-- Main Content -->
-      <div class="main-content">
-        <!-- Left Column: Algorithm Details -->
-        <div class="left-column">
-          <!-- Description Section -->
-          <div class="section">
-            <h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
-            <p>
+<div class="complexity-badge">Time Complexity: O(n log n)</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
               Merge Sort is an efficient, stable, comparison-based, divide and
               conquer sorting algorithm. It works by recursively dividing the
               unsorted list into n sublists until each sublist contains one
@@ -592,144 +606,133 @@
               repeatedly merging sublists to produce new sorted sublists until
               there is only one sublist remaining.
             </p>
-            <p>
+<p>
               Merge Sort is particularly useful when sorting large datasets and
               is often used for external sorting. It's a classic example of a
               divide and conquer algorithm and is widely used in practice due to
               its efficiency and stability.
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-check-circle"></i> Key Feature</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
                   Stable sorting algorithm that preserves the order of equal
                   elements
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-bolt"></i> Performance</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Performance</h3>
+<p>
                   Consistent O(n log n) time complexity in all cases (best,
                   average, worst)
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-memory"></i> Space</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Space</h3>
+<p>
                   Requires O(n) additional space for temporary arrays during
                   merging
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-project-diagram"></i> Approach</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Approach</h3>
+<p>
                   Divide and conquer technique with recursive implementation
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visualization Console -->
-          <div class="section">
-            <h2>
-              <i class="fas fa-laptop-code"></i> Interactive Visualization
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Visualization
             </h2>
-            <p>
+<p>
               Use the interactive console below to visualize how Merge Sort
               works. Enter a comma-separated list of numbers, adjust the speed,
               and step through the algorithm to see each stage of the sorting
               process.
             </p>
-
-            <div class="visualization-console">
-              <div class="console-header">
-                <h3>
-                  <i class="fas fa-play-circle"></i> Merge Sort Visualization
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-play-circle"></i> Merge Sort Visualization
                 </h3>
-                <div class="console-controls">
-                  <button class="console-btn secondary">
-                    <i class="fas fa-cog"></i> Settings
+<div class="console-controls">
+<button class="console-btn secondary">
+<i class="fas fa-cog"></i> Settings
                   </button>
-                  <button class="console-btn">
-                    <i class="fas fa-play"></i> Run
+<button class="console-btn">
+<i class="fas fa-play"></i> Run
                   </button>
-                </div>
-              </div>
-
-              <div class="visualization-area">
-                <!-- Visualization will be rendered here -->
-              </div>
-
-              <div class="console-input">
-                <input
-                  type="text"
-                  placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)"
-                />
-                <button class="console-btn">
-                  <i class="fas fa-random"></i> Random
+</div>
+</div>
+<div class="visualization-area">
+<!-- Visualization will be rendered here -->
+</div>
+<div class="console-input">
+<input placeholder="Enter numbers (e.g., 5, 3, 8, 1, 2, 7, 4, 6)" type="text"/>
+<button class="console-btn">
+<i class="fas fa-random"></i> Random
                 </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Algorithm Steps -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Algorithm Steps</h2>
+<p>
               RSA key exchange involves the following steps to securely share a
               symmetric key:
             </p>
-
-            <div class="key-points">
-              <div class="point-card">
-                <h3><i class="fas fa-key"></i> 1. Key Generation</h3>
-                <p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Key Generation</h3>
+<p>
                   Alice selects two large primes (p=61, q=53), computes modulus
                   (n=p*q=3233), Euler's totient (φ=3120), chooses public
                   exponent (e=17), and computes private exponent (d=2753).
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-share-alt"></i> 2. Share Public Key</h3>
+<p>
                   Alice shares her public key (e, n) with Bob. This key can be
                   safely transmitted over insecure channels.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-lock"></i> 3. Encrypt Symmetric Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> 3. Encrypt Symmetric Key</h3>
+<p>
                   Bob generates a symmetric key (K=123) and encrypts it using
                   Alice's public key: C = K<sup>e</sup> mod n = 123<sup>17</sup>
                   mod 3233 = 855.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3>
-                  <i class="fas fa-paper-plane"></i> 4. Send Encrypted Key
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-paper-plane"></i> 4. Send Encrypted Key
                 </h3>
-                <p>
+<p>
                   Bob sends the encrypted key (C=855) to Alice. Even if
                   intercepted, this value cannot be decrypted without the
                   private key.
                 </p>
-              </div>
-              <div class="point-card">
-                <h3><i class="fas fa-unlock"></i> 5. Decrypt Key</h3>
-                <p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> 5. Decrypt Key</h3>
+<p>
                   Alice decrypts the symmetric key using her private key: K =
                   C<sup>d</sup> mod n = 855<sup>2753</sup> mod 3233 = 123.
                 </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pseudocode Section -->
-          <div class="section">
-            <h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
-            <div class="code-block">
-              <pre><code>function mergeSort(array)
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Pseudocode</h2>
+<div class="code-block">
+<pre><code>function mergeSort(array)
     if length(array) ≤ 1
         return array
     
@@ -746,7 +749,7 @@ function merge(left, right)
     result = []
     i = 0, j = 0
     
-    while i < length(left) and j < length(right)
+    while i &lt; length(left) and j &lt; length(right)
         if left[i] ≤ right[j]
             append left[i] to result
             i = i + 1
@@ -758,29 +761,27 @@ function merge(left, right)
     append remaining elements of right to result
     
     return result</code></pre>
-            </div>
-          </div>
-
-          <!-- Implementation Section -->
-          <div class="section">
-            <h2><i class="fas fa-code"></i> Implementation</h2>
-            <p>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
               Below is a Python implementation of the Merge Sort algorithm. The
               algorithm consists of two main functions:
               <code>merge_sort()</code> which handles the recursive division,
               and <code>merge()</code> which combines two sorted halves into a
               single sorted array.
             </p>
-
-            <div class="code-block">
-              <div class="code-header">
-                <span>Python Implementation</span>
-                <button class="copy-btn">
-                  <i class="fas fa-copy"></i> Copy Code
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
                 </button>
-              </div>
-              <pre><code><span class="keyword">def</span> <span class="function">merge_sort</span>(arr):
-    <span class="keyword">if</span> len(arr) <= 1:
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">merge_sort</span>(arr):
+    <span class="keyword">if</span> len(arr) &lt;= 1:
         <span class="keyword">return</span> arr
         
     <span class="comment"># Divide the array into two halves</span>
@@ -800,8 +801,8 @@ function merge(left, right)
     left_index = right_index = 0
     
     <span class="comment"># Traverse both lists and insert smaller value into result</span>
-    <span class="keyword">while</span> left_index < len(left) <span class="keyword">and</span> right_index < len(right):
-        <span class="keyword">if</span> left[left_index] < right[right_index]:
+    <span class="keyword">while</span> left_index &lt; len(left) <span class="keyword">and</span> right_index &lt; len(right):
+        <span class="keyword">if</span> left[left_index] &lt; right[right_index]:
             merged.append(left[left_index])
             left_index += 1
         <span class="keyword">else</span>:
@@ -818,94 +819,88 @@ function merge(left, right)
 arr = [38, 27, 43, 3, 9, 82, 10]
 sorted_arr = merge_sort(arr)
 print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Additional Info -->
-        <div class="right-column">
-          <!-- Properties Section -->
-          <div class="section">
-            <h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
-            <div class="properties-grid">
-              <div class="property-card">
-                <h4>Category</h4>
-                <div class="value">Sorting</div>
-              </div>
-              <div class="property-card">
-                <h4>Type</h4>
-                <div class="value">Comparison</div>
-              </div>
-              <div class="property-card">
-                <h4>Stable</h4>
-                <div class="value">Yes</div>
-              </div>
-              <div class="property-card">
-                <h4>In-place</h4>
-                <div class="value">No</div>
-              </div>
-              <div class="property-card">
-                <h4>Best Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Worst Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Average Case</h4>
-                <div class="value">O(n log n)</div>
-              </div>
-              <div class="property-card">
-                <h4>Space</h4>
-                <div class="value">O(n)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Applications Section -->
-          <div class="section">
-            <h2><i class="fas fa-lightbulb"></i> Applications</h2>
-            <p>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Sorting</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Comparison</div>
+</div>
+<div class="property-card">
+<h4>Stable</h4>
+<div class="value">Yes</div>
+</div>
+<div class="property-card">
+<h4>In-place</h4>
+<div class="value">No</div>
+</div>
+<div class="property-card">
+<h4>Best Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Worst Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Average Case</h4>
+<div class="value">O(n log n)</div>
+</div>
+<div class="property-card">
+<h4>Space</h4>
+<div class="value">O(n)</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
               Merge Sort is used in various scenarios where stable, efficient
               sorting is required:
             </p>
-            <ul
-              style="
+<ul style="
                 padding-left: 20px;
                 margin: 15px 0;
                 color: var(--text-secondary);
-              "
-            >
-              <li style="margin-bottom: 10px">
+              ">
+<li style="margin-bottom: 10px">
                 Sorting linked lists (efficient implementation)
               </li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">
                 External sorting for large datasets
               </li>
-              <li style="margin-bottom: 10px">Inversion count problem</li>
-              <li style="margin-bottom: 10px">
+<li style="margin-bottom: 10px">Inversion count problem</li>
+<li style="margin-bottom: 10px">
                 Used as a building block in more complex algorithms
               </li>
-              <li>Database systems for sorting large datasets</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
-          <a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
-          <a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
-        </div>
-        <p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
-        <p>&copy; 2025 AlgoViz Hub. All rights reserved.</p>
-      </footer>
-    </div>
-
-    <script>
+<li>Database systems for sorting large datasets</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
       // Simple copy button functionality
       document
         .querySelector(".copy-btn")
@@ -953,5 +948,5 @@ print(<span class="string">"Sorted array:"</span>, sorted_arr)</code></pre>
         });
       });
     </script>
-  </body>
+</body>
 </html>

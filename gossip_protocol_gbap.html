@@ -1358,291 +1358,206 @@ On receivePushSum(sender, s, w):
         </div>
 
         <script>
-            // Copy button functionality
-            document.querySelectorAll(".copy-btn").forEach((button) => {
-                button.addEventListener("click", function () {
-                    const codeBlock =
-                        this.closest(".code-block").querySelector("code");
-                    const code = codeBlock.innerText;
-                    navigator.clipboard.writeText(code);
+            class GossipNode {
+        constructor(id, initialValue, allNodes, threshold) {
+            this.id = id;
+            this.value = initialValue;
+            this.weight = 1;
+            this.allNodes = allNodes;
+            this.element = null;
+            this.converged = false;
+            this.previousValue = initialValue;
+            this.convergenceThreshold = threshold;
+        }
 
-                    // Show feedback
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        gossip() {
+            if (this.converged) return;
 
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                    }, 2000);
-                });
-            });
-
-            // Aggregation Protocol visualization
-            const runBtn = document.getElementById("run-btn");
-            const resetBtn = document.getElementById("reset-btn");
-            const nodeCountSlider = document.getElementById("node-count");
-            const thresholdSlider = document.getElementById(
-                "convergence-threshold",
-            );
-            const nodeCountValue = document.getElementById("node-count-value");
-            const thresholdValue = document.getElementById("threshold-value");
-            const vizArea = document.getElementById("visualization-area");
-            const roundCount = document.getElementById("round-count");
-            const convergedNodes = document.getElementById("converged-nodes");
-            const currentAvg = document.getElementById("current-avg");
-            const targetAvg = document.getElementById("target-avg");
-            const aggregationResult =
-                document.getElementById("aggregation-result");
-
-            let simulationInterval;
-            let nodes = [];
-            let currentRound = 0;
-            let convergedCount = 0;
-            let actualAverage = 0;
-
-            // Update slider values
-            nodeCountSlider.addEventListener("input", () => {
-                nodeCountValue.textContent = nodeCountSlider.value;
-                initVisualization();
-            });
-
-            thresholdSlider.addEventListener("input", () => {
-                const threshold = parseInt(thresholdSlider.value) / 100;
-                thresholdValue.textContent = threshold.toFixed(2);
-                if (nodes.length > 0) {
-                    nodes.forEach((node) => {
-                        node.convergenceThreshold = threshold;
-                    });
-                }
-            });
-
-            // Initialize visualization
-            function initVisualization() {
-                vizArea.innerHTML = "";
-                const nodeCount = parseInt(nodeCountSlider.value);
-                nodes = [];
-
-                const width = vizArea.offsetWidth;
-                const height = vizArea.offsetHeight;
-                const centerX = width / 2;
-                const centerY = height / 2;
-                const radius = Math.min(width, height) * 0.35;
-
-                // Generate random initial values
-                const initialValues = [];
-                let sum = 0;
-                for (let i = 0; i < nodeCount; i++) {
-                    const value = Math.floor(Math.random() * 100) + 1;
-                    initialValues.push(value);
-                    sum += value;
-                }
-                actualAverage = sum / nodeCount;
-                targetAvg.textContent = actualAverage.toFixed(2);
-
-                // Create nodes
-                for (let i = 0; i < nodeCount; i++) {
-                    const angle = (2 * Math.PI * i) / nodeCount;
-                    const x = centerX + radius * Math.cos(angle);
-                    const y = centerY + radius * Math.sin(angle);
-
-                    const node = document.createElement("div");
-                    node.className = "node";
-                    node.id = `node-${i}`;
-                    node.style.left = `${x}px`;
-                    node.style.top = `${y}px`;
-                    node.innerHTML = initialValues[i];
-                    node.dataset.value = initialValues[i];
-                    node.dataset.converged = "false";
-                    vizArea.appendChild(node);
-
-                    nodes.push({
-                        id: i,
-                        element: node,
-                        value: initialValues[i],
-                        weight: 1.0,
-                        converged: false,
-                        position: { x, y },
-                        convergenceThreshold:
-                            parseInt(thresholdSlider.value) / 100,
-                    });
-                }
-
-                // Create connections
-                for (let i = 0; i < nodeCount; i++) {
-                    for (let j = i + 1; j < nodeCount; j++) {
-                        const node1 = nodes[i];
-                        const node2 = nodes[j];
-
-                        const dx = node2.position.x - node1.position.x;
-                        const dy = node2.position.y - node1.position.y;
-                        const length = Math.sqrt(dx * dx + dy * dy);
-                        const angleLine = (Math.atan2(dy, dx) * 180) / Math.PI;
-
-                        const connection = document.createElement("div");
-                        connection.className = "node-connection";
-                        connection.style.width = `${length}px`;
-                        connection.style.left = `${node1.position.x}px`;
-                        connection.style.top = `${node1.position.y}px`;
-                        connection.style.transform = `rotate(${angleLine}deg)`;
-                        vizArea.appendChild(connection);
-                    }
-                }
-
-                // Reset counters
-                currentRound = 0;
-                convergedCount = 0;
-                updateCounters();
+            const peer = this.selectRandomPeer();
+            if (peer) {
+                this.exchangeWith(peer);
             }
+        }
 
-            // Reset node values
-            function resetValues() {
-                if (simulationInterval) {
-                    clearInterval(simulationInterval);
-                    simulationInterval = null;
-                    runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-                }
+        selectRandomPeer() {
+            const availablePeers = this.allNodes.filter(node => node.id !== this.id);
+            return availablePeers[Math.floor(Math.random() * availablePeers.length)];
+        }
 
-                initVisualization();
+        exchangeWith(peer) {
+            const totalWeight = this.weight + peer.weight;
+            const newValue = (this.value * this.weight + peer.value * peer.weight) / totalWeight;
+
+            this.previousValue = this.value;
+            peer.previousValue = peer.value;
+
+            this.value = newValue;
+            peer.value = newValue;
+            
+            this.weight = totalWeight / 2;
+            peer.weight = totalWeight / 2;
+
+            this.checkConvergence();
+            peer.checkConvergence();
+            
+            this.visualizeGossip(peer);
+        }
+        
+        checkConvergence() {
+            if (Math.abs(this.value - this.previousValue) < this.convergenceThreshold) {
+                this.converged = true;
+                this.element.classList.add("converged");
             }
+        }
 
-            // Run simulation
-            function runSimulation() {
-                if (simulationInterval) {
-                    clearInterval(simulationInterval);
-                    simulationInterval = null;
-                    runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-                    return;
-                }
+        visualizeGossip(peer) {
+            const message = document.createElement("div");
+            message.className = "aggregation-message";
+            message.textContent = "Avg";
+            
+            const vizArea = document.querySelector('.visualization-area');
+            vizArea.appendChild(message);
 
-                runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
-                currentRound = 0;
+            const sourceRect = this.element.getBoundingClientRect();
+            const targetRect = peer.element.getBoundingClientRect();
+            const containerRect = vizArea.getBoundingClientRect();
 
-                simulationInterval = setInterval(() => {
-                    currentRound++;
+            const sourceX = sourceRect.left - containerRect.left + sourceRect.width / 2;
+            const sourceY = sourceRect.top - containerRect.top + sourceRect.height / 2;
+            const targetX = targetRect.left - containerRect.left + targetRect.width / 2;
+            const targetY = targetRect.top - containerRect.top + targetRect.height / 2;
 
-                    // Perform gossip exchanges
-                    const gossipExchanges = Math.ceil(nodes.length * 0.5); // 50% of nodes gossip each round
-                    for (let i = 0; i < gossipExchanges; i++) {
-                        const sourceIdx = Math.floor(
-                            Math.random() * nodes.length,
-                        );
-                        const source = nodes[sourceIdx];
+            message.style.left = `${sourceX}px`;
+            message.style.top = `${sourceY}px`;
+            message.style.opacity = "1";
 
-                        if (source.converged) continue;
-
-                        // Select a random target
-                        let targetIdx;
-                        do {
-                            targetIdx = Math.floor(
-                                Math.random() * nodes.length,
-                            );
-                        } while (targetIdx === sourceIdx);
-
-                        const target = nodes[targetIdx];
-
-                        if (target.converged) continue;
-
-                        // Animate gossip message
-                        animateGossipMessage(source, target);
-
-                        // Perform aggregation (weighted average)
-                        const totalWeight = source.weight + target.weight;
-                        const newValue =
-                            (source.value * source.weight +
-                                target.value * target.weight) /
-                            totalWeight;
-
-                        // Update both nodes (simplified)
-                        source.value = newValue;
-                        target.value = newValue;
-                        source.weight = totalWeight / 2;
-                        target.weight = totalWeight / 2;
-
-                        // Update visual representation
-                        source.element.innerHTML = source.value.toFixed(1);
-                        target.element.innerHTML = target.value.toFixed(1);
-                        source.element.dataset.value = source.value.toFixed(1);
-                        target.element.dataset.value = target.value.toFixed(1);
-
-                        // Check for convergence
-                        if (
-                            !source.converged &&
-                            Math.abs(source.value - actualAverage) <
-                                source.convergenceThreshold
-                        ) {
-                            source.converged = true;
-                            source.element.classList.add("converged");
-                            convergedCount++;
-                        }
-
-                        if (
-                            !target.converged &&
-                            Math.abs(target.value - actualAverage) <
-                                target.convergenceThreshold
-                        ) {
-                            target.converged = true;
-                            target.element.classList.add("converged");
-                            convergedCount++;
-                        }
-                    }
-
-                    updateCounters();
-
-                    // Check if simulation should end (all nodes converged)
-                    if (convergedCount >= nodes.length) {
-                        clearInterval(simulationInterval);
-                        simulationInterval = null;
-                        runBtn.innerHTML =
-                            '<i class="fas fa-redo"></i> Restart';
-
-                        // Show convergence message
-                        aggregationResult.innerHTML = `All nodes converged to average: ${actualAverage.toFixed(2)}`;
-                        aggregationResult.style.color = "var(--success)";
-                    }
-                }, 1500);
-            }
-
-            // Animate gossip message between nodes
-            function animateGossipMessage(source, target) {
-                const message = document.createElement("div");
-                message.className = "aggregation-message";
-                message.innerHTML = "Avg";
-                message.style.left = `${source.position.x}px`;
-                message.style.top = `${source.position.y}px`;
-                vizArea.appendChild(message);
-
-                // Animate message movement
+            setTimeout(() => {
+                message.style.left = `${targetX}px`;
+                message.style.top = `${targetY}px`;
                 setTimeout(() => {
-                    message.style.left = `${target.position.x}px`;
-                    message.style.top = `${target.position.y}px`;
+                    message.remove();
+                    this.updateNodeAppearance();
+                    peer.updateNodeAppearance();
+                }, 500);
+            }, 100);
+        }
+        
+        updateNodeAppearance() {
+            this.element.innerHTML = this.value.toFixed(1);
+        }
+    }
 
-                    // Remove message after animation
-                    setTimeout(() => {
-                        message.remove();
-                    }, 500);
-                }, 100);
+    class GossipSimulation {
+        constructor() {
+            this.nodes = [];
+            this.simulationInterval = null;
+            this.roundCount = 0;
+            
+            this.runBtn = document.getElementById("run-btn");
+            this.resetBtn = document.getElementById("reset-btn");
+            this.nodeCountSlider = document.getElementById("node-count");
+            this.thresholdSlider = document.getElementById("convergence-threshold");
+            this.nodeCountValue = document.getElementById("node-count-value");
+            this.thresholdValue = document.getElementById("threshold-value");
+            this.vizArea = document.getElementById("visualization-area");
+            this.roundCountEl = document.getElementById("round-count");
+            this.convergedNodesEl = document.getElementById("converged-nodes");
+            this.currentAvgEl = document.getElementById("current-avg");
+            this.targetAvgEl = document.getElementById("target-avg");
+
+            this.setupEventListeners();
+            this.init();
+        }
+
+        init() {
+            this.stop();
+            this.roundCount = 0;
+            this.vizArea.innerHTML = '';
+            this.nodes = [];
+            
+            const nodeCount = parseInt(this.nodeCountSlider.value);
+            const threshold = parseInt(this.thresholdSlider.value) / 100;
+            this.nodeCountValue.textContent = nodeCount;
+            this.thresholdValue.textContent = threshold.toFixed(2);
+
+            const width = this.vizArea.offsetWidth;
+            const height = this.vizArea.offsetHeight;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const radius = Math.min(width, height) * 0.35;
+            
+            let sum = 0;
+            for (let i = 0; i < nodeCount; i++) {
+                const initialValue = Math.floor(Math.random() * 100) + 1;
+                sum += initialValue;
+                
+                const angle = (2 * Math.PI * i) / nodeCount;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+
+                const nodeEl = document.createElement("div");
+                nodeEl.className = "node";
+                nodeEl.id = `node-${i}`;
+                nodeEl.style.left = `${x - 30}px`;
+                nodeEl.style.top = `${y - 30}px`;
+                nodeEl.innerHTML = initialValue;
+                this.vizArea.appendChild(nodeEl);
+                
+                const node = new GossipNode(i, initialValue, this.nodes, threshold);
+                node.element = nodeEl;
+                this.nodes.push(node);
             }
+            
+            this.nodes.forEach(node => node.allNodes = this.nodes);
+            this.targetAvgEl.textContent = (sum / nodeCount).toFixed(2);
+            this.updateCounters();
+        }
 
-            // Update counters
-            function updateCounters() {
-                roundCount.textContent = currentRound;
-                convergedNodes.textContent = convergedCount;
+        start() {
+            if (this.simulationInterval) return;
+            this.runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+            this.simulationInterval = setInterval(() => this.tick(), 1000);
+        }
 
-                // Calculate current average
-                let sum = 0;
-                nodes.forEach((node) => {
-                    sum += node.value;
-                });
-                const avg = sum / nodes.length;
-                currentAvg.textContent = avg.toFixed(2);
+        stop() {
+            clearInterval(this.simulationInterval);
+            this.simulationInterval = null;
+            this.runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+        }
+
+        tick() {
+            this.roundCount++;
+            this.nodes.forEach(node => node.gossip());
+            this.updateCounters();
+            
+            if(this.nodes.every(n => n.converged)) {
+                this.stop();
             }
+        }
+        
+        updateCounters() {
+            this.roundCountEl.textContent = this.roundCount;
+            this.convergedNodesEl.textContent = this.nodes.filter(n => n.converged).length;
+            const currentAvg = this.nodes.reduce((sum, node) => sum + node.value, 0) / this.nodes.length;
+            this.currentAvgEl.textContent = currentAvg.toFixed(2);
+        }
 
-            // Event listeners
-            runBtn.addEventListener("click", runSimulation);
-            resetBtn.addEventListener("click", resetValues);
-            nodeCountSlider.addEventListener("input", initVisualization);
+        setupEventListeners() {
+            this.runBtn.addEventListener("click", () => {
+                if (this.simulationInterval) this.stop();
+                else this.start();
+            });
+            this.resetBtn.addEventListener("click", () => this.init());
+            this.nodeCountSlider.addEventListener("input", () => this.init());
+            this.thresholdSlider.addEventListener("input", () => {
+                const threshold = parseInt(this.thresholdSlider.value) / 100;
+                this.thresholdValue.textContent = threshold.toFixed(2);
+                this.nodes.forEach(node => node.convergenceThreshold = threshold);
+            });
+        }
+    }
 
-            // Initialize visualization on load
-            window.addEventListener("load", initVisualization);
-        </script>
+    new GossipSimulation();
+</script>
     </body>
 </html>

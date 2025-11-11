@@ -1241,316 +1241,254 @@ print(<span class="string">"Transaction result:"</span>, result)</code></pre>
 </footer>
 </div>
 <script>
-      // Visualization state
-      let vizState = {
-        phase: "not-started",
-        participants: 4,
-        readyCount: 0,
-        precommitCount: 0,
-        commitCount: 0,
-      };
-
-      // DOM Elements
-      const runBtn = document.getElementById("run-btn");
-      const resetBtn = document.getElementById("reset-btn");
-      const failureBtn = document.getElementById("failure-btn");
-      const randomBtn = document.getElementById("random-btn");
-      const nodesInput = document.getElementById("nodes-input");
-      const phaseText = document.getElementById("phase-text");
-      const stateInfo = document.getElementById("state-info");
-      const readyCount = document.getElementById("ready-count");
-      const precommitCount = document.getElementById("precommit-count");
-      const commitCount = document.getElementById("commit-count");
-
-      // Initialize visualization
-      function initViz() {
-        vizState = {
+      document.addEventListener("DOMContentLoaded", function () {
+        let vizState = {
           phase: "not-started",
           participants: 4,
           readyCount: 0,
           precommitCount: 0,
           commitCount: 0,
+          running: false
         };
 
-        // Reset UI
-        phaseText.textContent = "Not Started";
-        stateInfo.textContent = "Transaction State: Not Started";
-        readyCount.textContent = "0";
-        precommitCount.textContent = "0";
-        commitCount.textContent = "0";
+        const runBtn = document.getElementById("run-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const failureBtn = document.getElementById("failure-btn");
+        const randomBtn = document.getElementById("random-btn");
+        const nodesInput = document.getElementById("nodes-input");
+        const phaseText = document.getElementById("phase-text");
+        const stateInfo = document.getElementById("state-info");
+        const readyCountEl = document.getElementById("ready-count");
+        const precommitCountEl = document.getElementById("precommit-count");
+        const commitCountEl = document.getElementById("commit-count");
+        const participantsContainer = document.querySelector(".participants");
 
-        // Reset participants
-        const participants = document.querySelectorAll(".participant");
-        participants.forEach((p) => {
-          p.className = "participant";
+        function initViz() {
+          vizState.phase = "not-started";
+          vizState.readyCount = 0;
+          vizState.precommitCount = 0;
+          vizState.commitCount = 0;
+          vizState.running = false;
+
+          phaseText.textContent = "Not Started";
+          stateInfo.textContent = "Transaction State: Not Started";
+          readyCountEl.textContent = "0";
+          precommitCountEl.textContent = "0";
+          commitCountEl.textContent = "0";
+
+          participantsContainer.innerHTML = '';
+          for (let i = 1; i <= vizState.participants; i++) {
+              const p = document.createElement('div');
+              p.className = 'participant';
+              p.id = `p${i}`;
+              p.textContent = `P${i}`;
+              participantsContainer.appendChild(p);
+          }
+          
+          document.querySelectorAll(".message").forEach((m) => m.remove());
+          document.querySelectorAll(".phase-marker, .connector").forEach(el => el.classList.remove("active"));
+          runBtn.disabled = false;
+          failureBtn.disabled = false;
+        }
+
+        function createMessage(from, to, label, color = 'var(--accent-light)') {
+            const vizContainer = document.getElementById("viz-container");
+            const fromElem = document.querySelector(from);
+            const toElem = document.querySelector(to);
+
+            if (!fromElem || !toElem) return;
+
+            const fromRect = fromElem.getBoundingClientRect();
+            const toRect = toElem.getBoundingClientRect();
+            const containerRect = vizContainer.getBoundingClientRect();
+
+            const x1 = fromRect.left + fromRect.width / 2 - containerRect.left;
+            const y1 = fromRect.top + fromRect.height / 2 - containerRect.top;
+            const x2 = toRect.left + toRect.width / 2 - containerRect.left;
+            const y2 = toRect.top + toRect.height / 2 - containerRect.top;
+
+            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.style.width = `${length}px`;
+            message.style.transform = `rotate(${angle}deg)`;
+            message.style.left = `${x1}px`;
+            message.style.top = `${y1}px`;
+            message.style.background = color;
+            
+            const labelElem = document.createElement("div");
+            labelElem.className = "message-label";
+            labelElem.textContent = label;
+            message.appendChild(labelElem);
+
+            vizContainer.appendChild(message);
+            return message;
+        }
+        
+        function updateTimeline(phase) {
+            document.querySelectorAll(".phase-marker, .connector").forEach(el => el.classList.remove("active"));
+            if (phase >= 1) document.getElementById("phase1").classList.add("active");
+            if (phase >= 2) {
+                document.getElementById("phase2").classList.add("active");
+                document.getElementById("connector1").classList.add("active");
+            }
+            if (phase >= 3) {
+                document.getElementById("phase3").classList.add("active");
+                document.getElementById("connector2").classList.add("active");
+            }
+        }
+
+        async function runProtocol(shouldFail = false) {
+            if (vizState.running) return;
+            vizState.running = true;
+            runBtn.disabled = true;
+            failureBtn.disabled = true;
+
+            initViz();
+            await delay(100);
+
+            // Phase 1: CanCommit
+            vizState.phase = "can-commit";
+            phaseText.textContent = "1. CanCommit";
+            stateInfo.textContent = "Coordinator sends CanCommit?";
+            updateTimeline(1);
+            for (let i = 1; i <= vizState.participants; i++) {
+                createMessage(".coordinator", `#p${i}`, "CanCommit?");
+                await delay(200);
+            }
+
+            await delay(1000);
+            stateInfo.textContent = "Participants vote...";
+            
+            const failedParticipant = shouldFail && !shouldFail.coordinator ? Math.floor(Math.random() * vizState.participants) + 1 : -1;
+            let allVotedYes = true;
+
+            for (let i = 1; i <= vizState.participants; i++) {
+                const participant = document.getElementById(`p${i}`);
+                if (i === failedParticipant) {
+                    allVotedYes = false;
+                    participant.classList.add("abort");
+                    createMessage(`#p${i}`, ".coordinator", "VOTE_NO", 'var(--danger)');
+                } else {
+                    participant.classList.add("active");
+                    createMessage(`#p${i}`, ".coordinator", "VOTE_YES", 'var(--success)');
+                    vizState.readyCount++;
+                }
+                readyCountEl.textContent = vizState.readyCount;
+                await delay(200);
+            }
+
+            await delay(1000);
+            document.querySelectorAll(".message").forEach((m) => m.remove());
+
+            if (!allVotedYes) {
+                stateInfo.textContent = "A participant voted NO. Coordinator sends ABORT";
+                for (let i = 1; i <= vizState.participants; i++) {
+                    createMessage(".coordinator", `#p${i}`, "ABORT", 'var(--danger)');
+                    await delay(200);
+                }
+                await delay(1000);
+                document.querySelectorAll(".participant").forEach(p => p.className = 'participant abort');
+                stateInfo.textContent = "Transaction Aborted.";
+                vizState.running = false;
+                runBtn.disabled = false;
+                failureBtn.disabled = false;
+                return;
+            }
+
+            // Phase 2: PreCommit
+            vizState.phase = "pre-commit";
+            phaseText.textContent = "2. PreCommit";
+            stateInfo.textContent = "All voted YES. Coordinator sends PreCommit";
+            updateTimeline(2);
+            for (let i = 1; i <= vizState.participants; i++) {
+                createMessage(".coordinator", `#p${i}`, "PreCommit", 'var(--warning)');
+                await delay(200);
+            }
+            
+            if (shouldFail && shouldFail.coordinator) {
+                await delay(1000);
+                document.querySelector('.coordinator').classList.add('abort');
+                stateInfo.textContent = "Coordinator Failed! Participants will recover.";
+                await delay(2000);
+                stateInfo.textContent = "Participants timeout and commit autonomously.";
+                document.querySelectorAll(".participant").forEach(p => p.className = 'participant active');
+                vizState.commitCount = vizState.participants;
+                commitCountEl.textContent = vizState.commitCount;
+                updateTimeline(3);
+                vizState.running = false;
+                runBtn.disabled = false;
+                failureBtn.disabled = false;
+                return;
+            }
+
+            await delay(1000);
+            stateInfo.textContent = "Participants acknowledge PreCommit";
+            for (let i = 1; i <= vizState.participants; i++) {
+                const p = document.getElementById(`p${i}`);
+                p.classList.remove("active");
+                p.classList.add("precommit");
+                vizState.precommitCount++;
+                precommitCountEl.textContent = vizState.precommitCount;
+                createMessage(`#p${i}`, ".coordinator", "ACK");
+                await delay(200);
+            }
+
+            await delay(1000);
+            document.querySelectorAll(".message").forEach((m) => m.remove());
+
+            // Phase 3: DoCommit
+            vizState.phase = "do-commit";
+            phaseText.textContent = "3. DoCommit";
+            stateInfo.textContent = "Coordinator sends DoCommit";
+            updateTimeline(3);
+            for (let i = 1; i <= vizState.participants; i++) {
+                createMessage(".coordinator", `#p${i}`, "DoCommit", 'var(--success)');
+                await delay(200);
+            }
+
+            await delay(1000);
+            stateInfo.textContent = "Participants commit";
+            for (let i = 1; i <= vizState.participants; i++) {
+                document.getElementById(`p${i}`).className = 'participant active';
+                vizState.commitCount++;
+                commitCountEl.textContent = vizState.commitCount;
+                await delay(100);
+            }
+            stateInfo.textContent = "Transaction Committed Successfully!";
+            
+            vizState.running = false;
+            runBtn.disabled = false;
+            failureBtn.disabled = false;
+        }
+
+        function delay(ms) {
+          return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        runBtn.addEventListener("click", () => runProtocol());
+        resetBtn.addEventListener("click", initViz);
+        failureBtn.addEventListener("click", () => runProtocol({ coordinator: true }));
+        
+        randomBtn.addEventListener("click", () => {
+          const count = Math.floor(Math.random() * 4) + 3;
+          nodesInput.value = count;
+          vizState.participants = count;
+          initViz();
         });
 
-        // Reset timeline
-        document.querySelectorAll(".phase-marker").forEach((m) => {
-          m.classList.remove("active");
-        });
-        document.querySelectorAll(".connector").forEach((c) => {
-          c.classList.remove("active");
-        });
-
-        // Clear messages
-        document.querySelectorAll(".message").forEach((m) => m.remove());
-      }
-
-      // Create message between coordinator and participant
-      function createMessage(from, to, label) {
-        const vizContainer = document.getElementById("viz-container");
-        const fromElem = document.querySelector(from);
-        const toElem = document.querySelector(to);
-
-        if (!fromElem || !toElem) return;
-
-        const fromRect = fromElem.getBoundingClientRect();
-        const toRect = toElem.getBoundingClientRect();
-        const containerRect = vizContainer.getBoundingClientRect();
-
-        const offsetX = containerRect.left;
-        const offsetY = containerRect.top;
-
-        const x1 = fromRect.left + fromRect.width / 2 - offsetX;
-        const y1 = fromRect.top + fromRect.height - offsetY;
-        const x2 = toRect.left + toRect.width / 2 - offsetX;
-        const y2 = toRect.top - offsetY;
-
-        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
-
-        const message = document.createElement("div");
-        message.className = "message";
-        message.style.width = `${length}px`;
-        message.style.transform = `rotate(${angle}deg)`;
-        message.style.left = `${x1}px`;
-        message.style.top = `${y1}px`;
-
-        const labelElem = document.createElement("div");
-        labelElem.className = "message-label";
-        labelElem.textContent = label;
-        message.appendChild(labelElem);
-
-        vizContainer.appendChild(message);
-
-        return message;
-      }
-
-      // Update timeline visualization
-      function updateTimeline(phase) {
-        document.querySelectorAll(".phase-marker").forEach((m) => {
-          m.classList.remove("active");
-        });
-        document.querySelectorAll(".connector").forEach((c) => {
-          c.classList.remove("active");
+        nodesInput.addEventListener("change", (e) => {
+          let count = parseInt(e.target.value) || 4;
+          if (count < 2) count = 2;
+          if (count > 6) count = 6;
+          vizState.participants = count;
+          initViz();
         });
 
-        if (phase >= 1) {
-          document.getElementById("phase1").classList.add("active");
-        }
-        if (phase >= 2) {
-          document.getElementById("phase2").classList.add("active");
-          document.getElementById("connector1").classList.add("active");
-        }
-        if (phase >= 3) {
-          document.getElementById("phase3").classList.add("active");
-          document.getElementById("connector2").classList.add("active");
-        }
-      }
-
-      // Run the 3PC protocol
-      async function runProtocol() {
-        if (vizState.phase !== "not-started") return;
-
-        // Reset state
-        initViz();
-
-        // Set phase to CanCommit
-        vizState.phase = "can-commit";
-        phaseText.textContent = "CanCommit";
-        stateInfo.textContent = "Transaction State: CanCommit Phase";
-        updateTimeline(1);
-
-        // Create CanCommit messages
-        const messages = [];
-        for (let i = 1; i <= vizState.participants; i++) {
-          const message = createMessage(".coordinator", `#p${i}`, "CanCommit?");
-          if (message) messages.push(message);
-          await delay(500);
-        }
-
-        // Simulate participants responding
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          document.getElementById(`p${i}`).classList.add("active");
-          vizState.readyCount++;
-          readyCount.textContent = vizState.readyCount;
-
-          // Create Vote messages
-          createMessage(`#p${i}`, ".coordinator", "VOTE (YES)");
-          await delay(500);
-        }
-
-        // All participants ready - move to PreCommit phase
-        vizState.phase = "pre-commit";
-        phaseText.textContent = "PreCommit";
-        stateInfo.textContent = "Transaction State: PreCommit Phase";
-        updateTimeline(2);
-        await delay(1000);
-
-        // Create PreCommit messages
-        for (let i = 1; i <= vizState.participants; i++) {
-          createMessage(".coordinator", `#p${i}`, "PreCommit");
-          await delay(500);
-        }
-
-        // Participants transition to PreCommit
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          document.getElementById(`p${i}`).classList.remove("active");
-          document.getElementById(`p${i}`).classList.add("precommit");
-          vizState.precommitCount++;
-          precommitCount.textContent = vizState.precommitCount;
-
-          // Create ACK messages
-          createMessage(`#p${i}`, ".coordinator", "ACK");
-          await delay(500);
-        }
-
-        // Move to DoCommit phase
-        vizState.phase = "do-commit";
-        phaseText.textContent = "DoCommit";
-        stateInfo.textContent = "Transaction State: DoCommit Phase";
-        updateTimeline(3);
-        await delay(1000);
-
-        // Create DoCommit messages
-        for (let i = 1; i <= vizState.participants; i++) {
-          createMessage(".coordinator", `#p${i}`, "DoCommit");
-          await delay(500);
-        }
-
-        // Participants commit
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          document.getElementById(`p${i}`).classList.remove("precommit");
-          document.getElementById(`p${i}`).classList.add("active");
-          vizState.commitCount++;
-          commitCount.textContent = vizState.commitCount;
-          await delay(300);
-        }
-
-        stateInfo.textContent = "Transaction State: Committed Successfully";
-      }
-
-      // Simulate failure scenario
-      async function simulateFailure() {
-        if (vizState.phase !== "not-started") return;
-
-        // Reset state
-        initViz();
-
-        // Set phase to CanCommit
-        vizState.phase = "can-commit";
-        phaseText.textContent = "CanCommit";
-        stateInfo.textContent = "Transaction State: CanCommit Phase";
-        updateTimeline(1);
-
-        // Create CanCommit messages
-        const messages = [];
-        for (let i = 1; i <= vizState.participants; i++) {
-          const message = createMessage(".coordinator", `#p${i}`, "CanCommit?");
-          if (message) messages.push(message);
-          await delay(500);
-        }
-
-        // Simulate participants responding
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          document.getElementById(`p${i}`).classList.add("active");
-          vizState.readyCount++;
-          readyCount.textContent = vizState.readyCount;
-
-          // Create Vote messages
-          createMessage(`#p${i}`, ".coordinator", "VOTE (YES)");
-          await delay(500);
-        }
-
-        // Move to PreCommit phase
-        vizState.phase = "pre-commit";
-        phaseText.textContent = "PreCommit";
-        stateInfo.textContent = "Transaction State: PreCommit Phase";
-        updateTimeline(2);
-        await delay(1000);
-
-        // Create PreCommit messages
-        for (let i = 1; i <= vizState.participants; i++) {
-          createMessage(".coordinator", `#p${i}`, "PreCommit");
-          await delay(500);
-        }
-
-        // Participants transition to PreCommit
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          document.getElementById(`p${i}`).classList.remove("active");
-          document.getElementById(`p${i}`).classList.add("precommit");
-          vizState.precommitCount++;
-          precommitCount.textContent = vizState.precommitCount;
-
-          // Create ACK messages
-          createMessage(`#p${i}`, ".coordinator", "ACK");
-          await delay(500);
-        }
-
-        // Simulate coordinator failure
-        stateInfo.textContent = "Transaction State: Coordinator Failed!";
-        await delay(1500);
-
-        // Participants recover autonomously
-        stateInfo.textContent = "Transaction State: Participants Recovering...";
-        await delay(1000);
-
-        // Participants commit autonomously
-        for (let i = 1; i <= vizState.participants; i++) {
-          document.getElementById(`p${i}`).classList.remove("precommit");
-          document.getElementById(`p${i}`).classList.add("active");
-          vizState.commitCount++;
-          commitCount.textContent = vizState.commitCount;
-          await delay(500);
-        }
-
-        stateInfo.textContent =
-          "Transaction State: Committed Successfully (Autonomous Recovery)";
-        updateTimeline(3);
-      }
-
-      // Helper function for delays
-      function delay(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-
-      // Event Listeners
-      runBtn.addEventListener("click", runProtocol);
-      resetBtn.addEventListener("click", initViz);
-      failureBtn.addEventListener("click", simulateFailure);
-      randomBtn.addEventListener("click", () => {
-        const count = Math.floor(Math.random() * 4) + 3; // 3-6 participants
-        nodesInput.value = count;
-        vizState.participants = count;
         initViz();
       });
-
-      nodesInput.addEventListener("change", (e) => {
-        const count = parseInt(e.target.value) || 4;
-        if (count < 2) count = 2;
-        if (count > 6) count = 6;
-        vizState.participants = count;
-        initViz();
-      });
-
-      // Initialize
-      document.addEventListener("DOMContentLoaded", initViz);
     </script>
 </body>
 </html>

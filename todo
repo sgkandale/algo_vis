@@ -14,21 +14,114 @@
 - Suffix Array & Suffix Tree
 - Finite State Machine (FSM) Design
 - Page Replacement Algorithms (Optimal, Second-Chance)
-- Distributed Consensus (Raft, Paxos, Zab, 2PG, 3PC)
-- Garbage Collection Algorithms (Mark & Sweep, Generational, Stop-and-Copy, Mark-and-Compact, Reference Counting, Incremental/Concurrent)
+- Sorting Algorithms
+    - [x] Selection Sort
+    - [x] Bubble Sort
+    - [x] Insertion Sort
+    - [x] Merge Sort
+    - In-Place Merge Sort
+    - 3-way Merge Sort
+    - [x] Quick Sort
+    - [x] Heap Sort
+    - [x] Cycle Sort
+    - [x] Counting Sort
+    - [x] Radix Sort
+    - [x] Bucket Sort
+    - [x] TimSort
+    - [x] Comb Sort
+    - [x] Pigeonhole Sort
+    - [x] IntroSort
+    - [x] Tournament sort
+    - [x] Tree sort
+    - [x] Block sort
+    - [x] Smoothsort
+    - [x] Patience sorting
+    - [x] Cubesort
+    - [x] Fluxsort
+    - [x] Crumsort
+    - [x] Library sort
+    - [x] Shellsort
+    - [x] Cocktail shaker sort
+    - [x] Gnome sort
+    - [x] Odd–even sort
+    - [x] Strand sort
+    - [x] Exchange sort
+    - [x] Spreadsort
+    - [x] Burstsort
+    - [x] Flashsort
+    - [x] Postman sort
+    - [x] Bead sort
+    - Merge-insertion sort
+    - [x] I Can't Believe It Can Sort
+    - [x] Spaghetti (Poll) sort
+    - Sorting network
+    - Bitonic sorter
+    - [x] Bogosort
+    - [x] Stooge sort
+    - [x] Slowsort
+- Distributed Consensus
+    - [x] Raft
+    - [x] Paxos
+    - [x] EPaxos
+    - [x] Zab
+    - [x] 2PC
+    - [x] 3PC
+    - [x] Byzantine Fault Tolerance (BFT)
+    - [x] Viewstamped Replication
+    - [x] Quorum Consensus
+    - [x] Chubby
+    - [x] HotStuff
+- Garbage Collection Algorithms
+    - [x] Mark & Sweep
+    - [x] Generational
+    - [x] Stop-and-Copy
+    - [x] Mark-and-Compact
+    - [x] Reference Counting
+    - [x] Incremental/Concurrent
+    - [x] Copying Collector
+    - [x] Tracing Garbage Collection
+    - [x] Sliding/Conservative Garbage Collection
+    - [x] Dual-Heap Garbage Collection
 - Merkle Trees & Blockchain Data Structures
-- Cryptographic hash functions (SHA-224, SHA3-256, SHA3-512, SHAKE128, SHAKE256, BLAKE2, BLAKE3)
+- Cryptographic
+    - [x] Circom Ciruit
+    - [x] Differential Privacy
+    - [x] Diffie Hellman
+    - [x] Elliptic Curve Diffie Hellman
+    - [x] ElGamal
+    - [x] Homomorphic Encryption
+    - [x] Merkle Tree
+- Hash Functions
+    - [x] Bcrypt
+    - [x] MD5
+    - [x] RipeMD160
+    - [x] SHA1
+    - [x] SHA256
+    - [x] SHA512
+    - [x] SHA-224
+    - [x] SHA3-256
+    - [x] SHA3-512
+    - [x] SHAKE128
+    - [x] SHAKE256
+    - [x] BLAKE2
+    - [x] BLAKE3
 - B+ Tree Indexing
 - CAP Theorem & Trade-offs
 - Vector Clocks & Event Ordering
 - Lock-Free & Wait-Free Data Structures
     - Lock-Free Stack, Lock-Free Queue, Michael-Scott Queue, Lock-Free Linked List, Harris's Linked List, Lock-Free Hash Table, Wait-Free Queue, Wait-Free Snapshot Objects, Wait-Free Register/Atomic Variable
 - Conflict-Free Replicated Data Types (CRDTs)
-    - G-Counter , PN-Counter, LWW-Register, CRDT List
+    - G-Counter
+    - PN-Counter
+    - [x] LWW-Register
+    - [x] CRDT List
 - LSM Trees & Write-Optimized Storage
 - Erasure Coding & Data Recovery
 - Gossip Protocols
-    - Anti-Entropy, Rumor Mongering, Gossip-based Membership Protocols, Gossip-based Aggregation Protocols
+    - [x] Anti-Entropy
+    - [x] Rumor Mongering
+    - [x] Gossip-based Membership Protocols
+    - [x] Gossip-based Aggregation Protocols
 - Sharding & Partitioning Strategies
 - Event Sourcing & CQRS
 - Temporal Databases & Time-Series Indexing
@@ -36,7 +129,25 @@
 - Snapshot Isolation & Serializable Isolation
 - Write-Ahead Logging (WAL) & Recovery
 - Spanner & TrueTime API
-- Range Indexing Structures (Segment Tree, Interval Tree, Range Tree)
+- Range Indexing Structures
+    - R-tree
+    - Segment Tree
+    - Lazy Segment Tree
+    - Interval Tree
+    - Augmented Interval Tree
+    - Quad Tree
+    - K-D Tree
+    - Variant - Range Tree
+    - Trie (Prefix Tree)
+    - Skip List
+    - Fenwick Tree
+    - Sparse Table
+    - Van Emde Boas Tree
+    - Interval Map
+    - Treap
+    - Ternary Search Tree
+    - R-Tree Join
+    - Horizon Tree
 - Data Sketches (KLL, DDSketch)
 - Federated Learning & Secure Aggregation
 - Homomorphic Hashing
@@ -54,32 +165,55 @@
 - Garbled Circuits
 - Secure Function Evaluation (SFE)
 - Fully Homomorphic Encryption (FHE) Schemes
-- Post-Quantum Cryptography (Lattice-based, Code-based, Multivariate)
+- Post-Quantum Cryptography
+    - Lattice-based
+        - NTRU (N-th degree Truncated Polynomial Ring)
+        - Kyber
+        - FrodoKEM
+        - NewHope
+    - Code-based
+        - McEliece
+        - Niederreiter
+    - Hash-Based
+        - XMSS (eXtended Merkle Signature Scheme)
+        - SPHINCS+
+    - Multivariate Quadratic Equations
+        - Rainbow
+        - Unbalanced Oil and Vinegar (UOV)
+    - Isogeny-Based
+        - SIDH (Supersingular Isogeny Diffie-Hellman)
+        - SIKE (Supersingular Isogeny Key Encapsulation)
+    - Based on LWE (Learning With Errors)
+        - Lizard
+        - FHE (Fully Homomorphic Encryption)
+    - Quantum-Secure Digital Signatures
+        - FALCON
+        - GeMSS
 - Secure Indexing & Searchable Encryption
 - Encrypted Database Systems
 - Key Exchange Algorithms
-    - RSA Key Exchange
-    - ElGamal Key Exchange
-    - Elliptic Curve Diffie-Hellman
+    - [x] RSA Key Exchange
+    - [x] ElGamal Key Exchange
+    - [x] Elliptic Curve Diffie-Hellman
     - Ephemeral Diffie-Hellman
     - Ephemeral Elliptic Curve Diffie-Hellman
 - Machine learning
     - supervised learning
-        - Linear Regression
-        - Logistic Regression
-        - Decision Trees
-        - Random Forests
-        - Support Vector Machines
-        - k-Nearest Neighbors
-        - Naive Bayes
+        - [x] Linear Regression
+        - [x] Logistic Regression
+        - [x] Decision Trees
+        - [x] Random Forests
+        - [x] Linear Support Vector Machines
+        - [x] k-Nearest Neighbors
+        - [x] Naive Bayes
         - Gradient Boosting Machines
         - XGBoost
         - AdaBoost
     - Unsupervised Learning Algorithms
-        - K-Means Clustering
-        - Hierarchical Clustering
-        - DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
-        - Principal Component Analysis
+        - [x] K-Means Clustering
+        - [x] Hierarchical Clustering
+        - [x] DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+        - [x] Principal Component Analysis
         - t-SNE
         - Autoencoders
     - Reinforcement Learning Algorithms

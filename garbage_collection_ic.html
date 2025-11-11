@@ -1416,605 +1416,204 @@ gc.sweep()</code></pre>
 <script>
             // Visualization for Incremental/Concurrent Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
-                const visualization =
-                    document.getElementById("gc-visualization");
-                const heapMemory = document.getElementById("heap-memory");
-                const allocateBtn = document.getElementById("allocate-btn");
-                const runIncrBtn = document.getElementById("run-incr-btn");
-                const runConcBtn = document.getElementById("run-conc-btn");
-                const resetBtn = document.getElementById("reset-btn");
-                const createRefBtn = document.getElementById("create-ref-btn");
-                const mutatorBtn = document.getElementById("mutator-btn");
-                const writeBarrierIndicator = document.getElementById(
-                    "write-barrier-indicator",
-                );
+                class IncrementalGCVisualization {
+            constructor() {
+                this.heapContainer = document.getElementById("heap-container");
+                this.allocateBtn = document.getElementById("allocate-btn");
+                this.minorGcBtn = document.getElementById("minor-gc-btn");
+                this.majorGcBtn = document.getElementById("major-gc-btn");
+                this.createRefBtn = document.getElementById("create-ref-btn");
+                this.nullRefBtn = document.getElementById("null-ref-btn");
+                this.logContainer = document.createElement('div');
+                this.statusPanel = document.createElement('div');
+                
+                this.promotionAge = 3;
+                this.init();
+                this.setupEventListeners();
+            }
 
-                // State variables
-                let objects = [];
-                let roots = [];
-                let references = [];
-                let selectedObject = null;
-                let gcMode = null; // 'incremental', 'concurrent'
-                let gcActive = false;
-                let gcPhase = "inactive";
-                let greyList = [];
-                let blackSet = new Set();
-                let whiteSet = new Set();
-                let writeBarrierLog = [];
-                let mutatorActive = false;
-                let barrierHits = 0;
+            init() {
+                this.objects = new Map();
+                this.roots = new Set();
+                this.nextId = 0;
+                this.selectedObject = null;
+                
+                this.render();
+                this.logEvent("Initialized heap.");
+                this.updateStatus("Ready.");
+                
+                // Initial objects
+                this.allocateObject();
+                this.allocateObject();
+                this.roots.add(this.objects.get(0));
+                this.roots.add(this.objects.get(1));
+                this.render();
+            }
 
-                // Initialize visualization
-                function initVisualization() {
-                    heapMemory.innerHTML = "";
-                    objects = [];
-                    references = [];
-                    roots = [];
-                    selectedObject = null;
-                    gcMode = null;
-                    gcActive = false;
-                    gcPhase = "inactive";
-                    greyList = [];
-                    blackSet = new Set();
-                    whiteSet = new Set();
-                    writeBarrierLog = [];
-                    mutatorActive = false;
-                    barrierHits = 0;
-                    writeBarrierIndicator.style.display = "none";
+            render() {
+                this.heapContainer.innerHTML = `
+                    <div class="generation young-generation">
+                        <div class="generation-title">Young Generation</div>
+                        <div class="sub-space eden-space" id="eden"></div>
+                        <div class="sub-space survivor-space" id="s0">S0</div>
+                        <div class="sub-space survivor-space" id="s1">S1</div>
+                    </div>
+                    <div class="generation old-generation">
+                        <div class="generation-title">Old Generation</div>
+                        <div class="sub-space old-space" id="old"></div>
+                    </div>
+                `;
+                
+                this.objects.forEach(obj => {
+                    const space = document.getElementById(obj.space);
+                    if(space) space.appendChild(this.createObjectElement(obj));
+                });
+                
+                this.drawReferences();
+            }
+            
+            createObjectElement(obj) {
+                const el = document.createElement('div');
+                el.className = 'memory-block';
+                el.dataset.id = obj.id;
+                el.innerHTML = `Obj ${obj.id}<div class="block-age">Age: ${obj.age}</div>`;
+                el.classList.add(obj.age >= this.promotionAge ? 'block-old' : (obj.age > 0 ? 'block-young' : 'block-new'));
+                if(this.roots.has(obj)) el.style.border = '2px solid var(--warning)';
+                el.addEventListener('click', () => this.selectObject(obj));
+                return el;
+            }
+            
+            drawReferences() {
+                // Simplified: no arrows for now to reduce complexity
+            }
 
-                    // Create heap memory blocks
-                    for (let i = 0; i < 16; i++) {
-                        const block = document.createElement("div");
-                        block.className = "memory-block block-free";
-                        block.innerHTML = `Free<div class="memory-address">${i}</div>`;
-                        block.dataset.index = i;
-                        heapMemory.appendChild(block);
+            allocateObject() {
+                const id = this.nextId++;
+                const obj = { id, age: 0, space: 'eden', refs: new Set() };
+                this.objects.set(id, obj);
+                this.logEvent(`Allocated Object ${id} in Eden.`);
+                this.render();
+            }
+            
+            createReference() {
+                if(this.objects.size < 2) return;
+                let from, to;
+                do {
+                    from = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                    to = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                } while (from === to);
+                
+                from.refs.add(to);
+                this.logEvent(`Created reference from ${from.id} to ${to.id}.`);
+                this.render();
+            }
+            
+            nullifyReference() {
+                 const withRefs = Array.from(this.objects.values()).filter(o => o.refs.size > 0);
+                 if(withRefs.length === 0) return;
+                 const from = withRefs[Math.floor(Math.random() * withRefs.length)];
+                 const to = Array.from(from.refs)[0];
+                 from.refs.delete(to);
+                 this.logEvent(`Nullified reference from ${from.id} to ${to.id}.`);
+                 this.render();
+            }
+
+            selectObject(obj) {
+                if (this.selectedObject) {
+                    this.selectedObject.element.style.border = '';
+                    if (this.selectedObject !== obj) {
+                        this.selectedObject.refs.add(obj);
+                        this.logEvent(`Created reference from ${this.selectedObject.id} to ${obj.id}.`);
+                        this.render();
                     }
-
-                    // Create log container
-                    const logContainer = document.createElement("div");
-                    logContainer.className = "log-container";
-                    logContainer.id = "log-container";
-                    visualization.appendChild(logContainer);
-
-                    // Create status panel
-                    const statusPanel = document.createElement("div");
-                    statusPanel.className = "status-panel";
-                    statusPanel.id = "status-panel";
-                    statusPanel.innerHTML = "System Status: Initialized";
-                    visualization.appendChild(statusPanel);
-
-                    // Create thread indicator
-                    const threadIndicator = document.createElement("div");
-                    threadIndicator.className = "thread-indicator";
-                    threadIndicator.innerHTML = `
-            <div class="thread mutator-thread" id="mutator-thread">
-              <i class="fas fa-code"></i> Mutator Thread
-            </div>
-            <div class="thread collector-thread" id="collector-thread">
-              <i class="fas fa-trash-alt"></i> Collector Thread
-            </div>
-          `;
-                    visualization.appendChild(threadIndicator);
-
-                    // Create 2 root objects
-                    roots = [createObject(), createObject()];
-                    roots[0].element.textContent = "Root 1";
-                    roots[1].element.textContent = "Root 2";
-
-                    // Add roots to white set
-                    roots.forEach((root) => {
-                        whiteSet.add(root);
-                    });
-
-                    // Create some additional objects
-                    const obj1 = createObject();
-                    const obj2 = createObject();
-
-                    // Create initial references
-                    createReference(roots[0], obj1);
-                    createReference(roots[0], obj2);
-                    createReference(obj1, obj2);
-
-                    updateStats();
-                    logEvent("Initialized heap with objects and references");
-                    updateStatus("Ready - Click on objects to select them");
+                    this.selectedObject = null;
+                } else {
+                    this.selectedObject = obj;
+                    obj.element.style.border = '2px solid white';
                 }
+            }
 
-                // Create a new object
-                function createObject() {
-                    // Find a free block
-                    const freeBlocks = Array.from(heapMemory.children).filter(
-                        (block) => block.classList.contains("block-free"),
-                    );
-
-                    if (freeBlocks.length === 0) {
-                        logEvent("Cannot allocate object: heap full");
-                        return null;
+            minorGC() {
+                this.logEvent("--- Minor GC Started ---");
+                
+                // Mark
+                const live = new Set();
+                const worklist = [...this.roots];
+                while(worklist.length > 0) {
+                    const obj = worklist.pop();
+                    if(!live.has(obj)) {
+                        live.add(obj);
+                        obj.refs.forEach(ref => worklist.push(ref));
                     }
-
-                    // Select a random free block
-                    const randomIndex = Math.floor(
-                        Math.random() * freeBlocks.length,
-                    );
-                    const block = freeBlocks[randomIndex];
-                    const index = parseInt(block.dataset.index);
-
-                    const object = {
-                        id: objects.length + 1,
-                        index: index,
-                        color: "white",
-                        references: [],
-                        element: block,
-                    };
-
-                    block.className = "memory-block block-allocated";
-                    block.innerHTML = `Obj ${object.id}<div class="memory-address">${index}</div>`;
-                    block.dataset.objId = object.id;
-
-                    objects.push(object);
-                    whiteSet.add(object);
-
-                    logEvent(`Allocated new object: ${object.id}`);
-                    updateStatus(`Allocated object ${object.id}`);
-                    updateStats();
-
-                    return object;
                 }
-
-                // Create a reference between objects
-                function createReference(from, to) {
-                    if (from === to || !from || !to) return;
-
-                    // Check if reference already exists
-                    if (from.references.includes(to)) return;
-
-                    // Use write barrier if GC is active
-                    if (
-                        gcActive &&
-                        from.color === "black" &&
-                        to.color === "white"
-                    ) {
-                        writeBarrier(from, to);
-                    }
-
-                    from.references.push(to);
-
-                    references.push({
-                        from: from,
-                        to: to,
-                    });
-
-                    logEvent(`Created reference from ${from.id} to ${to.id}`);
-                    updateStatus(
-                        `Reference from ${from.id} to ${to.id} created`,
-                    );
-                }
-
-                // Write barrier function
-                function writeBarrier(src, newVal) {
-                    barrierHits++;
-                    writeBarrierLog.push({ src, newVal });
-
-                    // Show write barrier indicator
-                    writeBarrierIndicator.style.display = "block";
-                    setTimeout(() => {
-                        writeBarrierIndicator.style.display = "none";
-                    }, 1000);
-
-                    // Mark the new value as grey
-                    if (newVal.color === "white") {
-                        newVal.color = "grey";
-                        newVal.element.classList.remove("block-allocated");
-                        newVal.element.classList.add("block-grey");
-                        greyList.push(newVal);
-                        whiteSet.delete(newVal);
-                    }
-
-                    logEvent(
-                        `Write barrier: reference from black object ${src.id} to white object ${newVal.id}`,
-                    );
-                    updateStats();
-                }
-
-                // Start incremental GC
-                function startIncrementalGC() {
-                    gcMode = "incremental";
-                    gcActive = true;
-                    gcPhase = "initializing";
-
-                    logEvent("Starting incremental garbage collection");
-                    updateStatus("Incremental GC: Initializing");
-
-                    // Initial pause: mark roots as grey
-                    setTimeout(() => {
-                        document
-                            .getElementById("collector-thread")
-                            .classList.add("thread-active");
-                        initialMarkingPause();
-                    }, 500);
-                }
-
-                // Initial marking pause
-                function initialMarkingPause() {
-                    gcPhase = "marking";
-                    logEvent("Initial marking pause: processing roots");
-                    updateStatus("Incremental GC: Marking roots");
-
-                    // Mark roots as grey
-                    roots.forEach((root) => {
-                        if (root.color === "white") {
-                            root.color = "grey";
-                            root.element.classList.remove("block-allocated");
-                            root.element.classList.add("block-grey");
-                            greyList.push(root);
-                            whiteSet.delete(root);
-                        }
-                    });
-
-                    updateStats();
-
-                    // Continue with incremental marking
-                    setTimeout(() => {
-                        incrementalMarkStep();
-                    }, 1000);
-                }
-
-                // Perform an incremental marking step
-                function incrementalMarkStep() {
-                    if (greyList.length === 0) {
-                        // Marking complete, move to sweeping
-                        gcPhase = "sweeping";
-                        logEvent("Incremental marking complete");
-                        updateStatus("Incremental GC: Sweeping");
-                        setTimeout(sweepPhase, 500);
-                        return;
-                    }
-
-                    // Process a few grey objects
-                    const steps = Math.min(2, greyList.length);
-                    logEvent(
-                        `Incremental mark step: processing ${steps} objects`,
-                    );
-                    updateStatus(
-                        `Incremental GC: Marking (${greyList.length} grey objects remaining)`,
-                    );
-
-                    for (let i = 0; i < steps; i++) {
-                        if (greyList.length === 0) break;
-
-                        const obj = greyList.shift();
-                        obj.color = "black";
-                        obj.element.classList.remove("block-grey");
-                        obj.element.classList.add("block-marked");
-                        blackSet.add(obj);
-
-                        // Process references
-                        obj.references.forEach((ref) => {
-                            if (ref.color === "white") {
-                                ref.color = "grey";
-                                ref.element.classList.remove("block-allocated");
-                                ref.element.classList.add("block-grey");
-                                greyList.push(ref);
-                                whiteSet.delete(ref);
+                
+                // Evacuate
+                this.objects.forEach(obj => {
+                    if(obj.space === 'eden' || obj.space === 's0' || obj.space === 's1') {
+                        if(live.has(obj)) {
+                            obj.age++;
+                            if(obj.age >= this.promotionAge) {
+                                obj.space = 'old';
+                                this.logEvent(`Promoted ${obj.id} to Old Gen.`);
+                            } else {
+                                obj.space = 's1'; // Simplified: always move to s1
+                                this.logEvent(`Moved ${obj.id} to Survivor Space.`);
                             }
-                        });
-                    }
-
-                    // Process write barrier log
-                    processWriteBarrierLog();
-
-                    updateStats();
-
-                    // Continue with next step after a delay
-                    if (gcActive && gcPhase === "marking") {
-                        setTimeout(incrementalMarkStep, 1000);
-                    }
-                }
-
-                // Process write barrier log
-                function processWriteBarrierLog() {
-                    while (writeBarrierLog.length > 0) {
-                        const entry = writeBarrierLog.shift();
-                        const { newVal } = entry;
-
-                        if (newVal.color === "white") {
-                            newVal.color = "grey";
-                            newVal.element.classList.remove("block-allocated");
-                            newVal.element.classList.add("block-grey");
-                            greyList.push(newVal);
-                            whiteSet.delete(newVal);
-                            logEvent(
-                                `Processed write barrier for object ${newVal.id}`,
-                            );
-                        }
-                    }
-                }
-
-                // Sweep phase
-                function sweepPhase() {
-                    logEvent("Sweep phase: reclaiming white objects");
-                    updateStatus("Incremental GC: Sweeping");
-
-                    let sweptCount = 0;
-                    const whiteObjects = objects.filter(
-                        (obj) => obj.color === "white",
-                    );
-
-                    if (whiteObjects.length === 0) {
-                        logEvent("No white objects to sweep");
-                        completeGC();
-                        return;
-                    }
-
-                    function sweepNext() {
-                        if (sweptCount < whiteObjects.length) {
-                            const obj = whiteObjects[sweptCount];
-
-                            // Free the object
-                            obj.element.className = "memory-block block-free";
-                            obj.element.innerHTML = `Free<div class="memory-address">${obj.index}</div>`;
-                            obj.element.removeAttribute("data-obj-id");
-
-                            // Remove from objects array
-                            objects = objects.filter((o) => o !== obj);
-                            whiteSet.delete(obj);
-
-                            logEvent(`Swept object ${obj.id}`);
-                            sweptCount++;
-
-                            setTimeout(sweepNext, 500);
                         } else {
-                            completeGC();
-                        }
-                    }
-
-                    sweepNext();
-                }
-
-                // Complete GC cycle
-                function completeGC() {
-                    logEvent("Garbage collection completed");
-                    updateStatus("GC completed");
-                    gcActive = false;
-                    gcPhase = "inactive";
-                    document
-                        .getElementById("collector-thread")
-                        .classList.remove("thread-active");
-
-                    // Reset object colors for next GC
-                    objects.forEach((obj) => {
-                        obj.color = "white";
-                        if (obj.element.classList.contains("block-marked")) {
-                            obj.element.classList.remove("block-marked");
-                            obj.element.classList.add("block-allocated");
-                        }
-                    });
-
-                    // Reset GC state
-                    greyList = [];
-                    blackSet.clear();
-                    whiteSet = new Set(objects);
-                    writeBarrierLog = [];
-                }
-
-                // Run mutator
-                function runMutator() {
-                    if (mutatorActive) return;
-
-                    mutatorActive = true;
-                    document
-                        .getElementById("mutator-thread")
-                        .classList.add("thread-active");
-                    logEvent(
-                        "Mutator running: allocating objects and creating references",
-                    );
-                    updateStatus("Mutator running");
-
-                    // Simulate mutator activity
-                    const actions = [
-                        () => {
-                            const obj = createObject();
-                            if (obj && objects.length > 2) {
-                                const randomObj =
-                                    objects[
-                                        Math.floor(
-                                            Math.random() *
-                                                (objects.length - 2),
-                                        ) + 2
-                                    ];
-                                createReference(randomObj, obj);
-                            }
-                        },
-                        () => {
-                            if (objects.length > 4) {
-                                const obj1 =
-                                    objects[
-                                        Math.floor(
-                                            Math.random() *
-                                                (objects.length - 2),
-                                        ) + 2
-                                    ];
-                                const obj2 =
-                                    objects[
-                                        Math.floor(
-                                            Math.random() *
-                                                (objects.length - 2),
-                                        ) + 2
-                                    ];
-                                if (obj1 !== obj2) {
-                                    createReference(obj1, obj2);
-                                }
-                            }
-                        },
-                        () => {
-                            // Sometimes create a reference from a root
-                            if (objects.length > 2 && Math.random() > 0.7) {
-                                const root =
-                                    roots[
-                                        Math.floor(Math.random() * roots.length)
-                                    ];
-                                const obj =
-                                    objects[
-                                        Math.floor(
-                                            Math.random() *
-                                                (objects.length - 2),
-                                        ) + 2
-                                    ];
-                                createReference(root, obj);
-                            }
-                        },
-                    ];
-
-                    let actionCount = 0;
-                    function performAction() {
-                        if (actionCount < 5 && mutatorActive) {
-                            const action =
-                                actions[
-                                    Math.floor(Math.random() * actions.length)
-                                ];
-                            action();
-                            actionCount++;
-                            setTimeout(performAction, 800);
-                        } else {
-                            mutatorActive = false;
-                            document
-                                .getElementById("mutator-thread")
-                                .classList.remove("thread-active");
-                            logEvent("Mutator completed");
-                            updateStatus("Mutator completed");
-                        }
-                    }
-
-                    performAction();
-                }
-
-                // Update statistics
-                function updateStats() {
-                    const totalObjects = objects.length;
-                    const markedObjects = objects.filter(
-                        (obj) => obj.color !== "white",
-                    ).length;
-
-                    document.getElementById("total-objects").textContent =
-                        totalObjects;
-                    document.getElementById("marked-objects").textContent =
-                        markedObjects;
-                    document.getElementById("barrier-count").textContent =
-                        barrierHits;
-
-                    // Calculate approximate pause time
-                    let pauseTime = 0;
-                    if (gcMode === "incremental") {
-                        pauseTime = 5 + objects.length * 0.1;
-                    } else if (gcMode === "concurrent") {
-                        pauseTime = 2;
-                    }
-                    document.getElementById("pause-time").textContent =
-                        `${pauseTime.toFixed(1)}ms`;
-                }
-
-                // Log event to log container
-                function logEvent(message) {
-                    const logContainer =
-                        document.getElementById("log-container");
-                    if (!logContainer) return;
-
-                    const logEntry = document.createElement("div");
-                    logEntry.className = "log-entry";
-                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-                    logContainer.appendChild(logEntry);
-
-                    // Auto-scroll
-                    logContainer.scrollTop = logContainer.scrollHeight;
-                }
-
-                // Update status panel
-                function updateStatus(status) {
-                    const statusPanel = document.getElementById("status-panel");
-                    if (!statusPanel) return;
-
-                    statusPanel.innerHTML = `System Status: ${status}`;
-                }
-
-                // Handle object selection
-                function selectObject(object) {
-                    if (selectedObject === object) {
-                        selectedObject = null;
-                        object.element.style.border = "";
-                    } else {
-                        if (selectedObject) {
-                            selectedObject.element.style.border = "";
-                        }
-                        selectedObject = object;
-                        object.element.style.border =
-                            "2px solid var(--warning)";
-                        logEvent(
-                            `Selected object ${object.id} (Color: ${object.color})`,
-                        );
-                        updateStatus(
-                            `Object ${object.id} selected - Color: ${object.color}`,
-                        );
-                    }
-                }
-
-                // Event listeners
-                allocateBtn.addEventListener("click", createObject);
-                runIncrBtn.addEventListener("click", startIncrementalGC);
-                mutatorBtn.addEventListener("click", runMutator);
-                createRefBtn.addEventListener("click", () => {
-                    if (selectedObject) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    }
-                    updateStatus("Select source object for new reference");
-                });
-                resetBtn.addEventListener("click", initVisualization);
-
-                // For concurrent GC, we would need a more complex implementation with web workers
-                // For this visualization, we'll just show a message
-                runConcBtn.addEventListener("click", () => {
-                    logEvent(
-                        "Concurrent GC would require multi-threading (not implemented in this visualization)",
-                    );
-                    updateStatus("Concurrent GC simulation not implemented");
-                });
-
-                // Add click event to memory blocks
-                heapMemory.addEventListener("click", (e) => {
-                    const block = e.target.closest(".memory-block");
-                    if (!block) return;
-
-                    const objId = block.dataset.objId;
-                    if (objId) {
-                        const object = objects.find((obj) => obj.id == objId);
-                        if (object) {
-                            selectObject(object);
+                            this.objects.delete(obj.id);
+                            this.logEvent(`Collected garbage object ${obj.id}.`);
                         }
                     }
                 });
+                
+                this.logEvent("--- Minor GC Finished ---");
+                this.render();
+            }
+            
+            majorGC() {
+                this.logEvent("--- Major GC Started ---");
+                // Mark
+                const live = new Set();
+                const worklist = [...this.roots];
+                while(worklist.length > 0) {
+                    const obj = worklist.pop();
+                    if(!live.has(obj)) {
+                        live.add(obj);
+                        obj.refs.forEach(ref => worklist.push(ref));
+                    }
+                }
+                
+                // Sweep
+                this.objects.forEach(obj => {
+                    if(!live.has(obj)) {
+                        this.objects.delete(obj.id);
+                        this.logEvent(`Collected garbage object ${obj.id}.`);
+                    }
+                });
+                
+                this.logEvent("--- Major GC Finished ---");
+                this.render();
+            }
 
-                // Initialize the visualization
-                initVisualization();
+            logEvent(message) {
+                console.log(message);
+            }
+            
+            updateStatus(message) {
+                console.log(message);
+            }
 
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
+            setupEventListeners() {
+                this.allocateBtn.addEventListener("click", () => this.allocateObject());
+                this.minorGcBtn.addEventListener("click", () => this.minorGC());
+                this.majorGcBtn.addEventListener("click", () => this.majorGC());
+                this.createRefBtn.addEventListener("click", () => this.createReference());
+                this.nullRefBtn.addEventListener("click", () => this.nullifyReference());
+            }
+        }
 
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
-                    });
-            });
-        </script>
+        new GenerationalGCVisualization();
+    });
+</script>
 </body>
 </html>

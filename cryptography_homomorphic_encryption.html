@@ -424,40 +424,58 @@
 </section>
 </div>
 <script>
+        // A very simple (and insecure) homomorphic encryption scheme for demonstration
+        const he = {
+            secretKey: 1234567891, // A large prime number as our secret key
+            encrypt: function(value) {
+                return value * this.secretKey;
+            },
+            decrypt: function(encryptedValue) {
+                return encryptedValue / this.secretKey;
+            },
+            add: function(encrypted1, encrypted2) {
+                return encrypted1 + encrypted2;
+            }
+        };
+
         function demonstrateHE() {
             const num1 = parseInt(document.getElementById('num1').value) || 0;
             const num2 = parseInt(document.getElementById('num2').value) || 0;
-            const result = document.getElementById('result');
+            const resultDiv = document.getElementById('result');
             
-            // Simulate encryption (in reality, this would be complex math)
-            const encrypted1 = btoa(num1.toString()).substring(0, 8) + "x9K#";
-            const encrypted2 = btoa(num2.toString()).substring(0, 8) + "m2L$";
-            const sum = num1 + num2;
-            const encryptedSum = btoa(sum.toString()).substring(0, 8) + "q7R@";
+            // Encrypt the numbers
+            const encrypted1 = he.encrypt(num1);
+            const encrypted2 = he.encrypt(num2);
             
-            result.innerHTML = `
-                <div style="text-align: center;">
-                    <p><strong>Step 1:</strong> Encrypt numbers</p>
+            // Perform addition on encrypted data
+            const encryptedSum = he.add(encrypted1, encrypted2);
+            
+            // Decrypt the result
+            const decryptedSum = he.decrypt(encryptedSum);
+            
+            resultDiv.innerHTML = `
+                <div style="text-align: center; font-family: 'Courier New', monospace;">
+                    <p><strong>Step 1:</strong> Encrypt numbers with secret key (${he.secretKey})</p>
                     <p>${num1} → <span class="encrypted-text">${encrypted1}</span></p>
                     <p>${num2} → <span class="encrypted-text">${encrypted2}</span></p>
                     <br>
-                    <p><strong>Step 2:</strong> Add encrypted values</p>
+                    <p><strong>Step 2:</strong> Add encrypted values (server operation)</p>
                     <p><span class="encrypted-text">${encrypted1} + ${encrypted2} = ${encryptedSum}</span></p>
                     <br>
-                    <p><strong>Step 3:</strong> Decrypt result</p>
-                    <p><span class="encrypted-text">${encryptedSum}</span> → <span class="highlight">${sum}</span></p>
+                    <p><strong>Step 3:</strong> Decrypt the result</p>
+                    <p><span class="encrypted-text">${encryptedSum}</span> / ${he.secretKey} → <span class="highlight">${decryptedSum}</span></p>
                     <br>
-                    <p style="color: #00dbde;">✨ The server never saw ${num1} or ${num2}, only encrypted values!</p>
+                    <p style="color: #00dbde;">✨ The server correctly computed the sum of ${num1} and ${num2} without ever seeing the original numbers!</p>
                 </div>
             `;
         }
         
         // Add some interactive hover effects
-        document.querySelectorAll('.step').forEach(step => {
-            step.addEventListener('mouseenter', function() {
+        document.querySelectorAll('.step, .benefit-card').forEach(el => {
+            el.addEventListener('mouseenter', function() {
                 this.style.transform = 'scale(1.05)';
             });
-            step.addEventListener('mouseleave', function() {
+            el.addEventListener('mouseleave', function() {
                 this.style.transform = 'scale(1)';
             });
         });

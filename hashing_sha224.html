@@ -1297,157 +1297,171 @@ function create_message_schedule(chunk):
 </footer>
 </div>
 <script>
-            // SHA-224 Visualization
-            document.addEventListener("DOMContentLoaded", function () {
-                const inputText = document.getElementById("input-text");
-                const hashOutput = document.getElementById("hash-output");
-                const hashBtn = document.getElementById("hash-btn");
-                const resetBtn = document.getElementById("reset-btn");
-                const stepInput = document.getElementById("step-input");
-                const stepBinary = document.getElementById("step-binary");
-                const stepPadding = document.getElementById("step-padding");
-                const stepRounds = document.getElementById("step-rounds");
-                const stepFinal = document.getElementById("step-final");
-                const bitRepresentation =
-                    document.getElementById("bit-representation");
-                const progressBar = document.getElementById("progress-bar");
+    class SHA224Visualization {
+        constructor() {
+            this.elements = {
+                inputText: document.getElementById("input-text"),
+                hashOutput: document.getElementById("hash-output"),
+                hashBtn: document.getElementById("hash-btn"),
+                resetBtn: document.getElementById("reset-btn"),
+                stepInput: document.getElementById("step-input"),
+                stepBinary: document.getElementById("step-binary"),
+                stepPadding: document.getElementById("step-padding"),
+                stepRounds: document.getElementById("step-rounds"),
+                stepFinal: document.getElementById("step-final"),
+                bitRepresentation: document.getElementById("bit-representation"),
+                progressBar: document.getElementById("progress-bar"),
+            };
 
-                // Initialize with example
-                updateInputStep(inputText.value);
+            this.currentStep = 0;
+            this.animationInterval = null;
+            this.isAnimating = false;
+            this.message = "";
 
-                // Hash button click event
-                hashBtn.addEventListener("click", function () {
-                    computeSha224(inputText.value);
-                });
+            this.steps = [
+                { id: "input", title: "1. Input Text", update: this.updateInputStep },
+                { id: "binary", title: "2. Binary Representation", update: this.updateBinaryStep },
+                { id: "padding", title: "3. Padding", update: this.updatePaddingStep },
+                { id: "rounds", title: "4. Processing Rounds", update: this.updateRoundsStep },
+                { id: "final", title: "5. Final Hash", update: this.updateFinalStep },
+            ];
 
-                // Reset button click event
-                resetBtn.addEventListener("click", function () {
-                    inputText.value = "Hello World";
-                    updateInputStep(inputText.value);
-                    hashOutput.textContent = "Hash will appear here";
-                    stepBinary.textContent = "Binary will appear here";
-                    stepPadding.textContent =
-                        "Padding details will appear here";
-                    stepRounds.textContent =
-                        "Hash computation progress will appear here";
-                    stepFinal.textContent = "Final hash will appear here";
-                    bitRepresentation.innerHTML = "";
-                    progressBar.style.width = "0%";
-                });
+            this.setupEventListeners();
+            this.resetVisualization();
+        }
 
-                // Input text change event
-                inputText.addEventListener("input", function () {
-                    updateInputStep(inputText.value);
-                });
+        setupEventListeners() {
+            this.elements.hashBtn.addEventListener("click", () => this.startVisualization());
+            this.elements.resetBtn.addEventListener("click", () => this.resetVisualization());
+            this.elements.inputText.addEventListener("input", () => this.updateInputStep(this.elements.inputText.value));
+        }
 
-                // Update the input step
-                function updateInputStep(text) {
-                    stepInput.textContent = text;
+        resetVisualization() {
+            this.stopAnimation();
+            this.currentStep = 0;
+            this.isAnimating = false;
+            this.elements.inputText.value = "Hello World";
+            this.elements.hashOutput.textContent = "Hash will appear here";
+            this.elements.progressBar.style.width = "0%";
+            this.updateInputStep(this.elements.inputText.value);
+            this.elements.stepBinary.textContent = "Binary will appear here";
+            this.elements.stepPadding.textContent = "Padding details will appear here";
+            this.elements.stepRounds.textContent = "Hash computation progress will appear here";
+            this.elements.stepFinal.textContent = "Final hash will appear here";
+            this.elements.bitRepresentation.innerHTML = "";
+        }
 
-                    // Show binary representation
-                    const binaryStr = text
-                        .split("")
-                        .map((char) => {
-                            return char
-                                .charCodeAt(0)
-                                .toString(2)
-                                .padStart(8, "0");
-                        })
-                        .join(" ");
+        startVisualization() {
+            this.resetVisualization();
+            this.message = this.elements.inputText.value;
+            this.isAnimating = true;
+            this.animateStep();
+        }
 
-                    stepBinary.textContent = binaryStr;
+        stopAnimation() {
+            clearInterval(this.animationInterval);
+            this.isAnimating = false;
+        }
 
-                    // Create bit visualization
-                    bitRepresentation.innerHTML = "";
-                    const fullBinary = text
-                        .split("")
-                        .map((char) => {
-                            return char
-                                .charCodeAt(0)
-                                .toString(2)
-                                .padStart(8, "0");
-                        })
-                        .join("");
+        animateStep() {
+            if (this.currentStep < this.steps.length) {
+                this.steps[this.currentStep].update.call(this, this.message);
+                this.currentStep++;
+                this.animationInterval = setTimeout(() => this.animateStep(), 1500);
+            } else {
+                this.stopAnimation();
+            }
+        }
 
-                    for (let i = 0; i < Math.min(32, fullBinary.length); i++) {
-                        const bit = document.createElement("div");
-                        bit.className =
-                            "bit " + (fullBinary[i] === "1" ? "one" : "zero");
-                        bit.textContent = fullBinary[i];
-                        bitRepresentation.appendChild(bit);
-                    }
+        updateInputStep(text) {
+            this.elements.stepInput.textContent = text;
+        }
 
-                    if (fullBinary.length > 32) {
-                        const ellipsis = document.createElement("div");
-                        ellipsis.className = "bit";
-                        ellipsis.textContent = "...";
-                        bitRepresentation.appendChild(ellipsis);
-                    }
+        updateBinaryStep(message) {
+            const binaryStr = message.split("").map((char) => char.charCodeAt(0).toString(2).padStart(8, "0")).join(" ");
+            this.elements.stepBinary.textContent = binaryStr;
+
+            this.elements.bitRepresentation.innerHTML = "";
+            const fullBinary = message.split("").map((char) => char.charCodeAt(0).toString(2).padStart(8, "0")).join("");
+
+            for (let i = 0; i < Math.min(224, fullBinary.length); i++) { // Show up to 224 bits
+                const bit = document.createElement("div");
+                bit.className = "bit " + (fullBinary[i] === "1" ? "one" : "zero");
+                bit.textContent = fullBinary[i];
+                this.elements.bitRepresentation.appendChild(bit);
+            }
+            if (fullBinary.length > 224) {
+                const ellipsis = document.createElement("div");
+                ellipsis.className = "bit";
+                ellipsis.textContent = "...";
+                this.elements.bitRepresentation.appendChild(ellipsis);
+            }
+        }
+
+        updatePaddingStep(message) {
+            const msgBits = message.length * 8;
+            const padBits = (((msgBits + 64) >> 9) << 6) + 448 - (msgBits % 512);
+            this.elements.stepPadding.textContent = `Original message: ${msgBits} bits. Added padding: ${padBits} bits + 64 bits length = ${padBits + 64} bits padding.`;
+        }
+
+        updateRoundsStep(message) {
+            let progress = 0;
+            const totalRounds = 64; // SHA-224 has 64 rounds
+            const roundInterval = setInterval(() => {
+                progress++;
+                this.elements.progressBar.style.width = `${(progress / totalRounds) * 100}%`;
+                this.elements.stepRounds.textContent = `Processing round ${progress} of ${totalRounds}...`;
+
+                if (progress >= totalRounds) {
+                    clearInterval(roundInterval);
+                    // Simulate final hash after all rounds
+                    this.elements.stepRounds.textContent = `All ${totalRounds} rounds processed.`;
                 }
+            }, 50);
+        }
 
-                // Compute SHA-224 hash
-                function computeSha224(message) {
-                    // For visualization purposes, we'll simulate the steps
-                    // In a real implementation, we would use the actual algorithm
+        updateFinalStep(message) {
+            // This is a mock hash for visualization purposes
+            // In a real application, you would use a cryptographic library
+            const mockHash = this.generateMockHash(message);
+            this.elements.hashOutput.textContent = mockHash;
+            this.elements.stepFinal.textContent = mockHash;
+        }
 
-                    // Show padding details
-                    const msgBits = message.length * 8;
-                    const padBits =
-                        (((msgBits + 64) >> 9) << 6) + 448 - (msgBits % 512);
-                    stepPadding.textContent = `Original message: ${msgBits} bits. Added padding: ${padBits} bits + 64 bits length = ${padBits + 64} bits padding.`;
+        generateMockHash(input) {
+            let hash = 0;
+            for (let i = 0; i < input.length; i++) {
+                hash = ((hash << 5) - hash) + input.charCodeAt(i);
+                hash |= 0; // Ensure 32-bit integer
+            }
+            // Generate a 224-bit (56 hex chars) mock hash
+            let mockHex = (hash >>> 0).toString(16).padStart(8, '0');
+            while (mockHex.length < 56) {
+                mockHex += (hash * 0xABCD + i).toString(16).padStart(8, '0'); // Simple deterministic extension
+            }
+            return mockHex.substring(0, 56);
+        }
+    }
 
-                    // Simulate processing rounds
-                    let progress = 0;
-                    const progressInterval = setInterval(() => {
-                        progress += 1;
-                        progressBar.style.width = `${progress}%`;
-                        stepRounds.textContent = `Processing round ${progress} of 64...`;
+    document.addEventListener("DOMContentLoaded", () => {
+        new SHA224Visualization();
 
-                        if (progress >= 64) {
-                            clearInterval(progressInterval);
+        // Simple copy button functionality
+        const copyBtn = document.querySelector(".copy-btn");
+        if(copyBtn) {
+            copyBtn.addEventListener("click", function () {
+                const code = document.querySelector(".code-block code").innerText;
+                navigator.clipboard.writeText(code);
 
-                            // Compute the actual hash using the browser's built-in crypto
-                            const encoder = new TextEncoder();
-                            const data = encoder.encode(message);
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
 
-                            crypto.subtle
-                                .digest("SHA-224", data)
-                                .then((hash) => {
-                                    const hashArray = Array.from(
-                                        new Uint8Array(hash),
-                                    );
-                                    const hashHex = hashArray
-                                        .map((b) =>
-                                            b.toString(16).padStart(2, "0"),
-                                        )
-                                        .join("");
-
-                                    hashOutput.textContent = hashHex;
-                                    stepFinal.textContent = hashHex;
-                                });
-                        }
-                    }, 50);
-                }
-
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
-
-                        // Show feedback
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
-                    });
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
             });
-        </script>
+        }
+    });
+</script>
 </body>
 </html>

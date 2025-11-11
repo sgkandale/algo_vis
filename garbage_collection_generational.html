@@ -1335,547 +1335,204 @@ gc.minor_gc()</code></pre>
 <script>
             // Visualization for Generational Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
-                const visualization =
-                    document.getElementById("gc-visualization");
-                const heapContainer = document.getElementById("heap-container");
-                const allocateBtn = document.getElementById("allocate-btn");
-                const minorGcBtn = document.getElementById("minor-gc-btn");
-                const majorGcBtn = document.getElementById("major-gc-btn");
-                const createRefBtn = document.getElementById("create-ref-btn");
-                const nullRefBtn = document.getElementById("null-ref-btn");
-
-                // State variables
-                let objects = [];
-                let roots = [];
-                let references = [];
-                let selectedObject = null;
-                let currentPhase = 0;
-                let survivorToggle = true; // true: From S0 to S1, false: From S1 to S0
-
-                // Initialize visualization
-                function initVisualization() {
-                    heapContainer.innerHTML = "";
-                    objects = [];
-                    references = [];
-                    roots = [];
-                    selectedObject = null;
-                    currentPhase = 0;
-                    survivorToggle = true;
-
-                    // Create generation containers
-                    const youngGen = document.createElement("div");
-                    youngGen.className = "generation";
-                    youngGen.innerHTML = `
-            <div class="generation-title young-generation">Young Generation</div>
-            <div class="sub-space eden-space" id="eden-space">Eden</div>
-            <div class="sub-space survivor-space" id="survivor-from">Survivor From (S0)</div>
-            <div class="sub-space survivor-space" id="survivor-to">Survivor To (S1)</div>
-          `;
-
-                    const oldGen = document.createElement("div");
-                    oldGen.className = "generation";
-                    oldGen.innerHTML = `
-            <div class="generation-title old-generation">Old Generation</div>
-            <div class="sub-space old-space" id="old-space">Tenured Space</div>
-          `;
-
-                    heapContainer.appendChild(youngGen);
-                    heapContainer.appendChild(oldGen);
-
-                    // Create log container
-                    const logContainer = document.createElement("div");
-                    logContainer.className = "log-container";
-                    logContainer.id = "log-container";
-                    visualization.appendChild(logContainer);
-
-                    // Create status panel
-                    const statusPanel = document.createElement("div");
-                    statusPanel.className = "status-panel";
-                    statusPanel.id = "status-panel";
-                    statusPanel.innerHTML = "System Status: Initialized";
-                    visualization.appendChild(statusPanel);
-
-                    // Create 2 root objects
-                    roots = [createObject("eden"), createObject("eden")];
-                    roots[0].element.textContent = "Root 1";
-                    roots[1].element.textContent = "Root 2";
-
-                    logEvent("Initialized heap with 2 root objects");
-                    updateStatus("Ready - 2 objects in Eden");
-                }
-
-                // Create a new object
-                function createObject(space = "eden") {
-                    const object = {
-                        id: objects.length,
-                        age: 0,
-                        space: space,
-                        references: [],
-                        element: null,
-                    };
-
-                    const block = document.createElement("div");
-                    block.className = "memory-block block-new";
-                    block.innerHTML = `Obj ${object.id}<div class="block-age">Age:0</div>`;
-                    block.dataset.id = object.id;
-                    block.addEventListener("click", () => selectObject(object));
-
-                    // Add to appropriate space
-                    let container;
-                    if (space === "eden")
-                        container = document.getElementById("eden-space");
-                    else if (space === "survivor-from")
-                        container = document.getElementById("survivor-from");
-                    else if (space === "survivor-to")
-                        container = document.getElementById("survivor-to");
-                    else container = document.getElementById("old-space");
-
-                    container.appendChild(block);
-                    object.element = block;
-                    objects.push(object);
-
-                    logEvent(`Allocated new object ${object.id} in ${space}`);
-                    updateStatus(`Allocated object ${object.id} in ${space}`);
-
-                    return object;
-                }
-
-                // Create a reference between objects
-                function createReference(from, to) {
-                    if (from === to) return;
-
-                    // Check if reference already exists
-                    if (from.references.includes(to)) return;
-
-                    from.references.push(to);
-
-                    // Create visual reference
-                    const fromRect = from.element.getBoundingClientRect();
-                    const toRect = to.element.getBoundingClientRect();
-                    const containerRect = heapContainer.getBoundingClientRect();
-
-                    const x1 =
-                        fromRect.left + fromRect.width / 2 - containerRect.left;
-                    const y1 =
-                        fromRect.top + fromRect.height / 2 - containerRect.top;
-                    const x2 =
-                        toRect.left + toRect.width / 2 - containerRect.left;
-                    const y2 =
-                        toRect.top + toRect.height / 2 - containerRect.top;
-
-                    // Create arrow with SVG
-                    const svgNS = "http://www.w3.org/2000/svg";
-                    const svg = document.createElementNS(svgNS, "svg");
-                    svg.setAttribute("class", "reference-arrow");
-                    svg.style.position = "absolute";
-                    svg.style.left = "0";
-                    svg.style.top = "0";
-                    svg.style.width = "100%";
-                    svg.style.height = "100%";
-                    svg.style.pointerEvents = "none";
-
-                    const line = document.createElementNS(svgNS, "line");
-                    line.setAttribute("x1", x1);
-                    line.setAttribute("y1", y1);
-                    line.setAttribute("x2", x2);
-                    line.setAttribute("y2", y2);
-                    line.setAttribute("class", "reference-arrow");
-
-                    // Add arrowhead
-                    const defs = document.createElementNS(svgNS, "defs");
-                    const marker = document.createElementNS(svgNS, "marker");
-                    marker.setAttribute("id", `arrowhead-${from.id}-${to.id}`);
-                    marker.setAttribute("markerWidth", "10");
-                    marker.setAttribute("markerHeight", "7");
-                    marker.setAttribute("refX", "10");
-                    marker.setAttribute("refY", "3.5");
-                    marker.setAttribute("orient", "auto");
-
-                    const polygon = document.createElementNS(svgNS, "polygon");
-                    polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
-                    polygon.setAttribute("fill", "var(--accent-light)");
-
-                    marker.appendChild(polygon);
-                    defs.appendChild(marker);
-                    svg.appendChild(defs);
-                    line.setAttribute(
-                        "marker-end",
-                        `url(#arrowhead-${from.id}-${to.id})`,
-                    );
-                    svg.appendChild(line);
-
-                    heapContainer.appendChild(svg);
-                    references.push({
-                        from,
-                        to,
-                        element: svg,
-                    });
-
-                    logEvent(`Created reference from ${from.id} to ${to.id}`);
-                }
-
-                // Select an object for reference creation
-                function selectObject(object) {
-                    if (selectedObject === null) {
-                        selectedObject = object;
-                        object.element.style.border = "2px solid white";
-                        logEvent(
-                            `Selected object ${object.id} as reference source`,
-                        );
-                        updateStatus(
-                            `Select target object for reference from ${object.id}`,
-                        );
-                    } else if (selectedObject === object) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    } else {
-                        createReference(selectedObject, object);
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    }
-                }
-
-                // Nullify a random reference
-                function nullifyRandomReference() {
-                    const objectsWithRefs = objects.filter(
-                        (obj) => obj.references.length > 0,
-                    );
-                    if (objectsWithRefs.length === 0) return;
-
-                    const from =
-                        objectsWithRefs[
-                            Math.floor(Math.random() * objectsWithRefs.length)
-                        ];
-                    const refIndex = Math.floor(
-                        Math.random() * from.references.length,
-                    );
-                    const to = from.references[refIndex];
-
-                    // Remove reference
-                    from.references.splice(refIndex, 1);
-
-                    // Remove visual reference
-                    const refSvg = references.find(
-                        (ref) => ref.from === from && ref.to === to,
-                    );
-                    if (refSvg) {
-                        refSvg.element.remove();
-                        references = references.filter((ref) => ref !== refSvg);
-                    }
-
-                    logEvent(`Nullified reference from ${from.id} to ${to.id}`);
-                    updateStatus(
-                        `Reference from ${from.id} to ${to.id} removed`,
-                    );
-                }
-
-                // Run minor garbage collection
-                function runMinorGC() {
-                    logEvent("Starting Minor GC...");
-                    updateStatus("Minor GC: Collecting young generation");
-
-                    // Step 1: Mark reachable objects in young generation
-                    logEvent("Marking reachable objects in young generation");
-                    const youngObjects = objects.filter(
-                        (obj) =>
-                            obj.space === "eden" ||
-                            obj.space.startsWith("survivor"),
-                    );
-
-                    // Animate marking
-                    let index = 0;
-                    function markNext() {
-                        if (index < youngObjects.length) {
-                            const obj = youngObjects[index];
-                            if (Math.random() > 0.3) {
-                                // 70% chance of being reachable
-                                obj.element.classList.add("block-marked");
-                                obj.element.classList.remove("block-new");
-                                obj.element.classList.add("block-young");
-                                logEvent(`Marked object ${obj.id}`);
-                            } else {
-                                obj.element.classList.add("block-unreachable");
-                                logEvent(`Object ${obj.id} is unreachable`);
-                            }
-
-                            index++;
-                            setTimeout(markNext, 300);
-                        } else {
-                            // Proceed to evacuation
-                            setTimeout(evacuateSurvivors, 1000);
-                        }
-                    }
-
-                    markNext();
-                }
-
-                // Evacuate survivors to new space
-                function evacuateSurvivors() {
-                    logEvent("Evacuating survivors and promoting aged objects");
-                    updateStatus("Minor GC: Evacuating survivors");
-
-                    const edenSpace = document.getElementById("eden-space");
-                    const fromSpace = document.getElementById("survivor-from");
-                    const toSpace = document.getElementById("survivor-to");
-                    const oldSpace = document.getElementById("old-space");
-
-                    // Process eden space
-                    const edenObjects = objects.filter(
-                        (obj) => obj.space === "eden",
-                    );
-                    let processed = 0;
-
-                    function processEden() {
-                        if (processed < edenObjects.length) {
-                            const obj = edenObjects[processed];
-
-                            if (
-                                obj.element.classList.contains("block-marked")
-                            ) {
-                                // This object survived
-                                obj.age++;
-                                obj.element.querySelector(
-                                    ".block-age",
-                                ).textContent = `Age:${obj.age}`;
-
-                                if (obj.age >= 3) {
-                                    // Promote to old generation
-                                    oldSpace.appendChild(obj.element);
-                                    obj.space = "old";
-                                    obj.element.classList.remove("block-young");
-                                    obj.element.classList.add("block-old");
-                                    logEvent(
-                                        `Promoted object ${obj.id} to old generation`,
-                                    );
-                                } else {
-                                    // Move to survivor space
-                                    toSpace.appendChild(obj.element);
-                                    obj.space = "survivor-to";
-                                    logEvent(
-                                        `Moved object ${obj.id} to survivor space`,
-                                    );
-                                }
-                            } else {
-                                // This object is garbage
-                                obj.element.remove();
-                                objects = objects.filter((o) => o !== obj);
-                                logEvent(`Collected object ${obj.id}`);
-                            }
-
-                            processed++;
-                            setTimeout(processEden, 300);
-                        } else {
-                            // Process survivor space
-                            processSurvivorSpace();
-                        }
-                    }
-
-                    function processSurvivorSpace() {
-                        const survivorObjects = objects.filter(
-                            (obj) => obj.space === "survivor-from",
-                        );
-                        processed = 0;
-
-                        function processNext() {
-                            if (processed < survivorObjects.length) {
-                                const obj = survivorObjects[processed];
-
-                                if (
-                                    obj.element.classList.contains(
-                                        "block-marked",
-                                    )
-                                ) {
-                                    // This object survived
-                                    obj.age++;
-                                    obj.element.querySelector(
-                                        ".block-age",
-                                    ).textContent = `Age:${obj.age}`;
-
-                                    if (obj.age >= 3) {
-                                        // Promote to old generation
-                                        oldSpace.appendChild(obj.element);
-                                        obj.space = "old";
-                                        obj.element.classList.remove(
-                                            "block-young",
-                                        );
-                                        obj.element.classList.add("block-old");
-                                        logEvent(
-                                            `Promoted object ${obj.id} to old generation`,
-                                        );
-                                    } else {
-                                        // Move to other survivor space
-                                        toSpace.appendChild(obj.element);
-                                        obj.space = "survivor-to";
-                                        logEvent(
-                                            `Moved object ${obj.id} to survivor space`,
-                                        );
-                                    }
-                                } else {
-                                    // This object is garbage
-                                    obj.element.remove();
-                                    objects = objects.filter((o) => o !== obj);
-                                    logEvent(`Collected object ${obj.id}`);
-                                }
-
-                                processed++;
-                                setTimeout(processNext, 300);
-                            } else {
-                                // Swap survivor spaces
-                                document.getElementById(
-                                    "survivor-from",
-                                ).textContent = survivorToggle
-                                    ? "Survivor To (S1)"
-                                    : "Survivor From (S0)";
-                                document.getElementById(
-                                    "survivor-to",
-                                ).textContent = survivorToggle
-                                    ? "Survivor From (S0)"
-                                    : "Survivor To (S1)";
-                                survivorToggle = !survivorToggle;
-
-                                // Clear eden space
-                                edenSpace.innerHTML = "Eden";
-
-                                // Reset marks
-                                objects.forEach((obj) => {
-                                    obj.element.classList.remove(
-                                        "block-marked",
-                                        "block-unreachable",
-                                    );
-                                });
-
-                                logEvent("Minor GC completed");
-                                updateStatus(
-                                    `Minor GC completed. ${objects.length} objects remaining`,
-                                );
-                            }
-                        }
-
-                        processNext();
-                    }
-
-                    processEden();
-                }
-
-                // Run major garbage collection
-                function runMajorGC() {
-                    logEvent("Starting Major GC...");
-                    updateStatus("Major GC: Collecting entire heap");
-
-                    // Mark phase - mark all reachable objects
-                    logEvent("Marking reachable objects in entire heap");
-                    objects.forEach((obj) => {
-                        if (Math.random() > 0.2) {
-                            // 80% chance of being reachable
-                            obj.element.classList.add("block-marked");
-                            logEvent(`Marked object ${obj.id}`);
-                        } else {
-                            obj.element.classList.add("block-unreachable");
-                            logEvent(`Object ${obj.id} is unreachable`);
-                        }
-                    });
-
-                    // Sweep phase
-                    setTimeout(() => {
-                        logEvent("Sweeping unreachable objects");
-                        let sweptCount = 0;
-                        let index = 0;
-
-                        function sweepNext() {
-                            if (index < objects.length) {
-                                const obj = objects[index];
-
-                                if (
-                                    obj.element.classList.contains(
-                                        "block-unreachable",
-                                    )
-                                ) {
-                                    obj.element.remove();
-                                    objects = objects.filter((o) => o !== obj);
-                                    sweptCount++;
-                                    logEvent(`Collected object ${obj.id}`);
-                                } else {
-                                    // Reset mark
-                                    obj.element.classList.remove(
-                                        "block-marked",
-                                    );
-                                }
-
-                                index++;
-                                setTimeout(sweepNext, 300);
-                            } else {
-                                logEvent(
-                                    `Major GC completed. ${sweptCount} objects collected`,
-                                );
-                                updateStatus(
-                                    `Major GC completed. ${objects.length} objects remaining`,
-                                );
-                            }
-                        }
-
-                        sweepNext();
-                    }, 1000);
-                }
-
-                // Log event to log container
-                function logEvent(message) {
-                    const logContainer =
-                        document.getElementById("log-container");
-                    if (!logContainer) return;
-
-                    const logEntry = document.createElement("div");
-                    logEntry.className = "log-entry";
-                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-                    logContainer.appendChild(logEntry);
-
-                    // Auto-scroll
-                    logContainer.scrollTop = logContainer.scrollHeight;
-                }
-
-                // Update status panel
-                function updateStatus(status) {
-                    const statusPanel = document.getElementById("status-panel");
-                    if (!statusPanel) return;
-
-                    statusPanel.innerHTML = `System Status: ${status}`;
-                }
-
-                // Event listeners
-                allocateBtn.addEventListener("click", () =>
-                    createObject("eden"),
-                );
-                minorGcBtn.addEventListener("click", runMinorGC);
-                majorGcBtn.addEventListener("click", runMajorGC);
-                createRefBtn.addEventListener("click", () => {
-                    if (selectedObject) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    }
-                    updateStatus("Select source object for new reference");
+                class GenerationalGCVisualization {
+            constructor() {
+                this.heapContainer = document.getElementById("heap-container");
+                this.allocateBtn = document.getElementById("allocate-btn");
+                this.minorGcBtn = document.getElementById("minor-gc-btn");
+                this.majorGcBtn = document.getElementById("major-gc-btn");
+                this.createRefBtn = document.getElementById("create-ref-btn");
+                this.nullRefBtn = document.getElementById("null-ref-btn");
+                this.logContainer = document.createElement('div');
+                this.statusPanel = document.createElement('div');
+                
+                this.promotionAge = 3;
+                this.init();
+                this.setupEventListeners();
+            }
+
+            init() {
+                this.objects = new Map();
+                this.roots = new Set();
+                this.nextId = 0;
+                this.selectedObject = null;
+                
+                this.render();
+                this.logEvent("Initialized heap.");
+                this.updateStatus("Ready.");
+                
+                // Initial objects
+                this.allocateObject();
+                this.allocateObject();
+                this.roots.add(this.objects.get(0));
+                this.roots.add(this.objects.get(1));
+                this.render();
+            }
+
+            render() {
+                this.heapContainer.innerHTML = `
+                    <div class="generation young-generation">
+                        <div class="generation-title">Young Generation</div>
+                        <div class="sub-space eden-space" id="eden"></div>
+                        <div class="sub-space survivor-space" id="s0">S0</div>
+                        <div class="sub-space survivor-space" id="s1">S1</div>
+                    </div>
+                    <div class="generation old-generation">
+                        <div class="generation-title">Old Generation</div>
+                        <div class="sub-space old-space" id="old"></div>
+                    </div>
+                `;
+                
+                this.objects.forEach(obj => {
+                    const space = document.getElementById(obj.space);
+                    if(space) space.appendChild(this.createObjectElement(obj));
                 });
-                nullRefBtn.addEventListener("click", nullifyRandomReference);
+                
+                this.drawReferences();
+            }
+            
+            createObjectElement(obj) {
+                const el = document.createElement('div');
+                el.className = 'memory-block';
+                el.dataset.id = obj.id;
+                el.innerHTML = `Obj ${obj.id}<div class="block-age">Age: ${obj.age}</div>`;
+                el.classList.add(obj.age >= this.promotionAge ? 'block-old' : (obj.age > 0 ? 'block-young' : 'block-new'));
+                if(this.roots.has(obj)) el.style.border = '2px solid var(--warning)';
+                el.addEventListener('click', () => this.selectObject(obj));
+                return el;
+            }
+            
+            drawReferences() {
+                // Simplified: no arrows for now to reduce complexity
+            }
 
-                // Initialize the visualization
-                initVisualization();
+            allocateObject() {
+                const id = this.nextId++;
+                const obj = { id, age: 0, space: 'eden', refs: new Set() };
+                this.objects.set(id, obj);
+                this.logEvent(`Allocated Object ${id} in Eden.`);
+                this.render();
+            }
+            
+            createReference() {
+                if(this.objects.size < 2) return;
+                let from, to;
+                do {
+                    from = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                    to = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                } while (from === to);
+                
+                from.refs.add(to);
+                this.logEvent(`Created reference from ${from.id} to ${to.id}.`);
+                this.render();
+            }
+            
+            nullifyReference() {
+                 const withRefs = Array.from(this.objects.values()).filter(o => o.refs.size > 0);
+                 if(withRefs.length === 0) return;
+                 const from = withRefs[Math.floor(Math.random() * withRefs.length)];
+                 const to = Array.from(from.refs)[0];
+                 from.refs.delete(to);
+                 this.logEvent(`Nullified reference from ${from.id} to ${to.id}.`);
+                 this.render();
+            }
 
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
+            selectObject(obj) {
+                if (this.selectedObject) {
+                    this.selectedObject.element.style.border = '';
+                    if (this.selectedObject !== obj) {
+                        this.selectedObject.refs.add(obj);
+                        this.logEvent(`Created reference from ${this.selectedObject.id} to ${obj.id}.`);
+                        this.render();
+                    }
+                    this.selectedObject = null;
+                } else {
+                    this.selectedObject = obj;
+                    obj.element.style.border = '2px solid white';
+                }
+            }
 
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            minorGC() {
+                this.logEvent("--- Minor GC Started ---");
+                
+                // Mark
+                const live = new Set();
+                const worklist = [...this.roots];
+                while(worklist.length > 0) {
+                    const obj = worklist.pop();
+                    if(!live.has(obj)) {
+                        live.add(obj);
+                        obj.refs.forEach(ref => worklist.push(ref));
+                    }
+                }
+                
+                // Evacuate
+                this.objects.forEach(obj => {
+                    if(obj.space === 'eden' || obj.space === 's0' || obj.space === 's1') {
+                        if(live.has(obj)) {
+                            obj.age++;
+                            if(obj.age >= this.promotionAge) {
+                                obj.space = 'old';
+                                this.logEvent(`Promoted ${obj.id} to Old Gen.`);
+                            } else {
+                                obj.space = 's1'; // Simplified: always move to s1
+                                this.logEvent(`Moved ${obj.id} to Survivor Space.`);
+                            }
+                        } else {
+                            this.objects.delete(obj.id);
+                            this.logEvent(`Collected garbage object ${obj.id}.`);
+                        }
+                    }
+                });
+                
+                this.logEvent("--- Minor GC Finished ---");
+                this.render();
+            }
+            
+            majorGC() {
+                this.logEvent("--- Major GC Started ---");
+                // Mark
+                const live = new Set();
+                const worklist = [...this.roots];
+                while(worklist.length > 0) {
+                    const obj = worklist.pop();
+                    if(!live.has(obj)) {
+                        live.add(obj);
+                        obj.refs.forEach(ref => worklist.push(ref));
+                    }
+                }
+                
+                // Sweep
+                this.objects.forEach(obj => {
+                    if(!live.has(obj)) {
+                        this.objects.delete(obj.id);
+                        this.logEvent(`Collected garbage object ${obj.id}.`);
+                    }
+                });
+                
+                this.logEvent("--- Major GC Finished ---");
+                this.render();
+            }
 
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
-                    });
-            });
-        </script>
+            logEvent(message) {
+                console.log(message);
+            }
+            
+            updateStatus(message) {
+                console.log(message);
+            }
+
+            setupEventListeners() {
+                this.allocateBtn.addEventListener("click", () => this.allocateObject());
+                this.minorGcBtn.addEventListener("click", () => this.minorGC());
+                this.majorGcBtn.addEventListener("click", () => this.majorGC());
+                this.createRefBtn.addEventListener("click", () => this.createReference());
+                this.nullRefBtn.addEventListener("click", () => this.nullifyReference());
+            }
+        }
+
+        new GenerationalGCVisualization();
+    });
+</script>
 </body>
 </html>

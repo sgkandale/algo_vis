@@ -1522,18 +1522,18 @@ function sweepPhaseOldGeneration():
             this.reset();
           });
 
-          this.randomBtn.addEventListener('click', () => {
+          this.randomBtn.addEventListener("click", () => {
             this.generateRandomObjects();
           });
 
-          this.objectInput.addEventListener('change', () => {
+          this.objectInput.addEventListener("change", () => {
             this.reset();
           });
         }
       }
 
       // Initialize the visualization when the page loads
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener("DOMContentLoaded", () => {
         const gcViz = new DualHeapGCVisualization();
 
         // Copy button functionality

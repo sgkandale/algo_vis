@@ -1190,397 +1190,255 @@ plt.show()</code></pre>
 </footer>
 </div>
 <script>
-      // DBSCAN Visualization
-      document.addEventListener("DOMContentLoaded", function () {
-        // DOM Elements
-        const vizContainer = document.getElementById("dbscan-viz");
-        const runBtn = document.getElementById("run-btn");
-        const stepBtn = document.getElementById("step-btn");
-        const resetBtn = document.getElementById("reset-btn");
-        const generateBtn = document.getElementById("generate-btn");
-        const epsilonInput = document.getElementById("epsilon");
-        const epsilonValue = document.getElementById("epsilon-value");
-        const minPointsInput = document.getElementById("min-points");
-        const minPointsValue = document.getElementById("min-points-value");
-        const iterationInfo = document.querySelector(".iteration-info");
-        const copyBtn = document.querySelector(".copy-btn");
+    class DBSCANVisualization {
+        constructor() {
+            this.vizContainer = document.getElementById("dbscan-viz");
+            this.runBtn = document.getElementById("run-btn");
+            this.stepBtn = document.getElementById("step-btn");
+            this.resetBtn = document.getElementById("reset-btn");
+            this.generateBtn = document.getElementById("generate-btn");
+            this.epsilonInput = document.getElementById("epsilon");
+            this.epsilonValue = document.getElementById("epsilon-value");
+            this.minPointsInput = document.getElementById("min-points");
+            this.minPointsValue = document.getElementById("min-points-value");
+            this.iterationInfo = document.querySelector(".iteration-info");
 
-        // Visualization state
-        let dataPoints = [];
-        let clusters = [];
-        let currentStep = 0;
-        let currentPointIndex = 0;
-        let animationId = null;
-        const colors = [
-          "#818cf8",
-          "#10b981",
-          "#f59e0b",
-          "#ef4444",
-          "#a78bfa",
-          "#60a5fa",
-          "#34d399",
-          "#fbbf24",
-        ];
-        const width = vizContainer.clientWidth;
-        const height = vizContainer.clientHeight;
+            this.dataPoints = [];
+            this.animationId = null;
+            this.colors = ["#818cf8", "#10b981", "#f59e0b", "#ef4444", "#a78bfa", "#60a5fa", "#f97316", "#eab308", "#22c55e", "#14b8a6", "#06b6d4", "#3b82f6", "#6366f1", "#a855f7", "#d946eef", "#ec4899"];
+            this.width = this.vizContainer.clientWidth;
+            this.height = this.vizContainer.clientHeight;
 
-        // Update parameter displays
-        epsilonInput.addEventListener("input", function () {
-          epsilonValue.textContent = this.value;
-        });
+            this.currentPointIndex = 0;
+            this.currentClusterId = 0;
+            this.visitedPoints = new Set();
+            this.clusters = []; // Stores arrays of point indices for each cluster
 
-        minPointsInput.addEventListener("input", function () {
-          minPointsValue.textContent = this.value;
-        });
-
-        // Generate random data points
-        function generateData() {
-          // Clear previous data
-          dataPoints = [];
-          clusters = [];
-          currentStep = 0;
-          currentPointIndex = 0;
-          vizContainer.innerHTML = "";
-
-          // Create iteration info
-          const iterInfo = document.createElement("div");
-          iterInfo.className = "iteration-info";
-          iterInfo.textContent = "Iteration: 0 | Clusters: 0";
-          vizContainer.appendChild(iterInfo);
-
-          // Create legend
-          const legend = document.createElement("div");
-          legend.className = "legend";
-          legend.innerHTML = `
-                    <div class="legend-item">
-                        <div class="legend-color" style="background:#818cf8"></div>
-                        <div class="legend-label">Core Point</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background:#10b981"></div>
-                        <div class="legend-label">Border Point</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background:#ef4444"></div>
-                        <div class="legend-label">Noise Point</div>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background:#f59e0b"></div>
-                        <div class="legend-label">Current Point</div>
-                    </div>
-                `;
-          vizContainer.appendChild(legend);
-
-          // Create dense clusters
-          for (let i = 0; i < 3; i++) {
-            const centerX = Math.random() * (width - 150) + 75;
-            const centerY = Math.random() * (height - 150) + 75;
-
-            for (let j = 0; j < 20; j++) {
-              const point = {
-                id: dataPoints.length,
-                x: centerX + (Math.random() - 0.5) * 80,
-                y: centerY + (Math.random() - 0.5) * 80,
-                cluster: -1, // -1: unvisited, -2: noise
-                isCore: false,
-                neighbors: [],
-              };
-              dataPoints.push(point);
-            }
-          }
-
-          // Add some noise points
-          for (let i = 0; i < 10; i++) {
-            const point = {
-              id: dataPoints.length,
-              x: Math.random() * width,
-              y: Math.random() * height,
-              cluster: -1,
-              isCore: false,
-              neighbors: [],
-            };
-            dataPoints.push(point);
-          }
-
-          // Render initial state
-          renderVisualization();
+            this.setupEventListeners();
+            this.generateData();
         }
 
-        // Calculate Euclidean distance
-        function euclideanDistance(p1, p2) {
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          return Math.sqrt(dx * dx + dy * dy);
+        setupEventListeners() {
+            this.runBtn.addEventListener("click", () => this.runAlgorithm());
+            this.stepBtn.addEventListener("click", () => this.stepAlgorithm());
+            this.resetBtn.addEventListener("click", () => this.resetVisualization());
+            this.generateBtn.addEventListener("click", () => this.generateData());
+            this.epsilonInput.addEventListener("input", () => {
+                this.epsilonValue.textContent = this.epsilonInput.value;
+                this.resetVisualization(); // Reset on parameter change
+            });
+            this.minPointsInput.addEventListener("input", () => {
+                this.minPointsValue.textContent = this.minPointsInput.value;
+                this.resetVisualization(); // Reset on parameter change
+            });
         }
 
-        // Find neighbors for a point
-        function findNeighbors(pointIndex) {
-          const epsilon = parseInt(epsilonInput.value);
-          const point = dataPoints[pointIndex];
-          const neighbors = [];
+        generateData() {
+            this.stopAnimation();
+            this.dataPoints = [];
+            this.vizContainer.innerHTML = ''; // Clear previous points
+            this.currentPointIndex = 0;
+            this.currentClusterId = 0;
+            this.visitedPoints.clear();
+            this.clusters = [];
 
-          for (let i = 0; i < dataPoints.length; i++) {
-            if (i === pointIndex) continue;
-            if (euclideanDistance(point, dataPoints[i]) <= epsilon) {
-              neighbors.push(i);
-            }
-          }
+            const pointCount = 200;
+            const numClusters = 4;
+            const clusterStd = 50; // Spread of points in a cluster
 
-          return neighbors;
-        }
-
-        // Expand cluster from a core point
-        function expandCluster(pointIndex, clusterId) {
-          const minPts = parseInt(minPointsInput.value);
-          const queue = [pointIndex];
-
-          while (queue.length > 0) {
-            const currentIdx = queue.shift();
-            const currentPoint = dataPoints[currentIdx];
-
-            if (currentPoint.cluster === -2) {
-              // Noise point becomes border point
-              currentPoint.cluster = clusterId;
+            for (let i = 0; i < numClusters; i++) {
+                const centerX = Math.random() * (this.width - 2 * clusterStd) + clusterStd;
+                const centerY = Math.random() * (this.height - 2 * clusterStd) + clusterStd;
+                for (let j = 0; j < pointCount / numClusters; j++) {
+                    this.dataPoints.push({
+                        x: centerX + (Math.random() - 0.5) * clusterStd,
+                        y: centerY + (Math.random() - 0.5) * clusterStd,
+                        cluster: 0, // 0 = unclassified
+                        type: 'unclassified' // unclassified, noise, border, core
+                    });
+                }
             }
 
-            if (currentPoint.cluster === -1) {
-              // Unvisited point
-              currentPoint.cluster = clusterId;
-              const neighbors = findNeighbors(currentIdx);
-
-              if (neighbors.length >= minPts) {
-                // Core point
-                currentPoint.isCore = true;
-
-                // Add new neighbors to queue
-                neighbors.forEach((neighborIdx) => {
-                  if (
-                    !queue.includes(neighborIdx) &&
-                    dataPoints[neighborIdx].cluster <= 0
-                  ) {
-                    queue.push(neighborIdx);
-                  }
+            // Add some random noise points
+            for (let i = 0; i < 20; i++) {
+                this.dataPoints.push({
+                    x: Math.random() * this.width,
+                    y: Math.random() * this.height,
+                    cluster: 0,
+                    type: 'unclassified'
                 });
-              }
             }
 
-            renderVisualization();
-          }
+            this.render();
+            this.updateIterationInfo();
         }
 
-        // Perform one step of the algorithm
-        function performStep() {
-          if (currentPointIndex >= dataPoints.length) {
-            return false; // Algorithm completed
-          }
+        render() {
+            this.vizContainer.innerHTML = ''; // Clear previous points and circles/lines
+            const epsilon = parseInt(this.epsilonInput.value);
 
-          const point = dataPoints[currentPointIndex];
-          const minPts = parseInt(minPointsInput.value);
+            this.dataPoints.forEach((p, index) => {
+                const pointEl = document.createElement("div");
+                pointEl.className = "data-point";
+                pointEl.style.left = `${p.x}px`;
+                pointEl.style.top = `${p.y}px`;
 
-          if (point.cluster === -1) {
-            // Unvisited
-            point.cluster = 0; // Mark as visited for visualization
-            renderVisualization();
+                if (p.cluster > 0) {
+                    pointEl.style.backgroundColor = this.colors[p.cluster % this.colors.length];
+                } else if (p.type === 'noise') {
+                    pointEl.style.backgroundColor = this.colors[3]; // Red for noise
+                } else {
+                    pointEl.style.backgroundColor = this.colors[0]; // Default unclassified color
+                }
 
-            setTimeout(() => {
-              const neighbors = findNeighbors(currentPointIndex);
+                if (p.type === 'core') {
+                    pointEl.classList.add('core-point');
+                } else if (p.type === 'noise') {
+                    pointEl.classList.add('noise-point');
+                }
 
-              if (neighbors.length < minPts) {
-                // Mark as noise (temporarily)
-                point.cluster = -2;
-              } else {
-                // Create new cluster
-                const clusterId = clusters.length + 1;
-                clusters.push(clusterId);
-                point.isCore = true;
-                point.cluster = clusterId;
+                if (index === this.currentPointIndex && this.isAnimating) {
+                    pointEl.style.backgroundColor = this.colors[2]; // Orange for current point
+                }
 
-                // Expand cluster
-                expandCluster(currentPointIndex, clusterId);
-              }
+                this.vizContainer.appendChild(pointEl);
 
-              currentPointIndex++;
-              updateIterationInfo();
-              renderVisualization();
-            }, 1000);
+                // Draw epsilon circle for core points
+                if (p.type === 'core' && index === this.currentPointIndex) {
+                    const circleEl = document.createElement("div");
+                    circleEl.className = "epsilon-circle";
+                    circleEl.style.width = `${2 * epsilon}px`;
+                    circleEl.style.height = `${2 * epsilon}px`;
+                    circleEl.style.left = `${p.x}px`;
+                    circleEl.style.top = `${p.y}px`;
+                    this.vizContainer.appendChild(circleEl);
+                }
+            });
 
+            // Draw cluster lines (simplified: connect points within the same cluster)
+            this.clusters.forEach(clusterIndices => {
+                if (clusterIndices.length > 1) {
+                    for (let i = 0; i < clusterIndices.length; i++) {
+                        for (let j = i + 1; j < clusterIndices.length; j++) {
+                            const p1 = this.dataPoints[clusterIndices[i]];
+                            const p2 = this.dataPoints[clusterIndices[j]];
+                            if (p1.cluster === p2.cluster && p1.cluster > 0) {
+                                this.drawLine(p1, p2, this.colors[p1.cluster % this.colors.length]);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        drawLine(p1, p2, color) {
+            const line = document.createElement('div');
+            line.className = 'cluster-line';
+            const distance = this.distance(p1, p2);
+            const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+
+            line.style.width = `${distance}px`;
+            line.style.left = `${p1.x}px`;
+            line.style.top = `${p1.y}px`;
+            line.style.transform = `rotate(${angle}deg)`;
+            line.style.backgroundColor = color;
+            line.style.height = '2px'; // Thickness of the line
+            this.vizContainer.appendChild(line);
+        }
+
+        updateIterationInfo() {
+            const numClusters = new Set(this.dataPoints.filter(p => p.cluster > 0).map(p => p.cluster)).size;
+            this.iterationInfo.textContent = `Iteration: ${this.currentPointIndex} / ${this.dataPoints.length} | Clusters: ${numClusters}`;
+        }
+
+        runAlgorithm() {
+            this.stopAnimation();
+            this.isAnimating = true;
+            this.animationId = setInterval(() => {
+                if (!this.stepAlgorithm()) {
+                    this.stopAnimation();
+                }
+            }, 100); // Adjust speed as needed
+        }
+
+        stepAlgorithm() {
+            if (this.currentPointIndex >= this.dataPoints.length) {
+                this.stopAnimation();
+                return false;
+            }
+
+            const epsilon = parseInt(this.epsilonInput.value);
+            const minPts = parseInt(this.minPointsInput.value);
+            const p = this.dataPoints[this.currentPointIndex];
+
+            if (!this.visitedPoints.has(p)) {
+                this.visitedPoints.add(p);
+
+                const neighbors = this.regionQuery(p, epsilon);
+
+                if (neighbors.length >= minPts) {
+                    p.type = 'core';
+                    this.currentClusterId++;
+                    p.cluster = this.currentClusterId;
+                    this.clusters.push([this.currentPointIndex]); // Start new cluster with current point
+                    this.expandCluster(p, neighbors, this.currentClusterId, epsilon, minPts);
+                } else {
+                    p.type = 'noise';
+                }
+            }
+
+            this.currentPointIndex++;
+            this.render();
+            this.updateIterationInfo();
             return true;
-          }
-
-          currentPointIndex++;
-          return true;
         }
 
-        // Render visualization
-        function renderVisualization() {
-          // Clear previous points and circles
-          vizContainer
-            .querySelectorAll(".data-point, .epsilon-circle, .cluster-line")
-            .forEach((el) => el.remove());
+        expandCluster(p, neighbors, clusterId, epsilon, minPts) {
+            let queue = [...neighbors];
+            while (queue.length > 0) {
+                const currentPoint = queue.shift();
 
-          // Render data points
-          dataPoints.forEach((point, idx) => {
-            const pointEl = document.createElement("div");
-            pointEl.className = "data-point";
-            pointEl.style.left = `${point.x}px`;
-            pointEl.style.top = `${point.y}px`;
+                if (!this.visitedPoints.has(currentPoint)) {
+                    this.visitedPoints.add(currentPoint);
+                    const currentNeighbors = this.regionQuery(currentPoint, epsilon);
 
-            // Determine point color and style
-            if (idx === currentPointIndex && point.cluster === -1) {
-              // Current point being processed
-              pointEl.style.backgroundColor = "#f59e0b";
-              pointEl.classList.add("core-point");
-            } else if (point.cluster === -2) {
-              // Noise point
-              pointEl.style.backgroundColor = "#ef4444";
-            } else if (point.isCore) {
-              // Core point
-              pointEl.style.backgroundColor =
-                colors[point.cluster % colors.length];
-              pointEl.classList.add("core-point");
-            } else if (point.cluster > 0) {
-              // Border point
-              pointEl.style.backgroundColor = "#10b981";
-            } else {
-              // Unvisited point
-              pointEl.style.backgroundColor = "#94a3b8";
+                    if (currentNeighbors.length >= minPts) {
+                        currentPoint.type = 'core';
+                        queue.push(...currentNeighbors);
+                    } else {
+                        currentPoint.type = 'border';
+                    }
+                }
+
+                if (currentPoint.cluster === 0 || currentPoint.type === 'noise') {
+                    currentPoint.cluster = clusterId;
+                    this.clusters[clusterId - 1].push(this.dataPoints.indexOf(currentPoint));
+                }
             }
-
-            vizContainer.appendChild(pointEl);
-
-            // Draw epsilon circle for current point
-            if (idx === currentPointIndex && point.cluster === -1) {
-              const circle = document.createElement("div");
-              circle.className = "epsilon-circle";
-              circle.style.left = `${point.x}px`;
-              circle.style.top = `${point.y}px`;
-              circle.style.width = `${parseInt(epsilonInput.value) * 2}px`;
-              circle.style.height = `${parseInt(epsilonInput.value) * 2}px`;
-              vizContainer.appendChild(circle);
-
-              // Draw lines to neighbors
-              const neighbors = findNeighbors(idx);
-              neighbors.forEach((neighborIdx) => {
-                const neighbor = dataPoints[neighborIdx];
-                const line = document.createElement("div");
-                line.className = "cluster-line";
-
-                const dx = neighbor.x - point.x;
-                const dy = neighbor.y - point.y;
-                const length = Math.sqrt(dx * dx + dy * dy);
-                const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
-
-                line.style.width = `${length}px`;
-                line.style.left = `${point.x}px`;
-                line.style.top = `${point.y}px`;
-                line.style.transform = `rotate(${angle}deg)`;
-                vizContainer.appendChild(line);
-              });
-            }
-          });
         }
 
-        // Update iteration info
-        function updateIterationInfo() {
-          const clusterCount = clusters.length;
-          iterationInfo.textContent = `Iteration: ${currentPointIndex} | Clusters: ${clusterCount}`;
+        regionQuery(point, epsilon) {
+            return this.dataPoints.filter(p => this.distance(point, p) <= epsilon && p !== point);
         }
 
-        // Run animation
-        function runAnimation() {
-          if (animationId) {
-            clearTimeout(animationId);
-          }
-
-          function animate() {
-            const continueRunning = performStep();
-
-            if (continueRunning && currentPointIndex < dataPoints.length) {
-              animationId = setTimeout(animate, 1500);
-            } else {
-              runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-              animationId = null;
-            }
-          }
-
-          runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
-          animationId = setTimeout(animate, 1000);
+        distance(p1, p2) {
+            return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
         }
 
-        // Event listeners
-        runBtn.addEventListener("click", function () {
-          if (this.textContent.includes("Run")) {
-            runAnimation();
-          } else {
-            if (animationId) {
-              clearTimeout(animationId);
-              animationId = null;
-            }
-            this.innerHTML = '<i class="fas fa-play"></i> Run';
-          }
-        });
+        resetVisualization() {
+            this.stopAnimation();
+            this.dataPoints = [];
+            this.currentPointIndex = 0;
+            this.currentClusterId = 0;
+            this.visitedPoints.clear();
+            this.clusters = [];
+            this.generateData(); // Regenerate data on reset
+        }
+    }
 
-        stepBtn.addEventListener("click", function () {
-          if (animationId) {
-            clearTimeout(animationId);
-            animationId = null;
-            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-          }
-          performStep();
-        });
-
-        resetBtn.addEventListener("click", function () {
-          if (animationId) {
-            clearTimeout(animationId);
-            animationId = null;
-          }
-          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-          generateData();
-        });
-
-        generateBtn.addEventListener("click", function () {
-          if (animationId) {
-            clearTimeout(animationId);
-            animationId = null;
-          }
-          runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-          generateData();
-        });
-
-        epsilonInput.addEventListener("change", function () {
-          if (animationId) {
-            clearTimeout(animationId);
-            animationId = null;
-            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-          }
-          generateData();
-        });
-
-        minPointsInput.addEventListener("change", function () {
-          if (animationId) {
-            clearTimeout(animationId);
-            animationId = null;
-            runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
-          }
-          generateData();
-        });
-
-        // Copy button functionality
-        copyBtn.addEventListener("click", function () {
-          const code = document.querySelector(".code-block code").innerText;
-          navigator.clipboard.writeText(code);
-
-          const originalText = this.innerHTML;
-          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-
-          setTimeout(() => {
-            this.innerHTML = originalText;
-          }, 2000);
-        });
-
-        // Initialize visualization
-        generateData();
-      });
-    </script>
+    document.addEventListener("DOMContentLoaded", () => {
+        new DBSCANVisualization();
+    });
+</script>
 </body>
 </html>

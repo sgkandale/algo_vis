@@ -1093,242 +1093,201 @@ print(<span class="string">"Transaction result:"</span>, result)</code></pre>
 </footer>
 </div>
 <script>
-      // Visualization state
-      let vizState = {
-        phase: "not-started",
-        participants: 4,
-        readyCount: 0,
-        commitCount: 0,
-        abortCount: 0,
-      };
-
-      // DOM Elements
-      const runBtn = document.getElementById("run-btn");
-      const resetBtn = document.getElementById("reset-btn");
-      const failureBtn = document.getElementById("failure-btn");
-      const randomBtn = document.getElementById("random-btn");
-      const nodesInput = document.getElementById("nodes-input");
-      const phaseText = document.getElementById("phase-text");
-      const stateInfo = document.getElementById("state-info");
-      const readyCount = document.getElementById("ready-count");
-      const commitCount = document.getElementById("commit-count");
-      const abortCount = document.getElementById("abort-count");
-
-      // Initialize visualization
-      function initViz() {
-        vizState = {
+      document.addEventListener("DOMContentLoaded", function () {
+        let vizState = {
           phase: "not-started",
           participants: 4,
           readyCount: 0,
           commitCount: 0,
           abortCount: 0,
+          running: false
         };
 
-        // Reset UI
-        phaseText.textContent = "Not Started";
-        stateInfo.textContent = "Transaction State: Not Started";
-        readyCount.textContent = "0";
-        commitCount.textContent = "0";
-        abortCount.textContent = "0";
+        const runBtn = document.getElementById("run-btn");
+        const resetBtn = document.getElementById("reset-btn");
+        const failureBtn = document.getElementById("failure-btn");
+        const randomBtn = document.getElementById("random-btn");
+        const nodesInput = document.getElementById("nodes-input");
+        const phaseText = document.getElementById("phase-text");
+        const stateInfo = document.getElementById("state-info");
+        const readyCountEl = document.getElementById("ready-count");
+        const commitCountEl = document.getElementById("commit-count");
+        const abortCountEl = document.getElementById("abort-count");
+        const participantsContainer = document.querySelector(".participants");
 
-        // Reset participants
-        const participants = document.querySelectorAll(".participant");
-        participants.forEach((p) => {
-          p.className = "participant";
+        function initViz() {
+          vizState.phase = "not-started";
+          vizState.readyCount = 0;
+          vizState.commitCount = 0;
+          vizState.abortCount = 0;
+          vizState.running = false;
+
+          phaseText.textContent = "Not Started";
+          stateInfo.textContent = "Transaction State: Not Started";
+          readyCountEl.textContent = "0";
+          commitCountEl.textContent = "0";
+          abortCountEl.textContent = "0";
+
+          participantsContainer.innerHTML = '';
+          for (let i = 1; i <= vizState.participants; i++) {
+              const p = document.createElement('div');
+              p.className = 'participant';
+              p.id = `p${i}`;
+              p.textContent = `P${i}`;
+              participantsContainer.appendChild(p);
+          }
+          
+          document.querySelectorAll(".message").forEach((m) => m.remove());
+          runBtn.disabled = false;
+          failureBtn.disabled = false;
+        }
+
+        function createMessage(from, to, label, color = 'var(--accent-light)') {
+            const vizContainer = document.getElementById("viz-container");
+            const fromElem = document.querySelector(from);
+            const toElem = document.querySelector(to);
+
+            if (!fromElem || !toElem) return;
+
+            const fromRect = fromElem.getBoundingClientRect();
+            const toRect = toElem.getBoundingClientRect();
+            const containerRect = vizContainer.getBoundingClientRect();
+
+            const x1 = fromRect.left + fromRect.width / 2 - containerRect.left;
+            const y1 = fromRect.top + fromRect.height / 2 - containerRect.top;
+            const x2 = toRect.left + toRect.width / 2 - containerRect.left;
+            const y2 = toRect.top + toRect.height / 2 - containerRect.top;
+
+            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+
+            const message = document.createElement("div");
+            message.className = "message";
+            message.style.width = `${length}px`;
+            message.style.transform = `rotate(${angle}deg)`;
+            message.style.left = `${x1}px`;
+            message.style.top = `${y1}px`;
+            message.style.background = color;
+            
+            const labelElem = document.createElement("div");
+            labelElem.className = "message-label";
+            labelElem.textContent = label;
+            message.appendChild(labelElem);
+
+            vizContainer.appendChild(message);
+            return message;
+        }
+
+        async function runProtocol(shouldFail = false) {
+          if (vizState.running) return;
+          vizState.running = true;
+          runBtn.disabled = true;
+          failureBtn.disabled = true;
+          
+          initViz();
+          await delay(100);
+
+          vizState.phase = "prepare";
+          phaseText.textContent = "1. Prepare Phase";
+          stateInfo.textContent = "Coordinator sends PREPARE";
+
+          for (let i = 1; i <= vizState.participants; i++) {
+            createMessage(".coordinator", `#p${i}`, "PREPARE");
+            await delay(200);
+          }
+
+          await delay(1000);
+          stateInfo.textContent = "Participants vote...";
+
+          const failedParticipant = shouldFail ? Math.floor(Math.random() * vizState.participants) + 1 : -1;
+          let allVotedYes = true;
+
+          for (let i = 1; i <= vizState.participants; i++) {
+            const participant = document.getElementById(`p${i}`);
+            if (i === failedParticipant) {
+              allVotedYes = false;
+              participant.classList.add("abort");
+              createMessage(`#p${i}`, ".coordinator", "VOTE_NO", 'var(--danger)');
+              vizState.abortCount++;
+            } else {
+              participant.classList.add("active");
+              createMessage(`#p${i}`, ".coordinator", "VOTE_YES", 'var(--success)');
+              vizState.readyCount++;
+            }
+            readyCountEl.textContent = vizState.readyCount;
+            abortCountEl.textContent = vizState.abortCount;
+            await delay(200);
+          }
+          
+          await delay(1000);
+          document.querySelectorAll(".message").forEach((m) => m.remove());
+
+          if (allVotedYes) {
+            vizState.phase = "commit";
+            phaseText.textContent = "2. Commit Phase";
+            stateInfo.textContent = "All voted YES. Coordinator sends COMMIT";
+            for (let i = 1; i <= vizState.participants; i++) {
+              createMessage(".coordinator", `#p${i}`, "COMMIT", 'var(--success)');
+              await delay(200);
+            }
+            await delay(1000);
+            for (let i = 1; i <= vizState.participants; i++) {
+                vizState.commitCount++;
+                commitCountEl.textContent = vizState.commitCount;
+                await delay(100);
+            }
+            stateInfo.textContent = "Transaction Committed Successfully!";
+          } else {
+            vizState.phase = "abort";
+            phaseText.textContent = "2. Abort Phase";
+            stateInfo.textContent = "A participant voted NO. Coordinator sends ABORT";
+            for (let i = 1; i <= vizState.participants; i++) {
+              createMessage(".coordinator", `#p${i}`, "ABORT", 'var(--danger)');
+              await delay(200);
+            }
+            await delay(1000);
+            for (let i = 1; i <= vizState.participants; i++) {
+                const p = document.getElementById(`p${i}`);
+                if (!p.classList.contains("abort")) {
+                    p.classList.remove("active");
+                    p.classList.add("abort");
+                    vizState.abortCount++;
+                }
+            }
+            abortCountEl.textContent = vizState.abortCount;
+            stateInfo.textContent = "Transaction Aborted.";
+          }
+          
+          vizState.running = false;
+          runBtn.disabled = false;
+          failureBtn.disabled = false;
+        }
+
+        function delay(ms) {
+          return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        runBtn.addEventListener("click", () => runProtocol(false));
+        resetBtn.addEventListener("click", initViz);
+        failureBtn.addEventListener("click", () => runProtocol(true));
+        
+        randomBtn.addEventListener("click", () => {
+          const count = Math.floor(Math.random() * 4) + 3;
+          nodesInput.value = count;
+          vizState.participants = count;
+          initViz();
         });
 
-        // Clear messages
-        document.querySelectorAll(".message").forEach((m) => m.remove());
-      }
+        nodesInput.addEventListener("change", (e) => {
+          let count = parseInt(e.target.value) || 4;
+          if (count < 2) count = 2;
+          if (count > 6) count = 6;
+          vizState.participants = count;
+          initViz();
+        });
 
-      // Create message between coordinator and participant
-      function createMessage(from, to, label) {
-        const vizContainer = document.getElementById("viz-container");
-        const fromElem = document.querySelector(from);
-        const toElem = document.querySelector(to);
-
-        if (!fromElem || !toElem) return;
-
-        const fromRect = fromElem.getBoundingClientRect();
-        const toRect = toElem.getBoundingClientRect();
-        const containerRect = vizContainer.getBoundingClientRect();
-
-        const offsetX = containerRect.left;
-        const offsetY = containerRect.top;
-
-        const x1 = fromRect.left + fromRect.width / 2 - offsetX;
-        const y1 = fromRect.top + fromRect.height - offsetY;
-        const x2 = toRect.left + toRect.width / 2 - offsetX;
-        const y2 = toRect.top - offsetY;
-
-        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
-
-        const message = document.createElement("div");
-        message.className = "message";
-        message.style.width = `${length}px`;
-        message.style.transform = `rotate(${angle}deg)`;
-        message.style.left = `${x1}px`;
-        message.style.top = `${y1}px`;
-
-        const labelElem = document.createElement("div");
-        labelElem.className = "message-label";
-        labelElem.textContent = label;
-        message.appendChild(labelElem);
-
-        vizContainer.appendChild(message);
-
-        return message;
-      }
-
-      // Run the 2PC protocol
-      async function runProtocol() {
-        if (vizState.phase !== "not-started") return;
-
-        // Reset state
-        initViz();
-
-        // Set phase to Prepare
-        vizState.phase = "prepare";
-        phaseText.textContent = "Prepare";
-        stateInfo.textContent = "Transaction State: Preparing";
-
-        // Create PREPARE messages
-        const messages = [];
-        for (let i = 1; i <= vizState.participants; i++) {
-          const message = createMessage(".coordinator", `#p${i}`, "PREPARE");
-          if (message) messages.push(message);
-          await delay(500);
-        }
-
-        // Simulate participants preparing
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          document.getElementById(`p${i}`).classList.add("active");
-          vizState.readyCount++;
-          readyCount.textContent = vizState.readyCount;
-
-          // Create VOTE messages
-          createMessage(`#p${i}`, ".coordinator", "VOTE");
-          await delay(500);
-        }
-
-        // All participants ready - move to commit phase
-        vizState.phase = "commit";
-        phaseText.textContent = "Commit";
-        stateInfo.textContent = "Transaction State: Committing";
-        await delay(1000);
-
-        // Create COMMIT messages
-        for (let i = 1; i <= vizState.participants; i++) {
-          createMessage(".coordinator", `#p${i}`, "COMMIT");
-          await delay(500);
-        }
-
-        // Participants commit
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          vizState.commitCount++;
-          commitCount.textContent = vizState.commitCount;
-          await delay(300);
-        }
-
-        stateInfo.textContent = "Transaction State: Committed Successfully";
-      }
-
-      // Simulate failure scenario
-      async function simulateFailure() {
-        if (vizState.phase !== "not-started") return;
-
-        // Reset state
-        initViz();
-
-        // Set phase to Prepare
-        vizState.phase = "prepare";
-        phaseText.textContent = "Prepare";
-        stateInfo.textContent = "Transaction State: Preparing";
-
-        // Create PREPARE messages
-        const messages = [];
-        for (let i = 1; i <= vizState.participants; i++) {
-          const message = createMessage(".coordinator", `#p${i}`, "PREPARE");
-          if (message) messages.push(message);
-          await delay(500);
-        }
-
-        // Simulate participants preparing (one fails)
-        await delay(1000);
-        let failed = false;
-        for (let i = 1; i <= vizState.participants; i++) {
-          // One participant fails randomly
-          if (!failed && i === Math.floor(vizState.participants / 2)) {
-            document.getElementById(`p${i}`).classList.add("abort");
-            createMessage(`#p${i}`, ".coordinator", "VOTE (NO)");
-            failed = true;
-            vizState.abortCount++;
-            abortCount.textContent = vizState.abortCount;
-          } else {
-            document.getElementById(`p${i}`).classList.add("active");
-            vizState.readyCount++;
-            readyCount.textContent = vizState.readyCount;
-            createMessage(`#p${i}`, ".coordinator", "VOTE (YES)");
-          }
-          await delay(500);
-        }
-
-        // Move to abort phase
-        vizState.phase = "abort";
-        phaseText.textContent = "Abort";
-        stateInfo.textContent = "Transaction State: Aborting";
-        await delay(1000);
-
-        // Create ABORT messages
-        for (let i = 1; i <= vizState.participants; i++) {
-          createMessage(".coordinator", `#p${i}`, "ABORT");
-          await delay(500);
-        }
-
-        // Participants abort
-        await delay(1000);
-        for (let i = 1; i <= vizState.participants; i++) {
-          if (!document.getElementById(`p${i}`).classList.contains("abort")) {
-            document.getElementById(`p${i}`).classList.remove("active");
-            document.getElementById(`p${i}`).classList.add("abort");
-          }
-          vizState.abortCount++;
-          abortCount.textContent = vizState.abortCount;
-          await delay(300);
-        }
-
-        stateInfo.textContent = "Transaction State: Aborted";
-      }
-
-      // Helper function for delays
-      function delay(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-
-      // Event Listeners
-      runBtn.addEventListener("click", runProtocol);
-      resetBtn.addEventListener("click", initViz);
-      failureBtn.addEventListener("click", simulateFailure);
-      randomBtn.addEventListener("click", () => {
-        const count = Math.floor(Math.random() * 4) + 3; // 3-6 participants
-        nodesInput.value = count;
-        vizState.participants = count;
         initViz();
       });
-
-      nodesInput.addEventListener("change", (e) => {
-        const count = parseInt(e.target.value) || 4;
-        if (count < 2) count = 2;
-        if (count > 6) count = 6;
-        vizState.participants = count;
-        initViz();
-      });
-
-      // Initialize
-      document.addEventListener("DOMContentLoaded", initViz);
     </script>
 </body>
 </html>

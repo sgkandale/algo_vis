@@ -1152,182 +1152,165 @@ function compareDigests(myDigest, theirDigest):
         </div>
 
         <script>
-            // Simple copy button functionality
-            document.querySelectorAll(".copy-btn").forEach((button) => {
-                button.addEventListener("click", function () {
-                    const codeBlock =
-                        this.closest(".code-block").querySelector("code");
-                    const code = codeBlock.innerText;
-                    navigator.clipboard.writeText(code);
+    class GossipNode {
+        constructor(id, allNodes) {
+            this.id = id;
+            this.allNodes = allNodes;
+            this.data = new Set();
+            this.element = null;
+            this.gossipInterval = null;
+        }
 
-                    // Show feedback
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        start() {
+            this.gossipInterval = setInterval(() => this.gossip(), 2000);
+        }
 
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                    }, 2000);
-                });
-            });
+        stop() {
+            clearInterval(this.gossipInterval);
+        }
 
-            // Console buttons functionality
-            document.querySelectorAll(".console-btn").forEach((button) => {
-                button.addEventListener("click", function () {
-                    if (this.textContent.includes("Run")) {
-                        // Simulate visualization
-                        const vizArea = document.querySelector(
-                            ".visualization-area",
-                        );
-                        vizArea.innerHTML = "";
-
-                        // Create node visualization
-                        const nodeCount =
-                            parseInt(
-                                document.querySelector(".console-input input")
-                                    .value,
-                            ) || 8;
-                        createNodeVisualization(vizArea, nodeCount);
-
-                        // Change button to stop
-                        this.innerHTML = '<i class="fas fa-stop"></i> Stop';
-                        this.classList.add("secondary");
-
-                        // Start the gossip simulation
-                        startGossipSimulation();
-                    } else if (this.textContent.includes("Stop")) {
-                        // Reset visualization
-                        document.querySelector(
-                            ".visualization-area",
-                        ).innerHTML = "";
-                        this.innerHTML = '<i class="fas fa-play"></i> Run';
-                        this.classList.remove("secondary");
-                    }
-                });
-            });
-
-            // Create node visualization
-            function createNodeVisualization(container, nodeCount) {
-                const width = container.offsetWidth;
-                const height = container.offsetHeight;
-                const centerX = width / 2;
-                const centerY = height / 2;
-                const radius = Math.min(width, height) * 0.35;
-
-                // Create nodes
-                for (let i = 0; i < nodeCount; i++) {
-                    const angle = (2 * Math.PI * i) / nodeCount;
-                    const x = centerX + radius * Math.cos(angle);
-                    const y = centerY + radius * Math.sin(angle);
-
-                    const node = document.createElement("div");
-                    node.className = "node";
-                    node.id = `node-${i}`;
-                    node.style.left = `${x}px`;
-                    node.style.top = `${y}px`;
-                    node.innerHTML = `N${i}`;
-                    container.appendChild(node);
-
-                    // Create connections (for visualization only)
-                    for (let j = i + 1; j < nodeCount; j++) {
-                        const angle2 = (2 * Math.PI * j) / nodeCount;
-                        const x2 = centerX + radius * Math.cos(angle2);
-                        const y2 = centerY + radius * Math.sin(angle2);
-
-                        const dx = x2 - x;
-                        const dy = y2 - y;
-                        const length = Math.sqrt(dx * dx + dy * dy);
-                        const angleLine = (Math.atan2(dy, dx) * 180) / Math.PI;
-
-                        const connection = document.createElement("div");
-                        connection.className = "node-connection";
-                        connection.style.width = `${length}px`;
-                        connection.style.left = `${x}px`;
-                        connection.style.top = `${y}px`;
-                        connection.style.transform = `rotate(${angleLine}deg)`;
-                        container.appendChild(connection);
-                    }
-                }
+        gossip() {
+            const peer = this.selectRandomPeer();
+            if (peer) {
+                this.exchangeWith(peer);
             }
+        }
 
-            // Simulate gossip protocol
-            function startGossipSimulation() {
-                const nodes = document.querySelectorAll(".node");
-                const message = document.createElement("div");
-                message.className = "gossip-message";
-                message.innerHTML = "Gossip!";
-                document
-                    .querySelector(".visualization-area")
-                    .appendChild(message);
+        selectRandomPeer() {
+            const availablePeers = this.allNodes.filter(node => node.id !== this.id);
+            return availablePeers[Math.floor(Math.random() * availablePeers.length)];
+        }
 
-                // Start with node 0 having information
-                nodes[0].style.backgroundColor = "var(--success)";
+        exchangeWith(peer) {
+            // In a real implementation, this would be more complex with digests.
+            // For visualization, we'll do a simple state merge.
+            const myData = new Set(this.data);
+            const peerData = new Set(peer.data);
 
-                // Animate gossip propagation
-                let currentIndex = 0;
-                const interval = setInterval(() => {
-                    if (currentIndex >= nodes.length - 1) {
-                        clearInterval(interval);
-                        // All nodes updated
-                        nodes.forEach((node) => {
-                            node.style.backgroundColor = "var(--success)";
-                        });
-                        return;
-                    }
+            peerData.forEach(item => myData.add(item));
+            myData.forEach(item => peerData.add(item));
 
-                    // Select a random target node
-                    let targetIndex;
-                    do {
-                        targetIndex = Math.floor(Math.random() * nodes.length);
-                    } while (
-                        targetIndex === currentIndex ||
-                        nodes[targetIndex].style.backgroundColor ===
-                            "var(--success)"
-                    );
+            this.data = myData;
+            peer.data = peerData;
+            
+            this.visualizeGossip(peer);
+        }
+        
+        visualizeGossip(peer) {
+            const message = document.createElement("div");
+            message.className = "gossip-message";
+            message.textContent = "Gossip";
+            
+            const vizArea = document.querySelector('.visualization-area');
+            vizArea.appendChild(message);
 
-                    // Animate message passing
-                    const sourceNode = nodes[currentIndex];
-                    const targetNode = nodes[targetIndex];
+            const sourceRect = this.element.getBoundingClientRect();
+            const targetRect = peer.element.getBoundingClientRect();
+            const containerRect = vizArea.getBoundingClientRect();
 
-                    const sourceRect = sourceNode.getBoundingClientRect();
-                    const targetRect = targetNode.getBoundingClientRect();
+            const sourceX = sourceRect.left - containerRect.left + sourceRect.width / 2;
+            const sourceY = sourceRect.top - containerRect.top + sourceRect.height / 2;
+            const targetX = targetRect.left - containerRect.left + targetRect.width / 2;
+            const targetY = targetRect.top - containerRect.top + targetRect.height / 2;
 
-                    const containerRect = document
-                        .querySelector(".visualization-area")
-                        .getBoundingClientRect();
+            message.style.left = `${sourceX}px`;
+            message.style.top = `${sourceY}px`;
+            message.style.opacity = "1";
 
-                    const sourceX =
-                        sourceRect.left -
-                        containerRect.left +
-                        sourceRect.width / 2;
-                    const sourceY =
-                        sourceRect.top -
-                        containerRect.top +
-                        sourceRect.height / 2;
-                    const targetX =
-                        targetRect.left -
-                        containerRect.left +
-                        targetRect.width / 2;
-                    const targetY =
-                        targetRect.top -
-                        containerRect.top +
-                        targetRect.height / 2;
+            setTimeout(() => {
+                message.style.left = `${targetX}px`;
+                message.style.top = `${targetY}px`;
+                setTimeout(() => {
+                    message.remove();
+                    this.updateNodeAppearance();
+                    peer.updateNodeAppearance();
+                }, 500);
+            }, 100);
+        }
 
-                    message.style.left = `${sourceX}px`;
-                    message.style.top = `${sourceY}px`;
-                    message.style.opacity = "1";
-
-                    setTimeout(() => {
-                        message.style.left = `${targetX}px`;
-                        message.style.top = `${targetY}px`;
-
-                        setTimeout(() => {
-                            targetNode.style.backgroundColor = "var(--success)";
-                            message.style.opacity = "0";
-                            currentIndex = targetIndex;
-                        }, 500);
-                    }, 100);
-                }, 1500);
+        updateData(item) {
+            this.data.add(item);
+            this.updateNodeAppearance();
+        }
+        
+        updateNodeAppearance() {
+            if(this.data.size > 0) {
+                this.element.style.backgroundColor = 'var(--success)';
             }
-        </script>
+        }
+    }
+
+    let nodes = [];
+    let simulationRunning = false;
+
+    function setupVisualization() {
+        const vizArea = document.querySelector(".visualization-area");
+        vizArea.innerHTML = '';
+        nodes = [];
+        
+        const nodeCount = parseInt(document.querySelector(".console-input input").value) || 8;
+        const width = vizArea.offsetWidth;
+        const height = vizArea.offsetHeight;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const radius = Math.min(width, height) * 0.35;
+
+        for (let i = 0; i < nodeCount; i++) {
+            const angle = (2 * Math.PI * i) / nodeCount;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+
+            const nodeEl = document.createElement("div");
+            nodeEl.className = "node";
+            nodeEl.id = `node-${i}`;
+            nodeEl.style.left = `${x - 30}px`;
+            nodeEl.style.top = `${y - 30}px`;
+            nodeEl.innerHTML = `N${i}`;
+            vizArea.appendChild(nodeEl);
+            
+            const node = new GossipNode(i, nodes);
+            node.element = nodeEl;
+            nodes.push(node);
+        }
+        
+        nodes.forEach(node => node.allNodes = nodes);
+        
+        // Initial data
+        if(nodes.length > 0) {
+            nodes[0].updateData('Initial Message');
+        }
+    }
+
+    function startSimulation() {
+        if (simulationRunning) return;
+        simulationRunning = true;
+        setupVisualization();
+        nodes.forEach(node => node.start());
+        document.querySelector(".console-btn").innerHTML = '<i class="fas fa-stop"></i> Stop';
+    }
+
+    function stopSimulation() {
+        if (!simulationRunning) return;
+        simulationRunning = false;
+        nodes.forEach(node => node.stop());
+        document.querySelector(".console-btn").innerHTML = '<i class="fas fa-play"></i> Run';
+    }
+
+    document.querySelector(".console-btn").addEventListener("click", () => {
+        if (simulationRunning) {
+            stopSimulation();
+        } else {
+            startSimulation();
+        }
+    });
+    
+    document.querySelector(".console-input input").addEventListener("change", () => {
+        if(!simulationRunning) {
+            setupVisualization();
+        }
+    });
+
+    setupVisualization();
+</script>
     </body>
 </html>

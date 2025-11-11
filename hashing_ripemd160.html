@@ -1037,158 +1037,182 @@
 </footer>
 </div>
 <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Get DOM elements
-        const startBtn = document.getElementById("startBtn");
-        const resetBtn = document.getElementById("resetBtn");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
+    class RIPEMD160Visualization {
+        constructor() {
+            this.elements = {
+                startBtn: document.getElementById("startBtn"),
+                resetBtn: document.getElementById("resetBtn"),
+                prevBtn: document.getElementById("prevBtn"),
+                nextBtn: document.getElementById("nextBtn"),
+                inputBlock: document.getElementById("inputBlock"),
+                paddingBlock: document.getElementById("paddingBlock"),
+                blocks: document.getElementById("blocks"),
+                compression: document.getElementById("compression"),
+                output: document.getElementById("output"),
+                regA: document.getElementById("regA"),
+                regB: document.getElementById("regB"),
+                regC: document.getElementById("regC"),
+                regD: document.getElementById("regD"),
+                regE: document.getElementById("regE"),
+                valA: document.getElementById("valA"),
+                valB: document.getElementById("valB"),
+                valC: document.getElementById("valC"),
+                valD: document.getElementById("valD"),
+                valE: document.getElementById("valE"),
+            };
 
-        const inputBlock = document.getElementById("inputBlock");
-        const paddingBlock = document.getElementById("paddingBlock");
-        const blocks = document.getElementById("blocks");
-        const compression = document.getElementById("compression");
-        const output = document.getElementById("output");
+            this.initialValues = {
+                A: 0x67452301,
+                B: 0xEFCDAB89,
+                C: 0x98BADCFE,
+                D: 0x10325476,
+                E: 0xC3D2E1F0,
+            };
 
-        const regA = document.getElementById("regA");
-        const regB = document.getElementById("regB");
-        const regC = document.getElementById("regC");
-        const regD = document.getElementById("regD");
-        const regE = document.getElementById("regE");
+            this.currentStep = 0;
+            this.animationInterval = null;
+            this.isAnimating = false;
 
-        const valA = document.getElementById("valA");
-        const valB = document.getElementById("valB");
-        const valC = document.getElementById("valC");
-        const valD = document.getElementById("valD");
-        const valE = document.getElementById("valE");
+            this.steps = [
+                { id: "inputBlock", text: "Input Message" },
+                { id: "paddingBlock", text: "Padding" },
+                { id: "blocks", text: "512-bit Blocks" },
+                { id: "compression", text: "Compression Function (Left Line)" },
+                { id: "compression", text: "Compression Function (Right Line)" },
+                { id: "output", text: "Final Combination & 160-bit Hash" },
+            ];
 
-        // Initial register values
-        const initialValues = {
-          A: "0x67452301",
-          B: "0xEFCDAB89",
-          C: "0x98BADCFE",
-          D: "0x10325476",
-          E: "0xC3D2E1F0",
-        };
-
-        // Animation state
-        let currentStep = 0;
-        let animationInterval;
-
-        // Function to reset to initial state
-        function resetVisualization() {
-          currentStep = 0;
-          clearInterval(animationInterval);
-
-          // Reset blocks
-          [inputBlock, paddingBlock, blocks, compression, output].forEach(
-            (block) => {
-              block.classList.remove("active", "highlight", "pulse");
-            }
-          );
-
-          // Reset registers
-          [regA, regB, regC, regD, regE].forEach((reg) => {
-            reg.classList.remove("active", "highlight");
-          });
-
-          // Set initial values
-          valA.textContent = initialValues.A;
-          valB.textContent = initialValues.B;
-          valC.textContent = initialValues.C;
-          valD.textContent = initialValues.D;
-          valE.textContent = initialValues.E;
-
-          inputBlock.classList.add("pulse");
+            this.setupEventListeners();
+            this.resetVisualization();
         }
 
-        // Function to update visualization based on current step
-        function updateVisualization() {
-          // Reset all active states
-          [inputBlock, paddingBlock, blocks, compression, output].forEach(
-            (block) => {
-              block.classList.remove("active");
-            }
-          );
-
-          [regA, regB, regC, regD, regE].forEach((reg) => {
-            reg.classList.remove("active");
-          });
-
-          // Update based on current step
-          if (currentStep === 0) {
-            inputBlock.classList.add("active", "highlight");
-          } else if (currentStep === 1) {
-            paddingBlock.classList.add("active", "highlight");
-          } else if (currentStep === 2) {
-            blocks.classList.add("active", "highlight");
-          } else if (currentStep >= 3 && currentStep <= 6) {
-            compression.classList.add("active");
-
-            // Highlight registers based on processing step
-            if (currentStep === 3) {
-              regA.classList.add("active", "highlight");
-              valA.textContent =
-                "0x" +
-                Math.floor(Math.random() * 0xffffffff)
-                  .toString(16)
-                  .toUpperCase();
-            } else if (currentStep === 4) {
-              regB.classList.add("active", "highlight");
-              valB.textContent =
-                "0x" +
-                Math.floor(Math.random() * 0xffffffff)
-                  .toString(16)
-                  .toUpperCase();
-            } else if (currentStep === 5) {
-              regC.classList.add("active", "highlight");
-              valC.textContent =
-                "0x" +
-                Math.floor(Math.random() * 0xffffffff)
-                  .toString(16)
-                  .toUpperCase();
-            } else if (currentStep === 6) {
-              regD.classList.add("active", "highlight");
-              valD.textContent =
-                "0x" +
-                Math.floor(Math.random() * 0xffffffff)
-                  .toString(16)
-                  .toUpperCase();
-            }
-          } else if (currentStep === 7) {
-            output.classList.add("active", "highlight");
-          }
+        setupEventListeners() {
+            this.elements.startBtn.addEventListener("click", () => this.startAnimation());
+            this.elements.resetBtn.addEventListener("click", () => this.resetVisualization());
+            this.elements.prevBtn.addEventListener("click", () => this.stepBackward());
+            this.elements.nextBtn.addEventListener("click", () => this.stepForward());
         }
 
-        // Function to start animation
-        function startAnimation() {
-          clearInterval(animationInterval);
-          animationInterval = setInterval(() => {
-            currentStep = (currentStep + 1) % 8;
-            updateVisualization();
-          }, 1500);
+        resetVisualization() {
+            this.currentStep = 0;
+            this.stopAnimation();
+            this.isAnimating = false;
+
+            Object.values(this.elements).forEach(el => {
+                if (el && el.classList) {
+                    el.classList.remove("active", "highlight", "pulse");
+                }
+            });
+
+            this.elements.valA.textContent = this.formatHex(this.initialValues.A);
+            this.elements.valB.textContent = this.formatHex(this.initialValues.B);
+            this.elements.valC.textContent = this.formatHex(this.initialValues.C);
+            this.elements.valD.textContent = this.formatHex(this.initialValues.D);
+            this.elements.valE.textContent = this.formatHex(this.initialValues.E);
+
+            this.elements.inputBlock.classList.add("pulse");
+            this.updateStepDisplay();
         }
 
-        // Event listeners
-        startBtn.addEventListener("click", startAnimation);
+        startAnimation() {
+            if (this.isAnimating) {
+                this.stopAnimation();
+                this.elements.startBtn.innerHTML = '<i class="fas fa-play"></i> Start Animation';
+            } else {
+                this.isAnimating = true;
+                this.elements.startBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Animation';
+                this.animateStep();
+            }
+        }
 
-        resetBtn.addEventListener("click", resetVisualization);
+        stopAnimation() {
+            clearInterval(this.animationInterval);
+            this.isAnimating = false;
+        }
 
-        prevBtn.addEventListener("click", function () {
-          clearInterval(animationInterval);
-          currentStep = (currentStep - 1 + 8) % 8;
-          updateVisualization();
-        });
+        animateStep() {
+            this.updateVisualization();
+            this.currentStep = (this.currentStep + 1) % this.steps.length;
+            this.animationInterval = setTimeout(() => this.animateStep(), 1500);
+        }
 
-        nextBtn.addEventListener("click", function () {
-          clearInterval(animationInterval);
-          currentStep = (currentStep + 1) % 8;
-          updateVisualization();
-        });
+        stepForward() {
+            this.stopAnimation();
+            this.currentStep = (this.currentStep + 1) % this.steps.length;
+            this.updateVisualization();
+        }
 
-        // Initialize visualization
-        resetVisualization();
-      });
-    </script>
+        stepBackward() {
+            this.stopAnimation();
+            this.currentStep = (this.currentStep - 1 + this.steps.length) % this.steps.length;
+            this.updateVisualization();
+        }
+
+        updateVisualization() {
+            Object.values(this.elements).forEach(el => {
+                if (el && el.classList) {
+                    el.classList.remove("active", "highlight");
+                }
+            });
+
+            const currentStepInfo = this.steps[this.currentStep];
+            const activeElement = this.elements[currentStepInfo.id];
+            if (activeElement) {
+                activeElement.classList.add("active", "highlight");
+            }
+
+            // Simulate register changes (deterministic for visualization)
+            const newValues = this.simulateRegisterChange(this.currentStep);
+            this.elements.valA.textContent = this.formatHex(newValues.A);
+            this.elements.valB.textContent = this.formatHex(newValues.B);
+            this.elements.valC.textContent = this.formatHex(newValues.C);
+            this.elements.valD.textContent = this.formatHex(newValues.D);
+            this.elements.valE.textContent = this.formatHex(newValues.E);
+        }
+
+        simulateRegisterChange(step) {
+            // This is a simplified, deterministic simulation of register changes
+            // It does NOT represent actual cryptographic operations.
+            let A = this.initialValues.A;
+            let B = this.initialValues.B;
+            let C = this.initialValues.C;
+            let D = this.initialValues.D;
+            let E = this.initialValues.E;
+
+            // Simple pseudo-random changes based on step
+            const seed = (val, s) => (val + s * 0x9E3779B9) >>> 0; // Golden ratio constant
+
+            if (step >= 3) { // Compression function steps
+                A = seed(A, step);
+                B = seed(B, step + 1);
+                C = seed(C, step + 2);
+                D = seed(D, step + 3);
+                E = seed(E, step + 4);
+            }
+
+            // Simulate dual path by swapping/mixing
+            if (step === 4) { // Right line processing
+                [A, B, C, D, E] = [E, A, B, C, D]; // Rotate registers
+                A = seed(A, step * 2);
+                B = seed(B, step * 2 + 1);
+            }
+
+            return { A, B, C, D, E };
+        }
+
+        formatHex(value) {
+            return "0x" + (value >>> 0).toString(16).toUpperCase().padStart(8, '0');
+        }
+
+        updateStepDisplay() {
+            // This function can be expanded to show more detailed step info
+            // For now, it just ensures the initial state is correct.
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new RIPEMD160Visualization();
+    });
+</script>
 </div></div></body>
 </html>

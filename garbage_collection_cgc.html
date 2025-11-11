@@ -1278,355 +1278,196 @@ function compactHeap():
 </footer>
 </div>
 <script>
-            // Conservative Garbage Collector Visualization
-            class ConservativeGCVisualization {
-                constructor() {
-                    this.stackContent =
-                        document.getElementById("stack-content");
-                    this.heapContent = document.getElementById("heap-content");
-                    this.infoPanel = document.getElementById("info-panel");
-                    this.phaseRoot = document.getElementById("phase-root");
-                    this.phaseMark = document.getElementById("phase-mark");
-                    this.phaseSweep = document.getElementById("phase-sweep");
-                    this.slidingWindow =
-                        document.getElementById("sliding-window");
-                    this.stepBtn = document.getElementById("step-btn");
-                    this.runBtn = document.getElementById("run-btn");
-                    this.resetBtn = document.getElementById("reset-btn");
-                    this.objectInput = document.getElementById("object-input");
-                    this.randomBtn = document.getElementById("random-btn");
+    class ConservativeGCVisualization {
+        constructor() {
+            this.stackContent = document.getElementById("stack-content");
+            this.heapContent = document.getElementById("heap-content");
+            this.infoPanel = document.getElementById("info-panel");
+            this.phaseRoot = document.getElementById("phase-root");
+            this.phaseMark = document.getElementById("phase-mark");
+            this.phaseSweep = document.getElementById("phase-sweep");
+            this.slidingWindow = document.getElementById("sliding-window");
+            this.stepBtn = document.getElementById("step-btn");
+            this.runBtn = document.getElementById("run-btn");
+            this.resetBtn = document.getElementById("reset-btn");
+            this.objectInput = document.getElementById("object-input");
+            this.randomBtn = document.getElementById("random-btn");
 
-                    this.heapStart = 100;
-                    this.heapEnd = 500;
-                    this.objects = [];
-                    this.stackValues = [];
-                    this.markedObjects = new Set();
-                    this.step = 0;
-                    this.intervalId = null;
+            this.setupEventListeners();
+            this.init();
+        }
 
-                    this.init();
-                    this.setupEventListeners();
-                }
+        init() {
+            this.stopAutoRun();
+            this.step = 0;
+            this.scanIndex = 0;
+            this.heap = new Array(20).fill(null);
+            this.objects = new Map();
+            this.stack = [];
+            this.marked = new Set();
+            
+            this.parseInput();
+            this.generateStack();
+            this.render();
+            this.updateInfoPanel("Ready to start garbage collection.");
+            this.updatePhase(0);
+        }
 
-                init() {
-                    this.parseObjectInput();
-                    this.generateStackValues();
-                    this.render();
-                }
-
-                parseObjectInput() {
-                    const input = this.objectInput.value;
-                    this.objects = [];
-                    this.markedObjects.clear();
-                    this.step = 0;
-
-                    // Parse object definitions (format: ID:address)
-                    const definitions = input.split(",").map((d) => d.trim());
-
-                    definitions.forEach((def) => {
-                        if (def.includes(":")) {
-                            const [id, address] = def
-                                .split(":")
-                                .map((s) => s.trim());
-                            this.objects.push({
-                                id: id,
-                                address: parseInt(address),
-                                size: 20 + Math.floor(Math.random() * 30), // Random size
-                                marked: false,
-                                swept: false,
-                            });
+        parseInput() {
+            const definitions = this.objectInput.value.split(",").map(d => d.trim());
+            let currentAddress = 0;
+            
+            definitions.forEach(def => {
+                if (def.includes(":")) {
+                    const [id, sizeStr] = def.split(":").map(s => s.trim());
+                    const size = parseInt(sizeStr) || 2;
+                    if (currentAddress + size <= this.heap.length) {
+                        const obj = { id, address: currentAddress, size, refs: [] };
+                        this.objects.set(id, obj);
+                        for(let i=0; i<size; i++) {
+                            this.heap[currentAddress + i] = id;
                         }
-                    });
-
-                    // Reset phase indicators
-                    this.phaseRoot.classList.remove("active");
-                    this.phaseMark.classList.remove("active");
-                    this.phaseSweep.classList.remove("active");
-                    this.slidingWindow.style.display = "none";
-                }
-
-                generateStackValues() {
-                    this.stackValues = [];
-
-                    // Add some real pointers
-                    this.objects.forEach((obj) => {
-                        this.stackValues.push({
-                            value: obj.address,
-                            isPointer: true,
-                            ambiguous: false,
-                        });
-                    });
-
-                    // Add some non-pointers that look like pointers (within heap range)
-                    for (let i = 0; i < 3; i++) {
-                        const value =
-                            this.heapStart +
-                            Math.floor(
-                                Math.random() * (this.heapEnd - this.heapStart),
-                            );
-                        this.stackValues.push({
-                            value: value,
-                            isPointer: false,
-                            ambiguous: true,
-                        });
-                    }
-
-                    // Add some obvious non-pointers
-                    for (let i = 0; i < 4; i++) {
-                        this.stackValues.push({
-                            value: Math.floor(Math.random() * this.heapStart),
-                            isPointer: false,
-                            ambiguous: false,
-                        });
-                    }
-
-                    // Shuffle the stack values
-                    this.stackValues.sort(() => Math.random() - 0.5);
-                }
-
-                render() {
-                    // Clear previous visualization
-                    this.stackContent.innerHTML = "";
-                    this.heapContent.innerHTML = "";
-
-                    // Render stack values
-                    this.stackValues.forEach((item) => {
-                        const stackItem = document.createElement("div");
-                        stackItem.className = "stack-item";
-
-                        if (item.isPointer) {
-                            stackItem.classList.add("pointer");
-                        } else if (item.ambiguous) {
-                            stackItem.classList.add("ambiguous");
-                        }
-
-                        stackItem.textContent = `0x${item.value.toString(16)}`;
-                        stackItem.dataset.value = item.value;
-                        this.stackContent.appendChild(stackItem);
-                    });
-
-                    // Render heap blocks
-                    for (
-                        let addr = this.heapStart;
-                        addr <= this.heapEnd;
-                        addr += 20
-                    ) {
-                        const block = document.createElement("div");
-                        block.className = "heap-block";
-
-                        // Check if this address is part of an object
-                        const obj = this.objects.find(
-                            (o) =>
-                                addr >= o.address && addr < o.address + o.size,
-                        );
-
-                        if (obj) {
-                            block.classList.add("allocated");
-                            if (obj.marked) block.classList.add("marked");
-                            if (obj.swept) block.classList.add("swept");
-
-                            if (addr === obj.address) {
-                                block.textContent = `${obj.id}`;
-                            } else {
-                                block.textContent = `...`;
-                            }
-                        } else {
-                            block.textContent = `0x${addr.toString(16)}`;
-                        }
-
-                        block.dataset.address = addr;
-                        this.heapContent.appendChild(block);
-                    }
-
-                    // Update info panel
-                    this.updateInfoPanel();
-                }
-
-                updateInfoPanel() {
-                    const steps = [
-                        "Ready to start garbage collection",
-                        "Scanning stack for potential pointers",
-                        "Identifying ambiguous values (look like pointers but may not be)",
-                        "Marking objects referenced by potential pointers",
-                        "Sweeping unmarked objects",
-                        "Garbage collection completed",
-                    ];
-
-                    this.infoPanel.textContent = steps[this.step];
-                }
-
-                nextStep() {
-                    if (this.step >= 5) {
-                        this.stopAutoRun();
-                        return;
-                    }
-
-                    this.step++;
-
-                    switch (this.step) {
-                        case 1:
-                            // Start root scanning phase
-                            this.phaseRoot.classList.add("active");
-                            break;
-                        case 2:
-                            // Show ambiguous values
-                            this.showAmbiguousValues();
-                            break;
-                        case 3:
-                            // Mark objects referenced by potential pointers
-                            this.phaseRoot.classList.remove("active");
-                            this.phaseMark.classList.add("active");
-                            this.markObjects();
-                            break;
-                        case 4:
-                            // Sweep unmarked objects
-                            this.phaseMark.classList.remove("active");
-                            this.phaseSweep.classList.add("active");
-                            this.sweepObjects();
-                            break;
-                        case 5:
-                            // Complete
-                            break;
-                    }
-
-                    this.render();
-                }
-
-                showAmbiguousValues() {
-                    // Highlight ambiguous values in the stack
-                    this.stackValues.forEach((item) => {
-                        if (item.ambiguous) {
-                            // In a real implementation, we would show the sliding window
-                            this.showSlidingWindow(item.value);
-                        }
-                    });
-                }
-
-                showSlidingWindow(address) {
-                    // Show a sliding window around the ambiguous value
-                    this.slidingWindow.style.display = "block";
-                    this.slidingWindow.style.left = `${((address - this.heapStart) / (this.heapEnd - this.heapStart)) * 80 + 10}%`;
-                    this.slidingWindow.style.width = "5%";
-                    this.slidingWindow.style.top = "45%";
-                    this.slidingWindow.style.height = "30%";
-                }
-
-                markObjects() {
-                    // Mark all objects that might be pointed to by stack values
-                    this.stackValues.forEach((item) => {
-                        if (item.isPointer || item.ambiguous) {
-                            const obj = this.objects.find(
-                                (o) => o.address === item.value,
-                            );
-                            if (obj) {
-                                obj.marked = true;
-                                this.markedObjects.add(obj.id);
-                            }
-                        }
-                    });
-                }
-
-                sweepObjects() {
-                    // Mark unmarked objects as swept
-                    this.objects.forEach((obj) => {
-                        if (!obj.marked) {
-                            obj.swept = true;
-                        }
-                    });
-                }
-
-                reset() {
-                    this.stopAutoRun();
-                    this.parseObjectInput();
-                    this.generateStackValues();
-                    this.render();
-                }
-
-                startAutoRun() {
-                    this.stopAutoRun();
-                    this.intervalId = setInterval(() => {
-                        this.nextStep();
-                        if (this.step >= 5) {
-                            this.stopAutoRun();
-                        }
-                    }, 1500);
-                }
-
-                stopAutoRun() {
-                    if (this.intervalId) {
-                        clearInterval(this.intervalId);
-                        this.intervalId = null;
+                        currentAddress += size;
                     }
                 }
-
-                generateRandomObjects() {
-                    let definitions = [];
-                    const objects = ["A", "B", "C", "D", "E", "F", "G", "H"];
-
-                    // Generate random object definitions
-                    for (let i = 0; i < 5; i++) {
-                        const address =
-                            this.heapStart +
-                            Math.floor(
-                                Math.random() *
-                                    (this.heapEnd - this.heapStart - 50),
-                            );
-                        definitions.push(`${objects[i]}:${address}`);
-                    }
-
-                    this.objectInput.value = definitions.join(", ");
-                    this.reset();
-                }
-
-                setupEventListeners() {
-                    this.stepBtn.addEventListener("click", () => {
-                        this.nextStep();
-                    });
-
-                    this.runBtn.addEventListener("click", () => {
-                        if (this.step >= 5) {
-                            this.reset();
-                        }
-                        this.startAutoRun();
-                    });
-
-                    this.resetBtn.addEventListener("click", () => {
-                        this.reset();
-                    });
-
-                    this.randomBtn.addEventListener("click", () => {
-                        this.generateRandomObjects();
-                    });
-
-                    this.objectInput.addEventListener("change", () => {
-                        this.reset();
-                    });
-                }
-            }
-
-            // Initialize the visualization when the page loads
-            document.addEventListener("DOMContentLoaded", () => {
-                const gcViz = new ConservativeGCVisualization();
-
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
-
-                        // Show feedback
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
-                    });
             });
-        </script>
+        }
+
+        generateStack() {
+            // Add real pointers
+            this.objects.forEach(obj => {
+                if(Math.random() > 0.5) this.stack.push({ value: obj.address, isPointer: true });
+            });
+            // Add ambiguous pointers
+            for(let i=0; i<3; i++) {
+                const ambiguousAddress = Math.floor(Math.random() * this.heap.length);
+                this.stack.push({ value: ambiguousAddress, isPointer: false, ambiguous: true });
+            }
+            // Add non-pointers
+            for(let i=0; i<4; i++) {
+                this.stack.push({ value: Math.floor(Math.random() * 1000) + this.heap.length, isPointer: false });
+            }
+            this.stack.sort(() => Math.random() - 0.5);
+        }
+
+        render() {
+            this.stackContent.innerHTML = '';
+            this.heapContent.innerHTML = '';
+
+            this.stack.forEach((item, index) => {
+                const el = document.createElement("div");
+                el.className = "stack-item";
+                el.textContent = `0x${item.value.toString(16)}`;
+                if (item.isPointer) el.classList.add("pointer");
+                if (item.ambiguous) el.classList.add("ambiguous");
+                if (this.step === 1 && index === this.scanIndex) el.classList.add("highlight");
+                this.stackContent.appendChild(el);
+            });
+
+            this.heap.forEach((objId, index) => {
+                const el = document.createElement("div");
+                el.className = "heap-block";
+                if (objId) {
+                    const obj = this.getObjectById(objId);
+                    el.classList.add("allocated");
+                    if (this.marked.has(objId)) el.classList.add("marked");
+                    if (this.step === 3 && !this.marked.has(objId)) el.classList.add("swept");
+                    if (obj.address === index) el.textContent = obj.id;
+                    else el.textContent = '...';
+                } else {
+                    el.textContent = `0x${index.toString(16)}`;
+                }
+                this.heapContent.appendChild(el);
+            });
+        }
+        
+        getObjectById(id) {
+            for(const obj of this.objects.values()) {
+                if(obj.id === id) return obj;
+            }
+            return null;
+        }
+
+        updateInfoPanel(message) {
+            this.infoPanel.textContent = message;
+        }
+        
+        updatePhase(phase) {
+            this.phaseRoot.classList.toggle("active", phase === 1);
+            this.phaseMark.classList.toggle("active", phase === 2);
+            this.phaseSweep.classList.toggle("active", phase === 3);
+        }
+
+        async nextStep() {
+            if (this.step === 0) { // Start Root Scan
+                this.updatePhase(1);
+                this.updateInfoPanel("Scanning stack for potential pointers.");
+                this.step = 1;
+                this.scanIndex = 0;
+            } else if (this.step === 1) { // Root Scanning
+                if (this.scanIndex < this.stack.length) {
+                    const item = this.stack[this.scanIndex];
+                    this.updateInfoPanel(`Scanning stack value 0x${item.value.toString(16)}.`);
+                    const objId = this.heap[item.value];
+                    if (objId) {
+                        this.marked.add(objId);
+                        this.updateInfoPanel(`Value looks like a pointer. Marking object ${objId}.`);
+                    }
+                    this.scanIndex++;
+                } else {
+                    this.step = 2;
+                    this.updatePhase(2);
+                    this.updateInfoPanel("Mark phase complete. All reachable objects marked.");
+                }
+            } else if (this.step === 2) { // Sweep
+                this.updatePhase(3);
+                this.updateInfoPanel("Sweeping unmarked objects.");
+                this.step = 3;
+            } else if (this.step === 3) {
+                this.updateInfoPanel("Garbage collection finished.");
+                this.stopAutoRun();
+            }
+            this.render();
+        }
+
+        reset() {
+            this.init();
+        }
+
+        startAutoRun() {
+            this.stopAutoRun();
+            this.intervalId = setInterval(() => this.nextStep(), 1000);
+        }
+
+        stopAutoRun() {
+            if (this.intervalId) {
+                clearInterval(this.intervalId);
+                this.intervalId = null;
+            }
+        }
+
+        generateRandomObjects() {
+            const objects = ["A", "B", "C", "D", "E", "F"];
+            let defs = [];
+            for(let i=0; i<objects.length; i++) {
+                defs.push(`${objects[i]}:${Math.floor(Math.random()*2) + 2}`);
+            }
+            this.objectInput.value = defs.join(", ");
+            this.reset();
+        }
+
+        setupEventListeners() {
+            this.stepBtn.addEventListener("click", () => this.nextStep());
+            this.runBtn.addEventListener("click", () => this.startAutoRun());
+            this.resetBtn.addEventListener("click", () => this.reset());
+            this.randomBtn.addEventListener("click", () => this.generateRandomObjects());
+            this.objectInput.addEventListener("change", () => this.reset());
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new ConservativeGCVisualization();
+    });
+</script>
 </body>
 </html>

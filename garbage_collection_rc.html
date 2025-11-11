@@ -1294,508 +1294,157 @@ function example():
 <script>
             // Visualization for Reference Counting Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
-                const visualization =
-                    document.getElementById("gc-visualization");
-                const heapMemory = document.getElementById("heap-memory");
-                const allocateBtn = document.getElementById("allocate-btn");
-                const runGcBtn = document.getElementById("run-gc-btn");
-                const resetBtn = document.getElementById("reset-btn");
-                const createRefBtn = document.getElementById("create-ref-btn");
-                const removeRefBtn = document.getElementById("remove-ref-btn");
-                const createCycleBtn =
-                    document.getElementById("create-cycle-btn");
-                const cyclicWarning = document.getElementById("cyclic-warning");
+                class ReferenceCountingGC {
+            constructor() {
+                this.heapMemory = document.getElementById("heap-memory");
+                this.allocateBtn = document.getElementById("allocate-btn");
+                this.createRefBtn = document.getElementById("create-ref-btn");
+                this.removeRefBtn = document.getElementById("remove-ref-btn");
+                this.createCycleBtn = document.getElementById("create-cycle-btn");
+                this.resetBtn = document.getElementById("reset-btn");
+                this.infoPanel = document.createElement('div');
+                this.infoPanel.className = 'status-panel';
+                this.heapContainer = document.getElementById('gc-visualization');
+                this.heapContainer.appendChild(this.infoPanel);
 
-                // State variables
-                let objects = [];
-                let roots = [];
-                let references = [];
-                let selectedObject = null;
-                let mode = null; // 'create-ref', 'remove-ref'
-                let nextObjectId = 1;
+                this.heapSize = 16;
+                this.init();
+                this.setupEventListeners();
+            }
 
-                // Initialize visualization
-                function initVisualization() {
-                    heapMemory.innerHTML = "";
-                    objects = [];
-                    references = [];
-                    roots = [];
-                    selectedObject = null;
-                    mode = null;
-                    nextObjectId = 1;
-                    cyclicWarning.style.display = "none";
+            init() {
+                this.objects = new Map();
+                this.nextId = 0;
+                this.selectedObject = null;
+                
+                this.render();
+                this.logEvent("Initialized heap.");
+                
+                for(let i=0; i<5; i++) this.allocateObject();
+                this.createReference();
+                this.createReference();
+                this.createReference();
+            }
 
-                    // Create heap memory blocks
-                    for (let i = 0; i < 16; i++) {
-                        const block = document.createElement("div");
-                        block.className = "memory-block block-free";
-                        block.innerHTML = `Free<div class="memory-address">${i}</div>`;
-                        block.dataset.index = i;
-                        heapMemory.appendChild(block);
-                    }
+            render() {
+                this.heapMemory.innerHTML = '';
+                const heapArray = new Array(this.heapSize).fill(null);
+                
+                this.objects.forEach(obj => {
+                    heapArray[obj.address] = obj;
+                });
 
-                    // Create log container
-                    const logContainer = document.createElement("div");
-                    logContainer.className = "log-container";
-                    logContainer.id = "log-container";
-                    visualization.appendChild(logContainer);
-
-                    // Create status panel
-                    const statusPanel = document.createElement("div");
-                    statusPanel.className = "status-panel";
-                    statusPanel.id = "status-panel";
-                    statusPanel.innerHTML = "System Status: Initialized";
-                    visualization.appendChild(statusPanel);
-
-                    // Create 2 root objects
-                    roots = [createObject(), createObject()];
-                    roots[0].element.textContent = "Root 1";
-                    roots[1].element.textContent = "Root 2";
-
-                    // Create some additional objects
-                    const obj1 = createObject();
-                    const obj2 = createObject();
-
-                    // Create initial references
-                    createReference(roots[0], obj1);
-                    createReference(roots[0], obj2);
-                    createReference(obj1, obj2);
-
-                    updateStats();
-                    logEvent("Initialized heap with objects and references");
-                    updateStatus("Ready - Click on objects to select them");
-                }
-
-                // Create a new object
-                function createObject() {
-                    // Find a free block
-                    const freeBlocks = Array.from(heapMemory.children).filter(
-                        (block) => block.classList.contains("block-free"),
-                    );
-
-                    if (freeBlocks.length === 0) {
-                        logEvent("Cannot allocate object: heap full");
-                        return null;
-                    }
-
-                    // Select a random free block
-                    const randomIndex = Math.floor(
-                        Math.random() * freeBlocks.length,
-                    );
-                    const block = freeBlocks[randomIndex];
-                    const index = parseInt(block.dataset.index);
-
-                    const object = {
-                        id: nextObjectId++,
-                        index: index,
-                        refCount: 0,
-                        references: [],
-                        element: block,
-                    };
-
-                    block.className = "memory-block block-allocated";
-                    block.innerHTML = `Obj ${object.id}<div class="memory-address">${index}</div>`;
-                    block.dataset.objId = object.id;
-
-                    // Create reference count badge
-                    const refCountBadge = document.createElement("div");
-                    refCountBadge.className = "reference-count";
-                    refCountBadge.id = `ref-count-${object.id}`;
-                    refCountBadge.textContent = "0";
-                    block.appendChild(refCountBadge);
-
-                    objects.push(object);
-                    logEvent(`Allocated new object: ${object.id}`);
-                    updateStatus(`Allocated object ${object.id}`);
-                    updateStats();
-
-                    return object;
-                }
-
-                // Create a reference between objects
-                function createReference(from, to) {
-                    if (from === to || !from || !to) return;
-
-                    // Check if reference already exists
-                    if (from.references.includes(to)) return;
-
-                    from.references.push(to);
-                    to.refCount++;
-                    updateRefCountDisplay(to);
-
-                    references.push({
-                        from: from,
-                        to: to,
-                    });
-
-                    logEvent(`Created reference from ${from.id} to ${to.id}`);
-                    updateStatus(
-                        `Reference from ${from.id} to ${to.id} created`,
-                    );
-
-                    // Check for cyclic reference
-                    checkForCycles();
-                }
-
-                // Remove a reference between objects
-                function removeReference(from, to) {
-                    if (!from || !to) return;
-
-                    // Find and remove the reference
-                    const refIndex = from.references.indexOf(to);
-                    if (refIndex === -1) return;
-
-                    from.references.splice(refIndex, 1);
-                    to.refCount--;
-                    updateRefCountDisplay(to);
-
-                    // Remove from references array
-                    references = references.filter(
-                        (ref) => !(ref.from === from && ref.to === to),
-                    );
-
-                    logEvent(`Removed reference from ${from.id} to ${to.id}`);
-                    updateStatus(
-                        `Reference from ${from.id} to ${to.id} removed`,
-                    );
-
-                    // Check if object should be collected
-                    if (to.refCount === 0) {
-                        collectObject(to);
-                    }
-
-                    // Check for cyclic reference
-                    checkForCycles();
-                }
-
-                // Update reference count display
-                function updateRefCountDisplay(obj) {
-                    const refCountBadge = document.getElementById(
-                        `ref-count-${obj.id}`,
-                    );
-                    if (refCountBadge) {
+                heapArray.forEach((obj, i) => {
+                    const block = document.createElement('div');
+                    block.className = 'memory-block';
+                    if(obj) {
+                        block.textContent = `Obj ${obj.id}`;
+                        block.classList.add('block-allocated');
+                        const refCountBadge = document.createElement("div");
+                        refCountBadge.className = "reference-count";
                         refCountBadge.textContent = obj.refCount;
-
-                        // Update visual style based on reference count
-                        if (obj.refCount === 0) {
-                            obj.element.classList.remove("block-allocated");
-                            obj.element.classList.add("block-zero-ref");
-                        } else {
-                            obj.element.classList.remove("block-zero-ref");
-                            obj.element.classList.add("block-allocated");
-                        }
-                    }
-                }
-
-                // Collect an object with zero references
-                function collectObject(obj) {
-                    logEvent(
-                        `Collecting object ${obj.id} (reference count zero)`,
-                    );
-
-                    // Remove all references from this object
-                    for (const ref of [...obj.references]) {
-                        removeReference(obj, ref);
-                    }
-
-                    // Free the memory block
-                    obj.element.className = "memory-block block-free";
-                    obj.element.innerHTML = `Free<div class="memory-address">${obj.index}</div>`;
-                    obj.element.removeAttribute("data-obj-id");
-
-                    // Remove from objects array
-                    objects = objects.filter((o) => o !== obj);
-
-                    logEvent(`Object ${obj.id} collected`);
-                    updateStats();
-                }
-
-                // Check for cyclic references
-                function checkForCycles() {
-                    let hasCycle = false;
-
-                    // Simple cycle detection for visualization purposes
-                    for (const obj of objects) {
-                        if (
-                            obj.references.some((ref) =>
-                                ref.references.includes(obj),
-                            )
-                        ) {
-                            hasCycle = true;
-                            break;
-                        }
-                    }
-
-                    if (hasCycle) {
-                        cyclicWarning.style.display = "block";
-                        logEvent(
-                            "Cyclic reference detected - memory leak possible!",
-                        );
+                        block.appendChild(refCountBadge);
+                        if(obj.refCount === 0) block.classList.add('block-zero-ref');
                     } else {
-                        cyclicWarning.style.display = "none";
+                        block.textContent = 'Free';
+                        block.classList.add('block-free');
                     }
-
-                    // Update cycle count in stats
-                    updateStats();
-                }
-
-                // Create a cyclic reference between two objects
-                function createCyclicReference() {
-                    const availableObjects = objects.filter(
-                        (obj) =>
-                            !roots.includes(obj) && obj.references.length < 3,
-                    );
-
-                    if (availableObjects.length < 2) {
-                        logEvent("Not enough objects to create cycle");
-                        return;
-                    }
-
-                    // Select two random objects
-                    const obj1 =
-                        availableObjects[
-                            Math.floor(Math.random() * availableObjects.length)
-                        ];
-                    let obj2 =
-                        availableObjects[
-                            Math.floor(Math.random() * availableObjects.length)
-                        ];
-
-                    // Make sure they're different
-                    while (obj2 === obj1) {
-                        obj2 =
-                            availableObjects[
-                                Math.floor(
-                                    Math.random() * availableObjects.length,
-                                )
-                            ];
-                    }
-
-                    // Create cyclic reference
-                    createReference(obj1, obj2);
-                    createReference(obj2, obj1);
-
-                    logEvent(
-                        `Created cyclic reference between ${obj1.id} and ${obj2.id}`,
-                    );
-                    updateStatus(
-                        `Cyclic reference created between ${obj1.id} and ${obj2.id}`,
-                    );
-                }
-
-                // Run garbage collection (for reference counting, this is mostly for show)
-                function runGarbageCollection() {
-                    logEvent("Checking for objects with zero references");
-                    updateStatus("GC: Checking for collectable objects");
-
-                    // Find objects with zero references (that aren't roots)
-                    const collectable = objects.filter(
-                        (obj) => obj.refCount === 0 && !roots.includes(obj),
-                    );
-
-                    if (collectable.length === 0) {
-                        logEvent("No objects with zero references found");
-                        updateStatus("No objects to collect");
-                        return;
-                    }
-
-                    logEvent(
-                        `Found ${collectable.length} objects with zero references`,
-                    );
-
-                    // Collect objects one by one with animation
-                    let index = 0;
-                    function collectNext() {
-                        if (index < collectable.length) {
-                            const obj = collectable[index];
-                            obj.element.classList.add("block-zero-ref");
-
-                            setTimeout(() => {
-                                collectObject(obj);
-                                index++;
-                                collectNext();
-                            }, 800);
-                        } else {
-                            updateStatus("Garbage collection completed");
-                        }
-                    }
-
-                    collectNext();
-                }
-
-                // Update statistics
-                function updateStats() {
-                    const totalObjects = objects.length;
-                    const activeObjects = objects.filter(
-                        (obj) => obj.refCount > 0,
-                    ).length;
-                    const freeSpace = 16 - totalObjects;
-
-                    // Count cycles
-                    let cycleCount = 0;
-                    for (const obj of objects) {
-                        if (
-                            obj.references.some((ref) =>
-                                ref.references.includes(obj),
-                            )
-                        ) {
-                            cycleCount++;
-                        }
-                    }
-
-                    document.getElementById("total-objects").textContent =
-                        totalObjects;
-                    document.getElementById("active-objects").textContent =
-                        activeObjects;
-                    document.getElementById("free-space").textContent =
-                        freeSpace;
-                    document.getElementById("cycles").textContent = cycleCount;
-                }
-
-                // Log event to log container
-                function logEvent(message) {
-                    const logContainer =
-                        document.getElementById("log-container");
-                    if (!logContainer) return;
-
-                    const logEntry = document.createElement("div");
-                    logEntry.className = "log-entry";
-                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-                    logContainer.appendChild(logEntry);
-
-                    // Auto-scroll
-                    logContainer.scrollTop = logContainer.scrollHeight;
-                }
-
-                // Update status panel
-                function updateStatus(status) {
-                    const statusPanel = document.getElementById("status-panel");
-                    if (!statusPanel) return;
-
-                    statusPanel.innerHTML = `System Status: ${status}`;
-                }
-
-                // Handle object selection
-                function selectObject(object) {
-                    if (mode === "create-ref") {
-                        if (selectedObject === null) {
-                            selectedObject = object;
-                            object.element.style.border = "2px solid white";
-                            logEvent(
-                                `Selected object ${object.id} as reference source`,
-                            );
-                            updateStatus(
-                                `Select target object for reference from ${object.id}`,
-                            );
-                        } else if (selectedObject === object) {
-                            selectedObject.element.style.border = "";
-                            selectedObject = null;
-                            mode = null;
-                        } else {
-                            createReference(selectedObject, object);
-                            selectedObject.element.style.border = "";
-                            selectedObject = null;
-                            mode = null;
-                        }
-                    } else if (mode === "remove-ref") {
-                        if (selectedObject === null) {
-                            selectedObject = object;
-                            object.element.style.border = "2px solid white";
-                            logEvent(
-                                `Selected object ${object.id} as reference source`,
-                            );
-                            updateStatus(
-                                `Select target object to remove reference from ${object.id}`,
-                            );
-                        } else if (selectedObject === object) {
-                            selectedObject.element.style.border = "";
-                            selectedObject = null;
-                            mode = null;
-                        } else {
-                            removeReference(selectedObject, object);
-                            selectedObject.element.style.border = "";
-                            selectedObject = null;
-                            mode = null;
-                        }
-                    } else {
-                        // Just select for information
-                        if (selectedObject === object) {
-                            selectedObject = null;
-                            object.element.style.border = "";
-                        } else {
-                            if (selectedObject) {
-                                selectedObject.element.style.border = "";
-                            }
-                            selectedObject = object;
-                            object.element.style.border =
-                                "2px solid var(--warning)";
-                            logEvent(
-                                `Selected object ${object.id} (RefCount: ${object.refCount})`,
-                            );
-                            updateStatus(
-                                `Object ${object.id} selected - RefCount: ${object.refCount}`,
-                            );
-                        }
-                    }
-                }
-
-                // Event listeners
-                allocateBtn.addEventListener("click", createObject);
-                runGcBtn.addEventListener("click", runGarbageCollection);
-                createRefBtn.addEventListener("click", () => {
-                    mode = "create-ref";
-                    if (selectedObject) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    }
-                    updateStatus("Select source object for new reference");
+                    this.heapMemory.appendChild(block);
                 });
-                removeRefBtn.addEventListener("click", () => {
-                    mode = "remove-ref";
-                    if (selectedObject) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    }
-                    updateStatus("Select source object to remove reference");
-                });
-                createCycleBtn.addEventListener("click", createCyclicReference);
-                resetBtn.addEventListener("click", initVisualization);
+            }
 
-                // Add click event to memory blocks
-                heapMemory.addEventListener("click", (e) => {
-                    const block = e.target.closest(".memory-block");
-                    if (!block) return;
+            allocateObject() {
+                if (this.objects.size >= this.heapSize) {
+                    this.logEvent("Heap is full.");
+                    return;
+                }
+                let address;
+                do {
+                    address = Math.floor(Math.random() * this.heapSize);
+                } while (Array.from(this.objects.values()).some(o => o.address === address));
+                
+                const id = this.nextId++;
+                const obj = { id, address, refCount: 0, refs: new Set() };
+                this.objects.set(id, obj);
+                this.logEvent(`Allocated Object ${id}.`);
+                this.render();
+            }
+            
+            createReference() {
+                if(this.objects.size < 2) return;
+                let from, to;
+                do {
+                    from = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                    to = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                } while (from === to);
+                
+                if(from.refs.has(to)) return;
 
-                    const objId = block.dataset.objId;
-                    if (objId) {
-                        const object = objects.find((obj) => obj.id == objId);
-                        if (object) {
-                            selectObject(object);
-                        }
+                from.refs.add(to);
+                to.refCount++;
+                this.logEvent(`Created reference from ${from.id} to ${to.id}.`);
+                this.render();
+            }
+
+            removeReference() {
+                 const withRefs = Array.from(this.objects.values()).filter(o => o.refs.size > 0);
+                 if(withRefs.length === 0) return;
+                 const from = withRefs[Math.floor(Math.random() * withRefs.length)];
+                 const to = Array.from(from.refs)[0];
+                 
+                 from.refs.delete(to);
+                 to.refCount--;
+                 this.logEvent(`Removed reference from ${from.id} to ${to.id}.`);
+                 
+                 if(to.refCount === 0) {
+                     this.collect(to);
+                 }
+                 this.render();
+            }
+            
+            createCycle() {
+                if(this.objects.size < 2) return;
+                let obj1, obj2;
+                do {
+                    obj1 = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                    obj2 = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                } while (obj1 === obj2);
+                
+                obj1.refs.add(obj2);
+                obj2.refCount++;
+                obj2.refs.add(obj1);
+                obj1.refCount++;
+                this.logEvent(`Created cyclic reference between ${obj1.id} and ${obj2.id}.`);
+                this.render();
+            }
+            
+            collect(obj) {
+                this.logEvent(`Collecting object ${obj.id}.`);
+                this.objects.delete(obj.id);
+                obj.refs.forEach(ref => {
+                    ref.refCount--;
+                    if(ref.refCount === 0) {
+                        this.collect(ref);
                     }
                 });
+            }
 
-                // Initialize the visualization
-                initVisualization();
+            logEvent(message) {
+                console.log(message);
+                this.infoPanel.textContent = message;
+            }
 
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
+            setupEventListeners() {
+                this.allocateBtn.addEventListener("click", () => this.allocateObject());
+                this.createRefBtn.addEventListener("click", () => this.createReference());
+                this.removeRefBtn.addEventListener("click", () => this.removeReference());
+                this.createCycleBtn.addEventListener("click", () => this.createCycle());
+                this.resetBtn.addEventListener("click", () => this.init());
+            }
+        }
 
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
-                    });
-            });
-        </script>
+        new ReferenceCountingGC();
+    });
+</script>
 </body>
 </html>

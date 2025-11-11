@@ -1366,538 +1366,214 @@ gc.collect()</code></pre>
 <script>
             // Visualization for Mark-and-Compact Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
-                const visualization =
-                    document.getElementById("gc-visualization");
-                const heapMemory = document.getElementById("heap-memory");
-                const allocateBtn = document.getElementById("allocate-btn");
-                const runGcBtn = document.getElementById("run-gc-btn");
-                const resetBtn = document.getElementById("reset-btn");
-                const createRefBtn = document.getElementById("create-ref-btn");
-                const nullRefBtn = document.getElementById("null-ref-btn");
-                const fragmentBtn = document.getElementById("fragment-btn");
+                class MarkCompactGCVisualization {
+            constructor() {
+                this.heapMemory = document.getElementById("heap-memory");
+                this.allocateBtn = document.getElementById("allocate-btn");
+                this.runGcBtn = document.getElementById("run-gc-btn");
+                this.resetBtn = document.getElementById("reset-btn");
+                this.createRefBtn = document.getElementById("create-ref-btn");
+                this.nullRefBtn = document.getElementById("null-ref-btn");
+                this.fragmentBtn = document.getElementById("fragment-btn");
+                this.stepBtn = document.getElementById("step-btn");
+                this.infoPanel = document.createElement('div');
+                this.infoPanel.className = 'status-panel';
+                this.heapContainer = document.getElementById('heap-container');
+                this.heapContainer.appendChild(this.infoPanel);
 
-                // State variables
-                let objects = [];
-                let roots = [];
-                let references = [];
-                let selectedObject = null;
-                let heapSize = 16; // Number of memory blocks
-                let currentPhase = 0;
+                this.heapSize = 20;
+                this.init();
+                this.setupEventListeners();
+            }
 
-                // Initialize visualization
-                function initVisualization() {
-                    heapMemory.innerHTML = "";
-                    objects = [];
-                    references = [];
-                    roots = [];
-                    selectedObject = null;
-                    currentPhase = 0;
+            init() {
+                this.stopAutoRun();
+                this.step = 0;
+                this.objects = new Map();
+                this.roots = new Set();
+                this.nextId = 0;
+                this.selectedObject = null;
+                this.marked = new Set();
+                this.newLocations = new Map();
+                
+                this.render();
+                this.logEvent("Initialized heap.");
+                
+                // Initial objects
+                for(let i=0; i<5; i++) this.allocateObject();
+                this.roots.add(this.objects.get(0));
+                this.roots.add(this.objects.get(1));
+                this.createReference(this.objects.get(0), this.objects.get(2));
+                this.createReference(this.objects.get(1), this.objects.get(3));
+                this.createReference(this.objects.get(2), this.objects.get(4));
+                this.render();
+            }
 
-                    // Create heap memory blocks
-                    for (let i = 0; i < heapSize; i++) {
-                        const block = document.createElement("div");
-                        block.className = "memory-block block-free";
-                        block.innerHTML = `Free<div class="memory-address">${i}</div>`;
-                        block.dataset.index = i;
-                        heapMemory.appendChild(block);
-                    }
+            render() {
+                this.heapMemory.innerHTML = '';
+                const heapArray = new Array(this.heapSize).fill(null);
+                
+                this.objects.forEach(obj => {
+                    heapArray[obj.address] = obj;
+                });
 
-                    // Create log container
-                    const logContainer = document.createElement("div");
-                    logContainer.className = "log-container";
-                    logContainer.id = "log-container";
-                    visualization.appendChild(logContainer);
-
-                    // Create status panel
-                    const statusPanel = document.createElement("div");
-                    statusPanel.className = "status-panel";
-                    statusPanel.id = "status-panel";
-                    statusPanel.innerHTML = "System Status: Initialized";
-                    visualization.appendChild(statusPanel);
-
-                    // Create 2 root objects
-                    roots = [createObject(), createObject()];
-                    roots[0].element.textContent = "Root 1";
-                    roots[1].element.textContent = "Root 2";
-
-                    // Create some additional objects with references
-                    const obj1 = createObject();
-                    const obj2 = createObject();
-                    const obj3 = createObject();
-
-                    createReference(roots[0], obj1);
-                    createReference(roots[0], obj2);
-                    createReference(obj1, obj3);
-
-                    // Create some garbage (unreachable objects)
-                    createObject();
-                    createObject();
-
-                    updateStats();
-                    logEvent("Initialized heap with objects and references");
-                    updateStatus(
-                        "Ready - Heap contains objects and references",
-                    );
-                }
-
-                // Create a new object
-                function createObject() {
-                    // Find a free block
-                    const freeBlocks = Array.from(heapMemory.children).filter(
-                        (block) => block.classList.contains("block-free"),
-                    );
-
-                    if (freeBlocks.length === 0) {
-                        logEvent("Cannot allocate object: heap full");
-                        return null;
-                    }
-
-                    // Select a random free block
-                    const randomIndex = Math.floor(
-                        Math.random() * freeBlocks.length,
-                    );
-                    const block = freeBlocks[randomIndex];
-                    const index = parseInt(block.dataset.index);
-
-                    const object = {
-                        id: objects.length,
-                        index: index,
-                        marked: false,
-                        compacted: false,
-                        references: [],
-                        element: block,
-                        newIndex: null,
-                    };
-
-                    block.className = "memory-block block-allocated";
-                    block.innerHTML = `Obj ${object.id}<div class="memory-address">${index}</div>`;
-                    block.dataset.objId = object.id;
-                    objects.push(object);
-
-                    logEvent(
-                        `Allocated new object: ${object.id} at position ${index}`,
-                    );
-                    updateStatus(`Allocated object ${object.id}`);
-                    updateStats();
-
-                    return object;
-                }
-
-                // Create a reference between objects
-                function createReference(from, to) {
-                    if (from === to || !from || !to) return;
-
-                    // Check if reference already exists
-                    if (from.references.includes(to)) return;
-
-                    from.references.push(to);
-
-                    logEvent(`Created reference from ${from.id} to ${to.id}`);
-                }
-
-                // Select an object for reference creation
-                function selectObject(object) {
-                    if (selectedObject === null) {
-                        selectedObject = object;
-                        object.element.style.border = "2px solid white";
-                        logEvent(
-                            `Selected object ${object.id} as reference source`,
-                        );
-                        updateStatus(
-                            `Select target object for reference from ${object.id}`,
-                        );
-                    } else if (selectedObject === object) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
+                heapArray.forEach((obj, i) => {
+                    const block = document.createElement('div');
+                    block.className = 'memory-block';
+                    if(obj) {
+                        block.textContent = `Obj ${obj.id}`;
+                        block.classList.add('block-allocated');
+                        if(this.marked.has(obj)) block.classList.add('block-marked');
+                        if(this.roots.has(obj)) block.style.borderColor = 'var(--warning)';
                     } else {
-                        createReference(selectedObject, object);
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
+                        block.textContent = 'Free';
+                        block.classList.add('block-free');
                     }
+                    this.heapMemory.appendChild(block);
+                });
+            }
+
+            allocateObject() {
+                if (this.objects.size >= this.heapSize) {
+                    this.logEvent("Heap is full.");
+                    return;
                 }
+                let address;
+                do {
+                    address = Math.floor(Math.random() * this.heapSize);
+                } while (Array.from(this.objects.values()).some(o => o.address === address));
+                
+                const id = this.nextId++;
+                const obj = { id, address, refs: new Set() };
+                this.objects.set(id, obj);
+                this.logEvent(`Allocated Object ${id} at address ${address}.`);
+                this.render();
+            }
 
-                // Nullify a random reference
-                function nullifyRandomReference() {
-                    const objectsWithRefs = objects.filter(
-                        (obj) => obj.references.length > 0,
-                    );
-                    if (objectsWithRefs.length === 0) return;
+            createReference() {
+                if(this.objects.size < 2) return;
+                let from, to;
+                do {
+                    from = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                    to = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                } while (from === to);
+                from.refs.add(to);
+                this.logEvent(`Created reference from ${from.id} to ${to.id}.`);
+            }
 
-                    const from =
-                        objectsWithRefs[
-                            Math.floor(Math.random() * objectsWithRefs.length)
-                        ];
-                    const refIndex = Math.floor(
-                        Math.random() * from.references.length,
-                    );
-                    const to = from.references[refIndex];
+            nullifyReference() {
+                 const withRefs = Array.from(this.objects.values()).filter(o => o.refs.size > 0);
+                 if(withRefs.length === 0) return;
+                 const from = withRefs[Math.floor(Math.random() * withRefs.length)];
+                 const to = Array.from(from.refs)[0];
+                 from.refs.delete(to);
+                 this.logEvent(`Nullified reference from ${from.id} to ${to.id}.`);
+            }
+            
+            fragmentHeap() {
+                const toRemove = Array.from(this.objects.values()).filter(o => !this.roots.has(o) && Math.random() > 0.5);
+                toRemove.forEach(obj => {
+                    this.objects.delete(obj.id);
+                    this.objects.forEach(o => o.refs.delete(obj));
+                });
+                this.logEvent(`Fragmented heap by removing ${toRemove.length} objects.`);
+                this.render();
+            }
 
-                    // Remove reference
-                    from.references.splice(refIndex, 1);
+            async runGC() {
+                this.stopAutoRun();
+                this.intervalId = setInterval(() => this.nextStep(), 1000);
+            }
 
-                    logEvent(`Nullified reference from ${from.id} to ${to.id}`);
-                    updateStatus(
-                        `Reference from ${from.id} to ${to.id} removed`,
-                    );
-                }
-
-                // Fragment the heap by creating gaps
-                function fragmentHeap() {
-                    // Free some random objects to create gaps
-                    const objectsToFree = objects.filter(
-                        (obj) =>
-                            !roots.includes(obj) &&
-                            obj.references.length === 0 &&
-                            Math.random() > 0.5,
-                    );
-
-                    if (objectsToFree.length === 0) return;
-
-                    objectsToFree.forEach((obj) => {
-                        // Free the object
-                        obj.element.className = "memory-block block-free";
-                        obj.element.innerHTML = `Free<div class="memory-address">${obj.index}</div>`;
-                        obj.element.removeAttribute("data-obj-id");
-
-                        // Remove from objects array
-                        objects = objects.filter((o) => o !== obj);
-
-                        // Remove any references to this object
-                        objects.forEach((o) => {
-                            o.references = o.references.filter(
-                                (ref) => ref !== obj,
-                            );
-                        });
-                    });
-
-                    logEvent(
-                        `Fragmented heap by freeing ${objectsToFree.length} objects`,
-                    );
-                    updateStatus(
-                        `Heap fragmented with ${objectsToFree.length} free blocks`,
-                    );
-                    updateStats();
-                }
-
-                // Run garbage collection
-                function runGarbageCollection() {
-                    logEvent("Starting Mark-and-Compact GC...");
-                    updateStatus("GC: Stopping program execution");
-                    currentPhase = 1;
-                    highlightPhase(0);
-
-                    // Mark phase
-                    setTimeout(() => {
-                        logEvent("Starting mark phase");
-                        updateStatus("GC: Marking reachable objects");
-                        highlightPhase(1);
-
-                        // Reset marks
-                        objects.forEach((obj) => {
-                            obj.marked = false;
-                            obj.element.classList.remove(
-                                "block-marked",
-                                "block-reachable",
-                            );
-                        });
-
-                        // Mark from roots
-                        let markedCount = 0;
-                        function markNextRoot() {
-                            if (markedCount < roots.length) {
-                                markObject(roots[markedCount]);
-                                markedCount++;
-                                setTimeout(markNextRoot, 800);
-                            } else {
-                                // Proceed to compute new locations
-                                setTimeout(computeNewLocations, 1000);
-                            }
+            async nextStep() {
+                if (this.step === 0) { // Mark
+                    this.logEvent("--- Mark Phase ---");
+                    this.marked.clear();
+                    const worklist = [...this.roots];
+                    while(worklist.length > 0) {
+                        const obj = worklist.pop();
+                        if(!this.marked.has(obj)) {
+                            this.marked.add(obj);
+                            obj.refs.forEach(ref => worklist.push(ref));
                         }
-
-                        markNextRoot();
-                    }, 1000);
-                }
-
-                // Recursively mark an object and its references
-                function markObject(obj) {
-                    if (obj.marked) return;
-
-                    obj.marked = true;
-                    obj.element.classList.remove("block-allocated");
-                    obj.element.classList.add("block-marked");
-                    logEvent(`Marked object ${obj.id}`);
-
-                    // Mark references
-                    obj.references.forEach((ref) => {
-                        markObject(ref);
-                    });
-                }
-
-                // Compute new locations for objects
-                function computeNewLocations() {
-                    logEvent("Computing new locations for objects");
-                    updateStatus("GC: Computing new locations");
-                    highlightPhase(2);
-
-                    // Sort objects by current index
-                    const sortedObjects = [...objects].sort(
-                        (a, b) => a.index - b.index,
-                    );
-                    let newIndex = 0;
-
-                    sortedObjects.forEach((obj) => {
-                        if (obj.marked) {
-                            obj.newIndex = newIndex;
-                            newIndex++;
-                            logEvent(
-                                `Object ${obj.id} will move to position ${newIndex}`,
-                            );
+                    }
+                    this.logEvent(`Marked ${this.marked.size} objects.`);
+                    this.step = 1;
+                } else if (this.step === 1) { // Compute new locations
+                    this.logEvent("--- Compact Phase: Compute new locations ---");
+                    this.newLocations.clear();
+                    let newAddress = 0;
+                    this.objects.forEach(obj => {
+                        if(this.marked.has(obj)) {
+                            this.newLocations.set(obj, newAddress);
+                            newAddress++;
                         }
                     });
-
-                    // Proceed to update references
-                    setTimeout(updateReferences, 1000);
-                }
-
-                // Update references to new locations
-                function updateReferences() {
-                    logEvent("Updating references to new locations");
-                    updateStatus("GC: Updating references");
-                    highlightPhase(3);
-
-                    // For visualization purposes, we'll just log the reference updates
-                    objects.forEach((obj) => {
-                        if (obj.marked) {
-                            obj.references.forEach((ref) => {
-                                logEvent(
-                                    `Reference from object ${obj.id} to object ${ref.id} will be updated`,
-                                );
+                    this.step = 2;
+                } else if (this.step === 2) { // Update references
+                    this.logEvent("--- Compact Phase: Update references ---");
+                    this.objects.forEach(obj => {
+                        if(this.marked.has(obj)) {
+                            const newRefs = new Set();
+                            obj.refs.forEach(ref => {
+                                if(this.newLocations.has(ref)) {
+                                    newRefs.add(this.objects.get(ref.id));
+                                }
                             });
+                            obj.refs = newRefs;
                         }
                     });
-
-                    // Proceed to move objects
-                    setTimeout(moveObjects, 1000);
-                }
-
-                // Move objects to their new locations
-                function moveObjects() {
-                    logEvent("Moving objects to new locations");
-                    updateStatus("GC: Compacting objects");
-                    highlightPhase(4);
-
-                    // Sort objects by new index
-                    const objectsToMove = objects.filter(
-                        (obj) => obj.marked && obj.newIndex !== null,
-                    );
-                    objectsToMove.sort((a, b) => a.newIndex - b.newIndex);
-
-                    let movedCount = 0;
-
-                    function moveNextObject() {
-                        if (movedCount < objectsToMove.length) {
-                            const obj = objectsToMove[movedCount];
-
-                            // Clear old position
-                            obj.element.className = "memory-block block-free";
-                            obj.element.innerHTML = `Free<div class="memory-address">${obj.index}</div>`;
-
-                            // Update object index
-                            obj.index = obj.newIndex;
-                            obj.compacted = true;
-
-                            // Move to new position
-                            const newBlock = heapMemory.children[obj.index];
-                            newBlock.className = "memory-block block-compacted";
-                            newBlock.innerHTML = `Obj ${obj.id}<div class="memory-address">${obj.index}</div>`;
-                            newBlock.dataset.objId = obj.id;
-                            obj.element = newBlock;
-
-                            logEvent(
-                                `Moved object ${obj.id} to position ${obj.index}`,
-                            );
-                            movedCount++;
-
-                            setTimeout(moveNextObject, 800);
-                        } else {
-                            // GC complete
-                            setTimeout(() => {
-                                logEvent("Garbage collection completed");
-                                updateStatus(
-                                    "GC: Completed, resuming program execution",
-                                );
-                                highlightPhase(5);
-
-                                // Reset object states
-                                objects.forEach((obj) => {
-                                    obj.marked = false;
-                                    obj.newIndex = null;
-                                    if (obj.compacted) {
-                                        obj.element.classList.remove(
-                                            "block-compacted",
-                                        );
-                                        obj.element.classList.add(
-                                            "block-allocated",
-                                        );
-                                        obj.compacted = false;
-                                    }
-                                });
-
-                                setTimeout(() => {
-                                    highlightPhase(0);
-                                    updateStatus(
-                                        "Program resumed with compacted heap",
-                                    );
-                                    updateStats();
-                                }, 1500);
-                            }, 1000);
-                        }
-                    }
-
-                    moveNextObject();
-                }
-
-                // Update statistics
-                function updateStats() {
-                    const totalObjects = objects.length;
-                    const reachableObjects = objects.filter(
-                        (obj) =>
-                            roots.includes(obj) ||
-                            objects.some((o) => o.references.includes(obj)),
-                    ).length;
-                    const freeSpace = heapSize - totalObjects;
-                    const fragmentation = calculateFragmentation();
-
-                    document.getElementById("total-objects").textContent =
-                        totalObjects;
-                    document.getElementById("reachable-objects").textContent =
-                        reachableObjects;
-                    document.getElementById("free-space").textContent =
-                        freeSpace;
-                    document.getElementById("fragmentation").textContent =
-                        `${fragmentation}%`;
-                }
-
-                // Calculate heap fragmentation
-                function calculateFragmentation() {
-                    if (objects.length === 0) return 0;
-
-                    // Get all used indices
-                    const usedIndices = objects
-                        .map((obj) => obj.index)
-                        .sort((a, b) => a - b);
-
-                    // Calculate gaps between used blocks
-                    let totalGaps = 0;
-                    for (let i = 1; i < usedIndices.length; i++) {
-                        const gap = usedIndices[i] - usedIndices[i - 1] - 1;
-                        if (gap > 0) {
-                            totalGaps += gap;
-                        }
-                    }
-
-                    // Calculate fragmentation percentage
-                    const fragmentation =
-                        (totalGaps / (heapSize - objects.length)) * 100;
-                    return Math.round(fragmentation);
-                }
-
-                // Log event to log container
-                function logEvent(message) {
-                    const logContainer =
-                        document.getElementById("log-container");
-                    if (!logContainer) return;
-
-                    const logEntry = document.createElement("div");
-                    logEntry.className = "log-entry";
-                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-                    logContainer.appendChild(logEntry);
-
-                    // Auto-scroll
-                    logContainer.scrollTop = logContainer.scrollHeight;
-                }
-
-                // Update status panel
-                function updateStatus(status) {
-                    const statusPanel = document.getElementById("status-panel");
-                    if (!statusPanel) return;
-
-                    statusPanel.innerHTML = `System Status: ${status}`;
-
-                    const phaseIndicator = document.createElement("div");
-                    phaseIndicator.className = "phase-indicator";
-                    phaseIndicator.innerHTML = `
-            <div class="phase">Stopped</div>
-            <div class="phase">Mark</div>
-            <div class="phase">Compute</div>
-            <div class="phase">Update</div>
-            <div class="phase">Compact</div>
-            <div class="phase">Resume</div>
-          `;
-                    statusPanel.appendChild(phaseIndicator);
-                }
-
-                // Highlight current phase
-                function highlightPhase(index) {
-                    const phases = document.querySelectorAll(".phase");
-                    phases.forEach((phase, i) => {
-                        if (i === index) {
-                            phase.classList.add("active");
-                        } else {
-                            phase.classList.remove("active");
+                    this.step = 3;
+                } else if (this.step === 3) { // Move objects
+                    this.logEvent("--- Compact Phase: Move objects ---");
+                    this.objects.forEach(obj => {
+                        if(this.marked.has(obj)) {
+                            obj.address = this.newLocations.get(obj);
                         }
                     });
-                }
-
-                // Event listeners
-                allocateBtn.addEventListener("click", createObject);
-                runGcBtn.addEventListener("click", runGarbageCollection);
-                createRefBtn.addEventListener("click", () => {
-                    if (selectedObject) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    }
-                    updateStatus("Select source object for new reference");
-                });
-                nullRefBtn.addEventListener("click", nullifyRandomReference);
-                fragmentBtn.addEventListener("click", fragmentHeap);
-                resetBtn.addEventListener("click", initVisualization);
-
-                // Add click event to memory blocks
-                heapMemory.addEventListener("click", (e) => {
-                    const block = e.target.closest(".memory-block");
-                    if (!block) return;
-
-                    const objId = block.dataset.objId;
-                    if (objId) {
-                        const object = objects.find((obj) => obj.id == objId);
-                        if (object) {
-                            selectObject(object);
-                        }
-                    }
-                });
-
-                // Initialize the visualization
-                initVisualization();
-
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
-
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
+                    const toDelete = [];
+                    this.objects.forEach(obj => {
+                        if(!this.marked.has(obj)) toDelete.push(obj.id);
                     });
-            });
-        </script>
+                    toDelete.forEach(id => this.objects.delete(id));
+                    this.step = 4;
+                } else {
+                    this.logEvent("--- GC Finished ---");
+                    this.stopAutoRun();
+                    this.step = 0;
+                }
+                this.render();
+            }
+
+            stopAutoRun() {
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                }
+            }
+
+            logEvent(message) {
+                console.log(message);
+                this.infoPanel.textContent = message;
+            }
+            
+            updateStatus(message) {
+                console.log(message);
+            }
+
+            setupEventListeners() {
+                this.allocateBtn.addEventListener("click", () => this.allocateObject());
+                this.runGcBtn.addEventListener("click", () => this.runGC());
+                this.resetBtn.addEventListener("click", () => this.init());
+                this.createRefBtn.addEventListener("click", () => this.createReference());
+                this.nullRefBtn.addEventListener("click", () => this.nullifyReference());
+                this.fragmentBtn.addEventListener("click", () => this.fragmentHeap());
+                this.stepBtn.addEventListener("click", () => this.nextStep());
+            }
+        }
+
+        new MarkCompactGCVisualization();
+    });
+</script>
 </body>
 </html>

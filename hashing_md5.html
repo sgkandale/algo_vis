@@ -804,13 +804,13 @@
 <i class="fas fa-fingerprint"></i> MD5 Hash Generator
                 </h3>
 <div class="console-controls">
-<button class="console-btn secondary" onclick="pauseVisualization()">
+<button id="pauseBtn" class="console-btn secondary">
 <i class="fas fa-pause"></i> Pause
                   </button>
-<button class="console-btn secondary" onclick="resumeVisualization()">
+<button id="resumeBtn" class="console-btn secondary">
 <i class="fas fa-play"></i> Resume
                   </button>
-<button class="console-btn secondary" onclick="resetVisualization()">
+<button id="resetBtn" class="console-btn secondary">
 <i class="fas fa-redo"></i> Reset
                   </button>
 </div>
@@ -818,7 +818,7 @@
 <div class="visualization-area">
 <div class="console-input">
 <input id="messageInput" placeholder="Enter your message to hash..." type="text" value="Hello World"/>
-<button class="console-btn" onclick="startVisualization()">
+<button id="startBtn" class="console-btn">
                     🚀 Visualize MD5
                   </button>
 </div>

@@ -1099,160 +1099,145 @@ shared_secret_bob = curve.scalar_multiply(b, A)
 </div>
 <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // ECDH Visualization State
         let currentStep = 1;
         const totalSteps = 6;
 
-        // DOM Elements
+        const examples = [
+            { a: 3, b: 4, aG: "(10,6)", bG: "(3,1)", secret: "(9,16)" },
+            { a: 5, b: 7, aG: "(13,7)", bG: "(1,13)", secret: "(0,6)" },
+            { a: 2, b: 9, aG: "(6,3)", bG: "(7,11)", secret: "(5,16)" }
+        ];
+        let currentExample = 0;
+
         const prevBtn = document.getElementById("prev-btn");
         const nextBtn = document.getElementById("next-btn");
         const resetBtn = document.getElementById("reset-btn");
         const stepNum = document.getElementById("step-num");
-        const aliceSecret = document.getElementById("alice-secret");
-        const bobSecret = document.getElementById("bob-secret");
+        const alicePrivate = document.getElementById("alice-private");
+        const bobPrivate = document.getElementById("bob-private");
+        const alicePublic = document.getElementById("alice-public");
+        const bobPublic = document.getElementById("bob-public");
+        const aliceSecret = document.getElementById("alice-secret").querySelector('.key-value');
+        const bobSecret = document.getElementById("bob-secret").querySelector('.key-value');
         const calcSteps = document.getElementById("calc-steps");
         const msgAliceKey = document.getElementById("msg-alice-key");
         const msgBobKey = document.getElementById("msg-bob-key");
         const arrowAlice = document.getElementById("arrow-alice");
         const arrowBob = document.getElementById("arrow-bob");
 
-        // Initialize visualization
-        updateVisualization();
+        function loadExample() {
+            const ex = examples[currentExample];
+            alicePrivate.textContent = ex.a;
+            bobPrivate.textContent = ex.b;
+            alicePublic.textContent = ex.aG;
+            bobPublic.textContent = ex.bG;
+            msgAliceKey.innerHTML = `<i class="fas fa-key"></i> Alice's Public Key<br/>${ex.aG}`;
+            msgBobKey.innerHTML = `<i class="fas fa-key"></i> Bob's Public Key<br/>${ex.bG}`;
+            updateVisualization();
+        }
 
-        // Event Listeners
-        prevBtn.addEventListener("click", function () {
+        prevBtn.addEventListener("click", () => {
           if (currentStep > 1) {
             currentStep--;
             updateVisualization();
           }
         });
 
-        nextBtn.addEventListener("click", function () {
+        nextBtn.addEventListener("click", () => {
           if (currentStep < totalSteps) {
             currentStep++;
             updateVisualization();
           }
         });
 
-        resetBtn.addEventListener("click", function () {
+        resetBtn.addEventListener("click", () => {
           currentStep = 1;
-          updateVisualization();
+          currentExample = (currentExample + 1) % examples.length;
+          loadExample();
         });
 
-        // Update visualization based on current step
         function updateVisualization() {
-          stepNum.textContent = currentStep;
+          stepNum.textContent = `${currentStep}/${totalSteps}`;
           calcSteps.innerHTML = "";
+          
+          const ex = examples[currentExample];
 
-          // Reset all highlights
-          document.querySelectorAll(".key-container").forEach((el) => {
-            el.classList.remove("highlight");
-          });
+          document.querySelectorAll(".key-container").forEach(el => el.classList.remove("highlight"));
+          aliceSecret.textContent = '-';
+          bobSecret.textContent = '-';
+          aliceSecret.classList.remove("shared-secret");
+          bobSecret.classList.remove("shared-secret");
 
-          // Reset all visual elements
           msgAliceKey.style.opacity = "0";
           msgBobKey.style.opacity = "0";
           arrowAlice.style.opacity = "0";
           arrowBob.style.opacity = "0";
+          arrowAlice.style.width = "0";
+          arrowBob.style.width = "0";
 
-          document.querySelectorAll(".curve-point").forEach((el) => {
-            if (el.id !== "point-g") el.style.opacity = "0";
-          });
+          document.querySelectorAll(".curve-point").forEach(el => { if (el.id !== 'point-g') el.style.opacity = "0"; });
+          document.querySelectorAll(".curve-point-label").forEach(el => { if (el.id !== 'label-g') el.style.opacity = "0"; });
+          document.querySelectorAll(".curve-line").forEach(el => el.style.width = "0");
+          document.querySelector(".curve-container").classList.remove("highlight");
 
-          document.querySelectorAll(".curve-point-label").forEach((el) => {
-            if (el.id !== "label-g") el.style.opacity = "0";
-          });
 
-          document.querySelectorAll(".curve-line").forEach((el) => {
-            el.style.width = "0";
-          });
-
-          // Step-specific updates
           switch (currentStep) {
             case 1:
-              calcSteps.innerHTML =
-                "Both parties agree on elliptic curve parameters and base point G";
-              document
-                .querySelector(".curve-container")
-                .classList.add("highlight");
+              calcSteps.innerHTML = "Both parties agree on elliptic curve parameters and base point G";
+              document.querySelector(".curve-container").classList.add("highlight");
               break;
-
             case 2:
-              document
-                .querySelector("#alice-private")
-                .parentElement.classList.add("highlight");
-              document
-                .querySelector("#alice-public")
-                .parentElement.classList.add("highlight");
+              document.querySelector("#alice-private").parentElement.classList.add("highlight");
+              document.querySelector("#alice-public").parentElement.classList.add("highlight");
               document.getElementById("point-alice").style.opacity = "1";
               document.getElementById("label-alice").style.opacity = "1";
               document.getElementById("line-alice").style.width = "60px";
-              document.getElementById("line-alice").style.transform =
-                "rotate(30deg)";
-              calcSteps.innerHTML =
-                "Alice computes her public key: a×G = 3×(5,1) = (10,6)";
+              document.getElementById("line-alice").style.transform = "rotate(30deg)";
+              calcSteps.innerHTML = `Alice computes her public key: a×G = ${ex.a}×G = ${ex.aG}`;
               break;
-
             case 3:
-              document
-                .querySelector("#bob-private")
-                .parentElement.classList.add("highlight");
-              document
-                .querySelector("#bob-public")
-                .parentElement.classList.add("highlight");
+              document.querySelector("#bob-private").parentElement.classList.add("highlight");
+              document.querySelector("#bob-public").parentElement.classList.add("highlight");
               document.getElementById("point-bob").style.opacity = "1";
               document.getElementById("label-bob").style.opacity = "1";
               document.getElementById("line-bob").style.width = "60px";
-              document.getElementById("line-bob").style.transform =
-                "rotate(-20deg)";
-              calcSteps.innerHTML =
-                "Bob computes his public key: b×G = 4×(5,1) = (3,1)";
+              document.getElementById("line-bob").style.transform = "rotate(-20deg)";
+              calcSteps.innerHTML = `Bob computes his public key: b×G = ${ex.b}×G = ${ex.bG}`;
               break;
-
             case 4:
-              document
-                .querySelector("#alice-public")
-                .parentElement.classList.add("highlight");
-              document
-                .querySelector("#bob-public")
-                .parentElement.classList.add("highlight");
+              document.querySelector("#alice-public").parentElement.classList.add("highlight");
+              document.querySelector("#bob-public").parentElement.classList.add("highlight");
               msgAliceKey.style.opacity = "1";
               msgBobKey.style.opacity = "1";
               arrowAlice.style.width = "40%";
-              arrowAlice.style.left = "45%";
+              arrowAlice.style.left = "50%";
               arrowAlice.style.opacity = "1";
               arrowBob.style.width = "40%";
-              arrowBob.style.right = "45%";
+              arrowBob.style.left = "10%";
               arrowBob.style.opacity = "1";
               calcSteps.innerHTML = "Alice and Bob exchange their public keys";
               break;
-
             case 5:
-              aliceSecret.querySelector(".key-value").innerHTML = "(9,16)";
-              aliceSecret.classList.add("highlight");
-              aliceSecret
-                .querySelector(".key-value")
-                .classList.add("shared-secret");
+              aliceSecret.textContent = ex.secret;
+              aliceSecret.classList.add("shared-secret");
+              document.getElementById("alice-secret").classList.add("highlight");
               document.getElementById("point-secret").style.opacity = "1";
               document.getElementById("label-secret").style.opacity = "1";
               document.getElementById("line-secret").style.width = "60px";
-              document.getElementById("line-secret").style.transform =
-                "rotate(-40deg)";
-              calcSteps.innerHTML =
-                "Alice computes shared secret: a×(b×G) = 3×(3,1) = (9,16)";
+              document.getElementById("line-secret").style.transform = "rotate(-40deg)";
+              calcSteps.innerHTML = `Alice computes shared secret: a×(b×G) = ${ex.a}×${ex.bG} = ${ex.secret}`;
               break;
-
             case 6:
-              bobSecret.querySelector(".key-value").innerHTML = "(9,16)";
-              bobSecret.classList.add("highlight");
-              bobSecret
-                .querySelector(".key-value")
-                .classList.add("shared-secret");
-              calcSteps.innerHTML =
-                "Bob computes shared secret: b×(a×G) = 4×(10,6) = (9,16)";
+              aliceSecret.textContent = ex.secret;
+              aliceSecret.classList.add("shared-secret");
+              bobSecret.textContent = ex.secret;
+              bobSecret.classList.add("shared-secret");
+              document.getElementById("bob-secret").classList.add("highlight");
+              calcSteps.innerHTML = `Bob computes shared secret: b×(a×G) = ${ex.b}×${ex.aG} = ${ex.secret}`;
               break;
           }
         }
+        loadExample();
       });
     </script>
 </body>

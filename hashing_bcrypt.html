@@ -838,13 +838,13 @@
 <i class="fas fa-lock"></i> Bcrypt Hash Generator
                 </h3>
 <div class="console-controls">
-<button class="console-btn secondary" onclick="pauseVisualization()">
+<button id="pauseBtn" class="console-btn secondary">
 <i class="fas fa-pause"></i> Pause
                   </button>
-<button class="console-btn secondary" onclick="resumeVisualization()">
+<button id="resumeBtn" class="console-btn secondary">
 <i class="fas fa-play"></i> Resume
                   </button>
-<button class="console-btn secondary" onclick="resetVisualization()">
+<button id="resetBtn" class="console-btn secondary">
 <i class="fas fa-redo"></i> Reset
                   </button>
 </div>
@@ -852,15 +852,18 @@
 <div class="visualization-area">
 <div class="input-row">
 <input id="passwordInput" placeholder="Enter password to hash..." type="password" value="mypassword123"/>
-<button class="console-btn" onclick="startVisualization()">
+<button id="startBtn" class="console-btn">
                     🔒 Hash with Bcrypt
                   </button>
 </div>
 <div class="input-row">
 <label style="color: var(--text);">Cost Factor:</label>
-<input id="costRange" max="12" min="4" onchange="updateCostDisplay()" style="width: 200px; margin: 0 15px;" type="range" value="10"/>
+<input id="costRange" max="12" min="4" style="width: 200px; margin: 0 15px;" type="range" value="10"/>
 <div class="cost-display" id="costDisplay">10 (1024 rounds)</div>
 </div>
+<div class="info-box" style="font-size: 14px; text-align: center;">
+              ℹ️ This is a conceptual simulation. The hashing process is illustrative and does not represent the actual cryptographic operations of Bcrypt.
+            </div>
 <div class="progress-bar">
 <div class="progress-fill" id="progressBar"></div>
 </div>
@@ -973,349 +976,181 @@
 </footer>
 </div>
 <script>
-      let currentStep = 0;
-      let isPaused = false;
-      let visualizationTimeout;
-      let password = "";
-      let cost = 10;
-      let steps = [];
-      let generatedSalt = "";
-      let startTime = 0;
+    class BcryptVisualization {
+        constructor() {
+            this.passwordInput = document.getElementById("passwordInput");
+            this.costRange = document.getElementById("costRange");
+            this.costDisplay = document.getElementById("costDisplay");
+            this.progressBar = document.getElementById("progressBar");
+            this.stepContainer = document.getElementById("stepContainer");
+            this.finalHash = document.getElementById("finalHash");
+            this.startBtn = document.getElementById("startBtn");
+            this.pauseBtn = document.getElementById("pauseBtn");
+            this.resumeBtn = document.getElementById("resumeBtn");
+            this.resetBtn = document.getElementById("resetBtn");
 
-      // Simplified Bcrypt implementation for visualization
-      function generateSalt() {
-        const chars =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./";
-        let salt = "";
-        for (let i = 0; i < 22; i++) {
-          salt += chars[Math.floor(Math.random() * chars.length)];
-        }
-        return salt;
-      }
+            this.currentStep = 0;
+            this.isPaused = false;
+            this.timeoutId = null;
+            this.password = "";
+            this.cost = 10;
+            this.steps = [];
+            this.generatedSalt = "";
+            this.startTime = 0;
 
-      function base64Encode(str) {
-        return btoa(str)
-          .replace(/\+/g, ".")
-          .replace(/\//g, "/")
-          .replace(/=/g, "");
-      }
-
-      // Simplified Bcrypt hash generation (for demonstration purposes)
-      function generateBcryptHash(password, salt, cost) {
-        // This is a simplified version for visualization
-        // Real bcrypt uses Blowfish cipher with key expansion
-        let hash = password + salt;
-
-        // Simulate multiple rounds
-        for (let i = 0; i < Math.pow(2, cost); i++) {
-          // Simplified hash mixing (not actual bcrypt algorithm)
-          hash = btoa(hash + i.toString()).slice(0, 31);
+            this.setupEventListeners();
+            this.updateCostDisplay();
+            this.startVisualization();
         }
 
-        return hash;
-      }
-
-      function formatBcryptOutput(cost, salt, hash) {
-        const version = "2b";
-        const costStr = cost.toString().padStart(2, "0");
-        return `$${version}$${costStr}$${salt}${hash}`;
-      }
-
-      function updateCostDisplay() {
-        cost = parseInt(document.getElementById("costRange").value);
-        const rounds = Math.pow(2, cost);
-        document.getElementById(
-          "costDisplay"
-        ).textContent = `${cost} (${rounds.toLocaleString()} rounds)`;
-      }
-
-      function createSteps(password, cost) {
-        steps = [];
-        generatedSalt = generateSalt();
-
-        steps.push({
-          title: "Step 1: Input Analysis",
-          content: `Password: "${password}" (${password.length} characters)<br>
-                         Cost Factor: ${cost} (${Math.pow(
-            2,
-            cost
-          ).toLocaleString()} iterations)<br>
-                         Higher cost = more secure but slower computation`,
-          passwordAnalysis: true,
-        });
-
-        steps.push({
-          title: "Step 2: Salt Generation",
-          content: `Generate a random 128-bit (22-character) salt using secure random number generator.<br>
-                         Salt prevents rainbow table attacks and ensures unique hashes for identical passwords.`,
-          salt: generatedSalt,
-          saltGeneration: true,
-        });
-
-        steps.push({
-          title: "Step 3: Blowfish Initialization",
-          content: `Initialize Blowfish cipher state with:<br>
-                         • 18 P-array entries (subkeys)<br>
-                         • 4 S-boxes with 256 entries each<br>
-                         • Total: 4168 bytes of state`,
-          blowfishInit: true,
-        });
-
-        steps.push({
-          title: "Step 4: Key Expansion",
-          content: `Expand the key using EksBlowfish algorithm:<br>
-                         1. XOR password with P-array<br>
-                         2. Encrypt salt with current state<br>
-                         3. Update P-array and S-boxes with result`,
-          keyExpansion: true,
-        });
-
-        steps.push({
-          title: "Step 5: Iterative Encryption",
-          content: `Perform ${Math.pow(
-            2,
-            cost
-          ).toLocaleString()} rounds of expensive key setup:<br>
-                         Each round re-derives the key from password and salt<br>
-                         This adaptive work factor makes brute force attacks impractical`,
-          iterations: Math.pow(2, cost),
-          iterativeEncryption: true,
-        });
-
-        steps.push({
-          title: "Step 6: Final Encryption",
-          content: `Encrypt the magic string "OrpheanBeholderScryDoubt" 64 times<br>
-                         This produces the final 192-bit hash value`,
-          finalEncryption: true,
-        });
-
-        steps.push({
-          title: "Step 7: Format Output",
-          content: `Format the result as a standard bcrypt hash string:<br>
-                         $version$cost$salt+hash`,
-          formatOutput: true,
-          finalResult: true,
-        });
-      }
-
-      function renderStep(stepIndex) {
-        const step = steps[stepIndex];
-        const stepContainer = document.getElementById("stepContainer");
-
-        let html = `<div class="step active">
-                <div class="step-title">
-                    <div class="step-number">${stepIndex + 1}</div>
-                    ${step.title}
-                </div>`;
-
-        if (step.content) {
-          html += `<div class="info-box">${step.content}</div>`;
+        generateSalt() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./";
+            let salt = "";
+            for (let i = 0; i < 22; i++) {
+                salt += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return salt;
         }
 
-        if (step.passwordAnalysis) {
-          html += `<div class="cost-explanation">
-                    <div class="cost-item">Cost 4<br>16 rounds<br>~1ms</div>
-                    <div class="cost-item">Cost 8<br>256 rounds<br>~16ms</div>
-                    <div class="cost-item">Cost 10<br>1024 rounds<br>~65ms</div>
-                    <div class="cost-item">Cost 12<br>4096 rounds<br>~260ms</div>
-                </div>`;
+        // This is a conceptual simulation. It does not perform real bcrypt hashing.
+        async simulatedBcryptHash() {
+            let state = this.password + this.generatedSalt;
+            const rounds = Math.pow(2, this.cost);
+            const stepUpdateThreshold = Math.max(1, Math.floor(rounds / 100));
+
+            for (let i = 0; i < rounds; i++) {
+                // Simulate work using a cryptographic hash function (SHA-256 is async)
+                const buffer = new TextEncoder().encode(state + i);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                state = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                if (i % stepUpdateThreshold === 0) {
+                    // Allow the UI to update
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+            }
+            return state.slice(0, 31);
         }
 
-        if (step.saltGeneration) {
-          html += `<div class="salt-display">
-                    Generated Salt: ${step.salt}
-                    <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
-                        • 128 bits of randomness<br>
-                        • Base64-encoded (modified)<br>
-                        • Unique for each hash
-                    </div>
-                </div>`;
+        formatBcryptOutput(cost, salt, hash) {
+            const version = "$2b$";
+            const costStr = cost.toString().padStart(2, "0");
+            return `${version}${costStr}${salt}${hash}`;
         }
 
-        if (step.blowfishInit) {
-          html += `<div class="blowfish-visual">
-                    <div class="blowfish-component active">
-                        <strong>P-Array</strong><br>
-                        18 × 32-bit<br>
-                        Subkeys
-                    </div>
-                    <div class="blowfish-component active">
-                        <strong>S-Box 1</strong><br>
-                        256 × 32-bit<br>
-                        Substitutions
-                    </div>
-                    <div class="blowfish-component active">
-                        <strong>S-Box 2</strong><br>
-                        256 × 32-bit<br>
-                        Substitutions
-                    </div>
-                    <div class="blowfish-component active">
-                        <strong>S-Box 3</strong><br>
-                        256 × 32-bit<br>
-                        Substitutions
-                    </div>
-                    <div class="blowfish-component active">
-                        <strong>S-Box 4</strong><br>
-                        256 × 32-bit<br>
-                        Substitutions
-                    </div>
-                </div>`;
+        updateCostDisplay() {
+            this.cost = parseInt(this.costRange.value);
+            const rounds = Math.pow(2, this.cost);
+            this.costDisplay.textContent = `${this.cost} (${rounds.toLocaleString()} rounds)`;
         }
 
-        if (step.keyExpansion) {
-          html += `<div class="blowfish-detail">
-                    <h4>EksBlowfish Key Expansion Process:</h4>
-                    <div class="blowfish-rounds">`;
-          for (let i = 0; i < 16; i++) {
-            html += `<div class="round-indicator ${
-              i < 8 ? "active" : ""
-            }">Round ${i + 1}</div>`;
-          }
-          html += `</div>
-                    <p>Each round modifies the cipher state based on password and salt</p>
-                </div>`;
+        createSteps() {
+            this.steps = [
+                { title: "Input Analysis", content: `Password: \"${this.password}\"\nCost Factor: ${this.cost} (2<sup>${this.cost}</sup> = ${Math.pow(2,this.cost).toLocaleString()} iterations)` },
+                { title: "Salt Generation", content: `A unique 22-character salt is generated to prevent rainbow table attacks.<br><div class=\"salt-display\">${this.generatedSalt}</div>` },
+                { title: "Key Setup (EksBlowfish)", content: "The password and salt are combined and processed through a complex and expensive key setup phase based on the Blowfish cipher." },
+                { title: "Iterative Hashing", content: "The core of bcrypt's slowness. The state is repeatedly hashed ${Math.pow(2, this.cost).toLocaleString()} times. This visualization simulates the work using SHA-256." },
+                { title: "Final Encryption", content: "A constant string ('OrpheanBeholderScryDoubt') is encrypted 64 times using the final state from the iterative hashing." },
+                { title: "Format Output", content: "The version, cost, salt, and final hash are combined into the standard 60-character bcrypt string." }
+            ];
         }
 
-        if (step.iterativeEncryption) {
-          const numBlocks = Math.min(32, Math.ceil(step.iterations / 64));
-          html += `<div class="iteration-visual">`;
-          for (let i = 0; i < numBlocks; i++) {
-            const blockIterations = Math.min(64, step.iterations - i * 64);
-            const status = i < 8 ? "active" : i < 16 ? "completed" : "";
-            html += `<div class="iteration-block ${status}">
-                        <div>Block ${i + 1}</div>
-                        <div>${blockIterations} iter</div>
-                    </div>`;
-          }
-          if (step.iterations > 2048) {
-            html += `<div class="iteration-block">...</div>`;
-          }
-          html += "</div>";
+        renderStep(stepIndex) {
+            if (stepIndex >= this.steps.length) return;
+            const step = this.steps[stepIndex];
+            this.stepContainer.innerHTML = `<div class=\"step active\"><div class=\"step-title\"><div class=\"step-number\">${stepIndex + 1}</div>${step.title}</div><div class=\"info-box\">${step.content}</div></div>`;
         }
 
-        if (step.formatOutput) {
-          const hash = generateBcryptHash(password, generatedSalt, cost);
-          const fullHash = formatBcryptOutput(cost, generatedSalt, hash);
-
-          html += `<div class="bcrypt-format">
-                    <span class="format-part format-version">$2b</span><span class="format-part format-cost">$${cost
-                      .toString()
-                      .padStart(
-                        2,
-                        "0"
-                      )}</span><span class="format-part format-salt">$${generatedSalt}</span><span class="format-part format-hash">${hash}</span>
-                </div>
-                <div style="margin-top: 15px;">
-                    <strong>Format Breakdown:</strong><br>
-                    <span class="format-part format-version" style="display: inline;">$2b</span> = Bcrypt version<br>
-                    <span class="format-part format-cost" style="display: inline;">$${cost
-                      .toString()
-                      .padStart(2, "0")}</span> = Cost factor<br>
-                    <span class="format-part format-salt" style="display: inline;">Salt</span> = 22-char salt<br>
-                    <span class="format-part format-hash" style="display: inline;">Hash</span> = 31-char hash
-                </div>`;
+        updateProgress(percentage) {
+            this.progressBar.style.width = `${percentage}%`;
         }
 
-        html += "</div>";
-        stepContainer.innerHTML = html;
-      }
+        async runProcess() {
+            if (this.isPaused) return;
 
-      function updateProgress() {
-        const progress = ((currentStep + 1) / steps.length) * 100;
-        document.getElementById("progressBar").style.width = `${progress}%`;
-      }
+            for (let i = this.currentStep; i < this.steps.length; i++) {
+                this.currentStep = i;
+                this.renderStep(i);
+                this.updateProgress(((i + 1) / this.steps.length) * 100);
 
-      function nextStep() {
-        if (isPaused) return;
+                if (this.isPaused) return;
 
-        if (currentStep < steps.length) {
-          renderStep(currentStep);
-          updateProgress();
-          currentStep++;
+                // Special handling for the iterative step
+                if (this.steps[i].title === "Iterative Hashing") {
+                    await this.simulatedBcryptHash();
+                } else {
+                    await new Promise(resolve => this.timeoutId = setTimeout(resolve, 1200));
+                }
+                 if (this.isPaused) return;
+            }
 
-          if (currentStep < steps.length) {
-            // Longer delay for iterative encryption step
-            const delay = currentStep === 5 ? 3000 : 2000;
-            visualizationTimeout = setTimeout(nextStep, delay);
-          } else {
-            showFinalHash();
-          }
+            this.showFinalHash();
         }
-      }
 
-      function showFinalHash() {
-        const endTime = Date.now();
-        const duration = endTime - startTime;
 
-        const hash = generateBcryptHash(password, generatedSalt, cost);
-        const fullHash = formatBcryptOutput(cost, generatedSalt, hash);
+        async showFinalHash() {
+            const endTime = Date.now();
+            const duration = endTime - this.startTime;
+            // This is a placeholder hash, as the real one is computed during the simulation
+            const finalHashValue = await this.simulatedBcryptHash();
+            const fullHash = this.formatBcryptOutput(this.cost, this.generatedSalt, finalHashValue);
 
-        const finalHashDiv = document.getElementById("finalHash");
-        finalHashDiv.innerHTML = `
-                <h3>🎉 Bcrypt Hash Complete!</h3>
-                <div style="margin-top: 15px; font-size: 14px; word-break: break-all;">
-                    ${fullHash}
-                </div>
-                <div class="timing-display" style="margin-top: 15px;">
-                    ⏱️ Computation Time: ${duration}ms
-                </div>
-                <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
-                    Cost ${cost}: ${Math.pow(
-          2,
-          cost
-        ).toLocaleString()} iterations completed
-                </div>
-            `;
-        finalHashDiv.style.display = "block";
-      }
-
-      function startVisualization() {
-        password =
-          document.getElementById("passwordInput").value || "mypassword123";
-        cost = parseInt(document.getElementById("costRange").value);
-        startTime = Date.now();
-
-        currentStep = 0;
-        isPaused = false;
-
-        document.getElementById("stepContainer").innerHTML = "";
-        document.getElementById("finalHash").style.display = "none";
-        document.getElementById("progressBar").style.width = "0%";
-
-        createSteps(password, cost);
-        nextStep();
-      }
-
-      function pauseVisualization() {
-        isPaused = true;
-        if (visualizationTimeout) {
-          clearTimeout(visualizationTimeout);
+            this.finalHash.innerHTML = `<h3>🎉 Bcrypt Hash Complete!</h3><div style=\"margin-top: 15px; font-size: 14px; word-break: break-all;\">${fullHash}</div><div class=\"timing-display\" style=\"margin-top: 15px;\">⏱️ Computation Time: ${duration}ms</div>`;
+            this.finalHash.style.display = "block";
+            this.startBtn.disabled = false;
         }
-      }
 
-      function resumeVisualization() {
-        if (isPaused && currentStep < steps.length) {
-          isPaused = false;
-          nextStep();
+        startVisualization() {
+            this.reset();
+            this.startBtn.disabled = true;
+            this.password = this.passwordInput.value || "mypassword123";
+            this.cost = parseInt(this.costRange.value);
+            this.startTime = Date.now();
+            this.isPaused = false;
+            this.generatedSalt = this.generateSalt();
+            this.createSteps();
+            this.runProcess();
         }
-      }
 
-      function resetVisualization() {
-        isPaused = false;
-        currentStep = 0;
-        if (visualizationTimeout) {
-          clearTimeout(visualizationTimeout);
+        pause() {
+            this.isPaused = true;
+            clearTimeout(this.timeoutId);
+            this.pauseBtn.disabled = true;
+            this.resumeBtn.disabled = false;
         }
-        document.getElementById("stepContainer").innerHTML = "";
-        document.getElementById("finalHash").style.display = "none";
-        document.getElementById("progressBar").style.width = "0%";
-      }
 
-      // Initialize
-      window.onload = function () {
-        updateCostDisplay();
-        startVisualization();
-      };
-    </script>
+        resume() {
+            if (this.isPaused) {
+                this.isPaused = false;
+                this.pauseBtn.disabled = false;
+                this.resumeBtn.disabled = true;
+                this.runProcess();
+            }
+        }
+
+        reset() {
+            this.isPaused = true;
+            clearTimeout(this.timeoutId);
+            this.currentStep = 0;
+            this.stepContainer.innerHTML = "";
+            this.finalHash.style.display = "none";
+            this.progressBar.style.width = "0%";
+            this.startBtn.disabled = false;
+            this.pauseBtn.disabled = false;
+            this.resumeBtn.disabled = true;
+        }
+
+        setupEventListeners() {
+            this.startBtn.addEventListener("click", () => this.startVisualization());
+            this.pauseBtn.addEventListener("click", () => this.pause());
+            this.resumeBtn.addEventListener("click", () => this.resume());
+            this.resetBtn.addEventListener("click", () => this.reset());
+            this.costRange.addEventListener("input", () => this.updateCostDisplay());
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => new BcryptVisualization());
+</script>
 </body>
 </html>

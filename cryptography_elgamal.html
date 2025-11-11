@@ -997,122 +997,153 @@ K = (c2 * s_inv) mod p</code></pre>
 </div>
 <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // ElGamal Visualization State
         let currentStep = 1;
         const totalSteps = 6;
 
-        // DOM Elements
+        let p, g, x, h, y, K, c1, c2, s, s_inv, decryptedK;
+
         const prevBtn = document.getElementById("prev-btn");
         const nextBtn = document.getElementById("next-btn");
         const resetBtn = document.getElementById("reset-btn");
         const stepNum = document.getElementById("step-num");
-        const aliceSecret = document.getElementById("alice-secret");
+        const alicePrivate = document.getElementById("alice-private");
+        const alicePublic = document.getElementById("alice-public");
+        const aliceSecret = document.getElementById("alice-secret").querySelector('.key-value');
+        const bobSecret = document.getElementById("bob-secret");
         const bobEncrypted = document.getElementById("bob-encrypted");
+        const bobEphemeral = document.getElementById("bob-shared").querySelector('.key-value');
         const calcSteps = document.getElementById("calc-steps");
         const msgPublicKey = document.getElementById("msg-public-key");
         const msgEncrypted = document.getElementById("msg-encrypted");
         const arrow1 = document.getElementById("arrow-1");
         const arrow2 = document.getElementById("arrow-2");
 
-        // Initialize visualization
-        updateVisualization();
+        function power(base, exp, mod) {
+            let res = 1;
+            base %= mod;
+            while (exp > 0) {
+                if (exp % 2 === 1) res = (res * base) % mod;
+                base = (base * base) % mod;
+                exp = Math.floor(exp / 2);
+            }
+            return res;
+        }
 
-        // Event Listeners
-        prevBtn.addEventListener("click", function () {
-          if (currentStep > 1) {
-            currentStep--;
+        function modInverse(a, m) {
+            a = a % m;
+            for (let x = 1; x < m; x++) {
+                if ((a * x) % m == 1) {
+                    return x;
+                }
+            }
+            return 1;
+        }
+
+        function generateNewValues() {
+            p = 23;
+            g = 11;
+            x = Math.floor(Math.random() * (p - 3)) + 2; // private key
+            h = power(g, x, p); // public key
+            y = Math.floor(Math.random() * (p - 3)) + 2; // ephemeral key
+            K = Math.floor(Math.random() * (p - 2)) + 1; // symmetric key
+
+            // Encryption
+            c1 = power(g, y, p);
+            s = power(h, y, p);
+            c2 = (K * s) % p;
+
+            // Decryption
+            s_dec = power(c1, x, p);
+            s_inv = modInverse(s_dec, p);
+            decryptedK = (c2 * s_inv) % p;
+            
+            currentStep = 1;
             updateVisualization();
-          }
-        });
+        }
 
-        nextBtn.addEventListener("click", function () {
-          if (currentStep < totalSteps) {
-            currentStep++;
-            updateVisualization();
-          }
-        });
 
-        resetBtn.addEventListener("click", function () {
-          currentStep = 1;
-          updateVisualization();
-        });
-
-        // Update visualization based on current step
         function updateVisualization() {
-          stepNum.textContent = currentStep;
+          stepNum.textContent = `${currentStep}/${totalSteps}`;
           calcSteps.innerHTML = "";
 
-          // Reset all highlights
-          document.querySelectorAll(".key-container").forEach((el) => {
-            el.classList.remove("highlight");
-            el.classList.remove("encrypted");
-            el.classList.remove("decrypted");
+          alicePrivate.textContent = x;
+          alicePublic.innerHTML = `p: ${p}<br/>g: ${g}<br/>h: ${h}`;
+          bobSecret.textContent = K;
+          bobEphemeral.textContent = y;
+          
+          aliceSecret.textContent = '-';
+          bobEncrypted.textContent = '-';
+          
+          document.querySelectorAll(".key-container").forEach(el => {
+              el.classList.remove("highlight", "encrypted", "decrypted");
           });
 
           msgPublicKey.style.opacity = "0";
           msgEncrypted.style.opacity = "0";
           arrow1.style.opacity = "0";
           arrow2.style.opacity = "0";
+          arrow1.style.width = "0";
+          arrow2.style.width = "0";
 
-          // Step-specific updates
           switch (currentStep) {
             case 1:
-              document
-                .querySelector("#alice-public")
-                .parentElement.classList.add("highlight");
-              calcSteps.innerHTML =
-                "Alice generates public key: h = g<sup>x</sup> mod p = 11<sup>6</sup> mod 23 = 9";
+              document.querySelector("#alice-public").parentElement.classList.add("highlight");
+              calcSteps.innerHTML = `Alice generates public key: h = g<sup>x</sup> mod p = ${g}<sup>${x}</sup> mod ${p} = ${h}`;
               break;
-
             case 2:
-              document
-                .querySelector("#alice-public")
-                .parentElement.classList.add("highlight");
+              document.querySelector("#alice-public").parentElement.classList.add("highlight");
               msgPublicKey.style.opacity = "1";
               arrow1.style.width = "40%";
-              arrow1.style.left = "45%";
+              arrow1.style.left = "50%";
               arrow1.style.opacity = "1";
-              calcSteps.innerHTML =
-                "Alice shares public key (p=23, g=11, h=9) with Bob";
+              calcSteps.innerHTML = `Alice shares public key (p=${p}, g=${g}, h=${h}) with Bob`;
               break;
-
             case 3:
-              document
-                .querySelector("#bob-shared")
-                .parentElement.classList.add("highlight");
-              calcSteps.innerHTML =
-                "Bob generates ephemeral key y=3 for this session";
+              document.querySelector("#bob-shared").parentElement.classList.add("highlight");
+              calcSteps.innerHTML = `Bob generates ephemeral key y=${y} for this session`;
               break;
-
             case 4:
-              bobEncrypted.innerHTML = "c1: 20<br>c2: 8";
+              bobEncrypted.innerHTML = `c1: ${c1}<br>c2: ${c2}`;
               bobEncrypted.parentElement.classList.add("highlight");
               bobEncrypted.classList.add("encrypted");
-              calcSteps.innerHTML =
-                "Bob computes: c1 = g<sup>y</sup> mod p = 11<sup>3</sup> mod 23 = 20<br>s = h<sup>y</sup> mod p = 9<sup>3</sup> mod 23 = 16<br>c2 = K·s mod p = 12·16 mod 23 = 8";
+              calcSteps.innerHTML = `Bob computes: c1 = g<sup>y</sup> mod p = ${g}<sup>${y}</sup> mod ${p} = ${c1}<br>s = h<sup>y</sup> mod p = ${h}<sup>${y}</sup> mod ${p} = ${s}<br>c2 = K·s mod p = ${K}·${s} mod ${p} = ${c2}`;
               break;
-
             case 5:
+              bobEncrypted.innerHTML = `c1: ${c1}<br>c2: ${c2}`;
               bobEncrypted.parentElement.classList.add("highlight");
               msgEncrypted.style.opacity = "1";
               arrow2.style.width = "40%";
-              arrow2.style.right = "45%";
+              arrow2.style.left = "10%";
               arrow2.style.opacity = "1";
-              calcSteps.innerHTML =
-                "Bob sends encrypted pair (c1=20, c2=8) to Alice";
+              calcSteps.innerHTML = `Bob sends encrypted pair (c1=${c1}, c2=${c2}) to Alice`;
               break;
-
             case 6:
-              aliceSecret.querySelector(".key-value").innerHTML = "12";
-              aliceSecret.classList.add("highlight");
-              aliceSecret
-                .querySelector(".key-value")
-                .classList.add("decrypted");
-              calcSteps.innerHTML =
-                "Alice computes: s = c1<sup>x</sup> mod p = 20<sup>6</sup> mod 23 = 16<br>s<sup>-1</sup> mod p = 13<br>K = c2·s<sup>-1</sup> mod p = 8·13 mod 23 = 12";
+              bobEncrypted.innerHTML = `c1: ${c1}<br>c2: ${c2}`;
+              aliceSecret.textContent = decryptedK;
+              aliceSecret.parentElement.classList.add("highlight");
+              aliceSecret.classList.add("decrypted");
+              calcSteps.innerHTML = `Alice computes: s = c1<sup>x</sup> mod p = ${c1}<sup>${x}</sup> mod ${p} = ${s_dec}<br>s<sup>-1</sup> mod p = ${s_inv}<br>K = c2·s<sup>-1</sup> mod p = ${c2}·${s_inv} mod ${p} = ${decryptedK}`;
               break;
           }
         }
+        
+        prevBtn.addEventListener("click", () => {
+          if (currentStep > 1) {
+            currentStep--;
+            updateVisualization();
+          }
+        });
+
+        nextBtn.addEventListener("click", () => {
+          if (currentStep < totalSteps) {
+            currentStep++;
+            updateVisualization();
+          }
+        });
+
+        resetBtn.addEventListener("click", generateNewValues);
+
+        generateNewValues();
       });
     </script>
 </body>

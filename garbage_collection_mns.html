@@ -1191,476 +1191,193 @@ gc.collect()</code></pre>
 <script>
             // Visualization for Mark & Sweep Garbage Collection
             document.addEventListener("DOMContentLoaded", function () {
-                const visualization =
-                    document.getElementById("gc-visualization");
-                const memoryHeap = document.getElementById("memory-heap");
-                const rootsContainer =
-                    document.getElementById("roots-container");
-                const runBtn = document.getElementById("run-btn");
-                const stepBtn = document.getElementById("step-btn");
-                const resetBtn = document.getElementById("reset-btn");
-                const allocateBtn = document.getElementById("allocate-btn");
-                const createRefBtn = document.getElementById("create-ref-btn");
-                const nullRefBtn = document.getElementById("null-ref-btn");
+                class MarkSweepGCVisualization {
+            constructor() {
+                this.heapMemory = document.getElementById("memory-heap");
+                this.rootsContainer = document.getElementById("roots-container");
+                this.runBtn = document.getElementById("run-btn");
+                this.stepBtn = document.getElementById("step-btn");
+                this.resetBtn = document.getElementById("reset-btn");
+                this.allocateBtn = document.getElementById("allocate-btn");
+                this.createRefBtn = document.getElementById("create-ref-btn");
+                this.nullRefBtn = document.getElementById("null-ref-btn");
+                this.infoPanel = document.createElement('div');
+                this.infoPanel.className = 'status-panel';
+                this.heapContainer = document.getElementById('gc-visualization');
+                this.heapContainer.appendChild(this.infoPanel);
 
-                // State variables
-                let simulationRunning = false;
-                let objects = [];
-                let roots = [];
-                let references = [];
-                let selectedObject = null;
-                let currentPhase = 0;
+                this.heapSize = 20;
+                this.init();
+                this.setupEventListeners();
+            }
 
-                // Initialize visualization
-                function initVisualization() {
-                    memoryHeap.innerHTML = "";
-                    objects = [];
-                    references = [];
-                    roots = [];
-                    selectedObject = null;
-                    currentPhase = 0;
+            init() {
+                this.stopAutoRun();
+                this.step = 0;
+                this.objects = new Map();
+                this.roots = new Set();
+                this.nextId = 0;
+                this.selectedObject = null;
+                this.marked = new Set();
+                
+                this.render();
+                this.logEvent("Initialized heap.");
+                
+                for(let i=0; i<8; i++) this.allocateObject();
+                this.roots.add(this.objects.get(0));
+                this.roots.add(this.objects.get(1));
+                this.createReference(this.objects.get(0), this.objects.get(2));
+                this.createReference(this.objects.get(1), this.objects.get(3));
+                this.createReference(this.objects.get(2), this.objects.get(4));
+                this.createReference(this.objects.get(4), this.objects.get(0)); // Cycle
+                this.render();
+            }
 
-                    // Create initial objects
-                    for (let i = 0; i < 6; i++) {
-                        createObject();
-                    }
+            render() {
+                this.heapMemory.innerHTML = '';
+                const heapArray = new Array(this.heapSize).fill(null);
+                
+                this.objects.forEach(obj => {
+                    heapArray[obj.address] = obj;
+                });
 
-                    // Create root references
-                    roots = [objects[0], objects[3]];
-                    updateRoots();
-
-                    // Create some initial references
-                    createReference(objects[0], objects[1]);
-                    createReference(objects[0], objects[2]);
-                    createReference(objects[3], objects[4]);
-                    createReference(objects[4], objects[5]);
-
-                    // Create a cyclic reference
-                    createReference(objects[2], objects[1]);
-
-                    // Create an unreachable object
-                    const unreachable = createObject();
-                    unreachable.element.classList.remove("block-allocated");
-                    unreachable.element.classList.add("block-unreachable");
-
-                    logEvent("Initialized heap with 7 objects");
-                    logEvent("Roots established for objects 0 and 3");
-                    updateStatus("Ready - Heap contains 7 objects");
-                }
-
-                // Create a new object
-                function createObject() {
-                    const object = {
-                        id: objects.length,
-                        marked: false,
-                        references: [],
-                        element: null,
-                    };
-
-                    const block = document.createElement("div");
-                    block.className = "memory-block block-allocated";
-                    block.innerHTML = `Obj ${object.id}`;
-                    block.dataset.id = object.id;
-                    block.addEventListener("click", () => selectObject(object));
-
-                    memoryHeap.appendChild(block);
-                    object.element = block;
-                    objects.push(object);
-
-                    logEvent(`Allocated new object: ${object.id}`);
-                    updateStatus(`Allocated object ${object.id}`);
-
-                    return object;
-                }
-
-                // Create a reference between objects
-                function createReference(from, to) {
-                    if (from === to) return;
-
-                    // Check if reference already exists
-                    if (from.references.includes(to)) return;
-
-                    from.references.push(to);
-
-                    // Create visual reference
-                    const fromRect = from.element.getBoundingClientRect();
-                    const toRect = to.element.getBoundingClientRect();
-                    const containerRect = memoryHeap.getBoundingClientRect();
-
-                    const x1 =
-                        fromRect.left + fromRect.width / 2 - containerRect.left;
-                    const y1 =
-                        fromRect.top + fromRect.height / 2 - containerRect.top;
-                    const x2 =
-                        toRect.left + toRect.width / 2 - containerRect.left;
-                    const y2 =
-                        toRect.top + toRect.height / 2 - containerRect.top;
-
-                    // Create arrow with SVG
-                    const svgNS = "http://www.w3.org/2000/svg";
-                    const svg = document.createElementNS(svgNS, "svg");
-                    svg.setAttribute("class", "reference-arrow");
-                    svg.style.position = "absolute";
-                    svg.style.left = "0";
-                    svg.style.top = "0";
-                    svg.style.width = "100%";
-                    svg.style.height = "100%";
-                    svg.style.pointerEvents = "none";
-
-                    const line = document.createElementNS(svgNS, "line");
-                    line.setAttribute("x1", x1);
-                    line.setAttribute("y1", y1);
-                    line.setAttribute("x2", x2);
-                    line.setAttribute("y2", y2);
-                    line.setAttribute("class", "reference-arrow");
-
-                    // Add arrowhead
-                    const defs = document.createElementNS(svgNS, "defs");
-                    const marker = document.createElementNS(svgNS, "marker");
-                    marker.setAttribute("id", `arrowhead-${from.id}-${to.id}`);
-                    marker.setAttribute("markerWidth", "10");
-                    marker.setAttribute("markerHeight", "7");
-                    marker.setAttribute("refX", "10");
-                    marker.setAttribute("refY", "3.5");
-                    marker.setAttribute("orient", "auto");
-
-                    const polygon = document.createElementNS(svgNS, "polygon");
-                    polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
-                    polygon.setAttribute("fill", "var(--accent-light)");
-
-                    marker.appendChild(polygon);
-                    defs.appendChild(marker);
-                    svg.appendChild(defs);
-                    line.setAttribute(
-                        "marker-end",
-                        `url(#arrowhead-${from.id}-${to.id})`,
-                    );
-                    svg.appendChild(line);
-
-                    memoryHeap.appendChild(svg);
-                    references.push({
-                        from,
-                        to,
-                        element: svg,
-                    });
-
-                    logEvent(`Created reference from ${from.id} to ${to.id}`);
-                }
-
-                // Select an object for reference creation
-                function selectObject(object) {
-                    if (selectedObject === null) {
-                        selectedObject = object;
-                        object.element.style.border =
-                            "2px solid var(--warning)";
-                        logEvent(
-                            `Selected object ${object.id} as reference source`,
-                        );
-                        updateStatus(
-                            `Select target object for reference from ${object.id}`,
-                        );
-                    } else if (selectedObject === object) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
+                heapArray.forEach((obj, i) => {
+                    const block = document.createElement('div');
+                    block.className = 'memory-block';
+                    if(obj) {
+                        block.textContent = `Obj ${obj.id}`;
+                        block.classList.add('block-allocated');
+                        if(this.marked.has(obj)) block.classList.add('block-marked');
+                        if(this.roots.has(obj)) block.style.borderColor = 'var(--warning)';
                     } else {
-                        createReference(selectedObject, object);
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
+                        block.textContent = 'Free';
+                        block.classList.add('block-free');
                     }
-                }
-
-                // Nullify a random reference
-                function nullifyRandomReference() {
-                    const objectsWithRefs = objects.filter(
-                        (obj) => obj.references.length > 0,
-                    );
-                    if (objectsWithRefs.length === 0) return;
-
-                    const from =
-                        objectsWithRefs[
-                            Math.floor(Math.random() * objectsWithRefs.length)
-                        ];
-                    const refIndex = Math.floor(
-                        Math.random() * from.references.length,
-                    );
-                    const to = from.references[refIndex];
-
-                    // Remove reference
-                    from.references.splice(refIndex, 1);
-
-                    // Remove visual reference
-                    const refSvg = references.find(
-                        (ref) => ref.from === from && ref.to === to,
-                    );
-                    if (refSvg) {
-                        refSvg.element.remove();
-                        references = references.filter((ref) => ref !== refSvg);
-                    }
-
-                    logEvent(`Nullified reference from ${from.id} to ${to.id}`);
-                    updateStatus(
-                        `Reference from ${from.id} to ${to.id} removed`,
-                    );
-                }
-
-                // Update roots display
-                function updateRoots() {
-                    const rootPointers =
-                        rootsContainer.querySelectorAll(".root-pointer");
-                    rootPointers.forEach((pointer, i) => {
-                        if (roots[i]) {
-                            pointer.textContent = `Root ${i + 1} → Obj ${roots[i].id}`;
-                        } else {
-                            pointer.textContent = `Root ${i + 1}`;
-                        }
-                    });
-                }
-
-                // Run garbage collection
-                function runGarbageCollection() {
-                    logEvent("Starting garbage collection...");
-                    updateStatus("Garbage collection started");
-                    highlightPhase(0);
-
-                    // Step 1: Stop the world (simulate)
-                    setTimeout(() => {
-                        logEvent("Program execution paused");
-                        updateStatus("Stop the world: program paused");
-                        highlightPhase(1);
-
-                        // Step 2: Mark phase
-                        setTimeout(() => {
-                            logEvent("Starting mark phase");
-                            updateStatus(
-                                "Mark phase: tracing reachable objects",
-                            );
-                            markPhase();
-                        }, 1000);
-                    }, 500);
-                }
-
-                // Mark phase implementation
-                function markPhase() {
-                    // Reset marks
-                    objects.forEach((obj) => {
-                        obj.marked = false;
-                        obj.element.classList.remove(
-                            "block-reachable",
-                            "block-marked",
-                        );
-                    });
-
-                    // Mark roots
-                    roots.forEach((root) => {
-                        markObject(root);
-                    });
-
-                    // Start animation
-                    animateMarkPhase();
-                }
-
-                function markObject(obj) {
-                    if (obj.marked) return;
-
-                    obj.marked = true;
-                    obj.element.classList.add("block-reachable");
-
-                    // Recursively mark references
-                    obj.references.forEach((ref) => {
-                        markObject(ref);
-                    });
-                }
-
-                // Animate the mark phase
-                function animateMarkPhase() {
-                    let index = 0;
-                    const reachable = objects.filter((obj) => obj.marked);
-
-                    function markNext() {
-                        if (index < reachable.length) {
-                            const obj = reachable[index];
-                            obj.element.classList.add("block-marked");
-                            logEvent(`Marked object ${obj.id}`);
-
-                            index++;
-                            setTimeout(markNext, 500);
-                        } else {
-                            logEvent(
-                                `Mark phase complete. ${reachable.length} objects marked`,
-                            );
-                            updateStatus(
-                                `Mark phase complete: ${reachable.length} objects reachable`,
-                            );
-
-                            // Proceed to sweep phase
-                            setTimeout(() => {
-                                highlightPhase(2);
-                                sweepPhase();
-                            }, 1000);
-                        }
-                    }
-
-                    markNext();
-                }
-
-                // Sweep phase implementation
-                function sweepPhase() {
-                    logEvent("Starting sweep phase");
-                    updateStatus("Sweep phase: collecting unreachable objects");
-
-                    const unreachable = objects.filter((obj) => !obj.marked);
-                    let index = 0;
-
-                    function sweepNext() {
-                        if (index < unreachable.length) {
-                            const obj = unreachable[index];
-                            obj.element.classList.remove("block-allocated");
-                            obj.element.classList.add("block-unreachable");
-                            logEvent(`Sweeping object ${obj.id}`);
-
-                            index++;
-                            setTimeout(sweepNext, 500);
-                        } else {
-                            // Final cleanup
-                            setTimeout(() => {
-                                objects.forEach((obj) => {
-                                    if (!obj.marked) {
-                                        obj.element.remove();
-                                    }
-                                });
-
-                                // Remove references to swept objects
-                                references = references.filter(
-                                    (ref) => ref.from.marked && ref.to.marked,
-                                );
-
-                                // Update objects array
-                                objects = objects.filter((obj) => obj.marked);
-
-                                // Reset marks
-                                objects.forEach((obj) => {
-                                    obj.marked = false;
-                                    obj.element.classList.remove(
-                                        "block-reachable",
-                                        "block-marked",
-                                    );
-                                    obj.element.classList.add(
-                                        "block-allocated",
-                                    );
-                                });
-
-                                logEvent(
-                                    `Sweep phase complete. ${unreachable.length} objects collected`,
-                                );
-                                updateStatus(
-                                    `GC complete: ${unreachable.length} objects collected`,
-                                );
-                                highlightPhase(3);
-
-                                // Resume execution
-                                setTimeout(() => {
-                                    highlightPhase(4);
-                                    logEvent("Resuming program execution");
-                                    updateStatus(
-                                        "Program resumed with reclaimed memory",
-                                    );
-
-                                    setTimeout(() => {
-                                        highlightPhase(0);
-                                        updateStatus(
-                                            `Heap contains ${objects.length} objects`,
-                                        );
-                                    }, 2000);
-                                }, 1000);
-                            }, 500);
-                        }
-                    }
-
-                    sweepNext();
-                }
-
-                // Log event to log container
-                function logEvent(message) {
-                    const logContainer =
-                        document.getElementById("log-container");
-                    if (!logContainer) return;
-
-                    const logEntry = document.createElement("div");
-                    logEntry.className = "log-entry";
-                    logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-                    logContainer.appendChild(logEntry);
-
-                    // Auto-scroll
-                    logContainer.scrollTop = logContainer.scrollHeight;
-                }
-
-                // Update status panel
-                function updateStatus(status) {
-                    const statusPanel = document.getElementById("status-panel");
-                    if (!statusPanel) return;
-
-                    statusPanel.innerHTML = `System Status: ${status}`;
-
-                    const phaseIndicator = document.createElement("div");
-                    phaseIndicator.className = "phase-indicator";
-                    phaseIndicator.innerHTML = `
-            <div class="phase">Stopped</div>
-            <div class="phase">Mark</div>
-            <div class="phase">Sweep</div>
-            <div class="phase">Resume</div>
-          `;
-                    statusPanel.appendChild(phaseIndicator);
-                }
-
-                // Highlight current phase
-                function highlightPhase(index) {
-                    const phases = document.querySelectorAll(".phase");
-                    phases.forEach((phase, i) => {
-                        if (i === index) {
-                            phase.classList.add("active");
-                        } else {
-                            phase.classList.remove("active");
-                        }
-                    });
-                }
-
-                // Event listeners
-                runBtn.addEventListener("click", runGarbageCollection);
-                allocateBtn.addEventListener("click", createObject);
-                createRefBtn.addEventListener("click", () => {
-                    if (selectedObject) {
-                        selectedObject.element.style.border = "";
-                        selectedObject = null;
-                    }
-                    updateStatus("Select source object for new reference");
+                    this.heapMemory.appendChild(block);
                 });
-                nullRefBtn.addEventListener("click", nullifyRandomReference);
-                resetBtn.addEventListener("click", () => {
-                    memoryHeap.innerHTML = "";
-                    initVisualization();
+                this.updateRootsUI();
+            }
+            
+            updateRootsUI() {
+                this.rootsContainer.innerHTML = '';
+                this.roots.forEach(root => {
+                    const rootEl = document.createElement('div');
+                    rootEl.className = 'root-pointer';
+                    rootEl.textContent = `Root → ${root.id}`;
+                    this.rootsContainer.appendChild(rootEl);
                 });
+            }
 
-                // Initialize the visualization
-                initVisualization();
+            allocateObject() {
+                if (this.objects.size >= this.heapSize) {
+                    this.logEvent("Heap is full.");
+                    return;
+                }
+                let address;
+                do {
+                    address = Math.floor(Math.random() * this.heapSize);
+                } while (Array.from(this.objects.values()).some(o => o.address === address));
+                
+                const id = this.nextId++;
+                const obj = { id, address, refs: new Set() };
+                this.objects.set(id, obj);
+                this.logEvent(`Allocated Object ${id} at address ${address}.`);
+                this.render();
+            }
+            
+            createReference() {
+                if(this.objects.size < 2) return;
+                let from, to;
+                do {
+                    from = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                    to = Array.from(this.objects.values())[Math.floor(Math.random() * this.objects.size)];
+                } while (from === to);
+                from.refs.add(to);
+                this.logEvent(`Created reference from ${from.id} to ${to.id}.`);
+            }
 
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
+            nullifyReference() {
+                 const withRefs = Array.from(this.objects.values()).filter(o => o.refs.size > 0);
+                 if(withRefs.length === 0) return;
+                 const from = withRefs[Math.floor(Math.random() * withRefs.length)];
+                 const to = Array.from(from.refs)[0];
+                 from.refs.delete(to);
+                 this.logEvent(`Nullified reference from ${from.id} to ${to.id}.`);
+            }
 
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            selectObject(obj) {
+                if (this.selectedObject) {
+                    if (this.selectedObject !== obj) {
+                        this.selectedObject.refs.add(obj);
+                        this.logEvent(`Created reference from ${this.selectedObject.id} to ${obj.id}.`);
+                        this.render();
+                    }
+                    this.selectedObject = null;
+                } else {
+                    this.selectedObject = obj;
+                }
+            }
 
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
+            async runGC() {
+                this.stopAutoRun();
+                this.intervalId = setInterval(() => this.nextStep(), 1000);
+            }
+
+            async nextStep() {
+                if (this.step === 0) { // Mark
+                    this.logEvent("--- Mark Phase ---");
+                    this.marked.clear();
+                    const worklist = [...this.roots];
+                    while(worklist.length > 0) {
+                        const obj = worklist.pop();
+                        if(!this.marked.has(obj)) {
+                            this.marked.add(obj);
+                            obj.refs.forEach(ref => worklist.push(ref));
+                        }
+                    }
+                    this.logEvent(`Marked ${this.marked.size} objects.`);
+                    this.step = 1;
+                } else if (this.step === 1) { // Sweep
+                    this.logEvent("--- Sweep Phase ---");
+                    const toDelete = [];
+                    this.objects.forEach(obj => {
+                        if(!this.marked.has(obj)) toDelete.push(obj.id);
                     });
-            });
-        </script>
+                    toDelete.forEach(id => this.objects.delete(id));
+                    this.logEvent(`Swept ${toDelete.length} objects.`);
+                    this.step = 2;
+                } else {
+                    this.logEvent("--- GC Finished ---");
+                    this.stopAutoRun();
+                    this.step = 0;
+                }
+                this.render();
+            }
+
+            stopAutoRun() {
+                if (this.intervalId) {
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                }
+            }
+
+            logEvent(message) {
+                console.log(message);
+                this.infoPanel.textContent = message;
+            }
+
+            setupEventListeners() {
+                this.allocateBtn.addEventListener("click", () => this.allocateObject());
+                this.runBtn.addEventListener("click", () => this.runGC());
+                this.resetBtn.addEventListener("click", () => this.init());
+                this.createRefBtn.addEventListener("click", () => this.createReference());
+                this.nullRefBtn.addEventListener("click", () => this.nullifyReference());
+                this.stepBtn.addEventListener("click", () => this.nextStep());
+            }
+        }
+
+        new MarkSweepGCVisualization();
+    });
+</script>
 </body>
 </html>

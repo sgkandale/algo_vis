@@ -1298,238 +1298,223 @@ replica1.insert(<span class="string">'o'</span>, <span class="number">4</span>);
         });
     });
 
-    // CRDT List simulation
-    let operations = [];
+    class CRDTList {
+        constructor(replicaId) {
+            this.replicaId = replicaId;
+            this.elements = [];
+            this.counter = 0;
+        }
+
+        generateIdentifier(position) {
+            return {
+                replicaId: this.replicaId,
+                sequence: this.counter++,
+                position: position
+            };
+        }
+
+        insert(value, index) {
+            let newPosition;
+
+            if (this.elements.length === 0) {
+                newPosition = 1;
+            } else if (index === 0) {
+                newPosition = this.elements[0].id.position / 2;
+            } else if (index >= this.elements.length) {
+                newPosition = this.elements[this.elements.length - 1].id.position + 1;
+            } else {
+                let prev = this.elements[index - 1].id.position;
+                let next = this.elements[index].id.position;
+                newPosition = (prev + next) / 2;
+            }
+
+            const newId = this.generateIdentifier(newPosition);
+            const newElement = {
+                id: newId,
+                value: value,
+                visible: true
+            };
+
+            let i = 0;
+            while (i < this.elements.length && this.elements[i].id.position < newPosition) {
+                i++;
+            }
+
+            this.elements.splice(i, 0, newElement);
+            return { type: 'insert', element: newElement };
+        }
+
+        delete(index) {
+            if (index >= 0 && index < this.elements.length) {
+                this.elements[index].visible = false;
+                return { type: 'delete', elementId: this.elements[index].id };
+            }
+            return null;
+        }
+
+        applyOperation(op) {
+            if (op.type === 'insert') {
+                const exists = this.elements.some(e =>
+                    e.id.replicaId === op.element.id.replicaId &&
+                    e.id.sequence === op.element.id.sequence);
+
+                if (!exists) {
+                    let i = 0;
+                    while (i < this.elements.length && this.elements[i].id.position < op.element.id.position) {
+                        i++;
+                    }
+                    this.elements.splice(i, 0, op.element);
+                }
+            } else if (op.type === 'delete') {
+                for (let i = 0; i < this.elements.length; i++) {
+                    if (this.elements[i].id.replicaId === op.elementId.replicaId &&
+                        this.elements[i].id.sequence === op.elementId.sequence) {
+                        this.elements[i].visible = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        getContent() {
+            return this.elements.filter(e => e.visible);
+        }
+    }
+
+    let replicaA = new CRDTList('A');
+    let replicaB = new CRDTList('B');
+    let opsA = [];
+    let opsB = [];
     let syncEvents = 0;
     let conflictsResolved = 0;
 
-    // Initialize replicas with some content
     function resetReplicas() {
-        document.getElementById('replica-a').innerHTML = `
-            <div class="list-item">
-                <span class="character">H</span>
-                <span class="identifier">A:1</span>
-            </div>
-            <div class="list-item">
-                <span class="character">e</span>
-                <span class="identifier">A:2</span>
-            </div>
-            <div class="list-item">
-                <span class="character">l</span>
-                <span class="identifier">A:3</span>
-            </div>
-            <div class="list-item">
-                <span class="character">l</span>
-                <span class="identifier">A:4</span>
-            </div>
-            <div class="list-item">
-                <span class="character">o</span>
-                <span class="identifier">A:5</span>
-            </div>
-        `;
-
-        document.getElementById('replica-b').innerHTML = `
-            <div class="list-item">
-                <span class="character">H</span>
-                <span class="identifier">A:1</span>
-            </div>
-            <div class="list-item">
-                <span class="character">e</span>
-                <span class="identifier">A:2</span>
-            </div>
-            <div class="list-item">
-                <span class="character">l</span>
-                <span class="identifier">A:3</span>
-            </div>
-            <div class="list-item">
-                <span class="character">l</span>
-                <span class="identifier">A:4</span>
-            </div>
-            <div class="list-item">
-                <span class="character">o</span>
-                <span class="identifier">A:5</span>
-            </div>
-        `;
-
-        document.getElementById('log-a').innerHTML = '<div class="log-entry">Initialized with "Hello"</div>';
-        document.getElementById('log-b').innerHTML = '<div class="log-entry">Initialized with "Hello"</div>';
-
-        document.getElementById('input-a').value = '';
-        document.getElementById('input-b').value = '';
-
-        operations = [];
+        replicaA = new CRDTList('A');
+        replicaB = new CRDTList('B');
+        opsA = [];
+        opsB = [];
         syncEvents = 0;
         conflictsResolved = 0;
 
+        // Initialize with "Hello"
+        "Hello".split('').forEach((char, index) => {
+            const op = replicaA.insert(char, index);
+            opsA.push(op);
+            replicaB.applyOperation(op);
+        });
+
+        renderReplicas();
+        clearLogs();
         updateStats();
     }
 
-    // Insert a character to a replica
-    function insertToReplica(replica) {
-        const inputField = document.getElementById(`input-${replica}`);
-        const value = inputField.value.trim();
+    function renderReplicas() {
+        renderReplica('a', replicaA);
+        renderReplica('b', replicaB);
+    }
 
+    function renderReplica(replicaId, crdt) {
+        const replicaElement = document.getElementById(`replica-${replicaId}`);
+        replicaElement.innerHTML = '';
+        crdt.getContent().forEach(element => {
+            const item = document.createElement('div');
+            item.className = 'list-item';
+            item.innerHTML = `
+                <span class="character">${element.value}</span>
+                <span class="identifier">${element.id.replicaId}:${element.id.sequence}</span>
+            `;
+            replicaElement.appendChild(item);
+        });
+    }
+
+    function clearLogs() {
+        document.getElementById('log-a').innerHTML = '<div class="log-entry">Initialized with "Hello"</div>';
+        document.getElementById('log-b').innerHTML = '<div class="log-entry">Initialized with "Hello"</div>';
+    }
+
+    function insertToReplica(replicaId) {
+        const inputField = document.getElementById(`input-${replicaId.toLowerCase()}`);
+        const value = inputField.value.trim();
         if (value.length === 0) return;
 
-        const replicaElement = document.getElementById(`replica-${replica.toLowerCase()}`);
-        const logElement = document.getElementById(`log-${replica.toLowerCase()}`);
+        const crdt = replicaId === 'A' ? replicaA : replicaB;
+        const ops = replicaId === 'A' ? opsA : opsB;
 
-        // Generate a unique identifier
-        const identifier = `${replica}:${operations.length + 1}`;
+        // For simplicity, insert at a random position
+        const index = Math.floor(Math.random() * (crdt.getContent().length + 1));
+        const op = crdt.insert(value, index);
+        ops.push(op);
 
-        // Create new list item
-        const newItem = document.createElement('div');
-        newItem.className = 'list-item';
-        newItem.innerHTML = `
-            <span class="character">${value}</span>
-            <span class="identifier">${identifier}</span>
-        `;
-
-        // Add to replica (at the end for simplicity)
-        replicaElement.appendChild(newItem);
-
-        // Log the operation
-        const logEntry = document.createElement('div');
-        logEntry.className = 'log-entry';
-        logEntry.textContent = `Inserted '${value}' with ID ${identifier}`;
-        logElement.appendChild(logEntry);
-
-        // Scroll to bottom of log
-        logElement.scrollTop = logElement.scrollHeight;
-
-        // Store the operation
-        operations.push({
-            type: 'insert',
-            replica: replica,
-            value: value,
-            identifier: identifier,
-            timestamp: Date.now()
-        });
-
-        // Clear input
+        logOperation(replicaId, `Inserted '${value}' at index ${index}`);
+        renderReplicas();
+        updateStats();
         inputField.value = '';
-
-        updateStats();
     }
 
-    // Delete from a replica
-    function deleteFromReplica(replica) {
-        const replicaElement = document.getElementById(`replica-${replica.toLowerCase()}`);
-        const logElement = document.getElementById(`log-${replica.toLowerCase()}`);
+    function deleteFromReplica(replicaId) {
+        const crdt = replicaId === 'A' ? replicaA : replicaB;
+        const ops = replicaId === 'A' ? opsA : opsB;
+        const content = crdt.getContent();
 
-        if (replicaElement.children.length === 0) return;
+        if (content.length === 0) return;
 
-        // Remove the last element
-        const lastItem = replicaElement.lastElementChild;
-        const value = lastItem.querySelector('.character').textContent;
-        const identifier = lastItem.querySelector('.identifier').textContent;
-
-        replicaElement.removeChild(lastItem);
-
-        // Log the operation
-        const logEntry = document.createElement('div');
-        logEntry.className = 'log-entry';
-        logEntry.textContent = `Deleted '${value}' with ID ${identifier}`;
-        logElement.appendChild(logEntry);
-
-        // Scroll to bottom of log
-        logElement.scrollTop = logElement.scrollHeight;
-
-        // Store the operation
-        operations.push({
-            type: 'delete',
-            replica: replica,
-            value: value,
-            identifier: identifier,
-            timestamp: Date.now()
-        });
-
-        updateStats();
+        // For simplicity, delete a random element
+        const index = Math.floor(Math.random() * content.length);
+        const op = crdt.delete(index);
+        if (op) {
+            ops.push(op);
+            logOperation(replicaId, `Deleted element at index ${index}`);
+            renderReplicas();
+            updateStats();
+        }
     }
 
-    // Sync replicas
     function syncReplicas() {
         syncEvents++;
 
-        // For demonstration, we'll just show both replicas with the same content
-        // In a real CRDT, this would involve exchanging and merging operations
-
-        const replicaA = document.getElementById('replica-a');
-        const replicaB = document.getElementById('replica-b');
-        const logA = document.getElementById('log-a');
-        const logB = document.getElementById('log-b');
-
-        // Create a combined content from both replicas
-        const allItems = [];
-
-        // Collect items from replica A
-        for (let item of replicaA.children) {
-            const value = item.querySelector('.character').textContent;
-            const identifier = item.querySelector('.identifier').textContent;
-            allItems.push({value, identifier, element: item.cloneNode(true)});
-        }
-
-        // Collect items from replica B
-        for (let item of replicaB.children) {
-            const value = item.querySelector('.character').textContent;
-            const identifier = item.querySelector('.identifier').textContent;
-
-            // Check if we already have this item
-            const exists = allItems.some(i => i.identifier === identifier);
-            if (!exists) {
-                allItems.push({value, identifier, element: item.cloneNode(true)});
-            } else {
-                conflictsResolved++;
+        // Apply ops from B to A
+        opsB.forEach(op => {
+            const alreadyApplied = opsA.some(appliedOp => JSON.stringify(appliedOp) === JSON.stringify(op));
+            if (!alreadyApplied) {
+                replicaA.applyOperation(op);
+                conflictsResolved++; // Simplified conflict counting
             }
-        }
-
-        // Sort by identifier (simple approach for demo)
-        allItems.sort((a, b) => {
-            // Simple sort based on replica and sequence number
-            const [aReplica, aSeq] = a.identifier.split(':');
-            const [bReplica, bSeq] = b.identifier.split(':');
-
-            if (aReplica !== bReplica) {
-                return aReplica.localeCompare(bReplica);
-            }
-            return parseInt(aSeq) - parseInt(bSeq);
         });
 
-        // Update both replicas with the merged content
-        replicaA.innerHTML = '';
-        replicaB.innerHTML = '';
+        // Apply ops from A to B
+        opsA.forEach(op => {
+            const alreadyApplied = opsB.some(appliedOp => JSON.stringify(appliedOp) === JSON.stringify(op));
+            if (!alreadyApplied) {
+                replicaB.applyOperation(op);
+                conflictsResolved++; // Simplified conflict counting
+            }
+        });
+        
+        // Clear local operation logs after sync
+        opsA = [];
+        opsB = [];
 
-        for (let item of allItems) {
-            replicaA.appendChild(item.element.cloneNode(true));
-            replicaB.appendChild(item.element.cloneNode(true));
-        }
-
-        // Log the sync event
-        const logEntryA = document.createElement('div');
-        logEntryA.className = 'log-entry';
-        logEntryA.textContent = `Synchronized with Replica B (${allItems.length} items)`;
-        logA.appendChild(logEntryA);
-
-        const logEntryB = document.createElement('div');
-        logEntryB.className = 'log-entry';
-        logEntryB.textContent = `Synchronized with Replica A (${allItems.length} items)`;
-        logB.appendChild(logEntryB);
-
-        // Scroll to bottom of logs
-        logA.scrollTop = logA.scrollHeight;
-        logB.scrollTop = logB.scrollHeight;
-
+        logOperation('A', `Synchronized with Replica B`);
+        logOperation('B', `Synchronized with Replica A`);
+        renderReplicas();
         updateStats();
     }
+    
+    function logOperation(replicaId, message) {
+        const logElement = document.getElementById(`log-${replicaId.toLowerCase()}`);
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry';
+        logEntry.textContent = message;
+        logElement.appendChild(logEntry);
+        logElement.scrollTop = logElement.scrollHeight;
+    }
 
-    // Update statistics
     function updateStats() {
-        document.getElementById('ops-count').textContent = operations.length;
+        document.getElementById('ops-count').textContent = opsA.length + opsB.length;
         document.getElementById('sync-count').textContent = syncEvents;
         document.getElementById('conflict-count').textContent = conflictsResolved;
     }
 
-    // Initialize the visualization
     window.addEventListener('load', resetReplicas);
 </script>
 </body>

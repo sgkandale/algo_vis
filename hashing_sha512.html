@@ -905,247 +905,209 @@
 <p>© 2025 AlgoViz Hub. All rights reserved.</p>
 </footer>
 </div>
+document.addEventListener("DOMContentLoaded", () => {
+        new SHA512Visualization();
+    });
+</script>
+
 <script>
-      let currentStep = 0;
-      let isPaused = false;
-      let visualizationTimeout;
-      let message = "";
-      let steps = [];
+    class SHA512Visualization {
+        constructor() {
+            this.elements = {
+                messageInput: document.getElementById("messageInput"),
+                progressBar: document.getElementById("progressBar"),
+                stepContainer: document.getElementById("stepContainer"),
+                finalHash: document.getElementById("finalHash"),
+                startBtn: document.querySelector(".console-btn[onclick='startVisualization()']"),
+                pauseBtn: document.querySelector(".console-btn[onclick='pauseVisualization()']"),
+                resumeBtn: document.querySelector(".console-btn[onclick='resumeVisualization()']"),
+                resetBtn: document.querySelector(".console-btn[onclick='resetVisualization()']"),
+            };
 
-      // SHA-512 constants (simplified for demo)
-      const H = [
-        0x6a09e667f3bcc908n,
-        0xbb67ae8584caa73bn,
-        0x3c6ef372fe94f82bn,
-        0xa54ff53a5f1d36f1n,
-        0x510e527fade682d1n,
-        0x9b05688c2b3e6c1fn,
-        0x1f83d9abfb41bd6bn,
-        0x5be0cd19137e2179n,
-      ];
+            this.currentStep = 0;
+            this.isPaused = false;
+            this.visualizationTimeout = null;
+            this.message = "";
+            this.steps = [];
 
-      function stringToBytes(str) {
-        const bytes = new Uint8Array(str.length);
-        for (let i = 0; i < str.length; i++) {
-          bytes[i] = str.charCodeAt(i);
-        }
-        return bytes;
-      }
+            // SHA-512 constants (simplified for demo)
+            this.H = [
+                0x6a09e667f3bcc908n,
+                0xbb67ae8584caa73bn,
+                0x3c6ef372fe94f82bn,
+                0xa54ff53a5f1d36f1n,
+                0x510e527fade682d1n,
+                0x9b05688c2b3e6c1fn,
+                0x1f83d9abfb41bd6bn,
+                0x5be0cd19137e2179n,
+            ];
 
-      function padMessage(message) {
-        const msgBytes = stringToBytes(message);
-        const msgBitLength = msgBytes.length * 8;
-
-        // Calculate padding
-        const k = (896 - ((msgBitLength + 1) % 1024) + 1024) % 1024;
-        const paddingBytes = Math.floor((k + 1) / 8);
-        const totalLength = msgBytes.length + paddingBytes + 16;
-
-        const padded = new Uint8Array(totalLength);
-        padded.set(msgBytes);
-        padded[msgBytes.length] = 0x80; // Append '1' bit
-
-        // Append original length as 128-bit big-endian integer
-        const lengthView = new DataView(padded.buffer);
-        lengthView.setBigUint64(totalLength - 8, BigInt(msgBitLength), false);
-
-        return padded;
-      }
-
-      function createSteps(message) {
-        steps = [];
-        const paddedMessage = padMessage(message);
-
-        steps.push({
-          title: "Step 1: Input Message",
-          content: `Original message: "${message}"<br>Message length: ${
-            message.length
-          } characters (${message.length * 8} bits)`,
-          binary: message
-            .split("")
-            .map((c) => c.charCodeAt(0).toString(2).padStart(8, "0"))
-            .join(" "),
-        });
-
-        steps.push({
-          title: "Step 2: Message Padding",
-          content: `Padded message length: ${paddedMessage.length} bytes (${
-            paddedMessage.length * 8
-          } bits)<br>
-                         Padding ensures the message length ≡ 896 (mod 1024)`,
-          binary:
-            Array.from(
-              paddedMessage.slice(0, Math.min(64, paddedMessage.length)),
-              (byte) => byte.toString(2).padStart(8, "0")
-            ).join(" ") + (paddedMessage.length > 64 ? "..." : ""),
-        });
-
-        steps.push({
-          title: "Step 3: Initialize Hash Values",
-          content:
-            "SHA-512 uses eight 64-bit initial hash values (first 64 bits of fractional parts of square roots of first 8 primes)",
-          hashValues: [...H],
-        });
-
-        // Process each 1024-bit block
-        const numBlocks = paddedMessage.length / 128;
-        for (let blockIndex = 0; blockIndex < numBlocks; blockIndex++) {
-          steps.push({
-            title: `Step 4.${blockIndex + 1}: Process Block ${blockIndex + 1}`,
-            content: `Processing 1024-bit block ${
-              blockIndex + 1
-            } of ${numBlocks}`,
-            blockProcessing: true,
-            blockIndex: blockIndex,
-          });
+            this.setupEventListeners();
         }
 
-        steps.push({
-          title: "Step 5: Final Hash",
-          content:
-            "Concatenate all hash values to produce the final 512-bit hash",
-          finalHash: true,
-        });
-      }
-
-      function renderStep(stepIndex) {
-        const step = steps[stepIndex];
-        const stepContainer = document.getElementById("stepContainer");
-
-        let html = `<div class="step active">
-                <div class="step-title">
-                    <div class="step-number">${stepIndex + 1}</div>
-                    ${step.title}
-                </div>`;
-
-        if (step.content) {
-          html += `<div class="info-box">${step.content}</div>`;
+        stringToBytes(str) {
+            const bytes = new Uint8Array(str.length);
+            for (let i = 0; i < str.length; i++) {
+                bytes[i] = str.charCodeAt(i);
+            }
+            return bytes;
         }
 
-        if (step.binary) {
-          html += `<div class="binary-display">Binary: ${step.binary}</div>`;
+        padMessage(message) {
+            const msgBytes = this.stringToBytes(message);
+            const msgBitLength = BigInt(msgBytes.length * 8);
+
+            const k = (896n - ((msgBitLength + 1n) % 1024n) + 1024n) % 1024n;
+            const paddingBytes = Number((k + 1n) / 8n);
+            const totalLength = msgBytes.length + paddingBytes + 16;
+
+            const padded = new Uint8Array(totalLength);
+            padded.set(msgBytes);
+            padded[msgBytes.length] = 0x80;
+
+            const lengthView = new DataView(padded.buffer);
+            lengthView.setBigUint64(totalLength - 16, 0n, false); // High 64 bits (always 0 for typical messages)
+            lengthView.setBigUint64(totalLength - 8, msgBitLength, false);
+
+            return padded;
         }
 
-        if (step.hashValues) {
-          html += '<div class="hash-values">';
-          step.hashValues.forEach((val, i) => {
-            html += `<div class="hash-value">H${i}: ${val
-              .toString(16)
-              .padStart(16, "0")}</div>`;
-          });
-          html += "</div>";
+        createSteps(message) {
+            this.steps = [];
+            const paddedMessage = this.padMessage(message);
+
+            this.steps.push({
+                title: "Step 1: Input Message",
+                content: `Original message: \"${message}\" <br>Message length: ${message.length} characters (${message.length * 8} bits)`,
+                binary: message.split("").map((c) => c.charCodeAt(0).toString(2).padStart(8, "0")).join(" "),
+            });
+
+            this.steps.push({
+                title: "Step 2: Message Padding",
+                content: `Padded message length: ${paddedMessage.length} bytes (${paddedMessage.length * 8} bits)<br>Padding ensures the message length \u2261 896 (mod 1024)`,
+                binary: Array.from(paddedMessage.slice(0, Math.min(128, paddedMessage.length)), (byte) => byte.toString(2).padStart(8, "0")).join(" ") + (paddedMessage.length > 128 ? "..." : ""),
+            });
+
+            this.steps.push({
+                title: "Step 3: Initialize Hash Values",
+                content: "SHA-512 uses eight 64-bit initial hash values (first 64 bits of fractional parts of square roots of first 8 primes)",
+                hashValues: [...this.H],
+            });
+
+            const numBlocks = paddedMessage.length / 128; // 128 bytes per 1024-bit block
+            for (let blockIndex = 0; blockIndex < numBlocks; blockIndex++) {
+                this.steps.push({
+                    title: `Step 4.${blockIndex + 1}: Process Block ${blockIndex + 1}`,
+                    content: `Processing 1024-bit block ${blockIndex + 1} of ${numBlocks}`,
+                    blockProcessing: true,
+                    blockIndex: blockIndex,
+                });
+            }
+
+            this.steps.push({
+                title: "Step 5: Final Hash",
+                content: "Concatenate all hash values to produce the final 512-bit hash",
+                finalHash: true,
+            });
         }
 
-        if (step.blockProcessing) {
-          html += `<div class="operation-visual">
-                    <div class="operand">Block ${step.blockIndex + 1}</div>
-                    <div class="operator">→</div>
-                    <div class="operand">80 Rounds</div>
-                    <div class="operator">→</div>
-                    <div class="operand">Updated Hash</div>
-                </div>`;
+        renderStep(stepIndex) {
+            const step = this.steps[stepIndex];
+            let html = `<div class=\"step active\"><div class=\"step-title\"><div class=\"step-number\">${stepIndex + 1}</div>${step.title}</div>`;
 
-          // Show compression function visualization
-          html += '<div class="compression-visual">';
-          for (let i = 0; i < 8; i++) {
-            html += `<div class="word-block ${
-              i < 4 ? "active" : ""
-            }">H${i}</div>`;
-          }
-          html += "</div>";
+            if (step.content) html += `<div class=\"info-box\">${step.content}</div>`;
+            if (step.binary) html += `<div class=\"binary-display\">Binary: ${step.binary}</div>`;
+            if (step.hashValues) {
+                html += '<div class=\"hash-values\">';
+                step.hashValues.forEach((val, i) => {
+                    html += `<div class=\"hash-value\">H${i}: ${val.toString(16).padStart(16, "0")}</div>`;
+                });
+                html += "</div>";
+            }
+            if (step.blockProcessing) {
+                html += `<div class=\"operation-visual\"><div class=\"operand\">Block ${step.blockIndex + 1}</div><div class=\"operator\">→</div><div class=\"operand\">80 Rounds</div><div class=\"operator\">→</div><div class=\"operand\">Updated Hash</div></div>`;
+                html += '<div class=\"compression-visual\">';
+                for (let i = 0; i < 8; i++) {
+                    html += `<div class=\"word-block ${i < 4 ? \"active\" : \"}\">H${i}</div>`;
+                }
+                html += "</div>";
+            }
+            if (step.finalHash) {
+                const finalHashValue = this.H.map((h) => h.toString(16).padStart(16, "0")).join("");
+                html += `<div class=\"final-hash\">${finalHashValue}</div>`;
+            }
+
+            html += "</div>";
+            this.elements.stepContainer.innerHTML = html;
         }
 
-        if (step.finalHash) {
-          const finalHashValue = H.map((h) =>
-            h.toString(16).padStart(16, "0")
-          ).join("");
-          html += `<div class="final-hash">${finalHashValue}</div>`;
+        updateProgress() {
+            const progress = ((this.currentStep + 1) / this.steps.length) * 100;
+            this.elements.progressBar.style.width = `${progress}%`;
         }
 
-        html += "</div>";
-        stepContainer.innerHTML = html;
-      }
-
-      function updateProgress() {
-        const progress = ((currentStep + 1) / steps.length) * 100;
-        document.getElementById("progressBar").style.width = `${progress}%`;
-      }
-
-      function nextStep() {
-        if (isPaused) return;
-
-        if (currentStep < steps.length) {
-          renderStep(currentStep);
-          updateProgress();
-          currentStep++;
-
-          if (currentStep < steps.length) {
-            visualizationTimeout = setTimeout(nextStep, 2000);
-          } else {
-            showFinalHash();
-          }
+        nextStep() {
+            if (this.isPaused) return;
+            if (this.currentStep < this.steps.length) {
+                this.renderStep(this.currentStep);
+                this.updateProgress();
+                this.currentStep++;
+                if (this.currentStep < this.steps.length) {
+                    this.visualizationTimeout = setTimeout(() => this.nextStep(), 2000);
+                } else {
+                    this.showFinalHash();
+                }
+            }
         }
-      }
 
-      function showFinalHash() {
-        const finalHashValue = H.map((h) =>
-          h.toString(16).padStart(16, "0")
-        ).join("");
-        const finalHashDiv = document.getElementById("finalHash");
-        finalHashDiv.innerHTML = `
-                <h3>🎉 Final SHA-512 Hash:</h3>
-                <div style="margin-top: 15px; font-size: 14px;">${finalHashValue}</div>
-                <div style="margin-top: 10px; font-size: 12px; opacity: 0.8;">
-                    Length: 512 bits (64 bytes, 128 hex characters)
-                </div>
-            `;
-        finalHashDiv.style.display = "block";
-      }
-
-      function startVisualization() {
-        message =
-          document.getElementById("messageInput").value || "Hello World";
-
-        currentStep = 0;
-        isPaused = false;
-
-        document.getElementById("stepContainer").innerHTML = "";
-        document.getElementById("finalHash").style.display = "none";
-        document.getElementById("progressBar").style.width = "0%";
-
-        createSteps(message);
-        nextStep();
-      }
-
-      function pauseVisualization() {
-        isPaused = true;
-        if (visualizationTimeout) {
-          clearTimeout(visualizationTimeout);
+        showFinalHash() {
+            const finalHashValue = this.H.map((h) => h.toString(16).padStart(16, "0")).join("");
+            this.elements.finalHash.innerHTML = `<h3>🎉 Final SHA-512 Hash:</h3><div style=\"margin-top: 15px; font-size: 14px;\">${finalHashValue}</div><div style=\"margin-top: 10px; font-size: 12px; opacity: 0.8;\">Length: 512 bits (64 bytes, 128 hex characters)</div>`;
+            this.elements.finalHash.style.display = "block";
         }
-      }
 
-      function resumeVisualization() {
-        if (isPaused && currentStep < steps.length) {
-          isPaused = false;
-          nextStep();
+        start() {
+            this.message = this.elements.messageInput.value || "Hello World";
+            this.currentStep = 0;
+            this.isPaused = false;
+            this.elements.stepContainer.innerHTML = "";
+            this.elements.finalHash.style.display = "none";
+            this.elements.progressBar.style.width = "0%";
+            this.createSteps(this.message);
+            this.nextStep();
         }
-      }
 
-      function resetVisualization() {
-        isPaused = false;
-        currentStep = 0;
-        if (visualizationTimeout) {
-          clearTimeout(visualizationTimeout);
+        pause() {
+            this.isPaused = true;
+            if (this.visualizationTimeout) clearTimeout(this.visualizationTimeout);
         }
-        document.getElementById("stepContainer").innerHTML = "";
-        document.getElementById("finalHash").style.display = "none";
-        document.getElementById("progressBar").style.width = "0%";
-      }
 
-      // Initialize with default message
-      window.onload = function () {
-        startVisualization();
-      };
-    </script>
+        resume() {
+            if (this.isPaused && this.currentStep < this.steps.length) {
+                this.isPaused = false;
+                this.nextStep();
+            }
+        }
+
+        reset() {
+            this.isPaused = false;
+            this.currentStep = 0;
+            if (this.visualizationTimeout) clearTimeout(this.visualizationTimeout);
+            this.elements.stepContainer.innerHTML = "";
+            this.elements.finalHash.style.display = "none";
+            this.elements.progressBar.style.width = "0%";
+            this.start(); // Re-initialize with default message
+        }
+
+        setupEventListeners() {
+            this.elements.startBtn.addEventListener("click", () => this.start());
+            this.elements.pauseBtn.addEventListener("click", () => this.pause());
+            this.elements.resumeBtn.addEventListener("click", () => this.resume());
+            this.elements.resetBtn.addEventListener("click", () => this.reset());
+        }
+    }
+
+    
+</script>
 </body>
 </html>

@@ -1385,235 +1385,237 @@ shake128(message, outputLength).then(<span class="function">output</span> =&gt; 
 </footer>
 </div>
 <script>
-            // SHAKE128 Visualization
-            document.addEventListener("DOMContentLoaded", function () {
-                const inputText = document.getElementById("input-text");
-                const outputLength = document.getElementById("output-length");
-                const outputFormat = document.getElementById("output-format");
-                const hashOutput = document.getElementById("hash-output");
-                const hashBtn = document.getElementById("hash-btn");
-                const resetBtn = document.getElementById("reset-btn");
-                const stepInput = document.getElementById("step-input");
-                const stepBinary = document.getElementById("step-binary");
-                const stepPadding = document.getElementById("step-padding");
-                const stepAbsorb = document.getElementById("step-absorb");
-                const stepPermutation =
-                    document.getElementById("step-permutation");
-                const stepSqueeze = document.getElementById("step-squeeze");
-                const stepFinal = document.getElementById("step-final");
-                const bitRepresentation =
-                    document.getElementById("bit-representation");
-                const progressBarAbsorb = document.getElementById(
-                    "progress-bar-absorb",
-                );
-                const progressBarPermutation = document.getElementById(
-                    "progress-bar-permutation",
-                );
-                const progressBarSqueeze = document.getElementById(
-                    "progress-bar-squeeze",
-                );
-                const outputLengthDisplay = document.getElementById(
-                    "output-length-display",
-                );
+    class SHAKE128Visualization {
+        constructor() {
+            this.elements = {
+                inputText: document.getElementById("input-text"),
+                outputLength: document.getElementById("output-length"),
+                outputFormat: document.getElementById("output-format"),
+                hashOutput: document.getElementById("hash-output"),
+                hashBtn: document.getElementById("hash-btn"),
+                resetBtn: document.getElementById("reset-btn"),
+                stepInput: document.getElementById("step-input"),
+                stepBinary: document.getElementById("step-binary"),
+                stepPadding: document.getElementById("step-padding"),
+                stepAbsorb: document.getElementById("step-absorb"),
+                stepPermutation: document.getElementById("step-permutation"),
+                stepSqueeze: document.getElementById("step-squeeze"),
+                stepFinal: document.getElementById("step-final"),
+                bitRepresentation: document.getElementById("bit-representation"),
+                progressBarAbsorb: document.getElementById("progress-bar-absorb"),
+                progressBarPermutation: document.getElementById("progress-bar-permutation"),
+                progressBarSqueeze: document.getElementById("progress-bar-squeeze"),
+                outputLengthDisplay: document.getElementById("output-length-display"),
+            };
 
-                // Initialize with example
-                updateInputStep(inputText.value);
-                outputLengthDisplay.textContent = `Length: 0 bytes`;
+            this.currentStep = 0;
+            this.animationInterval = null;
+            this.isAnimating = false;
+            this.message = "";
+            this.outputLen = 32;
+            this.outputFmt = "hex";
 
-                // Hash button click event
-                hashBtn.addEventListener("click", function () {
-                    computeShake128(
-                        inputText.value,
-                        parseInt(outputLength.value),
-                        outputFormat.value,
-                    );
-                });
+            this.steps = [
+                { id: "input", title: "1. Input Text", update: this.updateInputStep },
+                { id: "binary", title: "2. Binary Representation", update: this.updateBinaryStep },
+                { id: "padding", title: "3. Padding (SHAKE128 specific)", update: this.updatePaddingStep },
+                { id: "absorb", title: "4. Absorption Phase", update: this.updateAbsorbStep },
+                { id: "permutation", title: "5. Keccak-f[1600] Permutation (24 rounds)", update: this.updatePermutationStep },
+                { id: "squeeze", title: "6. Squeezing Phase (Variable output)", update: this.updateSqueezeStep },
+                { id: "final", title: "7. Final Output", update: this.updateFinalStep },
+            ];
 
-                // Reset button click event
-                resetBtn.addEventListener("click", function () {
-                    inputText.value = "Hello World";
-                    outputLength.value = "32";
-                    outputFormat.value = "hex";
-                    updateInputStep(inputText.value);
-                    hashOutput.textContent = "Output will appear here";
-                    stepBinary.textContent = "Binary will appear here";
-                    stepPadding.textContent =
-                        "Padding details will appear here";
-                    stepAbsorb.textContent =
-                        "Absorption progress will appear here";
-                    stepPermutation.textContent =
-                        "Permutation rounds will appear here";
-                    stepSqueeze.textContent =
-                        "Squeezing progress will appear here";
-                    stepFinal.textContent = "Final output will appear here";
-                    bitRepresentation.innerHTML = "";
-                    progressBarAbsorb.style.width = "0%";
-                    progressBarPermutation.style.width = "0%";
-                    progressBarSqueeze.style.width = "0%";
-                    outputLengthDisplay.textContent = `Length: 0 bytes`;
-                });
+            this.setupEventListeners();
+            this.resetVisualization();
+        }
 
-                // Input text change event
-                inputText.addEventListener("input", function () {
-                    updateInputStep(inputText.value);
-                });
-
-                // Output length change event
-                outputLength.addEventListener("input", function () {
-                    outputLengthDisplay.textContent = `Length: 0 bytes (requested: ${outputLength.value} bytes)`;
-                });
-
-                // Update the input step
-                function updateInputStep(text) {
-                    stepInput.textContent = text;
-
-                    // Show binary representation
-                    const binaryStr = text
-                        .split("")
-                        .map((char) => {
-                            return char
-                                .charCodeAt(0)
-                                .toString(2)
-                                .padStart(8, "0");
-                        })
-                        .join(" ");
-
-                    stepBinary.textContent = binaryStr;
-
-                    // Create bit visualization
-                    bitRepresentation.innerHTML = "";
-                    const fullBinary = text
-                        .split("")
-                        .map((char) => {
-                            return char
-                                .charCodeAt(0)
-                                .toString(2)
-                                .padStart(8, "0");
-                        })
-                        .join("");
-
-                    for (let i = 0; i < Math.min(32, fullBinary.length); i++) {
-                        const bit = document.createElement("div");
-                        bit.className =
-                            "bit " + (fullBinary[i] === "1" ? "one" : "zero");
-                        bit.textContent = fullBinary[i];
-                        bitRepresentation.appendChild(bit);
-                    }
-
-                    if (fullBinary.length > 32) {
-                        const ellipsis = document.createElement("div");
-                        ellipsis.className = "bit";
-                        ellipsis.textContent = "...";
-                        bitRepresentation.appendChild(ellipsis);
-                    }
-                }
-
-                // Compute SHAKE128 output
-                async function computeShake128(message, length, format) {
-                    // Show padding details
-                    const msgBits = message.length * 8;
-                    const rate = 1344; // bits for SHAKE128
-                    const paddingBits = rate - (msgBits % rate);
-                    stepPadding.textContent = `Original message: ${msgBits} bits. Added padding: ${paddingBits} bits (SHAKE-1111 pattern).`;
-
-                    // Simulate absorption phase
-                    let absorbProgress = 0;
-                    const absorbInterval = setInterval(() => {
-                        absorbProgress += 5;
-                        progressBarAbsorb.style.width = `${absorbProgress}%`;
-                        stepAbsorb.textContent = `Absorbing block ${absorbProgress / 5} of ${100 / 5} (rate=1344 bits)...`;
-
-                        if (absorbProgress >= 100) {
-                            clearInterval(absorbInterval);
-
-                            // Simulate permutation rounds
-                            let roundProgress = 0;
-                            const roundInterval = setInterval(() => {
-                                roundProgress += 4.16; // 100/24 ≈ 4.16
-                                progressBarPermutation.style.width = `${roundProgress}%`;
-                                stepPermutation.textContent = `Processing round ${Math.floor(roundProgress / 4.16)} of 24 (Keccak-f[1600])...`;
-
-                                if (roundProgress >= 100) {
-                                    clearInterval(roundInterval);
-
-                                    // Simulate squeezing phase
-                                    let squeezeProgress = 0;
-                                    const squeezeInterval = setInterval(() => {
-                                        squeezeProgress += 2;
-                                        progressBarSqueeze.style.width = `${squeezeProgress}%`;
-                                        stepSqueeze.textContent = `Squeezing output block ${Math.floor(squeezeProgress / 2)} of ${100 / 2} (${length} bytes requested)...`;
-
-                                        if (squeezeProgress >= 100) {
-                                            clearInterval(squeezeInterval);
-
-                                            // Generate the output
-                                            generateOutput(
-                                                message,
-                                                length,
-                                                format,
-                                            );
-                                        }
-                                    }, 100);
-                                }
-                            }, 100);
-                        }
-                    }, 100);
-                }
-
-                // Generate the output based on format
-                function generateOutput(message, length, format) {
-                    // Create a deterministic output based on the input
-                    // This is for demonstration only - not a real SHAKE128 implementation
-                    const encoder = new TextEncoder();
-                    const msgBuffer = encoder.encode(message);
-                    const output = new Uint8Array(length);
-
-                    for (let i = 0; i < length; i++) {
-                        // Simple deterministic algorithm for demonstration
-                        output[i] = (msgBuffer[i % msgBuffer.length] + i) % 256;
-                    }
-
-                    // Format the output
-                    let outputText;
-                    if (format === "hex") {
-                        outputText = Array.from(output)
-                            .map((b) => b.toString(16).padStart(2, "0"))
-                            .join("");
-                    } else if (format === "binary") {
-                        outputText = Array.from(output)
-                            .map((b) => b.toString(2).padStart(8, "0"))
-                            .join(" ");
-                    } else {
-                        // bytes
-                        outputText = Array.from(output)
-                            .map((b) => `0x${b.toString(16).padStart(2, "0")}`)
-                            .join(" ");
-                    }
-
-                    hashOutput.textContent = outputText;
-                    stepFinal.textContent = `${format.toUpperCase()} output (${length} bytes)`;
-                    outputLengthDisplay.textContent = `Length: ${length} bytes`;
-                }
-
-                // Copy button functionality
-                document
-                    .querySelector(".copy-btn")
-                    .addEventListener("click", function () {
-                        const code =
-                            document.querySelector(
-                                ".code-block code",
-                            ).innerText;
-                        navigator.clipboard.writeText(code);
-
-                        // Show feedback
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
-
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                        }, 2000);
-                    });
+        setupEventListeners() {
+            this.elements.hashBtn.addEventListener("click", () => this.startVisualization());
+            this.elements.resetBtn.addEventListener("click", () => this.resetVisualization());
+            this.elements.inputText.addEventListener("input", () => this.updateInputStep(this.elements.inputText.value));
+            this.elements.outputLength.addEventListener("input", () => {
+                this.outputLen = parseInt(this.elements.outputLength.value);
+                this.elements.outputLengthDisplay.textContent = `Length: 0 bytes (requested: ${this.outputLen} bytes)`;
             });
-        </script>
+            this.elements.outputFormat.addEventListener("change", () => {
+                this.outputFmt = this.elements.outputFormat.value;
+            });
+        }
+
+        resetVisualization() {
+            this.stopAnimation();
+            this.currentStep = 0;
+            this.isAnimating = false;
+            this.elements.inputText.value = "Hello World";
+            this.elements.outputLength.value = "32";
+            this.elements.outputFormat.value = "hex";
+            this.outputLen = 32;
+            this.outputFmt = "hex";
+            this.elements.hashOutput.textContent = "Output will appear here";
+            this.elements.progressBarAbsorb.style.width = "0%";
+            this.elements.progressBarPermutation.style.width = "0%";
+            this.elements.progressBarSqueeze.style.width = "0%";
+            this.updateInputStep(this.elements.inputText.value);
+            this.elements.stepBinary.textContent = "Binary will appear here";
+            this.elements.stepPadding.textContent = "Padding details will appear here";
+            this.elements.stepAbsorb.textContent = "Absorption progress will appear here";
+            this.elements.stepPermutation.textContent = "Permutation rounds will appear here";
+            this.elements.stepSqueeze.textContent = "Squeezing progress will appear here";
+            this.elements.stepFinal.textContent = "Final output will appear here";
+            this.elements.bitRepresentation.innerHTML = "";
+            this.elements.outputLengthDisplay.textContent = `Length: 0 bytes`;
+        }
+
+        startVisualization() {
+            this.resetVisualization();
+            this.message = this.elements.inputText.value;
+            this.isAnimating = true;
+            this.animateStep();
+        }
+
+        stopAnimation() {
+            clearInterval(this.animationInterval);
+            this.isAnimating = false;
+        }
+
+        animateStep() {
+            if (this.currentStep < this.steps.length) {
+                this.steps[this.currentStep].update.call(this, this.message, this.outputLen, this.outputFmt);
+                this.currentStep++;
+                this.animationInterval = setTimeout(() => this.animateStep(), 1500);
+            } else {
+                this.stopAnimation();
+            }
+        }
+
+        updateInputStep(text) {
+            this.elements.stepInput.textContent = text;
+        }
+
+        updateBinaryStep(message) {
+            const binaryStr = message.split("").map((char) => char.charCodeAt(0).toString(2).padStart(8, "0")).join(" ");
+            this.elements.stepBinary.textContent = binaryStr;
+
+            this.elements.bitRepresentation.innerHTML = "";
+            const fullBinary = message.split("").map((char) => char.charCodeAt(0).toString(2).padStart(8, "0")).join("");
+
+            for (let i = 0; i < Math.min(1344, fullBinary.length); i++) { // Show up to rate bits
+                const bit = document.createElement("div");
+                bit.className = "bit " + (fullBinary[i] === "1" ? "one" : "zero");
+                bit.textContent = fullBinary[i];
+                this.elements.bitRepresentation.appendChild(bit);
+            }
+            if (fullBinary.length > 1344) {
+                const ellipsis = document.createElement("div");
+                ellipsis.className = "bit";
+                ellipsis.textContent = "...";
+                this.elements.bitRepresentation.appendChild(ellipsis);
+            }
+        }
+
+        updatePaddingStep(message) {
+            const msgBits = message.length * 8;
+            const rate = 1344; // bits for SHAKE128
+            const paddingBits = rate - (msgBits % rate);
+            this.elements.stepPadding.textContent = `Original message: ${msgBits} bits. Added padding: ${paddingBits} bits (SHAKE-1111 pattern).`;
+        }
+
+        updateAbsorbStep(message) {
+            let progress = 0;
+            const totalBlocks = Math.ceil((message.length * 8) / 1344); // Simplified block count
+            const absorbInterval = setInterval(() => {
+                progress++;
+                this.elements.progressBarAbsorb.style.width = `${(progress / totalBlocks) * 100}%`;
+                this.elements.stepAbsorb.textContent = `Absorbing block ${progress} of ${totalBlocks} (rate=1344 bits)...`;
+
+                if (progress >= totalBlocks) {
+                    clearInterval(absorbInterval);
+                    this.elements.stepAbsorb.textContent = `All blocks absorbed.`;
+                }
+            }, 200);
+        }
+
+        updatePermutationStep() {
+            let progress = 0;
+            const totalRounds = 24; // Keccak-f permutation has 24 rounds
+            const roundInterval = setInterval(() => {
+                progress++;
+                this.elements.progressBarPermutation.style.width = `${(progress / totalRounds) * 100}%`;
+                this.elements.stepPermutation.textContent = `Processing round ${progress} of ${totalRounds} (Keccak-f[1600])...`;
+
+                if (progress >= totalRounds) {
+                    clearInterval(roundInterval);
+                    this.elements.stepPermutation.textContent = `All ${totalRounds} rounds processed.`;
+                }
+            }, 100);
+        }
+
+        updateSqueezeStep(message, length) {
+            let progress = 0;
+            const totalSqueezes = Math.ceil(length / (1344 / 8)); // Number of rate blocks to squeeze
+            const squeezeInterval = setInterval(() => {
+                progress++;
+                this.elements.progressBarSqueeze.style.width = `${(progress / totalSqueezes) * 100}%`;
+                this.elements.stepSqueeze.textContent = `Squeezing output block ${progress} of ${totalSqueezes} (${length} bytes requested)...`;
+
+                if (progress >= totalSqueezes) {
+                    clearInterval(squeezeInterval);
+                    this.elements.stepSqueeze.textContent = `Output squeezed.`;
+                }
+            }, 200);
+        }
+
+        updateFinalStep(message, length, format) {
+            // This is a mock hash for visualization purposes
+            const mockOutput = this.generateMockOutput(message, length, format);
+            this.elements.hashOutput.textContent = mockOutput;
+            this.elements.stepFinal.textContent = `${format.toUpperCase()} output (${length} bytes)`;
+            this.elements.outputLengthDisplay.textContent = `Length: ${length} bytes`;
+        }
+
+        generateMockOutput(input, length, format) {
+            let outputBytes = new Uint8Array(length);
+            let hash = 0;
+            for (let i = 0; i < input.length; i++) {
+                hash = ((hash << 5) - hash) + input.charCodeAt(i);
+                hash |= 0; // Ensure 32-bit integer
+            }
+
+            for (let i = 0; i < length; i++) {
+                outputBytes[i] = (hash + i) % 256; // Simple deterministic extension
+            }
+
+            let outputText;
+            if (format === "hex") {
+                outputText = Array.from(outputBytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+            } else if (format === "binary") {
+                outputText = Array.from(outputBytes).map((b) => b.toString(2).padStart(8, "0")).join(" ");
+            } else { // bytes
+                outputText = Array.from(outputBytes).map((b) => `0x${b.toString(16).padStart(2, "0")}`).join(" ");
+            }
+            return outputText;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new SHAKE128Visualization();
+
+        // Simple copy button functionality
+        const copyBtn = document.querySelector(".copy-btn");
+        if(copyBtn) {
+            copyBtn.addEventListener("click", function () {
+                const code = document.querySelector(".code-block code").innerText;
+                navigator.clipboard.writeText(code);
+
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+    });
+</script>
 </body>
 </html>

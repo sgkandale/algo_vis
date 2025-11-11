@@ -972,126 +972,147 @@ symmetric_key = pow(ciphertext, d, n)</code></pre>
 </div>
 <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // RSA Visualization State
         let currentStep = 1;
         const totalSteps = 5;
 
-        // DOM Elements
+        let p, q, n, phi, e, d, K, C, decryptedK;
+
         const prevBtn = document.getElementById("prev-btn");
         const nextBtn = document.getElementById("next-btn");
         const resetBtn = document.getElementById("reset-btn");
         const stepNum = document.getElementById("step-num");
-        const aliceSecret = document.getElementById("alice-secret");
-        const bobEncrypted = document.getElementById("bob-encrypted");
+        const alicePrivate = document.getElementById("alice-private");
+        const alicePublic = document.getElementById("alice-public");
+        const aliceSecret = document.getElementById("alice-secret").querySelector('.key-value');
         const bobSecret = document.getElementById("bob-secret");
+        const bobEncrypted = document.getElementById("bob-encrypted");
         const msgPublicKey = document.getElementById("msg-public-key");
         const msgEncrypted = document.getElementById("msg-encrypted");
         const arrow1 = document.getElementById("arrow-1");
         const arrow2 = document.getElementById("arrow-2");
 
-        // Initialize visualization
-        updateVisualization();
+        function power(base, exp, mod) {
+            let res = 1;
+            base %= mod;
+            while (exp > 0) {
+                if (exp % 2 === 1) res = (res * base) % mod;
+                base = (base * base) % mod;
+                exp = Math.floor(exp / 2);
+            }
+            return res;
+        }
 
-        // Event Listeners
-        prevBtn.addEventListener("click", function () {
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        function modInverse(a, m) {
+            a = a % m;
+            for (let x = 1; x < m; x++) {
+                if ((a * x) % m == 1) {
+                    return x;
+                }
+            }
+            return 1;
+        }
+
+        function generateRSAKeys() {
+            // Using small primes for demonstration
+            const primes = [53, 59, 61, 67, 71, 73, 79, 83, 89, 97];
+            p = primes[Math.floor(Math.random() * primes.length)];
+            do {
+                q = primes[Math.floor(Math.random() * primes.length)];
+            } while (p === q);
+            
+            n = p * q;
+            phi = (p - 1) * (q - 1);
+            
+            e = 17; // A common choice for e
+            while (gcd(e, phi) !== 1) {
+                e += 2;
+            }
+            
+            d = modInverse(e, phi);
+            
+            K = Math.floor(Math.random() * (n - 2)) + 1; // Symmetric key
+
+            C = power(K, e, n);
+            decryptedK = power(C, d, n);
+            
+            currentStep = 1;
+            updateVisualization();
+        }
+
+        function updateVisualization() {
+          stepNum.textContent = `${currentStep}/${totalSteps}`;
+
+          alicePrivate.innerHTML = `d: ${d}<br/>n: ${n}`;
+          alicePublic.innerHTML = `e: ${e}<br/>n: ${n}`;
+          bobSecret.textContent = K;
+          
+          aliceSecret.textContent = '-';
+          bobEncrypted.textContent = '-';
+
+          document.querySelectorAll(".key-container").forEach(el => el.classList.remove("highlight", "encrypted", "decrypted"));
+          msgPublicKey.style.opacity = "0";
+          msgEncrypted.style.opacity = "0";
+          arrow1.style.opacity = "0";
+          arrow2.style.opacity = "0";
+          arrow1.style.width = "0";
+          arrow2.style.width = "0";
+
+          switch (currentStep) {
+            case 1:
+              document.querySelector("#alice-public").parentElement.classList.add("highlight");
+              break;
+            case 2:
+              document.querySelector("#alice-public").parentElement.classList.add("highlight");
+              msgPublicKey.style.opacity = "1";
+              arrow1.style.width = "40%";
+              arrow1.style.left = "50%";
+              arrow1.style.opacity = "1";
+              break;
+            case 3:
+              document.querySelector("#bob-secret").parentElement.classList.add("highlight");
+              bobEncrypted.innerHTML = `C = ${C}`;
+              bobEncrypted.parentElement.classList.add("highlight");
+              bobEncrypted.classList.add("encrypted");
+              break;
+            case 4:
+              bobEncrypted.innerHTML = `C = ${C}`;
+              bobEncrypted.parentElement.classList.add("highlight");
+              msgEncrypted.innerHTML = `<i class="fas fa-lock"></i> Encrypted Key<br/>C = ${C}`;
+              msgEncrypted.style.opacity = "1";
+              arrow2.style.width = "40%";
+              arrow2.style.left = "10%";
+              arrow2.style.opacity = "1";
+              break;
+            case 5:
+              bobEncrypted.innerHTML = `C = ${C}`;
+              aliceSecret.textContent = decryptedK;
+              aliceSecret.parentElement.classList.add("highlight");
+              aliceSecret.classList.add("decrypted");
+              break;
+          }
+        }
+
+        prevBtn.addEventListener("click", () => {
           if (currentStep > 1) {
             currentStep--;
             updateVisualization();
           }
         });
 
-        nextBtn.addEventListener("click", function () {
+        nextBtn.addEventListener("click", () => {
           if (currentStep < totalSteps) {
             currentStep++;
             updateVisualization();
           }
         });
 
-        resetBtn.addEventListener("click", function () {
-          currentStep = 1;
-          updateVisualization();
-        });
+        resetBtn.addEventListener("click", generateRSAKeys);
 
-        // Update visualization based on current step
-        function updateVisualization() {
-          stepNum.textContent = currentStep;
-
-          // Reset all highlights
-          document.querySelectorAll(".key-container").forEach((el) => {
-            el.classList.remove("highlight");
-          });
-
-          msgPublicKey.style.opacity = "0";
-          msgEncrypted.style.opacity = "0";
-          arrow1.style.opacity = "0";
-          arrow2.style.opacity = "0";
-
-          // Step-specific updates
-          switch (currentStep) {
-            case 1:
-              document
-                .querySelector("#alice-public")
-                .parentElement.classList.add("highlight");
-              break;
-
-            case 2:
-              document
-                .querySelector("#alice-public")
-                .parentElement.classList.add("highlight");
-              msgPublicKey.style.opacity = "1";
-              arrow1.style.width = "40%";
-              arrow1.style.left = "45%";
-              arrow1.style.opacity = "1";
-              break;
-
-            case 3:
-              document
-                .querySelector("#bob-secret")
-                .parentElement.classList.add("highlight");
-              bobEncrypted.innerHTML = "C = 855";
-              bobEncrypted.parentElement.classList.add("highlight");
-              bobEncrypted.classList.add("encrypted");
-              break;
-
-            case 4:
-              bobEncrypted.parentElement.classList.add("highlight");
-              msgEncrypted.style.opacity = "1";
-              arrow2.style.width = "40%";
-              arrow2.style.right = "45%";
-              arrow2.style.opacity = "1";
-              break;
-
-            case 5:
-              aliceSecret.querySelector(".key-value").innerHTML = "123";
-              aliceSecret.classList.add("highlight");
-              aliceSecret
-                .querySelector(".key-value")
-                .classList.add("decrypted");
-              break;
-          }
-        }
-
-        // Simulate RSA calculations with small numbers
-        function simulateRSA() {
-          // Using small primes for demonstration
-          const p = 61;
-          const q = 53;
-          const n = p * q; // 3233
-          const phi = (p - 1) * (q - 1); // 3120
-          const e = 17; // public exponent
-          const d = 2753; // private exponent (since e*d mod phi = 1)
-
-          // Symmetric key to encrypt
-          const K = 123;
-
-          // Encryption: C = K^e mod n
-          const C = Math.pow(K, e) % n; // 855
-
-          // Decryption: K = C^d mod n
-          const decrypted = Math.pow(C, d) % n; // 123
-
-          return { p, q, n, phi, e, d, K, C, decrypted };
-        }
+        generateRSAKeys();
       });
     </script>
 </body>

@@ -1124,177 +1124,170 @@ print(blake2s_hash)</code></pre>
 </div>
 <script>
             // Simple copy button functionality
-            document
-                .querySelector(".copy-btn")
-                .addEventListener("click", function () {
-                    const code =
-                        document.querySelector(".code-block code").innerText;
-                    navigator.clipboard.writeText(code);
+            <script>
+    class Blake2Visualization {
+        constructor() {
+            this.inputDisplay = document.getElementById("input-display");
+            this.outputDisplay = document.getElementById("output-display");
+            this.progressFill = document.getElementById("progress-fill");
+            this.runBtn = document.getElementById("run-btn");
+            this.hashInput = document.getElementById("hash-input");
+            this.randomBtn = document.getElementById("random-btn");
+            this.stateDisplay = document.getElementById("state-display");
 
-                    // Show feedback
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            this.state = new Array(16).fill(0);
+            this.isRunning = false;
+            this.animationId = null;
 
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                    }, 2000);
-                });
+            this.setupEventListeners();
+            this.initStateVisualization();
+        }
 
-            // Initialize state visualization
-            function initStateVisualization() {
-                const stateDisplay = document.getElementById("state-display");
-                stateDisplay.innerHTML = "";
-
-                // Create a simplified 4x4 representation of the state
-                for (let i = 0; i < 16; i++) {
-                    const cellElement = document.createElement("div");
-                    cellElement.className = "state-cell";
-                    cellElement.textContent = "00";
-
-                    const container = document.createElement("div");
-                    container.appendChild(cellElement);
-                    const label = document.createElement("div");
-                    label.className = "cell-label";
-                    label.textContent = `v${i}`;
-                    container.appendChild(label);
-
-                    stateDisplay.appendChild(container);
+        setupEventListeners() {
+            this.runBtn.addEventListener("click", () => {
+                if (this.isRunning) {
+                    this.stop();
+                } else {
+                    this.run();
                 }
-            }
-
-            // Generate a simplified visualization of the BLAKE2 process
-            function simulateBlake2() {
-                const inputText =
-                    document.getElementById("hash-input").value || "AlgoViz";
-                const inputDisplay = document.getElementById("input-display");
-                const outputDisplay = document.getElementById("output-display");
-                const progressFill = document.getElementById("progress-fill");
-                const runBtn = document.getElementById("run-btn");
-
-                // Update input display
-                inputDisplay.textContent = `Input: "${inputText}"`;
-
-                // Show processing state
-                runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
-                runBtn.classList.add("secondary");
-
-                // Clear previous output
-                outputDisplay.textContent = "Computing hash...";
-
-                // Animate the progress bar
-                progressFill.style.width = "0%";
-
-                // Animate the state cells
-                const stateCells = document.querySelectorAll(".state-cell");
-                let step = 0;
-
-                const animationInterval = setInterval(() => {
-                    // Update progress bar
-                    progressFill.style.width = `${(step / 12) * 100}%`;
-
-                    // Randomly activate some cells to show processing
-                    stateCells.forEach((cell) => {
-                        if (Math.random() > 0.7) {
-                            cell.textContent = Math.floor(Math.random() * 256)
-                                .toString(16)
-                                .padStart(2, "0");
-                            cell.classList.add("active");
-                        } else {
-                            cell.classList.remove("active");
-                        }
-                    });
-
-                    step++;
-
-                    if (step > 12) {
-                        clearInterval(animationInterval);
-
-                        // Generate a mock hash (not a real BLAKE2 implementation)
-                        const mockHash = generateMockHash(inputText);
-                        outputDisplay.textContent = `BLAKE2b Hash: ${mockHash}`;
-
-                        // Highlight the hash bytes in the output
-                        outputDisplay.innerHTML = `BLAKE2b Hash: <span>${mockHash}</span>`;
-
-                        // Complete progress bar
-                        progressFill.style.width = "100%";
-
-                        // Reset button
-                        runBtn.innerHTML =
-                            '<i class="fas fa-redo"></i> Restart';
-                        runBtn.classList.remove("secondary");
-                    }
-                }, 300);
-
-                // Store the interval so we can clear it if needed
-                runBtn.dataset.intervalId = animationInterval;
-            }
-
-            // Generate a mock hash for visualization purposes
-            function generateMockHash(input) {
-                // This is not a real hash function, just for visualization
-                let hash = "";
-                const chars = "0123456789abcdef";
-
-                // Create a deterministic but fake hash based on input
-                for (let i = 0; i < 128; i++) {
-                    const charIndex =
-                        (input.charCodeAt(i % input.length) + i) % 16;
-                    hash += chars[charIndex];
-                }
-
-                return hash;
-            }
-
-            // Set up event listeners
-            document
-                .getElementById("run-btn")
-                .addEventListener("click", function () {
-                    if (this.textContent.includes("Run")) {
-                        simulateBlake2();
-                    } else if (
-                        this.textContent.includes("Stop") ||
-                        this.textContent.includes("Restart")
-                    ) {
-                        // Clear any running animation
-                        if (this.dataset.intervalId) {
-                            clearInterval(parseInt(this.dataset.intervalId));
-                        }
-
-                        // Reset visualization
-                        document.getElementById("output-display").textContent =
-                            "Hash output will appear here";
-                        document.getElementById("progress-fill").style.width =
-                            "0%";
-                        initStateVisualization();
-
-                        this.innerHTML = '<i class="fas fa-play"></i> Run';
-                        this.classList.remove("secondary");
-                    }
-                });
-
-            document
-                .getElementById("random-btn")
-                .addEventListener("click", function () {
-                    const randomStrings = [
-                        "Hello World!",
-                        "Cryptography is fascinating",
-                        "AlgoViz Hub demonstrates algorithms",
-                        "BLAKE2 is a fast cryptographic hash",
-                        "Hash functions provide data integrity",
-                    ];
-
-                    const randomIndex = Math.floor(
-                        Math.random() * randomStrings.length,
-                    );
-                    document.getElementById("hash-input").value =
-                        randomStrings[randomIndex];
-                });
-
-            // Initialize the page
-            document.addEventListener("DOMContentLoaded", function () {
-                initStateVisualization();
             });
+
+            this.randomBtn.addEventListener("click", () => this.setRandomInput());
+        }
+
+        initStateVisualization() {
+            this.stateDisplay.innerHTML = "";
+            for (let i = 0; i < 16; i++) {
+                const cellElement = document.createElement("div");
+                cellElement.className = "state-cell";
+                cellElement.textContent = "00";
+
+                const container = document.createElement("div");
+                container.appendChild(cellElement);
+                const label = document.createElement("div");
+                label.className = "cell-label";
+                label.textContent = `v${i}`;
+                container.appendChild(label);
+
+                this.stateDisplay.appendChild(container);
+            }
+        }
+
+        setRandomInput() {
+            const randomStrings = [
+                "Hello World!",
+                "Cryptography is fascinating",
+                "AlgoViz Hub demonstrates algorithms",
+                "BLAKE2 is a fast cryptographic hash",
+                "Hash functions provide data integrity",
+            ];
+            const randomIndex = Math.floor(Math.random() * randomStrings.length);
+            this.hashInput.value = randomStrings[randomIndex];
+        }
+
+        run() {
+            this.isRunning = true;
+            this.runBtn.innerHTML = '<i class="fas fa-stop"></i> Stop';
+            this.runBtn.classList.add("secondary");
+
+            const inputText = this.hashInput.value || "AlgoViz";
+            this.inputDisplay.textContent = `Input: "${inputText}"`;
+            this.outputDisplay.textContent = "Computing hash...";
+            this.progressFill.style.width = "0%";
+
+            this.state = new Array(16).fill(0);
+            this.initStateVisualization();
+
+            const chunks = this.chunkString(inputText, 16);
+            this.processChunks(chunks, 0);
+        }
+
+        stop() {
+            this.isRunning = false;
+            this.runBtn.innerHTML = '<i class="fas fa-play"></i> Run';
+            this.runBtn.classList.remove("secondary");
+            if (this.animationId) {
+                clearTimeout(this.animationId);
+                this.animationId = null;
+            }
+        }
+
+        chunkString(str, length) {
+            const size = Math.ceil(str.length / length);
+            const r = Array(size);
+            let offset = 0;
+            for (let i = 0; i < size; i++) {
+                r[i] = str.substr(offset, length);
+                offset += length;
+            }
+            return r;
+        }
+
+        processChunks(chunks, index) {
+            if (!this.isRunning || index >= chunks.length) {
+                this.finalize();
+                return;
+            }
+
+            const chunk = chunks[index];
+            this.inputDisplay.innerHTML = `Input: "${chunks.join('')}"<br>Processing chunk ${index + 1}/${chunks.length}: <span class="hash-block active">${chunk}</span>`;
+
+            // Simulate compression
+            for (let i = 0; i < 16; i++) {
+                const charCode = chunk.charCodeAt(i % chunk.length) || 0;
+                this.state[i] = (this.state[i] + charCode) % 256;
+            }
+
+            this.updateStateVisualization();
+            this.progressFill.style.width = `${((index + 1) / chunks.length) * 100}%`;
+
+            this.animationId = setTimeout(() => this.processChunks(chunks, index + 1), 500);
+        }
+
+        updateStateVisualization() {
+            const cells = this.stateDisplay.querySelectorAll(".state-cell");
+            this.state.forEach((val, i) => {
+                cells[i].textContent = val.toString(16).padStart(2, "0");
+                cells[i].classList.add("active");
+            });
+
+            setTimeout(() => {
+                cells.forEach(cell => cell.classList.remove("active"));
+            }, 400);
+        }
+
+        finalize() {
+            const mockHash = this.generateMockHash();
+            this.outputDisplay.innerHTML = `BLAKE2b Hash: <span>${mockHash}</span>`;
+            this.inputDisplay.textContent = `Input: "${this.hashInput.value || 'AlgoViz'}"`;
+            this.stop();
+        }
+
+        generateMockHash() {
+            return this.state.map(v => v.toString(16).padStart(2, "0")).join("").repeat(4);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new Blake2Visualization();
+        
+        // Simple copy button functionality
+        const copyBtn = document.querySelector(".copy-btn");
+        if(copyBtn) {
+            copyBtn.addEventListener("click", function () {
+                const code = document.querySelector(".code-block code").innerText;
+                navigator.clipboard.writeText(code);
+
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+    });
+</script>
         </script>
 </body>
 </html>
