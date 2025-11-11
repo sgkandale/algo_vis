@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head><meta content="Interactive Gradient Descent visualization for machine learning optimization" name="description"/><meta content="gradient descent, machine learning, optimization, algorithm, visualization, linear regression, cost function" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gradient Descent Visualization | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--text);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        min-height: 500px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .canvas-container {
+        width: 100%;
+        height: 400px;
+        position: relative;
+        margin-bottom: 20px;
+      }
+      
+      canvas {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background: #1e293b;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .console-input input, .console-input select {
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        margin-bottom: 10px;
+      }
+
+      .console-input input:focus, .console-input select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .console-input input {
+        flex: 1;
+        min-width: 150px;
+      }
+
+      .console-input select {
+        min-width: 150px;
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+      
+      /* Gradient Descent Specific Styles */
+      .iteration-display {
+        font-size: 18px;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        margin: 10px 0;
+        text-align: center;
+      }
+      
+      .cost-display {
+        font-size: 16px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        margin: 10px 0;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      
+      .controls-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+      }
+      
+      .function-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin: 10px 0;
+      }
+      
+      .cost-graph {
+        width: 100%;
+        height: 150px;
+        margin-top: 10px;
+        position: relative;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      
+      .cost-graph-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .cost-point {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #10b981;
+        border-radius: 50%;
+      }
+      
+      .gradient-step {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+        text-align: center;
+      }
+</style>
+<meta content="Gradient Descent Visualization | AlgoViz Hub" property="og:title"/><meta content="Interactive Gradient Descent visualization for machine learning optimization" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_gradient_descent.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Gradient Descent Visualization | AlgoViz Hub" name="twitter:title"/><meta content="Interactive Gradient Descent visualization for machine learning optimization" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_gradient_descent.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Gradient Descent Visualization | AlgoViz Hub",
+  "description": "Interactive Gradient Descent visualization for machine learning optimization",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_gradient_descent.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="index.html"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Machine Learning</a> &gt;
+              <span>Gradient Descent Visualization</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Gradient Descent Visualization</h1>
+<div class="category">
+<i class="fas fa-chart-line"></i> Machine Learning
+</div>
+<div class="complexity-badge">Optimization Algorithm</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
+              Gradient Descent is an optimization algorithm used to minimize a function by iteratively moving in the direction of steepest descent. It is widely used in machine learning to train models by minimizing the cost function (e.g., mean squared error in linear regression).
+            </p>
+<p>
+              The algorithm works by computing the gradient (derivative) of the cost function with respect to each parameter and then updating the parameters in the opposite direction of the gradient. The learning rate determines the size of the steps taken during each iteration.
+            </p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
+                  Iteratively minimizes the cost function using gradient information
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Learning Method</h3>
+<p>
+                  Moves parameters in direction of steepest descent
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Convergence</h3>
+<p>
+                  Converges to local minimum if learning rate is appropriate
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Foundation</h3>
+<p>
+                  Core algorithm for training neural networks and other models
+                </p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Gradient Descent Visualization
+</h2>
+<p>
+              Use the interactive console below to visualize how the Gradient Descent algorithm works. You can choose different cost functions (quadratic, sinusoidal, custom), adjust the learning rate, and watch how the algorithm finds the minimum of the function. The visualization shows the parameters moving toward the optimal solution.
+            </p>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-chart-line"></i> Gradient Descent Visualization
+                </h3>
+</div>
+<div class="canvas-container">
+  <canvas id="gradientCanvas"></canvas>
+</div>
+<div class="iteration-display">
+  Iteration: <span id="iterationCount">0</span>
+</div>
+<div class="cost-display">
+  Cost: <span id="costValue">0.000</span> | Parameters: x=<span id="xValue">0.00</span>, y=<span id="yValue">0.00</span>
+</div>
+<div class="function-controls">
+<button class="console-btn" id="function1Btn">Quadratic</button>
+<button class="console-btn" id="function2Btn">Sinusoidal</button>
+<button class="console-btn" id="function3Btn">Custom Valley</button>
+</div>
+<div class="controls-row">
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
+</button>
+<button class="console-btn" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
+</button>
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
+</button>
+<button class="console-btn" id="pauseBtn">
+<i class="fas fa-pause"></i> Pause
+</button>
+</div>
+<div class="console-input">
+<input id="learningRate" placeholder="Learning Rate" type="number" value="0.1" step="0.001" min="0.001" max="1"/>
+<input id="initialX" placeholder="Initial X" type="number" value="0.8" step="0.1"/>
+<input id="initialY" placeholder="Initial Y" type="number" value="0.8" step="0.1"/>
+</div>
+<div class="gradient-step">
+  Gradient: <span id="gradientX">0.00</span>, <span id="gradientY">0.00</span>
+</div>
+<div class="cost-graph">
+  <canvas id="costGraph"></canvas>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Gradient Descent Steps</h2>
+<p>
+              The Gradient Descent algorithm follows these steps to find the minimum of a function:
+            </p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Initialize Parameters</h3>
+<p>
+                  Set initial values for parameters (θ0, θ1, ...)
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-share-alt"></i> 2. For Each Iteration</h3>
+<p>
+                  Compute the gradient of the cost function with respect to each parameter
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> 3. Update Parameters</h3>
+<p>
+                  θ = θ - α * ∇J(θ), where α is the learning rate
+                </p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-paper-plane"></i> 4. Check Convergence
+                </h3>
+<p>
+                  Continue until convergence criterion is met (max iterations or small gradient)
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> 5. Minimize Cost Function</h3>
+<p>
+                  Repeated updates move parameters toward function minimum
+                </p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Gradient Descent Algorithm</h2>
+<div class="code-block">
+<pre><code>initialize parameters θ
+learning_rate α
+
+repeat until convergence:
+    compute gradient: ∇J(θ) = ∂J(θ)/∂θ
+    update parameters: θ = θ - α * ∇J(θ)</code></pre>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
+              Below is a Python implementation of the Gradient Descent algorithm for minimizing a quadratic cost function. The implementation includes visualization of the cost function and parameter updates over time.
+            </p>
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
+                </button>
+</div>
+<pre><code><span class="keyword">def</span> <span class="function">gradient_descent</span>(cost_function, gradient_function, initial_params, learning_rate, 
+                       max_iterations=<span class="number">1000</span>, tolerance=<span class="number">1e-6</span>):
+    params = initial_params.copy()
+    cost_history = []
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(max_iterations):
+        cost = cost_function(params)
+        cost_history.append(cost)
+        
+        gradient = gradient_function(params)
+        
+        <span class="comment"># Update parameters</span>
+        <span class="keyword">for</span> j <span class="keyword">in</span> range(len(params)):
+            params[j] -= learning_rate * gradient[j]
+        
+        <span class="comment"># Check convergence</span>
+        <span class="keyword">if</span> abs(gradient[<span class="number">0</span>]) < <span class="number">1e-3</span> <span class="keyword">and</span> abs(gradient[<span class="number">1</span>]) < <span class="number">1e-3</span>:
+            <span class="keyword">break</span>
+    
+    <span class="keyword">return</span> params, cost_history
+
+<span class="comment"># Example cost function: f(x,y) = (x-3)^2 + (y-2)^2</span>
+<span class="keyword">def</span> <span class="function">quadratic_cost</span>(params):
+    x, y = params
+    <span class="keyword">return</span> (x - <span class="number">3</span>) ** <span class="number">2</span> + (y - <span class="number">2</span>) ** <span class="number">2</span>
+
+<span class="comment"># Gradient: [df/dx, df/dy] = [2(x-3), 2(y-2)]</span>
+<span class="keyword">def</span> <span class="function">quadratic_gradient</span>(params):
+    x, y = params
+    <span class="keyword">return</span> [<span class="number">2</span> * (x - <span class="number">3</span>), <span class="number">2</span> * (y - <span class="number">2</span>)]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Optimization</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Iterative</div>
+</div>
+<div class="property-card">
+<h4>Memory</h4>
+<div class="value">O(1)</div>
+</div>
+<div class="property-card">
+<h4>Per Iteration</h4>
+<div class="value">O(n)</div>
+</div>
+<div class="property-card">
+<h4>Learning Rate</h4>
+<div class="value">Critical Parameter</div>
+</div>
+<div class="property-card">
+<h4>Convergence</h4>
+<div class="value">Convex Functions</div>
+</div>
+<div class="property-card">
+<h4>Applications</h4>
+<div class="value">ML Model Training</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
+              Gradient Descent is fundamental to machine learning and optimization:
+            </p>
+<ul style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              ">
+<li style="margin-bottom: 10px">
+                Training neural networks
+              </li>
+<li style="margin-bottom: 10px">
+                Linear and logistic regression
+              </li>
+<li style="margin-bottom: 10px">Deep learning models</li>
+<li style="margin-bottom: 10px">
+                Support vector machines
+              </li>
+<li style="margin-bottom: 10px">
+                Natural language processing models
+              </li>
+<li style="margin-bottom: 10px">Computer vision systems</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
+      // Simple copy button functionality
+      document
+        .querySelector(".copy-btn")
+        .addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          // Show feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+
+      // Canvas initialization
+      document.addEventListener("DOMContentLoaded", function() {
+        const canvas = document.getElementById('gradientCanvas');
+        const ctx = canvas.getContext('2d');
+        const costGraphCanvas = document.getElementById('costGraph');
+        const costGraphCtx = costGraphCanvas.getContext('2d');
+        
+        // Set canvas sizes to match their containers
+        function resizeCanvas() {
+          const container = canvas.parentElement;
+          canvas.width = container.clientWidth;
+          canvas.height = container.clientHeight;
+          
+          const costContainer = costGraphCanvas.parentElement;
+          costGraphCanvas.width = costContainer.clientWidth;
+          costGraphCanvas.height = costContainer.clientHeight;
+        }
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        const iterationCount = document.getElementById('iterationCount');
+        const costValue = document.getElementById('costValue');
+        const xValue = document.getElementById('xValue');
+        const yValue = document.getElementById('yValue');
+        const gradientX = document.getElementById('gradientX');
+        const gradientY = document.getElementById('gradientY');
+        
+        // Gradient descent algorithm variables
+        let currentX = parseFloat(document.getElementById('initialX').value);
+        let currentY = parseFloat(document.getElementById('initialY').value);
+        let learningRate = parseFloat(document.getElementById('learningRate').value);
+        let running = false;
+        let animationId = null;
+        let currentIteration = 0;
+        
+        // Cost function history for graph
+        let costHistory = [];
+        const maxHistoryPoints = 100;
+        
+        // Function definitions
+        let currentFunction = 'quadratic';
+        
+        // Cost function definitions
+        const costFunctions = {
+          quadratic: function(x, y) {
+            // f(x,y) = (x-3)^2 + (y-2)^2
+            return Math.pow(x - 3, 2) + Math.pow(y - 2, 2);
+          },
+          sinusoidal: function(x, y) {
+            // f(x,y) = 0.5 * cos(x) * cos(y) + 0.5 * (x^2 + y^2)
+            return 0.5 * Math.cos(x * Math.PI) * Math.cos(y * Math.PI) + 0.5 * (x*x + y*y);
+          },
+          custom: function(x, y) {
+            // f(x,y) = (x-1)^2 + 2*(y-0.5)^4
+            return Math.pow(x - 1, 2) + 2 * Math.pow(y - 0.5, 4);
+          }
+        };
+        
+        // Gradient function definitions
+        const gradientFunctions = {
+          quadratic: function(x, y) {
+            // df/dx = 2(x-3), df/dy = 2(y-2)
+            return [2 * (x - 3), 2 * (y - 2)];
+          },
+          sinusoidal: function(x, y) {
+            // df/dx = -0.5 * π * sin(x*π) * cos(y*π) + x
+            // df/dy = -0.5 * π * cos(x*π) * sin(y*π) + y
+            const pi = Math.PI;
+            return [
+              -0.5 * pi * Math.sin(x * pi) * Math.cos(y * pi) + x,
+              -0.5 * pi * Math.cos(x * pi) * Math.sin(y * pi) + y
+            ];
+          },
+          custom: function(x, y) {
+            // df/dx = 2(x-1), df/dy = 8(y-0.5)^3
+            return [2 * (x - 1), 8 * Math.pow(y - 0.5, 3)];
+          }
+        };
+        
+        // Initialize the algorithm
+        resetAlgorithm();
+        
+        // Event listeners
+        document.getElementById('resetBtn').addEventListener('click', resetAlgorithm);
+        document.getElementById('stepBtn').addEventListener('click', stepAlgorithm);
+        document.getElementById('runBtn').addEventListener('click', runAlgorithm);
+        document.getElementById('pauseBtn').addEventListener('click', pauseAlgorithm);
+        document.getElementById('learningRate').addEventListener('change', function() {
+          learningRate = parseFloat(this.value);
+        });
+        document.getElementById('initialX').addEventListener('change', function() {
+          currentX = parseFloat(this.value);
+          resetAlgorithm();
+        });
+        document.getElementById('initialY').addEventListener('change', function() {
+          currentY = parseFloat(this.value);
+          resetAlgorithm();
+        });
+        
+        document.getElementById('function1Btn').addEventListener('click', function() {
+          currentFunction = 'quadratic';
+          resetAlgorithm();
+        });
+        document.getElementById('function2Btn').addEventListener('click', function() {
+          currentFunction = 'sinusoidal';
+          resetAlgorithm();
+        });
+        document.getElementById('function3Btn').addEventListener('click', function() {
+          currentFunction = 'custom';
+          resetAlgorithm();
+        });
+        
+        function resetAlgorithm() {
+          // Clear any running animation
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          running = false;
+          
+          // Reset variables
+          currentX = parseFloat(document.getElementById('initialX').value);
+          currentY = parseFloat(document.getElementById('initialY').value);
+          currentIteration = 0;
+          costHistory = [];
+          iterationCount.textContent = '0';
+          drawVisualization();
+          drawCostGraph();
+        }
+        
+        function stepAlgorithm() {
+          // Calculate gradient
+          const [gradX, gradY] = gradientFunctions[currentFunction](currentX, currentY);
+          
+          // Update parameters
+          currentX -= learningRate * gradX;
+          currentY -= learningRate * gradY;
+          
+          // Calculate current cost
+          const currentCost = costFunctions[currentFunction](currentX, currentY);
+          
+          // Add to history
+          costHistory.push(currentCost);
+          if (costHistory.length > maxHistoryPoints) {
+            costHistory.shift();
+          }
+          
+          currentIteration++;
+          updateDisplay(currentX, currentY, currentCost, gradX, gradY);
+          drawVisualization();
+          drawCostGraph();
+        }
+        
+        function runAlgorithm() {
+          if (running) return;
+          running = true;
+          step();
+        }
+        
+        function step() {
+          if (!running) return;
+          
+          // Perform one step of the algorithm
+          stepAlgorithm();
+          
+          // Schedule the next step
+          setTimeout(() => {
+            if (running) {
+              animationId = requestAnimationFrame(step);
+            }
+          }, 100); // Slow down for visualization
+        }
+        
+        function pauseAlgorithm() {
+          running = false;
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+        }
+        
+        function updateDisplay(x, y, cost, gradX, gradY) {
+          iterationCount.textContent = currentIteration;
+          costValue.textContent = cost.toFixed(3);
+          xValue.textContent = x.toFixed(2);
+          yValue.textContent = y.toFixed(2);
+          gradientX.textContent = gradX.toFixed(2);
+          gradientY.textContent = gradY.toFixed(2);
+        }
+        
+        function drawVisualization() {
+          const width = canvas.width;
+          const height = canvas.height;
+          
+          // Clear canvas
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(0, 0, width, height);
+          
+          // Draw function contour
+          drawContour();
+          
+          // Draw current position (red dot)
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath();
+          ctx.arc(currentX * width, (1 - currentY) * height, 6, 0, Math.PI * 2);
+          ctx.fill();
+          
+          // Draw previous positions as trail
+          if (costHistory.length > 1) {
+            ctx.strokeStyle = 'rgba(16, 185, 129, 0.7)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(currentX * width, (1 - currentY) * height);
+            
+            // Only draw trail for recent positions to avoid performance issues
+            const trailLength = Math.min(20, costHistory.length);
+            for (let i = 1; i <= trailLength; i++) {
+              const idx = costHistory.length - i;
+              if (idx >= 0) {
+                // Calculate approximate position at previous iteration (simplified)
+                const prevX = currentX - i * learningRate * gradientFunctions[currentFunction](currentX, currentY)[0];
+                const prevY = currentY - i * learningRate * gradientFunctions[currentFunction](currentX, currentY)[1];
+                
+                ctx.lineTo(prevX * width, (1 - prevY) * height);
+              }
+            }
+            
+            ctx.stroke();
+          }
+        }
+        
+        function drawContour() {
+          const width = canvas.width;
+          const height = canvas.height;
+          
+          // Draw contour lines based on the selected function
+          ctx.strokeStyle = 'rgba(148, 163, 184, 0.2)';
+          ctx.lineWidth = 0.5;
+          
+          // Draw contour lines at different cost levels
+          for (let level = 0.1; level < 5; level += 0.5) {
+            ctx.beginPath();
+            
+            // Draw contour at the specified level
+            for (let x = 0; x <= width; x += 2) {
+              for (let y = 0; y <= height; y += 2) {
+                const funcX = x / width;
+                const funcY = 1 - y / height;
+                
+                if (Math.abs(costFunctions[currentFunction](funcX, funcY) - level) < 0.05) {
+                  ctx.fillRect(x, y, 1, 1);
+                }
+              }
+            }
+          }
+        }
+        
+        function drawCostGraph() {
+          const width = costGraphCanvas.width;
+          const height = costGraphCanvas.height;
+          
+          // Clear graph
+          costGraphCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+          costGraphCtx.fillRect(0, 0, width, height);
+          
+          if (costHistory.length < 2) return;
+          
+          // Find min and max values for scaling
+          const minCost = Math.min(...costHistory);
+          const maxCost = Math.max(...costHistory);
+          const range = maxCost - minCost || 1; // Avoid division by zero
+          
+          // Draw cost line
+          costGraphCtx.strokeStyle = '#10b981';
+          costGraphCtx.lineWidth = 2;
+          costGraphCtx.beginPath();
+          
+          const xStep = width / (costHistory.length - 1);
+          
+          for (let i = 0; i < costHistory.length; i++) {
+            const x = i * xStep;
+            const y = height - ((costHistory[i] - minCost) / range) * height;
+            
+            if (i === 0) {
+              costGraphCtx.moveTo(x, y);
+            } else {
+              costGraphCtx.lineTo(x, y);
+            }
+          }
+          
+          costGraphCtx.stroke();
+          
+          // Draw current cost point
+          if (costHistory.length > 0) {
+            const currentX = width;
+            const currentY = height - ((costHistory[costHistory.length - 1] - minCost) / range) * height;
+            
+            costGraphCtx.fillStyle = '#10b981';
+            costGraphCtx.beginPath();
+            costGraphCtx.arc(width, currentY, 4, 0, Math.PI * 2);
+            costGraphCtx.fill();
+          }
+        }
+        
+        // Initial draw
+        drawVisualization();
+      });
+    </script>
+</body>
+</html>

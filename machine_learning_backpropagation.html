@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head><meta content="Interactive Neural Network Backpropagation visualization for machine learning education" name="description"/><meta content="neural network, backpropagation, machine learning, algorithm, visualization, deep learning, gradient descent" name="keywords"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neural Network Backpropagation | AlgoViz Hub</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+      :root {
+        --primary: #0f172a;
+        --secondary: #1e293b;
+        --accent: #6366f1;
+        --accent-light: #818cf8;
+        --accent-glow: rgba(99, 102, 241, 0.2);
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --transition: all 0.3s ease;
+        --radius: 12px;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --glow: 0 0 15px var(--accent-glow);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--text);
+        font-family: "Roboto", sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(99, 102, 241, 0.1) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(129, 140, 248, 0.1) 0%,
+            transparent 20%
+          );
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--glow);
+      }
+
+      .logo-icon i {
+        font-size: 24px;
+        color: white;
+      }
+
+      .logo-text h1 {
+        font-family: "Roboto Mono", monospace;
+        font-weight: 700;
+        font-size: 28px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .logo-text p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1.5px;
+      }
+
+      .breadcrumb {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+      }
+
+      .breadcrumb a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      /* Algorithm Header */
+      .algorithm-header {
+        margin: 40px 0;
+        text-align: center;
+        padding: 20px;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .algorithm-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .algorithm-header h1 {
+        font-size: 42px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          to right,
+          var(--accent-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .algorithm-header .category {
+        font-size: 18px;
+        color: var(--accent-light);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .complexity-badge {
+        display: inline-block;
+        background: rgba(129, 140, 248, 0.2);
+        color: var(--accent-light);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Roboto Mono", monospace;
+        margin-top: 15px;
+      }
+
+      /* Main Content Layout */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 350px;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 900px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Algorithm Detail Sections */
+      .section {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          to right,
+          var(--accent),
+          var(--accent-light)
+        );
+      }
+
+      .section h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+        color: var(--accent-light);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section h2 i {
+        color: var(--accent);
+        width: 36px;
+        height: 36px;
+        background: rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section p {
+        color: var(--text-secondary);
+        font-size: 17px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      .key-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .point-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .point-card h3 {
+        color: var(--text);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .point-card h3 i {
+        color: var(--accent);
+      }
+
+      .point-card p {
+        margin-bottom: 0;
+        font-size: 15px;
+      }
+
+      /* Visualization Console */
+      .visualization-console {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: var(--radius);
+        padding: 25px;
+        margin: 30px 0;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        box-shadow: var(--glow);
+      }
+
+      .console-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .console-header h3 {
+        color: var(--accent-light);
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .console-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .console-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .console-btn:hover {
+        background: var(--accent-light);
+      }
+
+      .console-btn.secondary {
+        background: rgba(148, 163, 184, 0.2);
+      }
+
+      .visualization-area {
+        min-height: 500px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .canvas-container {
+        width: 100%;
+        height: 350px;
+        position: relative;
+        margin-bottom: 20px;
+      }
+      
+      canvas {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background: #1e293b;
+      }
+
+      .console-input {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .console-input input, .console-input select {
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 5px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        margin-bottom: 10px;
+      }
+
+      .console-input input:focus, .console-input select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .console-input input {
+        flex: 1;
+        min-width: 150px;
+      }
+
+      .console-input select {
+        min-width: 150px;
+      }
+
+      /* Algorithm Properties */
+      .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .property-card {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: var(--radius);
+        padding: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        text-align: center;
+      }
+
+      .property-card h4 {
+        color: var(--text-secondary);
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: 400;
+      }
+
+      .property-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 40px 0 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        border-top: 1px solid rgba(148, 163, 184, 0.1);
+        margin-top: 40px;
+      }
+
+      footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .footer-links a {
+        color: var(--accent-light);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 25px;
+          text-align: center;
+        }
+
+        .algorithm-header h1 {
+          font-size: 32px;
+        }
+
+        .key-points {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Code Block Styling */
+      .code-block {
+        background: #0d1117;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+        font-family: "Roboto Mono", monospace;
+        font-size: 15px;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+      }
+
+      .copy-btn {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-light);
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: "Roboto Mono", monospace;
+        transition: var(--transition);
+      }
+
+      .copy-btn:hover {
+        background: rgba(99, 102, 241, 0.3);
+      }
+
+      .code-block pre {
+        margin: 0;
+      }
+
+      .code-block code {
+        color: #c9d1d9;
+        line-height: 1.5;
+      }
+
+      .keyword {
+        color: #ff7b72;
+      }
+      .function {
+        color: #d2a8ff;
+      }
+      .comment {
+        color: #8b949e;
+      }
+      .string {
+        color: #a5d6ff;
+      }
+      .number {
+        color: #79c0ff;
+      }
+      
+      /* Neural Network Specific Styles */
+      .iteration-display {
+        font-size: 18px;
+        color: var(--accent-light);
+        font-family: "Roboto Mono", monospace;
+        margin: 10px 0;
+        text-align: center;
+      }
+      
+      .loss-display {
+        font-size: 16px;
+        color: var(--text);
+        font-family: "Roboto Mono", monospace;
+        margin: 10px 0;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      
+      .controls-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+      }
+      
+      .network-info {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+      
+      .network-info-item {
+        font-size: 14px;
+        color: var(--text-secondary);
+        text-align: center;
+      }
+      
+      .network-info-value {
+        color: var(--accent-light);
+        font-weight: bold;
+      }
+      
+      .phase-display {
+        font-size: 16px;
+        color: var(--warning);
+        font-weight: bold;
+        text-align: center;
+        margin: 5px 0;
+      }
+      
+      .weight-updates {
+        font-size: 14px;
+        color: var(--text-secondary);
+        text-align: center;
+        margin-top: 5px;
+      }
+</style>
+<meta content="Neural Network Backpropagation | AlgoViz Hub" property="og:title"/><meta content="Interactive Neural Network Backpropagation visualization for machine learning education" property="og:description"/><meta content="article" property="og:type"/><meta content="https://sgkandale.github.io/machine_learning_backpropagation.html" property="og:url"/><meta content="AlgoViz Hub" property="og:site_name"/><meta content="summary" name="twitter:card"/><meta content="Neural Network Backpropagation | AlgoViz Hub" name="twitter:title"/><meta content="Interactive Neural Network Backpropagation visualization for machine learning education" name="twitter:description"/><meta content="@sgkandale" name="twitter:site"/><link href="https://sgkandale.github.io/machine_learning_backpropagation.html" rel="canonical"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Neural Network Backpropagation | AlgoViz Hub",
+  "description": "Interactive Neural Network Backpropagation visualization for machine learning education",
+  "author": {
+    "@type": "Person",
+    "name": "Shantanu Kandale"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoViz Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sgkandale.github.io/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://sgkandale.github.io/machine_learning_backpropagation.html"
+  }
+}</script></head>
+<body>
+<div class="container">
+<!-- Header -->
+<header>
+<div class="logo">
+<div class="logo-icon floating">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="logo-text">
+<h1>AlgoViz Hub</h1>
+<p>ALGORITHM VISUALIZATION REPOSITORY</p>
+<div class="breadcrumb">
+<a href="index.html"><i class="fas fa-home"></i> Home</a> &gt;
+              <a href="#">Machine Learning</a> &gt;
+              <span>Neural Network Backpropagation</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Algorithm Header -->
+<div class="algorithm-header">
+<h1>Neural Network Backpropagation</h1>
+<div class="category">
+<i class="fas fa-brain"></i> Machine Learning
+</div>
+<div class="complexity-badge">Deep Learning Algorithm</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Left Column: Algorithm Details -->
+<div class="left-column">
+<!-- Description Section -->
+<div class="section">
+<h2><i class="fas fa-file-alt"></i> Algorithm Overview</h2>
+<p>
+              Backpropagation is a supervised learning algorithm used to train artificial neural networks. It works by computing the gradient of the loss function with respect to each weight by the chain rule, iterating backward from the output layer to the input layer. This gradient information is then used to update the weights in the network.
+            </p>
+<p>
+              The algorithm consists of two phases: a forward pass where the input is propagated through the network to generate an output, and a backward pass where the error is propagated backward to compute gradients and update weights. This process is repeated for multiple epochs until the network converges.
+            </p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-check-circle"></i> Key Feature</h3>
+<p>
+                  Computes gradients efficiently using the chain rule
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-bolt"></i> Learning Method</h3>
+<p>
+                  Propagates error backward to adjust weights
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-memory"></i> Memory Usage</h3>
+<p>
+                  Stores activations for gradient computation
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-project-diagram"></i> Foundation</h3>
+<p>
+                  Core training algorithm for deep learning
+                </p>
+</div>
+</div>
+</div>
+<!-- Visualization Console -->
+<div class="section">
+<h2>
+<i class="fas fa-laptop-code"></i> Interactive Backpropagation Visualization
+</h2>
+<p>
+              Use the interactive console below to visualize how the Backpropagation algorithm works. The visualization shows a simple neural network with adjustable parameters. You can watch the forward pass (input to output) and backward pass (error backpropagation) in action, see how weights are updated, and observe how the loss decreases over time.
+            </p>
+<div class="visualization-console">
+<div class="console-header">
+<h3>
+<i class="fas fa-brain"></i> Neural Network Backpropagation Visualization
+                </h3>
+</div>
+<div class="canvas-container">
+  <canvas id="networkCanvas"></canvas>
+</div>
+<div class="phase-display" id="phaseDisplay">Forward Pass</div>
+<div class="iteration-display">
+  Epoch: <span id="epochCount">0</span> | Batch: <span id="batchCount">0</span>
+</div>
+<div class="loss-display">
+  Loss: <span id="lossValue">0.000</span> | Accuracy: <span id="accuracyValue">0.0%</span>
+</div>
+<div class="network-info">
+  <div class="network-info-item">
+    Weights Updated: <span class="network-info-value" id="weightsUpdated">0</span>
+  </div>
+  <div class="network-info-item">
+    Neurons: <span class="network-info-value" id="neuronCount">18</span>
+  </div>
+</div>
+<div class="weight-updates">
+  <span id="weightUpdateInfo">Ready to start training</span>
+</div>
+<div class="controls-row">
+<button class="console-btn secondary" id="resetBtn">
+<i class="fas fa-redo"></i> Reset
+</button>
+<button class="console-btn" id="stepBtn">
+<i class="fas fa-step-forward"></i> Step
+</button>
+<button class="console-btn" id="runBtn">
+<i class="fas fa-play"></i> Run
+</button>
+<button class="console-btn" id="pauseBtn">
+<i class="fas fa-pause"></i> Pause
+</button>
+</div>
+<div class="console-input">
+<input id="learningRate" placeholder="Learning Rate" type="number" value="0.1" step="0.01" min="0.001" max="1"/>
+<input id="epochs" placeholder="Epochs" type="number" value="100" min="1" max="1000"/>
+<select id="dataset">
+  <option value="xor">XOR Problem</option>
+  <option value="and">AND Problem</option>
+  <option value="or">OR Problem</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Algorithm Steps -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Backpropagation Steps</h2>
+<p>
+              The Backpropagation algorithm follows these key steps to train a neural network:
+            </p>
+<div class="key-points">
+<div class="point-card">
+<h3><i class="fas fa-key"></i> 1. Forward Pass</h3>
+<p>
+                  Propagate input through network to compute output
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-share-alt"></i> 2. Compute Loss</h3>
+<p>
+                  Calculate error between predicted and actual output
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-lock"></i> 3. Backward Pass</h3>
+<p>
+                  Propagate error backwards to compute gradients
+                </p>
+</div>
+<div class="point-card">
+<h3>
+<i class="fas fa-paper-plane"></i> 4. Update Weights
+                </h3>
+<p>
+                  Adjust weights using computed gradients and learning rate
+                </p>
+</div>
+<div class="point-card">
+<h3><i class="fas fa-unlock"></i> 5. Repeat for Epochs</h3>
+<p>
+                  Continue until convergence or max iterations reached
+                </p>
+</div>
+</div>
+</div>
+<!-- Pseudocode Section -->
+<div class="section">
+<h2><i class="fas fa-list-ol"></i> Backpropagation Algorithm</h2>
+<div class="code-block">
+<pre><code>initialize network weights randomly
+learning_rate η
+
+for epoch in range(max_epochs):
+    for input, target in training_data:
+        // Forward pass
+        output = forward_pass(input, weights)
+        loss = compute_loss(output, target)
+        
+        // Backward pass
+        gradients = backward_pass(input, target, output, weights)
+        
+        // Update weights
+        weights = weights - η * gradients</code></pre>
+</div>
+</div>
+<!-- Implementation Section -->
+<div class="section">
+<h2><i class="fas fa-code"></i> Implementation</h2>
+<p>
+              Below is a Python implementation of a simple Neural Network with Backpropagation for the XOR problem. The implementation shows how forward and backward passes work in practice.
+            </p>
+<div class="code-block">
+<div class="code-header">
+<span>Python Implementation</span>
+<button class="copy-btn">
+<i class="fas fa-copy"></i> Copy Code
+                </button>
+</div>
+<pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="keyword">class</span> <span class="function">NeuralNetwork</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, input_size, hidden_size, output_size, learning_rate=<span class="number">0.1</span>):
+        <span class="keyword">self</span>.W1 = np.random.randn(input_size, hidden_size)
+        <span class="keyword">self</span>.b1 = np.zeros((<span class="number">1</span>, hidden_size))
+        <span class="keyword">self</span>.W2 = np.random.randn(hidden_size, output_size)
+        <span class="keyword">self</span>.b2 = np.zeros((<span class="number">1</span>, output_size))
+        <span class="keyword">self</span>.learning_rate = learning_rate
+    
+    <span class="keyword">def</span> <span class="function">sigmoid</span>(<span class="keyword">self</span>, x):
+        <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + np.exp(-np.clip(x, -<span class="number">250</span>, <span class="number">250</span>)))
+    
+    <span class="keyword">def</span> <span class="function">sigmoid_derivative</span>(<span class="keyword">self</span>, x):
+        <span class="keyword">return</span> x * (<span class="number">1</span> - x)
+    
+    <span class="keyword">def</span> <span class="function">forward</span>(<span class="keyword">self</span>, X):
+        <span class="keyword">self</span>.z1 = np.dot(X, <span class="keyword">self</span>.W1) + <span class="keyword">self</span>.b1
+        <span class="keyword">self</span>.a1 = <span class="keyword">self</span>.sigmoid(<span class="keyword">self</span>.z1)
+        <span class="keyword">self</span>.z2 = np.dot(<span class="keyword">self</span>.a1, <span class="keyword">self</span>.W2) + <span class="keyword">self</span>.b2
+        <span class="keyword">self</span>.a2 = <span class="keyword">self</span>.sigmoid(<span class="keyword">self</span>.z2)
+        <span class="keyword">return</span> <span class="keyword">self</span>.a2
+    
+    <span class="keyword">def</span> <span class="function">backward</span>(<span class="keyword">self</span>, X, y, output):
+        m = X.shape[<span class="number">0</span>]  <span class="comment"># number of examples</span>
+        
+        <span class="comment"># Calculate gradients</span>
+        dZ2 = output - y
+        dW2 = (<span class="number">1</span> / m) * np.dot(<span class="keyword">self</span>.a1.T, dZ2)
+        db2 = (<span class="number">1</span> / m) * np.sum(dZ2, axis=<span class="number">0</span>, keepdims=<span class="keyword">True</span>)
+        
+        dA1 = np.dot(dZ2, <span class="keyword">self</span>.W2.T)
+        dZ1 = dA1 * <span class="keyword">self</span>.sigmoid_derivative(<span class="keyword">self</span>.a1)
+        dW1 = (<span class="number">1</span> / m) * np.dot(X.T, dZ1)
+        db1 = (<span class="number">1</span> / m) * np.sum(dZ1, axis=<span class="number">0</span>, keepdims=<span class="keyword">True</span>)
+        
+        <span class="comment"># Update weights</span>
+        <span class="keyword">self</span>.W2 -= <span class="keyword">self</span>.learning_rate * dW2
+        <span class="keyword">self</span>.b2 -= <span class="keyword">self</span>.learning_rate * db2
+        <span class="keyword">self</span>.W1 -= <span class="keyword">self</span>.learning_rate * dW1
+        <span class="keyword">self</span>.b1 -= <span class="keyword">self</span>.learning_rate * db1</code></pre>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Additional Info -->
+<div class="right-column">
+<!-- Properties Section -->
+<div class="section">
+<h2><i class="fas fa-info-circle"></i> Algorithm Properties</h2>
+<div class="properties-grid">
+<div class="property-card">
+<h4>Category</h4>
+<div class="value">Deep Learning</div>
+</div>
+<div class="property-card">
+<h4>Type</h4>
+<div class="value">Supervised Learning</div>
+</div>
+<div class="property-card">
+<h4>Memory</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Per Iteration</h4>
+<div class="value">O(n²)</div>
+</div>
+<div class="property-card">
+<h4>Learning Rate</h4>
+<div class="value">Critical Parameter</div>
+</div>
+<div class="property-card">
+<h4>Convergence</h4>
+<div class="value">Non-Convex</div>
+</div>
+<div class="property-card">
+<h4>Applications</h4>
+<div class="value">Deep Learning</div>
+</div>
+</div>
+</div>
+<!-- Applications Section -->
+<div class="section">
+<h2><i class="fas fa-lightbulb"></i> Applications</h2>
+<p>
+              Backpropagation is fundamental to modern deep learning applications:
+            </p>
+<ul style="
+                padding-left: 20px;
+                margin: 15px 0;
+                color: var(--text-secondary);
+              ">
+<li style="margin-bottom: 10px">
+                Image recognition and computer vision
+              </li>
+<li style="margin-bottom: 10px">
+                Natural language processing and chatbots
+              </li>
+<li style="margin-bottom: 10px">Speech recognition systems</li>
+<li style="margin-bottom: 10px">
+                Autonomous vehicles
+              </li>
+<li style="margin-bottom: 10px">
+                Medical diagnosis systems
+              </li>
+<li style="margin-bottom: 10px">Game AI and robotics</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer>
+<div class="footer-links">
+<a href="https://www.linkedin.com/in/sgkandale/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIN</a>
+<a href="mailto:me@sgkandale.com"><i class="fa-solid fa-at"></i> E-Mail</a>
+<a href="https://buymeacoffee.com/sgkandale" target="_blank"><i class="fa-solid fa-mug-hot"></i> Buy Me a Coffee</a>
+</div>
+<p>AlgoViz Hub - Interactive Algorithm Visualization Platform</p>
+<p>© 2025 AlgoViz Hub. All rights reserved.</p>
+</footer>
+</div>
+<script>
+      // Simple copy button functionality
+      document
+        .querySelector(".copy-btn")
+        .addEventListener("click", function () {
+          const code = document.querySelector(".code-block code").innerText;
+          navigator.clipboard.writeText(code);
+
+          // Show feedback
+          const originalText = this.innerHTML;
+          this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+          setTimeout(() => {
+            this.innerHTML = originalText;
+          }, 2000);
+        });
+
+      // Canvas initialization
+      document.addEventListener("DOMContentLoaded", function() {
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size to match its container
+        function resizeCanvas() {
+          const container = canvas.parentElement;
+          canvas.width = container.clientWidth;
+          canvas.height = container.clientHeight;
+        }
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        const epochCount = document.getElementById('epochCount');
+        const batchCount = document.getElementById('batchCount');
+        const lossValue = document.getElementById('lossValue');
+        const accuracyValue = document.getElementById('accuracyValue');
+        const weightsUpdated = document.getElementById('weightsUpdated');
+        const phaseDisplay = document.getElementById('phaseDisplay');
+        const weightUpdateInfo = document.getElementById('weightUpdateInfo');
+        
+        // Backpropagation algorithm variables
+        let running = false;
+        let animationId = null;
+        let currentEpoch = 0;
+        let currentBatch = 0;
+        let currentLoss = 1.0;
+        let currentAccuracy = 0.0;
+        let currentWeightsUpdated = 0;
+        
+        // Neural network structure
+        const networkLayers = [
+          { name: "Input", neurons: 2, x: 0.2 }, // 2 inputs for XOR
+          { name: "Hidden", neurons: 4, x: 0.5 }, // 4 hidden neurons
+          { name: "Output", neurons: 1, x: 0.8 } // 1 output for XOR
+        ];
+        
+        // Initialize the algorithm
+        resetAlgorithm();
+        
+        // Event listeners
+        document.getElementById('resetBtn').addEventListener('click', resetAlgorithm);
+        document.getElementById('stepBtn').addEventListener('click', stepAlgorithm);
+        document.getElementById('runBtn').addEventListener('click', runAlgorithm);
+        document.getElementById('pauseBtn').addEventListener('click', pauseAlgorithm);
+        
+        function resetAlgorithm() {
+          // Clear any running animation
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+          running = false;
+          
+          // Reset variables
+          currentEpoch = 0;
+          currentBatch = 0;
+          currentLoss = 1.0;
+          currentAccuracy = 0.0;
+          currentWeightsUpdated = 0;
+          
+          epochCount.textContent = '0';
+          batchCount.textContent = '0';
+          lossValue.textContent = '1.000';
+          accuracyValue.textContent = '0.0%';
+          weightsUpdated.textContent = '0';
+          phaseDisplay.textContent = 'Preparing Network';
+          weightUpdateInfo.textContent = 'Network reset, ready to start training';
+          
+          // Draw initial network
+          drawVisualization();
+          
+          setTimeout(() => {
+            phaseDisplay.textContent = 'Forward Pass';
+            weightUpdateInfo.textContent = 'Ready to begin forward pass';
+          }, 1000);
+        }
+        
+        function stepAlgorithm() {
+          // Simulate backpropagation step
+          const phase = currentBatch % 4;
+          
+          if (phase === 0) {
+            // Forward pass
+            phaseDisplay.textContent = 'Forward Pass';
+            weightUpdateInfo.textContent = `Processing input data...`;
+            
+            // Simulate network activity
+            setTimeout(() => {
+              drawVisualization('forward');
+            }, 300);
+          } else if (phase === 1) {
+            // Compute loss
+            phaseDisplay.textContent = 'Computing Loss';
+            weightUpdateInfo.textContent = `Calculating error: ${currentLoss.toFixed(3)}`;
+            
+            // Simulate loss computation
+            currentLoss = Math.max(0.01, currentLoss * 0.95);
+            
+            setTimeout(() => {
+              drawVisualization('loss');
+            }, 300);
+          } else if (phase === 2) {
+            // Backward pass
+            phaseDisplay.textContent = 'Backward Pass';
+            weightUpdateInfo.textContent = 'Propagating error backward...';
+            
+            // Simulate backward pass
+            setTimeout(() => {
+              drawVisualization('backward');
+            }, 300);
+          } else {
+            // Update weights
+            phaseDisplay.textContent = 'Updating Weights';
+            currentWeightsUpdated += 6; // 6 weights in this simple network
+            weightsUpdated.textContent = currentWeightsUpdated;
+            weightUpdateInfo.textContent = `Updated ${currentWeightsUpdated} weights`;
+            
+            // Simulate weight updates
+            currentAccuracy = Math.min(100, currentAccuracy + 2.5);
+            accuracyValue.textContent = currentAccuracy.toFixed(1) + '%';
+            lossValue.textContent = currentLoss.toFixed(3);
+            
+            setTimeout(() => {
+              drawVisualization('weights');
+            }, 300);
+            
+            // Increment batch/epoch counter
+            currentBatch++;
+            if (currentBatch % 10 === 0) {
+              currentEpoch++;
+              epochCount.textContent = currentEpoch;
+            }
+            batchCount.textContent = currentBatch;
+            
+            // Reset phase for next cycle
+            phaseDisplay.textContent = 'Forward Pass';
+          }
+          
+          drawVisualization();
+        }
+        
+        function runAlgorithm() {
+          if (running) return;
+          running = true;
+          step();
+        }
+        
+        function step() {
+          if (!running) return;
+          
+          // Perform one step of the algorithm
+          stepAlgorithm();
+          
+          // Schedule the next step
+          setTimeout(() => {
+            if (running) {
+              animationId = requestAnimationFrame(step);
+            }
+          }, 1000); // Slower for visualization
+        }
+        
+        function pauseAlgorithm() {
+          running = false;
+          if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+          }
+        }
+        
+        function drawVisualization(phase = 'normal') {
+          const width = canvas.width;
+          const height = canvas.height;
+          
+          // Clear canvas
+          ctx.fillStyle = '#1e293b';
+          ctx.fillRect(0, 0, width, height);
+          
+          // Draw neural network structure
+          for (let layerIdx = 0; layerIdx < networkLayers.length; layerIdx++) {
+            const layer = networkLayers[layerIdx];
+            const layerX = layer.x * width;
+            
+            // Draw neurons
+            const neuronSpacing = height / (layer.neurons + 1);
+            for (let neuronIdx = 0; neuronIdx < layer.neurons; neuronIdx++) {
+              const neuronY = (neuronIdx + 1) * neuronSpacing;
+              
+              // Color based on phase
+              if (phase === 'forward' && layerIdx === 0) {
+                ctx.fillStyle = '#3b82f6'; // Blue for input activation
+              } else if (phase === 'loss' && layerIdx === 2) {
+                ctx.fillStyle = '#f97316'; // Orange for loss computation
+              } else if (phase === 'backward' && layerIdx === 0) {
+                ctx.fillStyle = '#ef4444'; // Red for backward pass
+              } else if (phase === 'weights') {
+                ctx.fillStyle = '#10b981'; // Green for weight updates
+              } else {
+                ctx.fillStyle = '#6366f1'; // Default color
+              }
+              
+              // Draw neuron
+              ctx.beginPath();
+              ctx.arc(layerX, neuronY, 15, 0, Math.PI * 2);
+              ctx.fill();
+              
+              // Draw neuron border
+              ctx.strokeStyle = '#1e293b';
+              ctx.lineWidth = 2;
+              ctx.stroke();
+              
+              // Draw neuron value (simplified)
+              ctx.fillStyle = '#ffffff';
+              ctx.font = '10px Arial';
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText(layerIdx === 0 ? 'I' + neuronIdx : 
+                          layerIdx === 1 ? 'H' + neuronIdx : 
+                          'O' + neuronIdx, layerX, neuronY);
+            }
+          }
+          
+          // Draw connections between layers
+          for (let layerIdx = 0; layerIdx < networkLayers.length - 1; layerIdx++) {
+            const fromLayer = networkLayers[layerIdx];
+            const toLayer = networkLayers[layerIdx + 1];
+            const fromX = fromLayer.x * width;
+            const toX = toLayer.x * width;
+            
+            const fromNeuronSpacing = height / (fromLayer.neurons + 1);
+            const toNeuronSpacing = height / (toLayer.neurons + 1);
+            
+            for (let fromNeuron = 0; fromNeuron < fromLayer.neurons; fromNeuron++) {
+              for (let toNeuron = 0; toNeuron < toLayer.neurons; toNeuron++) {
+                const fromY = (fromNeuron + 1) * fromNeuronSpacing;
+                const toY = (toNeuron + 1) * toNeuronSpacing;
+                
+                // Color based on phase
+                if (phase === 'forward') {
+                  ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)'; // Blue for forward
+                } else if (phase === 'backward') {
+                  ctx.strokeStyle = 'rgba(239, 68, 68, 0.3)'; // Red for backward
+                } else {
+                  ctx.strokeStyle = 'rgba(148, 163, 184, 0.2)'; // Default
+                }
+                
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(fromX, fromY);
+                ctx.lineTo(toX, toY);
+                ctx.stroke();
+              }
+            }
+          }
+          
+          // Draw layer labels
+          for (let layerIdx = 0; layerIdx < networkLayers.length; layerIdx++) {
+            const layer = networkLayers[layerIdx];
+            const layerX = layer.x * width;
+            ctx.fillStyle = '#818cf8';
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(layer.name, layerX, 20);
+          }
+        }
+        
+        // Initial draw
+        drawVisualization();
+      });
+    </script>
+</body>
+</html>
